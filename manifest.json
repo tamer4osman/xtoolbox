@@ -1,0 +1,9 @@
+{
+  "name": "ToolBox - Free Online Tools",
+  "short_name": "ToolBox",
+  "description": "100+ free online tools. Client-side processing.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#2563EB"
+}
