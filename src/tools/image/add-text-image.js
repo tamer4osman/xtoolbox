@@ -1,0 +1,167 @@
+import { createFileUpload } from '../../components/file-upload.js';
+import { showToast } from '../../components/toast.js';
+import { downloadCanvas, loadImageFromFile } from './image-utils.js';
+
+export const toolConfig = {
+  id: 'add-text-image',
+  name: 'Add Text to Image',
+  category: 'image',
+  description: 'Add custom text overlays to images with fonts, colors, and positioning.',
+  icon: '✏️',
+  accept: 'image/*',
+  maxSizeMB: 50,
+  keywords: ['add text to image', 'text on image', 'image text overlay'],
+  steps: ['Upload an image', 'Enter your text', 'Customize font, size, color, position', 'Download'],
+  faqs: [
+    { question: 'Can I add multiple text layers?', answer: 'Yes. Click "Add Text" to add more layers.' }
+  ]
+};
+
+export function render(container) {
+  let originalImg = null;
+  let textLayers = [{ text: 'Your Text', x: 50, y: 50, size: 48, color: '#ffffff', font: 'Arial', bold: true, outline: true }];
+
+  const upload = createFileUpload({
+    accept: 'image/*',
+    multiple: false,
+    maxSizeMB: 50,
+    onFilesSelected: async (files) => {
+      if (files.length === 0) return;
+      originalImg = await loadImageFromFile(files[0]);
+      optionsArea.style.display = 'block';
+      updatePreview();
+    }
+  });
+
+  container.innerHTML = `
+    <div class="tool-layout">
+      <div class="tool-upload-area" id="upload-area"></div>
+      <div class="tool-options" id="options-area" style="display:none;">
+        <div id="preview-area" style="text-align:center;margin:var(--space-4) 0;position:relative;display:inline-block;max-width:100%;cursor:move;"></div>
+        <div id="layers-area"></div>
+        <button class="btn btn-secondary" id="add-layer-btn" style="width:100%;margin-bottom:var(--space-3);">+ Add Another Text</button>
+        <button class="btn btn-primary btn-lg" id="download-btn" style="width:100%;">Download</button>
+      </div>
+    </div>
+  `;
+
+  container.querySelector('#upload-area').appendChild(upload.element);
+  const optionsArea = container.querySelector('#options-area');
+  const previewArea = container.querySelector('#preview-area');
+  const layersArea = container.querySelector('#layers-area');
+  const addLayerBtn = container.querySelector('#add-layer-btn');
+  const downloadBtn = container.querySelector('#download-btn');
+
+  function renderLayerControls() {
+    layersArea.innerHTML = textLayers.map((layer, i) => `
+      <div style="background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-md);margin-bottom:var(--space-3);border:1px solid var(--color-border);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-3);">
+          <strong>Text ${i + 1}</strong>
+          ${textLayers.length > 1 ? `<button class="btn btn-sm btn-ghost" data-remove="${i}" style="color:var(--color-error);">Remove</button>` : ''}
+        </div>
+        <div class="form-group"><label>Text</label><input type="text" class="text-input" data-field="text" data-idx="${i}" value="${layer.text}"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-3);">
+          <div class="form-group"><label>Size</label><input type="number" class="text-input" data-field="size" data-idx="${i}" value="${layer.size}" min="8" max="200"></div>
+          <div class="form-group"><label>Color</label><input type="color" data-field="color" data-idx="${i}" value="${layer.color}" style="width:100%;height:38px;border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;"></div>
+          <div class="form-group"><label>Font</label>
+            <select class="select-input" data-field="font" data-idx="${i}">
+              ${['Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Courier New', 'Impact'].map(f => `<option value="${f}" ${layer.font === f ? 'selected' : ''}>${f}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);">
+          <div class="form-group"><label>X Position (%)</label><input type="range" min="0" max="100" value="${layer.x}" data-field="x" data-idx="${i}" class="range-slider-input"></div>
+          <div class="form-group"><label>Y Position (%)</label><input type="range" min="0" max="100" value="${layer.y}" data-field="y" data-idx="${i}" class="range-slider-input"></div>
+        </div>
+        <div style="display:flex;gap:var(--space-3);">
+          <label class="checkbox-label"><input type="checkbox" data-field="bold" data-idx="${i}" ${layer.bold ? 'checked' : ''}> Bold</label>
+          <label class="checkbox-label"><input type="checkbox" data-field="outline" data-idx="${i}" ${layer.outline ? 'checked' : ''}> Text Outline</label>
+        </div>
+      </div>
+    `).join('');
+
+    layersArea.querySelectorAll('[data-field]').forEach(el => {
+      const idx = parseInt(el.dataset.idx);
+      const field = el.dataset.field;
+      const evt = el.type === 'range' || el.type === 'text' ? 'input' : 'change';
+      el.addEventListener(evt, () => {
+        textLayers[idx][field] = el.type === 'checkbox' ? el.checked : el.type === 'range' || el.type === 'number' ? Number(el.value) : el.value;
+        updatePreview();
+      });
+    });
+
+    layersArea.querySelectorAll('[data-remove]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        textLayers.splice(parseInt(btn.dataset.remove), 1);
+        renderLayerControls();
+        updatePreview();
+      });
+    });
+  }
+
+  function updatePreview() {
+    if (!originalImg) return;
+    const scale = Math.min(600 / originalImg.naturalWidth, 1);
+    const canvas = document.createElement('canvas');
+    canvas.width = originalImg.naturalWidth * scale;
+    canvas.height = originalImg.naturalHeight * scale;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImg, 0, 0, canvas.width, canvas.height);
+
+    textLayers.forEach(layer => {
+      const x = (layer.x / 100) * canvas.width;
+      const y = (layer.y / 100) * canvas.height;
+      const size = layer.size * scale;
+      ctx.font = `${layer.bold ? 'bold ' : ''}${size}px ${layer.font}`;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      if (layer.outline) {
+        ctx.strokeStyle = 'rgba(0,0,0,0.7)';
+        ctx.lineWidth = 3;
+        ctx.strokeText(layer.text, x, y);
+      }
+      ctx.fillStyle = layer.color;
+      ctx.fillText(layer.text, x, y);
+    });
+
+    previewArea.innerHTML = '';
+    previewArea.appendChild(canvas);
+  }
+
+  addLayerBtn.addEventListener('click', () => {
+    textLayers.push({ text: 'New Text', x: 50, y: 50, size: 36, color: '#ffffff', font: 'Arial', bold: true, outline: true });
+    renderLayerControls();
+    updatePreview();
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    if (!originalImg) return;
+    const canvas = document.createElement('canvas');
+    canvas.width = originalImg.naturalWidth;
+    canvas.height = originalImg.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(originalImg, 0, 0);
+
+    textLayers.forEach(layer => {
+      const x = (layer.x / 100) * canvas.width;
+      const y = (layer.y / 100) * canvas.height;
+      ctx.font = `${layer.bold ? 'bold ' : ''}${layer.size}px ${layer.font}`;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      if (layer.outline) {
+        ctx.strokeStyle = 'rgba(0,0,0,0.7)';
+        ctx.lineWidth = 3;
+        ctx.strokeText(layer.text, x, y);
+      }
+      ctx.fillStyle = layer.color;
+      ctx.fillText(layer.text, x, y);
+    });
+
+    downloadCanvas(canvas, 'text-overlay.png');
+    showToast({ message: 'Downloaded!', type: 'success' });
+  });
+
+  renderLayerControls();
+}
+
+export function destroy() {}
