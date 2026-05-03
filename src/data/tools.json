@@ -1,0 +1,2351 @@
+[
+  {
+    "id": "merge-pdf",
+    "name": "Merge PDF",
+    "category": "pdf",
+    "description": "Combine multiple PDF files into one. Reorder pages before merging.",
+    "icon": "📄",
+    "href": "/tools/merge-pdf",
+    "keywords": [
+      "merge pdf",
+      "combine pdf",
+      "join pdf",
+      "pdf merger"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "split-pdf",
+    "name": "Split PDF",
+    "category": "pdf",
+    "description": "Extract specific pages or split a PDF into multiple files.",
+    "icon": "✂️",
+    "href": "/tools/split-pdf",
+    "keywords": [
+      "split pdf",
+      "extract pages",
+      "separate pdf",
+      "divide pdf"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "compress-pdf",
+    "name": "Compress PDF",
+    "category": "pdf",
+    "description": "Reduce PDF file size while maintaining quality.",
+    "icon": "📦",
+    "href": "/tools/compress-pdf",
+    "keywords": [
+      "compress pdf",
+      "reduce pdf size",
+      "shrink pdf",
+      "pdf optimizer"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 200
+  },
+  {
+    "id": "pdf-to-image",
+    "name": "PDF to Image",
+    "category": "pdf",
+    "description": "Convert PDF pages to PNG or JPG images.",
+    "icon": "🖼️",
+    "href": "/tools/pdf-to-image",
+    "keywords": [
+      "pdf to image",
+      "pdf to png",
+      "pdf to jpg",
+      "pdf to picture"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "image-to-pdf",
+    "name": "Image to PDF",
+    "category": "pdf",
+    "description": "Convert images into a PDF document.",
+    "icon": "📄",
+    "href": "/tools/image-to-pdf",
+    "keywords": [
+      "image to pdf",
+      "jpg to pdf",
+      "png to pdf",
+      "photo to pdf"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "rotate-pdf",
+    "name": "Rotate PDF",
+    "category": "pdf",
+    "description": "Rotate PDF pages 90°, 180°, or 270°.",
+    "icon": "🔄",
+    "href": "/tools/rotate-pdf",
+    "keywords": [
+      "rotate pdf",
+      "turn pdf",
+      "flip pdf pages"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "watermark-pdf",
+    "name": "Add Watermark to PDF",
+    "category": "pdf",
+    "description": "Add text watermark to every page of a PDF.",
+    "icon": "💧",
+    "href": "/tools/watermark-pdf",
+    "keywords": [
+      "watermark pdf",
+      "pdf watermark",
+      "stamp pdf"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "page-numbers-pdf",
+    "name": "Add Page Numbers to PDF",
+    "category": "pdf",
+    "description": "Add page numbers to every page of a PDF.",
+    "icon": "🔢",
+    "href": "/tools/page-numbers-pdf",
+    "keywords": [
+      "page numbers pdf",
+      "number pdf pages",
+      "pdf pagination"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "unlock-pdf",
+    "name": "Unlock PDF",
+    "category": "pdf",
+    "description": "Remove password protection from a PDF (requires password).",
+    "icon": "🔓",
+    "href": "/tools/unlock-pdf",
+    "keywords": [
+      "unlock pdf",
+      "remove pdf password",
+      "decrypt pdf"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "protect-pdf",
+    "name": "Protect PDF",
+    "category": "pdf",
+    "description": "Add password protection to a PDF file.",
+    "icon": "🔒",
+    "href": "/tools/protect-pdf",
+    "keywords": [
+      "protect pdf",
+      "password pdf",
+      "encrypt pdf",
+      "secure pdf"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "fill-pdf-forms",
+    "name": "Fill PDF Forms",
+    "category": "pdf",
+    "description": "Fill in interactive PDF form fields and download.",
+    "icon": "✍️",
+    "href": "/tools/fill-pdf-forms",
+    "keywords": [
+      "fill pdf form",
+      "pdf form filler",
+      "fill pdf fields"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "extract-text-pdf",
+    "name": "Extract Text from PDF",
+    "category": "pdf",
+    "description": "Extract all text content from a PDF file.",
+    "icon": "📋",
+    "href": "/tools/extract-text-pdf",
+    "keywords": [
+      "extract text pdf",
+      "pdf to text",
+      "pdf text extractor",
+      "get text from pdf"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "reorder-pdf",
+    "name": "Reorder PDF Pages",
+    "category": "pdf",
+    "description": "Drag and drop to reorder pages in a PDF.",
+    "icon": "↕️",
+    "href": "/tools/reorder-pdf",
+    "keywords": [
+      "reorder pdf",
+      "arrange pdf pages",
+      "sort pdf pages"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "crop-pdf",
+    "name": "Crop PDF Pages",
+    "category": "pdf",
+    "description": "Crop margins from PDF pages.",
+    "icon": "✂️",
+    "href": "/tools/crop-pdf",
+    "keywords": [
+      "crop pdf",
+      "trim pdf margins",
+      "cut pdf"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "pdf-metadata-viewer",
+    "name": "PDF Metadata Viewer",
+    "category": "pdf",
+    "description": "View and edit PDF metadata: title, author, creator, creation date, keywords.",
+    "icon": "ℹ️",
+    "href": "/tools/pdf-metadata-viewer",
+    "keywords": [
+      "pdf metadata",
+      "pdf info",
+      "pdf properties",
+      "pdf details",
+      "view pdf metadata"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "pdf-password-info",
+    "name": "PDF Password Info",
+    "category": "pdf",
+    "description": "Check if a PDF is encrypted, view protection level and permissions.",
+    "icon": "🔐",
+    "href": "/tools/pdf-password-info",
+    "keywords": [
+      "pdf password",
+      "pdf encryption",
+      "is pdf protected",
+      "pdf security",
+      "check pdf password"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "word-to-pdf",
+    "name": "Word to PDF",
+    "category": "pdf",
+    "description": "Convert Word documents (.docx) to PDF files. Preserves formatting and layout.",
+    "icon": "📝",
+    "href": "/tools/word-to-pdf",
+    "keywords": [
+      "word to pdf",
+      "docx to pdf",
+      "convert word to pdf",
+      "ms word to pdf"
+    ],
+    "accept": ".docx,.doc",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "excel-to-pdf",
+    "name": "Excel to PDF",
+    "category": "pdf",
+    "description": "Convert Excel spreadsheets (.xlsx) to PDF. Preserves tables and formatting.",
+    "icon": "📊",
+    "href": "/tools/excel-to-pdf",
+    "keywords": [
+      "excel to pdf",
+      "xlsx to pdf",
+      "spreadsheet to pdf",
+      "convert excel to pdf"
+    ],
+    "accept": ".xlsx,.xls,.csv",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "pdf-esign",
+    "name": "PDF eSign",
+    "category": "pdf",
+    "description": "Draw your signature and stamp it onto PDF pages. Draw, type, or upload signature.",
+    "icon": "✍️",
+    "href": "/tools/pdf-esign",
+    "keywords": [
+      "sign pdf",
+      "pdf signature",
+      "esign pdf",
+      "digital signature pdf",
+      "electronic signature"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "compress-image",
+    "name": "Image Compressor",
+    "category": "image",
+    "description": "Reduce image file size while maintaining quality. Supports JPG, PNG, WebP.",
+    "icon": "📦",
+    "href": "/tools/compress-image",
+    "keywords": [
+      "compress image",
+      "reduce image size",
+      "image optimizer",
+      "photo compressor"
+    ],
+    "accept": "image/jpeg,image/png,image/webp",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "resize-image",
+    "name": "Image Resizer",
+    "category": "image",
+    "description": "Change image dimensions. Resize by pixels, percentage, or social media presets.",
+    "icon": "📐",
+    "href": "/tools/resize-image",
+    "keywords": [
+      "resize image",
+      "change image size",
+      "image resizer",
+      "photo resizer"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "convert-image",
+    "name": "Image Format Converter",
+    "category": "image",
+    "description": "Convert images between JPG, PNG, WebP, and BMP formats.",
+    "icon": "🔄",
+    "href": "/tools/convert-image",
+    "keywords": [
+      "convert image",
+      "jpg to png",
+      "png to webp",
+      "image converter"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "remove-background",
+    "name": "Background Remover",
+    "category": "image",
+    "description": "Remove background from images using AI. Works 100% in your browser.",
+    "icon": "🎭",
+    "href": "/tools/remove-background",
+    "keywords": [
+      "remove background",
+      "background remover",
+      "delete background",
+      "transparent background"
+    ],
+    "accept": "image/jpeg,image/png",
+    "maxSizeMB": 20
+  },
+  {
+    "id": "upscale-image",
+    "name": "Image Upscaler",
+    "category": "image",
+    "description": "Upscale images 2x or 4x using AI super-resolution.",
+    "icon": "🔍",
+    "href": "/tools/upscale-image",
+    "keywords": [
+      "upscale image",
+      "increase resolution",
+      "image upscaler",
+      "enhance image",
+      "ai upscaler"
+    ],
+    "accept": "image/jpeg,image/png",
+    "maxSizeMB": 20
+  },
+  {
+    "id": "crop-image",
+    "name": "Image Cropper",
+    "category": "image",
+    "description": "Crop images with interactive selection. Preset aspect ratios available.",
+    "icon": "✂️",
+    "href": "/tools/crop-image",
+    "keywords": [
+      "crop image",
+      "cut image",
+      "image cropper",
+      "photo crop"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "rotate-flip-image",
+    "name": "Rotate & Flip Image",
+    "category": "image",
+    "description": "Rotate images 90°, 180°, 270° or flip horizontally/vertically.",
+    "icon": "🔄",
+    "href": "/tools/rotate-flip-image",
+    "keywords": [
+      "rotate image",
+      "flip image",
+      "turn image",
+      "mirror image"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "split-image",
+    "name": "Image Splitter",
+    "category": "image",
+    "description": "Split an image into a grid of tiles. Perfect for Instagram grid posts.",
+    "icon": "✂️",
+    "href": "/tools/split-image",
+    "keywords": [
+      "split image",
+      "image splitter",
+      "instagram grid",
+      "image grid",
+      "photo splitter"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "merge-images",
+    "name": "Image Merger",
+    "category": "image",
+    "description": "Combine multiple images into one. Horizontal, vertical, or grid layout.",
+    "icon": "🖼️",
+    "href": "/tools/merge-images",
+    "keywords": [
+      "merge images",
+      "combine images",
+      "image collage",
+      "join images",
+      "photo collage"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "add-text-image",
+    "name": "Add Text to Image",
+    "category": "image",
+    "description": "Add custom text overlays to images with fonts, colors, and positioning.",
+    "icon": "✏️",
+    "href": "/tools/add-text-image",
+    "keywords": [
+      "add text to image",
+      "text on image",
+      "image text overlay",
+      "caption image"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "watermark-image",
+    "name": "Add Watermark to Image",
+    "category": "image",
+    "description": "Add text or logo watermark to images. Adjustable position and opacity.",
+    "icon": "💧",
+    "href": "/tools/watermark-image",
+    "keywords": [
+      "watermark image",
+      "image watermark",
+      "photo watermark",
+      "logo on image"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "brightness-contrast",
+    "name": "Brightness & Contrast",
+    "category": "image",
+    "description": "Adjust brightness, contrast, and saturation of images.",
+    "icon": "☀️",
+    "href": "/tools/brightness-contrast",
+    "keywords": [
+      "brightness",
+      "contrast",
+      "saturation",
+      "image adjust",
+      "photo editor"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "grayscale-sepia",
+    "name": "Grayscale & Sepia Filter",
+    "category": "image",
+    "description": "Apply grayscale, sepia, or invert filters to images.",
+    "icon": "🎨",
+    "href": "/tools/grayscale-sepia",
+    "keywords": [
+      "grayscale",
+      "sepia",
+      "black and white",
+      "image filter",
+      "photo filter"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "remove-exif",
+    "name": "Remove EXIF Metadata",
+    "category": "image",
+    "description": "Strip all metadata (GPS, camera info, date) from images for privacy.",
+    "icon": "🔒",
+    "href": "/tools/remove-exif",
+    "keywords": [
+      "remove exif",
+      "strip metadata",
+      "delete metadata",
+      "privacy",
+      "exif remover"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "view-exif",
+    "name": "View EXIF Data",
+    "category": "image",
+    "description": "View all metadata embedded in an image: camera, lens, ISO, GPS, date.",
+    "icon": "ℹ️",
+    "href": "/tools/view-exif",
+    "keywords": [
+      "view exif",
+      "exif data",
+      "image metadata",
+      "photo info",
+      "camera info"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 50
+  },
+  {
+    "id": "favicon-generator",
+    "name": "Favicon Generator",
+    "category": "image",
+    "description": "Generate all favicon sizes from a single image (16, 32, 180, 192, 512px).",
+    "icon": "🌐",
+    "href": "/tools/favicon-generator",
+    "keywords": [
+      "favicon generator",
+      "favicon",
+      "website icon",
+      "app icon"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 10
+  },
+  {
+    "id": "compress-video",
+    "name": "Video Compressor",
+    "category": "video",
+    "description": "Reduce video file size by adjusting quality, resolution, and bitrate.",
+    "icon": "📦",
+    "href": "/tools/compress-video",
+    "keywords": [
+      "compress video",
+      "reduce video size",
+      "video compressor",
+      "shrink video"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "trim-video",
+    "name": "Video Trimmer",
+    "category": "video",
+    "description": "Cut and trim videos by setting start and end time.",
+    "icon": "✂️",
+    "href": "/tools/trim-video",
+    "keywords": [
+      "trim video",
+      "cut video",
+      "video trimmer",
+      "crop video"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "video-to-gif",
+    "name": "Video to GIF",
+    "category": "video",
+    "description": "Convert video clips to animated GIF images.",
+    "icon": "🎞️",
+    "href": "/tools/video-to-gif",
+    "keywords": [
+      "video to gif",
+      "mp4 to gif",
+      "gif maker",
+      "animate video"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 200
+  },
+  {
+    "id": "video-to-audio",
+    "name": "Video to Audio",
+    "category": "video",
+    "description": "Extract audio track from video files. Save as MP3 or WAV.",
+    "icon": "🎵",
+    "href": "/tools/video-to-audio",
+    "keywords": [
+      "video to audio",
+      "extract audio",
+      "mp4 to mp3",
+      "video audio extractor"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "convert-video",
+    "name": "Video Format Converter",
+    "category": "video",
+    "description": "Convert videos between MP4, WebM, AVI, and MOV formats.",
+    "icon": "🔄",
+    "href": "/tools/convert-video",
+    "keywords": [
+      "convert video",
+      "mp4 to webm",
+      "video converter",
+      "avi to mp4"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "video-to-images",
+    "name": "Video to Images",
+    "category": "video",
+    "description": "Extract frames from a video as PNG or JPG images.",
+    "icon": "🖼️",
+    "href": "/tools/video-to-images",
+    "keywords": [
+      "video to images",
+      "extract frames",
+      "video to jpg",
+      "screenshot video"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "images-to-video",
+    "name": "Images to Video",
+    "category": "video",
+    "description": "Create a video from a sequence of images with custom FPS.",
+    "icon": "🎬",
+    "href": "/tools/images-to-video",
+    "keywords": [
+      "images to video",
+      "photo to video",
+      "slideshow maker",
+      "image sequence"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "add-audio-video",
+    "name": "Add Audio to Video",
+    "category": "video",
+    "description": "Merge audio track onto a video file.",
+    "icon": "🔊",
+    "href": "/tools/add-audio-video",
+    "keywords": [
+      "add audio to video",
+      "merge audio video",
+      "audio video merger",
+      "music on video"
+    ],
+    "accept": "video/*,audio/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "mute-video",
+    "name": "Mute Video",
+    "category": "video",
+    "description": "Remove audio track from a video file.",
+    "icon": "🔇",
+    "href": "/tools/mute-video",
+    "keywords": [
+      "mute video",
+      "remove audio",
+      "silent video",
+      "strip audio"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "video-speed",
+    "name": "Video Speed Changer",
+    "category": "video",
+    "description": "Speed up or slow down videos. 0.25x to 4x speed.",
+    "icon": "⏩",
+    "href": "/tools/video-speed",
+    "keywords": [
+      "video speed",
+      "speed up video",
+      "slow motion",
+      "fast forward video"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500
+  },
+  {
+    "id": "trim-audio",
+    "name": "Audio Trimmer",
+    "category": "audio",
+    "description": "Cut and trim audio files by setting start and end time.",
+    "icon": "✂️",
+    "href": "/tools/trim-audio",
+    "keywords": [
+      "trim audio",
+      "cut audio",
+      "audio trimmer",
+      "audio cutter"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "convert-audio",
+    "name": "Audio Converter",
+    "category": "audio",
+    "description": "Convert audio between MP3, WAV, OGG, FLAC, and AAC formats.",
+    "icon": "🔄",
+    "href": "/tools/convert-audio",
+    "keywords": [
+      "convert audio",
+      "mp3 to wav",
+      "audio converter",
+      "wav to mp3"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "merge-audio",
+    "name": "Audio Merger",
+    "category": "audio",
+    "description": "Combine multiple audio files into one.",
+    "icon": "🔗",
+    "href": "/tools/merge-audio",
+    "keywords": [
+      "merge audio",
+      "combine audio",
+      "join audio",
+      "audio merger"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "normalize-audio",
+    "name": "Volume Normalizer",
+    "category": "audio",
+    "description": "Equalize volume levels across an audio file.",
+    "icon": "📊",
+    "href": "/tools/normalize-audio",
+    "keywords": [
+      "normalize audio",
+      "volume normalizer",
+      "equalize volume",
+      "audio level"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "boost-audio",
+    "name": "Volume Booster",
+    "category": "audio",
+    "description": "Increase or decrease the volume of an audio file.",
+    "icon": "🔊",
+    "href": "/tools/boost-audio",
+    "keywords": [
+      "boost audio",
+      "increase volume",
+      "volume booster",
+      "louder audio"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "audio-speed",
+    "name": "Audio Speed Changer",
+    "category": "audio",
+    "description": "Speed up or slow down audio without changing pitch.",
+    "icon": "⏩",
+    "href": "/tools/audio-speed",
+    "keywords": [
+      "audio speed",
+      "speed up audio",
+      "slow audio",
+      "audio tempo"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "voice-recorder",
+    "name": "Voice Recorder",
+    "category": "audio",
+    "description": "Record audio from your microphone and download as MP3 or WAV.",
+    "icon": "🎤",
+    "href": "/tools/voice-recorder",
+    "keywords": [
+      "voice recorder",
+      "audio recorder",
+      "mic recorder",
+      "record voice"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "text-to-speech",
+    "name": "Text to Speech",
+    "category": "audio",
+    "description": "Convert text to spoken audio. Choose voice, rate, and pitch.",
+    "icon": "🗣️",
+    "href": "/tools/text-to-speech",
+    "keywords": [
+      "text to speech",
+      "tts",
+      "text reader",
+      "speech synthesis"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "transcribe-audio",
+    "name": "Audio Transcription",
+    "category": "audio",
+    "description": "Transcribe audio to text using AI. Supports 100+ languages.",
+    "icon": "📝",
+    "href": "/tools/transcribe-audio",
+    "keywords": [
+      "transcribe audio",
+      "speech to text",
+      "audio to text",
+      "transcription",
+      "speech recognition"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 200
+  },
+  {
+    "id": "reverse-audio",
+    "name": "Audio Reverser",
+    "category": "audio",
+    "description": "Play an audio file backwards.",
+    "icon": "⏪",
+    "href": "/tools/reverse-audio",
+    "keywords": [
+      "reverse audio",
+      "play backwards",
+      "audio reverser",
+      "backwards audio"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "image-to-text",
+    "name": "Image to Text (OCR)",
+    "category": "ocr",
+    "description": "Extract text from images using OCR. Supports 100+ languages.",
+    "icon": "📝",
+    "href": "/tools/image-to-text",
+    "keywords": [
+      "image to text",
+      "ocr",
+      "extract text from image",
+      "text recognition",
+      "optical character recognition"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 20
+  },
+  {
+    "id": "pdf-to-text",
+    "name": "PDF to Text",
+    "category": "ocr",
+    "description": "Extract all text content from PDF files.",
+    "icon": "📋",
+    "href": "/tools/pdf-to-text",
+    "keywords": [
+      "pdf to text",
+      "extract text pdf",
+      "pdf text extractor",
+      "read pdf"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "scanned-pdf-searchable",
+    "name": "Scanned PDF to Searchable PDF",
+    "category": "ocr",
+    "description": "OCR scanned PDFs to make them searchable and copyable.",
+    "icon": "🔍",
+    "href": "/tools/scanned-pdf-searchable",
+    "keywords": [
+      "scanned pdf",
+      "searchable pdf",
+      "ocr pdf",
+      "pdf ocr"
+    ],
+    "accept": ".pdf",
+    "maxSizeMB": 100
+  },
+  {
+    "id": "screenshot-to-text",
+    "name": "Screenshot to Text",
+    "category": "ocr",
+    "description": "Paste a screenshot or image from clipboard and extract text.",
+    "icon": "📋",
+    "href": "/tools/screenshot-to-text",
+    "keywords": [
+      "screenshot to text",
+      "clipboard ocr",
+      "paste image text",
+      "screenshot ocr"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 20
+  },
+  {
+    "id": "qr-generator",
+    "name": "QR Code Generator",
+    "category": "qr",
+    "description": "Generate QR codes from text, URLs, vCard, or WiFi credentials.",
+    "icon": "📱",
+    "href": "/tools/qr-generator",
+    "keywords": [
+      "qr code generator",
+      "create qr code",
+      "qr code maker",
+      "generate qr"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "qr-scanner",
+    "name": "QR Code Scanner",
+    "category": "qr",
+    "description": "Scan and decode QR codes from images.",
+    "icon": "📷",
+    "href": "/tools/qr-scanner",
+    "keywords": [
+      "qr code scanner",
+      "scan qr code",
+      "read qr code",
+      "qr decoder"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 10
+  },
+  {
+    "id": "barcode-generator",
+    "name": "Barcode Generator",
+    "category": "qr",
+    "description": "Generate barcodes in Code128, EAN-13, UPC-A formats.",
+    "icon": "📊",
+    "href": "/tools/barcode-generator",
+    "keywords": [
+      "barcode generator",
+      "create barcode",
+      "barcode maker",
+      "ean barcode"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "barcode-scanner",
+    "name": "Barcode Scanner",
+    "category": "qr",
+    "description": "Scan and decode barcodes from images.",
+    "icon": "📷",
+    "href": "/tools/barcode-scanner",
+    "keywords": [
+      "barcode scanner",
+      "scan barcode",
+      "read barcode",
+      "barcode decoder"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 10
+  },
+  {
+    "id": "encrypt-file",
+    "name": "File Encryption",
+    "category": "privacy",
+    "description": "Encrypt or decrypt files with AES-GCM password protection.",
+    "icon": "🔐",
+    "href": "/tools/encrypt-file",
+    "keywords": [
+      "encrypt file",
+      "decrypt file",
+      "file encryption",
+      "password protect file"
+    ],
+    "accept": "*",
+    "maxSizeMB": 200,
+    "status": "done"
+  },
+  {
+    "id": "hash-file",
+    "name": "File Hash Generator",
+    "category": "privacy",
+    "description": "Generate MD5, SHA-1, SHA-256, SHA-512 checksums for files.",
+    "icon": "#️⃣",
+    "href": "/tools/hash-file",
+    "keywords": [
+      "file hash",
+      "checksum",
+      "md5",
+      "sha256",
+      "file checksum",
+      "hash generator"
+    ],
+    "accept": "*",
+    "maxSizeMB": 500,
+    "status": "done"
+  },
+  {
+    "id": "password-generator",
+    "name": "Password Generator",
+    "category": "privacy",
+    "description": "Generate cryptographically secure passwords with customizable options.",
+    "icon": "🔑",
+    "href": "/tools/password-generator",
+    "keywords": [
+      "password generator",
+      "generate password",
+      "secure password",
+      "random password"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "password-checker",
+    "name": "Password Strength Checker",
+    "category": "privacy",
+    "description": "Check how strong your password is with detailed feedback.",
+    "icon": "🛡️",
+    "href": "/tools/password-checker",
+    "keywords": [
+      "password checker",
+      "password strength",
+      "check password",
+      "password test"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "steganography",
+    "name": "Steganography",
+    "category": "privacy",
+    "description": "Hide secret text messages inside images.",
+    "icon": "🕵️",
+    "href": "/tools/steganography",
+    "keywords": [
+      "steganography",
+      "hide text in image",
+      "secret message",
+      "hidden data"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 20,
+    "status": "done"
+  },
+  {
+    "id": "weather-forecast",
+    "name": "Weather Forecast",
+    "category": "weather",
+    "description": "Get current weather and 7-day forecast for any city.",
+    "icon": "🌤️",
+    "href": "/tools/weather-forecast",
+    "keywords": [
+      "weather",
+      "forecast",
+      "weather forecast",
+      "temperature",
+      "climate"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "my-ip",
+    "name": "My IP Address",
+    "category": "weather",
+    "description": "Show your public IP address, location, ISP, and timezone.",
+    "icon": "🌐",
+    "href": "/tools/my-ip",
+    "keywords": [
+      "my ip",
+      "ip address",
+      "ip lookup",
+      "what is my ip",
+      "ip location"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "sunrise-sunset",
+    "name": "Sunrise & Sunset Times",
+    "category": "weather",
+    "description": "Calculate sunrise, sunset, golden hour, and day length for any location.",
+    "icon": "🌅",
+    "href": "/tools/sunrise-sunset",
+    "keywords": [
+      "sunrise",
+      "sunset",
+      "golden hour",
+      "day length",
+      "sun times"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "air-quality",
+    "name": "Air Quality Index",
+    "category": "weather",
+    "description": "Check air quality index and pollutant levels for any location.",
+    "icon": "🌬️",
+    "href": "/tools/air-quality",
+    "keywords": [
+      "air quality",
+      "aqi",
+      "pollution",
+      "air pollution",
+      "air quality index"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "dictionary",
+    "name": "Dictionary",
+    "category": "reference",
+    "description": "Look up word definitions, phonetics, examples, and audio pronunciation.",
+    "icon": "📖",
+    "href": "/tools/dictionary",
+    "keywords": [
+      "dictionary",
+      "definition",
+      "meaning",
+      "word lookup",
+      "define"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "thesaurus",
+    "name": "Thesaurus",
+    "category": "reference",
+    "description": "Find synonyms, antonyms, and related words.",
+    "icon": "📖",
+    "href": "/tools/thesaurus",
+    "keywords": [
+      "thesaurus",
+      "synonyms",
+      "antonyms",
+      "related words",
+      "word alternatives"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "book-lookup",
+    "name": "Book Info Lookup",
+    "category": "reference",
+    "description": "Search for book information by ISBN, title, or author.",
+    "icon": "📚",
+    "href": "/tools/book-lookup",
+    "keywords": [
+      "book lookup",
+      "isbn search",
+      "book info",
+      "book finder",
+      "book search"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "holiday-calendar",
+    "name": "Public Holiday Calendar",
+    "category": "reference",
+    "description": "View public holidays for any country and year.",
+    "icon": "📅",
+    "href": "/tools/holiday-calendar",
+    "keywords": [
+      "holidays",
+      "public holidays",
+      "holiday calendar",
+      "bank holidays",
+      "national holidays"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "loan-calculator",
+    "name": "Loan Calculator",
+    "category": "finance",
+    "description": "Calculate EMI, total interest, and view amortization schedule.",
+    "icon": "💰",
+    "href": "/tools/loan-calculator",
+    "keywords": [
+      "loan calculator",
+      "emi calculator",
+      "loan interest",
+      "amortization"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "german-salary-calculator",
+    "name": "German Net Salary Calculator",
+    "category": "finance",
+    "description": "Calculate German net salary with tax class, church tax, and social contributions.",
+    "icon": "🇩🇪",
+    "href": "/tools/german-salary-calculator",
+    "keywords": [
+      "german salary calculator",
+      "net salary germany",
+      "lohnsteuer",
+      "gehaltsrechner",
+      "german tax calculator"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "mortgage-calculator",
+    "name": "Mortgage Calculator",
+    "category": "finance",
+    "description": "Calculate monthly mortgage payments and total cost.",
+    "icon": "🏠",
+    "href": "/tools/mortgage-calculator",
+    "keywords": [
+      "mortgage calculator",
+      "home loan",
+      "mortgage payment",
+      "house calculator"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "sip-calculator",
+    "name": "SIP Calculator",
+    "category": "finance",
+    "description": "Calculate returns on Systematic Investment Plan (SIP).",
+    "icon": "📈",
+    "href": "/tools/sip-calculator",
+    "keywords": [
+      "sip calculator",
+      "investment calculator",
+      "mutual fund calculator",
+      "sip returns"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "compound-interest",
+    "name": "Compound Interest Calculator",
+    "category": "finance",
+    "description": "Calculate compound interest with different compounding frequencies.",
+    "icon": "💹",
+    "href": "/tools/compound-interest",
+    "keywords": [
+      "compound interest",
+      "interest calculator",
+      "ci calculator",
+      "compound interest formula"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "tax-calculator",
+    "name": "Tax Estimator",
+    "category": "finance",
+    "description": "Estimate income tax based on income and deductions.",
+    "icon": "🧾",
+    "href": "/tools/tax-calculator",
+    "keywords": [
+      "tax calculator",
+      "income tax",
+      "tax estimator",
+      "tax computation"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "tip-calculator",
+    "name": "Tip Calculator",
+    "category": "finance",
+    "description": "Calculate tip amount and split the bill between people.",
+    "icon": "💳",
+    "href": "/tools/tip-calculator",
+    "keywords": [
+      "tip calculator",
+      "bill split",
+      "tip amount",
+      "restaurant tip"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "inflation-calculator",
+    "name": "Inflation Calculator",
+    "category": "finance",
+    "description": "Calculate the value of money adjusted for inflation over time.",
+    "icon": "📊",
+    "href": "/tools/inflation-calculator",
+    "keywords": [
+      "inflation calculator",
+      "money value",
+      "inflation adjusted",
+      "purchasing power"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "crypto-prices",
+    "name": "Crypto Price Tracker",
+    "category": "finance",
+    "description": "Track live prices of top 50 cryptocurrencies.",
+    "icon": "₿",
+    "href": "/tools/crypto-prices",
+    "keywords": [
+      "crypto prices",
+      "bitcoin price",
+      "cryptocurrency",
+      "ethereum price",
+      "crypto tracker"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "scientific-calculator",
+    "name": "Scientific Calculator",
+    "category": "math",
+    "description": "Full scientific calculator with trig, log, sqrt, and more.",
+    "icon": "🔢",
+    "href": "/tools/scientific-calculator",
+    "keywords": [
+      "calculator",
+      "scientific calculator",
+      "math calculator",
+      "trigonometry"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "graph-plotter",
+    "name": "Graph Plotter",
+    "category": "math",
+    "description": "Plot mathematical functions with zoom and pan.",
+    "icon": "📈",
+    "href": "/tools/graph-plotter",
+    "keywords": [
+      "graph plotter",
+      "function plotter",
+      "math graph",
+      "plot function"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "unit-converter",
+    "name": "Unit Converter",
+    "category": "math",
+    "description": "Convert between 200+ units across 20 categories.",
+    "icon": "🔄",
+    "href": "/tools/unit-converter",
+    "keywords": [
+      "unit converter",
+      "convert units",
+      "measurement converter",
+      "metric converter"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "percentage-calculator",
+    "name": "Percentage Calculator",
+    "category": "math",
+    "description": "Calculate percentages: what is X% of Y, X is what % of Y, % change.",
+    "icon": "%",
+    "href": "/tools/percentage-calculator",
+    "keywords": [
+      "percentage calculator",
+      "percent calculator",
+      "percentage",
+      "math percentage"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "fraction-calculator",
+    "name": "Fraction Calculator",
+    "category": "math",
+    "description": "Add, subtract, multiply, and divide fractions with steps.",
+    "icon": "½",
+    "href": "/tools/fraction-calculator",
+    "keywords": [
+      "fraction calculator",
+      "math fractions",
+      "fraction math",
+      "divide fractions"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "base-converter",
+    "name": "Number Base Converter",
+    "category": "math",
+    "description": "Convert between decimal, binary, hexadecimal, and octal.",
+    "icon": "🔢",
+    "href": "/tools/base-converter",
+    "keywords": [
+      "base converter",
+      "hex to binary",
+      "decimal to binary",
+      "number converter",
+      "hex converter"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "date-difference",
+    "name": "Date Difference Calculator",
+    "category": "math",
+    "description": "Calculate the exact difference between two dates in days, weeks, months.",
+    "icon": "📅",
+    "href": "/tools/date-difference",
+    "keywords": [
+      "date difference",
+      "days between dates",
+      "date calculator",
+      "days calculator"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "age-calculator",
+    "name": "Age Calculator",
+    "category": "math",
+    "description": "Calculate exact age in years, months, days. Next birthday and zodiac sign.",
+    "icon": "🎂",
+    "href": "/tools/age-calculator",
+    "keywords": [
+      "age calculator",
+      "how old",
+      "birthday calculator",
+      "age from date"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "bmi-calculator",
+    "name": "BMI Calculator",
+    "category": "health",
+    "description": "Calculate Body Mass Index with health category and visual gauge.",
+    "icon": "⚖️",
+    "href": "/tools/bmi-calculator",
+    "keywords": [
+      "bmi calculator",
+      "body mass index",
+      "bmi chart",
+      "weight calculator"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "calorie-estimator",
+    "name": "Calorie Estimator",
+    "category": "health",
+    "description": "Estimate daily calorie needs based on age, weight, height, and activity level.",
+    "icon": "🔥",
+    "href": "/tools/calorie-estimator",
+    "keywords": [
+      "calorie calculator",
+      "daily calories",
+      "calorie needs",
+      "tdee calculator"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "ideal-weight",
+    "name": "Ideal Weight Calculator",
+    "category": "health",
+    "description": "Calculate ideal weight range based on height and gender.",
+    "icon": "🎯",
+    "href": "/tools/ideal-weight",
+    "keywords": [
+      "ideal weight",
+      "healthy weight",
+      "weight range",
+      "target weight"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "due-date-calculator",
+    "name": "Pregnancy Due Date Calculator",
+    "category": "health",
+    "description": "Estimate due date from last period with weekly milestones.",
+    "icon": "👶",
+    "href": "/tools/due-date-calculator",
+    "keywords": [
+      "due date calculator",
+      "pregnancy calculator",
+      "baby due date",
+      "estimated due date"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "readability-score",
+    "name": "Readability Score",
+    "category": "text",
+    "description": "Check text readability with Flesch-Kincaid grade level and reading ease.",
+    "icon": "📊",
+    "href": "/tools/readability-score",
+    "keywords": [
+      "readability",
+      "flesch kincaid",
+      "reading level",
+      "text readability",
+      "reading score"
+    ],
+    "accept": ".txt",
+    "maxSizeMB": 5
+  },
+  {
+    "id": "docx-to-pdf-t",
+    "name": "DOCX to PDF",
+    "category": "text",
+    "description": "Convert Word documents to PDF. Preserves formatting, fonts, images, and tables.",
+    "icon": "📝",
+    "href": "/tools/docx-to-pdf-t",
+    "keywords": [
+      "docx to pdf",
+      "word to pdf",
+      "convert docx",
+      "doc to pdf"
+    ],
+    "accept": ".docx,.doc",
+    "maxSizeMB": 50,
+    "status": "done"
+  },
+  {
+    "id": "csv-to-excel",
+    "name": "CSV to Excel Converter",
+    "category": "text",
+    "description": "Convert CSV files to Excel format with proper formatting.",
+    "icon": "🔄",
+    "href": "/tools/csv-to-excel",
+    "keywords": [
+      "csv to excel",
+      "convert csv to xlsx",
+      "csv converter",
+      "spreadsheet converter"
+    ],
+    "accept": ".csv",
+    "maxSizeMB": 20,
+    "status": "done"
+  },
+  {
+    "id": "latex-renderer",
+    "name": "LaTeX Renderer",
+    "category": "text",
+    "description": "Render LaTeX equations to images. Preview and export as PNG.",
+    "icon": "∑",
+    "href": "/tools/latex-renderer",
+    "keywords": [
+      "latex renderer",
+      "latex to image",
+      "equation editor",
+      "math equation"
+    ],
+    "accept": ".tex,.txt",
+    "maxSizeMB": 5,
+    "status": "done"
+  },
+  {
+    "id": "text-to-handwriting",
+    "name": "Text to Handwriting",
+    "category": "text",
+    "description": "Convert text to handwritten-style images. Choose from different handwriting fonts.",
+    "icon": "✍",
+    "href": "/tools/text-to-handwriting",
+    "keywords": [
+      "text to handwriting",
+      "handwriting generator",
+      "handwritten text",
+      "font converter"
+    ],
+    "accept": ".txt",
+    "maxSizeMB": 5,
+    "status": "done"
+  },
+  {
+    "id": "unicode-explorer",
+    "name": "Unicode Explorer",
+    "category": "text",
+    "description": "Explore Unicode characters. Search by name, code point, or browse categories.",
+    "icon": "🔤",
+    "href": "/tools/unicode-explorer",
+    "keywords": [
+      "unicode",
+      "character explorer",
+      "unicode characters",
+      "symbol search"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "emoji-picker",
+    "name": "Emoji Picker",
+    "category": "text",
+    "description": "Browse and copy emojis. Search by name or browse by category.",
+    "icon": "😊",
+    "href": "/tools/emoji-picker",
+    "keywords": [
+      "emoji picker",
+      "emoji search",
+      "copy emoji",
+      "emoji browser"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "xml-to-csv",
+    "name": "XML to CSV Converter",
+    "category": "text",
+    "description": "Convert XML files to CSV format. Extract data tables from XML documents.",
+    "icon": "📊",
+    "href": "/tools/xml-to-csv",
+    "keywords": [
+      "xml to csv",
+      "convert xml csv",
+      "xml converter"
+    ],
+    "accept": ".xml",
+    "maxSizeMB": 10,
+    "status": "done"
+  },
+  {
+    "id": "chart-generator",
+    "name": "Chart Generator",
+    "category": "visualization",
+    "description": "Create bar, line, pie, doughnut, and radar charts from data.",
+    "icon": "📊",
+    "href": "/tools/chart-generator",
+    "keywords": [
+      "chart generator",
+      "create chart",
+      "bar chart",
+      "pie chart",
+      "graph maker",
+      "data visualization"
+    ],
+    "accept": ".csv,.json",
+    "maxSizeMB": 5
+  },
+  {
+    "id": "csv-visualizer",
+    "name": "CSV Visualizer",
+    "category": "visualization",
+    "description": "Upload a CSV file and instantly generate charts.",
+    "icon": "📈",
+    "href": "/tools/csv-visualizer",
+    "keywords": [
+      "csv visualizer",
+      "csv chart",
+      "csv graph",
+      "data visualization",
+      "csv plotter"
+    ],
+    "accept": ".csv",
+    "maxSizeMB": 10
+  },
+  {
+    "id": "json-viewer",
+    "name": "JSON Viewer",
+    "category": "visualization",
+    "description": "View JSON data as a collapsible tree with syntax highlighting.",
+    "icon": "🌳",
+    "href": "/tools/json-viewer",
+    "keywords": [
+      "json viewer",
+      "json formatter",
+      "json tree",
+      "json pretty print",
+      "json visualizer"
+    ],
+    "accept": ".json",
+    "maxSizeMB": 5
+  },
+  {
+    "id": "table-generator",
+    "name": "Table Generator",
+    "category": "visualization",
+    "description": "Create styled tables and export as image, PDF, or CSV.",
+    "icon": "📋",
+    "href": "/tools/table-generator",
+    "keywords": [
+      "table generator",
+      "create table",
+      "table to image",
+      "table export",
+      "data table"
+    ],
+    "accept": ".csv,.json",
+    "maxSizeMB": 5
+  },
+  {
+    "id": "gradient-generator",
+    "name": "CSS Gradient Generator",
+    "category": "css",
+    "description": "Visual editor for linear, radial, and conic CSS gradients.",
+    "icon": "🎨",
+    "href": "/tools/gradient-generator",
+    "keywords": [
+      "css gradient",
+      "gradient generator",
+      "linear gradient",
+      "radial gradient",
+      "css generator"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "box-shadow-generator",
+    "name": "Box Shadow Generator",
+    "category": "css",
+    "description": "Visual editor for CSS box-shadow with live preview.",
+    "icon": "🔲",
+    "href": "/tools/box-shadow-generator",
+    "keywords": [
+      "box shadow",
+      "css shadow",
+      "box shadow generator",
+      "shadow css"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "border-radius-generator",
+    "name": "Border Radius Generator",
+    "category": "css",
+    "description": "Visual editor for CSS border-radius with per-corner control.",
+    "icon": "⬜",
+    "href": "/tools/border-radius-generator",
+    "keywords": [
+      "border radius",
+      "css border radius",
+      "rounded corners",
+      "radius generator"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "clip-path-generator",
+    "name": "CSS Clip-Path Generator",
+    "category": "css",
+    "description": "Visual polygon editor for CSS clip-path.",
+    "icon": "✂️",
+    "href": "/tools/clip-path-generator",
+    "keywords": [
+      "clip path",
+      "css clip path",
+      "clip path generator",
+      "polygon css"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "color-palette",
+    "name": "Color Palette Generator",
+    "category": "css",
+    "description": "Generate harmonious color palettes: complementary, analogous, triadic.",
+    "icon": "🎨",
+    "href": "/tools/color-palette",
+    "keywords": [
+      "color palette",
+      "color scheme",
+      "color generator",
+      "color harmony",
+      "design colors"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "css-grid-generator",
+    "name": "CSS Grid Generator",
+    "category": "css",
+    "description": "Visual builder for CSS Grid layouts with copy-ready code.",
+    "icon": "📐",
+    "href": "/tools/css-grid-generator",
+    "keywords": [
+      "css grid",
+      "grid generator",
+      "css grid builder",
+      "grid layout"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "flexbox-playground",
+    "name": "Flexbox Playground",
+    "category": "css",
+    "description": "Interactive CSS Flexbox tester with live preview and code output.",
+    "icon": "📦",
+    "href": "/tools/flexbox-playground",
+    "keywords": [
+      "flexbox",
+      "css flexbox",
+      "flexbox playground",
+      "flexbox generator",
+      "flex layout"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "font-pairing",
+    "name": "Font Pairing Preview",
+    "category": "css",
+    "description": "Preview Google Fonts pairings for headings and body text.",
+    "icon": "🔤",
+    "href": "/tools/font-pairing",
+    "keywords": [
+      "font pairing",
+      "google fonts",
+      "font combination",
+      "typography",
+      "font preview"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "json-validator",
+    "name": "JSON Validator & Formatter",
+    "category": "dev",
+    "description": "Validate, format, and minify JSON with error line numbers.",
+    "icon": "✅",
+    "href": "/tools/json-validator",
+    "keywords": [
+      "json validator",
+      "json formatter",
+      "json lint",
+      "validate json",
+      "json minifier"
+    ],
+    "accept": ".json",
+    "maxSizeMB": 5,
+    "status": "done"
+  },
+  {
+    "id": "regex-tester",
+    "name": "Regex Tester",
+    "category": "dev",
+    "description": "Test regular expressions with live matching and capture groups.",
+    "icon": "🔍",
+    "href": "/tools/regex-tester",
+    "keywords": [
+      "regex tester",
+      "regular expression",
+      "regex debugger",
+      "regex tool",
+      "test regex"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "cron-builder",
+    "name": "Cron Expression Builder",
+    "category": "dev",
+    "description": "Build cron expressions visually. See human-readable description and next runs.",
+    "icon": "⏰",
+    "href": "/tools/cron-builder",
+    "keywords": [
+      "cron builder",
+      "cron expression",
+      "cron generator",
+      "cron schedule",
+      "crontab"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "lorem-ipsum",
+    "name": "Lorem Ipsum Generator",
+    "category": "dev",
+    "description": "Generate placeholder text by paragraphs, words, or sentences.",
+    "icon": "📝",
+    "href": "/tools/lorem-ipsum",
+    "keywords": [
+      "lorem ipsum",
+      "placeholder text",
+      "dummy text",
+      "fake text",
+      "lorem generator"
+    ],
+    "accept": null,
+    "maxSizeMB": null
+  },
+  {
+    "id": "user-agent-parser",
+    "name": "User Agent Parser",
+    "category": "dev",
+    "description": "Parse browser, OS, and device info from user agent strings.",
+    "icon": "🖥️",
+    "href": "/tools/user-agent-parser",
+    "keywords": [
+      "user agent",
+      "ua parser",
+      "browser detection",
+      "user agent string",
+      "ua string"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "htaccess-generator",
+    "name": "HTAccess Generator",
+    "category": "dev",
+    "description": "Generate .htaccess rules for redirects, caching, and security.",
+    "icon": "⚙️",
+    "href": "/tools/htaccess-generator",
+    "keywords": [
+      "htaccess",
+      "htaccess generator",
+      "apache config",
+      "redirect rules",
+      "htaccess tool"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "robots-txt-generator",
+    "name": "Robots.txt Generator",
+    "category": "dev",
+    "description": "Generate robots.txt files for SEO with visual rule builder.",
+    "icon": "🤖",
+    "href": "/tools/robots-txt-generator",
+    "keywords": [
+      "robots txt",
+      "robots.txt generator",
+      "seo robots",
+      "crawl rules",
+      "robots file"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "markdown-html",
+    "name": "Markdown to HTML",
+    "category": "text",
+    "description": "Convert Markdown to HTML with live preview.",
+    "icon": "📄",
+    "href": "/tools/markdown-html",
+    "keywords": [
+      "markdown to html"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "json-csv",
+    "name": "JSON to CSV",
+    "category": "text",
+    "description": "Convert JSON array to CSV format.",
+    "icon": "📊",
+    "href": "/tools/json-csv",
+    "keywords": [
+      "json to csv"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "text-diff",
+    "name": "Text Diff",
+    "category": "text",
+    "description": "Compare two texts and see the differences.",
+    "icon": "🔀",
+    "href": "/tools/text-diff",
+    "keywords": [
+      "text diff"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "word-counter",
+    "name": "Word Counter",
+    "category": "text",
+    "description": "Count words, characters, sentences, and paragraphs.",
+    "icon": "🔢",
+    "href": "/tools/word-counter",
+    "keywords": [
+      "word counter"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "case-converter",
+    "name": "Case Converter",
+    "category": "text",
+    "description": "Convert text to different cases.",
+    "icon": "Aa",
+    "href": "/tools/case-converter",
+    "keywords": [
+      "case converter"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "word-frequency",
+    "name": "Word Frequency",
+    "category": "text",
+    "description": "Analyze word frequency in text.",
+    "icon": "📈",
+    "href": "/tools/word-frequency",
+    "keywords": [
+      "word frequency"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "yaml-json",
+    "name": "YAML to JSON",
+    "category": "text",
+    "description": "Convert YAML to JSON format.",
+    "icon": "🔄",
+    "href": "/tools/yaml-json",
+    "keywords": [
+      "yaml to json"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "xml-json",
+    "name": "XML to JSON",
+    "category": "text",
+    "description": "Convert XML to JSON format.",
+    "icon": "📋",
+    "href": "/tools/xml-json",
+    "keywords": [
+      "xml to json"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "uuid-generator",
+    "name": "UUID Generator",
+    "category": "encoding",
+    "description": "Generate UUIDs v4 randomly.",
+    "icon": "🎲",
+    "href": "/tools/uuid-generator",
+    "keywords": [
+      "uuid generator"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "hash-generator",
+    "name": "Hash Generator",
+    "category": "encoding",
+    "description": "Generate hash from text.",
+    "icon": "#️⃣",
+    "href": "/tools/hash-generator",
+    "keywords": [
+      "hash generator"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "jwt-decoder",
+    "name": "JWT Decoder",
+    "category": "encoding",
+    "description": "Decode and inspect JWT tokens.",
+    "icon": "🎫",
+    "href": "/tools/jwt-decoder",
+    "keywords": [
+      "jwt decoder"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "text-summarizer",
+    "name": "Text Summarizer",
+    "category": "text",
+    "description": "Summarize long text using extractive method.",
+    "icon": "📝",
+    "href": "/tools/text-summarizer",
+    "keywords": [
+      "text summarizer",
+      "summarize text"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "text-similarity",
+    "name": "Text Similarity",
+    "category": "text",
+    "description": "Compare text similarity.",
+    "icon": "🔗",
+    "href": "/tools/text-similarity",
+    "keywords": [
+      "text similarity",
+      "compare text"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "text-cleaner",
+    "name": "Text Cleaner",
+    "category": "text",
+    "description": "Clean and normalize text.",
+    "icon": "🧹",
+    "href": "/tools/text-cleaner",
+    "keywords": [
+      "text cleaner",
+      "normalize text"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "lorem-generator",
+    "name": "Lorem Generator",
+    "category": "text",
+    "description": "Generate placeholder text.",
+    "icon": "📝",
+    "href": "/tools/lorem-generator",
+    "keywords": [
+      "lorem generator",
+      "placeholder text"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "character-counter",
+    "name": "Character Counter",
+    "category": "text",
+    "description": "Count characters in text.",
+    "icon": "🔢",
+    "href": "/tools/character-counter",
+    "keywords": [
+      "character counter",
+      "count characters"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "excel-viewer",
+    "name": "Excel Viewer",
+    "category": "text",
+    "description": "View Excel files in browser.",
+    "icon": "📊",
+    "href": "/tools/excel-viewer",
+    "keywords": [
+      "excel viewer",
+      "view excel"
+    ],
+    "accept": ".xlsx,.xls",
+    "maxSizeMB": 10,
+    "status": "done"
+  },
+  {
+    "id": "coin-flip",
+    "name": "Coin Flip",
+    "category": "fun",
+    "description": "Flip a coin. Heads or tails?",
+    "icon": "🪙",
+    "href": "/tools/coin-flip",
+    "keywords": [
+      "coin flip"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "dice-roller",
+    "name": "Dice Roller",
+    "category": "fun",
+    "description": "Roll dice. Choose 1-6 dice.",
+    "icon": "🎲",
+    "href": "/tools/dice-roller",
+    "keywords": [
+      "dice roller"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "random-picker",
+    "name": "Random Picker",
+    "category": "fun",
+    "description": "Pick random names from a list.",
+    "icon": "🎯",
+    "href": "/tools/random-picker",
+    "keywords": [
+      "random picker"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "base64-codec",
+    "name": "Base64 Codec",
+    "category": "encoding",
+    "description": "Encode and decode Base64.",
+    "icon": "🔤",
+    "href": "/tools/base64-codec",
+    "keywords": [
+      "base64",
+      "base64 encoder"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "url-codec",
+    "name": "URL Encoder",
+    "category": "encoding",
+    "description": "Encode and decode URL.",
+    "icon": "🔗",
+    "href": "/tools/url-codec",
+    "keywords": [
+      "url encode",
+      "url decode"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "html-entity-codec",
+    "name": "HTML Entity Encoder",
+    "category": "encoding",
+    "description": "Encode HTML entities.",
+    "icon": "🏷️",
+    "href": "/tools/html-entity-codec",
+    "keywords": [
+      "html entity",
+      "html encode"
+    ],
+    "status": "done"
+  },
+  {
+    "id": "morse-code",
+    "name": "Morse Code",
+    "category": "encoding",
+    "description": "Morse code translator.",
+    "icon": "📡",
+    "href": "/tools/morse-code",
+    "keywords": [
+      "morse code",
+      "morse translator"
+    ],
+    "status": "done"
+  }
+]
