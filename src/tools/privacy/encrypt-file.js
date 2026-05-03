@@ -1,0 +1,147 @@
+export function render(container) {
+  container.innerHTML = `
+    <div class="tool-container">
+      <div class="tool-content">
+        <div class="tabs">
+          <button class="tab active" data-tab="encrypt">Encrypt</button>
+          <button class="tab" data-tab="decrypt">Decrypt</button>
+        </div>
+        <div class="tab-panel active" id="encrypt-panel">
+          <div class="input-section">
+            <label>File to Encrypt</label>
+            <div class="upload-zone" id="encrypt-upload">
+              <p>Drop file here or <label class="upload-link">browse<input type="file" id="encrypt-file" hidden /></label></p>
+            <p class="upload-hint" id="encrypt-filename"></p>
+            </div>
+          </div>
+          <div class="input-section">
+            <label>Password</label>
+            <input type="password" id="encrypt-password" class="tool-input" placeholder="Enter encryption password" />
+          </div>
+          <button id="encrypt-btn" class="tool-button primary">Encrypt File</button>
+        </div>
+        <div class="tab-panel" id="decrypt-panel">
+          <div class="input-section">
+            <label>File to Decrypt</label>
+            <div class="upload-zone" id="decrypt-upload">
+              <p>Drop .enc file or <label class="upload-link">browse<input type="file" id="decrypt-file" accept=".enc" hidden /></label></p>
+              <p class="upload-hint" id="decrypt-filename"></p>
+            </div>
+          </div>
+          <div class="input-section">
+            <label>Password</label>
+            <input type="password" id="decrypt-password" class="tool-input" placeholder="Enter decryption password" />
+          </div>
+          <button id="decrypt-btn" class="tool-button primary">Decrypt File</button>
+        </div>
+        <div id="result-section" class="result-section hidden">
+          <p id="result-message"></p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .tool-container { max-width: 500px; margin: 0 auto; }
+    .tool-header { text-align: center; margin-bottom: var(--space-8); }
+    .tool-icon { font-size: 4rem; margin-bottom: var(--space-4); }
+    .tool-description { color: var(--color-text-secondary); }
+    .tabs { display: flex; border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-6); }
+    .tab { flex: 1; padding: var(--space-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 500; color: var(--color-text-secondary); }
+    .tab.active { color: var(--color-primary); border-color: var(--color-primary); }
+    .tab-panel { display: none; flex-direction: column; gap: var(--space-4); }
+    .tab-panel.active { display: flex; }
+    .input-section { display: flex; flex-direction: column; gap: var(--space-2); }
+    .input-section label { font-weight: 500; }
+    .upload-zone { border: 2px dashed var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center; cursor: pointer; transition: all 0.2s; }
+    .upload-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
+    .upload-link { color: var(--color-primary); cursor: pointer; text-decoration: underline; }
+    .upload-hint { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-2); }
+    .tool-input { padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--text-base); }
+    .tool-input:focus { outline: none; border-color: var(--color-primary); }
+    .tool-button { padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
+    .tool-button.primary { background: var(--color-primary); color: white; border: none; }
+    .tool-button.primary:hover { background: var(--color-primary-hover); }
+    .result-section { margin-top: var(--space-4); text-align: center; padding: var(--space-4); border-radius: var(--radius-md); }
+    .result-section.hidden { display: none; }
+    .result-section.success { background: #dcfce7; color: #166534; }
+    .result-section.error { background: #fef2f2; color: var(--color-error); }
+  `;
+  container.appendChild(style);
+
+  const tabs = container.querySelectorAll('.tab');
+  const encryptPanel = container.querySelector('#encrypt-panel');
+  const decryptPanel = container.querySelector('#decrypt-panel');
+  const encryptFile = container.querySelector('#encrypt-file');
+  const decryptFile = container.querySelector('#decrypt-file');
+  const encryptFilename = container.querySelector('#encrypt-filename');
+  const decryptFilename = container.querySelector('#decrypt-section');
+  const resultSection = container.querySelector('#result-section');
+  const resultMessage = container.querySelector('#result-message');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const isEncrypt = tab.dataset.tab === 'encrypt';
+      encryptPanel.classList.toggle('active', isEncrypt);
+      decryptPanel.classList.toggle('active', !isEncrypt);
+    });
+  });
+
+  encryptFile.addEventListener('change', () => {
+    if (encryptFile.files[0]) encryptFilename.textContent = encryptFile.files[0].name;
+  });
+
+  async function encryptFileFn() {
+    const file = encryptFile.files[0];
+    const password = container.querySelector('#encrypt-password').value;
+    if (!file || !password) { alert('Please select a file and enter password'); return; }
+
+    try {
+      const key = await crypto.subtle.importKey('raw', await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password)), 'SHA-256', false);
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const data = await file.arrayBuffer();
+      const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, data);
+
+      const blob = new Blob([iv, encrypted], { type: 'application/octet-stream' });
+      downloadBlob(blob, file.name + '.enc');
+      resultMessage.textContent = 'File encrypted successfully!';
+      resultSection.className = 'result-section success';
+      resultSection.classList.remove('hidden');
+    } catch (err) { alert('Encryption failed: ' + err.message); }
+  }
+
+  async function decryptFileFn() {
+    const file = decryptFile.files[0];
+    const password = container.querySelector('#decrypt-password').value;
+    if (!file || !password) { alert('Please select a file and enter password'); return; }
+
+    try {
+      const key = await crypto.subtle.importKey('raw', await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password)), 'SHA-256', false);
+      const data = await file.arrayBuffer();
+      const iv = new Uint8Array(data.slice(0, 12));
+      const encrypted = data.slice(12);
+      const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, encrypted);
+      const blob = new Blob([decrypted]);
+      const name = file.name.replace('.enc', '');
+      downloadBlob(blob, 'decrypted_' + name);
+      resultMessage.textContent = 'File decrypted successfully!';
+      resultSection.className = 'result-section success';
+      resultSection.classList.remove('hidden');
+    } catch (err) { alert('Decryption failed. Wrong password?'); }
+  }
+
+  container.querySelector('#encrypt-btn').addEventListener('click', encryptFileFn);
+  container.querySelector('#decrypt-btn').addEventListener('click', decryptFileFn);
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
