@@ -4,3 +4,9 @@ dist/
 *.log
 .env
 *.local
+
+# Test outputs
+test-results/
+playwright-report/
+*.tar.gz
+*.jpeg
