@@ -2,7 +2,7 @@
 
 **We are the tools you need every day.**
 
-150+ free online tools. 100% client-side processing — your files never leave your device.
+148 free online tools. 100% client-side processing — your files never leave your device.
 
 ## Quick Start
 
@@ -48,7 +48,7 @@ All 20 phases complete. Project is production-ready.
 | Phase 19: SEO & Content | ✅ Done (5 tools) |
 | Phase 20: Monetization & Launch | ✅ Done |
 
-**Total tools:** 150+
+**Total tools:** 148
 
 ## Categories
 
