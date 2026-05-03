@@ -8,7 +8,7 @@ export function renderFooter() {
         <div class="footer-grid">
           <div class="footer-brand">
             <span class="footer-logo">🛠️ XToolBox</span>
-            <p class="footer-tagline">100+ free online tools. All processing happens in your browser — your files never leave your device.</p>
+            <p class="footer-tagline">148 free online tools. All processing happens in your browser — your files never leave your device.</p>
           </div>
 
           <div class="footer-links">
