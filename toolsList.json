@@ -13,7 +13,8 @@
       "pdf merger"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "split-pdf",
@@ -29,7 +30,8 @@
       "divide pdf"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "compress-pdf",
@@ -45,7 +47,8 @@
       "pdf optimizer"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 200
+    "maxSizeMB": 200,
+    "status": "done"
   },
   {
     "id": "pdf-to-image",
@@ -61,7 +64,8 @@
       "pdf to picture"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "image-to-pdf",
@@ -77,7 +81,8 @@
       "photo to pdf"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "rotate-pdf",
@@ -92,7 +97,8 @@
       "flip pdf pages"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "watermark-pdf",
@@ -107,7 +113,8 @@
       "stamp pdf"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "page-numbers-pdf",
@@ -122,7 +129,8 @@
       "pdf pagination"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "unlock-pdf",
@@ -137,7 +145,8 @@
       "decrypt pdf"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "protect-pdf",
@@ -153,7 +162,8 @@
       "secure pdf"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "fill-pdf-forms",
@@ -168,7 +178,8 @@
       "fill pdf fields"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "extract-text-pdf",
@@ -184,7 +195,8 @@
       "get text from pdf"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "reorder-pdf",
@@ -199,7 +211,8 @@
       "sort pdf pages"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "crop-pdf",
@@ -214,7 +227,8 @@
       "cut pdf"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "pdf-metadata-viewer",
@@ -231,7 +245,8 @@
       "view pdf metadata"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "pdf-password-info",
@@ -248,7 +263,8 @@
       "check pdf password"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "word-to-pdf",
@@ -264,7 +280,8 @@
       "ms word to pdf"
     ],
     "accept": ".docx,.doc",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "excel-to-pdf",
@@ -280,7 +297,8 @@
       "convert excel to pdf"
     ],
     "accept": ".xlsx,.xls,.csv",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "pdf-esign",
@@ -297,7 +315,8 @@
       "electronic signature"
     ],
     "accept": ".pdf",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "compress-image",
@@ -313,7 +332,8 @@
       "photo compressor"
     ],
     "accept": "image/jpeg,image/png,image/webp",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "resize-image",
@@ -329,7 +349,8 @@
       "photo resizer"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "convert-image",
@@ -345,7 +366,8 @@
       "image converter"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "remove-background",
@@ -361,7 +383,8 @@
       "transparent background"
     ],
     "accept": "image/jpeg,image/png",
-    "maxSizeMB": 20
+    "maxSizeMB": 20,
+    "status": "done"
   },
   {
     "id": "upscale-image",
@@ -378,7 +401,8 @@
       "ai upscaler"
     ],
     "accept": "image/jpeg,image/png",
-    "maxSizeMB": 20
+    "maxSizeMB": 20,
+    "status": "done"
   },
   {
     "id": "crop-image",
@@ -394,7 +418,8 @@
       "photo crop"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "rotate-flip-image",
@@ -410,7 +435,8 @@
       "mirror image"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "split-image",
@@ -427,7 +453,8 @@
       "photo splitter"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "merge-images",
@@ -444,7 +471,8 @@
       "photo collage"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "add-text-image",
@@ -460,7 +488,8 @@
       "caption image"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "watermark-image",
@@ -476,7 +505,8 @@
       "logo on image"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "brightness-contrast",
@@ -493,7 +523,8 @@
       "photo editor"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "grayscale-sepia",
@@ -510,7 +541,8 @@
       "photo filter"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "remove-exif",
@@ -527,7 +559,8 @@
       "exif remover"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "view-exif",
@@ -544,7 +577,8 @@
       "camera info"
     ],
     "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 50,
+    "status": "done"
   },
   {
     "id": "favicon-generator",
@@ -560,7 +594,8 @@
       "app icon"
     ],
     "accept": "image/*",
-    "maxSizeMB": 10
+    "maxSizeMB": 10,
+    "status": "done"
   },
   {
     "id": "compress-video",
@@ -624,7 +659,110 @@
       "video audio extractor"
     ],
     "accept": "video/*",
-    "maxSizeMB": 500
+    "maxSizeMB": 500,
+    "status": "done"
+  },
+  {
+    "id": "convert-video",
+    "name": "Video Format Converter",
+    "category": "video",
+    "description": "Convert videos between MP4, WebM, AVI, and MOV formats.",
+    "icon": "🔄",
+    "href": "/tools/convert-video",
+    "keywords": [
+      "convert video",
+      "mp4 to webm",
+      "video converter",
+      "avi to mp4"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500,
+    "status": "done"
+  },
+  {
+    "id": "video-to-images",
+    "name": "Video to Images",
+    "category": "video",
+    "description": "Extract frames from a video as PNG or JPG images.",
+    "icon": "🖼️",
+    "href": "/tools/video-to-images",
+    "keywords": [
+      "video to images",
+      "extract frames",
+      "video to jpg",
+      "screenshot video"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500,
+    "status": "done"
+  },
+  {
+    "id": "images-to-video",
+    "name": "Images to Video",
+    "category": "video",
+    "description": "Create a video from a sequence of images with custom FPS.",
+    "icon": "🎬",
+    "href": "/tools/images-to-video",
+    "keywords": [
+      "images to video",
+      "photo to video",
+      "slideshow maker",
+      "image sequence"
+    ],
+    "accept": "image/*",
+    "maxSizeMB": 100,
+    "status": "done"
+  },
+  {
+    "id": "add-audio-video",
+    "name": "Add Audio to Video",
+    "category": "video",
+    "description": "Merge audio track onto a video file.",
+    "icon": "🔊",
+    "href": "/tools/add-audio-video",
+    "keywords": [
+      "add audio to video",
+      "merge audio video",
+      "audio video merger",
+      "music on video"
+    ],
+    "accept": "video/*,audio/*",
+    "maxSizeMB": 500,
+    "status": "done"
+  },
+  {
+    "id": "mute-video",
+    "name": "Mute Video",
+    "category": "video",
+    "description": "Remove audio track from a video file.",
+    "icon": "🔇",
+    "href": "/tools/mute-video",
+    "keywords": [
+      "mute video",
+      "remove audio",
+      "silent video",
+      "strip audio"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500,
+    "status": "done"
+  },
+  {
+    "id": "video-speed",
+    "name": "Video Speed Changer",
+    "category": "video",
+    "description": "Speed up or slow down videos. 0.25x to 4x speed.",
+    "icon": "⏩",
+    "href": "/tools/video-speed",
+    "keywords": [
+      "video speed",
+      "speed up video",
+      "slow motion",
+      "fast forward video"
+    ],
+    "accept": "video/*",
+    "maxSizeMB": 500,
+    "status": "done"
   },
   {
     "id": "convert-video",
@@ -736,7 +874,162 @@
       "audio cutter"
     ],
     "accept": "audio/*",
-    "maxSizeMB": 100
+    "maxSizeMB": 100,
+    "status": "done"
+  },
+  {
+    "id": "convert-audio",
+    "name": "Audio Converter",
+    "category": "audio",
+    "description": "Convert audio between MP3, WAV, OGG, FLAC, and AAC formats.",
+    "icon": "🔄",
+    "href": "/tools/convert-audio",
+    "keywords": [
+      "convert audio",
+      "mp3 to wav",
+      "audio converter",
+      "wav to mp3"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100,
+    "status": "done"
+  },
+  {
+    "id": "merge-audio",
+    "name": "Audio Merger",
+    "category": "audio",
+    "description": "Combine multiple audio files into one.",
+    "icon": "🔗",
+    "href": "/tools/merge-audio",
+    "keywords": [
+      "merge audio",
+      "combine audio",
+      "join audio",
+      "audio merger"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100,
+    "status": "done"
+  },
+  {
+    "id": "normalize-audio",
+    "name": "Volume Normalizer",
+    "category": "audio",
+    "description": "Equalize volume levels across an audio file.",
+    "icon": "📊",
+    "href": "/tools/normalize-audio",
+    "keywords": [
+      "normalize audio",
+      "volume normalizer",
+      "equalize volume",
+      "audio level"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100,
+    "status": "done"
+  },
+  {
+    "id": "boost-audio",
+    "name": "Volume Booster",
+    "category": "audio",
+    "description": "Increase or decrease the volume of an audio file.",
+    "icon": "🔊",
+    "href": "/tools/boost-audio",
+    "keywords": [
+      "boost audio",
+      "increase volume",
+      "volume booster",
+      "louder audio"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100,
+    "status": "done"
+  },
+  {
+    "id": "audio-speed",
+    "name": "Audio Speed Changer",
+    "category": "audio",
+    "description": "Speed up or slow down audio without changing pitch.",
+    "icon": "⏩",
+    "href": "/tools/audio-speed",
+    "keywords": [
+      "audio speed",
+      "speed up audio",
+      "slow audio",
+      "audio tempo"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100,
+    "status": "done"
+  },
+  {
+    "id": "voice-recorder",
+    "name": "Voice Recorder",
+    "category": "audio",
+    "description": "Record audio from your microphone and download as MP3 or WAV.",
+    "icon": "🎤",
+    "href": "/tools/voice-recorder",
+    "keywords": [
+      "voice recorder",
+      "audio recorder",
+      "mic recorder",
+      "record voice"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "text-to-speech",
+    "name": "Text to Speech",
+    "category": "audio",
+    "description": "Convert text to spoken audio. Choose voice, rate, and pitch.",
+    "icon": "🗣️",
+    "href": "/tools/text-to-speech",
+    "keywords": [
+      "text to speech",
+      "tts",
+      "text reader",
+      "speech synthesis"
+    ],
+    "accept": null,
+    "maxSizeMB": null,
+    "status": "done"
+  },
+  {
+    "id": "transcribe-audio",
+    "name": "Audio Transcription",
+    "category": "audio",
+    "description": "Transcribe audio to text using AI. Supports 100+ languages.",
+    "icon": "📝",
+    "href": "/tools/transcribe-audio",
+    "keywords": [
+      "transcribe audio",
+      "speech to text",
+      "audio to text",
+      "transcription",
+      "speech recognition"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 200,
+    "status": "done"
+  },
+  {
+    "id": "reverse-audio",
+    "name": "Audio Reverser",
+    "category": "audio",
+    "description": "Play an audio file backwards.",
+    "icon": "⏪",
+    "href": "/tools/reverse-audio",
+    "keywords": [
+      "reverse audio",
+      "play backwards",
+      "audio reverser",
+      "backwards audio"
+    ],
+    "accept": "audio/*",
+    "maxSizeMB": 100,
+    "status": "done"
   },
   {
     "id": "convert-audio",
@@ -962,7 +1255,8 @@
       "generate qr"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "qr-scanner",
@@ -978,7 +1272,8 @@
       "qr decoder"
     ],
     "accept": "image/*",
-    "maxSizeMB": 10
+    "maxSizeMB": 10,
+    "status": "done"
   },
   {
     "id": "barcode-generator",
@@ -994,7 +1289,8 @@
       "ean barcode"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "barcode-scanner",
@@ -1010,23 +1306,8 @@
       "barcode decoder"
     ],
     "accept": "image/*",
-    "maxSizeMB": 10
-  },
-  {
-    "id": "remove-metadata",
-    "name": "EXIF Metadata Remover",
-    "category": "privacy",
-    "description": "Strip all metadata from images for privacy.",
-    "icon": "🔒",
-    "href": "/tools/remove-metadata",
-    "keywords": [
-      "remove metadata",
-      "strip exif",
-      "delete metadata",
-      "privacy tool"
-    ],
-    "accept": "image/*",
-    "maxSizeMB": 50
+    "maxSizeMB": 10,
+    "status": "done"
   },
   {
     "id": "encrypt-file",
@@ -1042,7 +1323,8 @@
       "password protect file"
     ],
     "accept": "*",
-    "maxSizeMB": 200
+    "maxSizeMB": 200,
+    "status": "done"
   },
   {
     "id": "hash-file",
@@ -1060,7 +1342,8 @@
       "hash generator"
     ],
     "accept": "*",
-    "maxSizeMB": 500
+    "maxSizeMB": 500,
+    "status": "done"
   },
   {
     "id": "password-generator",
@@ -1076,7 +1359,8 @@
       "random password"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "password-checker",
@@ -1092,7 +1376,8 @@
       "password test"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "steganography",
@@ -1108,7 +1393,8 @@
       "hidden data"
     ],
     "accept": "image/*",
-    "maxSizeMB": 20
+    "maxSizeMB": 20,
+    "status": "done"
   },
   {
     "id": "weather-forecast",
@@ -1125,7 +1411,8 @@
       "climate"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "my-ip",
@@ -1142,7 +1429,8 @@
       "ip location"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "sunrise-sunset",
@@ -1159,7 +1447,8 @@
       "sun times"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "air-quality",
@@ -1176,7 +1465,8 @@
       "air quality index"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "dictionary",
@@ -1193,7 +1483,8 @@
       "define"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "thesaurus",
@@ -1210,7 +1501,8 @@
       "word alternatives"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "book-lookup",
@@ -1227,7 +1519,8 @@
       "book search"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "holiday-calendar",
@@ -1244,7 +1537,8 @@
       "national holidays"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "loan-calculator",
@@ -1260,7 +1554,8 @@
       "amortization"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "german-salary-calculator",
@@ -1277,7 +1572,8 @@
       "german tax calculator"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "mortgage-calculator",
@@ -1293,7 +1589,8 @@
       "house calculator"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "sip-calculator",
@@ -1309,7 +1606,8 @@
       "sip returns"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "compound-interest",
@@ -1325,7 +1623,8 @@
       "compound interest formula"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "tax-calculator",
@@ -1341,7 +1640,8 @@
       "tax computation"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "tip-calculator",
@@ -1357,7 +1657,8 @@
       "restaurant tip"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "inflation-calculator",
@@ -1373,7 +1674,8 @@
       "purchasing power"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "crypto-prices",
@@ -1390,7 +1692,8 @@
       "crypto tracker"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "scientific-calculator",
@@ -1406,7 +1709,8 @@
       "trigonometry"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "graph-plotter",
@@ -1422,7 +1726,8 @@
       "plot function"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "unit-converter",
@@ -1438,7 +1743,8 @@
       "metric converter"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "percentage-calculator",
@@ -1454,7 +1760,8 @@
       "math percentage"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "fraction-calculator",
@@ -1470,7 +1777,8 @@
       "divide fractions"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "base-converter",
@@ -1487,7 +1795,8 @@
       "hex converter"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "date-difference",
@@ -1503,7 +1812,8 @@
       "days calculator"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "age-calculator",
@@ -1519,7 +1829,8 @@
       "age from date"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "bmi-calculator",
@@ -1535,7 +1846,8 @@
       "weight calculator"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "calorie-estimator",
@@ -1600,7 +1912,8 @@
       "reading score"
     ],
     "accept": ".txt",
-    "maxSizeMB": 5
+    "maxSizeMB": 5,
+    "status": "done"
   },
   {
     "id": "docx-to-pdf-t",
@@ -1736,7 +2049,8 @@
       "data visualization"
     ],
     "accept": ".csv,.json",
-    "maxSizeMB": 5
+    "maxSizeMB": 5,
+    "status": "done"
   },
   {
     "id": "csv-visualizer",
@@ -1753,7 +2067,8 @@
       "csv plotter"
     ],
     "accept": ".csv",
-    "maxSizeMB": 10
+    "maxSizeMB": 10,
+    "status": "done"
   },
   {
     "id": "json-viewer",
@@ -1770,7 +2085,8 @@
       "json visualizer"
     ],
     "accept": ".json",
-    "maxSizeMB": 5
+    "maxSizeMB": 5,
+    "status": "done"
   },
   {
     "id": "table-generator",
@@ -1787,7 +2103,8 @@
       "data table"
     ],
     "accept": ".csv,.json",
-    "maxSizeMB": 5
+    "maxSizeMB": 5,
+    "status": "done"
   },
   {
     "id": "gradient-generator",
@@ -1804,7 +2121,8 @@
       "css generator"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "box-shadow-generator",
@@ -1820,7 +2138,8 @@
       "shadow css"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "border-radius-generator",
@@ -1836,7 +2155,8 @@
       "radius generator"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "clip-path-generator",
@@ -1852,7 +2172,8 @@
       "polygon css"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "color-palette",
@@ -1869,7 +2190,8 @@
       "design colors"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "css-grid-generator",
@@ -1885,7 +2207,8 @@
       "grid layout"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "flexbox-playground",
@@ -1902,7 +2225,8 @@
       "flex layout"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "font-pairing",
@@ -1918,6 +2242,7 @@
       "typography",
       "font preview"
     ],
+    "status": "done",
     "accept": null,
     "maxSizeMB": null
   },
@@ -1936,7 +2261,8 @@
       "json minifier"
     ],
     "accept": ".json",
-    "maxSizeMB": 5
+    "maxSizeMB": 5,
+    "status": "done"
   },
   {
     "id": "regex-tester",
@@ -1953,7 +2279,8 @@
       "test regex"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "cron-builder",
@@ -1970,7 +2297,8 @@
       "crontab"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "lorem-ipsum",
@@ -1987,7 +2315,8 @@
       "lorem generator"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "user-agent-parser",
@@ -2004,7 +2333,8 @@
       "ua string"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "htaccess-generator",
@@ -2021,7 +2351,8 @@
       "htaccess tool"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "robots-txt-generator",
@@ -2038,7 +2369,8 @@
       "robots file"
     ],
     "accept": null,
-    "maxSizeMB": null
+    "maxSizeMB": null,
+    "status": "done"
   },
   {
     "id": "markdown-html",
