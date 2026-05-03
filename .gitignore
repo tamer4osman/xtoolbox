@@ -10,3 +10,6 @@ test-results/
 playwright-report/
 *.tar.gz
 *.jpeg
+
+# Agent state
+.openclaw/
