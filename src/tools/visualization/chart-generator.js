@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'chart-generator',
+  name: 'Chart Generator',
+  category: 'visualization',
+  description: 'Create bar, line, pie, doughnut, and radar charts from data.',
+  icon: '📊',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="chart-container">
