@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'break-even',
+  name: 'Break-Even Calculator',
+  category: 'business',
+  description: 'Calculate the break-even point for your business.',
+  icon: '📈',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="breakeven-container">
