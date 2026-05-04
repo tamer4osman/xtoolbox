@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'discount-calculator',
+  name: 'Discount Calculator',
+  category: 'business',
+  description: 'Calculate savings and final price after discounts.',
+  icon: '💰',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="discount-container">

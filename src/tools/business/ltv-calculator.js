@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'ltv-calculator',
+  name: 'LTV Calculator',
+  category: 'business',
+  description: 'Calculate Customer Lifetime Value (LTV).',
+  icon: '💎',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="ltv-container">
