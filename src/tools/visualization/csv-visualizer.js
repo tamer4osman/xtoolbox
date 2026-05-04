@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'csv-visualizer',
+  name: 'CSV Visualizer',
+  category: 'visualization',
+  description: 'Upload a CSV file and instantly generate charts.',
+  icon: '📈',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="csv-container">
