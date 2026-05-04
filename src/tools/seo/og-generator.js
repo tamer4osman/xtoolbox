@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'og-generator',
+  name: 'Open Graph Generator',
+  category: 'seo',
+  description: 'Generate Open Graph tags for social media sharing.',
+  icon: '🔗',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="og-container">

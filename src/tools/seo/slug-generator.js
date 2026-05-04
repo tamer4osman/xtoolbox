@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'slug-generator',
+  name: 'URL Slug Generator',
+  category: 'seo',
+  description: 'Convert titles into search-friendly URL slugs.',
+  icon: '🔗',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="slug-container">

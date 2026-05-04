@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'structured-data-generator',
+  name: 'Structured Data Generator',
+  category: 'seo',
+  description: 'Generate JSON-LD structured data for SEO.',
+  icon: '📄',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="sd-container">

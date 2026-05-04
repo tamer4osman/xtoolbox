@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'sitemap-generator',
+  name: 'Sitemap Generator',
+  category: 'seo',
+  description: 'Generate XML sitemaps for search engines.',
+  icon: '🗺️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="sitemap-container">
