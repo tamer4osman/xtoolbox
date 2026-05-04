@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'text-diff',
+  name: 'Text Diff',
+  category: 'text',
+  description: 'Compare two texts and see the differences.',
+  icon: '🔀',
+  status: 'done'
+};
+
 export function initTextDiff() {
   const leftInput = document.getElementById('left-input');
   const rightInput = document.getElementById('right-input');
