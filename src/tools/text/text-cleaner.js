@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'text-cleaner',
+  name: 'Text Cleaner',
+  category: 'text',
+  description: 'Clean and normalize text.',
+  icon: '🧹',
+  status: 'done'
+};
+
 export function render() {
   return `
     <div class="tool-container">
