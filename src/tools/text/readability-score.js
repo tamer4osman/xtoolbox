@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'readability-score',
+  name: 'Readability Score',
+  category: 'text',
+  description: 'Check text readability with Flesch-Kincaid grade level and reading ease.',
+  icon: '📊',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="readability-container">
