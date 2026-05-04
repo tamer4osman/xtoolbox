@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'blood-pressure-checker',
+  name: 'Blood Pressure Checker',
+  category: 'health',
+  description: 'Check and categorize blood pressure readings.',
+  icon: '❤️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="bp-container">

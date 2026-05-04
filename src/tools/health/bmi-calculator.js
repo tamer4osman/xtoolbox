@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'bmi-calculator',
+  name: 'BMI Calculator',
+  category: 'health',
+  description: 'Calculate Body Mass Index with health category and visual gauge.',
+  icon: '⚖️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="bmi-container">
