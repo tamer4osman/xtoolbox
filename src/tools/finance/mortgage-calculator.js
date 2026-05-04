@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'mortgage-calculator',
+  name: 'Mortgage Calculator',
+  category: 'finance',
+  description: 'Calculate monthly mortgage payments and total cost.',
+  icon: '🏠',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

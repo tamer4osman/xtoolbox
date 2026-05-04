@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'loan-calculator',
+  name: 'Loan Calculator',
+  category: 'finance',
+  description: 'Calculate EMI, total interest, and view amortization schedule.',
+  icon: '💰',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
