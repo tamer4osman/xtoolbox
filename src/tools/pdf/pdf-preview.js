@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'pdf-preview',
+  name: 'PDF Previewer',
+  category: 'pdf',
+  description: 'Preview PDF pages and thumbnails.',
+  icon: '👁️',
+  status: 'done'
+};
+
 import { renderAllPages } from './pdf-utils.js';
 import { formatFileSize } from '../../utils/file.js';
 

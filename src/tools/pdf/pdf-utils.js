@@ -1,5 +1,6 @@
 import { PDFDocument } from 'pdf-lib';
 import { downloadBlob } from '../../utils/file.js';
+import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
 /**
  * Load a PDF from File object
@@ -21,7 +22,7 @@ export function getPdfPageCount(pdfDoc) {
  */
 export async function renderPdfPage(file, pageNumber, scale = 1.0) {
   const pdfjsLib = await import('pdfjs-dist');
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
   const bytes = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
@@ -43,7 +44,7 @@ export async function renderPdfPage(file, pageNumber, scale = 1.0) {
  */
 export async function renderAllPages(file, scale = 0.3) {
   const pdfjsLib = await import('pdfjs-dist');
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
   const bytes = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
@@ -68,7 +69,7 @@ export async function renderAllPages(file, scale = 0.3) {
  */
 export async function extractTextFromPdf(file) {
   const pdfjsLib = await import('pdfjs-dist');
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
   const bytes = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
