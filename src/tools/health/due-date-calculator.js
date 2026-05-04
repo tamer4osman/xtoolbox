@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'due-date-calculator',
+  name: 'Pregnancy Due Date Calculator',
+  category: 'health',
+  description: 'Estimate due date from last period with weekly milestones.',
+  icon: '👶',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="due-container">

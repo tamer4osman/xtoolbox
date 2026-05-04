@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'calorie-estimator',
+  name: 'Calorie Estimator',
+  category: 'health',
+  description: 'Estimate daily calorie needs based on age, weight, height, and activity level.',
+  icon: '🔥',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="calorie-container">

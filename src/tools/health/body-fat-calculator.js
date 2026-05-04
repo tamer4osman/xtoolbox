@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'body-fat-calculator',
+  name: 'Body Fat Calculator',
+  category: 'health',
+  description: 'Estimate body fat percentage using US Navy method.',
+  icon: '⚖️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="fat-container">
