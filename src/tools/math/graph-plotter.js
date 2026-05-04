@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'graph-plotter',
+  name: 'Graph Plotter',
+  category: 'math',
+  description: 'Plot mathematical functions with zoom and pan.',
+  icon: '📈',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="graph-container">

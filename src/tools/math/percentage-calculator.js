@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'percentage-calculator',
+  name: 'Percentage Calculator',
+  category: 'math',
+  description: 'Calculate percentages: what is X% of Y, X is what % of Y, % change.',
+  icon: '%',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="calc-container">
