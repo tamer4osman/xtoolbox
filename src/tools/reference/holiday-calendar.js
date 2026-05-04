@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'holiday-calendar',
+  name: 'Public Holiday Calendar',
+  category: 'reference',
+  description: 'View public holidays for any country and year.',
+  icon: '📅',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

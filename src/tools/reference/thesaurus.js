@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'thesaurus',
+  name: 'Thesaurus',
+  category: 'reference',
+  description: 'Find synonyms, antonyms, and related words.',
+  icon: '📖',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

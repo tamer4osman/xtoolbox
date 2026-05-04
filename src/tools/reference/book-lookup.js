@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'book-lookup',
+  name: 'Book Info Lookup',
+  category: 'reference',
+  description: 'Search for book information by ISBN, title, or author.',
+  icon: '📚',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

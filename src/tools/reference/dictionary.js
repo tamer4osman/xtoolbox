@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'dictionary',
+  name: 'Dictionary',
+  category: 'reference',
+  description: 'Look up word definitions, phonetics, examples, and audio pronunciation.',
+  icon: '📖',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
