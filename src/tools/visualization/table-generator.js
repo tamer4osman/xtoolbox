@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'table-generator',
+  name: 'Table Generator',
+  category: 'visualization',
+  description: 'Create styled tables and export as image, PDF, or CSV.',
+  icon: '📋',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="table-container">
