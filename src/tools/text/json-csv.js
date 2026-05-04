@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'json-csv',
+  name: 'JSON to CSV',
+  category: 'text',
+  description: 'Convert JSON array to CSV format.',
+  icon: '📊',
+  status: 'done'
+};
+
 export function initJsonCsv() {
   const textarea = document.getElementById('json-input');
   const output = document.getElementById('csv-output');

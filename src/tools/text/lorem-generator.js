@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'lorem-generator',
+  name: 'Lorem Generator',
+  category: 'text',
+  description: 'Generate placeholder text.',
+  icon: '📝',
+  status: 'done'
+};
+
 export function initLoremGenerator() {
   const generateBtn = document.getElementById('generate-lorem');
   const output = document.getElementById('lorem-output');
