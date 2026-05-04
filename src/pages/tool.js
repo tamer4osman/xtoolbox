@@ -114,19 +114,26 @@ export async function renderTool(toolId) {
   }
 }
 
+const toolModules = import.meta.glob('../tools/*/*.{js,jsx}');
+
 async function loadToolModule(category, toolId) {
   const cacheKey = `${category}/${toolId}`;
   if (toolCache[cacheKey]) return toolCache[cacheKey];
-  let module;
-  try {
-    module = await import(`../tools/${category}/${toolId}.js`);
-  } catch (error) {
-    try {
-      module = await import(`../tools/${category}/${toolId}.jsx`);
-    } catch (jsxError) {
-      throw new Error(`Could not load tool module: ${error.message} / ${jsxError.message}`);
-    }
+
+  let modulePathJs = `../tools/${category}/${toolId}.js`;
+  let modulePathJsx = `../tools/${category}/${toolId}.jsx`;
+
+  let loader = toolModules[modulePathJs] || toolModules[modulePathJsx];
+
+  if (!loader) {
+    throw new Error(`Could not find tool module for ${category}/${toolId}`);
   }
-  toolCache[cacheKey] = module;
-  return module;
+
+  try {
+    const module = await loader();
+    toolCache[cacheKey] = module;
+    return module;
+  } catch (error) {
+    throw new Error(`Failed to load tool module: ${error.message}`);
+  }
 }
