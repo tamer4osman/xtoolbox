@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'weather-forecast',
+  name: 'Weather Forecast',
+  category: 'weather',
+  description: 'Get current weather and 7-day forecast for any city.',
+  icon: '🌤️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
