@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'barcode-scanner',
+  name: 'Barcode Scanner',
+  category: 'qr',
+  description: 'Scan and decode barcodes from images.',
+  icon: '📷',
+  status: 'done'
+};
+
 import { Html5Qrcode } from 'html5-qrcode';
 
 export function render(container) {

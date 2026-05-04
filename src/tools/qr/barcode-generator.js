@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'barcode-generator',
+  name: 'Barcode Generator',
+  category: 'qr',
+  description: 'Generate barcodes in Code128, EAN-13, UPC-A formats.',
+  icon: '📊',
+  status: 'done'
+};
+
 import JsBarcode from 'jsbarcode';
 
 export function render(container) {
