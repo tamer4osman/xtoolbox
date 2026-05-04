@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'hash-file',
+  name: 'File Hash Generator',
+  category: 'privacy',
+  description: 'Generate MD5, SHA-1, SHA-256, SHA-512 checksums for files.',
+  icon: '#️⃣',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

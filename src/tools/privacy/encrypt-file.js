@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'encrypt-file',
+  name: 'File Encryption',
+  category: 'privacy',
+  description: 'Encrypt or decrypt files with AES-GCM password protection.',
+  icon: '🔐',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
