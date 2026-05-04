@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'password-checker',
+  name: 'Password Strength Checker',
+  category: 'privacy',
+  description: 'Check how strong your password is with detailed feedback.',
+  icon: '🛡️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

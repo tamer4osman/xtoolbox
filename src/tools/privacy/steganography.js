@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'steganography',
+  name: 'Steganography',
+  category: 'privacy',
+  description: 'Hide secret text messages inside images.',
+  icon: '🕵️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

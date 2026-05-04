@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'remove-metadata',
+  name: 'Metadata Remover',
+  category: 'privacy',
+  description: 'Remove hidden metadata from various file types.',
+  icon: '🔒',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
