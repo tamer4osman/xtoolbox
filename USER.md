@@ -1,17 +1,10 @@
 # USER.md - About Your Human
 
-_Learn about the person you're helping. Update this as you go._
-
-- **Name:**
-- **What to call them:**
-- **Pronouns:** _(optional)_
-- **Timezone:**
-- **Notes:**
+- **Name:** (To be confirmed)
+- **Timezone:** Europe/Istanbul (based on current time offset)
+- **OS:** Windows
+- **Notes:** Building a comprehensive client-side toolbox application with 178+ tools. Prefers clean, deduplicated data and standardized tool configurations.
 
 ## Context
 
-_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
-
----
-
-The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
+The user is focused on scaling "ToolBox", a free online tools website with 100% client-side processing. They value data integrity, proper module loading (WASM/Workers), and a high-quality user experience.

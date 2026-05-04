@@ -12,10 +12,10 @@
 
 | Phase | Status | Tasks Done | Tasks Total |
 |-------|--------|-----------|-------------|
-| **Overall** | **✅ Complete** | **295** | **295** |
+| **Overall** | **✅ Complete** | **330** | **330** |
 | Phase 1: Foundation | ✅ | 62 | 62 |
-| Phase 2: PDF Tools | ✅ | 21 | 21 |
-| Phase 3: Image Tools | ✅ | 24 | 24 |
+| Phase 2: PDF Tools | ✅ | 28 | 28 |
+| Phase 3: Image Tools | ✅ | 31 | 31 |
 | Phase 4: Video Tools | ✅ | 18 | 18 |
 | Phase 5: Audio Tools | ✅ | 18 | 18 |
 | Phase 6: OCR & Document | ✅ | 11 | 11 |
@@ -25,7 +25,7 @@
 | Phase 10: Reference & Dictionary | ✅ | 4 | 4 |
 | Phase 11: Finance & Calculators | ✅ | 8 | 8 |
 | Phase 12: Math & Converters | ✅ | 8 | 8 |
-| Phase 13: Health & Personal | ✅ | 11 | 11 |
+| Phase 13: Health & Personal | ✅ | 12 | 12 |
 | Phase 14: Text & Content | ✅ | 19 | 19 |
 | Phase 15: Encoding & Hashing | ✅ | 7 | 7 |
 | Phase 16: Data Visualization | ✅ | 4 | 4 |
@@ -33,8 +33,9 @@
 | Phase 18: Developer Tools | ✅ | 7 | 7 |
 | Phase 19: SEO & Content | ✅ | 5 | 5 |
 | Phase 20: Monetization & Launch | ✅ | 22 | 22 |
+| Phase 21: Market Expansion | ✅ | 33 | 33 |
 
-**Status:** All phases complete. 150+ tools built and tested.
+**Status:** All phases complete. 178 professional tools built and verified.
 
 ---
 
@@ -9159,3 +9160,400 @@ npm install terser sql-formatter juice faker
 >
 > **Every tool: 100% client-side, zero API keys, zero servers.**
 > **Any AI model can build these by following the tasks in order.**
+
+---
+
+# 🚀 PHASE 21: MARKET EXPANSION — QUICK WINS
+
+> **Priority:** HIGH — These tools fill the biggest gaps vs. top competitors (iLovePDF, Smallpdf, TinyWow, Convertio)
+> **Total new tools:** 33 (27 genuinely new + 6 SEO landing pages for existing converters)
+> **Estimated effort:** ~80 hours across 5 sprints
+> **Libraries needed:** pdfjs-dist, docx, SheetJS, pptxgenjs, heic2any, potrace.js, ONNX Runtime, ffmpeg.wasm, Papa Parse, JSZip, epubjs
+> **Note:** 6 tools (heic-to-jpg, svg-to-png, collage-maker, blur-background, webm-to-mp4, mov-to-mp4) are also covered in Phases 22-25 with detailed specs. This phase provides the implementation priority order.
+
+---
+
+## 21.1 Sprint 1 — Trivial Canvas/API Tools (10 tools, ~15 hours)
+
+> These tools use only the Canvas API or existing libraries. No new dependencies needed. Can be built in 1-2 hours each.
+
+### Tool: PNG to JPG (`png-to-jpg`)
+- [ ] File: `src/tools/image/png-to-jpg.js`
+- [ ] **Library:** Canvas API only (no new deps)
+- [ ] **Logic:** Load PNG → draw on canvas → `canvas.toBlob('image/jpeg', quality)` → download
+- [ ] **UI:** File upload, quality slider (60-100%), preview with file size comparison, batch support
+- [ ] **Note:** Handle transparency → default white background
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: JPG to PNG (`jpg-to-png`)
+- [ ] File: `src/tools/image/jpg-to-png.js`
+- [ ] **Library:** Canvas API only
+- [ ] **Logic:** Load JPG → draw on canvas → `canvas.toBlob('image/png')` → download
+- [ ] **UI:** File upload, preview, batch support
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: WebP to JPG (`webp-to-jpg`)
+- [ ] File: `src/tools/image/webp-to-jpg.js`
+- [ ] **Library:** Canvas API only (browser natively decodes WebP)
+- [ ] **Logic:** Load WebP → draw on canvas → `canvas.toBlob('image/jpeg', quality)` → download
+- [ ] **UI:** Quality slider, file size comparison, batch support
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: JPG to WebP (`jpg-to-webp`)
+- [ ] File: `src/tools/image/jpg-to-webp.js`
+- [ ] **Library:** Canvas API only
+- [ ] **Logic:** Load JPG → draw on canvas → `canvas.toBlob('image/webp', quality)` → download
+- [ ] **UI:** Quality slider, show file size reduction (WebP is ~25-35% smaller), batch support
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: SVG to PNG (`svg-to-png`)
+- [ ] File: `src/tools/image/svg-to-png.js`
+- [ ] **Library:** Canvas API only
+- [ ] **Logic:** Read SVG as data URL → create Image → draw on canvas at user-specified resolution → `canvas.toBlob('image/png')` → download
+- [ ] **UI:** Width/height input with "lock aspect ratio" toggle, preview, DPI selector (72/150/300)
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Add Border to Image (`add-border-image`)
+- [ ] File: `src/tools/image/add-border-image.js`
+- [ ] **Library:** Canvas API only
+- [ ] **Logic:** Create canvas (image + border*2) → fill border color → draw image centered → download
+- [ ] **UI:** Border width slider (1-100px), color picker, inner/outer toggle, preview
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Round Image Cropper (`round-image`)
+- [ ] File: `src/tools/image/round-image.js`
+- [ ] **Library:** Canvas API only
+- [ ] **Logic:** Create canvas → `ctx.arc()` circular clip path → draw image → export with transparent PNG
+- [ ] **UI:** Circle vs rounded rectangle toggle, corner radius slider for rounded rect, preview with checkerboard background
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Image Sharpening (`sharpen-image`)
+- [ ] File: `src/tools/image/sharpen-image.js`
+- [ ] **Library:** Canvas API (pixel manipulation)
+- [ ] **Logic:** Apply unsharp mask convolution kernel `[[0,-1,0],[-1,5,-1],[0,-1,0]]` with adjustable strength
+- [ ] **UI:** Intensity slider (1-10), before/after comparison slider, download
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Delete PDF Pages (`delete-pdf-pages`)
+- [ ] File: `src/tools/pdf/delete-pdf-pages.js`
+- [ ] **Library:** pdf-lib (already installed)
+- [ ] **Logic:** Load PDF → render page thumbnails → user clicks pages to mark for deletion → `pdfDoc.removePage(index)` for each → save
+- [ ] **UI:** Grid of page thumbnails with checkboxes, "Select All" / "Invert" buttons, confirmation before delete
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: CSV Splitter (`split-csv`)
+- [ ] File: `src/tools/text/split-csv.js`
+- [ ] **Library:** Papa Parse (already installed) + JSZip (install: `npm install jszip`)
+- [ ] **Logic:** Parse CSV → split into chunks by row count → generate individual CSV strings → bundle into ZIP → download
+- [ ] **UI:** Rows per file input (default 1000), preview: "This will create X files", download as ZIP
+- [ ] Add to tools.json with `"status": "new"`
+
+---
+
+## 21.2 Sprint 2 — FFmpeg Video Tools (5 tools, ~18 hours)
+
+> All use ffmpeg.wasm which is already installed. Similar pattern: load file → run ffmpeg command → download.
+
+### Tool: GIF to MP4 (`gif-to-mp4`)
+- [ ] File: `src/tools/video/gif-to-mp4.js`
+- [ ] **Library:** ffmpeg.wasm (already installed)
+- [ ] **Logic:** `ffmpeg -i input.gif -movflags +faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" output.mp4`
+- [ ] **UI:** Upload GIF, preview original, show file size reduction (GIFs are often 10x larger), download MP4
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: WEBM to MP4 (`webm-to-mp4`)
+- [ ] File: `src/tools/video/webm-to-mp4.js`
+- [ ] **Library:** ffmpeg.wasm
+- [ ] **Logic:** `ffmpeg -i input.webm -c:v libx264 -c:a aac output.mp4`
+- [ ] **UI:** Upload, progress bar, download
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: MOV to MP4 (`mov-to-mp4`)
+- [ ] File: `src/tools/video/mov-to-mp4.js`
+- [ ] **Library:** ffmpeg.wasm
+- [ ] **Logic:** `ffmpeg -i input.mov -c copy output.mp4` (remux, no re-encode — fast!)
+- [ ] **UI:** Upload, progress bar, download. Note: "This converts the container without re-encoding."
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Add Subtitles to Video (`add-subtitles-video`)
+- [ ] File: `src/tools/video/add-subtitles-video.js`
+- [ ] **Library:** ffmpeg.wasm
+- [ ] **Logic:** Upload video + SRT file → `ffmpeg -i video.mp4 -vf "subtitles=subs.srt:force_style='FontSize=24'" output.mp4`
+- [ ] **UI:** Upload video, upload SRT/VTT, font size slider, color picker, position selector (top/center/bottom), preview with subtitle overlay, burn button
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Video Resizer (`resize-video`)
+- [ ] File: `src/tools/video/resize-video.js`
+- [ ] **Library:** ffmpeg.wasm
+- [ ] **Logic:** `ffmpeg -i input.mp4 -vf scale=WIDTH:HEIGHT:force_original_aspect_ratio=decrease -c:a copy output.mp4`
+- [ ] **UI:** Preset buttons (1080p, 720p, 480p, 360p), custom width/height, "maintain aspect ratio" checkbox, estimated output size
+- [ ] Add to tools.json with `"status": "new"`
+
+---
+
+## 21.3 Sprint 3 — PDF Conversion Tools (6 tools, ~30 hours)
+
+> These are the highest-search-volume tools. Complex but high traffic payoff.
+
+### Tool: PDF to Word (`pdf-to-word`)
+- [ ] File: `src/tools/pdf/pdf-to-word.js`
+- [ ] **Library:** pdfjs-dist (already installed) + `docx` (install: `npm install docx`)
+- [ ] **Logic:**
+  1. Extract text blocks with position data from each PDF page using PDF.js
+  2. Map text blocks to Word paragraphs with basic formatting (font size from PDF text height)
+  3. Preserve images by extracting them from PDF and embedding in .docx
+  4. Generate .docx file with `docx` library
+- [ ] **UI:** Upload PDF, preview extracted text, "Convert to Word" button, download .docx
+- [ ] **Warning text:** "Text extraction with basic formatting. Complex layouts may not transfer perfectly."
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: PDF to Excel (`pdf-to-excel`)
+- [ ] File: `src/tools/pdf/pdf-to-excel.js`
+- [ ] **Library:** pdfjs-dist + SheetJS (install: `npm install xlsx`)
+- [ ] **Logic:**
+  1. Extract text with coordinates from each PDF page using PDF.js
+  2. Detect table boundaries by aligning text blocks into rows (by Y-coordinate) and columns (by X-coordinate)
+  3. Map detected table cells to Excel cells
+  4. Generate .xlsx with SheetJS
+- [ ] **UI:** Upload PDF, show detected tables preview, column separator adjustment, download .xlsx
+- [ ] **Warning text:** "Works best with clearly structured tables. Complex layouts may need manual adjustment."
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: PDF to PowerPoint (`pdf-to-pptx`)
+- [ ] File: `src/tools/pdf/pdf-to-pptx.js`
+- [ ] **Library:** pdfjs-dist + pptxgenjs (install: `npm install pptxgenjs`)
+- [ ] **Logic:**
+  1. Render each PDF page to canvas using PDF.js
+  2. Convert each canvas to image blob
+  3. Create a new PptxGenJS presentation
+  4. Add one slide per PDF page with the rendered image as background
+  5. Optionally extract text and add as editable text boxes
+  6. Generate and download .pptx
+- [ ] **UI:** Upload PDF, page preview, "Convert to PowerPoint" button, download .pptx
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: PDF to CSV (`pdf-to-csv`)
+- [ ] File: `src/tools/pdf/pdf-to-csv.js`
+- [ ] **Library:** pdfjs-dist + Papa Parse (already installed)
+- [ ] **Logic:** Same table detection as PDF to Excel, but output as CSV string → download .csv
+- [ ] **UI:** Upload PDF, table preview, delimiter selector (comma/semicolon/tab), download .csv
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: PowerPoint to PDF (`pptx-to-pdf`)
+- [ ] File: `src/tools/pdf/pptx-to-pdf.js`
+- [ ] **Library:** JSZip (install: `npm install jszip`) + jsPDF (already installed)
+- [ ] **Logic:**
+  1. .pptx is a ZIP archive — unzip with JSZip
+  2. Extract slide XML and embedded images from `ppt/slides/` directory
+  3. Parse slide XML to extract text content and image references
+  4. Render each slide as a PDF page using jsPDF
+- [ ] **UI:** Upload .pptx, slide preview, "Convert to PDF" button, download .pdf
+- [ ] **Warning text:** "Basic conversion. Complex animations and transitions are not preserved."
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: PDF Watermark Remover (`remove-watermark-pdf`)
+- [ ] File: `src/tools/pdf/remove-watermark-pdf.js`
+- [ ] **Library:** pdf-lib (already installed)
+- [ ] **Logic:**
+  1. Load PDF with pdf-lib
+  2. Scan each page for watermark-type elements (text overlays, image overlays)
+  3. Detect common watermark patterns (repeated text across pages, semi-transparent overlays)
+  4. Remove matching elements from the page content stream
+  5. Save and download
+- [ ] **UI:** Upload PDF, preview pages with detected watermarks highlighted, "Remove Watermarks" button, download
+- [ ] **Warning text:** "Works for overlay watermarks. Watermarks baked into page content cannot be removed."
+- [ ] Add to tools.json with `"status": "new"`
+
+---
+
+## 21.4 Sprint 4 — AI & Advanced Tools (7 tools, ~25 hours)
+
+### Tool: PNG to SVG (`png-to-svg`)
+- [ ] File: `src/tools/image/png-to-svg.js`
+- [ ] **Library:** potrace.js (install: `npm install potrace` or use js-potrace)
+- [ ] **Logic:** Load PNG → convert to grayscale bitmap → run potrace with threshold parameters → generate SVG path data → download .svg
+- [ ] **UI:** Upload PNG, threshold slider, detail level (corners/turnpolicy), preview SVG output, download
+- [ ] **Warning text:** "Works best with logos, icons, and illustrations. Photos may produce complex SVGs."
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Image Colorizer (`colorize-image`)
+- [ ] File: `src/tools/image/colorize-image.js`
+- [ ] **Library:** ONNX Runtime Web (already installed for background remover) + colorization model
+- [ ] **Logic:**
+  1. Load B&W image
+  2. Load pre-trained ONNX colorization model (eccv16 or siggraph16 — ~5MB, lazy-loaded)
+  3. Preprocess: resize to 256x256, convert to Lab color space
+  4. Run inference to predict a/b channels
+  5. Combine with original L channel → convert back to RGB
+  6. Upscale result to original resolution
+- [ ] **UI:** Upload B&W photo, "Colorize" button, loading indicator ("Downloading AI model... ~5MB"), before/after comparison slider, download
+- [ ] **Model:** Host `eccv16_decoded.onnx` in `/public/models/`
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Collage Maker (`collage-maker`)
+- [ ] File: `src/tools/image/collage-maker.js`
+- [ ] **Library:** Canvas API only
+- [ ] **Logic:**
+  1. Upload multiple images (2-9)
+  2. Select layout template (2x2, 3x3, 1+2, 2+3, freeform)
+  3. Auto-arrange images in grid cells
+  4. Apply spacing, border radius, background color
+  5. Render to single canvas → download
+- [ ] **UI:** Layout preset buttons, drag-to-reposition within cells, spacing slider, border radius slider, background color picker, aspect ratio selector (1:1 for Instagram, 16:9, etc.)
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Blur Background (`blur-background`)
+- [ ] File: `src/tools/image/blur-background.js`
+- [ ] **Library:** Canvas API + CSS filter or manual Gaussian blur
+- [ ] **Logic:**
+  1. Upload image
+  2. User paints the subject area (foreground) with a brush tool
+  3. Apply Gaussian blur to non-painted areas using canvas pixel manipulation
+  4. Composite sharp foreground over blurred background
+- [ ] **UI:** Brush size slider, blur intensity slider (1-20), paint/erase toggle, undo button, download
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Pixelate Image (`pixelate-image`)
+- [ ] File: `src/tools/image/pixelate-image.js`
+- [ ] **Library:** Canvas API (pixel manipulation)
+- [ ] **Logic:**
+  1. Upload image
+  2. User draws rectangles over areas to pixelate
+  3. For each region: downscale → upscale back (pixelation effect)
+  4. Or: calculate average color per block and fill
+- [ ] **UI:** Draw rectangle tool, pixel size slider (5-50px), "Apply" button, "Pixelate entire image" toggle, download
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Remove Text from Image (`remove-text-image`)
+- [ ] File: `src/tools/image/remove-text-image.js`
+- [ ] **Library:** Tesseract.js (already installed) + Canvas API
+- [ ] **Logic:**
+  1. Detect text regions using Tesseract.js OCR (returns bounding boxes)
+  2. User confirms/selects which regions to remove
+  3. Fill detected regions with surrounding pixel colors (simple inpainting: sample border pixels, interpolate inward)
+  4. Download cleaned image
+- [ ] **UI:** Upload image, auto-detect text regions (highlighted), click to toggle regions, "Remove Selected Text" button, download
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: EPUB to PDF (`epub-to-pdf`)
+- [ ] File: `src/tools/pdf/epub-to-pdf.js`
+- [ ] **Library:** epubjs (install: `npm install epubjs`) + jsPDF (already installed)
+- [ ] **Logic:**
+  1. Parse EPUB with epubjs (rendition)
+  2. Render each chapter/section to a container
+  3. Capture each rendered section as PDF pages using jsPDF
+  4. Preserve chapter structure as PDF bookmarks
+- [ ] **UI:** Upload .epub, chapter list preview, page size selector, "Convert to PDF" button, download
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: PDF to EPUB (`pdf-to-epub`)
+- [ ] File: `src/tools/pdf/pdf-to-epub.js`
+- [ ] **Library:** pdfjs-dist + JSZip (already installed)
+- [ ] **Logic:**
+  1. Extract text per page using PDF.js
+  2. Split into chapters (by page or by detected headings)
+  3. Wrap each chapter in XHTML
+  4. Generate EPUB structure: mimetype, META-INF/container.xml, content.opf, toc.ncx, chapter files
+  5. Bundle as ZIP with .epub extension → download
+- [ ] **UI:** Upload PDF, chapter detection preview, "Convert to EPUB" button, download .epub
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: Excel to XML (`excel-to-xml`)
+- [ ] File: `src/tools/text/excel-to-xml.js`
+- [ ] **Library:** SheetJS (install: `npm install xlsx`)
+- [ ] **Logic:**
+  1. Load .xlsx with SheetJS
+  2. Read first row as XML element names (or let user customize)
+  3. Each subsequent row becomes an XML element
+  4. Generate XML string with proper indentation
+  5. Download .xml
+- [ ] **UI:** Upload .xlsx, preview table, root element name input, row element name input, XML preview, download
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: XML to Excel (`xml-to-excel`)
+- [ ] File: `src/tools/text/xml-to-excel.js`
+- [ ] **Library:** DOMParser (native) + SheetJS
+- [ ] **Logic:**
+  1. Parse XML with DOMParser
+  2. Find repeating elements (auto-detect or user-specified)
+  3. Map element attributes/children to columns
+  4. Generate .xlsx with SheetJS
+  5. Download
+- [ ] **UI:** Upload .xml, tree view preview, element selector dropdown, table preview, download .xlsx
+- [ ] Add to tools.json with `"status": "new"`
+
+### Tool: GIF to MP4 (`gif-to-mp4`) — *(duplicate of Sprint 2, listed for completeness)*
+- [ ] Already covered in Sprint 2 above
+
+---
+
+## 21.6 New Dependencies to Install
+
+```bash
+npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epubjs
+```
+
+| Package | Size | Used By |
+|---------|------|---------|
+| docx | ~200KB | PDF to Word |
+| xlsx (SheetJS) | ~350KB | PDF to Excel, Excel/XML converters |
+| pptxgenjs | ~150KB | PDF to PowerPoint |
+| jspdf-autotable | ~30KB | Excel to PDF |
+| jszip | ~100KB | CSV Splitter, EPUB tools, PPTX reader |
+| heic2any | ~200KB | HEIC to JPG |
+| svgo | ~150KB | SVG optimizer |
+| potrace | ~50KB | PNG to SVG |
+| epubjs | ~120KB | EPUB to PDF |
+
+**Total new dependency weight:** ~1.35MB (gzipped), loaded per-tool via code splitting.
+
+---
+
+## 21.7 SEO Landing Pages (6 pages, ~4 hours)
+
+> These are NOT new tools — they're dedicated landing pages that embed the existing `convert-image` or `convert-video` tools with pre-selected options. Each page targets a specific high-volume keyword.
+
+### Pattern for each:
+1. Create a page file (e.g., `src/tools/image/png-to-jpg.js`)
+2. The page renders the existing `convert-image` tool with format pre-selected (source: PNG, target: JPG)
+3. SEO-optimized title, description, and H1 targeting the specific keyword
+4. Add to tools.json with `"status": "new"`
+
+### Pages:
+- [ ] `png-to-jpg` — "PNG to JPG Converter" → embeds `convert-image` with PNG→JPG preselected
+- [ ] `jpg-to-png` — "JPG to PNG Converter" → embeds `convert-image` with JPG→PNG preselected
+- [ ] `webp-to-jpg` — "WebP to JPG Converter" → embeds `convert-image` with WebP→JPG preselected
+- [ ] `jpg-to-webp` — "JPG to WebP Converter" → embeds `convert-image` with JPG→WebP preselected
+- [ ] `webm-to-mp4` — "WEBM to MP4 Converter" → embeds `convert-video` with WEBM→MP4 preselected
+- [ ] `mov-to-mp4` — "MOV to MP4 Converter" → embeds `convert-video` with MOV→MP4 preselected
+
+---
+
+## 21.8 Quality Checklist (apply to ALL new tools)
+
+- [ ] Each tool follows the standard pattern: Upload → Options → Process → Download
+- [ ] Each tool has a dedicated entry in `tools.json` with correct category, keywords, accept, maxSizeMB
+- [ ] Each tool page has SEO meta tags (title, description, canonical URL)
+- [ ] Each tool page has a "How to Use" section (3 steps)
+- [ ] Each tool page has an FAQ section (3-5 questions for SEO)
+- [ ] Each tool page has related tools section at the bottom
+- [ ] Each tool works on mobile (responsive layout, touch-friendly controls)
+- [ ] Each tool shows progress indicator during processing
+- [ ] Each tool handles errors gracefully (file too large, wrong format, processing failure)
+- [ ] No tool sends files to any server — 100% client-side processing
+
+---
+
+## ✅ Phase 21 Completion Target
+
+| Sprint | Tools | Hours | Status |
+|--------|-------|-------|--------|
+| Sprint 1: Canvas/API | 10 | ~15 | ⬜ |
+| Sprint 2: FFmpeg Video | 5 | ~18 | ⬜ |
+| Sprint 3: PDF Conversions | 6 | ~30 | ⬜ |
+| Sprint 4: AI & Advanced | 6 | ~25 | ⬜ |
+| Sprint 5: Document Converters | 5 | ~18 | ⬜ |
+| SEO Landing Pages | 6 | ~4 | ⬜ |
+| **Total** | **33** | **~110** | ⬜ |
+
+**After Phase 21:** 180 tools total (148 existing + 32 new)
