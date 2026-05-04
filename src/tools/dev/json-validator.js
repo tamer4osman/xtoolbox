@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'json-validator',
+  name: 'JSON Validator & Formatter',
+  category: 'dev',
+  description: 'Validate, format, and minify JSON with error line numbers.',
+  icon: '✅',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="validator-container">

@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'lorem-ipsum',
+  name: 'Lorem Ipsum Generator',
+  category: 'dev',
+  description: 'Generate placeholder text by paragraphs, words, or sentences.',
+  icon: '📝',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="lorem-container">
