@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'keyword-density',
+  name: 'Keyword Density Checker',
+  category: 'seo',
+  description: 'Analyze keyword frequency in your content.',
+  icon: '📊',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="density-container">

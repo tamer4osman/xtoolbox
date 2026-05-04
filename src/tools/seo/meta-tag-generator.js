@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'meta-tag-generator',
+  name: 'Meta Tag Generator',
+  category: 'seo',
+  description: 'Generate SEO meta tags for your website.',
+  icon: '🏷️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="meta-container">
