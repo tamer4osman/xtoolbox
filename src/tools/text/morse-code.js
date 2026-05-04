@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'morse-code',
+  name: 'Morse Code',
+  category: 'encoding',
+  description: 'Morse code translator.',
+  icon: '📡',
+  status: 'done'
+};
+
 export function initMorseCode() {
   const input = document.getElementById('morse-input');
   const output = document.getElementById('morse-output');
