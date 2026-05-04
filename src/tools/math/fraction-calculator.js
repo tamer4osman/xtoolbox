@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'fraction-calculator',
+  name: 'Fraction Calculator',
+  category: 'math',
+  description: 'Add, subtract, multiply, and divide fractions with steps.',
+  icon: '½',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="calc-container">

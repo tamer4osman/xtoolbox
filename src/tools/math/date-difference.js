@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'date-difference',
+  name: 'Date Difference Calculator',
+  category: 'math',
+  description: 'Calculate the exact difference between two dates in days, weeks, months.',
+  icon: '📅',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="calc-container">
