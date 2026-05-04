@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'character-counter',
+  name: 'Character Counter',
+  category: 'text',
+  description: 'Count characters in text.',
+  icon: '🔢',
+  status: 'done'
+};
+
 export function render() {
   return `
     <div class="tool-container">

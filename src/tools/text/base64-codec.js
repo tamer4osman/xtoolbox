@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'base64-codec',
+  name: 'Base64 Codec',
+  category: 'encoding',
+  description: 'Encode and decode Base64.',
+  icon: '🔤',
+  status: 'done'
+};
+
 export function initBase64Codec() {
   const input = document.getElementById('base64-input');
   const output = document.getElementById('base64-output');

@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'case-converter',
+  name: 'Case Converter',
+  category: 'text',
+  description: 'Convert text to different cases.',
+  icon: 'Aa',
+  status: 'done'
+};
+
 export function render() {
   return `
     <div class="tool-container">
