@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'json-viewer',
+  name: 'JSON Viewer',
+  category: 'visualization',
+  description: 'View JSON data as a collapsible tree with syntax highlighting.',
+  icon: '🌳',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="json-container">
