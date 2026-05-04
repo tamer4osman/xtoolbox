@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'hash-generator',
+  name: 'Hash Generator',
+  category: 'encoding',
+  description: 'Generate hash from text.',
+  icon: '#️⃣',
+  status: 'done'
+};
+
 export function initHashGenerator() {
   const input = document.getElementById('hash-input');
   const algorithmSelect = document.getElementById('hash-algorithm');

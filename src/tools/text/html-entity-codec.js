@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'html-entity-codec',
+  name: 'HTML Entity Encoder',
+  category: 'encoding',
+  description: 'Encode HTML entities.',
+  icon: '🏷️',
+  status: 'done'
+};
+
 export function initHtmlEntityCodec() {
   const input = document.getElementById('html-entity-input');
   const output = document.getElementById('html-entity-output');
