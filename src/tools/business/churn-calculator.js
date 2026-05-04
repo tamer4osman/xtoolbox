@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'churn-calculator',
+  name: 'Churn Rate Calculator',
+  category: 'business',
+  description: 'Calculate customer churn rate and retention.',
+  icon: '📉',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="churn-container">
