@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'sunrise-sunset',
+  name: 'Sunrise & Sunset Times',
+  category: 'weather',
+  description: 'Calculate sunrise, sunset, golden hour, and day length for any location.',
+  icon: '🌅',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
