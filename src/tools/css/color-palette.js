@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'color-palette',
+  name: 'Color Palette Generator',
+  category: 'css',
+  description: 'Generate harmonious color palettes: complementary, analogous, triadic.',
+  icon: '🎨',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="palette-container">

@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'clip-path-generator',
+  name: 'CSS Clip-Path Generator',
+  category: 'css',
+  description: 'Visual polygon editor for CSS clip-path.',
+  icon: '✂️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="clip-container">

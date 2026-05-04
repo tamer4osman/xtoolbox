@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'box-shadow-generator',
+  name: 'Box Shadow Generator',
+  category: 'css',
+  description: 'Visual editor for CSS box-shadow with live preview.',
+  icon: '🔲',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="shadow-container">

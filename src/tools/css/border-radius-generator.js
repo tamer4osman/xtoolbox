@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'border-radius-generator',
+  name: 'Border Radius Generator',
+  category: 'css',
+  description: 'Visual editor for CSS border-radius with per-corner control.',
+  icon: '⬜',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="br-container">
