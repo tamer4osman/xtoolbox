@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'url-codec',
+  name: 'URL Encoder',
+  category: 'encoding',
+  description: 'Encode and decode URL.',
+  icon: '🔗',
+  status: 'done'
+};
+
 export function initUrlCodec() {
   const input = document.getElementById('url-input');
   const output = document.getElementById('url-output');
