@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'scientific-calculator',
+  name: 'Scientific Calculator',
+  category: 'math',
+  description: 'Full scientific calculator with trig, log, sqrt, and more.',
+  icon: '🔢',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="calc-container">

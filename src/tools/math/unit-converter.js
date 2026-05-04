@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'unit-converter',
+  name: 'Unit Converter',
+  category: 'math',
+  description: 'Convert between 200+ units across 20 categories.',
+  icon: '🔄',
+  status: 'done'
+};
+
 export function render(container) {
   const categories = {
     length: { name: 'Length', units: ['meter', 'kilometer', 'centimeter', 'millimeter', 'mile', 'yard', 'foot', 'inch'] },
