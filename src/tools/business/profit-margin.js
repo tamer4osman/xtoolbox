@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'profit-margin',
+  name: 'Profit Margin Calculator',
+  category: 'business',
+  description: 'Calculate gross and net profit margins.',
+  icon: '💵',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="margin-container">

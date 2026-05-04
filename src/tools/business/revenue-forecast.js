@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'revenue-forecast',
+  name: 'Revenue Forecaster',
+  category: 'business',
+  description: 'Project future revenue based on growth rates.',
+  icon: '📊',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="forecast-container">

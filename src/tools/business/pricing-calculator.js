@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'pricing-calculator',
+  name: 'Pricing Calculator',
+  category: 'business',
+  description: 'Calculate optimal product pricing based on costs.',
+  icon: '🏷️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="pricing-container">

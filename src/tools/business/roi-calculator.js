@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'roi-calculator',
+  name: 'ROI Calculator',
+  category: 'business',
+  description: 'Calculate Return on Investment (ROI) for projects.',
+  icon: '💹',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="roi-container">
