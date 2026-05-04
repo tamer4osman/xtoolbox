@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'sleep-calculator',
+  name: 'Sleep Calculator',
+  category: 'health',
+  description: 'Find the best times to wake up based on sleep cycles.',
+  icon: '😴',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="sleep-container">

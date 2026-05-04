@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'water-intake-calculator',
+  name: 'Water Intake Calculator',
+  category: 'health',
+  description: 'Calculate daily hydration needs based on weight.',
+  icon: '💧',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="water-container">

@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'ovulation-calculator',
+  name: 'Ovulation Calculator',
+  category: 'health',
+  description: 'Predict ovulation and fertile windows.',
+  icon: '📅',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="ovu-container">
