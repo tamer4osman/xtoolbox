@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'gradient-generator',
+  name: 'CSS Gradient Generator',
+  category: 'css',
+  description: 'Visual editor for linear, radial, and conic CSS gradients.',
+  icon: '🎨',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="gradient-container">

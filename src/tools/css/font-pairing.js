@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'font-pairing',
+  name: 'Font Pairing Preview',
+  category: 'css',
+  description: 'Preview Google Fonts pairings for headings and body text.',
+  icon: '🔤',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="font-container">
