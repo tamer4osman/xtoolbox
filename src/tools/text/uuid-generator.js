@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'uuid-generator',
+  name: 'UUID Generator',
+  category: 'encoding',
+  description: 'Generate UUIDs v4 randomly.',
+  icon: '🎲',
+  status: 'done'
+};
+
 export function initUuidGenerator() {
   const generateBtn = document.getElementById('generate-uuid');
   const output = document.getElementById('uuid-output');
