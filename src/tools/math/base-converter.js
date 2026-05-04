@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'base-converter',
+  name: 'Number Base Converter',
+  category: 'math',
+  description: 'Convert between decimal, binary, hexadecimal, and octal.',
+  icon: '🔢',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="converter-container">

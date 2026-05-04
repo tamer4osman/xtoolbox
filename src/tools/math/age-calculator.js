@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'age-calculator',
+  name: 'Age Calculator',
+  category: 'math',
+  description: 'Calculate exact age in years, months, days. Next birthday and zodiac sign.',
+  icon: '🎂',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="calc-container">
