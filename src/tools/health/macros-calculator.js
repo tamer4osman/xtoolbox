@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'macros-calculator',
+  name: 'Macros Calculator',
+  category: 'health',
+  description: 'Calculate daily macronutrient requirements.',
+  icon: '🥗',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="macros-container">

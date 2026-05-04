@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'ideal-weight',
+  name: 'Ideal Weight Calculator',
+  category: 'health',
+  description: 'Calculate ideal weight range based on height and gender.',
+  icon: '🎯',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="weight-container">

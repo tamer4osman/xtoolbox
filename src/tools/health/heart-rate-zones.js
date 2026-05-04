@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'heart-rate-zones',
+  name: 'Heart Rate Zones',
+  category: 'health',
+  description: 'Calculate target heart rate zones for exercise.',
+  icon: '💓',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="hr-container">
