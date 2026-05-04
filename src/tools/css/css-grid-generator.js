@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'css-grid-generator',
+  name: 'CSS Grid Generator',
+  category: 'css',
+  description: 'Visual builder for CSS Grid layouts with copy-ready code.',
+  icon: '📐',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="grid-container">

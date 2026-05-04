@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'flexbox-playground',
+  name: 'Flexbox Playground',
+  category: 'css',
+  description: 'Interactive CSS Flexbox tester with live preview and code output.',
+  icon: '📦',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="flex-container">
