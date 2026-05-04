@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'tip-calculator',
+  name: 'Tip Calculator',
+  category: 'finance',
+  description: 'Calculate tip amount and split the bill between people.',
+  icon: '💳',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

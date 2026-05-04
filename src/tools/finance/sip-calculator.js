@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'sip-calculator',
+  name: 'SIP Calculator',
+  category: 'finance',
+  description: 'Calculate returns on Systematic Investment Plan (SIP).',
+  icon: '📈',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

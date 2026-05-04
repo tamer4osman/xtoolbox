@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'tax-calculator',
+  name: 'Tax Estimator',
+  category: 'finance',
+  description: 'Estimate income tax based on income and deductions.',
+  icon: '🧾',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
