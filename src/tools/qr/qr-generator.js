@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'qr-generator',
+  name: 'QR Code Generator',
+  category: 'qr',
+  description: 'Generate QR codes from text, URLs, vCard, or WiFi credentials.',
+  icon: '📱',
+  status: 'done'
+};
+
 import QRCode from 'qrcode';
 import { downloadDataUrl } from '../../utils/file.js';
 
