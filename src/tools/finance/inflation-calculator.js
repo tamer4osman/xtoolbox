@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'inflation-calculator',
+  name: 'Inflation Calculator',
+  category: 'finance',
+  description: 'Calculate the value of money adjusted for inflation over time.',
+  icon: '📊',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

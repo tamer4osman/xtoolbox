@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'german-salary-calculator',
+  name: 'German Net Salary Calculator',
+  category: 'finance',
+  description: 'Calculate German net salary with tax class, church tax, and social contributions.',
+  icon: '🇩🇪',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
