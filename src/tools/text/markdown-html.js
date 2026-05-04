@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'markdown-html',
+  name: 'Markdown to HTML',
+  category: 'text',
+  description: 'Convert Markdown to HTML with live preview.',
+  icon: '📄',
+  status: 'done'
+};
+
 import { marked } from 'marked';
 
 export function initMarkdownHtml() {
