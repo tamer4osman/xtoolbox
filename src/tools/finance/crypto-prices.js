@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'crypto-prices',
+  name: 'Crypto Price Tracker',
+  category: 'finance',
+  description: 'Track live prices of top 50 cryptocurrencies.',
+  icon: '₿',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">

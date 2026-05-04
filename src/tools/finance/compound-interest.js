@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'compound-interest',
+  name: 'Compound Interest Calculator',
+  category: 'finance',
+  description: 'Calculate compound interest with different compounding frequencies.',
+  icon: '💹',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
