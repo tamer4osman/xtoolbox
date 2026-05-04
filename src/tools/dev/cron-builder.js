@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'cron-builder',
+  name: 'Cron Expression Builder',
+  category: 'dev',
+  description: 'Build cron expressions visually. See human-readable description and next runs.',
+  icon: '⏰',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="cron-container">

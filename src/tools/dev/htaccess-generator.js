@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'htaccess-generator',
+  name: 'HTAccess Generator',
+  category: 'dev',
+  description: 'Generate .htaccess rules for redirects, caching, and security.',
+  icon: '⚙️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="htaccess-container">
