@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'my-ip',
+  name: 'My IP Address',
+  category: 'weather',
+  description: 'Show your public IP address, location, ISP, and timezone.',
+  icon: '🌐',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
