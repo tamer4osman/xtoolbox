@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'air-quality',
+  name: 'Air Quality Index',
+  category: 'weather',
+  description: 'Check air quality index and pollutant levels for any location.',
+  icon: '🌬️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
