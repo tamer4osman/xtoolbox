@@ -1,0 +1,15 @@
+# MEMORY.md - Long-Term Memory
+
+## Key Decisions & Context
+
+- **PDF Worker Strategy**: All PDF tools use local worker assets via Vite's `?url` syntax to avoid CDN blocking issues.
+- **Tool Registry**: `src/data/tools.json` is the primary registry used by the app, while `toolsList.json` is kept in sync for external tracking.
+- **Standardization**: All tool files must use `.js` extension, export a `toolConfig`, and a `render` function.
+- **Deduplication**: Tools are deduplicated by ID and by (Name, Category) pairs to ensure a clean UI.
+
+## Recent Achievements (2026-05-04)
+
+- Standardized and registered 24 previously hidden tools, bringing the total count to 178.
+- Resolved major PDF worker loading errors by migrating to local imports.
+- Cleaned up and deduplicated the entire tool library manifest.
+- Renamed all `.jsx` files to `.js` and injected missing `toolConfig` exports.
