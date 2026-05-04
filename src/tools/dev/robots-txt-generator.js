@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'robots-txt-generator',
+  name: 'Robots.txt Generator',
+  category: 'dev',
+  description: 'Generate robots.txt files for SEO with visual rule builder.',
+  icon: '🤖',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="robots-container">

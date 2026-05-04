@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'regex-tester',
+  name: 'Regex Tester',
+  category: 'dev',
+  description: 'Test regular expressions with live matching and capture groups.',
+  icon: '🔍',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="regex-container">

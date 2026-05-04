@@ -1,3 +1,12 @@
+export const toolConfig = {
+  id: 'user-agent-parser',
+  name: 'User Agent Parser',
+  category: 'dev',
+  description: 'Parse browser, OS, and device info from user agent strings.',
+  icon: '🖥️',
+  status: 'done'
+};
+
 export function render(container) {
   container.innerHTML = `
     <div class="ua-container">
