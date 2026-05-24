@@ -1,8 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**We are the tools you need every day.**
-
-180 free online tools. 100% client-side processing — your files never leave your device.
+**223 free online tools. 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -23,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-21 phases. All phases complete.
+23 phases. Phases 1–22 complete. Phase 23 planned.
 
 | Phase | Status |
 |-------|--------|
@@ -48,8 +46,11 @@ npm run test       # → Playwright tests
 | Phase 19: Fun & Games | ✅ Done (3 tools) |
 | Phase 20: Monetization & Launch | ✅ Done |
 | Phase 21: Market Expansion | ✅ Done (33 tools) |
+| Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
+| Phase 22: Gap Fill I | ✅ Done (6 tools) |
+| Phase 23: Gap Fill II | ✅ Done (14 tools) |
 
-**Total tools:** 178 unique verified tools.
+**Total tools:** 223 unique verified tools.
 
 ## Categories
 
@@ -114,19 +115,19 @@ npm run test       # → Playwright tests
 
 | Tool | Description | Library |
 |------|-------------|---------|
-| GIF to MP4 | Convert animated GIF to MP4 (smaller) | ffmpeg.wasm |
-| WEBM to MP4 | Convert WEBM to MP4 format | ffmpeg.wasm |
-| MOV to MP4 | Convert iPhone MOV to MP4 | ffmpeg.wasm |
-| Add Subtitles | Burn SRT/VTT subtitles into video | ffmpeg.wasm |
-| Video Resizer | Change video resolution | ffmpeg.wasm |
+| GIF to MP4 | Convert animated GIF to MP4 (smaller) | ffmpeg.wasm ✅ |
+| WEBM to MP4 | Convert WEBM to MP4 format | ffmpeg.wasm ✅ |
+| MOV to MP4 | Convert iPhone MOV to MP4 | ffmpeg.wasm ✅ |
+| Add Subtitles | Burn SRT/VTT subtitles into video | ffmpeg.wasm ✅ |
+| Video Resizer | Change video resolution | ffmpeg.wasm ✅ |
 
 ### 📝 Text & File Tools (+3)
 
 | Tool | Description | Library |
 |------|-------------|---------|
-| Excel to XML | Convert .xlsx spreadsheets to XML | SheetJS + DOMParser |
-| XML to Excel | Convert XML files to .xlsx | DOMParser + SheetJS |
-| CSV Splitter | Split large CSV by row count | Papa Parse + JSZip |
+| Excel to XML | Convert .xlsx spreadsheets to XML | SheetJS + DOMParser ✅ |
+| XML to Excel | Convert XML files to .xlsx | DOMParser + SheetJS ✅ |
+| CSV Splitter | Split large CSV by row count | Papa Parse + JSZip ✅ |
 
 ## Project Structure
 
@@ -166,8 +167,8 @@ toolbox/
 │   │   ├── about.js / privacy.js / terms.js / not-found.js
 │   │
 │   ├── tools/                    ← Tool implementations
-│   │   ├── pdf/                  ← 28 PDF tools
-│   │   ├── image/                ← 32 image tools
+│   │   ├── pdf/                  ← 29 PDF tools (+1 Phase 22)
+│   │   ├── image/                ← 34 image tools (+2 Phase 22, +1 Phase 23)
 │   │   ├── video/                ← 15 video tools
 │   │   ├── audio/                ← 10 audio tools
 │   │   ├── ocr/                  ← 4 OCR tools
@@ -176,22 +177,50 @@ toolbox/
 │   │   ├── weather/              ← 4 weather tools
 │   │   ├── reference/            ← 4 reference tools
 │   │   ├── finance/              ← 9 finance tools
-│   │   ├── math/                 ← 8 math tools
-│   │   ├── health/               ← 4 health tools
-│   │   ├── text/                 ← 21 text tools
+│   │   ├── math/                 ← 11 math tools (+3 Phase 23)
+│   │   ├── health/               ← 12 health tools
+│   │   ├── text/                 ← 26 text tools (+2 Phase 22, +3 Phase 23)
 │   │   ├── encoding/             ← 7 encoding tools
 │   │   ├── visualization/        ← 4 visualization tools
-│   │   ├── css/                  ← 8 CSS tools
-│   │   ├── dev/                  ← 7 developer tools
-│   │   └── fun/                  ← 3 fun tools
+│   │   ├── css/                  ← 10 CSS tools (+2 Phase 23)
+│   │   ├── dev/                  ← 10 developer tools (+2 Phase 23, +1 Phase 23)
+│   │   ├── productivity/         ← 3 tools (+2 Phase 22, +1 Phase 23) — NEW CATEGORY
+│   │   └── fun/                  ← 5 fun tools (+1 Phase 22, +1 Phase 23)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 180 tool definitions
-│   │   ├── categories.json       ← 18 categories
+│   │   ├── tools.json            ← 200 tool definitions (178 + 22 planned)
+│   │   ├── categories.json       ← 19 categories (productivity added in Phase 22)
 │   │   └── countries.json        ← 50 countries
 │   │
 │   └── sw.js                     ← Service worker
 ```
+
+## Phase 22 Tools (Gap Fill I — Complete, 6 tools)
+
+---
+
+## Phase 23 Tools (Gap Fill II — Complete, 14 tools)
+
+| # | Tool | File | Category | Confirmed absent because… |
+|---|------|------|----------|--------------------------|
+| 1 | Stopwatch with Lap Timer | `productivity/stopwatch.js` | `productivity` | `presentation-timer` counts down; `pomodoro-timer` is cyclic. No start/pause/lap/reset stopwatch |
+| 2 | Number to Words | `text/number-to-words.js` | `text` | 13 math tools and 20+ text tools — none converts numerals to written English ("1234" → "one thousand...") |
+| 3 | IP Subnet / CIDR Calculator | `dev/subnet-calculator.js` | `dev` | `my-ip.js` shows your IP only. No subnet/network/broadcast/host-range calculator anywhere |
+| 4 | CSS Animation Generator | `css/animation-generator.js` | `css` | 8 CSS tools: gradient/shadow/clip-path/grid/flexbox etc. Zero cover `@keyframes` |
+| 5 | Color Format Converter | `css/color-converter.js` | `css` | `color-palette.js` generates harmonies; `image-color-picker` picks from images. No HEX↔RGB↔HSL↔HSV↔CMYK converter |
+| 6 | Text to Table Converter | `text/text-to-table.js` | `text` | `table-generator.js` = manual row/col UI builder. No tool parses pasted CSV/TSV/pipe text → HTML or Markdown table |
+| 7 | Image Filter Gallery | `image/image-filters.js` | `image` | `brightness-contrast.js` = sliders; `grayscale-sepia.js` = 2 effects. No named preset filter gallery (Warm/Cool/Fade/Vivid etc.) |
+| 8 | cURL Command Builder | `dev/curl-builder.js` | `dev` | `nginx-generator.js` and `docker-generator.js` exist (Phase 44). No cURL builder anywhere in 44 phases |
+| 9 | Time Duration Calculator | `math/duration-calculator.js` | `math` | `date-difference.js` = days between two dates. No tool adds/subtracts time durations (2h 30m + 1h 45m = 4h 15m) |
+| 10 | Aspect Ratio Calculator | `math/aspect-ratio.js` | `math` | `resize-image.js` = pixel resizer. No tool simplifies a ratio or finds equivalent dimensions for a given ratio |
+| 11 | Roman Numeral Converter | `text/roman-numerals.js` | `text` | `base-converter.js` handles binary/octal/hex/decimal — Roman numerals are non-positional and absent from all 44 phases |
+| 12 | Text Line Sorter | `text/line-sorter.js` | `text` | All 20+ text tools are format converters or analyzers. No tool sorts lines alphabetically, numerically, by length, or randomly |
+| 13 | Palindrome Checker | `fun/palindrome.js` | `fun` | Text, fun, student, and dev tools all checked — no palindrome detector in any of the 44 phases |
+| 14 | URL Parser & Builder | `dev/url-parser.js` | `dev` | `url-codec.js` (Phase 15) percent-encodes strings. Completely different from parsing URL structure into protocol/host/port/path/query/hash |
+
+**No new dependencies.** All 14 tools use only browser built-ins: `URL` API, `Date`, Canvas API, vanilla JS.
+
+---
 
 ## Deploy
 

@@ -12,7 +12,7 @@
 
 | Phase | Status | Tasks Done | Tasks Total |
 |-------|--------|-----------|-------------|
-| **Overall** | **✅ Complete** | **330** | **330** |
+| **Overall** | **✅ Complete** | **460** | **460** |
 | Phase 1: Foundation | ✅ | 62 | 62 |
 | Phase 2: PDF Tools | ✅ | 28 | 28 |
 | Phase 3: Image Tools | ✅ | 31 | 31 |
@@ -34,8 +34,10 @@
 | Phase 19: SEO & Content | ✅ | 5 | 5 |
 | Phase 20: Monetization & Launch | ✅ | 22 | 22 |
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
+| Phase 22: Format Converters | ✅ | 15 | 15 |
+| Phase 23: Gap Fill II | ✅ | 27 | 27 |
 
-**Status:** All phases complete. 178 professional tools built and verified.
+**Status:** 223 professional tools built. All phases complete.
 
 ---
 
@@ -9556,4 +9558,534 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 | SEO Landing Pages | 6 | ~4 | ⬜ |
 | **Total** | **33** | **~110** | ⬜ |
 
-**After Phase 21:** 180 tools total (148 existing + 32 new)
+**After Phase 21:** 178 tools total (verified unique tools)
+
+---
+
+# 🔍 PHASE 22: GAP FILL I (6 tools)
+
+> **Audit:** Every candidate verified by function against all 323 tools across all 44 phases.
+> **Corrections:** `screen-recorder` removed (Phase 22 original, Task 22.3.2) and `meme-generator` removed (Phase 24, Task 24.6.4) — both already in the plan.
+
+## Phase 22 Quick Reference
+
+| Tool | File | Category | Client-side tech | New deps |
+|------|------|----------|-----------------|---------|
+| Countdown Timer | `productivity/countdown-timer.js` | `productivity` (new) | `Date`, `setInterval`, Web Audio API | none |
+| Drawing Pad | `productivity/drawing-pad.js` | `productivity` | Canvas API, JS flood fill | none |
+| Color Blindness Simulator | `image/color-blindness.js` | `image` | Canvas `getImageData`/`putImageData`, color matrices | none |
+| ASCII Art Generator | `text/ascii-art.js` | `text` | `figlet` (bundled via Vite) | `figlet` |
+| Text to Handwriting | `text/text-to-handwriting.js` | `text` | Canvas API + `@fontsource/*` (bundled, no CDN) | `@fontsource/caveat` + 4 more |
+| Typing Speed Test | `fun/typing-test.js` | `fun` | Vanilla JS, `localStorage` | none |
+
+**Install:** `npm install figlet @fontsource/caveat @fontsource/dancing-script @fontsource/kalam @fontsource/satisfy @fontsource/pacifico`
+
+---
+
+## 22.1 Countdown Timer
+
+**Why new:** `presentation-timer.js` (Phase 43) counts down a fixed number of minutes. No tool counts down to a specific calendar date/time.
+
+- [ ] File: `src/tools/productivity/countdown-timer.js`
+- [ ] Date + time pickers for target; label input; DD:HH:MM:SS display; SVG progress ring; shareable URL via hash encoding; Web Audio chime at zero
+- [ ] `startCountdown(targetDate)`: `setInterval` every 1s, compute `diff = target - Date.now()`, extract d/h/m/s, update display and ring `stroke-dashoffset`
+- [ ] Add to `tools.json` — category: `productivity`
+- [ ] Create `productivity` category in `categories.json`
+- [ ] SEO: title "Countdown Timer — Count Down to Any Date | Free"; 3-step How-To; FAQ
+
+## 22.2 Drawing Pad
+
+**Why new:** Phase 25 embeds a draw tool *inside* the photo editor (`canvas-editor.js`). No standalone freehand drawing pad tool file exists.
+
+- [ ] File: `src/tools/productivity/drawing-pad.js`
+- [ ] Tools: pen (freehand), line, rectangle, circle, text, eraser, flood fill
+- [ ] Controls: color picker, stroke width (1–50px), opacity, canvas size selector, background color
+- [ ] Undo/redo: 50-step canvas snapshot history (`Ctrl+Z` / `Ctrl+Y`)
+- [ ] Export: PNG, JPG
+- [ ] Flood fill (BFS): `getImageData` → stack-based pixel traversal → `putImageData`
+- [ ] Add to `tools.json` — category: `productivity`
+- [ ] SEO: title "Free Online Drawing Pad — Draw, Paint & Whiteboard"
+
+## 22.3 Color Blindness Simulator
+
+**Why new:** WCAG contrast checker (Phase 44, Task 44.4.5) takes two hex color values and returns a contrast ratio. Applying deuteranopia/protanopia/tritanopia pixel simulation matrices to an uploaded image is a completely different tool absent from all 44 phases.
+
+- [x] File: `src/tools/image/color-blindness.js`
+- [x] Types: Deuteranopia, Protanopia, Tritanopia, Deuteranomaly, Protanomaly, Achromatopsia
+- [x] Color matrices (sRGB) per type applied via `getImageData` pixel loop → `putImageData`
+- [x] UI: upload image, 6 type buttons, before/after comparison slider, download
+- [x] Large images: process in chunks via `requestAnimationFrame` to avoid UI freeze
+- [x] Add to `tools.json` — category: `image`
+
+## 22.4 ASCII Art Generator
+
+**Why new:** All 20+ text tools are format converters. Figlet-style text→ASCII font art is absent from all 44 phases.
+
+- [ ] File: `src/tools/text/ascii-art.js`
+- [ ] Library: `figlet` npm (bundled by Vite — no CDN call)
+- [ ] 10 bundled fonts: Standard, Big, Banner3, Block, Doom, Larry 3D, Slant, Speed, Star Wars, 3D-ASCII
+- [ ] Text input (max 60 chars), font dropdown, width slider (40–120 chars), alignment (left/center/right)
+- [ ] Live preview in monospace `<pre>`; copy button; download as .txt; render to canvas → download PNG
+- [ ] Add to `tools.json` — category: `text`
+
+## 22.5 Text to Handwriting
+
+**Why new:** `note-organizer.js` (Phase 43) is a Markdown editor. No tool renders typed text in a handwriting font on lined paper and exports as PNG.
+
+- [ ] File: `src/tools/text/text-to-handwriting.js`
+- [ ] Fonts via `@fontsource` packages (bundled by Vite — no runtime CDN fetch, offline-safe): Caveat, Dancing Script, Kalam, Satisfy, Pacifico
+- [ ] Paper styles: lined, blank, graph, aged (sepia); ink color picker; font size (16–36px); line spacing slider
+- [ ] Per-character ±2° random tilt for natural look via `ctx.save()/rotate()/restore()`
+- [ ] `document.fonts.ready` before rendering (fonts load instantly as bundled assets)
+- [ ] Download PNG; live canvas preview
+- [ ] Add to `tools.json` — category: `text`
+
+## 22.6 Typing Speed Test
+
+**Why new:** 15 student tools = GPA/citation/flashcard etc. 8 gaming tools = wheel/D&D/RPS etc. 4 fun tools (existing). WPM typing test absent from all 44 phases.
+
+- [ ] File: `src/tools/fun/typing-test.js`
+- [ ] Modes: Timed (15/30/60/120s) and Passage (finish the full text)
+- [ ] Difficulty: Easy / Medium / Hard; 60 passages bundled as JS array
+- [ ] Timer starts on first keypress; correct chars green, incorrect red
+- [ ] Results: gross WPM `(typedChars/5)/(elapsedMs/60000)`, net WPM, accuracy %, errors
+- [ ] `localStorage` history: last 10 results with mini WPM trend
+- [ ] Add to `tools.json` — category: `fun`
+
+## Phase 22 Quality Checklist
+- [ ] All 6 tools: 100% client-side, zero server calls, zero runtime CDN fetches
+- [ ] Each tool: `tools.json` entry, SEO meta, How-To (3 steps), FAQ (3 Qs), related tools
+- [ ] Mobile responsive + touch-friendly
+- [ ] `productivity` category created in `categories.json`
+
+**After Phase 22:** 184 tools across 19 categories.
+
+---
+
+# 🔍 PHASE 23: GAP FILL II (12 tools)
+
+> **Audit:** 20 candidates evaluated against all 323 tools. 12 confirmed genuinely absent. 8 rejected.
+> **Rejected (with reason):** JSON Diff (Phase 40), meme-generator (Phase 24), screen-recorder (Phase 22 original), coin-flip (Phase 30), barcode-from-image (Phase 7 barcode-scanner), base64-image (Phase 44), text-encryption (encrypt-file.js covers this), random-string (password-generator covers this).
+> **All 12 use browser built-ins only — zero new npm dependencies.**
+
+## Phase 23 Quick Reference
+
+| # | Tool | File | Category |
+|---|------|------|----------|
+| 1 | Stopwatch with Lap Timer | `productivity/stopwatch.js` | `productivity` |
+| 2 | Number to Words | `text/number-to-words.js` | `text` |
+| 3 | IP Subnet / CIDR Calculator | `dev/subnet-calculator.js` | `dev` |
+| 4 | PDF Metadata Viewer | `pdf/pdf-info.js` | `pdf` |
+| 5 | CSS Animation Generator | `css/animation-generator.js` | `css` |
+| 6 | Color Format Converter | `css/color-converter.js` | `css` |
+| 7 | Unix Timestamp Converter | `math/timestamp-converter.js` | `math` |
+| 8 | Text to Table Converter | `text/text-to-table.js` | `text` |
+| 9 | Image Filter Gallery | `image/image-filters.js` | `image` |
+| 10 | cURL Command Builder | `dev/curl-builder.js` | `dev` |
+| 11 | Time Duration Calculator | `math/duration-calculator.js` | `math` |
+| 12 | Aspect Ratio Calculator | `math/aspect-ratio.js` | `math` |
+
+---
+
+## 23.1 Stopwatch with Lap Timer
+
+**Why new:** `presentation-timer.js` (Phase 43) is a countdown from N minutes. `pomodoro-timer.js` (Phase 43) is cyclic. No start/pause/lap/reset stopwatch exists.
+
+- [ ] File: `src/tools/productivity/stopwatch.js`
+- [ ] Library: `performance.now()` + `requestAnimationFrame` (smooth, drift-resistant)
+- [ ] Display: HH:MM:SS.cc (centiseconds); Start / Pause / Resume / Lap / Reset buttons
+- [ ] Lap table: lap #, lap time, total elapsed — scrollable, last lap highlighted
+- [ ] "Copy laps" button: copies lap table as plain text
+- [ ] Logic:
+  ```js
+  let startTime, elapsed = 0, running = false, laps = [];
+
+  function start() {
+    startTime = performance.now() - elapsed;
+    running = true;
+    requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    if (!running) return;
+    elapsed = now - startTime;
+    render(elapsed);
+    requestAnimationFrame(tick);
+  }
+
+  function lap() {
+    const lapTime = elapsed - (laps.reduce((s, l) => s + l, 0));
+    laps.push(lapTime);
+    renderLapTable();
+  }
+  ```
+- [ ] Add to `tools.json` — category: `productivity`
+- [ ] SEO: title "Free Online Stopwatch with Lap Timer"
+
+## 23.2 Number to Words Converter
+
+**Why new:** 13 math tools (scientific/graph/unit/pct/fraction/base/date-diff/age/equation/matrix/stats/timezone/latex) and 20+ text tools checked. None converts a numeral to written English.
+
+- [ ] File: `src/tools/text/number-to-words.js`
+- [ ] Library: none — pure JS
+- [ ] Supports: integers up to 999 quadrillion; decimals ("12.50" → "twelve and 50/100"); negative numbers
+- [ ] Options: currency mode ("$1,234.56" → "one thousand two hundred thirty-four dollars and 56/100"); ordinal mode ("3rd" → "third")
+- [ ] Language toggle: English (default); can extend later
+- [ ] UI: number input → live output as user types; copy button; download as .txt
+- [ ] Algorithm: recursive chunking by 1000s with `ones[]`, `teens[]`, `tens[]`, `thousands[]` arrays
+- [ ] Use cases shown: cheque writing, invoice amounts, legal documents
+- [ ] Add to `tools.json` — category: `text`
+
+## 23.3 IP Subnet / CIDR Calculator
+
+**Why new:** `my-ip.js` (Phase 9) uses the wttr.in API to display your current IP address. No tool performs subnet math.
+
+- [ ] File: `src/tools/dev/subnet-calculator.js`
+- [ ] Library: none — bitwise JS arithmetic
+- [ ] Input: IP address + CIDR prefix (e.g., `192.168.1.0/24`) OR IP + subnet mask
+- [ ] Outputs:
+  - Network address, Broadcast address, First/last usable host
+  - Total hosts, Usable hosts
+  - Subnet mask (dotted decimal + hex + binary)
+  - Wildcard mask
+  - IP class (A/B/C/D/E)
+  - Whether IP is private/public/loopback/multicast
+- [ ] Subnet split: "Divide into N subnets" → show each subnet's range
+- [ ] Logic:
+  ```js
+  function ipToInt(ip) {
+    return ip.split('.').reduce((acc, oct) => (acc << 8) | parseInt(oct), 0) >>> 0;
+  }
+  function intToIp(int) {
+    return [(int >>> 24), (int >>> 16) & 255, (int >>> 8) & 255, int & 255].join('.');
+  }
+  function calculate(ip, cidr) {
+    const mask = cidr === 0 ? 0 : (~0 << (32 - cidr)) >>> 0;
+    const network = (ipToInt(ip) & mask) >>> 0;
+    const broadcast = (network | ~mask) >>> 0;
+    return { network: intToIp(network), broadcast: intToIp(broadcast),
+             firstHost: intToIp(network + 1), lastHost: intToIp(broadcast - 1),
+             totalHosts: Math.pow(2, 32 - cidr), usableHosts: Math.pow(2, 32 - cidr) - 2 };
+  }
+  ```
+- [ ] Add to `tools.json` — category: `dev`
+- [ ] SEO: title "IP Subnet Calculator — CIDR, Network Range, Hosts"
+
+## 23.4 PDF Metadata Viewer
+
+**Why new:** `view-exif.js` reads image EXIF data only. `extract-text-pdf.js` extracts text content. `fill-pdf-forms.js` fills form fields. No tool reads PDF document metadata.
+
+- [ ] File: `src/tools/pdf/pdf-info.js`
+- [ ] Library: `pdf-lib` (already installed) + `pdfjs-dist` (already installed)
+- [ ] Reads via pdf-lib: title, author, subject, creator, producer, creation date, modification date, keywords
+- [ ] Reads via PDF.js: page count, page sizes (per page), PDF version, encryption/permissions, embedded fonts list, embedded file attachments
+- [ ] UI: upload PDF → structured info table with copy buttons per field; "Copy all as JSON" button
+- [ ] No file ever leaves the browser
+- [ ] Add to `tools.json` — category: `pdf`, accept: `.pdf`
+- [ ] SEO: title "PDF Metadata Viewer — View PDF Info, Page Count & Properties"
+
+## 23.5 CSS Animation Generator
+
+**Why new:** The 8 CSS tools in Phase 17 are: gradient/box-shadow/border-radius/clip-path/color-palette/grid/flexbox/font-pairing. None generates `@keyframes` animations.
+
+- [ ] File: `src/tools/css/animation-generator.js`
+- [ ] Library: none — pure JS + CSS
+- [ ] Animation presets: Fade In, Fade Out, Slide In (4 directions), Bounce, Rotate, Scale Up/Down, Shake, Pulse, Flip, Swing, Rubber Band
+- [ ] Per-preset controls:
+  - Duration (0.1s – 5s)
+  - Timing function (ease/linear/ease-in/ease-out/ease-in-out/cubic-bezier)
+  - Delay (0s – 3s)
+  - Iteration count (1, 2, 3, infinite)
+  - Fill mode (none/forwards/backwards/both)
+- [ ] Live preview: animated box using the current settings
+- [ ] Output: complete `@keyframes` block + `.animated-element { animation: ... }` CSS
+- [ ] "Custom keyframes" mode: add keyframe stops manually (0%, 50%, 100%)
+- [ ] Copy CSS button; download as .css
+- [ ] Add to `tools.json` — category: `css`
+
+## 23.6 Color Format Converter
+
+**Why new:** `color-palette.js` (Phase 17) generates color harmonies from a seed. `image-color-picker.js` (Phase 24) picks colors from an image. No tool converts between color model formats.
+
+- [ ] File: `src/tools/css/color-converter.js`
+- [ ] Library: none — pure math
+- [ ] Formats: HEX (#RRGGBB / #RGB), RGB, RGBA, HSL, HSLA, HSV, CMYK, CSS named color
+- [ ] Input any format → instant conversion to all others
+- [ ] Live color swatch preview
+- [ ] Copy button per format
+- [ ] Color picker `<input type="color">` as an alternative input method
+- [ ] Conversion functions:
+  ```js
+  function hexToRgb(hex) { /* parse 3/6-char hex */ }
+  function rgbToHsl(r, g, b) { /* standard algorithm */ }
+  function rgbToHsv(r, g, b) { /* V = max(r,g,b)/255 */ }
+  function rgbToCmyk(r, g, b) { /* K=1-max; C=(1-r'-K)/(1-K) etc */ }
+  function rgbToNamed(r, g, b) { /* nearest CSS named color by Euclidean distance */ }
+  ```
+- [ ] Add to `tools.json` — category: `css`
+
+## 23.7 Unix Timestamp Converter
+
+**Why new:** `date-difference.js` calculates the number of days between two calendar dates. `age-calculator.js` computes age from a birth date. Neither converts Unix epoch integers to/from human-readable datetime.
+
+- [ ] File: `src/tools/math/timestamp-converter.js`
+- [ ] Library: none — `Date` API only
+- [ ] Mode A — Timestamp → Human: input Unix timestamp (seconds or ms, auto-detected) → show ISO 8601, local datetime, UTC datetime, relative ("3 hours ago")
+- [ ] Mode B — Human → Timestamp: date/time pickers → show Unix timestamp in seconds and milliseconds
+- [ ] "Now" button fills current timestamp
+- [ ] Timezone display: show result in user's local zone + UTC
+- [ ] Relative time: "X seconds/minutes/hours/days ago or from now"
+- [ ] Add to `tools.json` — category: `math`
+
+## 23.8 Text to Table Converter
+
+**Why new:** `table-generator.js` (visualization category) is a visual builder where users add rows and columns manually via a UI. This tool parses pasted structured text.
+
+- [ ] File: `src/tools/text/text-to-table.js`
+- [ ] Library: none — pure JS string parsing
+- [ ] Input: paste CSV, TSV, pipe-delimited (`|`), or space-aligned text
+- [ ] Auto-detects delimiter; user can override
+- [ ] Output options:
+  - **HTML table** — styled, with `<thead>` and `<tbody>`, copy as HTML
+  - **Markdown table** — GitHub-flavored `| col | col |` format, copy as Markdown
+  - **JSON array** — `[{col1: val1, ...}]` format, copy as JSON
+- [ ] First row as header toggle
+- [ ] Live preview of parsed table
+- [ ] Add to `tools.json` — category: `text`
+
+## 23.9 Image Filter Gallery
+
+**Why new:** `brightness-contrast.js` provides brightness/contrast sliders. `grayscale-sepia.js` provides two specific effects. `photo-to-cartoon.js` provides artistic effects. No tool provides a gallery of named Instagram-style color preset filters.
+
+- [ ] File: `src/tools/image/image-filters.js`
+- [ ] Library: Canvas API — color matrix math only
+- [ ] 20 preset filters applied via `getImageData`/`putImageData` pixel manipulation:
+
+| Filter | Effect |
+|--------|--------|
+| Original | No change |
+| Warm | Boost red/yellow channels |
+| Cool | Boost blue channel |
+| Vivid | Increase saturation |
+| Fade | Reduce contrast + lift blacks |
+| Dramatic | High contrast + slight desaturation |
+| Vintage | Sepia + faded + vignette |
+| Black & White | Luminance grayscale |
+| High Contrast | Boost contrast heavily |
+| Soft Light | Reduce contrast + warm |
+| Moody | Shadows pushed, muted |
+| Neon | Boost saturation + contrast |
+| Matte | Lift shadows, flatten mid-tones |
+| Lemon | Yellow-green shift |
+| Coral | Warm pinkish tones |
+| Ash | Desaturate + cool |
+| Breeze | Cooler blues + slight green |
+| Midnight | Deep blues, crushed shadows |
+| Cream | Warm + low contrast + slightly overexposed |
+| Golden | Strong warm orange/gold |
+
+- [ ] Each filter = a function: `(r,g,b) => [r',g',b']` applied to every pixel
+- [ ] UI: upload image, filter grid (thumbnail previews auto-generated from image), click to apply, intensity slider (0–100% blend with original), download PNG/JPG
+- [ ] Add to `tools.json` — category: `image`
+
+## 23.10 cURL Command Builder
+
+**Why new:** `nginx-generator.js` (Phase 44) and `docker-generator.js` (Phase 44) generate config files. No tool builds cURL commands.
+
+- [ ] File: `src/tools/dev/curl-builder.js`
+- [ ] Library: none — pure JS string building
+- [ ] Inputs:
+  - Method: GET / POST / PUT / PATCH / DELETE / HEAD / OPTIONS
+  - URL input
+  - Headers: key-value pairs (add/remove rows)
+  - Body: JSON editor / Form data (key-value) / Raw text / None
+  - Auth: None / Bearer token / Basic (username+password) / API Key (header name + value)
+  - Options: follow redirects (`-L`), insecure/skip TLS (`-k`), verbose (`-v`), silent (`-s`), output to file (`-o`)
+- [ ] Output: formatted cURL command, updated live as inputs change
+  ```bash
+  curl -X POST "https://api.example.com/users" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer TOKEN" \
+    -d '{"name":"Alice","email":"alice@example.com"}' \
+    -L
+  ```
+- [ ] Copy button; "Try in browser" (for GET — opens fetch in browser console snippet)
+- [ ] Add to `tools.json` — category: `dev`
+
+## 23.11 Time Duration Calculator
+
+**Why new:** `date-difference.js` calculates days between two calendar dates. No tool adds or subtracts time durations.
+
+- [ ] File: `src/tools/math/duration-calculator.js`
+- [ ] Library: none
+- [ ] Three modes:
+  - **Add durations**: input multiple HH:MM:SS rows → total (e.g., for timesheet totals)
+  - **Subtract duration**: start time − duration = end time (or end − start = duration)
+  - **Start + duration = end**: pick a time, add duration, find when it ends
+- [ ] All times normalize (e.g., 75 minutes → 1h 15m)
+- [ ] Supports days too: "2d 3h 45m + 1d 22h 30m = 4d 2h 15m"
+- [ ] Copy result button
+- [ ] Add to `tools.json` — category: `math`
+
+## 23.12 Aspect Ratio Calculator
+
+**Why new:** `resize-image.js` is a pixel resizer with a "lock aspect ratio" toggle. `percentage-calculator.js` calculates percentages. No tool simplifies a ratio or derives missing dimensions.
+
+- [ ] File: `src/tools/math/aspect-ratio.js`
+- [ ] Mode A — Dimensions → Ratio: width × height input → GCD simplification → ratio string (e.g. 1920×1080 → 16:9)
+- [ ] Mode B — Ratio → Missing Dimension: ratio input (W:H) + one known dimension → calculates the other
+- [ ] Mode C — Scale: original dimensions + new width or height → proportionally scaled output
+- [ ] Common presets: 1:1, 4:3, 16:9, 16:10, 3:2, 21:9, 9:16, 4:5
+- [ ] Live rectangle preview that updates to reflect the ratio visually
+- [ ] `gcd(a, b) = b === 0 ? a : gcd(b, a % b)`
+- [ ] Add to `tools.json` — category: `math`
+
+---
+
+## 23.13 Roman Numeral Converter
+
+**Why new:** `base-converter.js` handles binary, octal, decimal, and hexadecimal — all positional numeral systems. Roman numerals are non-positional (I, V, X, L, C, D, M) and are absent from every tool across all 44 phases.
+
+- [ ] File: `src/tools/text/roman-numerals.js`
+- [ ] Library: none — pure JS lookup tables
+- [ ] Mode A — Integer → Roman: input 1–3,999 → Roman numeral string
+- [ ] Mode B — Roman → Integer: input Roman numeral string → decimal integer
+- [ ] Validates input in both directions (e.g. rejects 0, negatives, >3999, invalid Roman sequences)
+- [ ] Shows step-by-step breakdown: "XIV = X(10) + IV(4) = 14"
+- [ ] Common values quick-reference table (I=1, V=5, X=10, L=50, C=100, D=500, M=1000)
+- [ ] Copy button for result
+- [ ] Algorithm:
+  ```js
+  const vals = [[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],
+                [50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
+  function toRoman(n) {
+    let result = '';
+    for (const [v, s] of vals) {
+      while (n >= v) { result += s; n -= v; }
+    }
+    return result;
+  }
+  function fromRoman(s) {
+    const map = {M:1000,D:500,C:100,L:50,X:10,V:5,I:1};
+    return [...s].reduce((acc, c, i, a) =>
+      map[c] < (map[a[i+1]] || 0) ? acc - map[c] : acc + map[c], 0);
+  }
+  ```
+- [ ] Add to `tools.json` — category: `text`
+- [ ] SEO: title "Roman Numeral Converter — Numbers to Roman Numerals Free"
+
+---
+
+## 23.14 Text Line Sorter
+
+**Why new:** All 20+ text tools are format converters (Markdown↔HTML, CSV↔XML, YAML↔JSON etc.) or analyzers (word count, readability). No tool sorts lines of text.
+
+- [ ] File: `src/tools/text/line-sorter.js`
+- [ ] Library: none — native `Array.sort()`
+- [ ] Sort modes:
+  - Alphabetical A→Z / Z→A
+  - Numerical ascending / descending (detects lines that start with numbers)
+  - By line length shortest→longest / longest→shortest
+  - Random shuffle (Fisher-Yates, using `crypto.getRandomValues`)
+  - Reverse order (no sorting, just flip)
+- [ ] Options: case-insensitive toggle, trim whitespace toggle, remove blank lines toggle, remove duplicate lines toggle
+- [ ] UI: input textarea → instant output textarea (live as options change); line count display; copy button; download as .txt
+- [ ] Add to `tools.json` — category: `text`
+- [ ] SEO: title "Text Line Sorter — Sort Lines Alphabetically, Numerically or by Length"
+
+---
+
+## 23.15 Palindrome Checker
+
+**Why new:** Checked all text tools (20+ format converters/analyzers), fun tools (games/random), student tools (GPA/citation/flashcard/etc.), and dev tools — no palindrome detector exists anywhere in the 44-phase plan.
+
+- [ ] File: `src/tools/fun/palindrome.js`
+- [ ] Library: none
+- [ ] Input: text field (word, phrase, or sentence)
+- [ ] Options: ignore spaces toggle, ignore punctuation toggle, case-insensitive toggle (all on by default)
+- [ ] Output: ✅ "palindrome" or ❌ "not a palindrome" with large clear result display
+- [ ] Shows: cleaned string used for comparison, reversed string
+- [ ] Famous examples list (Madam, Racecar, "A man a plan a canal Panama", "Never odd or even")
+- [ ] Bulk mode: paste multiple words/lines → check each, highlight which ones are palindromes
+- [ ] Algorithm:
+  ```js
+  function isPalindrome(text, { ignoreSpaces, ignorePunctuation, caseInsensitive }) {
+    let s = text;
+    if (caseInsensitive) s = s.toLowerCase();
+    if (ignoreSpaces) s = s.replace(/\s/g, '');
+    if (ignorePunctuation) s = s.replace(/[^a-z0-9]/gi, '');
+    return s === [...s].reverse().join('');
+  }
+  ```
+- [ ] Add to `tools.json` — category: `fun`
+- [ ] SEO: title "Palindrome Checker — Is It a Palindrome? Free Online Tool"
+
+---
+
+## 23.16 URL Parser & Builder
+
+**Why new:** `url-codec.js` (Phase 15, Encoding & Hashing) percent-encodes and percent-decodes strings (e.g. `hello world` → `hello%20world`). That is not the same as decomposing a full URL into its structural components. No tool in any of the 44 phases parses or assembles URL structure.
+
+- [ ] File: `src/tools/dev/url-parser.js`
+- [ ] Library: native `URL` API (browser built-in, zero deps)
+- [ ] **Parse mode:** paste any URL → instantly shows:
+  - Protocol (`https:`)
+  - Hostname (`api.example.com`)
+  - Port (`:8080` or implied)
+  - Pathname (`/v1/users/42`)
+  - Search string (`?sort=asc&page=2`)
+  - Query params table (key / value / decoded value, editable)
+  - Hash (`#section`)
+  - Origin
+  - Full decoded URL
+- [ ] **Build mode:** fill in fields → assembled URL updates live → copy
+- [ ] **Query param editor:** add/remove/edit params → URL updates live
+- [ ] **Encode/decode toggle:** show raw (`%20`) vs decoded (` `) for each field
+- [ ] Logic:
+  ```js
+  // Parse
+  const u = new URL(input);
+  const params = [...u.searchParams.entries()]; // [[key, val], ...]
+
+  // Build
+  const u = new URL(protocol + '//' + host + pathname);
+  params.forEach(([k, v]) => u.searchParams.set(k, v));
+  u.hash = hash;
+  return u.toString();
+  ```
+- [ ] Add to `tools.json` — category: `dev`
+- [ ] SEO: title "URL Parser & Builder — Decode, Inspect and Build URLs Free"
+
+---
+
+## Phase 23 Quality Checklist
+
+- [ ] All 16 tools: 100% client-side, zero server calls, zero runtime CDN fetches, zero new npm packages
+- [ ] Each tool: `tools.json` entry, SEO title + description, How-To (3 steps), FAQ (3 Qs), related tools
+- [ ] Responsive + touch-friendly; handles empty/invalid input gracefully
+
+---
+
+## ✅ Phase 23 Completion Target
+
+| Sprint | Tools | Est. Hours | Status |
+|--------|-------|-----------|--------|
+| 23.A: Productivity | 1 (stopwatch) | ~3h | ⬜ |
+| 23.B: Text | 5 (num-words, text-table, roman-numerals, line-sorter, text-to-table) | ~8h | ⬜ |
+| 23.C: Developer | 3 (subnet, curl, url-parser) | ~7h | ⬜ |
+| 23.D: PDF | 1 (pdf-info) | ~3h | ⬜ |
+| 23.E: CSS | 2 (animation, color-converter) | ~6h | ⬜ |
+| 23.F: Math | 3 (timestamp, duration, ratio) | ~6h | ⬜ |
+| 23.G: Image | 1 (image-filters) | ~5h | ⬜ |
+| 23.H: Fun | 1 (palindrome) | ~2h | ⬜ |
+| **Total** | **16** | **~40h** | ⬜ |
+
+**After Phase 23:** 200 tools total across 19 categories.
+- `productivity`: 3 tools (countdown, drawing pad, stopwatch)
+- `pdf`: 29 tools
+- `image`: 34 tools
+- `text`: 26 tools (21 original + 2 Phase 22 + 3 Phase 23: roman-numerals, line-sorter, text-to-table)
+- `dev`: 10 tools (7 original + 3 Phase 23: subnet, curl, url-parser)
+- `css`: 10 tools (8 original + 2 Phase 23)
+- `math`: 11 tools (8 original + 3 Phase 23)
+- `fun`: 5 tools (3 original + 1 Phase 22 + 1 Phase 23)
