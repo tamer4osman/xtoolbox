@@ -1053,6 +1053,96 @@
     "status": "done"
   },
   {
+    "id": "pdf-to-csv",
+    "name": "PDF to CSV",
+    "category": "pdf",
+    "description": "Extract tabular data from PDF to CSV format.",
+    "icon": "📊",
+    "href": "/tools/pdf-to-csv",
+    "status": "done"
+  },
+  {
+    "id": "pdf-to-epub",
+    "name": "PDF to EPUB",
+    "category": "pdf",
+    "description": "Convert PDF to e-book format for e-readers.",
+    "icon": "",
+    "href": "/tools/pdf-to-epub",
+    "status": "done"
+  },
+  {
+    "id": "delete-pdf-pages",
+    "name": "Delete PDF Pages",
+    "category": "pdf",
+    "description": "Remove specific pages from a PDF with visual selector.",
+    "icon": "",
+    "href": "/tools/delete-pdf-pages",
+    "status": "done"
+  },
+  {
+    "id": "pptx-to-pdf",
+    "name": "PowerPoint to PDF",
+    "category": "pdf",
+    "description": "Convert .pptx presentations to PDF files.",
+    "icon": "",
+    "href": "/tools/pptx-to-pdf",
+    "status": "done"
+  },
+  {
+    "id": "epub-to-pdf",
+    "name": "EPUB to PDF",
+    "category": "pdf",
+    "description": "Convert EPUB e-books to PDF format.",
+    "icon": "",
+    "href": "/tools/epub-to-pdf",
+    "status": "done"
+  },
+  {
+    "id": "remove-watermark-pdf",
+    "name": "Remove Watermark from PDF",
+    "category": "pdf",
+    "description": "Remove overlay watermarks from PDF pages.",
+    "icon": "",
+    "href": "/tools/remove-watermark-pdf",
+    "status": "done"
+  },
+  {
+    "id": "png-to-jpg",
+    "name": "PNG to JPG Converter",
+    "category": "image",
+    "description": "Convert PNG images to JPG with quality control.",
+    "icon": "",
+    "href": "/tools/png-to-jpg",
+    "status": "done"
+  },
+  {
+    "id": "jpg-to-png",
+    "name": "JPG to PNG Converter",
+    "category": "image",
+    "description": "Convert JPG images to lossless PNG format.",
+    "icon": "",
+    "href": "/tools/jpg-to-png",
+    "status": "done"
+  },
+  {
+    "id": "jpg-to-pdf",
+    "name": "JPG to PDF Converter",
+    "category": "pdf",
+    "description": "Convert JPG images to PDF documents.",
+    "icon": "",
+    "href": "/tools/jpg-to-pdf",
+    "status": "done"
+  },
+  {
+    "id": "png-to-pdf",
+    "name": "PNG to PDF Converter",
+    "category": "pdf",
+    "description": "Convert PNG images to PDF documents.",
+    "icon": "",
+    "href": "/tools/png-to-pdf",
+    "status": "done"
+  },
+  {
     "id": "encrypt-file",
     "name": "File Encryption",
     "category": "privacy",
@@ -1599,6 +1689,357 @@
     "description": "Get current weather and 7-day forecast for any city.",
     "icon": "🌤️",
     "href": "/tools/weather-forecast",
+    "status": "done"
+  },
+  {
+    "id": "heic-to-jpg",
+    "name": "HEIC to JPG Converter",
+    "category": "image",
+    "description": "Convert iPhone HEIC photos to JPG format.",
+    "icon": "",
+    "href": "/tools/heic-to-jpg",
+    "status": "done"
+  },
+  {
+    "id": "webp-to-jpg",
+    "name": "WebP to JPG Converter",
+    "category": "image",
+    "description": "Convert WebP images to JPG with quality control.",
+    "icon": "",
+    "href": "/tools/webp-to-jpg",
+    "status": "done"
+  },
+  {
+    "id": "jpg-to-webp",
+    "name": "JPG to WebP Converter",
+    "category": "image",
+    "description": "Convert JPG images to WebP with quality control.",
+    "icon": "",
+    "href": "/tools/jpg-to-webp",
+    "status": "done"
+  },
+  {
+    "id": "png-to-svg",
+    "name": "PNG to SVG Converter",
+    "category": "image",
+    "description": "Convert PNG images to SVG vector format.",
+    "icon": "",
+    "href": "/tools/png-to-svg",
+    "status": "done"
+  },
+  {
+    "id": "svg-to-png",
+    "name": "SVG to PNG Converter",
+    "category": "image",
+    "description": "Convert SVG images to PNG with size and background control.",
+    "icon": "",
+    "href": "/tools/svg-to-png",
+    "status": "done"
+  },
+  {
+    "id": "collage-maker",
+    "name": "Collage Maker",
+    "category": "image",
+    "description": "Create beautiful photo collages with customizable layouts, spacing, borders, and backgrounds.",
+    "icon": "",
+    "href": "/tools/collage-maker",
+    "status": "done"
+  },
+  {
+    "id": "color-blindness",
+    "name": "Color Blindness Simulator",
+    "category": "image",
+    "description": "Upload an image and apply color blindness simulations: deuteranopia, protanopia, tritanopia, and more.",
+    "icon": "👁️",
+    "href": "/tools/color-blindness",
+    "status": "done"
+  },
+  {
+    "id": "blur-background",
+    "name": "Blur Background",
+    "category": "image",
+    "description": "Apply blur effects to images. Full blur, radial (depth of field), or linear (tilt-shift) modes.",
+    "icon": "",
+    "href": "/tools/blur-background",
+    "status": "done"
+  },
+  {
+    "id": "add-border-image",
+    "name": "Add Border to Image",
+    "category": "image",
+    "description": "Add customizable borders to images. Solid, dashed, double, or rounded corners with shadow effects.",
+    "icon": "",
+    "href": "/tools/add-border-image",
+    "status": "done"
+  },
+  {
+    "id": "round-image-cropper",
+    "name": "Round Image Cropper",
+    "category": "image",
+    "description": "Crop images into perfect circles with customizable border, shadow, and background options.",
+    "icon": "",
+    "href": "/tools/round-image-cropper",
+    "status": "done"
+  },
+  {
+    "id": "pixelate-image",
+    "name": "Pixelate Image",
+    "category": "image",
+    "description": "Apply pixelation/mosaic effect to images. Adjust pixel size, select regions, and control intensity.",
+    "icon": "",
+    "href": "/tools/pixelate-image",
+    "status": "done"
+  },
+  {
+    "id": "image-sharpening",
+    "name": "Image Sharpening",
+    "category": "image",
+    "description": "Sharpen blurry or soft images using convolution filters. Adjust intensity and preview results in real-time.",
+    "icon": "",
+    "href": "/tools/image-sharpening",
+    "status": "done"
+  },
+  {
+    "id": "remove-text-image",
+    "name": "Remove Text from Image",
+    "category": "image",
+    "description": "Remove unwanted text from images by selecting the area. Uses content-aware fill to blend the background.",
+    "icon": "",
+    "href": "/tools/remove-text-image",
+    "status": "done"
+  },
+  {
+    "id": "gif-to-mp4",
+    "name": "GIF to MP4",
+    "category": "video",
+    "description": "Convert animated GIF to MP4 video. MP4 files are smaller and play on all devices.",
+    "icon": "🎬",
+    "href": "/tools/gif-to-mp4",
+    "status": "done"
+  },
+  {
+    "id": "webm-to-mp4",
+    "name": "WEBM to MP4",
+    "category": "video",
+    "description": "Convert WEBM videos to MP4 format for universal compatibility.",
+    "icon": "🔄",
+    "href": "/tools/webm-to-mp4",
+    "status": "done"
+  },
+  {
+    "id": "mov-to-mp4",
+    "name": "MOV to MP4",
+    "category": "video",
+    "description": "Convert MOV videos from iPhones and cameras to MP4.",
+    "icon": "📱",
+    "href": "/tools/mov-to-mp4",
+    "status": "done"
+  },
+  {
+    "id": "add-subtitles",
+    "name": "Add Subtitles to Video",
+    "category": "video",
+    "description": "Burn SRT or VTT subtitle files permanently into video.",
+    "icon": "💬",
+    "href": "/tools/add-subtitles",
+    "status": "done"
+  },
+  {
+    "id": "video-resizer",
+    "name": "Video Resizer",
+    "category": "video",
+    "description": "Change video resolution to any size with presets or custom dimensions.",
+    "icon": "📐",
+    "href": "/tools/video-resizer",
+    "status": "done"
+  },
+  {
+    "id": "excel-to-xml",
+    "name": "Excel to XML",
+    "category": "text",
+    "description": "Convert Excel spreadsheets (.xlsx) to XML format.",
+    "icon": "📊",
+    "href": "/tools/excel-to-xml",
+    "status": "done"
+  },
+  {
+    "id": "xml-to-excel",
+    "name": "XML to Excel",
+    "category": "text",
+    "description": "Convert XML files to Excel spreadsheets (.xlsx).",
+    "icon": "📊",
+    "href": "/tools/xml-to-excel",
+    "status": "done"
+  },
+  {
+    "id": "csv-splitter",
+    "name": "CSV Splitter",
+    "category": "text",
+    "description": "Split large CSV files into smaller files by row count.",
+    "icon": "✂️",
+    "href": "/tools/csv-splitter",
+    "status": "done"
+  },
+  {
+    "id": "countdown-timer",
+    "name": "Countdown Timer",
+    "category": "productivity",
+    "description": "Count down to a specific date or event with live updates.",
+    "icon": "⏳",
+    "href": "/tools/countdown-timer",
+    "status": "done"
+  },
+  {
+    "id": "drawing-pad",
+    "name": "Drawing Pad",
+    "category": "productivity",
+    "description": "Freehand drawing canvas with export options.",
+    "icon": "✏️",
+    "href": "/tools/drawing-pad",
+    "status": "done"
+  },
+  {
+    "id": "ascii-art",
+    "name": "ASCII Art Generator",
+    "category": "text",
+    "description": "Convert text to figlet-style ASCII art with 50+ font styles.",
+    "icon": "🎨",
+    "href": "/tools/ascii-art",
+    "status": "done"
+  },
+  {
+    "id": "typing-speed-test",
+    "name": "Typing Speed Test",
+    "category": "fun",
+    "description": "Test your typing speed in words per minute with accuracy tracking.",
+    "icon": "⌨️",
+    "href": "/tools/typing-speed-test",
+    "status": "done"
+  },
+  {
+    "id": "stopwatch",
+    "name": "Stopwatch with Lap Timer",
+    "category": "productivity",
+    "description": "Start, pause, and reset a stopwatch with lap time tracking.",
+    "icon": "⏱️",
+    "href": "/tools/stopwatch",
+    "status": "done"
+  },
+  {
+    "id": "number-to-words",
+    "name": "Number to Words",
+    "category": "text",
+    "description": "Convert numerals to written English words.",
+    "icon": "🔢",
+    "href": "/tools/number-to-words",
+    "status": "done"
+  },
+  {
+    "id": "text-to-table",
+    "name": "Text to Table Converter",
+    "category": "text",
+    "description": "Parse CSV/TSV/pipe-delimited text into HTML or Markdown tables.",
+    "icon": "📋",
+    "href": "/tools/text-to-table",
+    "status": "done"
+  },
+  {
+    "id": "subnet-calculator",
+    "name": "IP Subnet Calculator",
+    "category": "dev",
+    "description": "Calculate subnet, network, broadcast, and host ranges.",
+    "icon": "🌐",
+    "href": "/tools/subnet-calculator",
+    "status": "done"
+  },
+  {
+    "id": "css-animation-generator",
+    "name": "CSS Animation Generator",
+    "category": "css",
+    "description": "Visual builder for CSS @keyframes animations.",
+    "icon": "🎬",
+    "href": "/tools/css-animation-generator",
+    "status": "done"
+  },
+  {
+    "id": "color-converter",
+    "name": "Color Format Converter",
+    "category": "css",
+    "description": "Convert between HEX, RGB, HSL, HSV, and CMYK color formats.",
+    "icon": "🎨",
+    "href": "/tools/color-converter",
+    "status": "done"
+  },
+  {
+    "id": "image-filters",
+    "name": "Image Filter Gallery",
+    "category": "image",
+    "description": "Apply cinematic filters to your photos. Click any filter to preview and download.",
+    "icon": "🎞️",
+    "href": "/tools/image-filters",
+    "status": "done"
+  },
+  {
+    "id": "curl-builder",
+    "name": "cURL Command Builder",
+    "category": "dev",
+    "description": "Build cURL commands visually. Select method, add headers, set body, and copy the generated command.",
+    "icon": "🔗",
+    "href": "/tools/curl-builder",
+    "status": "done"
+  },
+  {
+    "id": "duration-calculator",
+    "name": "Time Duration Calculator",
+    "category": "math",
+    "description": "Calculate the exact duration between two dates/times. See results in years, months, weeks, days, hours, minutes, and seconds.",
+    "icon": "⏳",
+    "href": "/tools/duration-calculator",
+    "status": "done"
+  },
+  {
+    "id": "aspect-ratio",
+    "name": "Aspect Ratio Calculator",
+    "category": "math",
+    "description": "Calculate aspect ratios from dimensions, find missing dimensions given a ratio, and see common presets.",
+    "icon": "🖼️",
+    "href": "/tools/aspect-ratio",
+    "status": "done"
+  },
+  {
+    "id": "roman-numerals",
+    "name": "Roman Numeral Converter",
+    "category": "text",
+    "description": "Convert between Roman numerals and Arabic numbers. Supports 1–3999 (I–MMMCMXCIX).",
+    "icon": "Ⅿ",
+    "href": "/tools/roman-numerals",
+    "status": "done"
+  },
+  {
+    "id": "line-sorter",
+    "name": "Text Line Sorter",
+    "category": "text",
+    "description": "Sort, reverse, shuffle, deduplicate, or trim lines of text in one click.",
+    "icon": "↕️",
+    "href": "/tools/line-sorter",
+    "status": "done"
+  },
+  {
+    "id": "palindrome",
+    "name": "Palindrome Checker",
+    "category": "fun",
+    "description": "Check if any word, phrase, or number is a palindrome. See the reversed version and a character comparison.",
+    "icon": "🔄",
+    "href": "/tools/palindrome",
+    "status": "done"
+  },
+  {
+    "id": "url-parser",
+    "name": "URL Parser & Builder",
+    "category": "dev",
+    "description": "Parse any URL into its components or build a URL from parts. View query parameters as a table.",
+    "icon": "🔍",
+    "href": "/tools/url-parser",
     "status": "done"
   }
 ]
