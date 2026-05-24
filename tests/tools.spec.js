@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 import tools from '../src/data/tools.json' assert { type: 'json' };
 
 test.describe('All Tools', () => {
-  for (const tool of tools) {
+  const implementedTools = tools.filter(tool => tool.status === 'done');
+  for (const tool of implementedTools) {
     test(`${tool.name} - ${tool.id}`, async ({ page }) => {
       const errors = [];
       page.on('pageerror', err => errors.push(err.message));
