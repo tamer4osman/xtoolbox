@@ -1,3 +1,30 @@
 User-agent: *
 Allow: /
+
+# Phase 22 — Gap Fill I (6 tools)
+Allow: /tools/productivity/countdown-timer
+Allow: /tools/productivity/drawing-pad
+Allow: /tools/image/color-blindness
+Allow: /tools/text/ascii-art
+Allow: /tools/text/text-to-handwriting
+Allow: /tools/fun/typing-test
+
+# Phase 23 — Gap Fill II (16 tools)
+Allow: /tools/productivity/stopwatch
+Allow: /tools/text/number-to-words
+Allow: /tools/dev/subnet-calculator
+Allow: /tools/pdf/pdf-info
+Allow: /tools/css/animation-generator
+Allow: /tools/css/color-converter
+Allow: /tools/math/timestamp-converter
+Allow: /tools/text/text-to-table
+Allow: /tools/image/image-filters
+Allow: /tools/dev/curl-builder
+Allow: /tools/math/duration-calculator
+Allow: /tools/math/aspect-ratio
+Allow: /tools/text/roman-numerals
+Allow: /tools/text/line-sorter
+Allow: /tools/fun/palindrome
+Allow: /tools/dev/url-parser
+
 Sitemap: https://yourdomain.com/sitemap.xml
