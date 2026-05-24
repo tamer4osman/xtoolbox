@@ -11,14 +11,15 @@ export function renderHome() {
 
   updatePageMeta({
     title: 'XToolBox - Free Online Tools',
-    description: '178 free online tools. Compress images, edit PDFs, convert videos and more. 100% client-side — your files never leave your device.',
+    description: '227 free online tools. Compress images, edit PDFs, convert videos and more. 100% client-side — your files never leave your device.',
     url: window.location.origin
   });
 
   const popularTools = [
     'compress-image', 'merge-pdf', 'remove-background', 'image-to-text',
     'compress-video', 'qr-generator', 'password-generator', 'resize-image',
-    'video-to-gif', 'markdown-html', 'loan-calculator', 'scientific-calculator'
+    'video-to-gif', 'markdown-html', 'color-blindness', 'scientific-calculator',
+    'stopwatch', 'image-filters', 'countdown-timer', 'typing-speed-test'
   ];
 
   const popular = popularTools.map(id => toolsData.find(t => t.id === id)).filter(Boolean);
@@ -31,7 +32,7 @@ export function renderHome() {
         <p>All processing happens in your browser. Your files never leave your device.</p>
         <div class="hero-search">
           <div class="search-wrapper">
-            <input type="text" id="search-input" placeholder="Search 178 tools..." autocomplete="off" aria-label="Search tools">
+            <input type="text" id="search-input" placeholder="Search 227 tools..." autocomplete="off" aria-label="Search tools">
             <div id="search-results" class="search-results"></div>
           </div>
         </div>
