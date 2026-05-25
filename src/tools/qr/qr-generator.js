@@ -4,11 +4,30 @@ export const toolConfig = {
   category: 'qr',
   description: 'Generate QR codes from text, URLs, vCard, or WiFi credentials.',
   icon: '📱',
-  status: 'done'
+  status: 'done',
+  keywords: ['qr code', 'qr generator', 'qrcode', 'vcard', 'wifi qr', 'contact qr'],
+  steps: [
+    'Select QR code type: text, URL, WiFi, vCard, email, phone, or SMS',
+    'Fill in the details for your selected type',
+    'Customize size, format, error correction, and color',
+    'Click Generate QR Code, then download or copy'
+  ],
+  faqs: [
+    {
+      question: 'Can I scan QR codes with this tool?',
+      answer: 'This tool only generates QR codes. Use the QR Code Scanner tool to scan existing QR codes from images.'
+    },
+    {
+      question: 'Is the data I enter sent to a server?',
+      answer: 'No. All QR code generation happens entirely in your browser using the qrcode library. Your data never leaves your device.'
+    }
+  ]
 };
 
 import QRCode from 'qrcode';
 import { downloadDataUrl } from '../../utils/file.js';
+
+let _style = null;
 
 export function render(container) {
   container.innerHTML = `
@@ -128,8 +147,8 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
-  style.textContent = `
+  _style = document.createElement('style');
+  _style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
     .tool-icon { font-size: 4rem; margin-bottom: var(--space-4); }
@@ -192,7 +211,7 @@ export function render(container) {
       .tool-button { width: 100%; }
     }
   `;
-  container.appendChild(style);
+  container.appendChild(_style);
 
   const contentInputs = container.querySelector('#content-inputs');
   const wifiFields = container.querySelector('.wifi-fields');
@@ -394,4 +413,8 @@ export function render(container) {
       }
     });
   });
+}
+
+export function destroy() {
+  if (_style) _style.remove();
 }
