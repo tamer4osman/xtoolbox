@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**223 free online tools. 100% client-side processing — your files never leave your device.**
+**243 free online tools. 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-23 phases. Phases 1–22 complete. Phase 23 planned.
+24 phases. Phases 1–23 complete. Phase 24 planned.
 
 | Phase | Status |
 |-------|--------|
@@ -49,31 +49,35 @@ npm run test       # → Playwright tests
 | Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
 | Phase 22: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
+| Phase 24: Client-Side Privacy & Utility Expansion | ⬜ Planned (20 tools) |
 
-**Total tools:** 223 unique verified tools.
+**Total tools:** 243 unique verified tools (223 built, 20 planned).
 
 ## Categories
 
 | Category | Existing | New | Total | Key Libraries | Status |
 |----------|----------|-----|-------|---------------|--------|
-| PDF | 19 | +9 | **28** | pdf-lib, PDF.js, jsPDF | ✅ |
-| Image | 16 | +15 | **31** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | ✅ |
-| Video | 10 | +5 | **15** | ffmpeg.wasm | ✅ |
+| PDF | 31 | +2 | **33** | pdf-lib, PDF.js, jsPDF | 31/33 |
+| Image | 34 | — | **34** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | ✅ |
+| Video | 15 | — | **15** | ffmpeg.wasm | ✅ |
 | Audio | 10 | — | **10** | Web Audio API, lamejs, Wavesurfer.js | ✅ |
 | OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
-| Privacy & Security | 5 | — | **5** | Web Crypto API | ✅ |
+| Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
 | Weather | 4 | — | **4** | wttr.in, Open-Meteo | ✅ |
 | Reference | 4 | — | **4** | Free Dictionary API, Open Library | ✅ |
 | Finance | 9 | — | **9** | Chart.js | ✅ |
-| Math | 8 | — | **8** | math.js | ✅ |
-| Health | 4 | +8 | **12** | Custom JS | ✅ |
-| Text & Content | 18 | +3 | **21** | marked, turndown, js-yaml, SheetJS | ✅ |
-| Encoding & Hashing | 7 | — | **7** | Web Crypto API | ✅ |
+| Math | 10 | — | **10** | math.js | ✅ |
+| Health | 11 | — | **11** | Custom JS | ✅ |
+| Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 27/29 |
+| Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 8 | — | **8** | Custom JS | ✅ |
-| Developer | 7 | — | **7** | Custom JS | ✅ |
-| Fun & Games | 3 | — | **3** | Custom JS | ✅ |
+| CSS & Web Design | 10 | +5 | **15** | Custom JS | 10/15 |
+| Developer | 10 | +6 | **16** | Custom JS | 10/16 |
+| Fun & Games | 5 | — | **5** | Custom JS | ✅ |
+| Business | 8 | — | **8** | Custom JS | ✅ |
+| SEO | 6 | +2 | **8** | Custom JS | 6/8 |
+| Productivity | 3 | +3 | **6** | Custom JS | 3/6 |
 
 ## Phase 21 Tools (Market Expansion — Complete)
 
@@ -167,25 +171,27 @@ toolbox/
 │   │   ├── about.js / privacy.js / terms.js / not-found.js
 │   │
 │   ├── tools/                    ← Tool implementations
-│   │   ├── pdf/                  ← 29 PDF tools (+1 Phase 22)
-│   │   ├── image/                ← 34 image tools (+2 Phase 22, +1 Phase 23)
+│   │   ├── pdf/                  ← 31 PDF tools (+2 Phase 24)
+│   │   ├── image/                ← 34 image tools
 │   │   ├── video/                ← 15 video tools
 │   │   ├── audio/                ← 10 audio tools
 │   │   ├── ocr/                  ← 4 OCR tools
 │   │   ├── qr/                   ← 4 QR tools
-│   │   ├── privacy/              ← 5 privacy tools
+│   │   ├── privacy/              ← 6 privacy tools
 │   │   ├── weather/              ← 4 weather tools
 │   │   ├── reference/            ← 4 reference tools
 │   │   ├── finance/              ← 9 finance tools
-│   │   ├── math/                 ← 11 math tools (+3 Phase 23)
-│   │   ├── health/               ← 12 health tools
-│   │   ├── text/                 ← 26 text tools (+2 Phase 22, +3 Phase 23)
-│   │   ├── encoding/             ← 7 encoding tools
+│   │   ├── math/                 ← 10 math tools
+│   │   ├── health/               ← 11 health tools
+│   │   ├── text/                 ← 27 text tools (+2 Phase 24)
+│   │   ├── encoding/             ← 8 encoding tools
 │   │   ├── visualization/        ← 4 visualization tools
-│   │   ├── css/                  ← 10 CSS tools (+2 Phase 23)
-│   │   ├── dev/                  ← 10 developer tools (+2 Phase 23, +1 Phase 23)
-│   │   ├── productivity/         ← 3 tools (+2 Phase 22, +1 Phase 23) — NEW CATEGORY
-│   │   └── fun/                  ← 5 fun tools (+1 Phase 22, +1 Phase 23)
+│   │   ├── css/                  ← 10 CSS tools (+5 Phase 24)
+│   │   ├── dev/                  ← 10 developer tools (+6 Phase 24)
+│   │   ├── productivity/         ← 3 tools (+3 Phase 24)
+│   │   ├── fun/                  ← 5 fun tools
+│   │   ├── business/             ← 8 business tools
+│   │   └── seo/                  ← 6 SEO tools (+2 Phase 24)
 │   │
 │   ├── data/                     ← Static data
 │   │   ├── tools.json            ← 200 tool definitions (178 + 22 planned)
@@ -219,6 +225,33 @@ toolbox/
 | 14 | URL Parser & Builder | `dev/url-parser.js` | `dev` | `url-codec.js` (Phase 15) percent-encodes strings. Completely different from parsing URL structure into protocol/host/port/path/query/hash |
 
 **No new dependencies.** All 14 tools use only browser built-ins: `URL` API, `Date`, Canvas API, vanilla JS.
+
+---
+
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Planned, 20 tools)
+
+| # | Tool | File | Category | Confirmed absent because… |
+|---|------|------|----------|--------------------------|
+| 1 | PDF Secure Destructive Redactor | `pdf/pdf-secure-redact.js` | `pdf` | Standard PDF tools only draw black boxes; this completely strips character elements or rasterizes pixels. |
+| 2 | Page Textbook Splitter | `pdf/textbook-splitter.js` | `pdf` | Splits dual landscape-scanned pages mathematically down the center into separate consecutive portrait pages. |
+| 3 | CSS Glassmorphism Studio | `css/glassmorphism-generator.js` | `css` | Interactive studio for generating cross-browser glassmorphism styling with Safari fallbacks. |
+| 4 | Fluid Typography (CSS Clamp) Generator | `css/css-clamp-generator.js` | `css` | Computes complex algebraic viewport scaling equations for responsive font clamp rules. |
+| 5 | Organic SVG Blob & Wave Generator | `css/svg-blob-generator.js` | `css` | Visual path editor to generate organic SVG vector dividers and blobs offline. |
+| 6 | CSS Neumorphism Studio | `css/neumorphism-generator.js` | `css` | Interactive tool to generate convex, concave, or pressed shadow sets based on a hue luminance offset. |
+| 7 | CSS Pure Triangle Code Generator | `css/css-triangle-generator.js` | `css` | Simple editor to generate CSS border-based triangles in any direction. |
+| 8 | Sitemap XML Visualizer | `dev/sitemap-visualizer.js` | `dev` | Formats and visualizes complex sitemap.xml hierarchies into collapsible tree diagrams. |
+| 9 | Log File Sensitive Data Masker | `dev/log-anonymizer.js` | `dev` | Locally screens server logs using regex to mask IP addresses, tokens, and sensitive keys. |
+| 10 | Website Asset Extractor | `dev/web-asset-extractor.js` | `dev` | Parses pasted HTML markup and extracts inline SVGs, styles, and external fonts for study. |
+| 11 | SQL to JSON & Schema Converter | `dev/sql-to-json.js` | `dev` | Converts database table creation statements and insertions into structured JSON lists. |
+| 12 | Hosts File Configurator | `dev/hosts-file-generator.js` | `dev` | Generates formatted local network alias hosts configurations from a simple visual key table. |
+| 13 | Security Headers Generator | `dev/security-headers-generator.js` | `dev` | Evaluates site policies and generates secure CSP, HSTS, and referrer headers configurations. |
+| 14 | Bulk UTM Campaign URL Builder | `seo/bulk-utm-builder.js` | `seo` | Builds multiple tracking URLs at once from lists, supporting presets and CSV export. |
+| 15 | Open Graph (OG) Mock Visualizer | `seo/og-preview.js` | `seo` | Provides visual previews of social media search appearance cards for X, Facebook, and LinkedIn. |
+| 16 | Ambient Focus Soundboard | `productivity/ambient-sound-mixer.js` | `productivity` | Customizes custom background sounds locally with multi-track loop mixing nodes. |
+| 17 | SRT / VTT Subtitle Sync Shifter | `productivity/subtitle-time-shifter.js` | `productivity` | Offsets subtitle file timings in bulk via millisecond-level time-shifting regex. |
+| 18 | XML Formatter & Validator | `text/xml-formatter.js` | `text` | Formats, validates, and highlights nested XML content without server transmissions. |
+| 19 | Changelog conventional commit Generator | `text/git-changelog-generator.js` | `text` | Compiles raw git logs into structured release changelogs using Conventional Commit parser keys. |
+| 20 | VCard (.vcf) Business Contact Generator | `productivity/vcard-generator.js` | `productivity` | Generates standard downloadable contact business cards (.vcf) and contact QR scan targets offline. |
 
 ---
 

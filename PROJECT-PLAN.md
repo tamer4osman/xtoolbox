@@ -12,7 +12,7 @@
 
 | Phase | Status | Tasks Done | Tasks Total |
 |-------|--------|-----------|-------------|
-| **Overall** | **✅ Complete** | **460** | **460** |
+| **Overall** | **In Progress** | **460** | **480** |
 | Phase 1: Foundation | ✅ | 62 | 62 |
 | Phase 2: PDF Tools | ✅ | 28 | 28 |
 | Phase 3: Image Tools | ✅ | 31 | 31 |
@@ -36,8 +36,9 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
+| Phase 24: Privacy & Utility Expansion | ⬜ | 0 | 20 |
 
-**Status:** 223 professional tools built. All phases complete.
+**Status:** 223 professional tools built. Phase 24 planned.
 
 ---
 
@@ -10089,3 +10090,255 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - `css`: 10 tools (8 original + 2 Phase 23)
 - `math`: 11 tools (8 original + 3 Phase 23)
 - `fun`: 5 tools (3 original + 1 Phase 22 + 1 Phase 23)
+
+
+---
+
+# 🚀 PHASE 24: PRIVACY & CLIENT-SIDE UTILITY EXPANSION
+
+> **Priority:** HIGH — Fills the critical gap of client-side privacy, addressing user concerns on Remote Server Logging, Data Monetization, and Corporate Data Leakage.
+> **Total new tools:** 20 (100% client-side, browser-native processing)
+> **Estimated effort:** ~60 hours across 4 sprints
+> **Libraries needed:** pdf-lib, pdfjs-dist, canvas
+
+---
+
+## 24.1 PDF Secure Destructive Redactor
+
+**Why new:** Existing standard PDF tools draw a black box overlay. This tool strips target character streams or securely rasterizes the redacted regions.
+
+- [ ] File: `src/tools/pdf/pdf-secure-redact.js`
+- [ ] Library: `pdf-lib` + Canvas API
+- [ ] Input: PDF file upload, text-to-redact query OR bounding box select
+- [ ] Logic:
+  - Load PDF, render viewport onto canvas
+  - Highlight matches or let user draw boxes
+  - Strip selected text parameters from PDF stream or rasterize target coordinates as solid color blocks
+- [ ] Output: Downloadable sanitized PDF with completely un-retrievable text
+- [ ] SEO: title "Secure PDF Redactor — Destructive PDF Sanitizer Client-Side"
+
+## 24.2 Page Textbook Splitter
+
+**Why new:** No existing tool splits a single wide landscape A3/double page down the middle into two consecutive portrait documents.
+
+- [ ] File: `src/tools/pdf/textbook-splitter.js`
+- [ ] Library: `pdfjs-dist` + `pdf-lib`
+- [ ] Input: Landscape scanned PDF
+- [ ] Logic:
+  - Render PDF page viewports, detect mid-coordinates
+  - Split left and right halves into two separate viewports
+  - Reassemble as consecutive portrait pages (Left page 1 → Page 1, Right page 1 → Page 2)
+- [ ] Output: Downloadable portrait PDF
+- [ ] SEO: title "Textbook Splitter — Split Landscape PDF Pages in Half"
+
+## 24.3 CSS Glassmorphism Studio
+
+**Why new:** Frosted-glass CSS variables are hard to write by hand with vendor-prefixes (Safari backdrop-filter) and compatibility fallbacks.
+
+- [ ] File: `src/tools/css/glassmorphism-generator.js`
+- [ ] Input: Sliders for Blur, Opacity, Saturation, Border Radius, Background Hue
+- [ ] Features: Interactive background selector (presets/custom images), Safari fallback compatibility mode
+- [ ] Output: Live UI preview, copyable CSS rules containing standard and `-webkit-` prefixed rules
+- [ ] SEO: title "CSS Glassmorphism Studio — Frosted Glass Code Generator"
+
+## 24.4 Fluid Typography (CSS Clamp) Calculator
+
+**Why new:** Calculating the responsive algebraic viewport scale equation for fluid font scaling using CSS clamp() is math-heavy.
+
+- [ ] File: `src/tools/css/css-clamp-generator.js`
+- [ ] Input: Min/Max Viewport width, Min/Max Font size (px/rem)
+- [ ] Logic:
+  - Calculate responsive scale slope: `slope = (maxSize - minSize) / (maxViewport - minViewport)`
+  - Intersection: `yIntersection = -minViewport * slope + minSize`
+  - Output equation: `clamp(min, preferred, max)`
+- [ ] Output: Copyable CSS clamp rule
+- [ ] SEO: title "Fluid Typography CSS Clamp Calculator — Responsive Font Scale Converter"
+
+## 24.5 Organic SVG Blob & Wave Generator
+
+**Why new:** Designers need organic wave headers and vector dividers to make layout blocks less rigid. Popular generators are paywalled or ad-ridden.
+
+- [ ] File: `src/tools/css/svg-blob-generator.js`
+- [ ] Input: Complexity slider, Vertex Count, Color Gradients, Randomizer Seed
+- [ ] Logic: Cubic bezier curve SVG path assembler utilizing randomized coordinates
+- [ ] Output: Inline preview container, direct copyable SVG code, or downloadable SVG file
+- [ ] SEO: title "Organic SVG Blob & Wave Generator — Free Vector Shapes Tool"
+
+## 24.6 CSS Neumorphism Studio
+
+**Why new:** Neumorphic design requires dual soft shadows calculated relative to background luminance.
+
+- [ ] File: `src/tools/css/neumorphism-generator.js`
+- [ ] Input: Background color picker (Hex/RGB), blur, size, shape type (convex, concave, flat, pressed)
+- [ ] Logic: Convert color to HSL, calculate light highlight (HSL L+10%) and dark shadow (HSL L-10%)
+- [ ] Output: Visual element preview, copy-ready dual-shadow CSS box-shadow block
+- [ ] SEO: title "CSS Neumorphism Studio — Soft 3D Shadow Generator"
+
+## 24.7 CSS Pure Triangle Code Generator
+
+**Why new:** Constructing CSS triangles with transparent borders is highly counter-intuitive.
+
+- [ ] File: `src/tools/css/css-triangle-generator.js`
+- [ ] Input: Direction selectors, width, height, color picker
+- [ ] Logic: Build style rules with border sizes and colors matching the selected direction
+- [ ] Output: Live responsive preview, copyable HTML/CSS code
+- [ ] SEO: title "CSS Pure Triangle Generator — Minimal Border Triangle Code Maker"
+
+## 24.8 Sitemap XML Visualizer
+
+**Why new:** Auditing structural page hierarchy from complex sitemap XML code is difficult without a diagram.
+
+- [ ] File: `src/tools/dev/sitemap-visualizer.js`
+- [ ] Input: sitemap.xml file upload or raw xml text paste
+- [ ] Logic: DOMParser parsing URLs into structured node trees, rendering a collapsible directory map
+- [ ] Output: Collapsible tree visual map, audit report
+- [ ] SEO: title "Sitemap XML Visualizer — Interactive Sitemap Mind Map Tool"
+
+## 24.9 Log File Sensitive Data Masker
+
+**Why new:** Sharing logs on forums like StackOverflow easily leaks sensitive IPs, database keys, or auth tokens.
+
+- [ ] File: `src/tools/dev/log-anonymizer.js`
+- [ ] Input: Server log text area
+- [ ] Logic: Client-side Regex arrays replacing IP addresses, emails, database keys, and tokens with masked variables
+- [ ] Output: Safe, sanitized logs with copy-to-clipboard button
+- [ ] SEO: title "Log File Sensitive Data Masker — Anonymize Server Logs Online"
+
+## 24.10 Website Asset Extractor
+
+**Why new:** Designers want inline SVGs, Google fonts, and stylesheet classes from reference pages.
+
+- [ ] File: `src/tools/dev/web-asset-extractor.js`
+- [ ] Input: Paste raw page source HTML
+- [ ] Logic: Client-side DOMParser parsing structures, extracting inline SVGs, style links, image resources
+- [ ] Output: Catalog of found assets with download and copy actions
+- [ ] SEO: title "Website Asset Extractor — Grab SVGs, Images and Fonts from HTML Source"
+
+## 24.11 SQL to JSON & Schema Converter
+
+**Why new:** Developers need mock JSON rows from SQL CREATE/INSERT statements during prototyping but fear database schema leaks.
+
+- [ ] File: `src/tools/dev/sql-to-json.js`
+- [ ] Input: SQL query block paste
+- [ ] Logic: Custom line parser reading structures and rows, mapping fields to array objects
+- [ ] Output: Formatted JSON list, JSON schema definitions
+- [ ] SEO: title "SQL to JSON Schema Converter — Secure Offline Database Query Parser"
+
+## 24.12 Hosts File Configurator
+
+**Why new:** Manually configuring domain aliases in host files is error-prone.
+
+- [ ] File: `src/tools/dev/hosts-file-generator.js`
+- [ ] Input: IP addresses and local domains list builder
+- [ ] Logic: Auto-compiling table entries into properly spaced, commented /etc/hosts blocks
+- [ ] Output: Downloadable hosts configuration
+- [ ] SEO: title "Hosts File Configurator — Local Host Mappings Generator"
+
+## 24.13 Security Headers Generator
+
+**Why new:** Configuring CSP and HSTS header directives is complex and prone to breaking website scripts.
+
+- [ ] File: `src/tools/dev/security-headers-generator.js`
+- [ ] Input: Config switches (allow scripts, images, framing options, SSL enforce)
+- [ ] Logic: Formulate policy strings for Content-Security-Policy (CSP), X-Frame-Options, HSTS
+- [ ] Output: Copyable configurations for Nginx, Apache, or Cloudflare Workers
+- [ ] SEO: title "Security Headers Generator — Secure CSP and HSTS Directives Builder"
+
+## 24.14 Bulk UTM Campaign URL Builder
+
+**Why new:** Standard tools only build campaign links one by one.
+
+- [ ] File: `src/tools/seo/bulk-utm-builder.js`
+- [ ] Input: URL list, UTM parameters (source, medium, campaign, content, term), preset saver
+- [ ] Logic: LocalStorage storage for presets, Papa Parse mapping links to exports
+- [ ] Output: Formatted CSV export or bulk URL list
+- [ ] SEO: title "Bulk UTM Builder — Generate Campaign Tracking URLs in Bulk"
+
+## 24.15 Open Graph (OG) Mock Visualizer
+
+**Why new:** OG tag builders only output text; this renders visual mockups for various social apps.
+
+- [ ] File: `src/tools/seo/og-preview.js`
+- [ ] Input: Meta tags fields (title, desc, image URL, site name)
+- [ ] Logic: Replicate layouts for X (Twitter), Facebook, LinkedIn, and Slack cards using CSS
+- [ ] Output: Live social previews updating in real-time
+- [ ] SEO: title "Open Graph (OG) Mock Visualizer — Social Share Cards Preview Tool"
+
+## 24.16 Ambient Focus Soundboard
+
+**Why new:** Free background noise generators have transitioned to paid subscriptions.
+
+- [ ] File: `src/tools/productivity/ambient-sound-mixer.js`
+- [ ] Logic: Web Audio API offline sound node mixer containing 8 default loopable profiles (Rain, Cafe, Brown Noise, Waves, etc.)
+- [ ] Controls: Individual gain track volume, global timer sleep countdown
+- [ ] Output: Offline ambient player
+- [ ] SEO: title "Ambient Focus Soundboard — Free Background Noise Mixer"
+
+## 24.17 SRT / VTT Subtitle Sync Shifter
+
+**Why new:** Syncing subtitles by shifting file timelines usually requires heavy video software.
+
+- [ ] File: `src/tools/productivity/subtitle-time-shifter.js`
+- [ ] Input: Subtitle file upload (.srt/.vtt), time offset (positive/negative decimal seconds)
+- [ ] Logic: Regexp parsing timestamp strings, applying mathematical timecode translation
+- [ ] Output: Downloadable synchronized subtitle file
+- [ ] SEO: title "Subtitle Sync Shifter — Offset SRT & VTT Timestamps Online"
+
+## 24.18 XML Formatter & Validator
+
+**Why new:** SOAP/RSS XML testing needs safe offline validation without leaking internal markup structures.
+
+- [ ] File: `src/tools/text/xml-formatter.js`
+- [ ] Input: Raw XML input
+- [ ] Logic: DOMParser local validation, custom text regex indentation beautifier, syntax highlighter
+- [ ] Output: Syntax-highlighted formatted XML block, validation diagnostics
+- [ ] SEO: title "XML Formatter & Validator — Beautify and Validate XML Offline"
+
+## 24.19 Changelog conventional commit Generator
+
+**Why new:** Compiling release logs from raw commit histories is tedious.
+
+- [ ] File: `src/tools/text/git-changelog-generator.js`
+- [ ] Input: Pasted git log text
+- [ ] Logic: Conventional commit format parsing (feat, fix, docs, refactor, chore), sorting by category
+- [ ] Output: Formatted Markdown release notes
+- [ ] SEO: title "Conventional Commit Changelog Generator — Create Git Release Notes"
+
+## 24.20 VCard (.vcf) Business Contact Generator
+
+**Why new:** Generating virtual contact files often requires uploading contact data to unknown cloud databases.
+
+- [ ] File: `src/tools/productivity/vcard-generator.js`
+- [ ] Input: Contact details (name, email, phone, address, organization, photo)
+- [ ] Logic: Compile standard-compliant VCF v3.0 string, render QR contact representation
+- [ ] Output: Downloadable vCard (.vcf) file, QR contact image
+- [ ] SEO: title "VCard Generator — Create and Download VCF Contacts Offline"
+
+---
+
+## Phase 24 Quality Checklist
+
+- [ ] All 20 tools are 100% client-side with zero remote database transmissions.
+- [ ] Each tool handles layout configurations responsively for desktop, tablet, and mobile browsers.
+- [ ] Visual editors utilize clean pre-defined design system tokens from tokens.css.
+- [ ] All tool page entries contain optimized SEO titles, FAQ listings, and step-by-step How-To templates.
+
+---
+
+## ✅ Phase 24 Completion Target
+
+| Sprint | Tools | Est. Hours | Status |
+|--------|-------|------------|--------|
+| Phase 24.1: PDF & Marketing | 4 (redact, splitter, utm, og-preview) | ~15h | ⬜ |
+| Phase 24.2: CSS Studio | 5 (glass, clamp, blob, neumorph, triangle) | ~15h | ⬜ |
+| Phase 24.3: Dev utilities | 6 (sitemap, log, assets, sql, hosts, headers) | ~18h | ⬜ |
+| Phase 24.4: Productivity & Text | 5 (ambient, subtitle, xml, changelog, vcard) | ~12h | ⬜ |
+| **Total** | **20** | **~60h** | ⬜ |
+
+**After Phase 24:** 243 tools total across 21 categories.
+- `pdf`: 33 tools (31 original + 2 Phase 24)
+- `css`: 15 tools (10 original + 5 Phase 24)
+- `dev`: 16 tools (10 original + 6 Phase 24)
+- `seo`: 8 tools (6 original + 2 Phase 24)
+- `text`: 29 tools (27 original + 2 Phase 24)
+- `productivity`: 6 tools (3 original + 3 Phase 24)

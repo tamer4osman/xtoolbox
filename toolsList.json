@@ -2005,5 +2005,185 @@
     "icon": "",
     "href": "/tools/png-to-pdf",
     "status": "done"
+  },
+  {
+    "id": "pdf-secure-redact",
+    "name": "PDF Secure Destructive Redactor",
+    "category": "pdf",
+    "description": "Perform true destructive redaction by stripping text characters or rasterizing regions to flat pixels client-side.",
+    "icon": "🔒",
+    "href": "/tools/pdf-secure-redact",
+    "status": "pending"
+  },
+  {
+    "id": "textbook-splitter",
+    "name": "Page Textbook Splitter",
+    "category": "pdf",
+    "description": "Split landscape-scanned A3 book layouts mathematically down the middle into consecutive portrait pages.",
+    "icon": "📖",
+    "href": "/tools/textbook-splitter",
+    "status": "pending"
+  },
+  {
+    "id": "glassmorphism-generator",
+    "name": "CSS Glassmorphism Studio",
+    "category": "css",
+    "description": "Visual playground to design cross-browser compatible glassmorphism elements with Safari fallbacks.",
+    "icon": "🔮",
+    "href": "/tools/glassmorphism-generator",
+    "status": "pending"
+  },
+  {
+    "id": "css-clamp-generator",
+    "name": "Fluid Typography (CSS Clamp) Calculator",
+    "category": "css",
+    "description": "Calculate responsive font scales using CSS clamp() function with preferred viewport mathematical scale.",
+    "icon": "📐",
+    "href": "/tools/css-clamp-generator",
+    "status": "pending"
+  },
+  {
+    "id": "svg-blob-generator",
+    "name": "Organic SVG Blob & Wave Generator",
+    "category": "css",
+    "description": "Generate mathematical cubic bezier organic shapes and wave page dividers with zero tracking.",
+    "icon": "🌊",
+    "href": "/tools/svg-blob-generator",
+    "status": "pending"
+  },
+  {
+    "id": "neumorphism-generator",
+    "name": "CSS Neumorphism Studio",
+    "category": "css",
+    "description": "Visual editor to calculate matching convex/pressed shadow values for soft 3D neumorphic designs.",
+    "icon": "🔘",
+    "href": "/tools/neumorphism-generator",
+    "status": "pending"
+  },
+  {
+    "id": "css-triangle-generator",
+    "name": "CSS Pure Triangle Code Generator",
+    "category": "css",
+    "description": "Visually construct minimal pure border-based CSS triangles in any direction.",
+    "icon": "🔺",
+    "href": "/tools/css-triangle-generator",
+    "status": "pending"
+  },
+  {
+    "id": "sitemap-visualizer",
+    "name": "Sitemap XML Visualizer",
+    "category": "dev",
+    "description": "Parse and display sitemap.xml files as interactive, collapsible directory tree mind-maps.",
+    "icon": "🌳",
+    "href": "/tools/sitemap-visualizer",
+    "status": "pending"
+  },
+  {
+    "id": "log-anonymizer",
+    "name": "Log File Sensitive Data Masker",
+    "category": "dev",
+    "description": "Anonymize sensitive data (IPs, emails, tokens, keys) in server logs using secure client-side regex.",
+    "icon": "🕵️",
+    "href": "/tools/log-anonymizer",
+    "status": "pending"
+  },
+  {
+    "id": "web-asset-extractor",
+    "name": "Website Asset Extractor",
+    "category": "dev",
+    "description": "Extract SVG nodes, image links, stylesheets, and custom web fonts from pasted raw HTML code.",
+    "icon": "📦",
+    "href": "/tools/web-asset-extractor",
+    "status": "pending"
+  },
+  {
+    "id": "sql-to-json",
+    "name": "SQL to JSON & Schema Converter",
+    "category": "dev",
+    "description": "Parse SQL CREATE TABLE and INSERT INTO queries to generate structured JSON schemas and arrays.",
+    "icon": "🗄️",
+    "href": "/tools/sql-to-json",
+    "status": "pending"
+  },
+  {
+    "id": "hosts-file-generator",
+    "name": "Hosts File Configurator",
+    "category": "dev",
+    "description": "Visually configure IP mappings and compile clean, formatted hosts file configurations.",
+    "icon": "💻",
+    "href": "/tools/hosts-file-generator",
+    "status": "pending"
+  },
+  {
+    "id": "security-headers-generator",
+    "name": "Security Headers Generator",
+    "category": "dev",
+    "description": "Configure Content Security Policy (CSP), HSTS, and generate config rules for Nginx, Apache, or Cloudflare.",
+    "icon": "🛡️",
+    "href": "/tools/security-headers-generator",
+    "status": "pending"
+  },
+  {
+    "id": "bulk-utm-builder",
+    "name": "Bulk UTM Campaign URL Builder",
+    "category": "seo",
+    "description": "Generate campaign tracking URLs in bulk, manage presets, and export directly to CSV.",
+    "icon": "🔗",
+    "href": "/tools/bulk-utm-builder",
+    "status": "pending"
+  },
+  {
+    "id": "og-preview",
+    "name": "Open Graph (OG) Mock Visualizer",
+    "category": "seo",
+    "description": "Generate Open Graph social tags and inspect real-time mock rendering for X, Facebook, and LinkedIn.",
+    "icon": "🖼️",
+    "href": "/tools/og-preview",
+    "status": "pending"
+  },
+  {
+    "id": "ambient-sound-mixer",
+    "name": "Ambient Focus Soundboard",
+    "category": "productivity",
+    "description": "Create customizable ambient focus soundtracks using 8 high-quality offline loopable sound nodes.",
+    "icon": "🎧",
+    "href": "/tools/ambient-sound-mixer",
+    "status": "pending"
+  },
+  {
+    "id": "subtitle-time-shifter",
+    "name": "SRT / VTT Subtitle Sync Shifter",
+    "category": "productivity",
+    "description": "Adjust SRT and VTT subtitle timestamps client-side with millisecond accuracy sync offsets.",
+    "icon": "⏱️",
+    "href": "/tools/subtitle-time-shifter",
+    "status": "pending"
+  },
+  {
+    "id": "xml-formatter",
+    "name": "XML Formatter & Validator",
+    "category": "text",
+    "description": "Minify, format, and syntax-highlight XML markup with local validation and error tracking.",
+    "icon": "📝",
+    "href": "/tools/xml-formatter",
+    "status": "pending"
+  },
+  {
+    "id": "git-changelog-generator",
+    "name": "Changelog conventional commit Generator",
+    "category": "text",
+    "description": "Parse conventional git logs and compile beautiful categorized Markdown release changelogs.",
+    "icon": "📜",
+    "href": "/tools/git-changelog-generator",
+    "status": "pending"
+  },
+  {
+    "id": "vcard-generator",
+    "name": "VCard (.vcf) Business Contact Generator",
+    "category": "productivity",
+    "description": "Offline business card creator compiling standard-compliant VCF files and QR contact codes.",
+    "icon": "📇",
+    "href": "/tools/vcard-generator",
+    "status": "pending"
   }
 ]
