@@ -2023,5 +2023,14 @@
     "icon": "📖",
     "href": "/tools/textbook-splitter",
     "status": "done"
+  },
+  {
+    "id": "glassmorphism-generator",
+    "name": "CSS Glassmorphism Studio",
+    "category": "css",
+    "description": "Interactive studio for generating cross-browser glassmorphism (frosted glass) CSS with Safari fallbacks.",
+    "icon": "🔮",
+    "href": "/tools/glassmorphism-generator",
+    "status": "done"
   }
 ]

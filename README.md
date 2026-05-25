@@ -49,9 +49,9 @@ npm run test       # → Playwright tests
 | Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
 | Phase 22: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
-| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (2 done, 16 planned) |
+| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (3 done, 15 planned) |
 
-**Total tools:** 241 unique verified tools (225 built, 16 planned).
+**Total tools:** 241 unique verified tools (226 built, 15 planned).
 
 ## Categories
 
@@ -72,7 +72,7 @@ npm run test       # → Playwright tests
 | Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 27/29 |
 | Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 10 | +5 | **15** | Custom JS | 10/15 |
+| CSS & Web Design | 11 | +5 | **16** | Custom JS | 11/16 |
 | Developer | 10 | +6 | **16** | Custom JS | 10/16 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | — | **8** | Custom JS | ✅ |

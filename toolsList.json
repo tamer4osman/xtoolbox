@@ -2052,13 +2052,13 @@
     "status": "pending"
   },
   {
-    "id": "neumorphism-generator",
-    "name": "CSS Neumorphism Studio",
+    "id": "glassmorphism-generator",
+    "name": "CSS Glassmorphism Studio",
     "category": "css",
-    "description": "Visual editor to calculate matching convex/pressed shadow values for soft 3D neumorphic designs.",
-    "icon": "🔘",
-    "href": "/tools/neumorphism-generator",
-    "status": "pending"
+    "description": "Visual playground to design cross-browser compatible glassmorphism elements with Safari fallbacks.",
+    "icon": "🔮",
+    "href": "/tools/glassmorphism-generator",
+    "status": "done"
   },
   {
     "id": "css-triangle-generator",
