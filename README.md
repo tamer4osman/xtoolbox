@@ -232,7 +232,7 @@ toolbox/
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|
-| 1 | PDF Secure Destructive Redactor | `pdf/pdf-secure-redact.js` | `pdf` | Standard PDF tools only draw black boxes; this completely strips character elements or rasterizes pixels. |
+| 1 | PDF Visual Redactor | `pdf/pdf-secure-redact.js` | `pdf` | Draws black rectangles to visually hide sensitive text. Note: this is visual redaction only, not destructive. |
 | 2 | Page Textbook Splitter | `pdf/textbook-splitter.js` | `pdf` | Splits dual landscape-scanned pages mathematically down the center into separate consecutive portrait pages. |
 | 3 | CSS Glassmorphism Studio | `css/glassmorphism-generator.js` | `css` | Interactive studio for generating cross-browser glassmorphism styling with Safari fallbacks. |
 | 4 | Fluid Typography (CSS Clamp) Generator | `css/css-clamp-generator.js` | `css` | Computes complex algebraic viewport scaling equations for responsive font clamp rules. |
