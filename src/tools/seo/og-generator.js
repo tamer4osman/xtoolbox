@@ -128,14 +128,21 @@ export function render(container) {
   }
 
   function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function renderPreview(platform) {
     const { url, title, desc, image } = getFormData();
-    const domain = url ? new URL(url).hostname.replace('www.', '') : 'example.com';
+    let domain = 'example.com';
+    if (url) {
+      try { domain = new URL(url).hostname.replace('www.', ''); }
+      catch { /* incomplete URL during typing */ }
+    }
     const hasImage = image && (image.startsWith('http') || image.startsWith('/'));
     const imgTag = hasImage ? `<img src="${escapeHtml(image)}" alt="" onerror="this.parentElement.innerHTML='<span class=placeholder>No image</span>'">` : '<span class="placeholder">Add image URL for preview</span>';
 
@@ -152,6 +159,8 @@ export function render(container) {
         return `<div class="li-card"><div class="li-card-img">${imgTag}</div><div class="li-card-body"><div class="li-card-domain">${escapeHtml(domain)}</div><div class="li-card-title">${escapeHtml(title || 'Title')}</div><div class="li-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
       case 'slack':
         return `<div class="slack-card"><div class="slack-card-img">${imgTag}</div><div class="slack-card-body"><div class="slack-card-domain">${escapeHtml(domain)}</div><div class="slack-card-title">${escapeHtml(title || 'Title')}</div><div class="slack-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
+      default:
+        return '<div class="empty-preview">Unknown platform</div>';
     }
   }
 
@@ -197,9 +206,15 @@ export function render(container) {
   });
 
   copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(resultEl.textContent);
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+    navigator.clipboard.writeText(resultEl.textContent)
+      .then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+      })
+      .catch(() => {
+        copyBtn.textContent = 'Failed';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+      });
   });
 
   updateAllPreviews();
