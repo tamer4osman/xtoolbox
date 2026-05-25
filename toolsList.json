@@ -2103,16 +2103,16 @@
     "description": "Parse SQL CREATE TABLE and INSERT INTO queries to generate structured JSON schemas and arrays.",
     "icon": "🗄️",
     "href": "/tools/sql-to-json",
-    "status": "pending"
+    "status": "done"
   },
   {
-    "id": "hosts-file-generator",
-    "name": "Hosts File Configurator",
-    "category": "dev",
-    "description": "Visually configure IP mappings and compile clean, formatted hosts file configurations.",
-    "icon": "💻",
-    "href": "/tools/hosts-file-generator",
-    "status": "pending"
+    "id": "svg-blob-generator",
+    "name": "Organic SVG Blob & Wave Generator",
+    "category": "css",
+    "description": "Generate mathematical cubic bezier organic shapes and wave page dividers with zero tracking.",
+    "icon": "🌊",
+    "href": "/tools/svg-blob-generator",
+    "status": "done"
   },
   {
     "id": "security-headers-generator",

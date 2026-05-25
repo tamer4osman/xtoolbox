@@ -2041,5 +2041,14 @@
     "icon": "📐",
     "href": "/tools/css-clamp-generator",
     "status": "done"
+  },
+  {
+    "id": "svg-blob-generator",
+    "name": "Organic SVG Blob & Wave Generator",
+    "category": "css",
+    "description": "Generate mathematical cubic bezier organic shapes and wave page dividers with zero tracking.",
+    "icon": "🌊",
+    "href": "/tools/svg-blob-generator",
+    "status": "done"
   }
 ]
