@@ -4,8 +4,27 @@ export const toolConfig = {
   category: 'seo',
   description: 'Generate Open Graph tags for social media sharing.',
   icon: '🔗',
-  status: 'done'
+  status: 'done',
+  keywords: ['open graph', 'og tags', 'meta tags', 'social preview', 'facebook preview', 'twitter card'],
+  steps: [
+    'Enter your page URL, title, description, and image URL',
+    'OG and Twitter meta tags are generated in real-time',
+    'Switch between Facebook, X/Twitter, LinkedIn, and Slack preview tabs',
+    'Copy the generated meta tags with one click'
+  ],
+  faqs: [
+    {
+      question: 'What are Open Graph tags?',
+      answer: 'Open Graph (OG) tags are HTML meta tags that control how your web pages appear when shared on social media platforms like Facebook, X/Twitter, LinkedIn, and Slack.'
+    },
+    {
+      question: 'What image size should I use?',
+      answer: 'The recommended image size is 1200×630 pixels with a 1.91:1 aspect ratio. This ensures your link previews display correctly across all major platforms.'
+    }
+  ]
 };
+
+let _style = null;
 
 export function render(container) {
   container.innerHTML = `
@@ -44,8 +63,8 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
-  style.textContent = `
+  _style = document.createElement('style');
+  _style.textContent = `
     .og-container { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
     @media (max-width: 768px) { .og-container { grid-template-columns: 1fr; } }
     .og-form { display: flex; flex-direction: column; gap: var(--space-3); }
@@ -104,7 +123,7 @@ export function render(container) {
 
     .empty-preview { padding: var(--space-8); text-align: center; color: var(--color-text-muted); font-size: var(--text-sm); }
   `;
-  container.appendChild(style);
+  container.appendChild(_style);
 
   const urlInput = container.querySelector('#url');
   const titleInput = container.querySelector('#title');
@@ -218,4 +237,8 @@ export function render(container) {
   });
 
   updateAllPreviews();
+}
+
+export function destroy() {
+  if (_style) _style.remove();
 }
