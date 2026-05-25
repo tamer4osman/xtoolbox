@@ -2013,7 +2013,7 @@
     "description": "Perform true destructive redaction by stripping text characters or rasterizing regions to flat pixels client-side.",
     "icon": "🔒",
     "href": "/tools/pdf-secure-redact",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "textbook-splitter",
