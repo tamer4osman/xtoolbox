@@ -1,6 +1,7 @@
 import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
 import { loadPdf, savePdf, renderAllPages } from './pdf-utils.js';
+import { rgb } from 'pdf-lib';
 
 export const toolConfig = {
   id: 'pdf-secure-redact',
@@ -73,6 +74,7 @@ export function render(container) {
         </div>
         <div class="redact-actions">
           <button class="btn btn-primary btn-lg" id="apply-redact-btn">Apply Redactions</button>
+          <button class="btn btn-secondary" id="change-file-btn" style="margin-top:var(--space-2);">Change File</button>
         </div>
       </div>
       <div class="tool-processing" id="processing" style="display:none;">
@@ -84,6 +86,22 @@ export function render(container) {
 
   const uploadArea = container.querySelector('#upload-area');
   uploadArea.appendChild(upload.element);
+
+  const changeFileBtn = container.querySelector('#change-file-btn');
+
+  function resetToUpload() {
+    upload.clear();
+    currentFile = null;
+    pageCanvases = [];
+    redactionRects = [];
+    selectedRectIndex = -1;
+    currentPageIndex = 0;
+    optionsArea.style.display = 'none';
+    uploadArea.style.display = '';
+    canvasContainer.innerHTML = '';
+  }
+
+  changeFileBtn.addEventListener('click', resetToUpload);
 
   const optionsArea = container.querySelector('#options-area');
   const canvasContainer = container.querySelector('#canvas-container');
@@ -132,7 +150,11 @@ export function render(container) {
     wrapper.style.position = 'relative';
     wrapper.style.display = 'inline-block';
 
-    const canvas = pageCanvases[index].cloneNode(true);
+    const canvas = document.createElement('canvas');
+    canvas.width = pageCanvases[index].width;
+    canvas.height = pageCanvases[index].height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(pageCanvases[index], 0, 0);
     canvas.style.maxWidth = '100%';
     wrapper.appendChild(canvas);
 
@@ -248,9 +270,10 @@ export function render(container) {
     applyBtn.style.display = 'none';
 
     try {
+      const renderScale = 0.75;
+      const invScale = 1 / renderScale;
       const pdfDoc = await loadPdf(currentFile);
       const pages = pdfDoc.getPages();
-      const scale = 72 / 0.75;
 
       for (let i = 0; i < pages.length && i < redactionRects.length; i++) {
         const rects = redactionRects[i];
@@ -259,11 +282,11 @@ export function render(container) {
 
         for (const rect of rects) {
           page.drawRectangle({
-            x: rect.x * scale,
-            y: height - (rect.y + rect.h) * scale,
-            width: rect.w * scale,
-            height: rect.h * scale,
-            color: { r: 0, g: 0, b: 0 },
+            x: rect.x * invScale,
+            y: height - (rect.y + rect.h) * invScale,
+            width: rect.w * invScale,
+            height: rect.h * invScale,
+            color: rgb(0, 0, 0),
             opacity: 1
           });
         }
