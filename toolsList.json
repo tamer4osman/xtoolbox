@@ -2167,25 +2167,5 @@
     "icon": "📜",
     "href": "/tools/git-changelog-generator",
     "status": "pending"
-  },
-  {
-    "status": "done",
-    "id": "image-compress",
-    "category": "image"
-  },
-  {
-    "status": "done",
-    "id": "character-counter",
-    "category": "text"
-  },
-  {
-    "status": "done",
-    "id": "docx-to-pdf-t",
-    "category": "pdf"
-  },
-  {
-    "status": "done",
-    "id": "lorem-generator",
-    "category": "text"
   }
 ]

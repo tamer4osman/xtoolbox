@@ -648,15 +648,6 @@
     "status": "done"
   },
   {
-    "id": "image-compress",
-    "name": "Image Compressor",
-    "category": "image",
-    "description": "Compress images to reduce file size while maintaining quality.",
-    "icon": "📉",
-    "href": "/tools/image-compress",
-    "status": "done"
-  },
-  {
     "id": "merge-images",
     "name": "Image Merger",
     "category": "image",
@@ -1332,30 +1323,12 @@
     "status": "done"
   },
   {
-    "id": "character-counter",
-    "name": "Character Counter",
-    "category": "text",
-    "description": "Count characters in text.",
-    "icon": "🔢",
-    "href": "/tools/character-counter",
-    "status": "done"
-  },
-  {
     "id": "csv-to-excel",
     "name": "CSV to Excel Converter",
     "category": "text",
     "description": "Convert CSV files to Excel format with proper formatting.",
     "icon": "🔄",
     "href": "/tools/csv-to-excel",
-    "status": "done"
-  },
-  {
-    "id": "docx-to-pdf-t",
-    "name": "DOCX to PDF",
-    "category": "text",
-    "description": "Convert Word documents to PDF. Preserves formatting, fonts, images, and tables.",
-    "icon": "📝",
-    "href": "/tools/docx-to-pdf-t",
     "status": "done"
   },
   {
@@ -1392,15 +1365,6 @@
     "description": "Render LaTeX equations to images. Preview and export as PNG.",
     "icon": "∑",
     "href": "/tools/latex-renderer",
-    "status": "done"
-  },
-  {
-    "id": "lorem-generator",
-    "name": "Lorem Generator",
-    "category": "text",
-    "description": "Generate placeholder text.",
-    "icon": "📝",
-    "href": "/tools/lorem-generator",
     "status": "done"
   },
   {

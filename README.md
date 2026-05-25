@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**245 free online tools. 100% client-side processing — your files never leave your device.**
+**241 free online tools. 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (2 done, 16 planned) |
 
-**Total tools:** 245 unique verified tools (229 built, 16 planned).
+**Total tools:** 241 unique verified tools (225 built, 16 planned).
 
 ## Categories
 

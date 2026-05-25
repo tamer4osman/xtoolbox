@@ -1,9 +1,9 @@
 [
   { "id": "pdf", "name": "PDF Tools", "icon": "📄", "description": "Merge, split, compress, and edit PDF files", "toolCount": 33 },
-  { "id": "image", "name": "Image Tools", "icon": "🖼️", "description": "Compress, resize, convert, and edit images", "toolCount": 35 },
+  { "id": "image", "name": "Image Tools", "icon": "🖼️", "description": "Compress, resize, convert, and edit images", "toolCount": 34 },
   { "id": "video", "name": "Video Tools", "icon": "🎬", "description": "Compress, trim, convert, and edit videos", "toolCount": 15 },
   { "id": "audio", "name": "Audio Tools", "icon": "🔊", "description": "Trim, convert, merge, and edit audio files", "toolCount": 10 },
-  { "id": "text", "name": "Text & Content", "icon": "📝", "description": "Format converters, word counter, text tools", "toolCount": 30 },
+  { "id": "text", "name": "Text & Content", "icon": "📝", "description": "Format converters, word counter, text tools", "toolCount": 27 },
   { "id": "health", "name": "Health & Personal", "icon": "❤️", "description": "BMI, calorie, ideal weight calculators", "toolCount": 11 },
   { "id": "math", "name": "Math & Converters", "icon": "🔢", "description": "Calculators, unit converters, graph plotter", "toolCount": 10 },
   { "id": "finance", "name": "Finance", "icon": "💰", "description": "Loan, mortgage, SIP, and tax calculators", "toolCount": 9 },
