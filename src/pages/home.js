@@ -11,7 +11,7 @@ export function renderHome() {
 
   updatePageMeta({
     title: 'XToolBox - Free Online Tools',
-    description: '227 free online tools. Compress images, edit PDFs, convert videos and more. 100% client-side — your files never leave your device.',
+    description: '229 free online tools. Compress images, edit PDFs, convert videos and more. 100% client-side — your files never leave your device.',
     url: window.location.origin
   });
 
@@ -32,7 +32,7 @@ export function renderHome() {
         <p>All processing happens in your browser. Your files never leave your device.</p>
         <div class="hero-search">
           <div class="search-wrapper">
-            <input type="text" id="search-input" placeholder="Search 227 tools..." autocomplete="off" aria-label="Search tools">
+            <input type="text" id="search-input" placeholder="Search 229 tools..." autocomplete="off" aria-label="Search tools">
             <div id="search-results" class="search-results"></div>
           </div>
         </div>
