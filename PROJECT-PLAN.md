@@ -10151,15 +10151,15 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 # 🚀 PHASE 24: PRIVACY & CLIENT-SIDE UTILITY EXPANSION
 
 > **Priority:** HIGH — Fills the critical gap of client-side privacy, addressing user concerns on Remote Server Logging, Data Monetization, and Corporate Data Leakage.
-> **Total new tools:** 20 (100% client-side, browser-native processing)
-> **Estimated effort:** ~60 hours across 4 sprints
+> **Total new tools:** 18 (100% client-side, browser-native processing)
+> **Estimated effort:** ~55 hours across 4 sprints
 > **Libraries needed:** pdf-lib, pdfjs-dist, canvas
 
 ---
 
-## 24.1 PDF Secure Destructive Redactor
+## 24.1 PDF Visual Redactor
 
-**Why new:** Existing standard PDF tools draw a black box overlay. This tool strips target character streams or securely rasterizes the redacted regions.
+**Why new:** Existing standard PDF tools draw a black box overlay. This tool provides an interactive page-by-page interface to draw black rectangles manually. Note: visual redaction only — text is hidden but not removed from the content stream.
 
 - [ ] File: `src/tools/pdf/pdf-secure-redact.js`
 - [ ] Library: `pdf-lib` + Canvas API
@@ -10338,7 +10338,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Output: Syntax-highlighted formatted XML block, validation diagnostics
 - [ ] SEO: title "XML Formatter & Validator — Beautify and Validate XML Offline"
 
-## 24.18 Changelog conventional commit Generator
+## 24.18 Conventional Commit Changelog Generator
 
 **Why new:** Compiling release logs from raw commit histories is tedious.
 
