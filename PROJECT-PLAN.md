@@ -2718,6 +2718,63 @@ export function destroy() {
 
 ---
 
+## C2. TOOL BUILD SEQUENCE (Mandatory)
+
+> **Any AI model building a new tool MUST follow this exact sequence. Do not skip steps.**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Step 1 ── Create the tool                              │
+│  Step 2 ── Create unit tests                            │
+│  Step 3 ── Create Playwright E2E test                   │
+│  Step 4 ── Build & verify                               │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Step 1: Create the tool
+
+1. Create the tool file at `src/tools/{category}/{tool-id}.js` following the **Tool Interface Contract** (Section C above).
+2. Add the tool entry to `toolsList.json` (status: `"done"`).
+3. If tests exist for neighboring tools, check their pattern to match the project style.
+
+### Step 2: Create unit tests
+
+1. Create unit test file at `src/__tests__/{tool-id}.test.js`
+2. Test the tool's `toolConfig` structure:
+   - Verify `id`, `name`, `category`, `description`, `icon`, `status` are present
+   - Verify `keywords`, `steps`, `faqs` arrays are populated
+3. Test `render(container)`:
+   - Verify it appends content to the container
+   - Verify it injects a `<style>` element
+4. Test `destroy()`:
+   - Verify it cleans up (removes style element, revokes object URLs)
+5. Follow existing test patterns in `src/__tests__/` (e.g., `stopwatch.test.js`, `url-parser.test.js`)
+
+### Step 3: Create Playwright E2E test
+
+1. Create Playwright test at `tests/{tool-id}.spec.js`
+2. Test the tool loads without errors:
+   - Navigate to `#/tools/{tool-id}` via hash router
+   - Wait for tool content to render
+   - Verify key UI elements are visible
+   - Check no console errors occurred
+3. Test core interaction:
+   - For form-based tools: fill inputs, click buttons, verify output
+   - For file tools: upload a fixture file, process, verify download
+4. Match the structure of existing `tests/*.spec.js` files
+
+### Step 4: Build & verify
+
+```bash
+npm run build        # Must pass with zero errors
+npm run test         # All unit + E2E tests must pass
+```
+
+- If `npm run test` fails, fix test or tool before considering the task done.
+- Verify the tool chunk appears in the build output (e.g., `dist/assets/{tool-id}-*.js`).
+
+---
+
 ## D. TOOL PAGE LOADER CODE
 
 Create file: `src/pages/tool.js`
