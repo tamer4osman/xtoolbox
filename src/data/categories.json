@@ -1,5 +1,5 @@
 [
-  { "id": "pdf", "name": "PDF Tools", "icon": "📄", "description": "Merge, split, compress, and edit PDF files", "toolCount": 31 },
+  { "id": "pdf", "name": "PDF Tools", "icon": "📄", "description": "Merge, split, compress, and edit PDF files", "toolCount": 32 },
   { "id": "image", "name": "Image Tools", "icon": "🖼️", "description": "Compress, resize, convert, and edit images", "toolCount": 35 },
   { "id": "video", "name": "Video Tools", "icon": "🎬", "description": "Compress, trim, convert, and edit videos", "toolCount": 15 },
   { "id": "audio", "name": "Audio Tools", "icon": "🔊", "description": "Trim, convert, merge, and edit audio files", "toolCount": 10 },

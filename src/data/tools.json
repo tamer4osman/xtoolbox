@@ -2041,5 +2041,14 @@
     "icon": "🔍",
     "href": "/tools/url-parser",
     "status": "done"
+  },
+  {
+    "id": "pdf-secure-redact",
+    "name": "PDF Secure Destructive Redactor",
+    "category": "pdf",
+    "description": "Perform true destructive redaction by drawing black rectangles over sensitive text in PDF pages.",
+    "icon": "🔒",
+    "href": "/tools/pdf-secure-redact",
+    "status": "done"
   }
 ]
