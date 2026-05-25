@@ -120,6 +120,7 @@ export function render(container) {
           </div>
           <div class="result-actions">
             <button id="download-png" class="tool-button secondary">Download PNG</button>
+            <button id="download-vcf" class="tool-button secondary" style="display:none;">Download .vcf</button>
             <button id="copy-clipboard" class="tool-button secondary">Copy to Clipboard</button>
           </div>
         </div>
@@ -211,6 +212,7 @@ export function render(container) {
   const qrCanvas = container.querySelector('#qr-canvas');
   const resultSize = container.querySelector('#result-size');
   const downloadPng = container.querySelector('#download-png');
+  const downloadVcf = container.querySelector('#download-vcf');
   const copyClipboard = container.querySelector('#copy-clipboard');
 
   qrType.addEventListener('change', () => {
@@ -227,9 +229,14 @@ export function render(container) {
       qrContent.placeholder = type === 'url' ? 'https://example.com' : 'Enter text...';
     } else if (type === 'wifi') {
       wifiFields.style.display = 'flex';
-    } else if (type === 'vcard') {
+    } else     if (type === 'vcard') {
       vcardFields.style.display = 'flex';
-    } else if (type === 'email') {
+      downloadVcf.style.display = '';
+    } else {
+      downloadVcf.style.display = 'none';
+    }
+
+    if (type === 'email') {
       emailFields.style.display = 'flex';
     } else if (type === 'phone') {
       phoneFields.style.display = 'flex';
@@ -345,6 +352,34 @@ export function render(container) {
     link.download = 'qrcode.png';
     link.href = qrCanvas.toDataURL('image/png');
     link.click();
+  });
+
+  downloadVcf.addEventListener('click', () => {
+    const name = container.querySelector('#vcard-name').value || 'Contact';
+    const phone = container.querySelector('#vcard-phone').value;
+    const email = container.querySelector('#vcard-email').value;
+    const org = container.querySelector('#vcard-org').value;
+    const title = container.querySelector('#vcard-title').value;
+    const website = container.querySelector('#vcard-website').value;
+    const parts = name.trim().split(/\s+/);
+    const lastName = parts.length > 1 ? parts.pop() : '';
+    const firstName = parts.join(' ');
+    let vcf = 'BEGIN:VCARD\nVERSION:3.0\n';
+    vcf += `N:${lastName};${firstName};;;\nFN:${name}\n`;
+    if (phone) vcf += `TEL:${phone}\n`;
+    if (email) vcf += `EMAIL:${email}\n`;
+    if (org) vcf += `ORG:${org}\n`;
+    if (title) vcf += `TITLE:${title}\n`;
+    if (website) vcf += `URL:${website}\n`;
+    vcf += 'END:VCARD';
+    const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${name.replace(/\s+/g, '_')}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
   });
 
   copyClipboard.addEventListener('click', async () => {
