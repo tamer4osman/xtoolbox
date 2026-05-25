@@ -2032,5 +2032,14 @@
     "icon": "🔮",
     "href": "/tools/glassmorphism-generator",
     "status": "done"
+  },
+  {
+    "id": "css-clamp-generator",
+    "name": "Fluid Typography (CSS Clamp) Calculator",
+    "category": "css",
+    "description": "Calculate responsive font scales using CSS clamp() function with preferred viewport mathematical scale.",
+    "icon": "📐",
+    "href": "/tools/css-clamp-generator",
+    "status": "done"
   }
 ]

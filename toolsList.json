@@ -2031,7 +2031,7 @@
     "description": "Visual playground to design cross-browser compatible glassmorphism elements with Safari fallbacks.",
     "icon": "🔮",
     "href": "/tools/glassmorphism-generator",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "css-clamp-generator",
@@ -2040,7 +2040,7 @@
     "description": "Calculate responsive font scales using CSS clamp() function with preferred viewport mathematical scale.",
     "icon": "📐",
     "href": "/tools/css-clamp-generator",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "svg-blob-generator",
