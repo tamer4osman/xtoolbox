@@ -2050,5 +2050,14 @@
     "icon": "🔒",
     "href": "/tools/pdf-secure-redact",
     "status": "done"
+  },
+  {
+    "id": "textbook-splitter",
+    "name": "Page Textbook Splitter",
+    "category": "pdf",
+    "description": "Split landscape-scanned book pages down the middle into consecutive portrait pages.",
+    "icon": "📖",
+    "href": "/tools/textbook-splitter",
+    "status": "done"
   }
 ]

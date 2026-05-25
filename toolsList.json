@@ -2022,7 +2022,7 @@
     "description": "Split landscape-scanned A3 book layouts mathematically down the middle into consecutive portrait pages.",
     "icon": "📖",
     "href": "/tools/textbook-splitter",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "glassmorphism-generator",
