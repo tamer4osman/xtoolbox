@@ -6,7 +6,7 @@ test('PDF Secure Destructive Redactor tool loads and has correct UI', async ({ p
   await page.waitForSelector('.tool-layout', { timeout: 5000 });
 
   const title = await page.locator('.tool-header h1').textContent();
-  expect(title).toContain('PDF Secure Destructive Redactor');
+  expect(title).toContain('PDF Visual Redactor');
 
   const uploadArea = await page.locator('.tool-upload-area');
   await expect(uploadArea).toBeVisible();

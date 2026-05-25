@@ -5,13 +5,13 @@ import { rgb } from 'pdf-lib';
 
 export const toolConfig = {
   id: 'pdf-secure-redact',
-  name: 'PDF Secure Destructive Redactor',
+  name: 'PDF Visual Redactor',
   category: 'pdf',
-  description: 'Perform true destructive redaction by drawing black rectangles over sensitive text in PDF pages.',
+  description: 'Cover sensitive text in PDF pages with black rectangles. Note: this is visual redaction only — the underlying text is hidden but not permanently removed from the file.',
   icon: '🔒',
   accept: '.pdf',
   maxSizeMB: 100,
-  keywords: ['pdf redact', 'redact pdf', 'destroy text', 'remove text pdf', 'black out pdf', 'secure pdf'],
+  keywords: ['pdf redact', 'redact pdf', 'black out pdf', 'cover text pdf', 'visual redaction'],
   steps: [
     'Upload a PDF file',
     'For each page, click and drag to draw black rectangles over sensitive content',
@@ -21,8 +21,8 @@ export const toolConfig = {
   ],
   faqs: [
     {
-      question: 'Is this truly destructive redaction?',
-      answer: 'This tool draws opaque black rectangles over selected areas. The underlying text is visually removed but technically still present in the PDF. For truly destructive redaction that removes text from the content stream, use dedicated desktop software.'
+      question: 'Is this destructive redaction?',
+      answer: 'No. This is visual redaction only — it draws opaque black rectangles over selected areas. The underlying text is hidden but still technically present in the PDF file. For truly destructive redaction that strips text from the content stream, use dedicated desktop software like Adobe Acrobat Pro.'
     },
     {
       question: 'Can I undo a redaction rectangle?',
@@ -178,6 +178,10 @@ export function render(container) {
 
     canvasContainer.appendChild(wrapper);
 
+    const overlayPreview = document.createElement('div');
+    overlayPreview.style.cssText = 'position:absolute;background:rgba(0,0,0,0.5);border:1px dashed #ff0000;display:none;pointer-events:none;z-index:20;';
+    wrapper.appendChild(overlayPreview);
+
     canvasContainer.onmousedown = (e) => {
       if (e.target !== canvas) return;
       const rect = canvas.getBoundingClientRect();
@@ -224,10 +228,6 @@ export function render(container) {
       }
       drawStart = null;
     };
-
-    const overlayPreview = document.createElement('div');
-    overlayPreview.style.cssText = 'position:absolute;background:rgba(0,0,0,0.5);border:1px dashed #ff0000;display:none;pointer-events:none;z-index:20;';
-    wrapper.appendChild(overlayPreview);
 
     document.addEventListener('keydown', (e) => {
       if ((e.key === 'Delete' || e.key === 'Backspace') && selectedRectIndex >= 0) {

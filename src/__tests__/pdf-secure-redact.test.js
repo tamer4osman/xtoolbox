@@ -4,7 +4,7 @@ import { toolConfig, render, destroy } from '../tools/pdf/pdf-secure-redact.js';
 describe('pdf-secure-redact', () => {
   it('has correct tool config', () => {
     expect(toolConfig.id).toBe('pdf-secure-redact');
-    expect(toolConfig.name).toBe('PDF Secure Destructive Redactor');
+    expect(toolConfig.name).toBe('PDF Visual Redactor');
     expect(toolConfig.category).toBe('pdf');
     expect(toolConfig.icon).toBe('🔒');
     expect(toolConfig.accept).toBe('.pdf');

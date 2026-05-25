@@ -2008,9 +2008,9 @@
   },
   {
     "id": "pdf-secure-redact",
-    "name": "PDF Secure Destructive Redactor",
+    "name": "PDF Visual Redactor",
     "category": "pdf",
-    "description": "Perform true destructive redaction by stripping text characters or rasterizing regions to flat pixels client-side.",
+    "description": "Cover sensitive text in PDF pages with black rectangles. Visual redaction only — text is hidden but not permanently removed.",
     "icon": "🔒",
     "href": "/tools/pdf-secure-redact",
     "status": "done"
