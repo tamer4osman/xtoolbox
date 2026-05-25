@@ -36,9 +36,9 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | ⬜ | 0 | 20 |
+| Phase 24: Privacy & Utility Expansion | ⬜ | 0 | 18 |
 
-**Status:** 223 professional tools built. Phase 24 planned.
+**Status:** 223 professional tools built. Phase 24 planned (18 new tools + 2 enhancements).
 
 ---
 
@@ -7557,18 +7557,15 @@ STEP 11: Build Tools (Phase 2-18)
   </urlset>
   ```
 
-**Task 29.1.4: Build Open Graph Preview**
-- [ ] File: `src/tools/seo/og-preview.js`
-- [ ] UI:
-  1. Input: URL, Title, Description, Image URL
-  2. **Live previews** showing how the link appears on:
+**Task 29.1.4: Add social preview to OG Generator (MERGED INTO og-generator.js)**
+- [ ] Enhance: `src/tools/seo/og-generator.js` with live social preview mocks
+- [ ] Add preview panels for:
      - Facebook (large card)
      - Twitter (summary card)
      - LinkedIn
      - WhatsApp
      - Slack
-  3. Each preview styled to look like the actual platform
-  4. Generated meta tags code below
+- [ ] Each preview styled to look like the actual platform
 
 **Task 29.1.5: Build Keyword Density Checker**
 - [ ] File: `src/tools/seo/keyword-density.js`
@@ -7582,7 +7579,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] N-gram analysis: 1-word, 2-word, 3-word phrases
 
 **Task 29.1.6: Add all SEO tools to tools.json**
-- [ ] Verify: `meta-tag-generator`, `schema-markup-generator`, `sitemap-generator`, `og-preview`, `keyword-density`
+- [ ] Verify: `meta-tag-generator`, `schema-markup-generator`, `sitemap-generator`, `og-generator` (+enhanced social preview), `keyword-density`
 
 **Task 29.1.7: Create SEO category in categories.json**
 - [ ] Add new category: `{ "id": "seo", "name": "SEO Tools", "icon": "🔍", "description": "Meta tags, schema markup, sitemaps, and SEO analysis", "toolCount": 5 }`
@@ -10254,17 +10251,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Output: Formatted CSV export or bulk URL list
 - [ ] SEO: title "Bulk UTM Builder — Generate Campaign Tracking URLs in Bulk"
 
-## 24.15 Open Graph (OG) Mock Visualizer
-
-**Why new:** OG tag builders only output text; this renders visual mockups for various social apps.
-
-- [ ] File: `src/tools/seo/og-preview.js`
-- [ ] Input: Meta tags fields (title, desc, image URL, site name)
-- [ ] Logic: Replicate layouts for X (Twitter), Facebook, LinkedIn, and Slack cards using CSS
-- [ ] Output: Live social previews updating in real-time
-- [ ] SEO: title "Open Graph (OG) Mock Visualizer — Social Share Cards Preview Tool"
-
-## 24.16 Ambient Focus Soundboard
+## 24.15 Ambient Focus Soundboard
 
 **Why new:** Free background noise generators have transitioned to paid subscriptions.
 
@@ -10274,7 +10261,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Output: Offline ambient player
 - [ ] SEO: title "Ambient Focus Soundboard — Free Background Noise Mixer"
 
-## 24.17 SRT / VTT Subtitle Sync Shifter
+## 24.16 SRT / VTT Subtitle Sync Shifter
 
 **Why new:** Syncing subtitles by shifting file timelines usually requires heavy video software.
 
@@ -10284,7 +10271,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Output: Downloadable synchronized subtitle file
 - [ ] SEO: title "Subtitle Sync Shifter — Offset SRT & VTT Timestamps Online"
 
-## 24.18 XML Formatter & Validator
+## 24.17 XML Formatter & Validator
 
 **Why new:** SOAP/RSS XML testing needs safe offline validation without leaking internal markup structures.
 
@@ -10294,7 +10281,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Output: Syntax-highlighted formatted XML block, validation diagnostics
 - [ ] SEO: title "XML Formatter & Validator — Beautify and Validate XML Offline"
 
-## 24.19 Changelog conventional commit Generator
+## 24.18 Changelog conventional commit Generator
 
 **Why new:** Compiling release logs from raw commit histories is tedious.
 
@@ -10304,21 +10291,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Output: Formatted Markdown release notes
 - [ ] SEO: title "Conventional Commit Changelog Generator — Create Git Release Notes"
 
-## 24.20 VCard (.vcf) Business Contact Generator
-
-**Why new:** Generating virtual contact files often requires uploading contact data to unknown cloud databases.
-
-- [ ] File: `src/tools/productivity/vcard-generator.js`
-- [ ] Input: Contact details (name, email, phone, address, organization, photo)
-- [ ] Logic: Compile standard-compliant VCF v3.0 string, render QR contact representation
-- [ ] Output: Downloadable vCard (.vcf) file, QR contact image
-- [ ] SEO: title "VCard Generator — Create and Download VCF Contacts Offline"
-
 ---
 
 ## Phase 24 Quality Checklist
 
-- [ ] All 20 tools are 100% client-side with zero remote database transmissions.
+- [ ] All 18 tools are 100% client-side with zero remote database transmissions.
 - [ ] Each tool handles layout configurations responsively for desktop, tablet, and mobile browsers.
 - [ ] Visual editors utilize clean pre-defined design system tokens from tokens.css.
 - [ ] All tool page entries contain optimized SEO titles, FAQ listings, and step-by-step How-To templates.
@@ -10329,16 +10306,36 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 | Sprint | Tools | Est. Hours | Status |
 |--------|-------|------------|--------|
-| Phase 24.1: PDF & Marketing | 4 (redact, splitter, utm, og-preview) | ~15h | ⬜ |
+| Phase 24.1: PDF & Marketing | 3 (redact, splitter, utm) | ~12h | ⬜ |
 | Phase 24.2: CSS Studio | 5 (glass, clamp, blob, neumorph, triangle) | ~15h | ⬜ |
 | Phase 24.3: Dev utilities | 6 (sitemap, log, assets, sql, hosts, headers) | ~18h | ⬜ |
-| Phase 24.4: Productivity & Text | 5 (ambient, subtitle, xml, changelog, vcard) | ~12h | ⬜ |
-| **Total** | **20** | **~60h** | ⬜ |
+| Phase 24.4: Productivity & Text | 4 (ambient, subtitle, xml, changelog) | ~10h | ⬜ |
+| **Total** | **18** | **~55h** | ⬜ |
 
-**After Phase 24:** 243 tools total across 21 categories.
+### 🧩 Phase 24 Enhancements (to existing tools)
+
+#### E1: OG social preview mock — `seo/og-generator.js`
+
+- [ ] Add preview panel section below generated OG tags
+- [ ] Mock Facebook card: title, description, image, domain — styled as Facebook link preview
+- [ ] Mock X/Twitter card: summary card layout with image
+- [ ] Mock LinkedIn card with company/page layout
+- [ ] Mock Slack/WhatsApp unfurl preview
+- [ ] All previews update in real-time as user edits OG fields
+- [ ] Add toggle to show/hide preview panel
+
+#### E2: .vcf file download option — `qr/qr-generator.js` (vCard mode)
+
+- [ ] In the existing vCard QR mode, add a "Download .vcf" button alongside the QR code
+- [ ] Compile VCF v3.0 string from input fields (name, phone, email, org, title, website)
+- [ ] Generate downloadable .vcf file blob
+- [ ] Optional: generate vCard QR code that encodes the full VCF text (not just URL)
+- [ ] Show success toast on .vcf download
+
+**After Phase 24:** 241 tools total across 21 categories.
 - `pdf`: 33 tools (31 original + 2 Phase 24)
 - `css`: 15 tools (10 original + 5 Phase 24)
 - `dev`: 16 tools (10 original + 6 Phase 24)
-- `seo`: 8 tools (6 original + 2 Phase 24)
+- `seo`: 7 tools (6 original + 1 Phase 24, +1 enhancement)
 - `text`: 29 tools (27 original + 2 Phase 24)
-- `productivity`: 6 tools (3 original + 3 Phase 24)
+- `productivity`: 5 tools (3 original + 2 Phase 24, +1 enhancement)

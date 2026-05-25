@@ -2133,15 +2133,6 @@
     "status": "pending"
   },
   {
-    "id": "og-preview",
-    "name": "Open Graph (OG) Mock Visualizer",
-    "category": "seo",
-    "description": "Generate Open Graph social tags and inspect real-time mock rendering for X, Facebook, and LinkedIn.",
-    "icon": "🖼️",
-    "href": "/tools/og-preview",
-    "status": "pending"
-  },
-  {
     "id": "ambient-sound-mixer",
     "name": "Ambient Focus Soundboard",
     "category": "productivity",
@@ -2177,13 +2168,4 @@
     "href": "/tools/git-changelog-generator",
     "status": "pending"
   },
-  {
-    "id": "vcard-generator",
-    "name": "VCard (.vcf) Business Contact Generator",
-    "category": "productivity",
-    "description": "Offline business card creator compiling standard-compliant VCF files and QR contact codes.",
-    "icon": "📇",
-    "href": "/tools/vcard-generator",
-    "status": "pending"
-  }
 ]

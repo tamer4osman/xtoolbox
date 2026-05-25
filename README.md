@@ -49,9 +49,9 @@ npm run test       # → Playwright tests
 | Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
 | Phase 22: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
-| Phase 24: Client-Side Privacy & Utility Expansion | ⬜ Planned (20 tools) |
+| Phase 24: Client-Side Privacy & Utility Expansion | ⬜ Planned (18 tools) |
 
-**Total tools:** 243 unique verified tools (223 built, 20 planned).
+**Total tools:** 241 unique verified tools (223 built, 18 planned).
 
 ## Categories
 
@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Planned, 20 tools)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Planned, 18 tools)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|
@@ -246,12 +246,17 @@ toolbox/
 | 12 | Hosts File Configurator | `dev/hosts-file-generator.js` | `dev` | Generates formatted local network alias hosts configurations from a simple visual key table. |
 | 13 | Security Headers Generator | `dev/security-headers-generator.js` | `dev` | Evaluates site policies and generates secure CSP, HSTS, and referrer headers configurations. |
 | 14 | Bulk UTM Campaign URL Builder | `seo/bulk-utm-builder.js` | `seo` | Builds multiple tracking URLs at once from lists, supporting presets and CSV export. |
-| 15 | Open Graph (OG) Mock Visualizer | `seo/og-preview.js` | `seo` | Provides visual previews of social media search appearance cards for X, Facebook, and LinkedIn. |
-| 16 | Ambient Focus Soundboard | `productivity/ambient-sound-mixer.js` | `productivity` | Customizes custom background sounds locally with multi-track loop mixing nodes. |
-| 17 | SRT / VTT Subtitle Sync Shifter | `productivity/subtitle-time-shifter.js` | `productivity` | Offsets subtitle file timings in bulk via millisecond-level time-shifting regex. |
-| 18 | XML Formatter & Validator | `text/xml-formatter.js` | `text` | Formats, validates, and highlights nested XML content without server transmissions. |
-| 19 | Changelog conventional commit Generator | `text/git-changelog-generator.js` | `text` | Compiles raw git logs into structured release changelogs using Conventional Commit parser keys. |
-| 20 | VCard (.vcf) Business Contact Generator | `productivity/vcard-generator.js` | `productivity` | Generates standard downloadable contact business cards (.vcf) and contact QR scan targets offline. |
+| 15 | Ambient Focus Soundboard | `productivity/ambient-sound-mixer.js` | `productivity` | Customizes custom background sounds locally with multi-track loop mixing nodes. |
+| 16 | SRT / VTT Subtitle Sync Shifter | `productivity/subtitle-time-shifter.js` | `productivity` | Offsets subtitle file timings in bulk via millisecond-level time-shifting regex. |
+| 17 | XML Formatter & Validator | `text/xml-formatter.js` | `text` | Formats, validates, and highlights nested XML content without server transmissions. |
+| 18 | Changelog conventional commit Generator | `text/git-changelog-generator.js` | `text` | Compiles raw git logs into structured release changelogs using Conventional Commit parser keys. |
+
+### 🧩 Phase 24 Enhancements (to existing tools)
+
+| Tool | Enhancement | Existing tool |
+|------|-------------|---------------|
+| OG Mock Visualizer | Add social platform preview mock (X, Facebook, LinkedIn) | `seo/og-generator.js` |
+| VCard (.vcf) Generator | Add .vcf file download output option | `qr/qr-generator.js` (vCard QR mode) |
 
 ---
 
