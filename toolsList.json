@@ -2121,7 +2121,8 @@
     "description": "Configure Content Security Policy (CSP), HSTS, and generate config rules for Nginx, Apache, or Cloudflare.",
     "icon": "🛡️",
     "href": "/tools/security-headers-generator",
-    "status": "pending"
+    "keywords": ["security", "headers", "csp", "hsts", "content security policy", "nginx", "apache", "cloudflare"],
+    "status": "done"
   },
   {
     "id": "bulk-utm-builder",

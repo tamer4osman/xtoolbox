@@ -49,9 +49,9 @@ npm run test       # → Playwright tests
 | Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
 | Phase 23: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
-| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (9 done, 9 planned) |
+| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (10 done, 8 planned) |
 
-**Total tools:** 241 unique verified tools (232 built, 9 planned).
+**Total tools:** 241 unique verified tools (233 built, 8 planned).
 
 ## Categories
 
@@ -244,7 +244,7 @@ toolbox/
 | 10 | Website Asset Extractor | `dev/web-asset-extractor.js` | `dev` | Parses pasted HTML markup and extracts inline SVGs, styles, and external fonts for study. ✅ |
 | 11 | SQL to JSON & Schema Converter | `dev/sql-to-json.js` | `dev` | Converts database table creation statements and insertions into structured JSON lists. ✅ |
 | 12 | Hosts File Configurator | `dev/hosts-file-generator.js` | `dev` | Generates formatted local network alias hosts configurations from a simple visual key table. |
-| 13 | Security Headers Generator | `dev/security-headers-generator.js` | `dev` | Evaluates site policies and generates secure CSP, HSTS, and referrer headers configurations. |
+| 13 | Security Headers Generator | `dev/security-headers-generator.js` | `dev` | Evaluates site policies and generates secure CSP, HSTS, and referrer headers configurations. ✅ |
 | 14 | Bulk UTM Campaign URL Builder | `seo/bulk-utm-builder.js` | `seo` | Builds multiple tracking URLs at once from lists, supporting presets and CSV export. |
 | 15 | Ambient Focus Soundboard | `productivity/ambient-sound-mixer.js` | `productivity` | Customizes custom background sounds locally with multi-track loop mixing nodes. |
 | 16 | SRT / VTT Subtitle Sync Shifter | `productivity/subtitle-time-shifter.js` | `productivity` | Offsets subtitle file timings in bulk via millisecond-level time-shifting regex. |

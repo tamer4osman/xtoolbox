@@ -2086,5 +2086,15 @@
     "icon": "📦",
     "href": "/tools/web-asset-extractor",
     "status": "done"
+  },
+  {
+    "id": "security-headers-generator",
+    "name": "Security Headers Generator",
+    "category": "dev",
+    "description": "Configure Content Security Policy (CSP), HSTS, and generate config rules for Nginx, Apache, or Cloudflare.",
+    "icon": "🛡️",
+    "href": "/tools/security-headers-generator",
+    "keywords": ["security", "headers", "csp", "hsts", "content security policy", "nginx", "apache", "cloudflare", "x-frame-options", "referrer-policy"],
+    "status": "done"
   }
 ]

@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 9 | 18 |
-| **Total** | | **232** | |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 10 | 18 |
+| **Total** | | **233** | |
 
-**Status:** 232 professional tools built. Phase 24 in progress (9 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 233 professional tools built. Phase 24 in progress (10 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11188,11 +11188,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Configuring CSP and HSTS header directives is complex and prone to breaking website scripts.
 
-- [ ] File: `src/tools/dev/security-headers-generator.js`
-- [ ] Input: Config switches (allow scripts, images, framing options, SSL enforce)
-- [ ] Logic: Formulate policy strings for Content-Security-Policy (CSP), X-Frame-Options, HSTS
-- [ ] Output: Copyable configurations for Nginx, Apache, or Cloudflare Workers
-- [ ] SEO: title "Security Headers Generator — Secure CSP and HSTS Directives Builder"
+- [x] File: `src/tools/dev/security-headers-generator.js`
+- [x] Input: Config switches (allow scripts, images, framing options, SSL enforce)
+- [x] Logic: Formulate policy strings for Content-Security-Policy (CSP), X-Frame-Options, HSTS
+- [x] Output: Copyable configurations for Nginx, Apache, or Cloudflare Workers
+- [x] SEO: title "Security Headers Generator — Secure CSP and HSTS Directives Builder"
 
 ## 24.14 Bulk UTM Campaign URL Builder
 
