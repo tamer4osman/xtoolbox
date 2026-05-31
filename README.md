@@ -21,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-24 phases. Phases 1–23 complete. Phase 24 planned.
+24 phases. Phases 1–23 complete. Phase 24 in progress.
 
 | Phase | Status |
 |-------|--------|
@@ -47,7 +47,7 @@ npm run test       # → Playwright tests
 | Phase 20: Monetization & Launch | ✅ Done |
 | Phase 21: Market Expansion | ✅ Done (33 tools) |
 | Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
-| Phase 22: Gap Fill I | ✅ Done (6 tools) |
+| Phase 23: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (5 done, 13 planned) |
 
@@ -72,7 +72,7 @@ npm run test       # → Playwright tests
 | Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 27/29 |
 | Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 13 | +5 | **18** | Custom JS | 13/18 |
+| CSS & Web Design | 13 | +5 | **18** | Custom JS | 14/18 |
 | Developer | 10 | +6 | **16** | Custom JS | 10/16 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | — | **8** | Custom JS | ✅ |
@@ -171,7 +171,7 @@ toolbox/
 │   │   ├── about.js / privacy.js / terms.js / not-found.js
 │   │
 │   ├── tools/                    ← Tool implementations
-│   │   ├── pdf/                  ← 31 PDF tools (+2 Phase 24)
+│   │   ├── pdf/                  ← 33 PDF tools
 │   │   ├── image/                ← 34 image tools
 │   │   ├── video/                ← 15 video tools
 │   │   ├── audio/                ← 10 audio tools
@@ -186,7 +186,7 @@ toolbox/
 │   │   ├── text/                 ← 27 text tools (+2 Phase 24)
 │   │   ├── encoding/             ← 8 encoding tools
 │   │   ├── visualization/        ← 4 visualization tools
-│   │   ├── css/                  ← 10 CSS tools (+5 Phase 24)
+│   │   ├── css/                  ← 13 CSS tools (+5 Phase 24)
 │   │   ├── dev/                  ← 10 developer tools (+6 Phase 24)
 │   │   ├── productivity/         ← 3 tools (+3 Phase 24)
 │   │   ├── fun/                  ← 5 fun tools
@@ -194,7 +194,7 @@ toolbox/
 │   │   └── seo/                  ← 6 SEO tools (+2 Phase 24)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 200 tool definitions (178 + 22 planned)
+│   │   ├── tools.json            ← 230+ tool definitions
 │   │   ├── categories.json       ← 19 categories (productivity added in Phase 22)
 │   │   └── countries.json        ← 50 countries
 │   │
@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Planned, 18 tools)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 5 done, 13 planned)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|

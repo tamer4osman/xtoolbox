@@ -39,7 +39,7 @@
 | Phase 24: Privacy & Utility Expansion | 🏗️ | 5 | 18 |
 | **Total** | | **228** | |
 
-**Status:** 228 professional tools built. Phase 24 in progress (5 done, 13 planned + 2 enhancements).
+**Status:** 228 professional tools built. Phase 24 in progress (5 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -48,6 +48,7 @@
 This is the exact folder structure we will build. Refer to this when confused about where a file goes.
 
 ```
+
 project-root/
 ├── index.html                    ← Homepage
 ├── manifest.json                 ← PWA manifest
@@ -341,6 +342,7 @@ project-root/
     ├── compress-pdf-guide.html
     ├── remove-background-guide.html
     └── ... (more articles)
+
 ```
 
 ---
@@ -356,37 +358,48 @@ project-root/
 ### 1.1 Project Setup (7 tasks)
 
 #### Task 1.1.1: Create project folder
+
 - [x] Create a folder called `toolbox` (or your chosen name) on your machine
 - [x] Open terminal inside that folder
 
 #### Task 1.1.2: Initialize npm project
+
 - [x] Run: `npm init -y`
 - [x] This creates `package.json` with default values
 
 #### Task 1.1.3: Install Vite (build tool)
+
 - [x] Run: `npm install vite --save-dev`
 - [x] Vite is free, fast, and handles code splitting automatically
 
 #### Task 1.1.4: Create `.gitignore` file
+
 - [x] Create file `.gitignore` at project root
 - [x] Contents should be:
+
 ```
+
 node_modules/
 dist/
 .DS_Store
 *.log
 .env
+
 ```
 
 #### Task 1.1.5: Create Git repository
+
 - [x] Run: `git init`
 - [x] Run: `git add .`
 - [x] Run: `git commit -m "Initial project setup"`
 
 #### Task 1.1.6: Configure Vite
+
 - [x] Create file `vite.config.js` at project root
 - [x] Contents:
+
 ```js
+
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -404,18 +417,24 @@ export default defineConfig({
     open: true
   }
 });
+
 ```
 
 #### Task 1.1.7: Add npm scripts to `package.json`
+
 - [x] Open `package.json`
 - [x] Replace the `"scripts"` section with:
+
 ```json
+
 "scripts": {
   "dev": "vite",
   "build": "vite build",
   "preview": "vite preview"
 }
+
 ```
+
 - [x] Test it: run `npm run dev` — should open browser at localhost:3000
 
 ---
@@ -423,14 +442,17 @@ export default defineConfig({
 ### 1.2 Design System — Colors (4 tasks)
 
 #### Task 1.2.1: Choose primary color
+
 - [x] Pick a primary color. Recommended: `#2563EB` (professional blue)
 - [x] This is used for buttons, links, active states
 
 #### Task 1.2.2: Choose secondary color
+
 - [x] Pick a secondary color. Recommended: `#7C3AED` (purple)
 - [x] Used for accents, highlights, hover states
 
 #### Task 1.2.3: Choose neutral colors
+
 - [x] Define these grays:
   - Background: `#FFFFFF` (white)
   - Surface: `#F9FAFB` (light gray for cards)
@@ -440,6 +462,7 @@ export default defineConfig({
   - Text muted: `#9CA3AF` (light gray)
 
 #### Task 1.2.4: Choose status colors
+
 - [x] Success: `#10B981` (green)
 - [x] Warning: `#F59E0B` (amber)
 - [x] Error: `#EF4444` (red)
@@ -450,14 +473,17 @@ export default defineConfig({
 ### 1.3 Design System — Typography (3 tasks)
 
 #### Task 1.3.1: Choose heading font
+
 - [x] Use Google Fonts: `Inter` (free, professional, good weights)
 - [x] Alternative: `Poppins` or `Plus Jakarta Sans`
 
 #### Task 1.3.2: Choose body font
+
 - [x] Use: `Inter` for body too (keeps it simple)
 - [x] Or: `DM Sans` as alternative
 
 #### Task 1.3.3: Define font sizes
+
 - [x] Use this scale:
   - `--text-xs`: 0.75rem (12px)
   - `--text-sm`: 0.875rem (14px)
@@ -473,10 +499,13 @@ export default defineConfig({
 ### 1.4 Design System — Tokens File (2 tasks)
 
 #### Task 1.4.1: Create tokens CSS file
+
 - [x] Create folder: `src/styles/`
 - [x] Create file: `src/styles/tokens.css`
 - [x] Contents:
+
 ```css
+
 :root {
   /* Colors - Primary */
   --color-primary: #2563EB;
@@ -542,9 +571,11 @@ export default defineConfig({
   /* Breakpoints (for reference, use in media queries) */
   /* mobile: 640px, tablet: 768px, desktop: 1024px, wide: 1280px */
 }
+
 ```
 
 #### Task 1.4.2: Verify tokens file
+
 - [x] Make sure file is saved at `src/styles/tokens.css`
 - [x] No syntax errors (check for missing semicolons or braces)
 
@@ -553,9 +584,12 @@ export default defineConfig({
 ### 1.5 CSS Reset & Global Styles (3 tasks)
 
 #### Task 1.5.1: Create CSS reset
+
 - [x] Create file: `src/styles/reset.css`
 - [x] Contents:
+
 ```css
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -603,12 +637,16 @@ button {
 ul, ol {
   list-style: none;
 }
+
 ```
 
 #### Task 1.5.2: Create global styles
+
 - [x] Create file: `src/styles/global.css`
 - [x] Contents:
+
 ```css
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import './tokens.css';
 @import './reset.css';
@@ -635,12 +673,16 @@ ul, ol {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
 ```
 
 #### Task 1.5.3: Create utility classes
+
 - [x] Create file: `src/styles/utilities.css`
 - [x] Contents:
+
 ```css
+
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
@@ -677,6 +719,7 @@ ul, ol {
 @media (min-width: 769px) {
   .hide-desktop { display: none !important; }
 }
+
 ```
 
 ---
@@ -684,9 +727,12 @@ ul, ol {
 ### 1.6 HTML Entry Point (3 tasks)
 
 #### Task 1.6.1: Create main index.html
+
 - [x] Create file: `index.html` at project root
 - [x] Contents:
+
 ```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -717,12 +763,16 @@ ul, ol {
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>
+
 ```
 
 #### Task 1.6.2: Create PWA manifest
+
 - [x] Create file: `manifest.json` at project root
 - [x] Contents:
+
 ```json
+
 {
   "name": "ToolBox - Free Online Tools",
   "short_name": "ToolBox",
@@ -736,16 +786,22 @@ ul, ol {
     { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
+
 ```
 
 #### Task 1.6.3: Create robots.txt
+
 - [x] Create file: `robots.txt` at project root
 - [x] Contents:
+
 ```
+
 User-agent: *
 Allow: /
 Sitemap: https://yourdomain.com/sitemap.xml
+
 ```
+
 - [x] Replace `yourdomain.com` with your actual domain
 
 ---
@@ -753,9 +809,12 @@ Sitemap: https://yourdomain.com/sitemap.xml
 ### 1.7 Shared Utility Functions (6 tasks)
 
 #### Task 1.7.1: Create file utilities
+
 - [x] Create file: `src/utils/file.js`
 - [x] Contents:
+
 ```js
+
 /**
  * Format bytes to human readable string
  * @param {number} bytes
@@ -860,12 +919,16 @@ export function readFileAsText(file) {
     reader.readAsText(file);
   });
 }
+
 ```
 
 #### Task 1.7.2: Create DOM utilities
+
 - [x] Create file: `src/utils/dom.js`
 - [x] Contents:
+
 ```js
+
 /**
  * Create an HTML element with attributes and children
  * @param {string} tag
@@ -933,12 +996,16 @@ export function $$(selector, parent = document) {
 export function clearElement(el) {
   el.innerHTML = '';
 }
+
 ```
 
 #### Task 1.7.3: Create debounce/throttle utility
+
 - [x] Create file: `src/utils/debounce.js`
 - [x] Contents:
+
 ```js
+
 /**
  * Debounce: wait ms after last call before executing
  * @param {Function} fn
@@ -969,12 +1036,16 @@ export function throttle(fn, ms = 300) {
     }
   };
 }
+
 ```
 
 #### Task 1.7.4: Create format utilities
+
 - [x] Create file: `src/utils/format.js`
 - [x] Contents:
+
 ```js
+
 /**
  * Format number with commas
  * @param {number} num
@@ -1021,12 +1092,16 @@ export function slugify(text) {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 }
+
 ```
 
 #### Task 1.7.5: Create clipboard utility
+
 - [x] Create file: `src/utils/clipboard.js`
 - [x] Contents:
+
 ```js
+
 /**
  * Copy text to clipboard
  * @param {string} text
@@ -1049,12 +1124,16 @@ export async function copyToClipboard(text) {
     return true;
   }
 }
+
 ```
 
 #### Task 1.7.6: Create SEO utilities
+
 - [x] Create file: `src/utils/seo.js`
 - [x] Contents:
+
 ```js
+
 /**
  * Update page title and meta tags
  * @param {Object} opts
@@ -1101,6 +1180,7 @@ export function addStructuredData(data) {
   script.textContent = JSON.stringify(data);
   document.head.appendChild(script);
 }
+
 ```
 
 ---
@@ -1108,6 +1188,7 @@ export function addStructuredData(data) {
 ### 1.8 Shared UI Components (14 tasks)
 
 #### Task 1.8.1: Create Navbar component
+
 - [x] Create file: `src/components/navbar.js`
 - [x] Should contain:
   - Logo (text-based, left side)
@@ -1118,6 +1199,7 @@ export function addStructuredData(data) {
 - [x] Add click handler for hamburger to toggle mobile menu
 
 #### Task 1.8.2: Create Sidebar component
+
 - [x] Create file: `src/components/sidebar.js`
 - [x] Should contain:
   - List of all tool categories
@@ -1126,6 +1208,7 @@ export function addStructuredData(data) {
 - [x] Export function `renderSidebar(currentCategory)`
 
 #### Task 1.8.3: Create Footer component
+
 - [x] Create file: `src/components/footer.js`
 - [x] Should contain:
   - Logo + short description
@@ -1135,6 +1218,7 @@ export function addStructuredData(data) {
 - [x] Export function `renderFooter()`
 
 #### Task 1.8.4: Create Button component
+
 - [x] Create file: `src/components/button.js`
 - [x] Export function `createButton({ text, variant, size, onClick, disabled, icon })`
   - `variant`: 'primary' | 'secondary' | 'ghost' | 'danger'
@@ -1143,6 +1227,7 @@ export function addStructuredData(data) {
 - [x] Add CSS to `src/styles/components.css` for button styles
 
 #### Task 1.8.5: Create Card component
+
 - [x] Create file: `src/components/card.js`
 - [x] Export function `createToolCard({ title, description, icon, href, category })`
   - Returns a clickable card with icon, title, description
@@ -1150,6 +1235,7 @@ export function addStructuredData(data) {
 - [x] Used on homepage and category pages
 
 #### Task 1.8.6: Create File Upload component
+
 - [x] Create file: `src/components/file-upload.js`
 - [x] Export function `createFileUpload({ accept, multiple, maxSizeMB, onFilesSelected })`
   - Shows drag & drop zone with dashed border
@@ -1162,6 +1248,7 @@ export function addStructuredData(data) {
 - [x] This is THE most reused component — make it solid
 
 #### Task 1.8.7: Create Progress Bar component
+
 - [x] Create file: `src/components/progress-bar.js`
 - [x] Export function `createProgressBar({ label, showPercent })`
   - Returns object with `{ element, setProgress(percent), setLabel(text), show(), hide() }`
@@ -1169,6 +1256,7 @@ export function addStructuredData(data) {
   - Shows percentage text if `showPercent` is true
 
 #### Task 1.8.8: Create Toast component
+
 - [x] Create file: `src/components/toast.js`
 - [x] Export function `showToast({ message, type, duration })`
   - `type`: 'success' | 'error' | 'warning' | 'info'
@@ -1177,6 +1265,7 @@ export function addStructuredData(data) {
   - Add CSS for toast animations (slide in from right)
 
 #### Task 1.8.9: Create Modal component
+
 - [x] Create file: `src/components/modal.js`
 - [x] Export function `showModal({ title, content, onClose })`
   - Shows overlay + centered modal
@@ -1184,6 +1273,7 @@ export function addStructuredData(data) {
   - Returns `{ close() }` function
 
 #### Task 1.8.10: Create Loading component
+
 - [x] Create file: `src/components/loading.js`
 - [x] Export function `createSpinner()` — returns spinner element
 - [x] Export function `createSkeleton(count)` — returns skeleton placeholder elements
@@ -1191,6 +1281,7 @@ export function addStructuredData(data) {
 - [x] Export function `hideLoading(container, originalContent)` — restores content
 
 #### Task 1.8.11: Create Tabs component
+
 - [x] Create file: `src/components/tabs.js`
 - [x] Export function `createTabs({ tabs, activeIndex, onTabChange })`
   - `tabs`: array of `{ label, content }` where content is HTML string or DOM element
@@ -1198,18 +1289,21 @@ export function addStructuredData(data) {
   - Switches content on tab click
 
 #### Task 1.8.12: Create Range Slider component
+
 - [x] Create file: `src/components/range-slider.js`
 - [x] Export function `createRangeSlider({ min, max, value, step, label, unit, onChange })`
   - Shows slider + current value display
   - Calls `onChange(value)` on input
 
 #### Task 1.8.13: Create Select component
+
 - [x] Create file: `src/components/select.js`
 - [x] Export function `createSelect({ options, value, label, onChange })`
   - `options`: array of `{ value, label }`
   - Returns styled select element
 
 #### Task 1.8.14: Create components CSS file
+
 - [x] Create file: `src/styles/components.css`
 - [x] Add styles for ALL components above
 - [x] Use CSS custom properties from tokens.css
@@ -1220,9 +1314,12 @@ export function addStructuredData(data) {
 ### 1.9 Data Files (3 tasks)
 
 #### Task 1.9.1: Create categories data
+
 - [x] Create file: `src/data/categories.json`
 - [x] Contents: Array of category objects:
+
 ```json
+
 [
   { "id": "pdf", "name": "PDF Tools", "icon": "📄", "description": "Merge, split, compress, and edit PDF files", "toolCount": 14 },
   { "id": "image", "name": "Image Tools", "icon": "🖼️", "description": "Compress, resize, convert, and edit images", "toolCount": 16 },
@@ -1242,12 +1339,16 @@ export function addStructuredData(data) {
   { "id": "css", "name": "CSS & Web Design", "icon": "🎨", "description": "Gradient, shadow, grid generators", "toolCount": 8 },
   { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder", "toolCount": 7 }
 ]
+
 ```
 
 #### Task 1.9.2: Create tools data
+
 - [x] Create file: `src/data/tools.json`
 - [x] Contents: Array of ALL 128 tool objects:
+
 ```json
+
 [
   {
     "id": "merge-pdf",
@@ -1273,10 +1374,13 @@ export function addStructuredData(data) {
   }
   ... (continue for all 128 tools)
 ]
+
 ```
+
 - [x] Add ALL 128 tools to this file (I can help generate the full list)
 
 #### Task 1.9.3: Create countries data
+
 - [x] Create file: `src/data/countries.json`
 - [x] Contents: Array of country objects with code, name, and holiday API code
 - [x] Include at least top 50 countries by internet users
@@ -1286,6 +1390,7 @@ export function addStructuredData(data) {
 ### 1.10 Router (3 tasks)
 
 #### Task 1.10.1: Create simple router
+
 - [x] Create file: `src/router.js`
 - [x] Implement hash-based or history-based routing
 - [x] Routes to handle:
@@ -1299,6 +1404,7 @@ export function addStructuredData(data) {
 - [x] Export function `navigate(path)` and `initRouter()`
 
 #### Task 1.10.2: Create main entry point
+
 - [x] Create file: `src/main.js`
 - [x] Import styles: `import './styles/global.css'`
 - [x] Import router: `import { initRouter } from './router.js'`
@@ -1309,6 +1415,7 @@ export function addStructuredData(data) {
 - [x] Register service worker
 
 #### Task 1.10.3: Test the router
+
 - [x] Run `npm run dev`
 - [x] Verify homepage loads
 - [x] Verify navigation between pages works
@@ -1319,6 +1426,7 @@ export function addStructuredData(data) {
 ### 1.11 Homepage (3 tasks)
 
 #### Task 1.11.1: Create homepage layout
+
 - [x] Create file: `src/pages/home.js`
 - [x] Export function `renderHome()` that builds:
   - Hero section: headline + search bar + subtitle
@@ -1328,12 +1436,14 @@ export function addStructuredData(data) {
   - CTA section: "Start using tools now"
 
 #### Task 1.11.2: Create homepage hero
+
 - [x] Big headline: "Free Online Tools — 100% Private"
 - [x] Subtitle: "All processing happens in your browser. Your files never leave your device."
 - [x] Search bar that filters tools as you type
 - [x] Style: large, centered, with subtle gradient background
 
 #### Task 1.11.3: Create homepage search
+
 - [x] Wire up search input to filter tools from `tools.json`
 - [x] Show dropdown of matching tools as user types
 - [x] Clicking a result navigates to that tool
@@ -1345,6 +1455,7 @@ export function addStructuredData(data) {
 ### 1.12 Category Page Template (2 tasks)
 
 #### Task 1.12.1: Create category page
+
 - [x] Create file: `src/pages/category.js`
 - [x] Export function `renderCategory(categoryId)` that:
   - Finds category from `categories.json`
@@ -1354,6 +1465,7 @@ export function addStructuredData(data) {
   - Each card links to the tool page
 
 #### Task 1.12.2: Style category page
+
 - [x] Grid layout: 3 columns desktop, 2 tablet, 1 mobile
 - [x] Each card: icon, title, short description, arrow/link
 
@@ -1362,6 +1474,7 @@ export function addStructuredData(data) {
 ### 1.13 Tool Page Template (3 tasks)
 
 #### Task 1.13.1: Create tool page wrapper
+
 - [x] Create file: `src/pages/tool.js`
 - [x] Export function `renderTool(toolId)` that:
   - Finds tool from `tools.json`
@@ -1373,6 +1486,7 @@ export function addStructuredData(data) {
   - Renders: FAQ section (for SEO)
 
 #### Task 1.13.2: Create tool page layout CSS
+
 - [x] Style: centered content, max-width 800px
 - [x] Upload area at top
 - [x] Options/controls in middle
@@ -1380,6 +1494,7 @@ export function addStructuredData(data) {
   - [x] Download button at bottom
 
 #### Task 1.13.3: Create generic tool UI pattern
+
 - [x] Every tool follows this pattern:
   1. File upload area (or text input for non-file tools)
   2. Options panel (sliders, selects, toggles)
@@ -1393,6 +1508,7 @@ export function addStructuredData(data) {
 ### 1.14 Service Worker & PWA (2 tasks)
 
 #### Task 1.14.1: Create service worker
+
 - [x] Create file: `src/sw.js`
 - [x] Cache static assets (CSS, JS, fonts)
 - [x] Cache tool pages for offline use
@@ -1400,13 +1516,17 @@ export function addStructuredData(data) {
 - [x] Use network-first strategy for API calls
 
 #### Task 1.14.2: Register service worker
+
 - [x] In `src/main.js`, add:
+
 ```js
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/src/sw.js');
   });
 }
+
 ```
 
 ---
@@ -1414,10 +1534,12 @@ if ('serviceWorker' in navigator) {
 ### 1.15 Legal Pages (3 tasks)
 
 #### Task 1.15.1: Create About page
+
 - [x] Create file: `src/pages/about.js`
 - [x] Content: What ToolBox is, why it's free, how it works (client-side processing), privacy commitment
 
 #### Task 1.15.2: Create Privacy Policy page
+
 - [x] Create file: `src/pages/privacy.js`
 - [x] Key points:
   - All processing happens in the browser
@@ -1428,6 +1550,7 @@ if ('serviceWorker' in navigator) {
   - Contact information
 
 #### Task 1.15.3: Create Terms of Service page
+
 - [x] Create file: `src/pages/terms.js`
 - [x] Standard terms: use at your own risk, no warranty, etc.
 
@@ -1437,10 +1560,12 @@ if ('serviceWorker' in navigator) {
 
 **Completed:** 2026-04-29
 **Remaining (2 tasks):**
+
 - Task 1.1.5: Git repository init (deferred to deployment)
 - Task 1.10.3: Router testing (verified via dev server — works)
 
 **Files created:** 53 files
+
 - 6 config files (package.json, vite.config.js, .gitignore, index.html, manifest.json, robots.txt)
 - 5 CSS files (tokens, reset, global, utilities, components — 22KB total)
 - 6 utility modules (file, dom, debounce, format, clipboard, seo)
@@ -1469,16 +1594,19 @@ if ('serviceWorker' in navigator) {
 ### 2.1 PDF Dependencies (3 tasks)
 
 #### Task 2.1.1: Install pdf-lib
+
 - [x] Run: `npm install pdf-lib`
 - [x] pdf-lib can: create, read, merge, split, modify PDFs
 - [x] Pure JavaScript, no WASM needed
 
 #### Task 2.1.2: Install PDF.js
+
 - [x] Run: `npm install pdfjs-dist`
 - [x] PDF.js renders PDF pages as images (for preview and PDF-to-image)
 - [x] This is Mozilla's PDF renderer
 
 #### Task 2.1.3: Install jsPDF
+
 - [x] Run: `npm install jspdf`
 - [x] jsPDF creates PDFs from scratch (for image-to-PDF)
 
@@ -1487,9 +1615,12 @@ if ('serviceWorker' in navigator) {
 ### 2.2 PDF Shared Utilities (2 tasks)
 
 #### Task 2.2.1: Create PDF utility functions
+
 - [x] Create file: `src/tools/pdf/pdf-utils.js`
 - [x] Functions to include:
+
 ```js
+
 import { PDFDocument } from 'pdf-lib';
 
 /**
@@ -1547,9 +1678,11 @@ export async function savePdf(pdfDoc, filename) {
   const blob = new Blob([bytes], { type: 'application/pdf' });
   downloadBlob(blob, filename);
 }
+
 ```
 
 #### Task 2.2.2: Create PDF page preview component
+
 - [x] Create file: `src/tools/pdf/pdf-preview.js`
 - [x] Shows thumbnail previews of PDF pages
 - [x] Allows selecting pages (checkbox on each page)
@@ -1561,6 +1694,7 @@ export async function savePdf(pdfDoc, filename) {
 ### 2.3 Build Each PDF Tool (14 tasks)
 
 **For EACH tool below, do these steps:**
+
 1. Create the file at the specified path
 2. Import necessary libraries
 3. Create the tool's UI (file upload → options → processing → download)
@@ -1568,71 +1702,85 @@ export async function savePdf(pdfDoc, filename) {
 5. Test the tool works end-to-end
 
 #### Task 2.3.1: Build Merge PDF
+
 - [x] File: `src/tools/pdf/merge-pdf.js`
 - [x] UI: Upload multiple PDFs → show list with drag-to-reorder → "Merge" button → download merged PDF
 - [x] Logic: Load each PDF → copy all pages into new PDFDocument → save
 
 #### Task 2.3.2: Build Split PDF
+
 - [x] File: `src/tools/pdf/split-pdf.js`
 - [x] UI: Upload one PDF → show page thumbnails → select pages (checkboxes) → "Extract Selected" → download
 - [x] Logic: Load PDF → create new PDF with selected pages → save
 
 #### Task 2.3.3: Build Compress PDF
+
 - [x] File: `src/tools/pdf/compress-pdf.js`
 - [x] UI: Upload PDF → quality slider (low/medium/high) → "Compress" → show original vs new size → download
 - [x] Logic: Load PDF → re-encode embedded images at lower quality → save
 
 #### Task 2.3.4: Build PDF to Image
+
 - [x] File: `src/tools/pdf/pdf-to-image.js`
 - [x] UI: Upload PDF → choose format (PNG/JPG) → choose quality → "Convert" → download images (zip if multiple pages)
 - [x] Logic: Render each page to canvas → canvas.toBlob() → download
 
 #### Task 2.3.5: Build Image to PDF
+
 - [x] File: `src/tools/pdf/image-to-pdf.js`
 - [x] UI: Upload images → reorder → choose page size (A4/Letter/Custom) → "Convert" → download PDF
 - [x] Logic: Create new PDF → embed each image as a page → save
 
 #### Task 2.3.6: Build Rotate PDF
+
 - [x] File: `src/tools/pdf/rotate-pdf.js`
 - [x] UI: Upload PDF → show page thumbnails → rotate individual pages (90° buttons) or "Rotate All" → download
 - [x] Logic: Load PDF → set page rotation → save
 
 #### Task 2.3.7: Build Watermark PDF
+
 - [x] File: `src/tools/pdf/watermark-pdf.js`
 - [x] UI: Upload PDF → enter watermark text → choose font size, opacity, position (center/diagonal/corner) → download
 - [x] Logic: Load PDF → draw text on each page → save
 
 #### Task 2.3.8: Build Page Numbers
+
 - [x] File: `src/tools/pdf/page-numbers-pdf.js`
 - [x] UI: Upload PDF → choose position (bottom-center, bottom-right, etc.) → choose start number → download
 - [x] Logic: Load PDF → draw page number text on each page → save
 
 #### Task 2.3.9: Build Unlock PDF
+
 - [x] File: `src/tools/pdf/unlock-pdf.js`
 - [x] UI: Upload PDF → enter password → "Unlock" → download unlocked PDF
 - [x] Logic: Load PDF with password → save without password
 
 #### Task 2.3.10: Build Protect PDF
+
 - [x] File: `src/tools/pdf/protect-pdf.js`
 - [x] UI: Upload PDF → enter password → confirm password → "Protect" → download
 - [x] Logic: Load PDF → save with encryption
 
 #### Task 2.3.11: Build Fill PDF Forms
+
 - [x] File: `src/tools/pdf/fill-pdf-forms.js`
 - [x] UI: Upload PDF → show form fields (if any) → user fills fields → "Download Filled PDF"
 - [x] Logic: Load PDF → get form → fill fields → save
 
 #### Task 2.3.12: Build Extract Text from PDF
+
 - [x] File: `src/tools/pdf/extract-text-pdf.js`
 - [x] UI: Upload PDF → show extracted text per page → "Copy All" button → download as .txt
 - [x] Logic: Use PDF.js to extract text content from each page
 
 #### Task 2.3.13: Build Reorder PDF Pages
+
 - [x] File: `src/tools/pdf/reorder-pdf.js`
 - [x] UI: Upload PDF → show page thumbnails → drag to reorder → "Download Reordered PDF"
 - [x] Logic: Load PDF → create new PDF with pages in new order → save
 
 #### Task 2.3.14: Build Crop PDF Pages
+
 - [x] File: `src/tools/pdf/crop-pdf.js`
 - [x] UI: Upload PDF → set crop margins (top/right/bottom/left) → preview → download
 - [x] Logic: Load PDF → set page crop box → save
@@ -1642,6 +1790,7 @@ export async function savePdf(pdfDoc, filename) {
 ### 2.4 PDF Category Page (1 task)
 
 #### Task 2.4.1: Create PDF category listing
+
 - [x] Verify `/category/pdf` route works
 - [x] Shows all 14 PDF tools as cards
 - [x] Each card has icon, title, short description
@@ -1652,6 +1801,7 @@ export async function savePdf(pdfDoc, filename) {
 **Completed:** 2026-04-29
 **Dependencies installed:** pdf-lib, pdfjs-dist, jsPDF
 **Files created:** 16 files
+
 - `src/tools/pdf/pdf-utils.js` — shared PDF utilities (load, render, save, extract text)
 - `src/tools/pdf/pdf-preview.js` — page thumbnail component with selection + drag reorder
 - 14 tool files: merge-pdf, split-pdf, compress-pdf, pdf-to-image, image-to-pdf, rotate-pdf, watermark-pdf, page-numbers-pdf, unlock-pdf, protect-pdf, fill-pdf-forms, extract-text-pdf, reorder-pdf, crop-pdf
@@ -1673,23 +1823,28 @@ export async function savePdf(pdfDoc, filename) {
 ### 3.1 Image Dependencies (5 tasks)
 
 #### Task 3.1.1: Install Cropper.js
+
 - [x] Run: `npm install cropperjs`
 - [x] Used for: interactive image cropping
 
 #### Task 3.1.2: Install Pica
+
 - [x] Run: `npm install pica`
 - [x] Used for: high-quality image resizing (Lanczos algorithm)
 
 #### Task 3.1.3: Install Fabric.js
+
 - [x] Run: `npm install fabric`
 - [x] Used for: interactive canvas editing (text overlays, watermarks)
 
 #### Task 3.1.4: Install ONNX Runtime Web
+
 - [x] Run: `npm install onnxruntime-web`
 - [x] Used for: AI model inference (background removal, upscaling)
 - [x] Note: This is the heaviest dependency (~4MB). Only load it on tools that need it (lazy load).
 
 #### Task 3.1.5: Download AI models
+
 - [x] Download U2-Net ONNX model for background removal (~4MB)
   - Source: search "u2net onnx model" on GitHub/HuggingFace
   - Save to: `public/models/u2net.onnx`
@@ -1703,9 +1858,12 @@ export async function savePdf(pdfDoc, filename) {
 ### 3.2 Image Shared Utilities (2 tasks)
 
 #### Task 3.2.1: Create image utility functions
+
 - [x] Create file: `src/tools/image/image-utils.js`
 - [x] Functions:
+
 ```js
+
 /**
  * Load an image from File into an HTMLImageElement
  */
@@ -1744,9 +1902,11 @@ export async function getImageDimensions(file) {
   const img = await loadImageFromFile(file);
   return { width: img.naturalWidth, height: img.naturalHeight };
 }
+
 ```
 
 #### Task 3.2.2: Create image preview component
+
 - [x] Create file: `src/tools/image/image-preview.js`
 - [x] Shows image preview with zoom capability
 - [x] Shows file name, dimensions, file size
@@ -1757,82 +1917,98 @@ export async function getImageDimensions(file) {
 ### 3.3 Build Each Image Tool (16 tasks)
 
 #### Task 3.3.1: Build Image Compressor
+
 - [x] File: `src/tools/image/compress-image.js`
 - [x] UI: Upload image → quality slider (1-100) → preview original vs compressed → show size reduction → download
 - [x] Logic: Draw image to canvas → canvas.toBlob(type, quality)
 
 #### Task 3.3.2: Build Image Resizer
+
 - [x] File: `src/tools/image/resize-image.js`
 - [x] UI: Upload image → width/height inputs (linked aspect ratio toggle) → preset sizes (social media) → download
 - [x] Logic: Use Pica for high-quality resize → download
 
 #### Task 3.3.3: Build Format Converter
+
 - [x] File: `src/tools/image/convert-image.js`
 - [x] UI: Upload image → choose output format (PNG/JPG/WebP/BMP) → choose quality (for lossy formats) → download
 - [x] Logic: Draw to canvas → canvas.toBlob(targetType)
 
 #### Task 3.3.4: Build Background Remover
+
 - [x] File: `src/tools/image/remove-background.js`
 - [x] UI: Upload image → loading (ONNX inference, ~5-15 seconds) → show result with transparency checkerboard → download PNG
 - [x] Logic: Load U2-Net model → run inference → create mask → apply to canvas
 - [x] NOTE: This is the most complex image tool. May need separate session.
 
 #### Task 3.3.5: Build Image Upscaler
+
 - [x] File: `src/tools/image/upscale-image.js`
 - [x] UI: Upload image → choose scale (2x/4x) → loading (ONNX inference) → show result → download
 - [x] Logic: Load Real-ESRGAN model → run inference → download
 
 #### Task 3.3.6: Build Image Cropper
+
 - [x] File: `src/tools/image/crop-image.js`
 - [x] UI: Upload image → interactive crop area (Cropper.js) → aspect ratio presets → download
 - [x] Logic: Initialize Cropper.js → getCroppedCanvas() → download
 
 #### Task 3.3.7: Build Rotate/Flip Image
+
 - [x] File: `src/tools/image/rotate-flip-image.js`
 - [x] UI: Upload image → rotate buttons (90°/180°/270°) → flip buttons (H/V) → preview → download
 - [x] Logic: Use canvas transform (rotate, scale) → download
 
 #### Task 3.3.8: Build Image Splitter
+
 - [x] File: `src/tools/image/split-image.js`
 - [x] UI: Upload image → choose grid (rows × cols) or fixed tile size → preview grid overlay → download all tiles (zip)
 - [x] Logic: Crop canvas into tiles → package as zip (use JSZip library)
 
 #### Task 3.3.9: Build Image Merger
+
 - [x] File: `src/tools/image/merge-images.js`
 - [x] UI: Upload multiple images → choose layout (horizontal/vertical/grid) → choose spacing → download
 - [x] Logic: Create large canvas → draw each image at calculated position
 
 #### Task 3.3.10: Build Add Text to Image
+
 - [x] File: `src/tools/image/add-text-image.js`
 - [x] UI: Upload image → add text boxes → customize font/size/color/position → download
 - [x] Logic: Use Fabric.js for interactive text editing on canvas
 
 #### Task 3.3.11: Build Add Watermark to Image
+
 - [x] File: `src/tools/image/watermark-image.js`
 - [x] UI: Upload image → enter text or upload logo → choose position (center/corner/tiled) → choose opacity → download
 - [x] Logic: Draw watermark on canvas at chosen position
 
 #### Task 3.3.12: Build Brightness/Contrast/Saturation
+
 - [x] File: `src/tools/image/brightness-contrast.js`
 - [x] UI: Upload image → three sliders (brightness, contrast, saturation) → live preview → download
 - [x] Logic: Use CSS filters on canvas or manual pixel manipulation
 
 #### Task 3.3.13: Build Grayscale/Sepia
+
 - [x] File: `src/tools/image/grayscale-sepia.js`
 - [x] UI: Upload image → choose filter (grayscale/sepia/invert) → preview → download
 - [x] Logic: Use canvas filter or pixel manipulation
 
 #### Task 3.3.14: Build Remove EXIF Metadata
+
 - [x] File: `src/tools/image/remove-exif.js`
 - [x] UI: Upload image → show detected metadata → "Remove All" → download clean image
 - [x] Logic: Draw image to canvas → export as new image (canvas export strips EXIF automatically)
 
 #### Task 3.3.15: Build View EXIF Data
+
 - [x] File: `src/tools/image/view-exif.js`
 - [x] UI: Upload image → display all EXIF data in a table (camera, lens, ISO, date, GPS, etc.)
 - [x] Logic: Use exif-js library to read metadata
 
 #### Task 3.3.16: Build Favicon Generator
+
 - [x] File: `src/tools/image/favicon-generator.js`
 - [x] UI: Upload image → show preview of all favicon sizes → download zip with all sizes
 - [x] Logic: Resize to 16, 32, 180, 192, 512 px → package as zip
@@ -1842,6 +2018,7 @@ export async function getImageDimensions(file) {
 ### 3.4 Image Category Page (1 task)
 
 #### Task 3.4.1: Create Image category listing
+
 - [x] Shows all 16 image tools as cards
 - [x] Grid layout, responsive
 
@@ -1850,11 +2027,13 @@ export async function getImageDimensions(file) {
 **Completed:** 2026-04-29
 **Dependencies installed:** cropperjs, pica, jszip, exif-js
 **Files created:** 18 files
+
 - `src/tools/image/image-utils.js` — shared image utilities
 - 16 tool files: compress-image, resize-image, convert-image, rotate-flip-image, crop-image, split-image, merge-images, add-text-image, watermark-image, brightness-contrast, grayscale-sepia, remove-exif, view-exif, favicon-generator, remove-background (placeholder), upscale-image (placeholder)
 - `src/tools/image/image-preview.js` — (deferred, using inline previews)
 
 **Notes:**
+
 - Background Remover and Image Upscaler are placeholders — require ONNX models at `public/models/`
 - Fabric.js and onnxruntime-web not installed (heavy deps, lazy load when needed)
 
@@ -1874,30 +2053,40 @@ export async function getImageDimensions(file) {
 ### 4.1 Video Dependencies (4 tasks)
 
 #### Task 4.1.1: Install ffmpeg.wasm
+
 - [x] Run: `npm install @ffmpeg/ffmpeg @ffmpeg/util`
 - [x] ffmpeg.wasm is FFmpeg compiled to WebAssembly
 
 #### Task 4.1.2: Configure COOP/COEP headers
+
 - [x] ffmpeg.wasm requires SharedArrayBuffer, which needs these headers:
   - `Cross-Origin-Opener-Policy: same-origin`
   - `Cross-Origin-Embedder-Policy: require-corp`
 - [x] For Vite dev server, add to `vite.config.js`:
+
 ```js
+
 server: {
   headers: {
     'Cross-Origin-Opener-Policy': 'same-origin',
     'Cross-Origin-Embedder-Policy': 'require-corp'
   }
 }
+
 ```
+
 - [x] For production (Cloudflare Pages), add `_headers` file:
+
 ```
+
 /*
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
+
 ```
 
 #### Task 4.1.3: Create FFmpeg loader utility
+
 - [x] Create file: `src/tools/video/video-utils.js`
 - [x] Function `loadFFmpeg()` that:
   - Creates FFmpeg instance
@@ -1907,6 +2096,7 @@ server: {
   - Caches the instance (don't reload on every tool visit)
 
 #### Task 4.1.4: Test ffmpeg.wasm basic operation
+
 - [x] Create a test that loads ffmpeg and runs a simple command
 - [x] Verify it works in dev server with correct headers
 
@@ -1915,6 +2105,7 @@ server: {
 ### 4.2 Video Shared Utilities (2 tasks)
 
 #### Task 4.2.1: Create video utility functions
+
 - [x] Create file: `src/tools/video/video-utils.js` (extend from 4.1.3)
 - [x] Functions:
   - `loadFFmpeg()` — load and cache FFmpeg instance
@@ -1922,6 +2113,7 @@ server: {
   - `formatTime(seconds)` — format to HH:MM:SS
 
 #### Task 4.2.2: Create video preview component
+
 - [x] Shows HTML5 video player with the uploaded file
 - [x] Shows video info (duration, resolution, file size)
 - [x] Used by all video tools
@@ -1931,51 +2123,61 @@ server: {
 ### 4.3 Build Each Video Tool (10 tasks)
 
 #### Task 4.3.1: Build Video Compressor
+
 - [x] File: `src/tools/video/compress-video.js`
 - [x] UI: Upload video → choose target size OR quality → resolution dropdown → "Compress" → progress bar → download
 - [x] Logic: ffmpeg -i input.mp4 -b:v {bitrate} -s {resolution} output.mp4
 
 #### Task 4.3.2: Build Video Trimmer
+
 - [x] File: `src/tools/video/trim-video.js`
 - [x] UI: Upload video → preview player → set start time + end time (inputs or slider) → "Trim" → download
 - [x] Logic: ffmpeg -i input.mp4 -ss {start} -to {end} -c copy output.mp4
 
 #### Task 4.3.3: Build Video to GIF
+
 - [x] File: `src/tools/video/video-to-gif.js`
 - [x] UI: Upload video → set start/end → set FPS (5/10/15) → set width → "Convert" → preview GIF → download
 - [x] Logic: ffmpeg -i input.mp4 -ss {start} -to {end} -vf "fps={fps},scale={w}:-1" output.gif
 
 #### Task 4.3.4: Build Video to Audio
+
 - [x] File: `src/tools/video/video-to-audio.js`
 - [x] UI: Upload video → choose audio format (MP3/WAV/AAC) → "Extract" → download
 - [x] Logic: ffmpeg -i input.mp4 -vn -acodec {codec} output.{ext}
 
 #### Task 4.3.5: Build Video Format Converter
+
 - [x] File: `src/tools/video/convert-video.js`
 - [x] UI: Upload video → choose output format (MP4/WebM/AVI/MOV) → "Convert" → progress → download
 - [x] Logic: ffmpeg -i input.{ext} output.{targetExt}
 
 #### Task 4.3.6: Build Video to Images
+
 - [x] File: `src/tools/video/video-to-images.js`
 - [x] UI: Upload video → choose FPS (1 frame/sec, 5/sec, custom) → "Extract" → download zip
 - [x] Logic: ffmpeg -i input.mp4 -vf "fps={fps}" frame_%04d.png
 
 #### Task 4.3.7: Build Images to Video
+
 - [x] File: `src/tools/video/images-to-video.js`
 - [x] UI: Upload images → reorder → set duration per image → set FPS → "Create Video" → download
 - [x] Logic: ffmpeg -framerate {fps} -i img_%04d.png -c:v libx264 output.mp4
 
 #### Task 4.3.8: Build Add Audio to Video
+
 - [x] File: `src/tools/video/add-audio-video.js`
 - [x] UI: Upload video + upload audio → choose replace or merge → "Combine" → download
 - [x] Logic: ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -c:a aac output.mp4
 
 #### Task 4.3.9: Build Mute Video
+
 - [x] File: `src/tools/video/mute-video.js`
 - [x] UI: Upload video → "Remove Audio" → download
 - [x] Logic: ffmpeg -i input.mp4 -an output.mp4
 
 #### Task 4.3.10: Build Video Speed Changer
+
 - [x] File: `src/tools/video/video-speed.js`
 - [x] UI: Upload video → choose speed (0.25x/0.5x/1x/1.5x/2x/4x) → preview → download
 - [x] Logic: ffmpeg -i input.mp4 -filter:v "setpts={factor}*PTS" -filter:a "atempo={audioFactor}" output.mp4
@@ -1985,6 +2187,7 @@ server: {
 ### 4.4 Video Category Page (1 task)
 
 #### Task 4.4.1: Create Video category listing
+
 - [x] Shows all 10 video tools as cards
 
 ### ✅ Phase 4 Completion Log
@@ -1992,10 +2195,12 @@ server: {
 **Completed:** 2026-04-29
 **Dependencies installed:** @ffmpeg/ffmpeg, @ffmpeg/util
 **Files created:** 11 files
+
 - `src/tools/video/video-utils.js` — shared FFmpeg loader + helpers
 - 10 tool files: compress-video, trim-video, video-to-gif, video-to-audio, convert-video, video-to-images, images-to-video, add-audio-video, mute-video, video-speed
 
 **Notes:**
+
 - All tools use ffmpeg.wasm (WASM-based FFmpeg in browser)
 - COOP/COEP headers already configured in vite.config.js and _headers
 - FFmpeg instance cached — loads once per session
@@ -2016,14 +2221,17 @@ server: {
 ### 5.1 Audio Dependencies (4 tasks)
 
 #### Task 5.1.1: Install lamejs
+
 - [x] Run: `npm install lamejs`
 - [x] Used for: encoding WAV → MP3
 
 #### Task 5.1.2: Install Wavesurfer.js
+
 - [x] Run: `npm install wavesurfer.js`
 - [x] Used for: waveform visualization
 
 #### Task 5.1.3: Install Whisper WASM
+
 - [x] Research and install whisper.cpp WASM build
 - [x] Alternative: use `@aspect-build/whisper-wasm` or similar package
 - [x] Download whisper tiny model (~75MB)
@@ -2031,6 +2239,7 @@ server: {
 - [x] NOTE: This is the largest model. Only load on transcription tool page.
 
 #### Task 5.1.4: Test audio recording
+
 - [x] Test `navigator.mediaDevices.getUserMedia({ audio: true })` works
 - [x] Test `MediaRecorder` API records audio
 
@@ -2039,6 +2248,7 @@ server: {
 ### 5.2 Audio Shared Utilities (2 tasks)
 
 #### Task 5.2.1: Create audio utility functions
+
 - [x] Create file: `src/tools/audio/audio-utils.js`
 - [x] Functions:
   - `loadAudioFile(file)` → AudioBuffer
@@ -2047,6 +2257,7 @@ server: {
   - `audioBufferToMp3(buffer)` → Blob (using lamejs)
 
 #### Task 5.2.2: Create waveform component
+
 - [x] Create file: `src/tools/audio/waveform.js`
 - [x] Uses Wavesurfer.js to render waveform
 - [x] Allows selecting region (start/end) for trimming
@@ -2057,51 +2268,61 @@ server: {
 ### 5.3 Build Each Audio Tool (10 tasks)
 
 #### Task 5.3.1: Build Audio Trimmer
+
 - [x] File: `src/tools/audio/trim-audio.js`
 - [x] UI: Upload audio → waveform display → drag start/end markers → preview trimmed → download
 - [x] Logic: Slice AudioBuffer between start/end → encode → download
 
 #### Task 5.3.2: Build Audio Converter
+
 - [x] File: `src/tools/audio/convert-audio.js`
 - [x] UI: Upload audio → choose output format (MP3/WAV/OGG/AAC) → "Convert" → download
 - [x] Logic: Use ffmpeg.wasm (reuse from video tools)
 
 #### Task 5.3.3: Build Audio Merger
+
 - [x] File: `src/tools/audio/merge-audio.js`
 - [x] UI: Upload multiple audio files → reorder → "Merge" → download
 - [x] Logic: Concatenate AudioBuffers → encode → download
 
 #### Task 5.3.4: Build Volume Normalizer
+
 - [x] File: `src/tools/audio/normalize-audio.js`
 - [x] UI: Upload audio → analyze peak volume → show current level → "Normalize" → download
 - [x] Logic: Find peak → calculate gain needed → apply gain → download
 
 #### Task 5.3.5: Build Volume Booster
+
 - [x] File: `src/tools/audio/boost-audio.js`
 - [x] UI: Upload audio → gain slider (0.5x to 5x) → preview → download
 - [x] Logic: Apply gain to AudioBuffer → encode → download
 
 #### Task 5.3.6: Build Audio Speed Changer
+
 - [x] File: `src/tools/audio/audio-speed.js`
 - [x] UI: Upload audio → speed slider (0.5x to 3x) → preview → download
 - [x] Logic: Resample AudioBuffer or use playbackRate
 
 #### Task 5.3.7: Build Voice Recorder
+
 - [x] File: `src/tools/audio/voice-recorder.js`
 - [x] UI: Record button → timer → stop button → waveform preview → download (MP3/WAV)
 - [x] Logic: MediaRecorder API → record → encode → download
 
 #### Task 5.3.8: Build Text to Speech
+
 - [x] File: `src/tools/audio/text-to-speech.js`
 - [x] UI: Text area → voice dropdown → rate slider → pitch slider → "Generate" → play/download
 - [x] Logic: Web Speech API (speechSynthesis) → MediaRecorder to capture → download
 
 #### Task 5.3.9: Build Audio Transcription
+
 - [x] File: `src/tools/audio/transcribe-audio.js`
 - [x] UI: Upload audio → language selector → "Transcribe" → progress bar → show text → copy/download (.txt or .srt)
 - [x] Logic: Load Whisper WASM → run inference → format output
 
 #### Task 5.3.10: Build Audio Reverse
+
 - [x] File: `src/tools/audio/reverse-audio.js`
 - [x] UI: Upload audio → "Reverse" → preview → download
 - [x] Logic: Reverse AudioBuffer channel data → encode → download
@@ -2111,6 +2332,7 @@ server: {
 ### 5.4 Audio Category Page (1 task)
 
 #### Task 5.4.1: Create Audio category listing
+
 - [x] Shows all 10 audio tools as cards
 
 ### ✅ Phase 5 Completion Log
@@ -2118,10 +2340,12 @@ server: {
 **Completed:** 2026-04-29
 **Dependencies installed:** lamejs, wavesurfer.js
 **Files created:** 11 files
+
 - `src/tools/audio/audio-utils.js` — shared audio utilities (WAV encoder, waveform, gain, reverse, speed, slice, concat)
 - 10 tool files: trim-audio, convert-audio, merge-audio, normalize-audio, boost-audio, audio-speed, voice-recorder, text-to-speech, transcribe-audio (placeholder), reverse-audio
 
 **Notes:**
+
 - Convert Audio reuses ffmpeg.wasm from video tools (shared loader)
 - Voice Recorder uses MediaRecorder API
 - Text to Speech uses Web Speech API (speechSynthesis)
@@ -2139,13 +2363,16 @@ server: {
 ### 6.1 OCR Dependencies (3 tasks)
 
 #### Task 6.1.1: Install Tesseract.js
+
 - [x] Run: `npm install tesseract.js`
 
 #### Task 6.1.2: Configure Tesseract languages
+
 - [x] Create language config for English + top 10 languages
 - [x] Tesseract.js downloads language data on demand from CDN
 
 #### Task 6.1.3: Create OCR utility functions
+
 - [x] Create file: `src/tools/ocr/ocr-utils.js`
 - [x] Functions:
   - `recognizeText(imageSource, language, onProgress)` → text
@@ -2154,24 +2381,29 @@ server: {
 ### 6.2 Build OCR Tools (4 tasks)
 
 #### Task 6.2.1: Build Image to Text (OCR)
+
 - [x] File: `src/tools/ocr/image-to-text.js`
 - [x] UI: Upload image → select language → "Extract Text" → progress bar → show text → copy/download
 
 #### Task 6.2.2: Build PDF to Text
+
 - [x] File: `src/tools/ocr/pdf-to-text.js`
 - [x] UI: Upload PDF → extract text per page → show text → copy/download
 
 #### Task 6.2.3: Build Scanned PDF → Searchable PDF
+
 - [x] File: `src/tools/ocr/scanned-pdf-searchable.js`
 - [x] UI: Upload scanned PDF → OCR each page → overlay invisible text → download searchable PDF
 
 #### Task 6.2.4: Build Screenshot to Text
+
 - [x] File: `src/tools/ocr/screenshot-to-text.js`
 - [x] UI: Paste from clipboard (Ctrl+V) or upload → OCR → show text → copy
 
 ### 6.3 OCR Category Page (1 task)
 
 #### Task 6.3.1: Create OCR category listing
+
 - [x] Shows all 4 OCR tools as cards
 
 ### ✅ Phase 6 Completion Log
@@ -2179,10 +2411,12 @@ server: {
 **Completed:** 2026-04-29
 **Dependencies installed:** tesseract.js
 **Files created:** 5 files
+
 - `src/tools/ocr/ocr-utils.js` — shared OCR utilities (language list, recognizeText wrapper)
 - 4 tool files: image-to-text, pdf-to-text, scanned-pdf-searchable, screenshot-to-text
 
 **Notes:**
+
 - Tesseract.js downloads language data on demand from CDN
 - PDF to Text reuses pdf-utils.js from Phase 2
 - Screenshot to Text supports clipboard paste (Ctrl+V) + file upload + drag & drop
@@ -2200,30 +2434,37 @@ server: {
 ### 7.1 QR/Barcode Dependencies (3 tasks)
 
 #### Task 7.1.1: Install qrcode.js
+
 - [ ] Run: `npm install qrcode`
 
 #### Task 7.1.2: Install JsBarcode
+
 - [ ] Run: `npm install jsbarcode`
 
 #### Task 7.1.3: Install ZXing WASM
+
 - [ ] Run: `npm install @aspect-build/zxing-wasm` or find alternative
 - [ ] Used for: scanning QR/barcodes from images
 
 ### 7.2 Build QR/Barcode Tools (4 tasks)
 
 #### Task 7.2.1: Build QR Code Generator
+
 - [ ] File: `src/tools/qr/qr-generator.js`
 - [ ] UI: Input text/URL → choose size → choose colors → add logo (optional) → download PNG/SVG
 
 #### Task 7.2.2: Build QR Code Scanner
+
 - [ ] File: `src/tools/qr/qr-scanner.js`
 - [ ] UI: Upload image or paste from clipboard → decode → show content
 
 #### Task 7.2.3: Build Barcode Generator
+
 - [ ] File: `src/tools/qr/barcode-generator.js`
 - [ ] UI: Enter data → choose format (Code128/EAN-13/UPC-A) → download PNG/SVG
 
 #### Task 7.2.4: Build Barcode Scanner
+
 - [ ] File: `src/tools/qr/barcode-scanner.js`
 - [ ] UI: Upload image → decode → show data
 
@@ -2241,30 +2482,36 @@ server: {
 ### 8.1 Build Privacy Tools (6 tasks)
 
 #### Task 8.1.1: Build EXIF Metadata Remover
+
 - [ ] File: `src/tools/privacy/remove-metadata.js`
 - [ ] UI: Upload image → show detected metadata → "Remove All" → download clean image
 - [ ] Logic: Canvas re-export strips EXIF
 
 #### Task 8.1.2: Build File Encryption
+
 - [ ] File: `src/tools/privacy/encrypt-file.js`
 - [ ] UI: Upload file → enter password → "Encrypt" → download .encrypted file
 - [ ] Also: Upload .encrypted file → enter password → "Decrypt" → download original
 - [ ] Logic: Web Crypto API (AES-GCM)
 
 #### Task 8.1.3: Build File Hash Generator
+
 - [ ] File: `src/tools/privacy/hash-file.js`
 - [ ] UI: Upload file → calculate MD5/SHA-1/SHA-256/SHA-512 → display all hashes → copy
 
 #### Task 8.1.4: Build Password Generator
+
 - [ ] File: `src/tools/privacy/password-generator.js`
 - [ ] UI: Length slider → checkboxes (uppercase, lowercase, numbers, symbols) → generate → copy
 - [ ] Logic: Web Crypto API (getRandomValues)
 
 #### Task 8.1.5: Build Password Strength Checker
+
 - [ ] File: `src/tools/privacy/password-checker.js`
 - [ ] UI: Enter password → strength meter (weak/medium/strong/very strong) → feedback
 
 #### Task 8.1.6: Build Steganography
+
 - [ ] File: `src/tools/privacy/steganography.js`
 - [ ] UI: Encode: upload image + enter secret text → embed → download
 - [ ] UI: Decode: upload steganographic image → extract hidden text
@@ -2279,6 +2526,7 @@ server: {
 ## PHASE 9-13: Remaining Tool Categories
 
 > Each phase follows the same pattern:
+>
 > 1. Install dependencies (if any)
 > 2. Create utility functions
 > 3. Build each tool (one task per tool)
@@ -2491,6 +2739,7 @@ server: {
 Run this ONE command at the start of Phase 2. It installs everything you need for all 128 tools:
 
 ```bash
+
 npm install \
   pdf-lib \
   pdfjs-dist \
@@ -2516,6 +2765,7 @@ npm install \
   mathjs \
   jszip \
   exif-js
+
 ```
 
 **What each package does:**
@@ -2554,6 +2804,7 @@ npm install \
 Create file: `src/router.js`
 
 ```js
+
 /**
  * Simple hash-based router
  * Uses #/path format: #/tools/merge-pdf, #/category/pdf, etc.
@@ -2678,6 +2929,7 @@ export function initRouter() {
   window.addEventListener('load', handleRouteChange);
   handleRouteChange();
 }
+
 ```
 
 ---
@@ -2689,6 +2941,7 @@ export function initRouter() {
 This is the contract between the router/page loader and individual tools:
 
 ```js
+
 /**
  * FILE: src/tools/{category}/{tool-name}.js
  * 
@@ -2771,6 +3024,7 @@ export function destroy() {
   // Revoke any created object URLs
   // Cancel any pending async operations
 }
+
 ```
 
 ---
@@ -2780,12 +3034,14 @@ export function destroy() {
 > **Any AI model building a new tool MUST follow this exact sequence. Do not skip steps.**
 
 ```
+
 ┌─────────────────────────────────────────────────────────┐
 │  Step 1 ── Create the tool                              │
 │  Step 2 ── Create unit tests                            │
 │  Step 3 ── Create Playwright E2E test                   │
 │  Step 4 ── Build & verify                               │
 └─────────────────────────────────────────────────────────┘
+
 ```
 
 ### Step 1: Create the tool
@@ -2823,8 +3079,10 @@ export function destroy() {
 ### Step 4: Build & verify
 
 ```bash
+
 npm run build        # Must pass with zero errors
 npm run test         # All unit + E2E tests must pass
+
 ```
 
 - If `npm run test` fails, fix test or tool before considering the task done.
@@ -2839,6 +3097,7 @@ Create file: `src/pages/tool.js`
 This is the code that loads any tool dynamically:
 
 ```js
+
 import { createElement, $, clearElement } from '../utils/dom.js';
 import { updatePageMeta, addStructuredData } from '../utils/seo.js';
 import toolsData from '../data/tools.json';
@@ -3075,6 +3334,7 @@ function renderToolNotFound(container) {
     </div>
   `;
 }
+
 ```
 
 ---
@@ -3084,6 +3344,7 @@ function renderToolNotFound(container) {
 Create file: `src/main.js`
 
 ```js
+
 /**
  * Main entry point
  * Initializes the app: styles, router, navbar, footer
@@ -3154,6 +3415,7 @@ function initApp() {
 
 // ===== Start App =====
 document.addEventListener('DOMContentLoaded', initApp);
+
 ```
 
 ---
@@ -3163,6 +3425,7 @@ document.addEventListener('DOMContentLoaded', initApp);
 Add this to `src/pages/home.js` or create `src/components/search.js`:
 
 ```js
+
 import { debounce } from '../utils/debounce.js';
 import { navigate } from '../router.js';
 import toolsData from '../data/tools.json';
@@ -3300,10 +3563,13 @@ function highlightMatch(text, query) {
   const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
   return text.replace(regex, '<mark>$1</mark>');
 }
+
 ```
 
 **Search HTML (in homepage):**
+
 ```html
+
 <div class="search-wrapper">
   <input 
     type="text" 
@@ -3314,10 +3580,13 @@ function highlightMatch(text, query) {
   >
   <div id="search-results" class="search-results"></div>
 </div>
+
 ```
 
 **Search CSS (add to components.css):**
+
 ```css
+
 /* ===== Search ===== */
 .search-wrapper {
   position: relative;
@@ -3421,6 +3690,7 @@ function highlightMatch(text, query) {
   text-align: center;
   color: var(--color-text-muted);
 }
+
 ```
 
 ---
@@ -3432,8 +3702,10 @@ function highlightMatch(text, query) {
 Add to `index.html` `<head>` (ONLY after your AdSense account is approved):
 
 ```html
+
 <!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your actual publisher ID -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
 ```
 
 ### G.2: Ad Slot Component
@@ -3441,6 +3713,7 @@ Add to `index.html` `<head>` (ONLY after your AdSense account is approved):
 Create file: `src/components/ad-slot.js`
 
 ```js
+
 /**
  * Create an ad slot element
  * @param {Object} opts
@@ -3473,6 +3746,7 @@ export function createAdSlot({ slot, format = 'auto', responsive = true }) {
 
   return container;
 }
+
 ```
 
 ### G.3: Ad Placement Strategy
@@ -3480,6 +3754,7 @@ export function createAdSlot({ slot, format = 'auto', responsive = true }) {
 **Where to place ads on TOOL pages:**
 
 ```
+
 ┌─────────────────────────────────┐
 │         NAVBAR                  │
 ├─────────────────────────────────┤
@@ -3502,11 +3777,13 @@ export function createAdSlot({ slot, format = 'auto', responsive = true }) {
 ├─────────────────────────────────┤
 │         FOOTER                  │
 └─────────────────────────────────┘
+
 ```
 
 **Where to place ads on HOMEPAGE:**
 
 ```
+
 ┌─────────────────────────────────┐
 │         NAVBAR                  │
 ├─────────────────────────────────┤
@@ -3524,10 +3801,13 @@ export function createAdSlot({ slot, format = 'auto', responsive = true }) {
 ├─────────────────────────────────┤
 │         FOOTER                  │
 └─────────────────────────────────┘
+
 ```
 
 **Ad CSS (add to components.css):**
+
 ```css
+
 /* ===== Ad Slots ===== */
 .ad-slot {
   margin: var(--space-8) auto;
@@ -3564,6 +3844,7 @@ export function createAdSlot({ slot, format = 'auto', responsive = true }) {
 .tool-page .ad-slot {
   clear: both;
 }
+
 ```
 
 ### G.4: AdSense Approval Checklist
@@ -3590,6 +3871,7 @@ Create file: `src/components/comparison-slider.js`
 Used by: Image Compressor, Image Filters, Background Remover — any tool that shows before/after.
 
 ```js
+
 /**
  * Create a before/after image comparison slider
  * @param {Object} opts
@@ -3680,10 +3962,13 @@ export function createComparisonSlider({ beforeSrc, afterSrc, beforeLabel = 'Ori
 
   return container;
 }
+
 ```
 
 **Comparison Slider CSS (add to components.css):**
+
 ```css
+
 /* ===== Before/After Comparison Slider ===== */
 .comparison-slider {
   position: relative;
@@ -3781,6 +4066,7 @@ export function createComparisonSlider({ beforeSrc, afterSrc, beforeLabel = 'Ori
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   color: #333;
 }
+
 ```
 
 ---
@@ -3792,6 +4078,7 @@ Create file: `src/components/file-upload.js`
 This is the most reused component. Make it solid.
 
 ```js
+
 import { formatFileSize } from '../utils/file.js';
 import { createElement } from '../utils/dom.js';
 
@@ -3977,10 +4264,13 @@ export function createFileUpload({
     }
   };
 }
+
 ```
 
 **File Upload CSS (add to components.css):**
+
 ```css
+
 /* ===== File Upload ===== */
 .file-upload {
   width: 100%;
@@ -4087,6 +4377,7 @@ export function createFileUpload({
   color: var(--color-error);
   background: rgba(239, 68, 68, 0.1);
 }
+
 ```
 
 ---
@@ -4096,6 +4387,7 @@ export function createFileUpload({
 The final, complete Vite config with all necessary settings:
 
 ```js
+
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -4169,6 +4461,7 @@ export default defineConfig({
     ]
   }
 });
+
 ```
 
 ---
@@ -4178,6 +4471,7 @@ export default defineConfig({
 Create file: `_headers` at project root (for production deployment):
 
 ```
+
 /*
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: require-corp
@@ -4188,6 +4482,7 @@ Create file: `_headers` at project root (for production deployment):
 
 /static/*
   Cache-Control: public, max-age=31536000, immutable
+
 ```
 
 ---
@@ -4201,6 +4496,7 @@ Here are TWO complete, copy-paste tool implementations to use as templates:
 File: `src/tools/privacy/password-generator.js`
 
 ```js
+
 import { createElement } from '../../utils/dom.js';
 import { copyToClipboard } from '../../utils/clipboard.js';
 import { showToast } from '../../components/toast.js';
@@ -4349,6 +4645,7 @@ function getPasswordStrengthHTML(password) {
     <span style="color: ${colors[level]}; font-weight: 600;">${levels[level]}</span>
   `;
 }
+
 ```
 
 ### L.2: Image Compressor (File Processing Tool)
@@ -4356,6 +4653,7 @@ function getPasswordStrengthHTML(password) {
 File: `src/tools/image/compress-image.js`
 
 ```js
+
 import { createFileUpload } from '../../components/file-upload.js';
 import { createRangeSlider } from '../../components/range-slider.js';
 import { createComparisonSlider } from '../../components/comparison-slider.js';
@@ -4540,6 +4838,7 @@ export function render(container) {
 export function destroy() {
   // Revoke any created object URLs to free memory
 }
+
 ```
 
 ---
@@ -4549,6 +4848,7 @@ export function destroy() {
 **If you are an AI model, create files in THIS exact order:**
 
 ```
+
 STEP 1: Project Setup
   1. package.json (npm init -y)
   2. vite.config.js (Section J)
@@ -4615,6 +4915,7 @@ STEP 9: Install Dependencies
 
 STEP 10: Build Tools (Phase 2-18)
   Follow each phase's tasks in order
+
 ```
 
 ---
@@ -4624,9 +4925,12 @@ STEP 10: Build Tools (Phase 2-18)
 If you are an AI model building this, **DO NOT**:
 
 1. **Don't use `import` for JSON files without Vite's JSON support** — Vite handles this natively, but if it fails, use `fetch` instead:
+
    ```js
+
    const response = await fetch('/src/data/tools.json');
    const tools = await response.json();
+
    ```
 
 2. **Don't forget COOP/COEP headers for ffmpeg.wasm** — Without them, SharedArrayBuffer is unavailable and ffmpeg.wasm will crash with a cryptic error.
@@ -4666,6 +4970,7 @@ If you are an AI model building this, **DO NOT**:
 Create file: `src/data/tools.json`
 
 ```json
+
 [
   {"id":"merge-pdf","name":"Merge PDF","category":"pdf","description":"Combine multiple PDF files into one. Reorder pages before merging.","icon":"📄","href":"/tools/merge-pdf","keywords":["merge pdf","combine pdf","join pdf","pdf merger"],"accept":".pdf","maxSizeMB":100},
   {"id":"split-pdf","name":"Split PDF","category":"pdf","description":"Extract specific pages or split a PDF into multiple files.","icon":"✂️","href":"/tools/split-pdf","keywords":["split pdf","extract pages","separate pdf","divide pdf"],"accept":".pdf","maxSizeMB":100},
@@ -4812,6 +5117,7 @@ Create file: `src/data/tools.json`
   {"id":"htaccess-generator","name":"HTAccess Generator","category":"dev","description":"Generate .htaccess rules for redirects, caching, and security.","icon":"⚙️","href":"/tools/htaccess-generator","keywords":["htaccess","htaccess generator","apache config","redirect rules","htaccess tool"],"accept":null,"maxSizeMB":null},
   {"id":"robots-txt-generator","name":"Robots.txt Generator","category":"dev","description":"Generate robots.txt files for SEO with visual rule builder.","icon":"🤖","href":"/tools/robots-txt-generator","keywords":["robots txt","robots.txt generator","seo robots","crawl rules","robots file"],"accept":null,"maxSizeMB":null}
 ]
+
 ```
 
 ---
@@ -4823,6 +5129,7 @@ Create file: `src/data/tools.json`
 Create file: `src/components/range-slider.js`
 
 ```js
+
 import { createElement } from '../utils/dom.js';
 
 /**
@@ -4872,10 +5179,13 @@ export function createRangeSlider({ min = 0, max = 100, value = 50, step = 1, la
     }
   };
 }
+
 ```
 
 **Range Slider CSS (add to components.css):**
+
 ```css
+
 /* ===== Range Slider ===== */
 .range-slider-wrapper {
   width: 100%;
@@ -4950,6 +5260,7 @@ export function createRangeSlider({ min = 0, max = 100, value = 50, step = 1, la
   color: var(--color-text-muted);
   margin-top: var(--space-1);
 }
+
 ```
 
 ### P.2: Toast Component
@@ -4957,6 +5268,7 @@ export function createRangeSlider({ min = 0, max = 100, value = 50, step = 1, la
 Create file: `src/components/toast.js`
 
 ```js
+
 /**
  * Show a toast notification
  * @param {Object} opts
@@ -5001,10 +5313,13 @@ export function showToast({ message, type = 'info', duration = 3000 }) {
     setTimeout(() => toast.remove(), 300);
   }, duration);
 }
+
 ```
 
 **Toast CSS (add to components.css):**
+
 ```css
+
 /* ===== Toast Notifications ===== */
 #toast-container {
   position: fixed;
@@ -5078,6 +5393,7 @@ export function showToast({ message, type = 'info', duration = 3000 }) {
     max-width: none;
   }
 }
+
 ```
 
 ### P.3: Navbar Component
@@ -5085,6 +5401,7 @@ export function showToast({ message, type = 'info', duration = 3000 }) {
 Create file: `src/components/navbar.js`
 
 ```js
+
 /**
  * Render the navigation bar
  * @returns {string} HTML string
@@ -5169,10 +5486,13 @@ export function initNavbar() {
     });
   }
 }
+
 ```
 
 **Navbar CSS (add to components.css):**
+
 ```css
+
 /* ===== Navbar ===== */
 .navbar {
   background: var(--color-bg);
@@ -5327,6 +5647,7 @@ export function initNavbar() {
   background: var(--color-primary-light);
   color: var(--color-primary);
 }
+
 ```
 
 ### P.4: Footer Component
@@ -5334,6 +5655,7 @@ export function initNavbar() {
 Create file: `src/components/footer.js`
 
 ```js
+
 /**
  * Render the footer
  * @returns {string} HTML string
@@ -5383,10 +5705,13 @@ export function renderFooter() {
     </footer>
   `;
 }
+
 ```
 
 **Footer CSS (add to components.css):**
+
 ```css
+
 /* ===== Footer ===== */
 .footer {
   background: var(--color-text);
@@ -5467,6 +5792,7 @@ export function renderFooter() {
     grid-template-columns: 1fr;
   }
 }
+
 ```
 
 ### P.5: Card Component
@@ -5474,6 +5800,7 @@ export function renderFooter() {
 Create file: `src/components/card.js`
 
 ```js
+
 /**
  * Create a tool card component
  * @param {Object} opts
@@ -5497,10 +5824,13 @@ export function createToolCard({ title, description, icon, href, category }) {
   `;
   return card;
 }
+
 ```
 
 **Card CSS (add to components.css):**
+
 ```css
+
 /* ===== Tool Card ===== */
 .tool-card {
   display: block;
@@ -5556,6 +5886,7 @@ export function createToolCard({ title, description, icon, href, category }) {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: var(--space-4);
 }
+
 ```
 
 ---
@@ -5565,6 +5896,7 @@ export function createToolCard({ title, description, icon, href, category }) {
 Create file: `src/sw.js`
 
 ```js
+
 const CACHE_NAME = 'toolbox-v1';
 const STATIC_ASSETS = [
   '/',
@@ -5629,6 +5961,7 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
 ```
 
 ---
@@ -5640,6 +5973,7 @@ self.addEventListener('fetch', (event) => {
 Add to `src/styles/components.css`:
 
 ```css
+
 /* ===== Form Elements ===== */
 .form-group {
   margin-bottom: var(--space-4);
@@ -5989,6 +6323,7 @@ Add to `src/styles/components.css`:
   color: var(--color-text-secondary);
   line-height: 1.6;
 }
+
 ```
 
 ---
@@ -5998,6 +6333,7 @@ Add to `src/styles/components.css`:
 **Add these to the creation order from Section M:**
 
 ```
+
 STEP 5 (continued): Additional Components
   35. src/components/ad-slot.js (Section G.2)
   36. src/components/range-slider.js (Section P.1)    ← NEW
@@ -6033,6 +6369,7 @@ STEP 10: Install Dependencies
 
 STEP 11: Build Tools (Phase 2-18)
   Follow each phase's tasks in order
+
 ```
 
 ---
@@ -6085,11 +6422,13 @@ STEP 11: Build Tools (Phase 2-18)
 ### 21.1 Install Dependencies (2 tasks)
 
 #### Task 21.1.1: Install mammoth.js
+
 - [ ] Run: `npm install mammoth`
 - [ ] mammoth converts .docx files to HTML client-side
 - [ ] Test: `import mammoth from 'mammoth'` in a JS file — no errors
 
 #### Task 21.1.2: Install SheetJS (xlsx)
+
 - [ ] Run: `npm install xlsx`
 - [ ] SheetJS reads/writes Excel (.xlsx, .xls) and CSV files
 - [ ] Test: `import * as XLSX from 'xlsx'` — no errors
@@ -6097,6 +6436,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 21.2 Build Word to PDF (2 tasks)
 
 #### Task 21.2.1: Create Word to PDF tool file
+
 - [ ] Create file: `src/tools/pdf/word-to-pdf.js`
 - [ ] Export function `render(container)` that builds this UI:
   1. **File Upload**: Accept `.docx`, `.doc` files. Max 50MB.
@@ -6106,7 +6446,9 @@ STEP 11: Build Tools (Phase 2-18)
   5. **Download button** that triggers PDF download
 
 - [ ] **Conversion Logic** (step by step):
+
   ```js
+
   import mammoth from 'mammoth';
   import { jsPDF } from 'jspdf';
   
@@ -6132,6 +6474,7 @@ STEP 11: Build Tools (Phase 2-18)
     width: 170, // content width in mm
     windowWidth: 800 // virtual viewport width
   });
+
   ```
 
 - [ ] **Important notes for the AI building this:**
@@ -6142,6 +6485,7 @@ STEP 11: Build Tools (Phase 2-18)
   - If the docx has complex tables, they may not render perfectly — show a warning
 
 #### Task 21.2.2: Add to tools.json
+
 - [ ] Verify entry exists in tools.json with id `word-to-pdf`
 - [ ] Category: `pdf`
 - [ ] accept: `.docx,.doc`
@@ -6150,6 +6494,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 21.3 Build Excel to PDF (2 tasks)
 
 #### Task 21.3.1: Create Excel to PDF tool file
+
 - [ ] Create file: `src/tools/pdf/excel-to-pdf.js`
 - [ ] **UI:**
   1. File upload accepting `.xlsx`, `.xls`, `.csv`
@@ -6159,7 +6504,9 @@ STEP 11: Build Tools (Phase 2-18)
   5. Download button
 
 - [ ] **Logic:**
+
   ```js
+
   import * as XLSX from 'xlsx';
   import { jsPDF } from 'jspdf';
   import 'jspdf-autotable'; // npm install jspdf-autotable
@@ -6183,6 +6530,7 @@ STEP 11: Build Tools (Phase 2-18)
   
   // 4. Save
   doc.save(filename.replace(/\.(xlsx|xls|csv)$/, '.pdf'));
+
   ```
 
 - [ ] Install jspdf-autotable: `npm install jspdf-autotable`
@@ -6190,18 +6538,22 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Handle wide tables — auto-rotate to landscape if needed
 
 #### Task 21.3.2: Add to tools.json
+
 - [ ] Verify entry exists with id `excel-to-pdf`
 
 ### 21.4 Build PDF eSign (3 tasks)
 
 #### Task 21.4.1: Create signature pad component
+
 - [ ] Create file: `src/components/signature-pad.js`
 - [ ] Export function `createSignaturePad({ width, height, penColor, bgColor })`
 - [ ] Uses HTML5 Canvas for drawing
 - [ ] Support mouse and touch input (for mobile signing)
 - [ ] Return object with `{ element, getDataURL(), clear(), isEmpty() }`
 - [ ] Implementation:
+
   ```js
+
   export function createSignaturePad({ width = 400, height = 200, penColor = '#000000', bgColor = 'transparent' }) {
     const canvas = document.createElement('canvas');
     canvas.width = width;
@@ -6274,9 +6626,11 @@ STEP 11: Build Tools (Phase 2-18)
       }
     };
   }
+
   ```
 
 #### Task 21.4.2: Create PDF eSign tool
+
 - [ ] Create file: `src/tools/pdf/pdf-esign.js`
 - [ ] **UI flow:**
   1. Upload PDF file
@@ -6288,7 +6642,9 @@ STEP 11: Build Tools (Phase 2-18)
   7. "Sign & Download" button
 
 - [ ] **Logic:**
+
   ```js
+
   import { PDFDocument } from 'pdf-lib';
   
   // 1. Load PDF
@@ -6314,6 +6670,7 @@ STEP 11: Build Tools (Phase 2-18)
   // 6. Save and download
   const signedBytes = await pdfDoc.save();
   downloadBlob(new Blob([signedBytes], { type: 'application/pdf' }), 'signed.pdf');
+
   ```
 
 - [ ] Important: Use `pdf-lib` (already installed) for embedding, NOT jsPDF
@@ -6321,16 +6678,20 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Let user place signature by clicking on the rendered page preview
 
 #### Task 21.4.3: Add to tools.json
+
 - [ ] Verify entry exists with id `pdf-esign`
 
 ### 21.5 Build CSV to XML and XML to CSV (2 tasks)
 
 #### Task 21.5.1: Create CSV to XML converter
+
 - [ ] Create file: `src/tools/text/csv-to-xml.js`
 - [ ] UI: Upload CSV → preview table → choose root/row element names → download XML
 - [ ] Logic: Parse CSV with Papa Parse (already installed for CSV visualizer), build XML string
 - [ ] Template:
+
   ```js
+
   // Input: CSV with headers [name, age, city]
   // Output:
   // <root>
@@ -6340,9 +6701,11 @@ STEP 11: Build Tools (Phase 2-18)
   //     <city>NYC</city>
   //   </row>
   // </root>
+
   ```
 
 #### Task 21.5.2: Create XML to CSV converter
+
 - [ ] Create file: `src/tools/text/xml-to-csv.js`
 - [ ] UI: Upload XML → show tree preview → download CSV
 - [ ] Logic: Parse XML with DOMParser (built-in), extract repeated elements as rows
@@ -6350,6 +6713,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 21.6 Categories Update (1 task)
 
 #### Task 21.6.1: Update categories.json
+
 - [ ] Add or update the `pdf` category toolCount to include new tools
 - [ ] Update `text` category toolCount
 - [ ] Verify all new tools appear in their category pages
@@ -6366,11 +6730,14 @@ STEP 11: Build Tools (Phase 2-18)
 ### 21.1 Build Generic ffmpeg.wasm Converter Helper (2 tasks)
 
 #### Task 22.1.1: Create reusable ffmpeg converter utility
+
 - [ ] Create file: `src/tools/video/video-convert-utils.js`
 - [ ] This is a SHARED UTILITY used by ALL video/audio format converters
 - [ ] Export function `convertWithFfmpeg({ input file, outputFormat, options })`
 - [ ] Implementation:
+
   ```js
+
   import { FFmpeg } from '@ffmpeg/ffmpeg';
   import { fetchFile, toBlobURL } from '@ffmpeg/util';
   
@@ -6430,12 +6797,14 @@ STEP 11: Build Tools (Phase 2-18)
     };
     return mimes[format] || 'application/octet-stream';
   }
+
   ```
 
 - [ ] This single utility is used by ALL 10+ format converters below
 - [ ] Caches the FFmpeg WASM instance (loads once, reuses for all conversions)
 
 #### Task 22.1.2: Create video converter page template
+
 - [ ] Create file: `src/tools/video/video-converter-template.js`
 - [ ] Export function `renderVideoConverter({ inputFormats, outputFormat, toolName, extraArgsFn })`
 - [ ] This generates the standard UI for ALL video converters:
@@ -6451,37 +6820,46 @@ STEP 11: Build Tools (Phase 2-18)
 ### 22.2 Build Video Format Converters (5 tasks)
 
 #### Task 22.2.1: Build MOV to MP4
+
 - [ ] Create file: `src/tools/video/mov-to-mp4.js`
 - [ ] Uses template: `renderVideoConverter({ inputFormats: ['.mov'], outputFormat: 'mp4', toolName: 'MOV to MP4' })`
 - [ ] That's it — 5 lines of code using the template
 
 #### Task 22.2.2: Build MKV to MP4
+
 - [ ] Create file: `src/tools/video/mkv-to-mp4.js`
 - [ ] Uses template: `renderVideoConverter({ inputFormats: ['.mkv'], outputFormat: 'mp4', toolName: 'MKV to MP4' })`
 
 #### Task 22.2.3: Build AVI to MP4
+
 - [ ] Create file: `src/tools/video/avi-to-mp4.js`
 - [ ] Uses template: `renderVideoConverter({ inputFormats: ['.avi'], outputFormat: 'mp4', toolName: 'AVI to MP4' })`
 
 #### Task 22.2.4: Build WEBM to MP4
+
 - [ ] Create file: `src/tools/video/webm-to-mp4.js`
 - [ ] Uses template: `renderVideoConverter({ inputFormats: ['.webm'], outputFormat: 'mp4', toolName: 'WEBM to MP4' })`
 
 #### Task 22.2.5: Build MP4 to WEBM
+
 - [ ] Create file: `src/tools/video/mp4-to-webm.js`
 - [ ] Uses template with extra args for WebM encoding:
+
   ```js
+
   renderVideoConverter({
     inputFormats: ['.mp4'],
     outputFormat: 'webm',
     toolName: 'MP4 to WEBM',
     extraArgsFn: (settings) => ['-c:v', 'libvpx-vp9', '-crf', '30', '-b:v', '0', '-c:a', 'libopus']
   })
+
   ```
 
 ### 22.3 Build Screen & GIF Recorders (4 tasks)
 
 #### Task 22.3.1: Create reusable MediaRecorder utility
+
 - [ ] Create file: `src/tools/video/record-utils.js`
 - [ ] Export function `startScreenCapture({ audio, video })` — returns MediaStream
 - [ ] Uses `navigator.mediaDevices.getDisplayMedia()` (browser built-in)
@@ -6489,6 +6867,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Handle browser support check (show error if not supported)
 
 #### Task 22.3.2: Build Screen Recorder tool
+
 - [ ] Create file: `src/tools/video/screen-recorder.js`
 - [ ] **UI:**
   1. "Start Recording" button (prompts screen/window/tab selection)
@@ -6499,7 +6878,9 @@ STEP 11: Build Tools (Phase 2-18)
   6. Options: include audio, resolution quality
 
 - [ ] **Logic:**
+
   ```js
+
   // 1. Get screen capture stream
   const stream = await navigator.mediaDevices.getDisplayMedia({
     video: { mediaSource: 'screen' },
@@ -6526,6 +6907,7 @@ STEP 11: Build Tools (Phase 2-18)
   // ... later ...
   recorder.stop();
   stream.getTracks().forEach(t => t.stop());
+
   ```
 
 - [ ] IMPORTANT: `getDisplayMedia()` MUST be called from a user gesture (button click)
@@ -6533,10 +6915,13 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Timer: show elapsed recording time (update every second)
 
 #### Task 22.3.3: Build GIF Recorder tool
+
 - [ ] Create file: `src/tools/video/gif-recorder.js`
 - [ ] Same as Screen Recorder but output is animated GIF instead of WebM
 - [ ] **Logic after stopping recording:**
+
   ```js
+
   // 1. Record as WebM (same as screen recorder)
   // 2. On stop, convert WebM → GIF using ffmpeg.wasm
   const { blob } = await convertWithFfmpeg({
@@ -6544,21 +6929,27 @@ STEP 11: Build Tools (Phase 2-18)
     outputFormat: 'gif',
     extraArgs: ['-vf', 'fps=10,scale=480:-1:flags=lanczos']
   });
+
   ```
+
 - [ ] Options: FPS (5/10/15), resolution (480p/720p), quality
 - [ ] Show preview of resulting GIF with file size
 
 #### Task 22.3.4: Add all to tools.json
+
 - [ ] Verify entries: `mov-to-mp4`, `mkv-to-mp4`, `avi-to-mp4`, `webm-to-mp4`, `mp4-to-webm`, `screen-recorder`, `gif-recorder`
 
 ### 22.4 Build Video Subtitle Burner (2 tasks)
 
 #### Task 22.4.1: Create subtitle parser
+
 - [ ] Create file: `src/tools/video/subtitle-utils.js`
 - [ ] Export function `parseSRT(text)` — parse SRT format into array of `{ start, end, text }`
 - [ ] Export function `parseVTT(text)` — parse WebVTT format
 - [ ] SRT format example:
+
   ```
+
   1
   00:00:01,000 --> 00:00:04,000
   Hello, welcome to this video.
@@ -6566,9 +6957,11 @@ STEP 11: Build Tools (Phase 2-18)
   2
   00:00:05,000 --> 00:00:08,000
   This is the second subtitle.
+
   ```
 
 #### Task 22.4.2: Build Video Subtitle Burner tool
+
 - [ ] Create file: `src/tools/video/video-subtitle-burner.js`
 - [ ] **UI:**
   1. Upload video file
@@ -6579,7 +6972,9 @@ STEP 11: Build Tools (Phase 2-18)
   6. Download button
 
 - [ ] **Logic using ffmpeg.wasm:**
+
   ```js
+
   // ffmpeg command to burn subtitles:
   await ffmpeg.exec([
     '-i', 'input.mp4',
@@ -6587,6 +6982,7 @@ STEP 11: Build Tools (Phase 2-18)
     '-c:a', 'copy',
     'output.mp4'
   ]);
+
   ```
 
 - [ ] Write the SRT file to ffmpeg filesystem before running
@@ -6595,12 +6991,14 @@ STEP 11: Build Tools (Phase 2-18)
 ### 22.5 Build Video Cropper & Thumbnail Extractor (2 tasks)
 
 #### Task 22.5.1: Build Video Cropper
+
 - [ ] Create file: `src/tools/video/video-cropper.js`
 - [ ] UI: Upload video → show first frame as canvas → user draws crop rectangle → preview → download
 - [ ] Logic: Use ffmpeg crop filter: `-vf crop=${width}:${height}:${x}:${y}`
 - [ ] Show dimensions and aspect ratio of selected area
 
 #### Task 22.5.2: Build Video Thumbnail Extractor
+
 - [ ] Create file: `src/tools/video/video-thumbnail-extractor.js`
 - [ ] UI: Upload video → show timeline slider → pick timestamp → extract frame → download as PNG/JPG
 - [ ] Logic: `-ss ${timestamp} -frames:v 1 output.png`
@@ -6609,12 +7007,14 @@ STEP 11: Build Tools (Phase 2-18)
 ### 22.6 Build Video Loop Creator & GIF to Video (2 tasks)
 
 #### Task 22.6.1: Build Video Loop Creator
+
 - [ ] Create file: `src/tools/video/video-loop-creator.js`
 - [ ] UI: Upload video → set loop count (2/3/5/10/infinite) → preview → download
 - [ ] Logic: `-stream_loop ${count} -i input.mp4 -c copy output.mp4`
 - [ ] For "infinite" mode, just set a high loop count (e.g., 100)
 
 #### Task 22.6.2: Build GIF to Video
+
 - [ ] Create file: `src/tools/video/gif-to-video.js`
 - [ ] UI: Upload GIF → show preview with animation → convert to MP4 → download
 - [ ] Logic: `-i input.gif -movflags faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" output.mp4`
@@ -6632,6 +7032,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 23.1 Create Audio Converter Template (2 tasks)
 
 #### Task 23.1.1: Create reusable audio converter template
+
 - [ ] Create file: `src/tools/audio/audio-converter-template.js`
 - [ ] Export function `renderAudioConverter({ inputFormats, outputFormat, toolName, extraArgsFn })`
 - [ ] UI: Upload audio → show waveform preview (using wavesurfer.js if available, or simple canvas) → settings (bitrate 128/192/256/320kbps) → convert → download
@@ -6639,6 +7040,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] All audio converters below just call this template
 
 #### Task 23.1.2: Install wavesurfer.js (optional but nice)
+
 - [ ] Run: `npm install wavesurfer.js`
 - [ ] Used for audio waveform visualization
 - [ ] If you don't want another dependency, use Web Audio API + Canvas instead
@@ -6646,25 +7048,30 @@ STEP 11: Build Tools (Phase 2-18)
 ### 23.2 Build Audio Format Converters (4 tasks)
 
 #### Task 23.2.1: Build WAV to MP3
+
 - [ ] File: `src/tools/audio/wav-to-mp3.js`
 - [ ] Template call: `renderAudioConverter({ inputFormats: ['.wav'], outputFormat: 'mp3', toolName: 'WAV to MP3' })`
 - [ ] Show file size reduction (WAV is usually 10x larger than MP3)
 
 #### Task 23.2.2: Build FLAC to MP3
+
 - [ ] File: `src/tools/audio/flac-to-mp3.js`
 - [ ] Template call: `renderAudioConverter({ inputFormats: ['.flac'], outputFormat: 'mp3', toolName: 'FLAC to MP3' })`
 
 #### Task 23.2.3: Build M4A to MP3
+
 - [ ] File: `src/tools/audio/m4a-to-mp3.js`
 - [ ] Template call: `renderAudioConverter({ inputFormats: ['.m4a'], outputFormat: 'mp3', toolName: 'M4A to MP3' })`
 
 #### Task 23.2.4: Build OGG to MP3
+
 - [ ] File: `src/tools/audio/ogg-to-mp3.js`
 - [ ] Template call: `renderAudioConverter({ inputFormats: ['.ogg'], outputFormat: 'mp3', toolName: 'OGG to MP3' })`
 
 ### 23.3 Build Audio Equalizer (3 tasks)
 
 #### Task 23.3.1: Create Web Audio API equalizer utility
+
 - [ ] Create file: `src/tools/audio/eq-utils.js`
 - [ ] Export function `createEqualizer(audioContext, sourceNode)` that creates a chain of BiquadFilterNodes
 - [ ] Standard 10-band EQ frequencies: 32Hz, 64Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz
@@ -6672,6 +7079,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Return object with `{ filters, connectToDestination(), setGain(bandIndex, gainDB) }`
 
 #### Task 23.3.2: Build Audio Equalizer tool
+
 - [ ] File: `src/tools/audio/audio-equalizer.js`
 - [ ] **UI:**
   1. Upload audio file
@@ -6682,7 +7090,9 @@ STEP 11: Build Tools (Phase 2-18)
   6. "Apply & Download" button (applies EQ and exports as MP3/WAV)
 
 - [ ] **Logic:**
+
   ```js
+
   const audioContext = new AudioContext();
   const source = audioContext.createBufferSource();
   // Decode audio file → set buffer
@@ -6695,11 +7105,13 @@ STEP 11: Build Tools (Phase 2-18)
   
   // User adjusts sliders → setGain(index, value)
   // source.start() for playback
+
   ```
 
 - [ ] For "Apply & Download": use OfflineAudioContext to render the EQ'd audio, then encode to MP3
 
 #### Task 23.3.3: Build Audio Visualizer tool
+
 - [ ] File: `src/tools/audio/audio-visualizer.js`
 - [ ] UI: Upload audio → play → show animated visualization (waveform, frequency bars, or circular)
 - [ ] Uses Web Audio API AnalyserNode + Canvas
@@ -6709,6 +7121,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 23.4 Build Ringtone Maker (2 tasks)
 
 #### Task 23.4.1: Build Ringtone Maker tool
+
 - [ ] File: `src/tools/audio/ringtone-maker.js`
 - [ ] **UI:**
   1. Upload audio file
@@ -6720,7 +7133,9 @@ STEP 11: Build Tools (Phase 2-18)
   7. "Create Ringtone" button → download
 
 - [ ] **Logic:**
+
   ```js
+
   // Using ffmpeg.wasm:
   await ffmpeg.exec([
     '-i', 'input.mp3',
@@ -6730,12 +7145,14 @@ STEP 11: Build Tools (Phase 2-18)
     '-c:a', outputCodec, // aac for m4r, libmp3lame for mp3
     'output.' + outputFormat
   ]);
+
   ```
 
 - [ ] Max ringtone length: 40 seconds (iPhone limit for M4R)
 - [ ] Show warning if selection is longer than 40s and format is M4R
 
 #### Task 23.4.2: Build Speech to Text tool
+
 - [ ] File: `src/tools/audio/speech-to-text.js`
 - [ ] **Uses Web Speech API (browser built-in, no library needed)**
 - [ ] **UI:**
@@ -6748,7 +7165,9 @@ STEP 11: Build Tools (Phase 2-18)
   7. "Download as TXT" button
 
 - [ ] **Logic:**
+
   ```js
+
   const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
   recognition.lang = selectedLanguage; // e.g., 'en-US', 'zh-CN', 'ja-JP'
   recognition.continuous = true;
@@ -6768,6 +7187,7 @@ STEP 11: Build Tools (Phase 2-18)
   };
   
   recognition.start();
+
   ```
 
 - [ ] IMPORTANT: Web Speech API is NOT supported in Firefox — show a warning
@@ -6777,6 +7197,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 23.5 Categories Update (1 task)
 
 #### Task 23.5.1: Update tools.json
+
 - [ ] Verify all entries: `wav-to-mp3`, `flac-to-mp3`, `m4a-to-mp3`, `ogg-to-mp3`, `audio-equalizer`, `audio-visualizer`, `ringtone-maker`, `speech-to-text`
 
 ---
@@ -6791,6 +7212,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 24.1 Install Dependencies (1 task)
 
 #### Task 24.1.1: Install heic2any and svgo
+
 - [ ] Run: `npm install heic2any svgo`
 - [ ] heic2any: converts HEIC/HEIF (Apple photos) to JPG/PNG — runs in browser
 - [ ] svgo: SVG optimization library — runs in JS
@@ -6798,6 +7220,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 24.2 Build Image Color Picker (2 tasks)
 
 #### Task 24.2.1: Create Image Color Picker tool
+
 - [ ] File: `src/tools/image/image-color-picker.js`
 - [ ] **UI:**
   1. Upload image (or drag & drop)
@@ -6809,7 +7232,9 @@ STEP 11: Build Tools (Phase 2-18)
   7. "Eyedropper mode" toggle — move mouse over image, color updates live
 
 - [ ] **Logic:**
+
   ```js
+
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = img.naturalWidth;
@@ -6826,17 +7251,20 @@ STEP 11: Build Tools (Phase 2-18)
     const hsl = rgbToHsl(r, g, b);
     // Display hex, rgb(r,g,b), hsl(h,s%,l%)
   });
+
   ```
 
 - [ ] Create helper: `rgbToHsl(r, g, b)` conversion function
 - [ ] Magnifier: show 5x5 pixel grid around cursor, enlarged
 
 #### Task 24.2.2: Add to tools.json
+
 - [ ] Verify `image-color-picker` entry
 
 ### 24.3 Build Image Pixelate (2 tasks)
 
 #### Task 24.3.1: Create Image Pixelate tool
+
 - [ ] File: `src/tools/image/image-pixelate.js`
 - [ ] **UI:**
   1. Upload image
@@ -6847,7 +7275,9 @@ STEP 11: Build Tools (Phase 2-18)
   6. "Download" button
 
 - [ ] **Logic:**
+
   ```js
+
   function pixelateRegion(ctx, x, y, width, height, pixelSize) {
     const imageData = ctx.getImageData(x, y, width, height);
     const data = imageData.data;
@@ -6878,32 +7308,40 @@ STEP 11: Build Tools (Phase 2-18)
     }
     ctx.putImageData(imageData, x, y);
   }
+
   ```
 
 - [ ] Support multiple regions (draw several rectangles before applying)
 - [ ] Also support "pixelate entire image" mode
 
 #### Task 24.3.2: Add to tools.json
+
 - [ ] Verify `image-pixelate` entry
 
 ### 24.4 Build SVG Tools (4 tasks)
 
 #### Task 24.4.1: Build SVG Optimizer
+
 - [ ] File: `src/tools/image/svg-optimizer.js`
 - [ ] UI: Upload SVG → show original code + optimized code side by side → show size reduction % → download
 - [ ] Logic:
+
   ```js
+
   import { optimize } from 'svgo';
   const result = optimize(svgString, {
     multipass: true,
     plugins: ['preset-default', 'removeDimensions', 'removeViewBox']
   });
   // result.data is the optimized SVG string
+
   ```
+
 - [ ] Show before/after file size comparison
 - [ ] Options toggle: remove comments, remove metadata, collapse groups, precision
 
 #### Task 24.4.2: Build SVG to PNG
+
 - [ ] File: `src/tools/image/svg-to-png.js`
 - [ ] UI: Upload SVG → choose scale (1x/2x/4x/8x/10x) → preview → download PNG
 - [ ] Logic: Create Image from SVG data URL → draw on canvas → canvas.toBlob('image/png')
@@ -6911,9 +7349,11 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Show resolution of output image
 
 #### Task 24.4.3: Add both to tools.json
+
 - [ ] Verify `svg-optimizer` and `svg-to-png` entries
 
 #### Task 24.4.4: Build Image Border & Rounded Corners
+
 - [ ] File: `src/tools/image/image-border-corners.js`
 - [ ] UI: Upload image → border width slider → border color picker → corner radius slider → padding slider → preview → download
 - [ ] Logic: Draw image on larger canvas with border and rounded clip
@@ -6922,6 +7362,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 24.5 Build Batch Image Tools (4 tasks)
 
 #### Task 24.5.1: Create batch processing utility
+
 - [ ] Create file: `src/tools/image/batch-utils.js`
 - [ ] Export function `processBatch(files, processFn, options)` that processes multiple files
 - [ ] Shows progress: "Processing 3/10 images..."
@@ -6929,34 +7370,43 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Option: "Download all as ZIP" using JSZip (`npm install jszip`)
 
 #### Task 24.5.2: Build Batch Image Resizer
+
 - [ ] File: `src/tools/image/batch-image-resize.js`
 - [ ] UI: Upload multiple images → set target width/height (or percentage) → "Resize All" → download individually or as ZIP
 - [ ] Uses pica for high-quality resize (already installed)
 - [ ] Show thumbnail previews of all uploaded images with file sizes
 
 #### Task 24.5.3: Build Batch Image Cropper
+
 - [ ] File: `src/tools/image/batch-image-crop.js`
 - [ ] UI: Upload multiple images → first image shown for crop selection → "Apply to All" → download
 
 #### Task 24.5.4: Build HEIC to JPG
+
 - [ ] File: `src/tools/image/heic-to-jpg.js`
 - [ ] UI: Upload HEIC/HEIF files → convert to JPG → show preview → download
 - [ ] Logic:
+
   ```js
+
   import heic2any from 'heic2any';
   const blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.92 });
+
   ```
+
 - [ ] Support batch conversion (multiple HEIC files)
 
 ### 24.6 Build Photo Effects (4 tasks)
 
 #### Task 24.6.1: Build Blur Background tool
+
 - [ ] File: `src/tools/image/blur-background.js`
 - [ ] UI: Upload photo → adjust blur intensity slider (1-20) → select subject area (keep sharp) → preview → download
 - [ ] Simple approach: user draws subject rectangle, everything outside gets blurred
 - [ ] Logic: Draw image → apply `ctx.filter = 'blur(Xpx)'` to background area → draw sharp subject on top
 
 #### Task 24.6.2: Build Photo to Cartoon
+
 - [ ] File: `src/tools/image/photo-to-cartoon.js`
 - [ ] UI: Upload photo → choose filter (Cartoon/Oil Paint/Sketch/Posterize) → intensity slider → preview → download
 - [ ] Cartoon effect: edge detection + color quantization
@@ -6965,12 +7415,14 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Posterize: reduce color levels
 
 #### Task 24.6.3: Build Collage Maker
+
 - [ ] File: `src/tools/image/collage-maker.js`
 - [ ] UI: Upload 2-9 images → choose layout template (grid, horizontal, vertical, creative) → drag to reorder → spacing slider → background color → download
 - [ ] Pre-defined layouts: 2-up, 3-up, 4-up grid, 2+1, 3+2, Pinterest-style
 - [ ] Each cell shows image with auto-fit (cover/contain option)
 
 #### Task 24.6.4: Build Meme Generator
+
 - [ ] File: `src/tools/image/meme-generator.js`
 - [ ] UI: Upload image → top text input → bottom text input → font size slider → text color (white/black/custom) → stroke toggle → preview → download
 - [ ] Use Impact font (or fallback to Arial Black)
@@ -6979,6 +7431,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 24.7 Build Passport Photo (2 tasks)
 
 #### Task 24.7.1: Build Passport Photo Maker
+
 - [ ] File: `src/tools/image/passport-photo.js`
 - [ ] UI:
   1. Upload photo
@@ -6992,6 +7445,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] For print sheet: arrange multiple copies on a 4x6 canvas
 
 #### Task 24.7.2: Add remaining tools to tools.json
+
 - [ ] Verify entries: `blur-background`, `photo-to-cartoon`, `collage-maker`, `meme-generator`, `passport-photo`, `batch-image-resize`, `batch-image-crop`, `image-border-corners`
 
 ---
@@ -7006,6 +7460,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 25.1 Build Full Photo Editor (6 tasks)
 
 #### Task 25.1.1: Create Canvas Editor core component
+
 - [ ] Create file: `src/components/canvas-editor.js`
 - [ ] Export class `CanvasEditor` that manages a multi-layer canvas editing system
 - [ ] Features:
@@ -7018,16 +7473,19 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Methods: `loadImage(file)`, `undo()`, `redo()`, `zoom(factor)`, `getCanvas()`, `toBlob()`
 
 #### Task 25.1.2: Create editor toolbar component
+
 - [ ] Create file: `src/components/editor-toolbar.js`
 - [ ] Tools: Crop, Resize, Rotate, Flip, Draw, Text, Filters, Brightness/Contrast, Stickers
 - [ ] Each tool has its own options panel
 
 #### Task 25.1.3: Build Crop tool within editor
+
 - [ ] Interactive crop rectangle with handles
 - [ ] Preset aspect ratios: Free, 1:1, 4:3, 16:9, 3:2, 2:3
 - [ ] Apply crop → update canvas
 
 #### Task 25.1.4: Build Draw tool within editor
+
 - [ ] Brush size slider (1-50px)
 - [ ] Color picker
 - [ ] Brush shapes: round, square
@@ -7035,6 +7493,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Opacity slider
 
 #### Task 25.1.5: Build Text tool within editor
+
 - [ ] Click to add text
 - [ ] Font selector (web-safe fonts + Google Fonts)
 - [ ] Size, color, bold, italic
@@ -7042,6 +7501,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Text shadow option
 
 #### Task 25.1.6: Assemble Photo Editor tool
+
 - [ ] File: `src/tools/image/photo-editor.js`
 - [ ] Combines CanvasEditor + toolbar + all tools
 - [ ] UI: Upload image → full editor interface → export as PNG/JPG/WebP with quality slider
@@ -7050,6 +7510,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 25.2 Build Photo Restorer (2 tasks)
 
 #### Task 25.2.1: Build Photo Restorer tool
+
 - [ ] File: `src/tools/image/photo-restorer.js`
 - [ ] UI: Upload old/damaged photo → choose enhancements → preview → download
 - [ ] Enhancements:
@@ -7062,6 +7523,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Apply with adjustable intensity (0-100%)
 
 #### Task 25.2.2: Build Background Changer
+
 - [ ] File: `src/tools/image/background-changer.js`
 - [ ] UI:
   1. Upload photo
@@ -7075,6 +7537,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 25.3 Build Sticker & Social Media Makers (4 tasks)
 
 #### Task 25.3.1: Build Sticker Maker
+
 - [ ] File: `src/tools/image/sticker-maker.js`
 - [ ] UI: Upload image → remove background → add white outline (3-10px) → add shadow → export as transparent PNG
 - [ ] For WhatsApp: 512x512px max
@@ -7082,6 +7545,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Auto-resize to platform requirements
 
 #### Task 25.3.2: Build Instagram Post Maker
+
 - [ ] File: `src/tools/image/instagram-post-maker.js`
 - [ ] Templates for: Square (1080x1080), Portrait (1080x1350), Story (1080x1920)
 - [ ] Background options: solid color, gradient, upload image
@@ -7090,6 +7554,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Preview how it looks in Instagram feed
 
 #### Task 25.3.3: Build YouTube Thumbnail Maker
+
 - [ ] File: `src/tools/image/youtube-thumbnail.js`
 - [ ] Canvas size: 1280x720 (YouTube standard)
 - [ ] Templates: 5-6 pre-designed layouts
@@ -7097,6 +7562,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Text effects: outline, shadow, glow
 
 #### Task 25.3.4: Build Profile Picture Maker
+
 - [ ] File: `src/tools/image/profile-picture-maker.js`
 - [ ] UI: Upload photo → circle crop → add border (color/width) → change background → resize for platforms
 - [ ] Platform presets: Twitter (400x400), Instagram (320x320), LinkedIn (400x400), Facebook (170x170)
@@ -7105,6 +7571,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 25.4 Build Watermark Remover (1 task)
 
 #### Task 25.4.1: Build Watermark Remover
+
 - [ ] File: `src/tools/image/remove-watermark.js`
 - [ ] UI: Upload image → select watermark area (draw rectangle) → "Remove" → download
 - [ ] Simple inpainting: fill selected area with surrounding pixel colors (averaging from edges)
@@ -7114,6 +7581,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 25.5 Remaining Image Tools (1 task)
 
 #### Task 25.5.1: Add all tools to tools.json
+
 - [ ] Verify: `photo-editor`, `photo-restorer`, `background-changer`, `sticker-maker`, `instagram-post-maker`, `youtube-thumbnail`, `profile-picture-maker`, `remove-watermark`
 
 ---
@@ -7128,9 +7596,12 @@ STEP 11: Build Tools (Phase 2-18)
 ### 26.1 Build Resume Builder (5 tasks)
 
 #### Task 26.1.1: Create resume data model
+
 - [ ] Create file: `src/tools/career/resume-data.js`
 - [ ] Define the resume data structure:
+
   ```js
+
   const defaultResume = {
     personalInfo: { name, title, email, phone, location, website, linkedin, summary },
     experience: [{ company, position, startDate, endDate, current, description }],
@@ -7140,9 +7611,11 @@ STEP 11: Build Tools (Phase 2-18)
     certifications: [{ name, issuer, date }],
     projects: [{ name, description, url }]
   };
+
   ```
 
 #### Task 26.1.2: Create resume form component
+
 - [ ] Create file: `src/tools/career/resume-form.js`
 - [ ] Multi-section form: Personal Info, Experience, Education, Skills, etc.
 - [ ] Add/remove entries for each section (e.g., add multiple jobs)
@@ -7150,6 +7623,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Auto-save to localStorage
 
 #### Task 26.1.3: Create resume template renderer
+
 - [ ] Create file: `src/tools/career/resume-templates.js`
 - [ ] At least 3 templates:
   1. **Classic**: Clean, traditional layout
@@ -7159,6 +7633,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Use CSS @media print for clean printing
 
 #### Task 26.1.4: Create PDF export function
+
 - [ ] Create file: `src/tools/career/resume-pdf.js`
 - [ ] Uses html2canvas + jsPDF to capture the rendered resume → PDF
 - [ ] Alternative: use jsPDF.html() method
@@ -7166,6 +7641,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Include page breaks for multi-page resumes
 
 #### Task 26.1.5: Assemble Resume Builder tool
+
 - [ ] File: `src/tools/career/resume-builder.js`
 - [ ] UI: Step-by-step wizard
   1. Choose template (show preview thumbnails)
@@ -7178,12 +7654,14 @@ STEP 11: Build Tools (Phase 2-18)
 ### 26.2 Build Business Card Generator (3 tasks)
 
 #### Task 26.2.1: Create business card templates
+
 - [ ] File: `src/tools/career/business-card-templates.js`
 - [ ] 3-5 templates (Classic, Modern, Creative, Minimal, Bold)
 - [ ] Card size: 3.5 x 2 inches (standard) at 300 DPI
 - [ ] Each template: front + back design
 
 #### Task 26.2.2: Build Business Card Generator tool
+
 - [ ] File: `src/tools/career/business-card-generator.js`
 - [ ] UI:
   1. Choose template
@@ -7193,6 +7671,7 @@ STEP 11: Build Tools (Phase 2-18)
   5. Download as: PNG (single), PDF (print-ready, 10 cards per A4 sheet)
 
 #### Task 26.2.3: Build Certificate Generator
+
 - [ ] File: `src/tools/career/certificate-generator.js`
 - [ ] Templates: Completion, Achievement, Participation, Appreciation
 - [ ] Fields: Recipient name, Course/Achievement, Date, Issuer, Signature line
@@ -7202,6 +7681,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 26.3 Build Invoice & Receipt Generators (3 tasks)
 
 #### Task 26.3.1: Build Invoice Generator
+
 - [ ] File: `src/tools/career/invoice-generator.js`
 - [ ] **UI:**
   1. Your business info (name, address, logo)
@@ -7215,7 +7695,9 @@ STEP 11: Build Tools (Phase 2-18)
   9. Preview → Download as PDF
 
 - [ ] **PDF generation:**
+
   ```js
+
   const doc = new jsPDF();
   // Header: Your logo + business info
   // Invoice #: INV-001, Date: 2026-05-01
@@ -7224,18 +7706,21 @@ STEP 11: Build Tools (Phase 2-18)
   // Subtotal, Tax, Discount, Grand Total
   // Notes at bottom
   doc.save('invoice.pdf');
+
   ```
 
 - [ ] Save templates to localStorage for reuse
 - [ ] Currency selector (USD, EUR, GBP, etc.)
 
 #### Task 26.3.2: Build Receipt Generator
+
 - [ ] File: `src/tools/career/receipt-generator.js`
 - [ ] Similar to invoice but simpler: business info, items, total, "PAID" stamp
 - [ ] Thermal receipt style (narrow, 80mm width) option
 - [ ] Download as PDF or PNG
 
 #### Task 26.3.3: Add all to tools.json
+
 - [ ] Verify: `resume-builder`, `business-card-generator`, `certificate-generator`, `invoice-generator`, `receipt-generator`
 
 ---
@@ -7250,6 +7735,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 27.1 Build Multi-Country Salary Calculator (6 tasks)
 
 #### Task 27.1.1: Create tax data JSON files — Europe (5 countries)
+
 - [ ] Create folder: `src/tools/finance/countries/`
 - [ ] Create files with FULL tax bracket data for:
   - `de.json` — Germany (progressive: 0%, 14%, 24%, 42%, 45%)
@@ -7259,7 +7745,9 @@ STEP 11: Build Tools (Phase 2-18)
   - `es.json` — Spain (19%, 24%, 30%, 37%, 45%, 47%)
 
 - [ ] Each JSON file MUST include:
+
   ```json
+
   {
     "country": "Germany",
     "code": "DE",
@@ -7295,9 +7783,11 @@ STEP 11: Build Tools (Phase 2-18)
     },
     "notes": "Solidarity surcharge (5.5%) applies above €18,130 tax. Church tax (8-9%) optional."
   }
+
   ```
 
 #### Task 27.1.2: Create tax data JSON files — Asia (5 countries)
+
 - [ ] Create: `cn.json` (China), `jp.json` (Japan), `in.json` (India), `sg.json` (Singapore), `kr.json` (South Korea)
 - [ ] China: progressive 3% to 45% (7 brackets), social insurance ~10.5% employee
 - [ ] Japan: progressive 5% to 45% (7 brackets), health insurance ~5%, pension ~9.15%
@@ -7306,6 +7796,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] South Korea: progressive 6% to 45%, national pension 4.5%, health 3.5%
 
 #### Task 27.1.3: Create tax data JSON files — Americas & Oceania (5 countries)
+
 - [ ] Create: `us.json` (USA), `ca.json` (Canada), `au.json` (Australia), `br.json` (Brazil), `mx.json` (Mexico)
 - [ ] USA: progressive 10% to 37% (7 brackets), Social Security 6.2% (cap $168,600), Medicare 1.45%
 - [ ] Canada: progressive 15% to 33% (5 brackets), CPP 5.95%, EI 1.63%
@@ -7314,9 +7805,12 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Mexico: progressive 1.92% to 35%, no employee social security contribution
 
 #### Task 27.1.4: Create tax calculation engine
+
 - [ ] Create file: `src/tools/finance/salary-engine.js`
 - [ ] Export function `calculateNetSalary(grossAnnual, countryData)` that returns:
+
   ```js
+
   {
     grossAnnual: 60000,
     grossMonthly: 5000,
@@ -7329,10 +7823,13 @@ STEP 11: Build Tools (Phase 2-18)
     marginalRate: 0.30,
     taxBrackets: [{ bracket, income, tax }] // per-bracket breakdown
   }
+
   ```
 
 - [ ] **Algorithm (step by step):**
+
   ```js
+
   function calculateIncomeTax(gross, brackets, deduction) {
     const taxableIncome = Math.max(0, gross - deduction);
     let tax = 0;
@@ -7351,9 +7848,11 @@ STEP 11: Build Tools (Phase 2-18)
     
     return { totalTax: tax, breakdown, effectiveRate: gross > 0 ? tax / gross : 0 };
   }
+
   ```
 
 #### Task 27.1.5: Build Salary Calculator UI
+
 - [ ] File: `src/tools/finance/salary-calculator.js`
 - [ ] **UI:**
   1. Country selector (dropdown with flag emojis, search-as-you-type)
@@ -7372,6 +7871,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Use Chart.js for the donut chart (already installed)
 
 #### Task 27.1.6: Add to tools.json and categories
+
 - [ ] Verify `salary-calculator` entry
 - [ ] This tool should appear under "Finance" category
 - [ ] Add meta description for SEO: "Calculate your take-home pay in Germany, UK, USA, France, Japan, China, India, Australia, Canada, Singapore and 20+ more countries"
@@ -7379,6 +7879,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 27.2 Build Savings & Retirement Tools (4 tasks)
 
 #### Task 27.2.1: Build Savings Goal Calculator
+
 - [ ] File: `src/tools/finance/savings-calculator.js`
 - [ ] Inputs: Target amount, Initial deposit, Monthly contribution, Annual interest rate
 - [ ] Outputs: Time to reach goal, total contributed, total interest earned
@@ -7386,6 +7887,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Also calculate: "I want to save X in Y years" → required monthly contribution
 
 #### Task 27.2.2: Build Retirement Planner
+
 - [ ] File: `src/tools/finance/retirement-planner.js`
 - [ ] Inputs: Current age, Retirement age, Current savings, Monthly savings, Expected return rate, Inflation rate, Desired annual spending in retirement
 - [ ] Outputs: FIRE number (25x annual spending), projected retirement fund, years of retirement funded
@@ -7393,9 +7895,11 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Show: "You can retire at age X" based on inputs
 
 #### Task 27.2.3: Add both to tools.json
+
 - [ ] Verify `savings-calculator` and `retirement-planner` entries
 
 #### Task 27.2.4: Update Finance category
+
 - [ ] Update category toolCount
 - [ ] Verify all finance tools appear in `/category/finance`
 
@@ -7411,6 +7915,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 28.1 Install Dependencies (1 task)
 
 #### Task 28.1.1: Install Monaco, ajv, math.js, KaTeX
+
 - [ ] Run: `npm install monaco-editor ajv mathjs katex`
 - [ ] Monaco: VS Code editor engine — for code playgrounds
 - [ ] ajv: JSON Schema validation
@@ -7420,19 +7925,25 @@ STEP 11: Build Tools (Phase 2-18)
 ### 28.2 Build Code Playgrounds (6 tasks)
 
 #### Task 28.2.1: Create Monaco editor wrapper component
+
 - [ ] Create file: `src/components/code-editor.js`
 - [ ] Export function `createCodeEditor({ language, theme, value, onChange })`
 - [ ] Uses Monaco editor with web workers
 - [ ] Vite config for Monaco:
+
   ```js
+
   // vite.config.js addition:
   import { viteStaticCopy } from 'vite-plugin-static-copy';
   // OR use monaco-editor-esm-webpack-plugin
+
   ```
+
 - [ ] Languages: javascript, html, css, json, typescript, python (syntax highlight only)
 - [ ] Return `{ element, getValue(), setValue(str), dispose() }`
 
 #### Task 28.2.2: Build JavaScript Playground
+
 - [ ] File: `src/tools/dev/js-playground.js`
 - [ ] **UI:**
   1. Split pane: Monaco editor (left) + Console output (right)
@@ -7443,7 +7954,9 @@ STEP 11: Build Tools (Phase 2-18)
   6. Clear console button
 
 - [ ] **Execution:**
+
   ```js
+
   // Execute in sandboxed iframe
   const iframe = document.createElement('iframe');
   iframe.sandbox = 'allow-scripts';
@@ -7465,12 +7978,14 @@ STEP 11: Build Tools (Phase 2-18)
   } catch (e) {
     logs.push({ type: 'error', args: [e.message] });
   }
+
   ```
 
 - [ ] IMPORTANT: Sandbox the execution iframe — no DOM access, no fetch, no localStorage
 - [ ] Show execution time
 
 #### Task 28.2.3: Build HTML/CSS/JS Playground
+
 - [ ] File: `src/tools/dev/html-playground.js`
 - [ ] Split into 3 tabs: HTML, CSS, JS editors (Monaco)
 - [ ] Live preview iframe (updates on type, debounced 500ms)
@@ -7479,12 +7994,15 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Auto-inject CSS into `<style>` and JS into `<script>` in the preview iframe
 
 #### Task 28.2.4: Build JSON Schema Validator
+
 - [ ] File: `src/tools/dev/json-schema-validator.js`
 - [ ] UI: Two Monaco editors side by side — Schema (left) + Data (right)
 - [ ] "Validate" button
 - [ ] Results: green checkmark (valid) or list of errors with line numbers
 - [ ] Logic:
+
   ```js
+
   import Ajv from 'ajv';
   const ajv = new Ajv({ allErrors: true });
   const validate = ajv.compile(schema);
@@ -7493,11 +8011,14 @@ STEP 11: Build Tools (Phase 2-18)
     // validate.errors is array of error objects
     // Each has: instancePath, schemaPath, params, message
   }
+
   ```
+
 - [ ] Support JSON Schema draft-07 and 2020-12
 - [ ] Add "Format" button for both editors (using Monaco's formatDocument)
 
 #### Task 28.2.5: Build Env File Parser
+
 - [ ] File: `src/tools/dev/env-parser.js`
 - [ ] UI: Paste or upload .env file → show parsed key-value pairs in a table
 - [ ] Features:
@@ -7508,11 +8029,13 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Parse logic: split by lines, skip comments (#), split by first `=`
 
 #### Task 28.2.6: Add all dev tools to tools.json
+
 - [ ] Verify: `js-playground`, `html-playground`, `json-schema-validator`, `env-parser`
 
 ### 28.3 Build Math Tools (6 tasks)
 
 #### Task 28.3.1: Build Equation Solver
+
 - [ ] File: `src/tools/math/equation-solver.js`
 - [ ] UI: Input equation (text field with LaTeX preview), "Solve" button, step-by-step solution
 - [ ] Supports:
@@ -7524,6 +8047,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] LaTeX rendering with KaTeX for pretty display
 
 #### Task 28.3.2: Build Matrix Calculator
+
 - [ ] File: `src/tools/math/matrix-calculator.js`
 - [ ] UI:
   1. Two matrix input areas (A and B)
@@ -7533,14 +8057,18 @@ STEP 11: Build Tools (Phase 2-18)
   5. Show step-by-step for determinant and inverse
 
 - [ ] Use math.js:
+
   ```js
+
   import { matrix, inv, det, multiply, add, subtract, transpose } from 'mathjs';
   const A = matrix([[1, 2], [3, 4]]);
   const result = det(A); // -2
   const inverse = inv(A);
+
   ```
 
 #### Task 28.3.3: Build Statistics Calculator
+
 - [ ] File: `src/tools/math/statistics-calculator.js`
 - [ ] UI: Paste numbers (comma or line separated) → "Calculate" → results
 - [ ] Outputs:
@@ -7554,6 +8082,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Use math.js for calculations
 
 #### Task 28.3.4: Build Timezone Converter
+
 - [ ] File: `src/tools/math/timezone-converter.js`
 - [ ] UI:
   1. Date/time input
@@ -7563,16 +8092,22 @@ STEP 11: Build Tools (Phase 2-18)
   5. World clock mode: show current time in 6 major cities
 
 - [ ] Use Intl.DateTimeFormat (built-in):
+
   ```js
+
   const options = { timeZone: 'Asia/Tokyo', hour: 'numeric', minute: 'numeric', hour12: true };
   const tokyoTime = new Intl.DateTimeFormat('en-US', options).format(date);
+
   ```
 
 #### Task 28.3.5: Build LaTeX Renderer
+
 - [ ] File: `src/tools/text/latex-renderer.js`
 - [ ] UI: Textarea to type LaTeX → live rendered preview below → export as PNG or SVG
 - [ ] Use KaTeX:
+
   ```js
+
   import katex from 'katex';
   import 'katex/dist/katex.min.css';
   
@@ -7581,11 +8116,14 @@ STEP 11: Build Tools (Phase 2-18)
     displayMode: true
   });
   previewElement.innerHTML = html;
+
   ```
+
 - [ ] Export: capture the rendered element → canvas → PNG/SVG
 - [ ] Common formulas toolbar: fractions, summation, integral, matrix, Greek letters
 
 #### Task 28.3.6: Add all math tools to tools.json
+
 - [ ] Verify: `equation-solver`, `matrix-calculator`, `statistics-calculator`, `timezone-converter`, `latex-renderer`
 
 ---
@@ -7600,6 +8138,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 29.1 Build SEO Tools (10 tasks)
 
 #### Task 29.1.1: Build Meta Tag Generator
+
 - [ ] File: `src/tools/seo/meta-tag-generator.js`
 - [ ] **UI:**
   1. Form fields: Title (max 60 chars), Description (max 160 chars), Keywords, Author, URL, Image URL
@@ -7609,7 +8148,9 @@ STEP 11: Build Tools (Phase 2-18)
   5. Generated HTML code (copy button)
 
 - [ ] **Generated output:**
+
   ```html
+
   <!-- Primary Meta Tags -->
   <title>Page Title - Site Name</title>
   <meta name="title" content="Page Title">
@@ -7630,9 +8171,11 @@ STEP 11: Build Tools (Phase 2-18)
   <meta property="twitter:title" content="Page Title">
   <meta property="twitter:description" content="Page description...">
   <meta property="twitter:image" content="https://example.com/image.jpg">
+
   ```
 
 #### Task 29.1.2: Build Schema Markup Generator
+
 - [ ] File: `src/tools/seo/schema-markup-generator.js`
 - [ ] UI: Choose schema type → fill in form → preview JSON-LD → copy
 - [ ] Schema types to support:
@@ -7650,6 +8193,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Output: `<script type="application/ld+json">...</script>`
 
 #### Task 29.1.3: Build Sitemap Generator
+
 - [ ] File: `src/tools/seo/sitemap-generator.js`
 - [ ] UI:
   1. Textarea to paste URLs (one per line)
@@ -7659,7 +8203,9 @@ STEP 11: Build Tools (Phase 2-18)
   5. Copy button + Download as .xml
 
 - [ ] **Output format:**
+
   ```xml
+
   <?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
@@ -7669,19 +8215,22 @@ STEP 11: Build Tools (Phase 2-18)
       <priority>1.0</priority>
     </url>
   </urlset>
+
   ```
 
 #### Task 29.1.4: Add social preview to OG Generator (MERGED INTO og-generator.js)
+
 - [ ] Enhance: `src/tools/seo/og-generator.js` with live social preview mocks
 - [ ] Add preview panels for:
-     - Facebook (large card)
-     - Twitter (summary card)
-     - LinkedIn
-     - WhatsApp
-     - Slack
+  - Facebook (large card)
+  - Twitter (summary card)
+  - LinkedIn
+  - WhatsApp
+  - Slack
 - [ ] Each preview styled to look like the actual platform
 
 #### Task 29.1.5: Build Keyword Density Checker
+
 - [ ] File: `src/tools/seo/keyword-density.js`
 - [ ] UI: Paste text → "Analyze" → results
 - [ ] Outputs:
@@ -7693,20 +8242,24 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] N-gram analysis: 1-word, 2-word, 3-word phrases
 
 #### Task 29.1.6: Add all SEO tools to tools.json
+
 - [ ] Verify: `meta-tag-generator`, `schema-markup-generator`, `sitemap-generator`, `og-generator` (+enhanced social preview), `keyword-density`
 
 #### Task 29.1.7: Create SEO category in categories.json
+
 - [ ] Add new category: `{ "id": "seo", "name": "SEO Tools", "icon": "🔍", "description": "Meta tags, schema markup, sitemaps, and SEO analysis", "toolCount": 5 }`
 
 ### 29.2 Remaining Encoding Tools (2 tasks)
 
 #### Task 29.2.1: Build Unicode Explorer
+
 - [ ] File: `src/tools/text/unicode-explorer.js`
 - [ ] UI: Search bar → browse Unicode blocks → click character → show details (code point, UTF-8/16/32, HTML entity, name) → copy
 - [ ] Categories: Emoji, Math, Currency, Arrows, Greek, Cyrillic, CJK, etc.
 - [ ] Display as grid of characters with hover preview
 
 #### Task 29.2.2: Build Emoji Picker
+
 - [ ] File: `src/tools/text/emoji-picker.js`
 - [ ] UI: Categories (Smileys, People, Animals, Food, Travel, Objects, Symbols, Flags) → search → click to copy
 - [ ] Show emoji name, code point, and shortcodes
@@ -7725,6 +8278,7 @@ STEP 11: Build Tools (Phase 2-18)
 ### 30.1 Build Fun Tools (6 tasks)
 
 #### Task 30.1.1: Build Dice Roller
+
 - [ ] File: `src/tools/fun/dice-roller.js`
 - [ ] UI:
   1. Dice type selector: D4, D6, D8, D10, D12, D20, D100
@@ -7738,12 +8292,14 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] D6 animation: rotate dice face through values before settling
 
 #### Task 30.1.2: Build Coin Flip
+
 - [ ] File: `src/tools/fun/coin-flip.js`
 - [ ] UI: Big "Flip" button → coin animation (CSS 3D flip) → Heads or Tails
 - [ ] Statistics: track heads/tails count in session
 - [ ] CSS animation: `transform: rotateY(1800deg)` over 1.5 seconds
 
 #### Task 30.1.3: Build Random Name Generator
+
 - [ ] File: `src/tools/fun/random-name-generator.js`
 - [ ] UI: Choose gender (Male/Female/Any), nationality (US, UK, Chinese, Japanese, Korean, Indian, Spanish, etc.), quantity (1-100)
 - [ ] "Generate" button → list of names
@@ -7751,6 +8307,7 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Data: arrays of first names and last names per nationality (bundled as JS arrays, ~100 per category)
 
 #### Task 30.1.4: Build Random Color Palette
+
 - [ ] File: `src/tools/fun/random-color-palette.js`
 - [ ] UI:
   1. 5 color swatches
@@ -7761,7 +8318,9 @@ STEP 11: Build Tools (Phase 2-18)
   6. Export: CSS variables, Tailwind config, SVG
 
 - [ ] Color harmony logic:
+
   ```js
+
   function generatePalette(mode) {
     const baseHue = Math.random() * 360;
     switch(mode) {
@@ -7773,14 +8332,18 @@ STEP 11: Build Tools (Phase 2-18)
         return [baseHue, baseHue+120, baseHue+240, baseHue+60, baseHue+300].map(hsl);
     }
   }
+
   ```
 
 ### 30.2 Build Science Tools (4 tasks)
 
 #### Task 30.2.1: Create periodic table data
+
 - [ ] Create file: `src/tools/science/periodic-table-data.js`
 - [ ] Data for all 118 elements:
+
   ```js
+
   export const elements = [
     { number: 1, symbol: 'H', name: 'Hydrogen', mass: 1.008, category: 'nonmetal',
       electronConfig: '1s¹', group: 1, period: 1, block: 's',
@@ -7788,9 +8351,11 @@ STEP 11: Build Tools (Phase 2-18)
       discoveredBy: 'Henry Cavendish', yearDiscovered: 1766 },
     // ... all 118 elements
   ];
+
   ```
 
 #### Task 30.2.2: Build Periodic Table Explorer
+
 - [ ] File: `src/tools/science/periodic-table.js`
 - [ ] UI:
   1. Full periodic table grid (standard 18-column layout)
@@ -7801,6 +8366,7 @@ STEP 11: Build Tools (Phase 2-18)
   6. Filter by category, state (solid/liquid/gas), block (s/p/d/f)
 
 #### Task 30.2.3: Build Molecular Weight Calculator
+
 - [ ] File: `src/tools/science/molecular-weight.js`
 - [ ] UI: Input chemical formula (e.g., H2O, NaCl, C6H12O6) → "Calculate" → results
 - [ ] Output: Molecular weight, element breakdown (element, count, weight, percentage)
@@ -7808,16 +8374,19 @@ STEP 11: Build Tools (Phase 2-18)
 - [ ] Use atomic masses from periodic table data
 
 #### Task 30.2.4: Add all to tools.json
+
 - [ ] Verify: `dice-roller`, `coin-flip`, `random-name-generator`, `random-color-palette`, `periodic-table`, `molecular-weight`
 
 ### 30.3 Final Integration (2 tasks)
 
 #### Task 30.3.1: Update all categories.json
+
 - [ ] Add new categories: `fun`, `science`, `seo`, `business`, `career`
 - [ ] Update toolCount for all existing categories
 - [ ] Verify category page routes work for new categories
 
 #### Task 30.3.2: Final tools.json count verification
+
 - [ ] Count total tools in tools.json — should be 240+
 - [ ] Verify no duplicate IDs
 - [ ] Verify all tools have required fields: id, name, category, description, icon, href, keywords
@@ -7829,7 +8398,9 @@ STEP 11: Build Tools (Phase 2-18)
 ## 📦 All New Dependencies (Phase 21-30)
 
 ```bash
+
 npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monaco-editor ajv mathjs katex
+
 ```
 
 | Package | License | Size | Purpose |
@@ -7900,9 +8471,12 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 31.1 Build Grammar Checker (3 tasks)
 
 #### Task 31.1.1: Create grammar rules engine
+
 - [ ] Create file: `src/tools/writing/grammar-rules.js`
 - [ ] Export a rules array with patterns and suggestions:
+
   ```js
+
   export const grammarRules = [
     { pattern: /\b(they're|their|there)\b/gi, type: 'homophone', check: contextCheck },
     { pattern: /\b(your|you're)\b/gi, type: 'homophone', check: contextCheck },
@@ -7916,11 +8490,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     { pattern: /\b(seperate)\b/gi, type: 'spelling', suggestion: 'separate' },
     // ... 200+ common rules
   ];
+
   ```
+
 - [ ] Include: common misspellings (100+), homophones, double words, punctuation errors
 - [ ] This is a BASIC checker — not AI-powered, but catches common mistakes
 
 #### Task 31.1.2: Build Grammar Checker UI
+
 - [ ] File: `src/tools/writing/grammar-checker.js`
 - [ ] UI: Large textarea or contenteditable div → "Check Grammar" button → highlighted errors
 - [ ] Errors shown inline with yellow/red highlights
@@ -7929,15 +8506,19 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Stats: total words, sentences, errors found, readability score
 
 #### Task 31.1.3: Add to tools.json
+
 - [ ] Verify `grammar-checker` entry, category: `writing`, status: `new`
 
 ### 31.2 Build Plagiarism Checker (2 tasks)
 
 #### Task 31.2.1: Build Plagiarism Checker tool
+
 - [ ] File: `src/tools/writing/plagiarism-checker.js`
 - [ ] **UI:** Two textareas — "Text A" and "Text B" → "Compare" button → similarity report
 - [ ] **Algorithm (basic client-side NLP):**
+
   ```js
+
   function calculateSimilarity(textA, textB) {
     // 1. Tokenize: split into words, lowercase, remove punctuation
     const wordsA = tokenize(textA);
@@ -7956,16 +8537,20 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     // 5. Highlight matching phrases in both texts
     return { similarity, matches };
   }
+
   ```
+
 - [ ] Show: similarity %, matching phrases highlighted in both texts
 - [ ] This is TEXT-TO-TEXT comparison only (not internet plagiarism check)
 
 #### Task 31.2.2: Add to tools.json
+
 - [ ] Verify `plagiarism-checker` entry
 
 ### 31.3 Build Essay & Blog Outline Generators (3 tasks)
 
 #### Task 31.3.1: Build Essay Outline Generator
+
 - [ ] File: `src/tools/writing/essay-outline.js`
 - [ ] UI: Input field for essay topic → "Generate Outline" → structured outline
 - [ ] Templates for: Argumentative, Expository, Narrative, Descriptive, Persuasive
@@ -7973,12 +8558,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] User can edit the outline, then copy or download as text
 
 #### Task 31.3.2: Build Blog Outline Generator
+
 - [ ] File: `src/tools/writing/blog-outline.js`
 - [ ] UI: Input blog title + target keyword → "Generate" → H2/H3 outline
 - [ ] Include: Introduction hook, 5-8 H2 sections with H3 subsections, FAQ section, Conclusion
 - [ ] Word count suggestion per section
 
 #### Task 31.3.3: Build Headline Analyzer
+
 - [ ] File: `src/tools/writing/headline-analyzer.js`
 - [ ] UI: Input headline → "Analyze" → score + breakdown
 - [ ] Scoring criteria:
@@ -7994,6 +8581,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 31.4 Build Content Rewriter & Meta Description (2 tasks)
 
 #### Task 31.4.1: Build Content Rewriter
+
 - [ ] File: `src/tools/writing/content-rewriter.js`
 - [ ] UI: Input text → "Rewrite" → output with changes highlighted
 - [ ] Modes: Simple (synonym swap), Moderate (sentence restructure), Creative (paraphrase)
@@ -8001,6 +8589,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Sentence restructuring: active↔passive voice, clause reordering
 
 #### Task 31.4.2: Build Meta Description Generator
+
 - [ ] File: `src/tools/writing/meta-desc-generator.js`
 - [ ] UI: Page title + keywords → "Generate" → 3 meta description options
 - [ ] Each option: 150-160 characters, includes primary keyword, has call-to-action
@@ -8019,6 +8608,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 32.1 Build Email Signature Generator (2 tasks)
 
 #### Task 32.1.1: Build Email Signature Generator
+
 - [ ] File: `src/tools/email/email-signature.js`
 - [ ] **UI:**
   1. Form: Name, Job Title, Company, Phone, Email, Website, LinkedIn, Twitter
@@ -8035,11 +8625,13 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Social icons: use Unicode symbols or small inline SVGs
 
 #### Task 32.1.2: Add to tools.json
+
 - [ ] Verify `email-signature` entry
 
 ### 32.2 Build Email Template Builder (2 tasks)
 
 #### Task 32.2.1: Build Email Template Builder
+
 - [ ] File: `src/tools/email/email-template.js`
 - [ ] UI: Visual builder with drag-and-drop blocks:
   - Header (logo + title)
@@ -8054,6 +8646,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Export: "Copy HTML" (all CSS inlined for email compatibility)
 
 #### Task 32.2.2: Build Subject Line Tester
+
 - [ ] File: `src/tools/email/subject-line-tester.js`
 - [ ] UI: Input subject line → "Test" → score + feedback
 - [ ] Scoring:
@@ -8070,6 +8663,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 32.3 Build Email Validator (2 tasks)
 
 #### Task 32.3.1: Build Email Validator
+
 - [ ] File: `src/tools/email/email-validator.js`
 - [ ] UI: Paste email list (one per line) → "Validate" → results table
 - [ ] Checks per email:
@@ -8081,6 +8675,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Export cleaned list as CSV
 
 #### Task 32.3.2: Add all email tools to tools.json
+
 - [ ] Verify: `email-signature`, `email-template`, `subject-line-tester`, `email-validator`
 
 ---
@@ -8095,6 +8690,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 33.1 Build Random Number Generator (2 tasks)
 
 #### Task 33.1.1: Build Random Number Generator
+
 - [ ] File: `src/tools/gaming/random-number.js`
 - [ ] UI: Min input, Max input, Quantity (1-1000), "No Repeats" toggle, "Generate" button
 - [ ] Results displayed in a grid, copy individual or all
@@ -8102,6 +8698,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] History of last 5 generations
 
 #### Task 33.1.2: Build Team Picker
+
 - [ ] File: `src/tools/gaming/team-picker.js`
 - [ ] UI: Textarea to enter names (one per line) → choose: number of teams OR team size → "Generate Teams"
 - [ ] Animated shuffle effect
@@ -8111,6 +8708,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 33.2 Build Spin the Wheel (3 tasks)
 
 #### Task 33.2.1: Build Spin the Wheel
+
 - [ ] File: `src/tools/gaming/spin-wheel.js`
 - [ ] **UI:**
   1. Textarea to enter options (one per line, 2-20 options)
@@ -8121,7 +8719,9 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
   6. "Remove winner" toggle (remove from pool after spin)
 
 - [ ] **Canvas rendering:**
+
   ```js
+
   function drawWheel(ctx, options, rotation) {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
@@ -8154,12 +8754,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     
     ctx.restore();
   }
+
   ```
 
 - [ ] Easing: `easeOutCubic` for natural deceleration
 - [ ] Sound effect: play a tick sound as wheel passes each segment (Web Audio API beep)
 
 #### Task 33.2.2: Build Lottery Number Generator
+
 - [ ] File: `src/tools/gaming/lottery-generator.js`
 - [ ] Presets: Powerball (5/69 + 1/26), Mega Millions (5/70 + 1/25), EuroMillions (5/50 + 2/12), Lotto 6/49, EuroJackpot
 - [ ] "Generate" button → animated number reveal
@@ -8167,6 +8769,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Lucky numbers: let user lock favorite numbers
 
 #### Task 33.2.3: Build D&D Character Generator
+
 - [ ] File: `src/tools/gaming/dnd-character.js`
 - [ ] Data: Races (Human, Elf, Dwarf, Halfling, etc.), Classes (Fighter, Wizard, Rogue, etc.), Backgrounds
 - [ ] Stats: Roll 4d6 drop lowest for STR, DEX, CON, INT, WIS, CHA
@@ -8176,6 +8779,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 33.3 Build Game Tools (3 tasks)
 
 #### Task 33.3.1: Build Rock Paper Scissors
+
 - [ ] File: `src/tools/gaming/rock-paper-scissors.js`
 - [ ] UI: Big animated hand icons for Rock/Paper/Scissors
 - [ ] Player clicks → computer chooses → animated reveal
@@ -8183,6 +8787,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Statistics: win rate, most played move
 
 #### Task 33.3.2: Build Truth or Dare Generator
+
 - [ ] File: `src/tools/gaming/truth-or-dare.js`
 - [ ] UI: "Truth" button and "Dare" button → shows question/challenge
 - [ ] Categories: Party, Kids, Couples, Friends, Clean, Funny
@@ -8190,6 +8795,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] "Next" button for new question, "Custom" to add your own
 
 #### Task 33.3.3: Build Would You Rather Generator
+
 - [ ] File: `src/tools/gaming/would-you-rather.js`
 - [ ] UI: Two cards side by side — Option A and Option B → click to choose
 - [ ] Categories: Funny, Hard, Gross, Kids, Couples, Weird
@@ -8208,9 +8814,12 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 34.1 Build Guitar Tuner (3 tasks)
 
 #### Task 34.1.1: Create audio pitch detection utility
+
 - [ ] Create file: `src/tools/music/audio-utils.js`
 - [ ] Export function `detectPitch(analyserNode, sampleRate)` using autocorrelation algorithm:
+
   ```js
+
   function detectPitch(buffer, sampleRate) {
     // Autocorrelation method
     let rms = 0;
@@ -8238,11 +8847,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     }
     return -1;
   }
+
   ```
+
 - [ ] Export function `frequencyToNote(freq)` — converts Hz to note name (A4=440Hz)
 - [ ] Export function `centsOff(freq, targetFreq)` — how many cents sharp/flat
 
 #### Task 34.1.2: Build Guitar Tuner UI
+
 - [ ] File: `src/tools/music/guitar-tuner.js`
 - [ ] UI: Big circular meter showing pitch (like a physical tuner)
 - [ ] Note display: current detected note (E2, A2, D3, G3, B3, E4)
@@ -8252,17 +8864,21 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Standard tuning EADGBE, alternate tunings dropdown
 
 #### Task 34.1.3: Add to tools.json
+
 - [ ] Verify `guitar-tuner` entry
 
 ### 34.2 Build Metronome & BPM Tools (4 tasks)
 
 #### Task 34.2.1: Build Metronome
+
 - [ ] File: `src/tools/music/metronome.js`
 - [ ] UI: BPM slider (20-300), Start/Stop button, visual beat indicator
 - [ ] Time signatures: 2/4, 3/4, 4/4, 5/4, 6/8, 7/8
 - [ ] Accent first beat toggle
 - [ ] Audio: use Web Audio API oscillator for click sound
+
   ```js
+
   function playClick(audioCtx, isAccent) {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
@@ -8274,27 +8890,33 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     osc.start(audioCtx.currentTime);
     osc.stop(audioCtx.currentTime + 0.1);
   }
+
   ```
+
 - [ ] Visual: circles that light up on each beat
 
 #### Task 34.2.2: Build BPM Detector
+
 - [ ] File: `src/tools/music/bpm-detector.js`
 - [ ] UI: Upload audio file → "Detect BPM" → result
 - [ ] Algorithm: peak detection on audio amplitude, calculate intervals between peaks
 - [ ] Also: "Tap Along" mode — tap a button to the beat, calculates average BPM
 
 #### Task 34.2.3: Build Tap Tempo
+
 - [ ] File: `src/tools/music/tap-tempo.js`
 - [ ] UI: Big "TAP" button (or spacebar), BPM display, beat visual
 - [ ] Algorithm: average time between last 4-8 taps → convert to BPM
 - [ ] Reset after 2 seconds of no taps
 
 #### Task 34.2.4: Add to tools.json
+
 - [ ] Verify: `metronome`, `bpm-detector`, `tap-tempo`
 
 ### 34.3 Build Chord, Piano & Scale (4 tasks)
 
 #### Task 34.3.1: Build Chord Finder
+
 - [ ] File: `src/tools/music/chord-finder.js`
 - [ ] UI: Select instrument (Guitar/Piano/Ukulele) → search chord by name → show diagram
 - [ ] Data: 100+ chords per instrument (major, minor, 7th, maj7, min7, dim, aug, sus2, sus4)
@@ -8303,6 +8925,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Audio: play the chord (Web Audio API — play each note simultaneously)
 
 #### Task 34.3.2: Build Virtual Piano
+
 - [ ] File: `src/tools/music/piano-keyboard.js`
 - [ ] UI: Full piano keyboard (3-4 octaves), white and black keys
 - [ ] Play: click keys or use computer keyboard (A-L = white keys, W-E-T-Y-U = black keys)
@@ -8311,6 +8934,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Record: record what you play, playback, download as WAV
 
 #### Task 34.3.3: Build Music Scale Finder
+
 - [ ] File: `src/tools/music/scale-finder.js`
 - [ ] UI: Select root note (C, D, E, F, G, A, B) → select scale type → show notes
 - [ ] Scales: Major, Natural Minor, Harmonic Minor, Melodic Minor, Pentatonic, Blues, Dorian, Mixolydian, etc.
@@ -8318,6 +8942,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Audio: play scale ascending/descending
 
 #### Task 34.3.4: Add all to tools.json
+
 - [ ] Verify: `chord-finder`, `piano-keyboard`, `scale-finder`
 
 ---
@@ -8332,28 +8957,39 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 35.1 All Fitness Tools (16 tasks)
 
 #### Task 35.1.1: Build Body Fat Calculator
+
 - [ ] File: `src/tools/fitness/body-fat-calculator.js`
 - [ ] Inputs: Gender, Height, Neck circumference, Waist circumference, Hip (women only)
 - [ ] Formula: US Navy method
+
   ```js
+
   // Men: BF% = 86.010 × log10(waist - neck) - 70.041 × log10(height) + 36.76
   // Women: BF% = 163.205 × log10(waist + hip - neck) - 97.684 × log10(height) - 78.387
+
   ```
+
 - [ ] Output: Body fat %, category (Essential, Athletes, Fitness, Average, Obese), visual gauge
 - [ ] Diagram showing where to measure (neck, waist, hip)
 
 #### Task 35.1.2: Build TDEE Calculator
+
 - [ ] File: `src/tools/fitness/tdee-calculator.js`
 - [ ] Inputs: Age, Gender, Weight, Height, Activity level (Sedentary/Light/Moderate/Active/Very Active)
 - [ ] BMR formula: Mifflin-St Jeor
+
   ```js
+
   // Men: BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age - 161 + 166
   // Women: BMR = 10 × weight(kg) + 6.25 × height(cm) - 5 × age - 161
+
   ```
+
 - [ ] Activity multipliers: Sedentary 1.2, Light 1.375, Moderate 1.55, Active 1.725, Very Active 1.9
 - [ ] Output: BMR, TDEE, calories for weight loss (-500), maintenance, gain (+500)
 
 #### Task 35.1.3: Build Macro Calculator
+
 - [ ] File: `src/tools/fitness/macro-calculator.js`
 - [ ] Inputs: Daily calories (from TDEE), Goal (Lose/Maintain/Gain), Diet type (Balanced/Low Carb/High Protein/Keto)
 - [ ] Output: Daily protein, carbs, fat in grams
@@ -8361,6 +8997,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Visual: pie chart of macro split
 
 #### Task 35.1.4: Build Water Intake Calculator
+
 - [ ] File: `src/tools/fitness/water-intake.js`
 - [ ] Inputs: Weight (kg/lbs), Activity level, Climate (Cold/Moderate/Hot)
 - [ ] Base: 30-35ml per kg body weight
@@ -8369,6 +9006,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Visual: water glass filling up animation
 
 #### Task 35.1.5: Build Heart Rate Zone Calculator
+
 - [ ] File: `src/tools/fitness/heart-rate-zones.js`
 - [ ] Inputs: Age, Resting heart rate (optional)
 - [ ] Max HR formula: 220 - age (or Karvonen: 206.9 - (0.67 × age))
@@ -8381,6 +9019,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Output: BPM range for each zone, colored bar visualization
 
 #### Task 35.1.6: Build Running Pace Calculator
+
 - [ ] File: `src/tools/fitness/running-pace.js`
 - [ ] Three modes: "Calculate Pace" (from distance + time), "Calculate Time" (from distance + pace), "Calculate Distance" (from time + pace)
 - [ ] Preset distances: 1K, 5K, 10K, Half Marathon (21.1K), Marathon (42.2K)
@@ -8388,6 +9027,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Split table: km-by-km or mile-by-mile breakdown
 
 #### Task 35.1.7: Build Body Type Calculator
+
 - [ ] File: `src/tools/fitness/body-type.js`
 - [ ] Inputs: Wrist circumference, Height, Shoulder width, Hip width
 - [ ] Somatotype classification:
@@ -8397,6 +9037,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Output: Primary type + percentage mix, training and diet recommendations
 
 #### Task 35.1.8: Build Pregnancy Weight Gain Calculator
+
 - [ ] File: `src/tools/fitness/pregnancy-weight.js`
 - [ ] Inputs: Pre-pregnancy weight, Height, Current week, Pregnancies (singleton/twins)
 - [ ] BMI calculation → recommended total gain:
@@ -8408,6 +9049,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Trimester breakdown chart
 
 #### Task 35.1.9: Add all fitness tools to tools.json
+
 - [ ] Verify: `body-fat-calculator`, `tdee-calculator`, `macro-calculator`, `water-intake`, `heart-rate-zones`, `running-pace`, `body-type`, `pregnancy-weight`
 
 ---
@@ -8422,17 +9064,22 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 36.1 Build Parenting Tools (8 tasks)
 
 #### Task 36.1.1: Create baby names database
+
 - [ ] Create file: `src/tools/parenting/baby-names-data.js`
 - [ ] Export array of 5000+ names with metadata:
+
   ```js
+
   export const babyNames = [
     { name: 'Emma', gender: 'f', origin: 'Germanic', meaning: 'universal', popularity: 1 },
     { name: 'Liam', gender: 'm', origin: 'Irish', meaning: 'strong-willed warrior', popularity: 1 },
     // ... 5000+ entries
   ];
+
   ```
 
 #### Task 36.1.2: Build Baby Name Generator
+
 - [ ] File: `src/tools/parenting/baby-name-generator.js`
 - [ ] UI: Filters: Gender (Boy/Girl/Both), Origin (20+ options), First letter, Popularity range
 - [ ] "Generate" button → list of 20 matching names
@@ -8441,11 +9088,13 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Favorites list with export
 
 #### Task 36.1.3: Create WHO growth chart data
+
 - [ ] Create file: `src/tools/parenting/growth-data.js`
 - [ ] WHO percentiles (P3, P15, P50, P85, P97) for weight and height, birth to 20 years
 - [ ] Data as arrays indexed by month
 
 #### Task 36.1.4: Build Child Growth Percentile
+
 - [ ] File: `src/tools/parenting/growth-percentile.js`
 - [ ] Inputs: Age (months/years), Gender, Weight, Height
 - [ ] Output: Weight percentile, Height percentile, BMI percentile
@@ -8453,6 +9102,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Interpretation: "Your child is in the 75th percentile for weight (heavier than 75% of children the same age)"
 
 #### Task 36.1.5: Build Baby Age Calculator
+
 - [ ] File: `src/tools/parenting/baby-age.js`
 - [ ] Input: Birth date
 - [ ] Output: Age in years, months, weeks, days
@@ -8460,21 +9110,28 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Adjusted age for premature babies (optional)
 
 #### Task 36.1.6: Build Child Medicine Dosage
+
 - [ ] File: `src/tools/parenting/child-dosage.js`
 - [ ] Inputs: Child's weight (kg/lbs), Medication (dropdown of common OTC meds)
 - [ ] Medications: Acetaminophen (Tylenol), Ibuprofen (Advil/Motrin), Diphenhydramine (Benadryl)
 - [ ] Formulas:
+
   ```js
+
   // Acetaminophen: 10-15 mg/kg per dose, every 4-6 hours, max 5 doses/day
   // Ibuprofen: 5-10 mg/kg per dose, every 6-8 hours, max 4 doses/day
+
   ```
+
 - [ ] Output: Dose in ml (based on common concentrations), frequency, max daily
 - [ ] WARNING: "Always consult your pediatrician" disclaimer
 
 #### Task 36.1.7: Add all to tools.json
+
 - [ ] Verify: `baby-name-generator`, `growth-percentile`, `baby-age`, `child-dosage`
 
 #### Task 36.1.8: Create parenting category
+
 - [ ] Add to categories.json: `{ "id": "parenting", "name": "Parenting", "icon": "👶", "description": "Baby names, growth charts, child health calculators", "toolCount": 4 }`
 
 ---
@@ -8489,33 +9146,39 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 37.1 Build Real Estate Tools (8 tasks)
 
 #### Task 37.1.1: Build Rent Affordability Calculator
+
 - [ ] File: `src/tools/realestate/rent-affordability.js`
 - [ ] Inputs: Monthly income (gross and net), Monthly debts, Savings goal
 - [ ] Rules: 30% rule (rent ≤ 30% gross), 50/30/20 rule
 - [ ] Output: Max affordable rent, comfortable range, budget breakdown pie chart
 
 #### Task 37.1.2: Build Moving Cost Estimator
+
 - [ ] File: `src/tools/realestate/moving-cost.js`
 - [ ] Inputs: From city, To city, Home size (studio/1BR/2BR/3BR/house), Services (packing, loading, transport)
 - [ ] Output: Estimated cost range, breakdown by service
 - [ ] Uses average rates per mile + home size multiplier (static data)
 
 #### Task 37.1.3: Build Property Tax Calculator
+
 - [ ] File: `src/tools/realestate/property-tax.js`
 - [ ] Inputs: Home value, State (dropdown with average tax rates)
 - [ ] Data: US state-by-state property tax rates (0.27% Hawaii to 2.23% New Jersey)
 - [ ] Output: Annual tax, monthly escrow, effective rate
 
 #### Task 37.1.4: Build Home Equity Calculator
+
 - [ ] File: `src/tools/realestate/home-equity.js`
 - [ ] Inputs: Original home value, Current home value, Original mortgage amount, Interest rate, Loan term, Years paid
 - [ ] Output: Current mortgage balance, Home equity, Equity percentage, LTV ratio
 - [ ] Chart: Equity growth over time
 
 #### Task 37.1.5: Add all to tools.json
+
 - [ ] Verify: `rent-affordability`, `moving-cost`, `property-tax`, `home-equity`
 
 #### Task 37.1.6: Create realestate category
+
 - [ ] Add to categories.json: `{ "id": "realestate", "name": "Real Estate", "icon": "🏠", "description": "Rent, mortgage, property tax, and moving calculators", "toolCount": 4 }`
 
 ---
@@ -8530,6 +9193,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 38.1 Build Design Tools (10 tasks)
 
 #### Task 38.1.1: Build Placeholder Image Generator
+
 - [ ] File: `src/tools/design/placeholder-image.js`
 - [ ] UI: Width input, Height input, Background color picker, Text (default: "300x200"), Text color, Format (PNG/JPG/WebP)
 - [ ] "Generate" button → preview → download
@@ -8537,6 +9201,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Batch mode: generate multiple sizes at once (e.g., 300x250, 728x90, 160x600)
 
 #### Task 38.1.2: Build Lorem Image Generator
+
 - [ ] File: `src/tools/design/lorem-image.js`
 - [ ] UI: Category selector (Nature, City, People, Food, Tech, Abstract, Animals)
 - [ ] Width/Height inputs
@@ -8544,6 +9209,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] "Randomize" button → new random pattern/gradient
 
 #### Task 38.1.3: Build Typography Scale Generator
+
 - [ ] File: `src/tools/design/type-scale.js`
 - [ ] UI: Base font size (16px default), Scale ratio selector (Minor Third 1.2, Major Third 1.25, Perfect Fourth 1.333, Golden Ratio 1.618)
 - [ ] Output: font-size values for xs through 3xl
@@ -8551,6 +9217,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy as CSS variables or Tailwind config
 
 #### Task 38.1.4: Build Spacing Scale Generator
+
 - [ ] File: `src/tools/design/spacing-scale.js`
 - [ ] UI: Base unit (4px default), Scale type (Linear, Fibonacci, Custom multiplier)
 - [ ] Output: spacing values (4, 8, 12, 16, 24, 32, 48, 64, 96, 128)
@@ -8558,6 +9225,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy as CSS variables
 
 #### Task 38.1.5: Build Design Token Generator
+
 - [ ] File: `src/tools/design/design-tokens.js`
 - [ ] UI: Input sections for Colors, Spacing, Typography, Border Radius, Shadows, Breakpoints
 - [ ] Each section: visual editor + values
@@ -8565,6 +9233,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy or download
 
 #### Task 38.1.6: Add all to tools.json
+
 - [ ] Verify: `placeholder-image`, `lorem-image`, `type-scale`, `spacing-scale`, `design-tokens`
 
 ---
@@ -8579,17 +9248,20 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 39.1 Build Social Media Tools (14 tasks)
 
 #### Task 39.1.1: Create hashtag database
+
 - [ ] Create file: `src/tools/social/hashtags-data.js`
 - [ ] 2000+ hashtags organized by category (Travel, Food, Fitness, Fashion, Tech, Business, Art, Music, Nature, Pets)
 - [ ] Each category: 50-100 popular + trending hashtags
 
 #### Task 39.1.2: Build Instagram Caption Generator
+
 - [ ] File: `src/tools/social/caption-generator.js`
 - [ ] UI: Enter keywords or topic → choose mood (Funny, Inspirational, Casual, Professional) → "Generate"
 - [ ] 5 caption options with emojis
 - [ ] Include relevant hashtags below each caption
 
 #### Task 39.1.3: Build Hashtag Generator
+
 - [ ] File: `src/tools/social/hashtag-generator.js`
 - [ ] UI: Enter keyword or topic → "Generate" → list of 30 hashtags
 - [ ] Categories: Popular, Niche, Trending
@@ -8597,12 +9269,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Hashtag count indicator (Instagram allows 30 max)
 
 #### Task 39.1.4: Build YouTube Description Generator
+
 - [ ] File: `src/tools/social/yt-description.js`
 - [ ] UI: Video title, category, keywords → "Generate" → formatted description
 - [ ] Template includes: Hook, timestamps placeholder, links section, keywords, subscribe CTA
 - [ ] Character counter (YouTube allows 5000)
 
 #### Task 39.1.5: Build Twitter/X Thread Formatter
+
 - [ ] File: `src/tools/social/thread-formatter.js`
 - [ ] UI: Paste long text → "Format" → split into 280-char tweets
 - [ ] Auto-number (1/, 2/, 3/...)
@@ -8611,12 +9285,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy all tweets in order
 
 #### Task 39.1.6: Build TikTok Caption Generator
+
 - [ ] File: `src/tools/social/tiktok-caption.js`
 - [ ] UI: Topic/keyword → "Generate" → short captions with hashtags
 - [ ] Hook-first format: question, bold statement, or "Did you know..."
 - [ ] Character limit: 4000
 
 #### Task 39.1.7: Build Social Media Calendar
+
 - [ ] File: `src/tools/social/social-calendar.js`
 - [ ] UI: Monthly calendar grid → click day → add post
 - [ ] Each post: platform (IG/Twitter/TikTok/LinkedIn), content, time
@@ -8624,12 +9300,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Export as CSV or print
 
 #### Task 39.1.8: Build Social Media Character Counter
+
 - [ ] File: `src/tools/social/platform-counter.js`
 - [ ] UI: Textarea → live character count with platform limits
 - [ ] Platforms: Twitter (280), Instagram caption (2200), TikTok (4000), LinkedIn post (3000), Facebook (63206), YouTube title (100), Pinterest (500)
 - [ ] Color: green (under limit), yellow (close), red (over)
 
 #### Task 39.1.9: Add all to tools.json
+
 - [ ] Verify: `caption-generator`, `hashtag-generator`, `yt-description`, `thread-formatter`, `tiktok-caption`, `social-calendar`, `platform-counter`
 
 ---
@@ -8644,18 +9322,21 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 40.1 Build Data Tools (12 tasks)
 
 #### Task 40.1.1: Build CSV Cleaner & Deduplicator
+
 - [ ] File: `src/tools/data/csv-cleaner.js`
 - [ ] UI: Upload CSV → show preview → cleaning options → download cleaned CSV
 - [ ] Options: Remove duplicate rows, Remove empty rows, Trim whitespace, Fix encoding (UTF-8), Remove columns, Standardize column names
 - [ ] Show stats: "Removed 15 duplicate rows, 3 empty rows"
 
 #### Task 40.1.2: Build JSON Diff Viewer
+
 - [ ] File: `src/tools/data/json-diff.js`
 - [ ] UI: Two Monaco editors side by side → "Compare" → diff view
 - [ ] Color-coded: Green = added, Red = removed, Yellow = modified
 - [ ] Unified and side-by-side view toggle
 
 #### Task 40.1.3: Build Data Faker
+
 - [ ] File: `src/tools/data/data-faker.js`
 - [ ] UI: Checkboxes for fields: Name, Email, Phone, Address, Company, Job Title, Date, Number, UUID, Credit Card (fake)
 - [ ] Quantity: 10/100/1000/10000 rows
@@ -8663,6 +9344,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Uses `faker.js` or bundled name/email/address arrays
 
 #### Task 40.1.4: Build Visual Regex Builder
+
 - [ ] File: `src/tools/data/regex-builder.js`
 - [ ] UI: Building blocks (Character, Quantifier, Group, Anchor, Alternation) → drag to canvas → build regex
 - [ ] Each block: visual representation + regex output
@@ -8670,6 +9352,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy final regex
 
 #### Task 40.1.5: Build SQL Query Builder
+
 - [ ] File: `src/tools/data/sql-builder.js`
 - [ ] UI: Visual form:
   - Operation: SELECT / INSERT / UPDATE / DELETE
@@ -8682,6 +9365,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy button
 
 #### Task 40.1.6: Build CSV Statistical Summary
+
 - [ ] File: `src/tools/data/csv-stats.js`
 - [ ] UI: Upload CSV → auto-detect numeric columns → stats per column
 - [ ] Stats: Count, Mean, Median, Mode, Std Dev, Min, Max, Q1, Q3, Nulls
@@ -8689,6 +9373,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Use math.js for calculations
 
 #### Task 40.1.7: Add all to tools.json
+
 - [ ] Verify: `csv-cleaner`, `json-diff`, `data-faker`, `regex-builder`, `sql-builder`, `csv-stats`
 
 ---
@@ -8703,15 +9388,19 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 41.1 Build Geography Tools (12 tasks)
 
 #### Task 41.1.1: Create world cities database
+
 - [ ] Create file: `src/tools/geography/cities-data.js`
 - [ ] 500+ cities with: name, country, lat, lng, timezone, population
 - [ ] Used by distance calculator, meeting planner, world clock
 
 #### Task 41.1.2: Build Distance Calculator
+
 - [ ] File: `src/tools/geography/distance-calculator.js`
 - [ ] UI: Two city search inputs (autocomplete from 500+ cities) → "Calculate"
 - [ ] Haversine formula:
+
   ```js
+
   function haversine(lat1, lon1, lat2, lon2) {
     const R = 6371; // km
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -8722,16 +9411,20 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;
   }
+
   ```
+
 - [ ] Output: Distance in km and miles, estimated flight time, estimated driving time
 
 #### Task 41.1.3: Build Timezone Meeting Planner
+
 - [ ] File: `src/tools/geography/meeting-planner.js`
 - [ ] UI: Add participant cities (2-10) → shows time in each city for a chosen meeting time
 - [ ] Highlight: green = working hours (9-17), yellow = early/late, red = sleeping hours
 - [ ] "Find Best Time" button → suggests optimal overlap
 
 #### Task 41.1.4: Build Packing List Generator
+
 - [ ] File: `src/tools/geography/packing-list.js`
 - [ ] UI: Trip type (Business/Beach/Adventure/City/Camping), Duration, Climate, Activities
 - [ ] Output: categorized checklist (Clothing, Toiletries, Electronics, Documents, Misc)
@@ -8739,6 +9432,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Export as text or printable PDF
 
 #### Task 41.1.5: Build Travel Budget Calculator
+
 - [ ] File: `src/tools/geography/travel-budget.js`
 - [ ] UI: Destination (city/country), Duration (days), Travel style (Budget/Mid-range/Luxury)
 - [ ] Categories: Accommodation, Food, Transport, Activities, Shopping
@@ -8746,6 +9440,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Output: Total estimated budget, daily breakdown, bar chart
 
 #### Task 41.1.6: Build World Clock
+
 - [ ] File: `src/tools/geography/world-clock.js`
 - [ ] UI: Add cities from dropdown → shows current time in each
 - [ ] 12/24h toggle, show date, show day/night icon
@@ -8753,12 +9448,14 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] "Meeting at 3pm London = ?pm in Tokyo" quick converter
 
 #### Task 41.1.7: Build Country Comparison
+
 - [ ] File: `src/tools/geography/country-compare.js`
 - [ ] UI: Select two countries → side-by-side comparison
 - [ ] Data: Population, Area, GDP, GDP per capita, Capital, Language, Currency, Timezone, HDI, Life expectancy, Literacy rate
 - [ ] Visual: bar charts comparing key metrics
 
 #### Task 41.1.8: Add all to tools.json
+
 - [ ] Verify: `distance-calculator`, `meeting-planner`, `packing-list`, `travel-budget`, `world-clock`, `country-compare`
 
 ---
@@ -8773,41 +9470,49 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 42.1 Build Legal Template Generators (10 tasks)
 
 #### Task 42.1.1: Create legal template engine
+
 - [ ] Create file: `src/tools/legal/template-engine.js`
 - [ ] Export function `generateDocument(template, formData)` that fills in template placeholders
 - [ ] Templates stored as JS template literals with `${field}` placeholders
 - [ ] Each template has: title, sections array, each section has paragraphs with placeholders
 
 #### Task 42.1.2: Build NDA Generator
+
 - [ ] File: `src/tools/legal/nda-generator.js`
 - [ ] Form: Disclosing Party, Receiving Party, Purpose, Duration (1-5 years), Jurisdiction (state/country)
 - [ ] Generate: filled NDA text → preview → download as PDF
 - [ ] Sections: Parties, Definition of Confidential Information, Obligations, Term, Remedies, Governing Law
 
 #### Task 42.1.3: Build Contract Template Generator
+
 - [ ] File: `src/tools/legal/contract-generator.js`
 - [ ] Form: Client name, Contractor name, Scope of work, Payment terms, Start date, End date, Termination clause
 - [ ] Sections: Parties, Scope, Compensation, Timeline, IP Ownership, Confidentiality, Termination, Dispute Resolution
 
 #### Task 42.1.4: Build Terms of Service Generator
+
 - [ ] File: `src/tools/legal/tos-generator.js`
 - [ ] Form: Company name, Website URL, Effective date, Country, Business type
 - [ ] Sections: Acceptance of Terms, User Accounts, Prohibited Activities, Intellectual Property, Limitation of Liability, Governing Law
 
 #### Task 42.1.5: Build Privacy Policy Generator
+
 - [ ] File: `src/tools/legal/privacy-policy-gen.js`
 - [ ] Form: Company name, Website URL, Data collected (checkboxes: email, name, cookies, analytics, payment), Third parties, Country
 - [ ] GDPR/CCPA compliant sections: Data Collection, Data Use, Data Sharing, Cookies, User Rights, Data Retention, Contact Info
 
 #### Task 42.1.6: Build Lease Agreement Generator
+
 - [ ] File: `src/tools/legal/lease-generator.js`
 - [ ] Form: Landlord, Tenant, Property address, Rent amount, Security deposit, Lease term, Rules (pets, smoking, etc.)
 - [ ] Sections: Parties, Property, Term, Rent, Security Deposit, Maintenance, Rules, Termination
 
 #### Task 42.1.7: Add all to tools.json
+
 - [ ] Verify: `nda-generator`, `contract-generator`, `tos-generator`, `privacy-policy-gen`, `lease-generator`
 
 #### Task 42.1.8: Create legal category
+
 - [ ] Add to categories.json: `{ "id": "legal", "name": "Legal Templates", "icon": "⚖️", "description": "NDA, contract, privacy policy, and agreement generators", "toolCount": 5 }`
 
 ---
@@ -8822,6 +9527,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 43.1 Build Academic Tools (10 tasks)
 
 #### Task 43.1.1: Build GPA Calculator
+
 - [ ] File: `src/tools/student/gpa-calculator.js`
 - [ ] UI: Table with rows for courses — each row: Course name, Grade (A-F dropdown), Credit hours
 - [ ] Add/remove course rows
@@ -8831,20 +9537,22 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Visual: GPA gauge with color coding
 
 #### Task 43.1.2: Build Citation Generator
+
 - [ ] File: `src/tools/student/citation-generator.js`
 - [ ] UI: Source type selector (Website, Book, Journal, Video) → form fields → "Generate Citation"
 - [ ] Format selector: APA 7th, MLA 9th, Chicago 17th, Harvard
 - [ ] **APA formats:**
-    - Website: Author. (Year, Month Day). Title. Site Name. URL
-    - Book: Author. (Year). *Title*. Publisher.
-    - Journal: Author. (Year). Title. *Journal*, *Volume*(Issue), Pages.
+  - Website: Author. (Year, Month Day). Title. Site Name. URL
+  - Book: Author. (Year). *Title*. Publisher.
+  - Journal: Author. (Year). Title. *Journal*, *Volume*(Issue), Pages.
 - [ ] **MLA formats:**
-    - Website: Author. "Title." *Website*, Day Month Year, URL.
-    - Book: Author. *Title*. Publisher, Year.
+  - Website: Author. "Title." *Website*, Day Month Year, URL.
+  - Book: Author. *Title*. Publisher, Year.
 - [ ] Copy button for each format
 - [ ] Also: paste a URL → auto-extract title, author, date (basic scraping via fetch)
 
 #### Task 43.1.3: Build Flashcard Maker
+
 - [ ] File: `src/tools/student/flashcard-maker.js`
 - [ ] UI:
   1. Create mode: Front text, Back text → "Add Card"
@@ -8854,13 +9562,17 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
   5. Export deck as CSV
   6. Multiple decks, save to localStorage
 - [ ] Flip animation: CSS 3D transform
+
   ```css
+
   .flashcard { perspective: 1000px; }
   .flashcard-inner { transition: transform 0.6s; transform-style: preserve-3d; }
   .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
   ```
 
 #### Task 43.1.4: Build Pomodoro Timer
+
 - [ ] File: `src/tools/student/pomodoro-timer.js`
 - [ ] UI: Big circular timer display, Start/Pause/Reset buttons
 - [ ] Default: 25min work, 5min break, 15min long break (every 4 sessions)
@@ -8870,6 +9582,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Statistics: total focus time today/this week (localStorage)
 
 #### Task 43.1.5: Build Bibliography Generator
+
 - [ ] File: `src/tools/student/bibliography-gen.js`
 - [ ] UI: Add sources (same as citation generator) → compile into formatted bibliography
 - [ ] Auto-sort alphabetically by author last name
@@ -8877,6 +9590,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy all or download as text
 
 #### Task 43.1.6: Build Study Planner
+
 - [ ] File: `src/tools/student/study-planner.js`
 - [ ] UI:
   1. Add subjects with exam dates
@@ -8888,6 +9602,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Save to localStorage, edit schedule manually
 
 #### Task 43.1.7: Build Reading Time Calculator
+
 - [ ] File: `src/tools/student/reading-time.js`
 - [ ] UI: Paste text or upload file → "Calculate" → reading time
 - [ ] Speeds: Slow (200 wpm), Average (250 wpm), Fast (350 wpm), Speed reader (500 wpm)
@@ -8895,6 +9610,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Also: "I read at X wpm" custom speed input
 
 #### Task 43.1.8: Build Exam Score Calculator
+
 - [ ] File: `src/tools/student/exam-score.js`
 - [ ] UI: Multiple modes:
   - "What percentage?" — input correct/total → percentage
@@ -8904,6 +9620,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Grade scale customizable (90=A, 80=B, etc.)
 
 #### Task 43.1.9: Build Presentation Timer
+
 - [ ] File: `src/tools/student/presentation-timer.js`
 - [ ] UI: Set target duration (1-60 minutes), "Start" button
 - [ ] Large countdown display
@@ -8912,6 +9629,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Elapsed time tracker
 
 #### Task 43.1.10: Build Group Project Splitter
+
 - [ ] File: `src/tools/student/group-splitter.js`
 - [ ] UI: Add team members → add tasks with estimated hours → assign tasks → track completion
 - [ ] Visual: workload bar chart per member (ensure fair distribution)
@@ -8921,6 +9639,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 43.2 Build Writing Helper Tools (6 tasks)
 
 #### Task 43.2.1: Build Markdown Note Taker
+
 - [ ] File: `src/tools/student/note-organizer.js`
 - [ ] UI: Split pane — Markdown editor (left) + Preview (right)
 - [ ] Folders sidebar (create/rename/delete folders)
@@ -8931,6 +9650,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Use `marked` for markdown rendering (already installed)
 
 #### Task 43.2.2: Build Weekly Schedule Maker
+
 - [ ] File: `src/tools/student/schedule-maker.js`
 - [ ] UI: 7-column grid (Mon-Sun), rows for hours (6am-11pm)
 - [ ] Click cell → add event (name, color, duration)
@@ -8940,6 +9660,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Save to localStorage
 
 #### Task 43.2.3: Build Sentence Rewriter
+
 - [ ] File: `src/tools/student/sentence-rewriter.js`
 - [ ] UI: Input text → choose tone (Academic, Casual, Formal, Simple) → "Rewrite" → output
 - [ ] Academic: longer sentences, complex vocabulary, passive voice
@@ -8948,6 +9669,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Simple: shorter words, active voice, clear structure
 
 #### Task 43.2.4: Build Synonym Finder & Replacer
+
 - [ ] File: `src/tools/student/synonym-finder.js`
 - [ ] UI: Paste text → click any word → show synonyms popup → click to replace
 - [ ] Uses a bundled synonym dictionary (~5000 words with synonym lists)
@@ -8955,6 +9677,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Academic vocabulary suggestions (mark informal words, suggest formal alternatives)
 
 #### Task 43.2.5: Build Plagiarism Remover
+
 - [ ] File: `src/tools/student/plagiarism-remover.js`
 - [ ] UI: Input text → "Remove Plagiarism" → rewritten text with changes highlighted
 - [ ] Techniques: Synonym replacement, sentence restructuring, voice change (active↔passive), clause reordering
@@ -8962,9 +9685,11 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] This is a TOOL to help students rewrite, not to cheat
 
 #### Task 43.2.6: Add all student tools to tools.json
+
 - [ ] Verify all 15 entries: `gpa-calculator`, `citation-generator`, `flashcard-maker`, `pomodoro-timer`, `bibliography-gen`, `study-planner`, `reading-time`, `exam-score`, `presentation-timer`, `note-organizer`, `schedule-maker`, `group-splitter`, `sentence-rewriter`, `synonym-finder`, `plagiarism-remover`
 
 #### Task 43.2.7: Create student category
+
 - [ ] Add to categories.json: `{ "id": "student", "name": "Student Tools", "icon": "🎓", "description": "GPA calculator, citations, flashcards, study planner, and academic tools", "toolCount": 15 }`
 
 ---
@@ -8979,6 +9704,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 44.1 Install Dependencies (1 task)
 
 #### Task 44.1.1: Install dev tool dependencies
+
 - [ ] Run: `npm install terser sql-formatter juice`
 - [ ] terser: JS minifier (client-side compatible)
 - [ ] sql-formatter: SQL formatting
@@ -8987,6 +9713,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ### 44.2 Build Minifiers (6 tasks)
 
 #### Task 44.2.1: Build CSS Minifier
+
 - [ ] File: `src/tools/devtools/css-minifier.js`
 - [ ] UI: Paste CSS or upload .css file → "Minify" → output
 - [ ] Shows: Original size, Minified size, Reduction %
@@ -8995,41 +9722,55 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Basic minification: remove comments, whitespace, newlines
 
 #### Task 44.2.2: Build JS Minifier
+
 - [ ] File: `src/tools/devtools/js-minifier.js`
 - [ ] UI: Paste JS or upload .js file → "Minify" → output
 - [ ] Uses `terser`:
+
   ```js
+
   import { minify } from 'terser';
   const result = await minify(code, {
     compress: { drop_console: false },
     mangle: true
   });
+
   ```
+
 - [ ] Shows: Original size, Minified size, Reduction %
 - [ ] Options: Remove console.log, Remove comments, Mangle variables
 
 #### Task 44.2.3: Build HTML Minifier
+
 - [ ] File: `src/tools/devtools/html-minifier.js`
 - [ ] UI: Paste HTML → "Minify" → output
 - [ ] Basic: remove comments, collapse whitespace, remove optional tags
 - [ ] Options: Remove comments, Collapse whitespace, Remove empty attributes
 
 #### Task 44.2.4: Build SQL Formatter
+
 - [ ] File: `src/tools/devtools/sql-formatter.js`
 - [ ] UI: Paste SQL → "Format" → beautified output
 - [ ] Uses `sql-formatter`:
+
   ```js
+
   import { format } from 'sql-formatter';
   const formatted = format(sql, { language: 'sql', indent: '  ' });
+
   ```
+
 - [ ] Language options: SQL, MySQL, PostgreSQL, SQLite, MSSQL
 - [ ] Indent style: 2 spaces, 4 spaces, tabs
 
 #### Task 44.2.5: Build Code Formatter (Multi-Language)
+
 - [ ] File: `src/tools/devtools/code-formatter.js`
 - [ ] UI: Paste code → select language → "Format" → output
 - [ ] Uses Prettier standalone (browser build):
+
   ```js
+
   import * as prettier from 'prettier/standalone';
   import * as prettierBabel from 'prettier/plugins/babel';
   import * as prettierEstree from 'prettier/plugins/estree';
@@ -9038,28 +9779,37 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     parser: 'babel',
     plugins: [prettierBabel, prettierEstree]
   });
+
   ```
+
 - [ ] Languages: JavaScript, TypeScript, CSS, HTML, JSON, Markdown, YAML
 
 #### Task 44.2.6: Build CSS Inliner
+
 - [ ] File: `src/tools/devtools/css-inliner.js`
 - [ ] UI: Paste HTML with `<style>` blocks → "Inline CSS" → output with inline styles
 - [ ] Uses `juice`:
+
   ```js
+
   import juice from 'juice';
   const inlined = juice(htmlString);
+
   ```
+
 - [ ] Essential for HTML email templates
 
 ### 44.3 Build Code Tools (9 tasks)
 
 #### Task 44.3.1: Build JSONPath Tester
+
 - [ ] File: `src/tools/devtools/jsonpath-tester.js`
 - [ ] UI: JSON input (Monaco editor) + JSONPath expression input → "Query" → matching results
 - [ ] Implement basic JSONPath: `$.store.book[0].title`, `$..price`, `$.store.*`
 - [ ] Highlight matching nodes in the JSON
 
 #### Task 44.3.2: Build Base64 Image Encoder
+
 - [ ] File: `src/tools/devtools/base64-image.js`
 - [ ] UI: Upload image → show base64 string → copy
 - [ ] Also: paste base64 string → show image preview
@@ -9067,6 +9817,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Show file size comparison
 
 #### Task 44.3.3: Build Nginx Config Generator
+
 - [ ] File: `src/tools/devtools/nginx-generator.js`
 - [ ] UI: Choose template (Reverse Proxy, Static Site, PHP App, Node.js App, SSL + Rate Limit)
 - [ ] Fill in: domain, port, paths, SSL cert locations
@@ -9074,6 +9825,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Sections: server block, location blocks, SSL config, gzip, caching
 
 #### Task 44.3.4: Build Docker Compose Generator
+
 - [ ] File: `src/tools/devtools/docker-generator.js`
 - [ ] UI: Add services from a palette (Nginx, Node.js, PostgreSQL, Redis, MySQL, MongoDB, Python, PHP)
 - [ ] Each service: configure image, ports, volumes, environment variables, networks
@@ -9081,6 +9833,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy or download
 
 #### Task 44.3.5: Build README Previewer
+
 - [ ] File: `src/tools/devtools/readme-previewer.js`
 - [ ] UI: Monaco editor (Markdown) + live preview (GitHub-styled CSS)
 - [ ] Toolbar: Bold, Italic, Link, Image, Code, Table, Heading
@@ -9088,6 +9841,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Copy raw markdown or HTML
 
 #### Task 44.3.6: Build Changelog Generator
+
 - [ ] File: `src/tools/devtools/changelog-gen.js`
 - [ ] UI: Paste git log output → "Generate Changelog" → formatted changelog
 - [ ] Parse conventional commits: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`
@@ -9095,6 +9849,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Version number input, date
 
 #### Task 44.3.7: Build SVG Code Editor
+
 - [ ] File: `src/tools/devtools/svg-editor.js`
 - [ ] UI: Monaco editor (XML/SVG) + live preview iframe
 - [ ] Templates: Circle, Rectangle, Star, Heart, Smiley, Custom
@@ -9102,6 +9857,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Download as SVG or PNG
 
 #### Task 44.3.8: Build CSS Specificity Calculator
+
 - [ ] File: `src/tools/devtools/css-specificity.js`
 - [ ] UI: Input CSS selector → show specificity score (a,b,c)
 - [ ] Rules: IDs = (1,0,0), Classes = (0,1,0), Elements = (0,0,1)
@@ -9109,13 +9865,16 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Examples with explanations
 
 #### Task 44.3.9: Build JWT Encoder
+
 - [ ] File: `src/tools/devtools/jwt-encoder.js`
 - [ ] UI: Header editor (JSON), Payload editor (JSON), Secret input
 - [ ] Algorithm selector: HS256, HS384, HS512
 - [ ] "Encode" button → JWT output
 - [ ] Also decode mode (paste JWT → show header + payload)
 - [ ] Use Web Crypto API for HMAC signing:
+
   ```js
+
   async function hmacSign(algo, key, data) {
     const encoder = new TextEncoder();
     const cryptoKey = await crypto.subtle.importKey(
@@ -9125,23 +9884,27 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     return btoa(String.fromCharCode(...new Uint8Array(signature)))
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
+
   ```
 
 ### 44.4 Build Reference Tools (6 tasks)
 
 #### Task 44.4.1: Build HTTP Status Code Reference
+
 - [ ] File: `src/tools/devtools/http-status.js`
 - [ ] Data: All HTTP status codes (100-599) with name, description, usage example
 - [ ] UI: Searchable table, filter by category (1xx, 2xx, 3xx, 4xx, 5xx)
 - [ ] Click to expand with details
 
 #### Task 44.4.2: Build Git Cheatsheet
+
 - [ ] File: `src/tools/devtools/git-cheatsheet.js`
 - [ ] Data: 100+ git commands organized by category (Basic, Branching, Remote, Undoing, Inspecting)
 - [ ] UI: Search bar, category filter, expandable cards with command + example + description
 - [ ] Copy command button
 
 #### Task 44.4.3: Build Can I Use Checker
+
 - [ ] File: `src/tools/devtools/caniuse.js`
 - [ ] Data: Bundle caniuse-db data (CSS and JS features with browser support tables)
 - [ ] UI: Search feature name → show compatibility table
@@ -9149,6 +9912,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Color: Green (supported), Yellow (partial), Red (not supported)
 
 #### Task 44.4.4: Build Accessibility Checker
+
 - [ ] File: `src/tools/devtools/a11y-checker.js`
 - [ ] UI: Paste HTML code → "Check Accessibility" → report
 - [ ] Checks:
@@ -9164,10 +9928,13 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Each issue: description, line number, how to fix
 
 #### Task 44.4.5: Build Color Contrast Checker (WCAG)
+
 - [ ] File: `src/tools/devtools/color-contrast.js`
 - [ ] UI: Foreground color picker + Background color picker
 - [ ] Calculate contrast ratio:
+
   ```js
+
   function getLuminance(r, g, b) {
     const [rs, gs, bs] = [r, g, b].map(c => {
       c = c / 255;
@@ -9181,12 +9948,15 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
     const l2 = Math.min(getLuminance(...fg), getLuminance(...bg));
     return (l1 + 0.05) / (l2 + 0.05);
   }
+
   ```
+
 - [ ] WCAG results: AA Normal (≥4.5:1), AA Large (≥3:1), AAA Normal (≥7:1), AAA Large (≥4.5:1)
 - [ ] Preview: show text on background at both colors
 - [ ] Suggest compliant color if current fails
 
 #### Task 44.4.6: Build Regex Cheatsheet
+
 - [ ] File: `src/tools/devtools/regex-cheatsheet.js`
 - [ ] Data: 50+ regex patterns organized by category (Character Classes, Quantifiers, Anchors, Groups, Lookahead/Lookbehind)
 - [ ] UI: Searchable, each entry: pattern, description, example, live test
@@ -9194,6 +9964,7 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 - [ ] Interactive: type text next to each pattern to see matches
 
 #### Task 44.4.7: Add all devtools to tools.json
+
 - [ ] Verify all 21 entries
 - [ ] Create devtools category in categories.json: `{ "id": "devtools", "name": "Developer Tools (Expanded)", "icon": "🔧", "description": "Minifiers, formatters, code tools, and developer references", "toolCount": 21 }`
 
@@ -9202,7 +9973,9 @@ npm install mammoth xlsx jspdf-autotable heic2any svgo wavesurfer.js jszip monac
 ## 📦 All New Dependencies (Phase 31-44)
 
 ```bash
+
 npm install terser sql-formatter juice faker
+
 ```
 
 | Package | License | Size | Purpose |
@@ -9292,6 +10065,7 @@ npm install terser sql-formatter juice faker
 > These tools use only the Canvas API or existing libraries. No new dependencies needed. Can be built in 1-2 hours each.
 
 ### Tool: PNG to JPG (`png-to-jpg`)
+
 - [ ] File: `src/tools/image/png-to-jpg.js`
 - [ ] **Library:** Canvas API only (no new deps)
 - [ ] **Logic:** Load PNG → draw on canvas → `canvas.toBlob('image/jpeg', quality)` → download
@@ -9300,6 +10074,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: JPG to PNG (`jpg-to-png`)
+
 - [ ] File: `src/tools/image/jpg-to-png.js`
 - [ ] **Library:** Canvas API only
 - [ ] **Logic:** Load JPG → draw on canvas → `canvas.toBlob('image/png')` → download
@@ -9307,6 +10082,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: WebP to JPG (`webp-to-jpg`)
+
 - [ ] File: `src/tools/image/webp-to-jpg.js`
 - [ ] **Library:** Canvas API only (browser natively decodes WebP)
 - [ ] **Logic:** Load WebP → draw on canvas → `canvas.toBlob('image/jpeg', quality)` → download
@@ -9314,6 +10090,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: JPG to WebP (`jpg-to-webp`)
+
 - [ ] File: `src/tools/image/jpg-to-webp.js`
 - [ ] **Library:** Canvas API only
 - [ ] **Logic:** Load JPG → draw on canvas → `canvas.toBlob('image/webp', quality)` → download
@@ -9321,6 +10098,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: SVG to PNG (`svg-to-png`)
+
 - [ ] File: `src/tools/image/svg-to-png.js`
 - [ ] **Library:** Canvas API only
 - [ ] **Logic:** Read SVG as data URL → create Image → draw on canvas at user-specified resolution → `canvas.toBlob('image/png')` → download
@@ -9328,6 +10106,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Add Border to Image (`add-border-image`)
+
 - [ ] File: `src/tools/image/add-border-image.js`
 - [ ] **Library:** Canvas API only
 - [ ] **Logic:** Create canvas (image + border*2) → fill border color → draw image centered → download
@@ -9335,6 +10114,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Round Image Cropper (`round-image`)
+
 - [ ] File: `src/tools/image/round-image.js`
 - [ ] **Library:** Canvas API only
 - [ ] **Logic:** Create canvas → `ctx.arc()` circular clip path → draw image → export with transparent PNG
@@ -9342,6 +10122,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Image Sharpening (`sharpen-image`)
+
 - [ ] File: `src/tools/image/sharpen-image.js`
 - [ ] **Library:** Canvas API (pixel manipulation)
 - [ ] **Logic:** Apply unsharp mask convolution kernel `[[0,-1,0],[-1,5,-1],[0,-1,0]]` with adjustable strength
@@ -9349,6 +10130,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Delete PDF Pages (`delete-pdf-pages`)
+
 - [ ] File: `src/tools/pdf/delete-pdf-pages.js`
 - [ ] **Library:** pdf-lib (already installed)
 - [ ] **Logic:** Load PDF → render page thumbnails → user clicks pages to mark for deletion → `pdfDoc.removePage(index)` for each → save
@@ -9356,6 +10138,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: CSV Splitter (`split-csv`)
+
 - [ ] File: `src/tools/text/split-csv.js`
 - [ ] **Library:** Papa Parse (already installed) + JSZip (install: `npm install jszip`)
 - [ ] **Logic:** Parse CSV → split into chunks by row count → generate individual CSV strings → bundle into ZIP → download
@@ -9369,6 +10152,7 @@ npm install terser sql-formatter juice faker
 > All use ffmpeg.wasm which is already installed. Similar pattern: load file → run ffmpeg command → download.
 
 ### Tool: GIF to MP4 (`gif-to-mp4`)
+
 - [ ] File: `src/tools/video/gif-to-mp4.js`
 - [ ] **Library:** ffmpeg.wasm (already installed)
 - [ ] **Logic:** `ffmpeg -i input.gif -movflags +faststart -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" output.mp4`
@@ -9376,6 +10160,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: WEBM to MP4 (`webm-to-mp4`)
+
 - [ ] File: `src/tools/video/webm-to-mp4.js`
 - [ ] **Library:** ffmpeg.wasm
 - [ ] **Logic:** `ffmpeg -i input.webm -c:v libx264 -c:a aac output.mp4`
@@ -9383,6 +10168,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: MOV to MP4 (`mov-to-mp4`)
+
 - [ ] File: `src/tools/video/mov-to-mp4.js`
 - [ ] **Library:** ffmpeg.wasm
 - [ ] **Logic:** `ffmpeg -i input.mov -c copy output.mp4` (remux, no re-encode — fast!)
@@ -9390,6 +10176,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Add Subtitles to Video (`add-subtitles-video`)
+
 - [ ] File: `src/tools/video/add-subtitles-video.js`
 - [ ] **Library:** ffmpeg.wasm
 - [ ] **Logic:** Upload video + SRT file → `ffmpeg -i video.mp4 -vf "subtitles=subs.srt:force_style='FontSize=24'" output.mp4`
@@ -9397,6 +10184,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Video Resizer (`resize-video`)
+
 - [ ] File: `src/tools/video/resize-video.js`
 - [ ] **Library:** ffmpeg.wasm
 - [ ] **Logic:** `ffmpeg -i input.mp4 -vf scale=WIDTH:HEIGHT:force_original_aspect_ratio=decrease -c:a copy output.mp4`
@@ -9410,6 +10198,7 @@ npm install terser sql-formatter juice faker
 > These are the highest-search-volume tools. Complex but high traffic payoff.
 
 ### Tool: PDF to Word (`pdf-to-word`)
+
 - [ ] File: `src/tools/pdf/pdf-to-word.js`
 - [ ] **Library:** pdfjs-dist (already installed) + `docx` (install: `npm install docx`)
 - [ ] **Logic:**
@@ -9422,6 +10211,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: PDF to Excel (`pdf-to-excel`)
+
 - [ ] File: `src/tools/pdf/pdf-to-excel.js`
 - [ ] **Library:** pdfjs-dist + SheetJS (install: `npm install xlsx`)
 - [ ] **Logic:**
@@ -9434,6 +10224,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: PDF to PowerPoint (`pdf-to-pptx`)
+
 - [ ] File: `src/tools/pdf/pdf-to-pptx.js`
 - [ ] **Library:** pdfjs-dist + pptxgenjs (install: `npm install pptxgenjs`)
 - [ ] **Logic:**
@@ -9447,6 +10238,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: PDF to CSV (`pdf-to-csv`)
+
 - [ ] File: `src/tools/pdf/pdf-to-csv.js`
 - [ ] **Library:** pdfjs-dist + Papa Parse (already installed)
 - [ ] **Logic:** Same table detection as PDF to Excel, but output as CSV string → download .csv
@@ -9454,6 +10246,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: PowerPoint to PDF (`pptx-to-pdf`)
+
 - [ ] File: `src/tools/pdf/pptx-to-pdf.js`
 - [ ] **Library:** JSZip (install: `npm install jszip`) + jsPDF (already installed)
 - [ ] **Logic:**
@@ -9466,6 +10259,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: PDF Watermark Remover (`remove-watermark-pdf`)
+
 - [ ] File: `src/tools/pdf/remove-watermark-pdf.js`
 - [ ] **Library:** pdf-lib (already installed)
 - [ ] **Logic:**
@@ -9483,6 +10277,7 @@ npm install terser sql-formatter juice faker
 ## 21.4 Sprint 4 — AI & Advanced Tools (7 tools, ~25 hours)
 
 ### Tool: PNG to SVG (`png-to-svg`)
+
 - [ ] File: `src/tools/image/png-to-svg.js`
 - [ ] **Library:** potrace.js (install: `npm install potrace` or use js-potrace)
 - [ ] **Logic:** Load PNG → convert to grayscale bitmap → run potrace with threshold parameters → generate SVG path data → download .svg
@@ -9491,6 +10286,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Image Colorizer (`colorize-image`)
+
 - [ ] File: `src/tools/image/colorize-image.js`
 - [ ] **Library:** ONNX Runtime Web (already installed for background remover) + colorization model
 - [ ] **Logic:**
@@ -9505,6 +10301,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Collage Maker (`collage-maker`)
+
 - [ ] File: `src/tools/image/collage-maker.js`
 - [ ] **Library:** Canvas API only
 - [ ] **Logic:**
@@ -9517,6 +10314,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Blur Background (`blur-background`)
+
 - [ ] File: `src/tools/image/blur-background.js`
 - [ ] **Library:** Canvas API + CSS filter or manual Gaussian blur
 - [ ] **Logic:**
@@ -9528,6 +10326,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Pixelate Image (`pixelate-image`)
+
 - [ ] File: `src/tools/image/pixelate-image.js`
 - [ ] **Library:** Canvas API (pixel manipulation)
 - [ ] **Logic:**
@@ -9539,6 +10338,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Remove Text from Image (`remove-text-image`)
+
 - [ ] File: `src/tools/image/remove-text-image.js`
 - [ ] **Library:** Tesseract.js (already installed) + Canvas API
 - [ ] **Logic:**
@@ -9550,6 +10350,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: EPUB to PDF (`epub-to-pdf`)
+
 - [ ] File: `src/tools/pdf/epub-to-pdf.js`
 - [ ] **Library:** epubjs (install: `npm install epubjs`) + jsPDF (already installed)
 - [ ] **Logic:**
@@ -9561,6 +10362,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: PDF to EPUB (`pdf-to-epub`)
+
 - [ ] File: `src/tools/pdf/pdf-to-epub.js`
 - [ ] **Library:** pdfjs-dist + JSZip (already installed)
 - [ ] **Logic:**
@@ -9573,6 +10375,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: Excel to XML (`excel-to-xml`)
+
 - [ ] File: `src/tools/text/excel-to-xml.js`
 - [ ] **Library:** SheetJS (install: `npm install xlsx`)
 - [ ] **Logic:**
@@ -9585,6 +10388,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: XML to Excel (`xml-to-excel`)
+
 - [ ] File: `src/tools/text/xml-to-excel.js`
 - [ ] **Library:** DOMParser (native) + SheetJS
 - [ ] **Logic:**
@@ -9597,6 +10401,7 @@ npm install terser sql-formatter juice faker
 - [ ] Add to tools.json with `"status": "new"`
 
 ### Tool: GIF to MP4 (`gif-to-mp4`) — *(duplicate of Sprint 2, listed for completeness)*
+
 - [ ] Already covered in Sprint 2 above
 
 ---
@@ -9604,7 +10409,9 @@ npm install terser sql-formatter juice faker
 ## 21.6 New Dependencies to Install
 
 ```bash
+
 npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epubjs
+
 ```
 
 | Package | Size | Used By |
@@ -9628,12 +10435,14 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 > These are NOT new tools — they're dedicated landing pages that embed the existing `convert-image` or `convert-video` tools with pre-selected options. Each page targets a specific high-volume keyword.
 
 ### Pattern for each:
+
 1. Create a page file (e.g., `src/tools/image/png-to-jpg.js`)
 2. The page renders the existing `convert-image` tool with format pre-selected (source: PNG, target: JPG)
 3. SEO-optimized title, description, and H1 targeting the specific keyword
 4. Add to tools.json with `"status": "new"`
 
 ### Pages:
+
 - [ ] `png-to-jpg` — "PNG to JPG Converter" → embeds `convert-image` with PNG→JPG preselected
 - [ ] `jpg-to-png` — "JPG to PNG Converter" → embeds `convert-image` with JPG→PNG preselected
 - [ ] `webp-to-jpg` — "WebP to JPG Converter" → embeds `convert-image` with WebP→JPG preselected
@@ -9765,6 +10574,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Add to `tools.json` — category: `fun`
 
 ## Phase 22 Quality Checklist
+
 - [ ] All 6 tools: 100% client-side, zero server calls, zero runtime CDN fetches
 - [ ] Each tool: `tools.json` entry, SEO meta, How-To (3 steps), FAQ (3 Qs), related tools
 - [ ] Mobile responsive + touch-friendly
@@ -9809,7 +10619,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Lap table: lap #, lap time, total elapsed — scrollable, last lap highlighted
 - [ ] "Copy laps" button: copies lap table as plain text
 - [ ] Logic:
+
   ```js
+
   let startTime, elapsed = 0, running = false, laps = [];
 
   function start() {
@@ -9830,7 +10642,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
     laps.push(lapTime);
     renderLapTable();
   }
+
   ```
+
 - [ ] Add to `tools.json` — category: `productivity`
 - [ ] SEO: title "Free Online Stopwatch with Lap Timer"
 
@@ -9864,7 +10678,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
   - Whether IP is private/public/loopback/multicast
 - [ ] Subnet split: "Divide into N subnets" → show each subnet's range
 - [ ] Logic:
+
   ```js
+
   function ipToInt(ip) {
     return ip.split('.').reduce((acc, oct) => (acc << 8) | parseInt(oct), 0) >>> 0;
   }
@@ -9879,7 +10695,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
              firstHost: intToIp(network + 1), lastHost: intToIp(broadcast - 1),
              totalHosts: Math.pow(2, 32 - cidr), usableHosts: Math.pow(2, 32 - cidr) - 2 };
   }
+
   ```
+
 - [ ] Add to `tools.json` — category: `dev`
 - [ ] SEO: title "IP Subnet Calculator — CIDR, Network Range, Hosts"
 
@@ -9927,13 +10745,17 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Copy button per format
 - [ ] Color picker `<input type="color">` as an alternative input method
 - [ ] Conversion functions:
+
   ```js
+
   function hexToRgb(hex) { /* parse 3/6-char hex */ }
   function rgbToHsl(r, g, b) { /* standard algorithm */ }
   function rgbToHsv(r, g, b) { /* V = max(r,g,b)/255 */ }
   function rgbToCmyk(r, g, b) { /* K=1-max; C=(1-r'-K)/(1-K) etc */ }
   function rgbToNamed(r, g, b) { /* nearest CSS named color by Euclidean distance */ }
+
   ```
+
 - [ ] Add to `tools.json` — category: `css`
 
 ## 23.7 Unix Timestamp Converter
@@ -10014,13 +10836,17 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
   - Auth: None / Bearer token / Basic (username+password) / API Key (header name + value)
   - Options: follow redirects (`-L`), insecure/skip TLS (`-k`), verbose (`-v`), silent (`-s`), output to file (`-o`)
 - [ ] Output: formatted cURL command, updated live as inputs change
+
   ```bash
+
   curl -X POST "https://api.example.com/users" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer TOKEN" \
     -d '{"name":"Alice","email":"alice@example.com"}' \
     -L
+
   ```
+
 - [ ] Copy button; "Try in browser" (for GET — opens fetch in browser console snippet)
 - [ ] Add to `tools.json` — category: `dev`
 
@@ -10067,7 +10893,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Common values quick-reference table (I=1, V=5, X=10, L=50, C=100, D=500, M=1000)
 - [ ] Copy button for result
 - [ ] Algorithm:
+
   ```js
+
   const vals = [[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],
                 [50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
   function toRoman(n) {
@@ -10082,7 +10910,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
     return [...s].reduce((acc, c, i, a) =>
       map[c] < (map[a[i+1]] || 0) ? acc - map[c] : acc + map[c], 0);
   }
+
   ```
+
 - [ ] Add to `tools.json` — category: `text`
 - [ ] SEO: title "Roman Numeral Converter — Numbers to Roman Numerals Free"
 
@@ -10120,7 +10950,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Famous examples list (Madam, Racecar, "A man a plan a canal Panama", "Never odd or even")
 - [ ] Bulk mode: paste multiple words/lines → check each, highlight which ones are palindromes
 - [ ] Algorithm:
+
   ```js
+
   function isPalindrome(text, { ignoreSpaces, ignorePunctuation, caseInsensitive }) {
     let s = text;
     if (caseInsensitive) s = s.toLowerCase();
@@ -10128,7 +10960,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
     if (ignorePunctuation) s = s.replace(/[^a-z0-9]/gi, '');
     return s === [...s].reverse().join('');
   }
+
   ```
+
 - [ ] Add to `tools.json` — category: `fun`
 - [ ] SEO: title "Palindrome Checker — Is It a Palindrome? Free Online Tool"
 
@@ -10154,7 +10988,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] **Query param editor:** add/remove/edit params → URL updates live
 - [ ] **Encode/decode toggle:** show raw (`%20`) vs decoded (` `) for each field
 - [ ] Logic:
+
   ```js
+
   // Parse
   const u = new URL(input);
   const params = [...u.searchParams.entries()]; // [[key, val], ...]
@@ -10164,7 +11000,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
   params.forEach(([k, v]) => u.searchParams.set(k, v));
   u.hash = hash;
   return u.toString();
+
   ```
+
 - [ ] Add to `tools.json` — category: `dev`
 - [ ] SEO: title "URL Parser & Builder — Decode, Inspect and Build URLs Free"
 
@@ -10193,6 +11031,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 | **Total** | **16** | **~40h** | ⬜ |
 
 **After Phase 23:** 200 tools total across 19 categories.
+
 - `productivity`: 3 tools (countdown, drawing pad, stopwatch)
 - `pdf`: 29 tools
 - `image`: 34 tools
@@ -10447,6 +11286,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Show success toast on .vcf download
 
 **After Phase 24:** 241 tools total across 21 categories.
+
 - `pdf`: 33 tools (31 original + 2 Phase 24)
 - `css`: 15 tools (10 original + 5 Phase 24)
 - `dev`: 16 tools (10 original + 6 Phase 24)

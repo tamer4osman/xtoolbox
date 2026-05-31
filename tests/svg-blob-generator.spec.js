@@ -45,14 +45,22 @@ test('SVG Blob Generator switches between blob and wave types', async ({ page })
   await page.goto('http://localhost:3000/#/tools/svg-blob-generator');
   await page.waitForSelector('.tool-layout', { timeout: 5000 });
 
+  const prevWave = await page.locator('#blob-css').inputValue();
   await page.locator('#blob-type').selectOption('wave');
-  await page.waitForTimeout(100);
+  await page.waitForFunction(
+    (prev) => document.querySelector('#blob-css').value !== prev,
+    prevWave
+  );
 
   const svgText = await page.locator('#blob-css').inputValue();
   expect(svgText).toContain('viewBox="0 0 800 200"');
 
+  const prevBlob = await page.locator('#blob-css').inputValue();
   await page.locator('#blob-type').selectOption('blob');
-  await page.waitForTimeout(100);
+  await page.waitForFunction(
+    (prev) => document.querySelector('#blob-css').value !== prev,
+    prevBlob
+  );
 
   const svgText2 = await page.locator('#blob-css').inputValue();
   expect(svgText2).toContain('viewBox="0 0 400 400"');
