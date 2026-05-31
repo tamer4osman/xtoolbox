@@ -8,7 +8,7 @@
   { "id": "math", "name": "Math & Converters", "icon": "🔢", "description": "Calculators, unit converters, graph plotter", "toolCount": 10 },
   { "id": "finance", "name": "Finance", "icon": "💰", "description": "Loan, mortgage, SIP, and tax calculators", "toolCount": 9 },
   { "id": "css", "name": "CSS & Web Design", "icon": "🎨", "description": "Gradient, shadow, grid generators", "toolCount": 15 },
-  { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder", "toolCount": 10 },
+  { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder", "toolCount": 11 },
   { "id": "encoding", "name": "Encoding & Hashing", "icon": "🔐", "description": "UUID, hash, Base64, JWT decoder", "toolCount": 8 },
   { "id": "business", "name": "Business", "icon": "💼", "description": "ROI, profit margin, churn rate calculators", "toolCount": 8 },
   { "id": "seo", "name": "SEO Tools", "icon": "🔍", "description": "Meta tags, sitemaps, keyword density checker", "toolCount": 6 },

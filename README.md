@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (13 done, 5 planned) |
 
-**Total tools:** 241 unique verified tools (237 built, 4 planned).
+**Total tools:** 241 unique verified tools (238 built, 3 planned).
 
 ## Categories
 
@@ -73,7 +73,7 @@ npm run test       # → Playwright tests
 | Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
 | CSS & Web Design | 14 | +5 | **19** | Custom JS | 15/19 |
-| Developer | 10 | +5 | **16** | Custom JS | 11/16 |
+| Developer | 10 | +6 | **16** | Custom JS | ✅ |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | — | **8** | Custom JS | ✅ |
 | SEO | 6 | +2 | **8** | Custom JS | 6/8 |
@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 14 done, 4 planned)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 15 done, 3 planned)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|
@@ -243,7 +243,7 @@ toolbox/
 | 9 | Log File Sensitive Data Masker | `dev/log-anonymizer.js` | `dev` | Locally screens server logs using regex to mask IP addresses, tokens, and sensitive keys. ✅ |
 | 10 | Website Asset Extractor | `dev/web-asset-extractor.js` | `dev` | Parses pasted HTML markup and extracts inline SVGs, styles, and external fonts for study. ✅ |
 | 11 | SQL to JSON & Schema Converter | `dev/sql-to-json.js` | `dev` | Converts database table creation statements and insertions into structured JSON lists. ✅ |
-| 12 | Hosts File Configurator | `dev/hosts-file-generator.js` | `dev` | Generates formatted local network alias hosts configurations from a simple visual key table. |
+| 12 | Hosts File Configurator | `dev/hosts-file-generator.js` | `dev` | Generates formatted local network alias hosts configurations from a simple visual key table. ✅ |
 | 13 | Security Headers Generator | `dev/security-headers-generator.js` | `dev` | Evaluates site policies and generates secure CSP, HSTS, and referrer headers configurations. ✅ |
 | 14 | Bulk UTM Campaign URL Builder | `seo/bulk-utm-builder.js` | `seo` | Builds multiple tracking URLs at once from lists, supporting presets and CSV export. ✅ |
 | 15 | Ambient Focus Soundboard | `productivity/ambient-sound-mixer.js` | `productivity` | Customizes custom background sounds locally with multi-track loop mixing nodes. ✅ |

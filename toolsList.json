@@ -2125,6 +2125,16 @@
     "status": "done"
   },
   {
+    "id": "hosts-file-generator",
+    "name": "Hosts File Configurator",
+    "category": "dev",
+    "description": "Generate formatted local network alias hosts configurations from a simple visual key table.",
+    "icon": "🌐",
+    "href": "/tools/hosts-file-generator",
+    "keywords": ["hosts", "hosts file", "local network", "dns", "aliases", "network configuration", "etc hosts"],
+    "status": "done"
+  },
+  {
     "id": "security-headers-generator",
     "name": "Security Headers Generator",
     "category": "dev",
