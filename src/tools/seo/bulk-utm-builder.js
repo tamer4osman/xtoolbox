@@ -195,7 +195,11 @@ export function render(container) {
       const btn = container.querySelector('#utm-copy-all');
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = 'Copy All', 1500);
-    }).catch(() => {});
+    }).catch(() => {
+      const btn = container.querySelector('#utm-copy-all');
+      btn.textContent = 'Failed';
+      setTimeout(() => btn.textContent = 'Copy All', 1500);
+    });
   });
 
   container.querySelector('#utm-export-csv').addEventListener('click', () => {
