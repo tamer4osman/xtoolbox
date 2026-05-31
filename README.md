@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 8 done, 10 planned)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 11 done, 7 planned)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|
