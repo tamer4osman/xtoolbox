@@ -80,6 +80,8 @@ export function render(container) {
   container.appendChild(style);
 
   let generatedUrls = [];
+  let generatedBaseUrls = [];
+  let generatedParams = {};
 
   function loadPresets() {
     try {
@@ -177,6 +179,8 @@ export function render(container) {
       term: container.querySelector('#utm-term').value.trim(),
     };
 
+    generatedBaseUrls = urls;
+    generatedParams = params;
     generatedUrls = urls.map(u => buildUrl(u, params));
 
     const output = container.querySelector('#utm-output');
@@ -196,17 +200,9 @@ export function render(container) {
 
   container.querySelector('#utm-export-csv').addEventListener('click', () => {
     if (generatedUrls.length === 0) return;
-    const params = {
-      source: container.querySelector('#utm-source').value.trim(),
-      medium: container.querySelector('#utm-medium').value.trim(),
-      campaign: container.querySelector('#utm-campaign').value.trim(),
-      content: container.querySelector('#utm-content').value.trim(),
-      term: container.querySelector('#utm-term').value.trim(),
-    };
     const header = 'base_url,utm_source,utm_medium,utm_campaign,utm_content,utm_term,full_url';
-    const urls = container.querySelector('#utm-urls').value.split('\n').map(u => u.trim()).filter(Boolean);
-    const rows = urls.map((u, i) => {
-      return [u, params.source, params.medium, params.campaign, params.content, params.term, generatedUrls[i] || ''].map(v => '"' + (v || '').replace(/"/g, '""') + '"').join(',');
+    const rows = generatedBaseUrls.map((u, i) => {
+      return [u, generatedParams.source, generatedParams.medium, generatedParams.campaign, generatedParams.content, generatedParams.term, generatedUrls[i] || ''].map(v => '"' + (v || '').replace(/"/g, '""') + '"').join(',');
     });
     const csv = header + '\n' + rows.join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -229,6 +225,8 @@ export function render(container) {
     container.querySelector('#utm-term').value = '';
     container.querySelector('#utm-results').style.display = 'none';
     generatedUrls = [];
+    generatedBaseUrls = [];
+    generatedParams = {};
   });
 
   refreshPresetList();
