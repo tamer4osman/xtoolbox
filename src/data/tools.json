@@ -2068,5 +2068,14 @@
     "icon": "🌳",
     "href": "/tools/sitemap-visualizer",
     "status": "done"
+  },
+  {
+    "id": "log-anonymizer",
+    "name": "Log File Sensitive Data Masker",
+    "category": "dev",
+    "description": "Anonymize sensitive data (IPs, emails, tokens, keys) in server logs using secure client-side regex.",
+    "icon": "🕵️",
+    "href": "/tools/log-anonymizer",
+    "status": "done"
   }
 ]

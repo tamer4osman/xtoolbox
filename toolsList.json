@@ -2085,7 +2085,7 @@
     "description": "Anonymize sensitive data (IPs, emails, tokens, keys) in server logs using secure client-side regex.",
     "icon": "🕵️",
     "href": "/tools/log-anonymizer",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "web-asset-extractor",
