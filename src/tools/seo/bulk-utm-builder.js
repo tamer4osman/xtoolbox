@@ -88,7 +88,12 @@ export function render(container) {
   }
 
   function savePresets(presets) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(presets));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(presets));
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   function refreshPresetList() {
@@ -115,7 +120,10 @@ export function render(container) {
       content: container.querySelector('#utm-content').value,
       term: container.querySelector('#utm-term').value,
     });
-    savePresets(presets);
+    if (!savePresets(presets)) {
+      alert('Failed to save preset. Storage may be full or unavailable.');
+      return;
+    }
     refreshPresetList();
   });
 
@@ -137,7 +145,10 @@ export function render(container) {
     if (idx === '') return;
     const presets = loadPresets();
     presets.splice(parseInt(idx), 1);
-    savePresets(presets);
+    if (!savePresets(presets)) {
+      alert('Failed to delete preset. Storage may be full or unavailable.');
+      return;
+    }
     refreshPresetList();
   });
 
