@@ -303,19 +303,21 @@ This is a starting point. Add your own conventions, style, and rules as you figu
 When building a new tool, ALWAYS follow this exact sequence:
 
 1. **Create the tool** — Implementation file in `src/tools/<category>/<tool>.js`
-2. **Write unit tests** — `tests/unit/<tool>.test.js`
-3. **Write Playwright test** — `tests/e2e/<tool>.spec.js`
-4. **Update docs** — Do NOT skip any of these:
+2. **Write unit tests** — `src/__tests__/<tool>.test.js`
+3. **Write Playwright test** — `tests/<tool>.spec.js`
+4. **Verify build** — `npm run build` must pass
+5. **Verify tests** — `npm run test:unit` must pass
+6. **User testing** — Start dev server (`npm run dev`) and ask user to test the tool at `http://localhost:3000/#/tools/<tool-id>`. Wait for user confirmation before proceeding.
+7. **Update docs** — Do NOT skip any of these:
    - `toolsList.json` — Add tool entry, set status to "done"
    - `src/data/tools.json` — Add tool entry, set status to "done"
    - `README.md` — Update tool count, add phase status
    - `PROJECT-PLAN.md` — Update phase progress, tool count
    - `memory/tool-building-progress.md` — Update completed tools list
-5. **Update main page** — ALL of these must reflect the new total:
+8. **Update main page** — ALL of these must reflect the new total:
    - `src/pages/home.js` — Update tool count (hero, search placeholder, meta description), update popular tools list if needed
    - `src/data/categories.json` — Update all category tool counts to match actual `src/data/tools.json`
    - `src/components/footer.js` — Update tool count in tagline
-6. **Verify build** — `npm run build` must pass
-7. **Verify tests** — `npm run test` must pass
+9. **Commit** — Only after user approves the tool, commit with descriptive message.
 
 Never skip docs. The tool count in README and PROJECT-PLAN must match toolsList.json. Never add a tool to `src/data/tools.json` without also adding it to `toolsList.json` (and vice versa).
