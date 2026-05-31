@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 10 | 18 |
-| **Total** | | **233** | |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 11 | 18 |
+| **Total** | | **234** | |
 
-**Status:** 233 professional tools built. Phase 24 in progress (10 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 234 professional tools built. Phase 24 in progress (11 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11198,11 +11198,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Standard tools only build campaign links one by one.
 
-- [ ] File: `src/tools/seo/bulk-utm-builder.js`
-- [ ] Input: URL list, UTM parameters (source, medium, campaign, content, term), preset saver
-- [ ] Logic: LocalStorage storage for presets, Papa Parse mapping links to exports
-- [ ] Output: Formatted CSV export or bulk URL list
-- [ ] SEO: title "Bulk UTM Builder — Generate Campaign Tracking URLs in Bulk"
+- [x] File: `src/tools/seo/bulk-utm-builder.js`
+- [x] Input: URL list, UTM parameters (source, medium, campaign, content, term), preset saver
+- [x] Logic: LocalStorage storage for presets, Papa Parse mapping links to exports
+- [x] Output: Formatted CSV export or bulk URL list
+- [x] SEO: title "Bulk UTM Builder — Generate Campaign Tracking URLs in Bulk"
 
 ## 24.15 Ambient Focus Soundboard
 

@@ -2096,5 +2096,15 @@
     "href": "/tools/security-headers-generator",
     "keywords": ["security", "headers", "csp", "hsts", "content security policy", "nginx", "apache", "cloudflare", "x-frame-options", "referrer-policy"],
     "status": "done"
+  },
+  {
+    "id": "bulk-utm-builder",
+    "name": "Bulk UTM Campaign URL Builder",
+    "category": "seo",
+    "description": "Generate campaign tracking URLs in bulk, manage presets, and export directly to CSV.",
+    "icon": "🔗",
+    "href": "/tools/bulk-utm-builder",
+    "keywords": ["utm", "campaign", "tracking", "url", "bulk", "analytics", "marketing"],
+    "status": "done"
   }
 ]

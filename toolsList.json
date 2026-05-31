@@ -2131,7 +2131,7 @@
     "description": "Generate campaign tracking URLs in bulk, manage presets, and export directly to CSV.",
     "icon": "🔗",
     "href": "/tools/bulk-utm-builder",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "ambient-sound-mixer",
