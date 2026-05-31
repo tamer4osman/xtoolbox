@@ -2077,5 +2077,14 @@
     "icon": "🕵️",
     "href": "/tools/log-anonymizer",
     "status": "done"
+  },
+  {
+    "id": "web-asset-extractor",
+    "name": "Website Asset Extractor",
+    "category": "dev",
+    "description": "Extract SVG nodes, image links, stylesheets, and custom web fonts from pasted raw HTML code.",
+    "icon": "📦",
+    "href": "/tools/web-asset-extractor",
+    "status": "done"
   }
 ]

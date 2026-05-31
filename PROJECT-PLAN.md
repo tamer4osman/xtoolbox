@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 8 | 18 |
-| **Total** | | **231** | |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 9 | 18 |
+| **Total** | | **232** | |
 
-**Status:** 231 professional tools built. Phase 24 in progress (8 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 232 professional tools built. Phase 24 in progress (9 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11158,11 +11158,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Designers want inline SVGs, Google fonts, and stylesheet classes from reference pages.
 
-- [ ] File: `src/tools/dev/web-asset-extractor.js`
-- [ ] Input: Paste raw page source HTML
-- [ ] Logic: Client-side DOMParser parsing structures, extracting inline SVGs, style links, image resources
-- [ ] Output: Catalog of found assets with download and copy actions
-- [ ] SEO: title "Website Asset Extractor — Grab SVGs, Images and Fonts from HTML Source"
+- [x] File: `src/tools/dev/web-asset-extractor.js`
+- [x] Input: Paste raw page source HTML
+- [x] Logic: Client-side DOMParser parsing structures, extracting inline SVGs, style links, image resources
+- [x] Output: Catalog of found assets with download and copy actions
+- [x] SEO: title "Website Asset Extractor — Grab SVGs, Images and Fonts from HTML Source"
 
 ## 24.11 SQL to JSON & Schema Converter
 

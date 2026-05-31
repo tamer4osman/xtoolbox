@@ -2094,7 +2094,7 @@
     "description": "Extract SVG nodes, image links, stylesheets, and custom web fonts from pasted raw HTML code.",
     "icon": "📦",
     "href": "/tools/web-asset-extractor",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "sql-to-json",
