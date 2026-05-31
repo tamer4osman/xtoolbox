@@ -2059,5 +2059,14 @@
     "icon": "🔺",
     "href": "/tools/css-triangle-generator",
     "status": "done"
+  },
+  {
+    "id": "sitemap-visualizer",
+    "name": "Sitemap XML Visualizer",
+    "category": "dev",
+    "description": "Parse and display sitemap.xml files as interactive, collapsible directory tree mind-maps.",
+    "icon": "🌳",
+    "href": "/tools/sitemap-visualizer",
+    "status": "done"
   }
 ]

@@ -2076,7 +2076,7 @@
     "description": "Parse and display sitemap.xml files as interactive, collapsible directory tree mind-maps.",
     "icon": "🌳",
     "href": "/tools/sitemap-visualizer",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "log-anonymizer",

@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 6 | 18 |
-| **Total** | | **229** | |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 7 | 18 |
+| **Total** | | **230** | |
 
-**Status:** 229 professional tools built. Phase 24 in progress (6 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 230 professional tools built. Phase 24 in progress (7 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11138,11 +11138,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Auditing structural page hierarchy from complex sitemap XML code is difficult without a diagram.
 
-- [ ] File: `src/tools/dev/sitemap-visualizer.js`
-- [ ] Input: sitemap.xml file upload or raw xml text paste
-- [ ] Logic: DOMParser parsing URLs into structured node trees, rendering a collapsible directory map
-- [ ] Output: Collapsible tree visual map, audit report
-- [ ] SEO: title "Sitemap XML Visualizer — Interactive Sitemap Mind Map Tool"
+- [x] File: `src/tools/dev/sitemap-visualizer.js`
+- [x] Input: sitemap.xml file upload or raw xml text paste
+- [x] Logic: DOMParser parsing URLs into structured node trees, rendering a collapsible directory map
+- [x] Output: Collapsible tree visual map, audit report
+- [x] SEO: title "Sitemap XML Visualizer — Interactive Sitemap Mind Map Tool"
 
 ## 24.9 Log File Sensitive Data Masker
 
