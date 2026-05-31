@@ -49,9 +49,9 @@ npm run test       # → Playwright tests
 | Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
 | Phase 23: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
-| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (5 done, 13 planned) |
+| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (6 done, 12 planned) |
 
-**Total tools:** 241 unique verified tools (228 built, 13 planned).
+**Total tools:** 241 unique verified tools (229 built, 12 planned).
 
 ## Categories
 
@@ -72,7 +72,7 @@ npm run test       # → Playwright tests
 | Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 27/29 |
 | Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 13 | +5 | **18** | Custom JS | 14/18 |
+| CSS & Web Design | 14 | +4 | **18** | Custom JS | 15/18 |
 | Developer | 10 | +6 | **16** | Custom JS | 10/16 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | — | **8** | Custom JS | ✅ |
@@ -238,7 +238,7 @@ toolbox/
 | 4 | Fluid Typography (CSS Clamp) Generator | `css/css-clamp-generator.js` | `css` | Computes complex algebraic viewport scaling equations for responsive font clamp rules. |
 | 5 | Organic SVG Blob & Wave Generator | `css/svg-blob-generator.js` | `css` | Visual path editor to generate organic SVG vector dividers and blobs offline. |
 | 6 | CSS Neumorphism Studio | `css/neumorphism-generator.js` | `css` | Interactive tool to generate convex, concave, or pressed shadow sets based on a hue luminance offset. |
-| 7 | CSS Pure Triangle Code Generator | `css/css-triangle-generator.js` | `css` | Simple editor to generate CSS border-based triangles in any direction. |
+| 7 | CSS Pure Triangle Code Generator | `css/css-triangle-generator.js` | `css` | Simple editor to generate CSS border-based triangles in any direction. ✅ |
 | 8 | Sitemap XML Visualizer | `dev/sitemap-visualizer.js` | `dev` | Formats and visualizes complex sitemap.xml hierarchies into collapsible tree diagrams. |
 | 9 | Log File Sensitive Data Masker | `dev/log-anonymizer.js` | `dev` | Locally screens server logs using regex to mask IP addresses, tokens, and sensitive keys. |
 | 10 | Website Asset Extractor | `dev/web-asset-extractor.js` | `dev` | Parses pasted HTML markup and extracts inline SVGs, styles, and external fonts for study. |

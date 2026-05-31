@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 5 | 18 |
-| **Total** | | **228** | |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 6 | 18 |
+| **Total** | | **229** | |
 
-**Status:** 228 professional tools built. Phase 24 in progress (5 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 229 professional tools built. Phase 24 in progress (6 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11128,11 +11128,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Constructing CSS triangles with transparent borders is highly counter-intuitive.
 
-- [ ] File: `src/tools/css/css-triangle-generator.js`
-- [ ] Input: Direction selectors, width, height, color picker
-- [ ] Logic: Build style rules with border sizes and colors matching the selected direction
-- [ ] Output: Live responsive preview, copyable HTML/CSS code
-- [ ] SEO: title "CSS Pure Triangle Generator — Minimal Border Triangle Code Maker"
+- [x] File: `src/tools/css/css-triangle-generator.js`
+- [x] Input: Direction selectors, width, height, color picker
+- [x] Logic: Build style rules with border sizes and colors matching the selected direction
+- [x] Output: Live responsive preview, copyable HTML/CSS code
+- [x] SEO: title "CSS Pure Triangle Generator — Minimal Border Triangle Code Maker"
 
 ## 24.8 Sitemap XML Visualizer
 

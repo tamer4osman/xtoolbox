@@ -2067,7 +2067,7 @@
     "description": "Visually construct minimal pure border-based CSS triangles in any direction.",
     "icon": "🔺",
     "href": "/tools/css-triangle-generator",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "sitemap-visualizer",

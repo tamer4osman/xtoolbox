@@ -2050,5 +2050,14 @@
     "icon": "🌊",
     "href": "/tools/svg-blob-generator",
     "status": "done"
+  },
+  {
+    "id": "css-triangle-generator",
+    "name": "CSS Pure Triangle Code Generator",
+    "category": "css",
+    "description": "Visually construct minimal pure border-based CSS triangles in any direction.",
+    "icon": "🔺",
+    "href": "/tools/css-triangle-generator",
+    "status": "done"
   }
 ]
