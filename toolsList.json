@@ -2140,7 +2140,7 @@
     "description": "Create customizable ambient focus soundtracks using 8 high-quality offline loopable sound nodes.",
     "icon": "🎧",
     "href": "/tools/ambient-sound-mixer",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "subtitle-time-shifter",

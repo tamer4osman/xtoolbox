@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 12 | 18 |
-| **Total** | | **235** | |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 13 | 18 |
+| **Total** | | **236** | |
 
-**Status:** 235 professional tools built. Phase 24 in progress (12 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 236 professional tools built. Phase 24 in progress (13 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11208,11 +11208,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Free background noise generators have transitioned to paid subscriptions.
 
-- [ ] File: `src/tools/productivity/ambient-sound-mixer.js`
-- [ ] Logic: Web Audio API offline sound node mixer containing 8 default loopable profiles (Rain, Cafe, Brown Noise, Waves, etc.)
-- [ ] Controls: Individual gain track volume, global timer sleep countdown
-- [ ] Output: Offline ambient player
-- [ ] SEO: title "Ambient Focus Soundboard — Free Background Noise Mixer"
+- [x] File: `src/tools/productivity/ambient-sound-mixer.js`
+- [x] Logic: Web Audio API offline sound node mixer containing 8 default loopable profiles (Rain, Cafe, Brown Noise, Waves, etc.)
+- [x] Controls: Individual gain track volume, global timer sleep countdown
+- [x] Output: Offline ambient player
+- [x] SEO: title "Ambient Focus Soundboard — Free Background Noise Mixer"
 
 ## 24.16 SRT / VTT Subtitle Sync Shifter
 

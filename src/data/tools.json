@@ -2106,5 +2106,15 @@
     "href": "/tools/bulk-utm-builder",
     "keywords": ["utm", "campaign", "tracking", "url", "bulk", "analytics", "marketing"],
     "status": "done"
+  },
+  {
+    "id": "ambient-sound-mixer",
+    "name": "Ambient Focus Soundboard",
+    "category": "productivity",
+    "description": "Create customizable ambient focus soundtracks using 8 high-quality offline loopable sound nodes.",
+    "icon": "🎧",
+    "href": "/tools/ambient-sound-mixer",
+    "keywords": ["ambient", "sound", "noise", "focus", "sleep", "relax", "rain", "cafe"],
+    "status": "done"
   }
 ]
