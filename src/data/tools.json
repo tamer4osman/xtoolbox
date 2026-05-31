@@ -2116,5 +2116,15 @@
     "href": "/tools/ambient-sound-mixer",
     "keywords": ["ambient", "sound", "noise", "focus", "sleep", "relax", "rain", "cafe"],
     "status": "done"
+  },
+  {
+    "id": "neumorphism-generator",
+    "name": "CSS Neumorphism Studio",
+    "category": "css",
+    "description": "Interactive tool to generate convex, concave, or pressed neumorphic shadow sets based on hue luminance offset.",
+    "icon": "🔘",
+    "href": "/tools/neumorphism-generator",
+    "keywords": ["neumorphism", "neumorphic", "soft ui", "css shadows", "convex", "concave", "pressed", "extruded"],
+    "status": "done"
   }
 ]

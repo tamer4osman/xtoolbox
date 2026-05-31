@@ -7,7 +7,7 @@
   { "id": "health", "name": "Health & Personal", "icon": "❤️", "description": "BMI, calorie, ideal weight calculators", "toolCount": 11 },
   { "id": "math", "name": "Math & Converters", "icon": "🔢", "description": "Calculators, unit converters, graph plotter", "toolCount": 10 },
   { "id": "finance", "name": "Finance", "icon": "💰", "description": "Loan, mortgage, SIP, and tax calculators", "toolCount": 9 },
-  { "id": "css", "name": "CSS & Web Design", "icon": "🎨", "description": "Gradient, shadow, grid generators", "toolCount": 13 },
+  { "id": "css", "name": "CSS & Web Design", "icon": "🎨", "description": "Gradient, shadow, grid generators", "toolCount": 15 },
   { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder", "toolCount": 10 },
   { "id": "encoding", "name": "Encoding & Hashing", "icon": "🔐", "description": "UUID, hash, Base64, JWT decoder", "toolCount": 8 },
   { "id": "business", "name": "Business", "icon": "💼", "description": "ROI, profit margin, churn rate calculators", "toolCount": 8 },

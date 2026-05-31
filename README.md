@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (13 done, 5 planned) |
 
-**Total tools:** 241 unique verified tools (236 built, 5 planned).
+**Total tools:** 241 unique verified tools (237 built, 4 planned).
 
 ## Categories
 
@@ -72,7 +72,7 @@ npm run test       # → Playwright tests
 | Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 27/29 |
 | Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 14 | +4 | **18** | Custom JS | 15/18 |
+| CSS & Web Design | 14 | +5 | **19** | Custom JS | 15/19 |
 | Developer | 10 | +5 | **16** | Custom JS | 11/16 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | — | **8** | Custom JS | ✅ |
@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 13 done, 5 planned)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 14 done, 4 planned)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|
@@ -237,7 +237,7 @@ toolbox/
 | 3 | CSS Glassmorphism Studio | `css/glassmorphism-generator.js` | `css` | Interactive studio for generating cross-browser glassmorphism styling with Safari fallbacks. ✅ |
 | 4 | Fluid Typography (CSS Clamp) Generator | `css/css-clamp-generator.js` | `css` | Computes complex algebraic viewport scaling equations for responsive font clamp rules. ✅ |
 | 5 | Organic SVG Blob & Wave Generator | `css/svg-blob-generator.js` | `css` | Visual path editor to generate organic SVG vector dividers and blobs offline. ✅ |
-| 6 | CSS Neumorphism Studio | `css/neumorphism-generator.js` | `css` | Interactive tool to generate convex, concave, or pressed shadow sets based on a hue luminance offset. |
+| 6 | CSS Neumorphism Studio | `css/neumorphism-generator.js` | `css` | Interactive tool to generate convex, concave, or pressed shadow sets based on a hue luminance offset. ✅ |
 | 7 | CSS Pure Triangle Code Generator | `css/css-triangle-generator.js` | `css` | Simple editor to generate CSS border-based triangles in any direction. ✅ |
 | 8 | Sitemap XML Visualizer | `dev/sitemap-visualizer.js` | `dev` | Formats and visualizes complex sitemap.xml hierarchies into collapsible tree diagrams. ✅ |
 | 9 | Log File Sensitive Data Masker | `dev/log-anonymizer.js` | `dev` | Locally screens server logs using regex to mask IP addresses, tokens, and sensitive keys. ✅ |
