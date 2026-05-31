@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 11 | 18 |
-| **Total** | | **234** | |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 12 | 18 |
+| **Total** | | **235** | |
 
-**Status:** 234 professional tools built. Phase 24 in progress (11 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 235 professional tools built. Phase 24 in progress (12 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11057,29 +11057,29 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Existing standard PDF tools draw a black box overlay. This tool provides an interactive page-by-page interface to draw black rectangles manually. Note: visual redaction only — text is hidden but not removed from the content stream.
 
-- [ ] File: `src/tools/pdf/pdf-secure-redact.js`
-- [ ] Library: `pdf-lib` + Canvas API
-- [ ] Input: PDF file upload, text-to-redact query OR bounding box select
-- [ ] Logic:
+- [x] File: `src/tools/pdf/pdf-secure-redact.js`
+- [x] Library: `pdf-lib` + Canvas API
+- [x] Input: PDF file upload, text-to-redact query OR bounding box select
+- [x] Logic:
   - Load PDF, render viewport onto canvas
   - Highlight matches or let user draw boxes
   - Strip selected text parameters from PDF stream or rasterize target coordinates as solid color blocks
-- [ ] Output: Downloadable sanitized PDF with completely un-retrievable text
-- [ ] SEO: title "Secure PDF Redactor — Destructive PDF Sanitizer Client-Side"
+- [x] Output: Downloadable sanitized PDF with completely un-retrievable text
+- [x] SEO: title "Secure PDF Redactor — Destructive PDF Sanitizer Client-Side"
 
 ## 24.2 Page Textbook Splitter
 
 **Why new:** No existing tool splits a single wide landscape A3/double page down the middle into two consecutive portrait documents.
 
-- [ ] File: `src/tools/pdf/textbook-splitter.js`
-- [ ] Library: `pdfjs-dist` + `pdf-lib`
-- [ ] Input: Landscape scanned PDF
-- [ ] Logic:
+- [x] File: `src/tools/pdf/textbook-splitter.js`
+- [x] Library: `pdfjs-dist` + `pdf-lib`
+- [x] Input: Landscape scanned PDF
+- [x] Logic:
   - Render PDF page viewports, detect mid-coordinates
   - Split left and right halves into two separate viewports
   - Reassemble as consecutive portrait pages (Left page 1 → Page 1, Right page 1 → Page 2)
-- [ ] Output: Downloadable portrait PDF
-- [ ] SEO: title "Textbook Splitter — Split Landscape PDF Pages in Half"
+- [x] Output: Downloadable portrait PDF
+- [x] SEO: title "Textbook Splitter — Split Landscape PDF Pages in Half"
 
 ## 24.3 CSS Glassmorphism Studio
 
@@ -11168,11 +11168,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Developers need mock JSON rows from SQL CREATE/INSERT statements during prototyping but fear database schema leaks.
 
-- [ ] File: `src/tools/dev/sql-to-json.js`
-- [ ] Input: SQL query block paste
-- [ ] Logic: Custom line parser reading structures and rows, mapping fields to array objects
-- [ ] Output: Formatted JSON list, JSON schema definitions
-- [ ] SEO: title "SQL to JSON Schema Converter — Secure Offline Database Query Parser"
+- [x] File: `src/tools/dev/sql-to-json.js`
+- [x] Input: SQL query block paste
+- [x] Logic: Custom line parser reading structures and rows, mapping fields to array objects
+- [x] Output: Formatted JSON list, JSON schema definitions
+- [x] SEO: title "SQL to JSON Schema Converter — Secure Offline Database Query Parser"
 
 ## 24.12 Hosts File Configurator
 
