@@ -2136,5 +2136,15 @@
     "href": "/tools/hosts-file-generator",
     "keywords": ["hosts", "hosts file", "local network", "dns", "aliases", "network configuration", "etc hosts"],
     "status": "done"
+  },
+  {
+    "id": "subtitle-time-shifter",
+    "name": "SRT / VTT Subtitle Sync Shifter",
+    "category": "productivity",
+    "description": "Adjust SRT and VTT subtitle timestamps client-side with millisecond accuracy sync offsets.",
+    "icon": "⏱️",
+    "href": "/tools/subtitle-time-shifter",
+    "keywords": ["subtitle", "srt", "vtt", "sync", "timestamp", "shift", "adjust", "subtitles"],
+    "status": "done"
   }
 ]

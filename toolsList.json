@@ -2169,7 +2169,8 @@
     "description": "Adjust SRT and VTT subtitle timestamps client-side with millisecond accuracy sync offsets.",
     "icon": "⏱️",
     "href": "/tools/subtitle-time-shifter",
-    "status": "pending"
+    "keywords": ["subtitle", "srt", "vtt", "sync", "timestamp", "shift", "adjust", "subtitles"],
+    "status": "done"
   },
   {
     "id": "xml-formatter",

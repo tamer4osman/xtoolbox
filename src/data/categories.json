@@ -19,5 +19,5 @@
   { "id": "reference", "name": "Reference", "icon": "📚", "description": "Dictionary, thesaurus, book lookup, holidays", "toolCount": 4 },
   { "id": "visualization", "name": "Data Visualization", "icon": "📊", "description": "Charts, CSV visualizer, JSON viewer", "toolCount": 4 },
   { "id": "weather", "name": "Weather & Location", "icon": "🌤️", "description": "Weather forecasts, IP lookup, sunrise times", "toolCount": 4 },
-  { "id": "productivity", "name": "Productivity", "icon": "⏱️", "description": "Stopwatch, countdown timer, drawing pad", "toolCount": 3 }
+  { "id": "productivity", "name": "Productivity", "icon": "⏱️", "description": "Stopwatch, countdown timer, drawing pad", "toolCount": 4 }
 ]

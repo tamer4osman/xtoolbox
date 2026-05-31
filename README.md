@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (13 done, 5 planned) |
 
-**Total tools:** 241 unique verified tools (238 built, 3 planned).
+**Total tools:** 241 unique verified tools (239 built, 2 planned).
 
 ## Categories
 
@@ -77,7 +77,7 @@ npm run test       # → Playwright tests
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | — | **8** | Custom JS | ✅ |
 | SEO | 6 | +2 | **8** | Custom JS | 6/8 |
-| Productivity | 3 | +3 | **6** | Custom JS | 3/6 |
+| Productivity | 3 | +3 | **6** | Custom JS | 5/6 |
 
 ## Phase 21 Tools (Market Expansion — Complete)
 
@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 15 done, 3 planned)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 17 done, 1 planned)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|
@@ -247,7 +247,7 @@ toolbox/
 | 13 | Security Headers Generator | `dev/security-headers-generator.js` | `dev` | Evaluates site policies and generates secure CSP, HSTS, and referrer headers configurations. ✅ |
 | 14 | Bulk UTM Campaign URL Builder | `seo/bulk-utm-builder.js` | `seo` | Builds multiple tracking URLs at once from lists, supporting presets and CSV export. ✅ |
 | 15 | Ambient Focus Soundboard | `productivity/ambient-sound-mixer.js` | `productivity` | Customizes custom background sounds locally with multi-track loop mixing nodes. ✅ |
-| 16 | SRT / VTT Subtitle Sync Shifter | `productivity/subtitle-time-shifter.js` | `productivity` | Offsets subtitle file timings in bulk via millisecond-level time-shifting regex. |
+| 16 | SRT / VTT Subtitle Sync Shifter | `productivity/subtitle-time-shifter.js` | `productivity` | Offsets subtitle file timings in bulk via millisecond-level time-shifting regex. ✅ |
 | 17 | XML Formatter & Validator | `text/xml-formatter.js` | `text` | Formats, validates, and highlights nested XML content without server transmissions. |
 | 18 | Changelog conventional commit Generator | `text/git-changelog-generator.js` | `text` | Compiles raw git logs into structured release changelogs using Conventional Commit parser keys. |
 
