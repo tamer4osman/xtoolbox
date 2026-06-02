@@ -2176,10 +2176,11 @@
     "id": "xml-formatter",
     "name": "XML Formatter & Validator",
     "category": "text",
-    "description": "Minify, format, and syntax-highlight XML markup with local validation and error tracking.",
+    "description": "Format, validate, and highlight XML markup without server transmissions.",
     "icon": "📝",
     "href": "/tools/xml-formatter",
-    "status": "pending"
+    "keywords": ["xml", "formatter", "validator", "beautifier", "pretty print", "xml validator", "xml formatter"],
+    "status": "done"
   },
   {
     "id": "git-changelog-generator",

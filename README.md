@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (13 done, 5 planned) |
 
-**Total tools:** 241 unique verified tools (239 built, 2 planned).
+**Total tools:** 241 unique verified tools (240 built, 1 planned).
 
 ## Categories
 
@@ -69,7 +69,7 @@ npm run test       # → Playwright tests
 | Finance | 9 | — | **9** | Chart.js | ✅ |
 | Math | 10 | — | **10** | math.js | ✅ |
 | Health | 11 | — | **11** | Custom JS | ✅ |
-| Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 27/29 |
+| Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 28/29 |
 | Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
 | CSS & Web Design | 14 | +5 | **19** | Custom JS | 15/19 |
@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 17 done, 1 planned)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Complete, 18 done, 0 planned)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|
@@ -248,7 +248,7 @@ toolbox/
 | 14 | Bulk UTM Campaign URL Builder | `seo/bulk-utm-builder.js` | `seo` | Builds multiple tracking URLs at once from lists, supporting presets and CSV export. ✅ |
 | 15 | Ambient Focus Soundboard | `productivity/ambient-sound-mixer.js` | `productivity` | Customizes custom background sounds locally with multi-track loop mixing nodes. ✅ |
 | 16 | SRT / VTT Subtitle Sync Shifter | `productivity/subtitle-time-shifter.js` | `productivity` | Offsets subtitle file timings in bulk via millisecond-level time-shifting regex. ✅ |
-| 17 | XML Formatter & Validator | `text/xml-formatter.js` | `text` | Formats, validates, and highlights nested XML content without server transmissions. |
+| 17 | XML Formatter & Validator | `text/xml-formatter.js` | `text` | Formats, validates, and highlights nested XML content without server transmissions. ✅ |
 | 18 | Changelog conventional commit Generator | `text/git-changelog-generator.js` | `text` | Compiles raw git logs into structured release changelogs using Conventional Commit parser keys. |
 
 ### 🧩 Phase 24 Enhancements (to existing tools)
