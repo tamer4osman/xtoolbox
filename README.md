@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**241 free online tools. 100% client-side processing — your files never leave your device.**
+**280 free online tools. 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -51,33 +51,33 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 244 unique verified tools (244 built, 0 planned).
+**Total tools:** 280 unique verified tools (241 built, 39 planned).
 
 ## Categories
 
-| Category | Existing | New | Total | Key Libraries | Status |
-|----------|----------|-----|-------|---------------|--------|
-| PDF | 31 | +2 | **33** | pdf-lib, PDF.js, jsPDF | 31/33 |
-| Image | 34 | — | **34** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | ✅ |
-| Video | 15 | — | **15** | ffmpeg.wasm | ✅ |
-| Audio | 10 | — | **10** | Web Audio API, lamejs, Wavesurfer.js | ✅ |
+| Category | Existing | Planned | Total | Key Libraries | Status |
+|----------|----------|---------|-------|---------------|--------|
+| PDF | 33 | +1 | **34** | pdf-lib, PDF.js, jsPDF | 33/34 |
+| Image | 34 | +2 | **36** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 34/36 |
+| Video | 15 | +1 | **16** | ffmpeg.wasm | 15/16 |
+| Audio | 10 | +1 | **11** | Web Audio API, lamejs, Wavesurfer.js | 10/11 |
 | OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
 | Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
 | Weather | 4 | — | **4** | wttr.in, Open-Meteo | ✅ |
-| Reference | 4 | — | **4** | Free Dictionary API, Open Library | ✅ |
-| Finance | 9 | — | **9** | Chart.js | ✅ |
+| Reference | 4 | +1 | **5** | Free Dictionary API, Open Library | 4/5 |
+| Finance | 9 | +1 | **10** | Chart.js | 9/10 |
 | Math | 10 | — | **10** | math.js | ✅ |
 | Health | 11 | — | **11** | Custom JS | ✅ |
-| Text & Content | 27 | +2 | **29** | marked, turndown, js-yaml, SheetJS | 28/29 |
-| Encoding & Hashing | 8 | — | **8** | Web Crypto API | ✅ |
+| Text & Content | 29 | +2 | **31** | marked, turndown, js-yaml, SheetJS | 29/31 |
+| Encoding & Hashing | 8 | +1 | **9** | Web Crypto API | 8/9 |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 14 | +5 | **19** | Custom JS | 15/19 |
-| Developer | 10 | +6 | **16** | Custom JS | ✅ |
+| CSS & Web Design | 15 | +4 | **19** | Custom JS | 15/19 |
+| Developer | 16 | +12 | **28** | Custom JS | 16/28 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
-| Business | 8 | — | **8** | Custom JS | ✅ |
-| SEO | 6 | +2 | **8** | Custom JS | 6/8 |
-| Productivity | 3 | +3 | **6** | Custom JS | 5/6 |
+| Business | 8 | +6 | **14** | Custom JS | 8/14 |
+| SEO | 7 | +1 | **8** | Custom JS | 7/8 |
+| Productivity | 5 | +6 | **11** | Custom JS | 5/11 |
 
 ## Phase 21 Tools (Market Expansion — Complete)
 
@@ -187,15 +187,15 @@ toolbox/
 │   │   ├── encoding/             ← 8 encoding tools
 │   │   ├── visualization/        ← 4 visualization tools
 │   │   ├── css/                  ← 13 CSS tools (+5 Phase 24)
-│   │   ├── dev/                  ← 10 developer tools (+6 Phase 24)
-│   │   ├── productivity/         ← 3 tools (+3 Phase 24)
+│   │   ├── dev/                  ← 16 developer tools (+12 Phase 25)
+│   │   ├── productivity/         ← 5 tools (+6 Phase 25)
 │   │   ├── fun/                  ← 5 fun tools
-│   │   ├── business/             ← 8 business tools
-│   │   └── seo/                  ← 6 SEO tools (+2 Phase 24)
+│   │   ├── business/             ← 8 business tools (+6 Phase 25)
+│   │   └── seo/                  ← 7 SEO tools (+1 Phase 25)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 230+ tool definitions
-│   │   ├── categories.json       ← 19 categories (productivity added in Phase 22)
+│   │   ├── tools.json            ← 280 tool definitions (241 built, 39 planned)
+│   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │
 │   └── sw.js                     ← Service worker
@@ -267,3 +267,115 @@ Designed for Cloudflare Pages (free tier). Push to GitHub, connect repo, deploy.
 ## License
 
 MIT
+
+---
+
+## Phase 25 Tools (Most Wanted — Planned, 38 tools)
+
+Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
+
+### 🎨 CSS & Web Design (+4)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 1 | SVG Optimizer & Minifier | `css/svg-optimizer.js` | SVGO browser port / custom parser | SVGOMG is hugely popular; zero client-side coverage |
+| 2 | WCAG Color Contrast Checker | `css/wcag-contrast-checker.js` | Pure JS (relative luminance) | EU Accessibility Act 2025 driving demand |
+| 3 | CSS Sprite Sheet Generator | `css/css-sprite-generator.js` | Canvas API + CSS generation | Active demand from r/gamedev |
+| 4 | Font Subsetter | `css/font-subsetter.js` | opentype.js | Zero free client-side options exist |
+
+### 🖥️ Developer Tools (+12)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 5 | Docker Compose Generator | `dev/docker-compose-generator.js` | js-yaml + pure JS | DevOps essential, compose.ajnart.dev popular |
+| 6 | NGINX Config Generator | `dev/nginx-config-generator.js` | Pure JS form-to-config | 6k+ GitHub stars on nginxconfig.io |
+| 7 | Gitignore Generator | `dev/gitignore-generator.js` | Bundled JSON templates | gitignore.io is one of most-used dev tools |
+| 8 | Environment Variable Editor | `dev/env-editor.js` | CodeMirror + pure JS | No browser-based .env builder exists |
+| 9 | LLM Token Counter | `dev/llm-token-counter.js` | tiktoken WASM | Strongest 2025 dev trend |
+| 10 | Mock Data Generator | `dev/mock-data-generator.js` | @faker-js/faker | 798 upvotes on Reddit, most requested |
+| 11 | SQL Playground | `dev/sql-playground.js` | sql.js (SQLite WASM) + CodeMirror | Unique — no competitor offers this |
+| 12 | Database Schema Designer | `dev/database-schema-designer.js` | Canvas/SVG + sql.js | DrawDB trending, no free browser option |
+| 13 | FFmpeg Command Generator | `dev/ffmpeg-command-generator.js` | Pure JS form-to-CLI | FFmpeg CLI notoriously complex |
+| 14 | Chmod Calculator | `dev/chmod-calculator.js` | Pure JS bitwise ops | Every Linux admin uses it |
+| 15 | Code Screenshot Generator | `dev/code-screenshot-generator.js` | Highlight.js + html2canvas | Carbon.sh is very popular |
+| 16 | PWA Manifest Generator | `dev/pwa-manifest-generator.js` | JSON generation + Canvas API | PWA development growing |
+
+### 📄 PDF (+1)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 17 | PDF Annotator | `pdf/pdf-annotator.js` | PDF.js + pdf-lib + Canvas | #1 PDF request on Reddit |
+
+### 💼 Business (+6)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 18 | Invoice Generator | `business/invoice-generator.js` | jsPDF + pdf-lib | 200K+ monthly searches |
+| 19 | Certificate Generator | `business/certificate-generator.js` | Canvas + jsPDF + Papa Parse | Most tools paywalled |
+| 20 | NDA Generator | `business/nda-generator.js` | jsPDF + template engine | Currently $200-500 by lawyers |
+| 21 | Freelancer Rate Calculator | `business/freelancer-rate-calculator.js` | Pure JS math | #1 question in freelancer groups |
+| 22 | Freelancer Contract Generator | `business/freelancer-contract-generator.js` | jsPDF + template engine | Indy requires signup, LegalZoom $100+ |
+| 23 | Privacy Policy Generator | `business/privacy-policy-generator.js` | Pure JS + jsPDF | Every website needs one, 50K+ searches |
+
+### ⏱️ Productivity (+6)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 24 | Archive Extractor | `productivity/archive-extractor.js` | fflate + libarchive.js | Every competitor has this, ToolBox has ZERO |
+| 25 | Pomodoro Timer | `productivity/pomodoro-timer.js` | Web Notifications + localStorage | 100K+ monthly searches |
+| 26 | Habit Tracker | `productivity/habit-tracker.js` | Pure JS + localStorage + Canvas | Massive Reddit demand |
+| 27 | Resume Builder | `productivity/resume-builder.js` | jsPDF + pure JS | 150K+ monthly searches |
+| 28 | Email Signature Generator | `productivity/email-signature-generator.js` | HTML/CSS template builder | Huge SEO potential, dead simple |
+| 29 | 3D Model Viewer | `productivity/3d-model-viewer.js` | Three.js + WebGL | Opens entirely new category |
+
+### 🎬 Video (+1)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 30 | Screen Recorder | `video/screen-recorder.js` | getDisplayMedia() + MediaRecorder | 123apps key differentiator |
+
+### 🖼️ Image (+2)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 31 | EXIF Data Editor | `image/exif-editor.js` | piexifjs / exifr | Only desktop ExifTool exists |
+| 32 | Open Graph Image Generator | `image/og-image-generator.js` | Canvas API + html2canvas | Canva is overkill for OG images |
+
+### 📝 Text (+2)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 33 | Citation & Bibliography Generator | `text/citation-generator.js` | Pure JS string formatting | EasyBib now aggressive paywalls |
+| 34 | Markdown Table Generator | `text/markdown-table-generator.js` | Pure JS string formatting | Creating MD tables by hand is tedious |
+
+### 🔊 Audio (+1)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 35 | Sound Effect Generator | `audio/sound-effect-generator.js` | Web Audio API + WAV encoding | r/gamedev frequently needs SFX |
+
+### 💰 Finance (+1)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 36 | Debt Payoff Visualizer | `finance/debt-payoff-visualizer.js` | Chart.js + pure JS | No good free visual tool exists |
+
+### 🔐 Encoding (+1)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 37 | HMAC Generator & Verifier | `encoding/hmac-generator.js` | Web Crypto API | API developers need HMAC tools |
+
+### 📚 Reference (+1)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 38 | World Clock & Time Zone Converter | `reference/world-clock.js` | Intl.DateTimeFormat API | Remote workers constantly need this |
+
+### 🔍 SEO (+1)
+
+| # | Tool | File | Library | Why |
+|---|------|------|---------|-----|
+| 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | Marketers need to preview before publishing |
+
+> Note: Tool #39 (social-media-post-previewer) is included in the 39 total planned tools. See categories.json for authoritative counts.

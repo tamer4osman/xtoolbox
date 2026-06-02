@@ -2176,5 +2176,395 @@
     "href": "/tools/git-changelog-generator",
     "keywords": ["git", "changelog", "commit", "release", "conventional", "markdown"],
     "status": "done"
+  },
+  {
+    "id": "svg-optimizer",
+    "name": "SVG Optimizer & Minifier",
+    "category": "css",
+    "description": "Optimize and minify SVG files by removing metadata, comments, editor data, and redundant code.",
+    "icon": "✨",
+    "href": "/tools/svg-optimizer",
+    "keywords": ["svg", "optimizer", "minifier", "svgomg", "compress", "svg optimization"],
+    "status": "planned"
+  },
+  {
+    "id": "wcag-contrast-checker",
+    "name": "WCAG Color Contrast Checker",
+    "category": "css",
+    "description": "Check color contrast ratios against WCAG 2.1 AA/AAA standards.",
+    "icon": "♿",
+    "href": "/tools/wcag-contrast-checker",
+    "keywords": ["wcag", "contrast", "accessibility", "color", "a11y", "aa", "aaa"],
+    "status": "planned"
+  },
+  {
+    "id": "css-sprite-generator",
+    "name": "CSS Sprite Sheet Generator",
+    "category": "css",
+    "description": "Upload multiple images and generate a CSS sprite sheet with corresponding CSS background-position rules.",
+    "icon": "🧩",
+    "href": "/tools/css-sprite-generator",
+    "keywords": ["css", "sprite", "spritesheet", "background", "image", "generator"],
+    "status": "planned"
+  },
+  {
+    "id": "font-subsetter",
+    "name": "Font Subsetter",
+    "category": "css",
+    "description": "Upload web fonts and subset them to only the glyphs you need. Supports language presets and custom Unicode ranges.",
+    "icon": "🔤",
+    "href": "/tools/font-subsetter",
+    "keywords": ["font", "subset", "woff", "woff2", "ttf", "otf", "glyphs"],
+    "status": "planned"
+  },
+  {
+    "id": "docker-compose-generator",
+    "name": "Docker Compose Generator",
+    "category": "dev",
+    "description": "Visually build docker-compose.yml files with services, ports, volumes, networks, and environment variables.",
+    "icon": "🐳",
+    "href": "/tools/docker-compose-generator",
+    "keywords": ["docker", "compose", "yaml", "containers", "devops", "services"],
+    "status": "planned"
+  },
+  {
+    "id": "nginx-config-generator",
+    "name": "NGINX Config Generator",
+    "category": "dev",
+    "description": "Generate optimized NGINX server configurations visually with domains, SSL, caching, and reverse proxy.",
+    "icon": "⚙️",
+    "href": "/tools/nginx-config-generator",
+    "keywords": ["nginx", "config", "server", "ssl", "reverse proxy", "caching"],
+    "status": "planned"
+  },
+  {
+    "id": "gitignore-generator",
+    "name": "Gitignore Generator",
+    "category": "dev",
+    "description": "Generate .gitignore files by selecting project types, languages, IDEs, and OS combinations.",
+    "icon": "🙈",
+    "href": "/tools/gitignore-generator",
+    "keywords": ["gitignore", "git", "ignore", "template", "project"],
+    "status": "planned"
+  },
+  {
+    "id": "env-editor",
+    "name": "Environment Variable (.env) Editor",
+    "category": "dev",
+    "description": "Visual editor for .env files with parse, edit, validate, and syntax highlighting.",
+    "icon": "🔧",
+    "href": "/tools/env-editor",
+    "keywords": ["env", "environment", "dotenv", "variables", "editor", "config"],
+    "status": "planned"
+  },
+  {
+    "id": "llm-token-counter",
+    "name": "LLM Token Counter",
+    "category": "dev",
+    "description": "Count tokens for GPT-4, Claude, Gemini, and Llama models with cost estimates.",
+    "icon": "🤖",
+    "href": "/tools/llm-token-counter",
+    "keywords": ["llm", "token", "counter", "gpt", "claude", "gemini", "tiktoken"],
+    "status": "planned"
+  },
+  {
+    "id": "mock-data-generator",
+    "name": "Mock Data Generator",
+    "category": "dev",
+    "description": "Generate realistic fake data (names, emails, addresses) in JSON, CSV, SQL, and TypeScript formats.",
+    "icon": "🎲",
+    "href": "/tools/mock-data-generator",
+    "keywords": ["mock", "data", "fake", "generator", "test", "faker"],
+    "status": "planned"
+  },
+  {
+    "id": "sql-playground",
+    "name": "SQL Playground",
+    "category": "dev",
+    "description": "Write and execute SQL queries in the browser using SQLite compiled to WASM.",
+    "icon": "🗃️",
+    "href": "/tools/sql-playground",
+    "keywords": ["sql", "sqlite", "playground", "query", "database", "wasm"],
+    "status": "planned"
+  },
+  {
+    "id": "database-schema-designer",
+    "name": "Database Schema Designer",
+    "category": "dev",
+    "description": "Visual drag-and-drop ER diagram editor with tables, columns, relationships, and SQL export.",
+    "icon": "🗄️",
+    "href": "/tools/database-schema-designer",
+    "keywords": ["database", "schema", "erd", "designer", "diagram", "sql"],
+    "status": "planned"
+  },
+  {
+    "id": "ffmpeg-command-generator",
+    "name": "FFmpeg Command Generator",
+    "category": "dev",
+    "description": "Build FFmpeg commands visually with input/output formats, codecs, filters, and presets.",
+    "icon": "🎬",
+    "href": "/tools/ffmpeg-command-generator",
+    "keywords": ["ffmpeg", "command", "video", "audio", "convert", "codec"],
+    "status": "planned"
+  },
+  {
+    "id": "chmod-calculator",
+    "name": "Chmod Calculator",
+    "category": "dev",
+    "description": "Visual chmod permission calculator with octal, symbolic notation, and reverse lookup.",
+    "icon": "🔑",
+    "href": "/tools/chmod-calculator",
+    "keywords": ["chmod", "permission", "linux", "unix", "octal", "calculator"],
+    "status": "planned"
+  },
+  {
+    "id": "code-screenshot-generator",
+    "name": "Code Screenshot Generator",
+    "category": "dev",
+    "description": "Create beautiful code screenshots for social media with syntax highlighting and custom themes.",
+    "icon": "📸",
+    "href": "/tools/code-screenshot-generator",
+    "keywords": ["code", "screenshot", "carbon", "syntax", "highlight", "social"],
+    "status": "planned"
+  },
+  {
+    "id": "pwa-manifest-generator",
+    "name": "PWA Manifest Generator",
+    "category": "dev",
+    "description": "Generate manifest.json files for Progressive Web Apps with icons, theme colors, and shortcuts.",
+    "icon": "📱",
+    "href": "/tools/pwa-manifest-generator",
+    "keywords": ["pwa", "manifest", "progressive", "web", "app", "icons"],
+    "status": "planned"
+  },
+  {
+    "id": "pdf-annotator",
+    "name": "PDF Annotator",
+    "category": "pdf",
+    "description": "Highlight text, add comments, draw shapes, and type text directly on PDF pages.",
+    "icon": "🖍️",
+    "href": "/tools/pdf-annotator",
+    "keywords": ["pdf", "annotate", "highlight", "comment", "markup", "draw"],
+    "status": "planned"
+  },
+  {
+    "id": "invoice-generator",
+    "name": "Invoice Generator",
+    "category": "business",
+    "description": "Create professional invoices with line items, taxes, discounts, and payment terms. Export as PDF.",
+    "icon": "🧾",
+    "href": "/tools/invoice-generator",
+    "keywords": ["invoice", "generator", "business", "freelance", "pdf", "billing"],
+    "status": "planned"
+  },
+  {
+    "id": "certificate-generator",
+    "name": "Certificate Generator",
+    "category": "business",
+    "description": "Generate customized certificates from templates with recipient name, date, and custom text.",
+    "icon": "📜",
+    "href": "/tools/certificate-generator",
+    "keywords": ["certificate", "award", "completion", "template", "pdf"],
+    "status": "planned"
+  },
+  {
+    "id": "nda-generator",
+    "name": "NDA Generator",
+    "category": "business",
+    "description": "Generate Non-Disclosure Agreements customized for unilateral/mutual situations.",
+    "icon": "📜",
+    "href": "/tools/nda-generator",
+    "keywords": ["nda", "non-disclosure", "agreement", "legal", "contract"],
+    "status": "planned"
+  },
+  {
+    "id": "freelancer-rate-calculator",
+    "name": "Freelancer Rate Calculator",
+    "category": "business",
+    "description": "Calculate optimal hourly/daily/project rates based on income, expenses, and billable hours.",
+    "icon": "💵",
+    "href": "/tools/freelancer-rate-calculator",
+    "keywords": ["freelancer", "rate", "calculator", "hourly", "salary", "income"],
+    "status": "planned"
+  },
+  {
+    "id": "freelancer-contract-generator",
+    "name": "Freelancer Contract Generator",
+    "category": "business",
+    "description": "Generate freelance service contracts with scope, payment terms, deliverables, and IP ownership.",
+    "icon": "📝",
+    "href": "/tools/freelancer-contract-generator",
+    "keywords": ["freelancer", "contract", "agreement", "scope", "payment", "legal"],
+    "status": "planned"
+  },
+  {
+    "id": "privacy-policy-generator",
+    "name": "Privacy Policy Generator",
+    "category": "business",
+    "description": "Generate privacy policy documents for websites and apps with GDPR/CCPA compliance.",
+    "icon": "🔒",
+    "href": "/tools/privacy-policy-generator",
+    "keywords": ["privacy", "policy", "gdpr", "ccpa", "legal", "compliance"],
+    "status": "planned"
+  },
+  {
+    "id": "archive-extractor",
+    "name": "Archive Extractor",
+    "category": "productivity",
+    "description": "Extract files from ZIP, RAR, 7Z, TAR, GZ, and BZ2 archives directly in the browser.",
+    "icon": "📦",
+    "href": "/tools/archive-extractor",
+    "keywords": ["archive", "extract", "zip", "rar", "7z", "tar", "gzip"],
+    "status": "planned"
+  },
+  {
+    "id": "pomodoro-timer",
+    "name": "Pomodoro Timer",
+    "category": "productivity",
+    "description": "Focus timer with customizable work/break intervals, task list, and session history.",
+    "icon": "🍅",
+    "href": "/tools/pomodoro-timer",
+    "keywords": ["pomodoro", "timer", "focus", "productivity", "study", "work"],
+    "status": "planned"
+  },
+  {
+    "id": "habit-tracker",
+    "name": "Habit Tracker",
+    "category": "productivity",
+    "description": "GitHub-style contribution graph for daily habits with streak tracking and heatmaps.",
+    "icon": "📅",
+    "href": "/tools/habit-tracker",
+    "keywords": ["habit", "tracker", "streak", "heatmap", "productivity", "goals"],
+    "status": "planned"
+  },
+  {
+    "id": "resume-builder",
+    "name": "Resume Builder",
+    "category": "productivity",
+    "description": "Build professional resumes with section-based editor and ATS-friendly templates. Export as PDF.",
+    "icon": "📄",
+    "href": "/tools/resume-builder",
+    "keywords": ["resume", "cv", "builder", "job", "template", "pdf"],
+    "status": "planned"
+  },
+  {
+    "id": "screen-recorder",
+    "name": "Screen Recorder",
+    "category": "video",
+    "description": "Record browser tab or screen using Screen Capture API. Export as WebM video.",
+    "icon": "🖥️",
+    "href": "/tools/screen-recorder",
+    "keywords": ["screen", "record", "capture", "video", "webm", "browser"],
+    "status": "planned"
+  },
+  {
+    "id": "exif-editor",
+    "name": "EXIF Data Editor",
+    "category": "image",
+    "description": "Batch edit EXIF metadata (dates, GPS, camera info, copyright) in JPEG and TIFF images.",
+    "icon": "📷",
+    "href": "/tools/exif-editor",
+    "keywords": ["exif", "metadata", "photo", "gps", "camera", "editor"],
+    "status": "planned"
+  },
+  {
+    "id": "og-image-generator",
+    "name": "Open Graph Image Generator",
+    "category": "image",
+    "description": "Create social media preview images with text overlays, gradients, and backgrounds.",
+    "icon": "🖼️",
+    "href": "/tools/og-image-generator",
+    "keywords": ["og", "open-graph", "social", "preview", "twitter", "image"],
+    "status": "planned"
+  },
+  {
+    "id": "citation-generator",
+    "name": "Citation & Bibliography Generator",
+    "category": "text",
+    "description": "Generate formatted citations in APA, MLA, Chicago, Harvard, and IEEE styles.",
+    "icon": "📚",
+    "href": "/tools/citation-generator",
+    "keywords": ["citation", "bibliography", "apa", "mla", "chicago", "harvard"],
+    "status": "planned"
+  },
+  {
+    "id": "markdown-table-generator",
+    "name": "Markdown Table Generator",
+    "category": "text",
+    "description": "Visually create and edit Markdown tables with a spreadsheet-like interface.",
+    "icon": "📋",
+    "href": "/tools/markdown-table-generator",
+    "keywords": ["markdown", "table", "generator", "editor", "spreadsheet"],
+    "status": "planned"
+  },
+  {
+    "id": "sound-effect-generator",
+    "name": "Sound Effect Generator",
+    "category": "audio",
+    "description": "Generate retro game sound effects using the Web Audio API. Export as WAV.",
+    "icon": "🎮",
+    "href": "/tools/sound-effect-generator",
+    "keywords": ["sound", "effect", "sfx", "game", "retro", "wav"],
+    "status": "planned"
+  },
+  {
+    "id": "email-signature-generator",
+    "name": "Email Signature Generator",
+    "category": "productivity",
+    "description": "Create professional email signatures with photo, social links, and custom styling.",
+    "icon": "✉️",
+    "href": "/tools/email-signature-generator",
+    "keywords": ["email", "signature", "professional", "html", "gmail", "outlook"],
+    "status": "planned"
+  },
+  {
+    "id": "debt-payoff-visualizer",
+    "name": "Debt Payoff Visualizer",
+    "category": "finance",
+    "description": "Visualize debt payoff strategies (snowball vs avalanche) with timeline and interest charts.",
+    "icon": "📉",
+    "href": "/tools/debt-payoff-visualizer",
+    "keywords": ["debt", "payoff", "snowball", "avalanche", "finance", "interest"],
+    "status": "planned"
+  },
+  {
+    "id": "hmac-generator",
+    "name": "HMAC Generator & Verifier",
+    "category": "encoding",
+    "description": "Generate and verify HMAC signatures using SHA-1, SHA-256, SHA-384, SHA-512 algorithms.",
+    "icon": "🔐",
+    "href": "/tools/hmac-generator",
+    "keywords": ["hmac", "signature", "sha256", "sha512", "security", "webhook"],
+    "status": "planned"
+  },
+  {
+    "id": "world-clock",
+    "name": "World Clock & Time Zone Converter",
+    "category": "reference",
+    "description": "Compare current times across multiple time zones and find optimal meeting times.",
+    "icon": "🌐",
+    "href": "/tools/world-clock",
+    "keywords": ["world", "clock", "timezone", "time", "converter", "meeting"],
+    "status": "planned"
+  },
+  {
+    "id": "social-media-post-previewer",
+    "name": "Social Media Post Previewer",
+    "category": "seo",
+    "description": "Preview how content will look when shared on X, Facebook, LinkedIn, and Instagram.",
+    "icon": "👁️",
+    "href": "/tools/social-media-post-previewer",
+    "keywords": ["social", "media", "preview", "twitter", "facebook", "linkedin"],
+    "status": "planned"
+  },
+  {
+    "id": "3d-model-viewer",
+    "name": "3D Model Viewer",
+    "category": "productivity",
+    "description": "Drag-and-drop 3D model viewer supporting glTF, GLB, OBJ, and STL formats.",
+    "icon": "🧊",
+    "href": "/tools/3d-model-viewer",
+    "keywords": ["3d", "model", "viewer", "gltf", "obj", "stl", "webgl"],
+    "status": "planned"
   }
 ]

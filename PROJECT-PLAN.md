@@ -1,6 +1,6 @@
 # 🛠️ Client-Side Tool Website — DETAILED Project Plan
 
-> **Goal:** 240+ professional tools, 100% client-side, monetized with Google AdSense
+> **Goal:** 280+ professional tools, 100% client-side, monetized with Google AdSense
 > **Stack:** Vite + Vanilla JS + WASM libraries
 > **Hosting:** Cloudflare Pages (free tier)
 > **Cost:** ~$10/year (domain only)
@@ -37,9 +37,10 @@
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
 | Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
-| **Total** | | **244** | |
+| Phase 25: Most Wanted (Planned) | 📋 | 0 | 39 |
+| **Total** | | **280** | |
 
-**Status:** 240 professional tools built. Phase 24 in progress (17 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 241 professional tools built. 39 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
 
 ---
 
@@ -11293,3 +11294,119 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - `seo`: 7 tools (6 original + 1 Phase 24, +1 enhancement)
 - `text`: 29 tools (27 original + 2 Phase 24)
 - `productivity`: 5 tools (3 original + 2 Phase 24, +1 enhancement)
+
+---
+
+## Phase 25: Most Wanted Tools (Planned — 38 tools)
+
+**Source:** `mostWantedTools.json` — Tools most requested by users across Reddit, Hacker News, X.com, dev.to, and ProductHunt.
+
+**Why:** These tools were identified by search agents as having the highest demand and zero free client-side alternatives. They fill the biggest gaps in the current toolset.
+
+### 🎨 CSS & Web Design (4 tools)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 1 | SVG Optimizer & Minifier | `css/svg-optimizer.js` | SVGO browser port / custom parser | very-high | SVGOMG hugely popular; zero client-side coverage |
+| 2 | WCAG Color Contrast Checker | `css/wcag-contrast-checker.js` | Pure JS (relative luminance) | very-high | EU Accessibility Act 2025; WebAIM is top dev tool |
+| 3 | CSS Sprite Sheet Generator | `css/css-sprite-generator.js` | Canvas API + CSS generation | very-high | Active demand from r/gamedev |
+| 4 | Font Subsetter | `css/font-subsetter.js` | opentype.js | high | Zero free client-side options exist |
+
+### 🖥️ Developer Tools (12 tools)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 5 | Docker Compose Generator | `dev/docker-compose-generator.js` | js-yaml + pure JS | very-high | compose.ajnart.dev popular; DevOps essential |
+| 6 | NGINX Config Generator | `dev/nginx-config-generator.js` | Pure JS form-to-config | very-high | 6k+ GitHub stars on nginxconfig.io |
+| 7 | Gitignore Generator | `dev/gitignore-generator.js` | Bundled JSON templates | very-high | gitignore.io is most-used dev tool |
+| 8 | Environment Variable Editor | `dev/env-editor.js` | CodeMirror + pure JS | very-high | No browser-based .env builder exists |
+| 9 | LLM Token Counter | `dev/llm-token-counter.js` | tiktoken WASM | high | Strongest 2025 dev trend |
+| 10 | Mock Data Generator | `dev/mock-data-generator.js` | @faker-js/faker | very-high | 798 upvotes on Reddit; most requested |
+| 11 | SQL Playground | `dev/sql-playground.js` | sql.js (SQLite WASM) + CodeMirror | high | Unique — no competitor offers this |
+| 12 | Database Schema Designer | `dev/database-schema-designer.js` | Canvas/SVG + sql.js | high | DrawDB trending; no free browser option |
+| 13 | FFmpeg Command Generator | `dev/ffmpeg-command-generator.js` | Pure JS form-to-CLI | very-high | FFmpeg CLI notoriously complex |
+| 14 | Chmod Calculator | `dev/chmod-calculator.js` | Pure JS bitwise ops | very-high | Every Linux admin uses it |
+| 15 | Code Screenshot Generator | `dev/code-screenshot-generator.js` | Highlight.js + html2canvas | very-high | Carbon.sh is very popular |
+| 16 | PWA Manifest Generator | `dev/pwa-manifest-generator.js` | JSON generation + Canvas API | very-high | PWA development growing |
+
+### 📄 PDF (1 tool)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 17 | PDF Annotator | `pdf/pdf-annotator.js` | PDF.js + pdf-lib + Canvas | high | #1 PDF request on Reddit |
+
+### 💼 Business (6 tools)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 18 | Invoice Generator | `business/invoice-generator.js` | jsPDF + pdf-lib | high | 200K+ monthly searches |
+| 19 | Certificate Generator | `business/certificate-generator.js` | Canvas + jsPDF + Papa Parse | high | Most tools paywalled |
+| 20 | NDA Generator | `business/nda-generator.js` | jsPDF + template engine | very-high | Currently $200-500 by lawyers |
+| 21 | Freelancer Rate Calculator | `business/freelancer-rate-calculator.js` | Pure JS math | very-high | #1 question in freelancer groups |
+| 22 | Freelancer Contract Generator | `business/freelancer-contract-generator.js` | jsPDF + template engine | very-high | Indy requires signup; LegalZoom $100+ |
+| 23 | Privacy Policy Generator | `business/privacy-policy-generator.js` | Pure JS + jsPDF | very-high | Every website needs one; 50K+ searches |
+
+### ⏱️ Productivity (6 tools)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 24 | Archive Extractor | `productivity/archive-extractor.js` | fflate + libarchive.js | high | Every competitor has this; ToolBox has ZERO |
+| 25 | Pomodoro Timer | `productivity/pomodoro-timer.js` | Web Notifications + localStorage | very-high | 100K+ monthly searches |
+| 26 | Habit Tracker | `productivity/habit-tracker.js` | Pure JS + localStorage + Canvas | very-high | Massive Reddit demand |
+| 27 | Resume Builder | `productivity/resume-builder.js` | jsPDF + pure JS | high | 150K+ monthly searches |
+| 28 | Email Signature Generator | `productivity/email-signature-generator.js` | HTML/CSS template builder | very-high | Huge SEO potential; dead simple |
+| 29 | 3D Model Viewer | `productivity/3d-model-viewer.js` | Three.js + WebGL | high | Opens entirely new category |
+
+### 🎬 Video (1 tool)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 30 | Screen Recorder | `video/screen-recorder.js` | getDisplayMedia() + MediaRecorder | high | 123apps key differentiator |
+
+### 🖼️ Image (2 tools)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 31 | EXIF Data Editor | `image/exif-editor.js` | piexifjs / exifr | very-high | Only desktop ExifTool exists |
+| 32 | Open Graph Image Generator | `image/og-image-generator.js` | Canvas API + html2canvas | very-high | Canva is overkill for OG images |
+
+### 📝 Text (2 tools)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 33 | Citation & Bibliography Generator | `text/citation-generator.js` | Pure JS string formatting | very-high | EasyBib now aggressive paywalls |
+| 34 | Markdown Table Generator | `text/markdown-table-generator.js` | Pure JS string formatting | very-high | Creating MD tables by hand is tedious |
+
+### 🔊 Audio (1 tool)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 35 | Sound Effect Generator | `audio/sound-effect-generator.js` | Web Audio API + WAV encoding | very-high | r/gamedev frequently needs SFX |
+
+### 💰 Finance (1 tool)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 36 | Debt Payoff Visualizer | `finance/debt-payoff-visualizer.js` | Chart.js + pure JS | very-high | No good free visual tool exists |
+
+### 🔐 Encoding (1 tool)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 37 | HMAC Generator & Verifier | `encoding/hmac-generator.js` | Web Crypto API | very-high | API developers need HMAC tools |
+
+### 📚 Reference (1 tool)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 38 | World Clock & Time Zone Converter | `reference/world-clock.js` | Intl.DateTimeFormat API | very-high | Remote workers constantly need this |
+
+### 🔍 SEO (1 tool)
+
+| # | Task | File | Library | Client Feasibility | Demand Evidence |
+|---|------|------|---------|-------------------|-----------------|
+| 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | very-high | Marketers need to preview before publishing |
+
+**Total Phase 25:** 39 tools planned.
+
+**After Phase 25:** 280 tools built (241 existing + 39 planned), across 21 categories.
