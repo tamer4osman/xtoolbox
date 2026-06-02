@@ -58,22 +58,68 @@ describe('xml-formatter', () => {
   });
 
   describe('highlightXml', () => {
+    it('produces well-formed DOM that parses without error', () => {
+      const xml = '<root attr="value">text</root>';
+      const fragment = highlightXml(xml);
+      const container = document.createElement('div');
+      container.appendChild(fragment);
+      expect(container.textContent).toContain('root');
+      expect(container.textContent).toContain('attr');
+      expect(container.textContent).toContain('value');
+      expect(container.textContent).toContain('text');
+    });
+
+    it('does not produce broken or nested span tags', () => {
+      const xml = '<root attr="value">text &amp; more</root>';
+      const fragment = highlightXml(xml);
+      const container = document.createElement('div');
+      container.appendChild(fragment);
+      const spans = container.querySelectorAll('span');
+      expect(spans.length).toBeGreaterThan(0);
+      spans.forEach(span => {
+        expect(span.querySelectorAll('span').length).toBe(0);
+      });
+    });
+
     it('highlights tag names', () => {
       const xml = '<root>text</root>';
-      const highlighted = highlightXml(xml);
-      expect(highlighted).toContain('color:#e06c75;');
+      const fragment = highlightXml(xml);
+      const container = document.createElement('div');
+      container.appendChild(fragment);
+      const spans = Array.from(container.querySelectorAll('span'));
+      const tagSpan = spans.find(s => s.textContent.includes('root'));
+      expect(tagSpan).toBeTruthy();
+      expect(tagSpan.style.color).toBeTruthy();
     });
 
-    it('highlights attributes', () => {
+    it('highlights attribute names', () => {
       const xml = '<root attr="value">';
-      const highlighted = highlightXml(xml);
-      expect(highlighted).toContain('color:#d19a66;');
+      const fragment = highlightXml(xml);
+      const container = document.createElement('div');
+      container.appendChild(fragment);
+      const spans = Array.from(container.querySelectorAll('span'));
+      const attrSpan = spans.find(s => s.textContent.includes('attr'));
+      expect(attrSpan).toBeTruthy();
+      expect(attrSpan.style.color).toBeTruthy();
     });
 
-    it('escapes HTML entities', () => {
-      const xml = '<root>a & b</root>';
-      const highlighted = highlightXml(xml);
-      expect(highlighted).toContain('&amp;');
+    it('highlights attribute values', () => {
+      const xml = '<root attr="value">';
+      const fragment = highlightXml(xml);
+      const container = document.createElement('div');
+      container.appendChild(fragment);
+      const spans = Array.from(container.querySelectorAll('span'));
+      const valSpan = spans.find(s => s.textContent.includes('"value"'));
+      expect(valSpan).toBeTruthy();
+      expect(valSpan.style.color).toBeTruthy();
+    });
+
+    it('preserves text content with special characters', () => {
+      const xml = '<root>a &amp; b</root>';
+      const fragment = highlightXml(xml);
+      const container = document.createElement('div');
+      container.appendChild(fragment);
+      expect(container.textContent).toContain('a &amp; b');
     });
   });
 

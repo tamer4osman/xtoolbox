@@ -30,8 +30,9 @@ export function formatXml(xml, indent = 2) {
     
     output += ' '.repeat(currentIndent) + line + '\n';
     
-    // Check for opening tag (not self-closing and not closing)
+    // Check for opening tag (not self-closing, not closing, not comment/CDATA)
     if (line.startsWith('<') && !line.startsWith('</') && !line.startsWith('<?') && 
+        !line.startsWith('<!--') && !line.startsWith('<![CDATA[') &&
         !line.endsWith('/>') && !/<[^/][^>]*\/>/.test(line)) {
       // Check if it's a complete tag with content
       const match = line.match(/^<[^>]+>[^<]*<\/[^>]+>$/);
@@ -57,8 +58,8 @@ export function validateXml(xml) {
     return {
       valid: false,
       error: errorText,
-      line: lineMatch ? parseInt(lineMatch[1]) : null,
-      column: colMatch ? parseInt(colMatch[1]) : null
+      line: lineMatch ? parseInt(lineMatch[1], 10) : null,
+      column: colMatch ? parseInt(colMatch[1], 10) : null
     };
   }
   
@@ -66,16 +67,51 @@ export function validateXml(xml) {
 }
 
 export function highlightXml(xml) {
-  // Simple syntax highlighting
-  return xml
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/(&lt;\/?)([\w:-]+)/g, '$1<span style="color:#e06c75;">$2</span>')
-    .replace(/([\w:-]+)(=)/g, '<span style="color:#d19a66;">$1</span>$2')
-    .replace(/(".*?")/g, '<span style="color:#98c379;">$1</span>')
-    .replace(/(&lt;\?[\s\S]*?\?&gt;)/g, '<span style="color:#7f848e;">$1</span>')
-    .replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span style="color:#7f848e;">$1</span>');
+  const fragment = document.createDocumentFragment();
+  const regex = /(\<\?[\s\S]*?\?\>)|(\<!--[\s\S]*?--\>)|(\<\/?[\w:-]+\/?)|(".*?")|([\w:-]+)(\=)|(\>)/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(xml)) !== null) {
+    if (match.index > lastIndex) {
+      fragment.appendChild(document.createTextNode(xml.slice(lastIndex, match.index)));
+    }
+
+    const [, decl, comment, tag, str, attr, eq, gt] = match;
+
+    if (decl || comment) {
+      const span = document.createElement('span');
+      span.style.color = '#7f848e';
+      span.textContent = decl || comment;
+      fragment.appendChild(span);
+    } else if (tag) {
+      const span = document.createElement('span');
+      span.style.color = '#e06c75';
+      span.textContent = tag;
+      fragment.appendChild(span);
+    } else if (str) {
+      const span = document.createElement('span');
+      span.style.color = '#98c379';
+      span.textContent = str;
+      fragment.appendChild(span);
+    } else if (attr && eq) {
+      const span = document.createElement('span');
+      span.style.color = '#d19a66';
+      span.textContent = attr;
+      fragment.appendChild(span);
+      fragment.appendChild(document.createTextNode(eq));
+    } else {
+      fragment.appendChild(document.createTextNode(match[0]));
+    }
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < xml.length) {
+    fragment.appendChild(document.createTextNode(xml.slice(lastIndex)));
+  }
+
+  return fragment;
 }
 
 export const toolConfig = {
@@ -99,7 +135,7 @@ export function render(container) {
   container.innerHTML = `
     <div class="tool-layout">
       <div class="form-group">
-        <label>XML Input</label>
+        <label for="xf-input">XML Input</label>
         <textarea id="xf-input" class="text-input" rows="12" placeholder="Paste your XML here..." style="font-family:monospace;font-size:var(--text-sm);"></textarea>
       </div>
       
@@ -162,7 +198,8 @@ export function render(container) {
     try {
       const formatted = formatXml(xml);
       currentXml = formatted;
-      output.innerHTML = highlightXml(formatted);
+      output.textContent = '';
+      output.appendChild(highlightXml(formatted));
       showStatus('XML formatted successfully', 'success');
     } catch (e) {
       showStatus(e.message, 'error');

@@ -49,7 +49,7 @@ npm run test       # → Playwright tests
 | Phase 22: Format Converters | ✅ Done (11 tools: pptx-to-pdf, epub-to-pdf, remove-watermark-pdf, png-to-jpg, jpg-to-png, jpg-to-pdf, png-to-pdf, heic-to-jpg, pdf-to-csv, pdf-to-epub, delete-pdf-pages) |
 | Phase 23: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
-| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (13 done, 5 planned) |
+| Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (17 done, 1 planned) |
 
 **Total tools:** 241 unique verified tools (240 built, 1 planned).
 
@@ -228,7 +228,7 @@ toolbox/
 
 ---
 
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Complete, 18 done, 0 planned)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion — In Progress, 17 done, 1 planned)
 
 | # | Tool | File | Category | Confirmed absent because… |
 |---|------|------|----------|--------------------------|

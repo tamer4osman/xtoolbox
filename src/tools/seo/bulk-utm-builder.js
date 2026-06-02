@@ -85,7 +85,8 @@ export function render(container) {
 
   function loadPresets() {
     try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      return Array.isArray(parsed) ? parsed : [];
     } catch { return []; }
   }
 
