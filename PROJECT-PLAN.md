@@ -11293,11 +11293,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - `dev`: 16 tools (10 original + 6 Phase 24)
 - `seo`: 7 tools (6 original + 1 Phase 24, +1 enhancement)
 - `text`: 29 tools (27 original + 2 Phase 24)
-- `productivity`: 5 tools (3 original + 2 Phase 24, +1 enhancement)
+- `productivity`: 5 tools (3 original + 2 Phase 24)
 
 ---
 
-## Phase 25: Most Wanted Tools (Planned — 38 tools)
+## Phase 25: Most Wanted Tools (Planned — 39 tools)
 
 **Source:** `mostWantedTools.json` — Tools most requested by users across Reddit, Hacker News, X.com, dev.to, and ProductHunt.
 
