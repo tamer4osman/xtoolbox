@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 241 built, 39 planned = 280 total
+## Current Status: 242 built, 38 planned = 280 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -8,7 +8,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 
 ### CSS & Web Design (4 planned)
 - [ ] SVG Optimizer & Minifier (`svg-optimizer`)
-- [ ] WCAG Color Contrast Checker (`wcag-contrast-checker`)
+- [x] WCAG Color Contrast Checker (`wcag-contrast-checker`)
 - [ ] CSS Sprite Sheet Generator (`css-sprite-generator`)
 - [ ] Font Subsetter (`font-subsetter`)
 

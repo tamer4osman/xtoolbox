@@ -2195,7 +2195,7 @@
     "icon": "♿",
     "href": "/tools/wcag-contrast-checker",
     "keywords": ["wcag", "contrast", "accessibility", "color", "a11y", "aa", "aaa"],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "css-sprite-generator",

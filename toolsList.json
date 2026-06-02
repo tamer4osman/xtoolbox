@@ -2189,7 +2189,7 @@
     "description": "Check color contrast ratios against WCAG 2.1 AA/AAA standards.",
     "icon": "♿",
     "href": "/tools/wcag-contrast-checker",
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "css-sprite-generator",
