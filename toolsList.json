@@ -2184,11 +2184,11 @@
   },
   {
     "id": "git-changelog-generator",
-    "name": "Changelog conventional commit Generator",
+    "name": "Conventional Commit Changelog Generator",
     "category": "text",
     "description": "Parse conventional git logs and compile beautiful categorized Markdown release changelogs.",
     "icon": "📜",
     "href": "/tools/git-changelog-generator",
-    "status": "pending"
+    "status": "done"
   }
 ]

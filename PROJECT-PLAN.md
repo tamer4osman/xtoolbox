@@ -36,8 +36,8 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | 🏗️ | 17 | 18 |
-| **Total** | | **241** | |
+| Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
+| **Total** | | **244** | |
 
 **Status:** 240 professional tools built. Phase 24 in progress (17 of 18 base tasks done, + 2 enhancements planned).
 
@@ -11262,8 +11262,8 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 | Phase 24.1: PDF & Marketing | 3 (redact, splitter, utm) | ~12h | ✅ |
 | Phase 24.2: CSS Studio | 5 (glass, clamp, blob, neumorph, triangle) | ~15h | ✅ |
 | Phase 24.3: Dev utilities | 6 (sitemap, log, assets, sql, hosts, headers) | ~18h | ✅ |
-| Phase 24.4: Productivity & Text | 3/4 (ambient, subtitle, xml — changelog pending) | ~10h | 🏗️ |
-| **Total** | **17/18** | **~55h** | 🏗️ |
+| Phase 24.4: Productivity & Text | 4/4 (ambient, subtitle, xml, changelog) | ~10h | ✅ |
+| **Total** | **18/18** | **~55h** | ✅ |
 
 ### 🧩 Phase 24 Enhancements (to existing tools)
 
@@ -11285,7 +11285,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Optional: generate vCard QR code that encodes the full VCF text (not just URL)
 - [ ] Show success toast on .vcf download
 
-**After Phase 24:** 242 tools built (1 remaining: git-changelog-generator), across 21 categories.
+**After Phase 24:** 244 tools built (0 remaining), across 21 categories.
 
 - `pdf`: 33 tools (31 original + 2 Phase 24)
 - `css`: 16 tools (14 original + 5 Phase 24)

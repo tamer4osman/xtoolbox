@@ -2166,5 +2166,15 @@
     "href": "/tools/sql-to-json",
     "keywords": ["sql", "json", "schema", "converter", "database", "parser"],
     "status": "done"
+  },
+  {
+    "id": "git-changelog-generator",
+    "name": "Conventional Commit Changelog Generator",
+    "category": "text",
+    "description": "Parse conventional git logs and compile beautiful categorized Markdown release changelogs.",
+    "icon": "📜",
+    "href": "/tools/git-changelog-generator",
+    "keywords": ["git", "changelog", "commit", "release", "conventional", "markdown"],
+    "status": "done"
   }
 ]
