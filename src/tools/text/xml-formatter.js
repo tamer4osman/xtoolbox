@@ -181,7 +181,7 @@ export function render(container) {
     if (result.valid) {
       showStatus('XML is valid (well-formed)', 'success');
     } else {
-      let errorMsg = result.error;
+      let errorMsg = 'Invalid XML: ' + result.error;
       if (result.line) errorMsg += ` (line ${result.line}`;
       if (result.column) errorMsg += `, column ${result.column}`;
       if (result.line) errorMsg += ')';
