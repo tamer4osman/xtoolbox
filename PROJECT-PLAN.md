@@ -36,10 +36,10 @@
 | Phase 21: Market Expansion | ✅ | 33 | 33 |
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
+| Phase 24: Privacy & Utility Expansion | 🏗️ | 17 | 18 |
 | **Total** | | **241** | |
 
-**Status:** 241 professional tools built. Phase 24 complete (18 of 18 base tasks done, + 2 enhancements planned).
+**Status:** 240 professional tools built. Phase 24 in progress (17 of 18 base tasks done, + 2 enhancements planned).
 
 ---
 
@@ -11118,11 +11118,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Neumorphic design requires dual soft shadows calculated relative to background luminance.
 
-- [ ] File: `src/tools/css/neumorphism-generator.js`
-- [ ] Input: Background color picker (Hex/RGB), blur, size, shape type (convex, concave, flat, pressed)
-- [ ] Logic: Convert color to HSL, calculate light highlight (HSL L+10%) and dark shadow (HSL L-10%)
-- [ ] Output: Visual element preview, copy-ready dual-shadow CSS box-shadow block
-- [ ] SEO: title "CSS Neumorphism Studio — Soft 3D Shadow Generator"
+- [x] File: `src/tools/css/neumorphism-generator.js`
+- [x] Input: Background color picker (Hex/RGB), blur, size, shape type (convex, concave, flat, pressed)
+- [x] Logic: Convert color to HSL, calculate light highlight (HSL L+10%) and dark shadow (HSL L-10%)
+- [x] Output: Visual element preview, copy-ready dual-shadow CSS box-shadow block
+- [x] SEO: title "CSS Neumorphism Studio — Soft 3D Shadow Generator"
 
 ## 24.7 CSS Pure Triangle Code Generator
 
@@ -11178,11 +11178,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Manually configuring domain aliases in host files is error-prone.
 
-- [ ] File: `src/tools/dev/hosts-file-generator.js`
-- [ ] Input: IP addresses and local domains list builder
-- [ ] Logic: Auto-compiling table entries into properly spaced, commented /etc/hosts blocks
-- [ ] Output: Downloadable hosts configuration
-- [ ] SEO: title "Hosts File Configurator — Local Host Mappings Generator"
+- [x] File: `src/tools/dev/hosts-file-generator.js`
+- [x] Input: IP addresses and local domains list builder
+- [x] Logic: Auto-compiling table entries into properly spaced, commented /etc/hosts blocks
+- [x] Output: Downloadable hosts configuration
+- [x] SEO: title "Hosts File Configurator — Local Host Mappings Generator"
 
 ## 24.13 Security Headers Generator
 
@@ -11218,21 +11218,21 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Why new:** Syncing subtitles by shifting file timelines usually requires heavy video software.
 
-- [ ] File: `src/tools/productivity/subtitle-time-shifter.js`
-- [ ] Input: Subtitle file upload (.srt/.vtt), time offset (positive/negative decimal seconds)
-- [ ] Logic: Regexp parsing timestamp strings, applying mathematical timecode translation
-- [ ] Output: Downloadable synchronized subtitle file
-- [ ] SEO: title "Subtitle Sync Shifter — Offset SRT & VTT Timestamps Online"
+- [x] File: `src/tools/productivity/subtitle-time-shifter.js`
+- [x] Input: Subtitle file upload (.srt/.vtt), time offset (positive/negative decimal seconds)
+- [x] Logic: Regexp parsing timestamp strings, applying mathematical timecode translation
+- [x] Output: Downloadable synchronized subtitle file
+- [x] SEO: title "Subtitle Sync Shifter — Offset SRT & VTT Timestamps Online"
 
 ## 24.17 XML Formatter & Validator
 
 **Why new:** SOAP/RSS XML testing needs safe offline validation without leaking internal markup structures.
 
-- [ ] File: `src/tools/text/xml-formatter.js`
-- [ ] Input: Raw XML input
-- [ ] Logic: DOMParser local validation, custom text regex indentation beautifier, syntax highlighter
-- [ ] Output: Syntax-highlighted formatted XML block, validation diagnostics
-- [ ] SEO: title "XML Formatter & Validator — Beautify and Validate XML Offline"
+- [x] File: `src/tools/text/xml-formatter.js`
+- [x] Input: Raw XML input
+- [x] Logic: DOMParser local validation, custom text regex indentation beautifier, syntax highlighter
+- [x] Output: Syntax-highlighted formatted XML block, validation diagnostics
+- [x] SEO: title "XML Formatter & Validator — Beautify and Validate XML Offline"
 
 ## 24.18 Conventional Commit Changelog Generator
 
@@ -11248,10 +11248,10 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 ## Phase 24 Quality Checklist
 
-- [ ] All 18 tools are 100% client-side with zero remote database transmissions.
-- [ ] Each tool handles layout configurations responsively for desktop, tablet, and mobile browsers.
-- [ ] Visual editors utilize clean pre-defined design system tokens from tokens.css.
-- [ ] All tool page entries contain optimized SEO titles, FAQ listings, and step-by-step How-To templates.
+- [x] All 18 tools are 100% client-side with zero remote database transmissions.
+- [x] Each tool handles layout configurations responsively for desktop, tablet, and mobile browsers.
+- [x] Visual editors utilize clean pre-defined design system tokens from tokens.css.
+- [x] All tool page entries contain optimized SEO titles, FAQ listings, and step-by-step How-To templates.
 
 ---
 
@@ -11259,11 +11259,11 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 | Sprint | Tools | Est. Hours | Status |
 |--------|-------|------------|--------|
-| Phase 24.1: PDF & Marketing | 3 (redact, splitter, utm) | ~12h | ⬜ |
-| Phase 24.2: CSS Studio | 5 (glass, clamp, blob, neumorph, triangle) | ~15h | ⬜ |
-| Phase 24.3: Dev utilities | 6 (sitemap, log, assets, sql, hosts, headers) | ~18h | ⬜ |
-| Phase 24.4: Productivity & Text | 4 (ambient, subtitle, xml, changelog) | ~10h | ⬜ |
-| **Total** | **18** | **~55h** | ⬜ |
+| Phase 24.1: PDF & Marketing | 3 (redact, splitter, utm) | ~12h | ✅ |
+| Phase 24.2: CSS Studio | 5 (glass, clamp, blob, neumorph, triangle) | ~15h | ✅ |
+| Phase 24.3: Dev utilities | 6 (sitemap, log, assets, sql, hosts, headers) | ~18h | ✅ |
+| Phase 24.4: Productivity & Text | 3/4 (ambient, subtitle, xml — changelog pending) | ~10h | 🏗️ |
+| **Total** | **17/18** | **~55h** | 🏗️ |
 
 ### 🧩 Phase 24 Enhancements (to existing tools)
 
@@ -11285,7 +11285,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Optional: generate vCard QR code that encodes the full VCF text (not just URL)
 - [ ] Show success toast on .vcf download
 
-**After Phase 24:** 241 tools total across 21 categories.
+**After Phase 24:** 240 tools built (1 remaining: git-changelog-generator), across 21 categories.
 
 - `pdf`: 33 tools (31 original + 2 Phase 24)
 - `css`: 16 tools (14 original + 5 Phase 24)
