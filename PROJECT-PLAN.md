@@ -11285,7 +11285,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 - [ ] Optional: generate vCard QR code that encodes the full VCF text (not just URL)
 - [ ] Show success toast on .vcf download
 
-**After Phase 24:** 240 tools built (1 remaining: git-changelog-generator), across 21 categories.
+**After Phase 24:** 242 tools built (1 remaining: git-changelog-generator), across 21 categories.
 
 - `pdf`: 33 tools (31 original + 2 Phase 24)
 - `css`: 16 tools (14 original + 5 Phase 24)

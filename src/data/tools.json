@@ -2156,5 +2156,15 @@
     "href": "/tools/xml-formatter",
     "keywords": ["xml", "formatter", "validator", "beautifier", "pretty print", "xml validator", "xml formatter"],
     "status": "done"
+  },
+  {
+    "id": "sql-to-json",
+    "name": "SQL to JSON & Schema Converter",
+    "category": "dev",
+    "description": "Parse SQL CREATE TABLE and INSERT INTO queries to generate structured JSON schemas and arrays.",
+    "icon": "🗃️",
+    "href": "/tools/sql-to-json",
+    "keywords": ["sql", "json", "schema", "converter", "database", "parser"],
+    "status": "done"
   }
 ]

@@ -2049,7 +2049,7 @@
     "description": "Generate mathematical cubic bezier organic shapes and wave page dividers with zero tracking.",
     "icon": "🌊",
     "href": "/tools/svg-blob-generator",
-    "status": "pending"
+    "status": "done"
   },
   {
     "id": "glassmorphism-generator",

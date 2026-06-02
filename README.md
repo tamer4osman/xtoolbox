@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | 🏗️ In Progress (17 done, 1 planned) |
 
-**Total tools:** 241 unique verified tools (240 built, 1 planned).
+**Total tools:** 243 unique verified tools (242 built, 1 planned).
 
 ## Categories
 
