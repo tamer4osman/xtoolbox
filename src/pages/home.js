@@ -16,10 +16,10 @@ export function renderHome() {
   });
 
   const popularTools = [
-    'compress-image', 'merge-pdf', 'remove-background', 'image-to-text',
-    'compress-video', 'qr-generator', 'password-generator', 'resize-image',
-    'video-to-gif', 'markdown-html', 'color-blindness', 'scientific-calculator',
-    'stopwatch', 'image-filters', 'countdown-timer', 'typing-speed-test'
+    'compress-image', 'merge-pdf', 'remove-background', 'pdf-to-word',
+    'compress-video', 'qr-generator', 'password-generator', 'csv-to-excel',
+    'markdown-html', 'json-validator', 'scientific-calculator', 'stopwatch',
+    'remove-metadata', 'svg-optimizer', 'wcag-contrast-checker', 'typing-speed-test'
   ];
 
   const popular = popularTools.map(id => toolsData.find(t => t.id === id)).filter(Boolean);
