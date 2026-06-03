@@ -2180,7 +2180,7 @@
     "description": "Optimize and minify SVG files by removing metadata, comments, editor data, and redundant code.",
     "icon": "✨",
     "href": "/tools/svg-optimizer",
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "wcag-contrast-checker",

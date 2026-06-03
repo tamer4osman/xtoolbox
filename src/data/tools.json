@@ -2185,7 +2185,7 @@
     "icon": "✨",
     "href": "/tools/svg-optimizer",
     "keywords": ["svg", "optimizer", "minifier", "svgomg", "compress", "svg optimization"],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "wcag-contrast-checker",
