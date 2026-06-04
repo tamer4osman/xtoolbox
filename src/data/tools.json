@@ -1057,7 +1057,7 @@
     "name": "PDF to EPUB",
     "category": "pdf",
     "description": "Convert PDF to e-book format for e-readers.",
-    "icon": "",
+    "icon": "📖",
     "href": "/tools/pdf-to-epub",
     "status": "done"
   },
@@ -1066,7 +1066,7 @@
     "name": "Delete PDF Pages",
     "category": "pdf",
     "description": "Remove specific pages from a PDF with visual selector.",
-    "icon": "",
+    "icon": "🗑️",
     "href": "/tools/delete-pdf-pages",
     "status": "done"
   },
@@ -1075,7 +1075,7 @@
     "name": "PowerPoint to PDF",
     "category": "pdf",
     "description": "Convert .pptx presentations to PDF files.",
-    "icon": "",
+    "icon": "🎞️",
     "href": "/tools/pptx-to-pdf",
     "status": "done"
   },
@@ -1084,7 +1084,7 @@
     "name": "EPUB to PDF",
     "category": "pdf",
     "description": "Convert EPUB e-books to PDF format.",
-    "icon": "",
+    "icon": "📖",
     "href": "/tools/epub-to-pdf",
     "status": "done"
   },
@@ -1093,7 +1093,7 @@
     "name": "Remove Watermark from PDF",
     "category": "pdf",
     "description": "Remove overlay watermarks from PDF pages.",
-    "icon": "",
+    "icon": "💧",
     "href": "/tools/remove-watermark-pdf",
     "status": "done"
   },
@@ -1102,7 +1102,7 @@
     "name": "PNG to JPG Converter",
     "category": "image",
     "description": "Convert PNG images to JPG with quality control.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/png-to-jpg",
     "status": "done"
   },
@@ -1111,7 +1111,7 @@
     "name": "JPG to PNG Converter",
     "category": "image",
     "description": "Convert JPG images to lossless PNG format.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/jpg-to-png",
     "status": "done"
   },
@@ -1120,7 +1120,7 @@
     "name": "JPG to PDF Converter",
     "category": "pdf",
     "description": "Convert JPG images to PDF documents.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/jpg-to-pdf",
     "status": "done"
   },
@@ -1129,7 +1129,7 @@
     "name": "PNG to PDF Converter",
     "category": "pdf",
     "description": "Convert PNG images to PDF documents.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/png-to-pdf",
     "status": "done"
   },
@@ -1660,7 +1660,7 @@
     "name": "HEIC to JPG Converter",
     "category": "image",
     "description": "Convert iPhone HEIC photos to JPG format.",
-    "icon": "",
+    "icon": "📱",
     "href": "/tools/heic-to-jpg",
     "status": "done"
   },
@@ -1669,7 +1669,7 @@
     "name": "WebP to JPG Converter",
     "category": "image",
     "description": "Convert WebP images to JPG with quality control.",
-    "icon": "",
+    "icon": "🔄",
     "href": "/tools/webp-to-jpg",
     "status": "done"
   },
@@ -1678,7 +1678,7 @@
     "name": "JPG to WebP Converter",
     "category": "image",
     "description": "Convert JPG images to WebP with quality control.",
-    "icon": "",
+    "icon": "🔄",
     "href": "/tools/jpg-to-webp",
     "status": "done"
   },
@@ -1687,7 +1687,7 @@
     "name": "PNG to SVG Converter",
     "category": "image",
     "description": "Convert PNG images to SVG vector format.",
-    "icon": "",
+    "icon": "✏️",
     "href": "/tools/png-to-svg",
     "status": "done"
   },
@@ -1696,7 +1696,7 @@
     "name": "SVG to PNG Converter",
     "category": "image",
     "description": "Convert SVG images to PNG with size and background control.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/svg-to-png",
     "status": "done"
   },
@@ -1705,7 +1705,7 @@
     "name": "Collage Maker",
     "category": "image",
     "description": "Create beautiful photo collages with customizable layouts, spacing, borders, and backgrounds.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/collage-maker",
     "status": "done"
   },
@@ -1723,7 +1723,7 @@
     "name": "Blur Background",
     "category": "image",
     "description": "Apply blur effects to images. Full blur, radial (depth of field), or linear (tilt-shift) modes.",
-    "icon": "",
+    "icon": "🔲",
     "href": "/tools/blur-background",
     "status": "done"
   },
@@ -1732,7 +1732,7 @@
     "name": "Add Border to Image",
     "category": "image",
     "description": "Add customizable borders to images. Solid, dashed, double, or rounded corners with shadow effects.",
-    "icon": "",
+    "icon": "⬜",
     "href": "/tools/add-border-image",
     "status": "done"
   },
@@ -1741,7 +1741,7 @@
     "name": "Round Image Cropper",
     "category": "image",
     "description": "Crop images into perfect circles with customizable border, shadow, and background options.",
-    "icon": "",
+    "icon": "⭕",
     "href": "/tools/round-image-cropper",
     "status": "done"
   },
@@ -1750,7 +1750,7 @@
     "name": "Pixelate Image",
     "category": "image",
     "description": "Apply pixelation/mosaic effect to images. Adjust pixel size, select regions, and control intensity.",
-    "icon": "",
+    "icon": "🔲",
     "href": "/tools/pixelate-image",
     "status": "done"
   },
@@ -1759,7 +1759,7 @@
     "name": "Image Sharpening",
     "category": "image",
     "description": "Sharpen blurry or soft images using convolution filters. Adjust intensity and preview results in real-time.",
-    "icon": "",
+    "icon": "🔍",
     "href": "/tools/image-sharpening",
     "status": "done"
   },
@@ -1768,7 +1768,7 @@
     "name": "Remove Text from Image",
     "category": "image",
     "description": "Remove unwanted text from images by selecting the area. Uses content-aware fill to blend the background.",
-    "icon": "",
+    "icon": "🧹",
     "href": "/tools/remove-text-image",
     "status": "done"
   },
@@ -2094,7 +2094,18 @@
     "description": "Configure Content Security Policy (CSP), HSTS, and generate config rules for Nginx, Apache, or Cloudflare.",
     "icon": "🛡️",
     "href": "/tools/security-headers-generator",
-    "keywords": ["security", "headers", "csp", "hsts", "content security policy", "nginx", "apache", "cloudflare", "x-frame-options", "referrer-policy"],
+    "keywords": [
+      "security",
+      "headers",
+      "csp",
+      "hsts",
+      "content security policy",
+      "nginx",
+      "apache",
+      "cloudflare",
+      "x-frame-options",
+      "referrer-policy"
+    ],
     "status": "done"
   },
   {
@@ -2104,7 +2115,15 @@
     "description": "Generate campaign tracking URLs in bulk, manage presets, and export directly to CSV.",
     "icon": "🔗",
     "href": "/tools/bulk-utm-builder",
-    "keywords": ["utm", "campaign", "tracking", "url", "bulk", "analytics", "marketing"],
+    "keywords": [
+      "utm",
+      "campaign",
+      "tracking",
+      "url",
+      "bulk",
+      "analytics",
+      "marketing"
+    ],
     "status": "done"
   },
   {
@@ -2114,7 +2133,16 @@
     "description": "Create customizable ambient focus soundtracks using 8 high-quality offline loopable sound nodes.",
     "icon": "🎧",
     "href": "/tools/ambient-sound-mixer",
-    "keywords": ["ambient", "sound", "noise", "focus", "sleep", "relax", "rain", "cafe"],
+    "keywords": [
+      "ambient",
+      "sound",
+      "noise",
+      "focus",
+      "sleep",
+      "relax",
+      "rain",
+      "cafe"
+    ],
     "status": "done"
   },
   {
@@ -2124,7 +2152,16 @@
     "description": "Interactive tool to generate convex, concave, or pressed neumorphic shadow sets based on hue luminance offset.",
     "icon": "🔘",
     "href": "/tools/neumorphism-generator",
-    "keywords": ["neumorphism", "neumorphic", "soft ui", "css shadows", "convex", "concave", "pressed", "extruded"],
+    "keywords": [
+      "neumorphism",
+      "neumorphic",
+      "soft ui",
+      "css shadows",
+      "convex",
+      "concave",
+      "pressed",
+      "extruded"
+    ],
     "status": "done"
   },
   {
@@ -2134,7 +2171,15 @@
     "description": "Generate formatted local network alias hosts configurations from a simple visual key table.",
     "icon": "🌐",
     "href": "/tools/hosts-file-generator",
-    "keywords": ["hosts", "hosts file", "local network", "dns", "aliases", "network configuration", "etc hosts"],
+    "keywords": [
+      "hosts",
+      "hosts file",
+      "local network",
+      "dns",
+      "aliases",
+      "network configuration",
+      "etc hosts"
+    ],
     "status": "done"
   },
   {
@@ -2144,7 +2189,16 @@
     "description": "Adjust SRT and VTT subtitle timestamps client-side with millisecond accuracy sync offsets.",
     "icon": "⏱️",
     "href": "/tools/subtitle-time-shifter",
-    "keywords": ["subtitle", "srt", "vtt", "sync", "timestamp", "shift", "adjust", "subtitles"],
+    "keywords": [
+      "subtitle",
+      "srt",
+      "vtt",
+      "sync",
+      "timestamp",
+      "shift",
+      "adjust",
+      "subtitles"
+    ],
     "status": "done"
   },
   {
@@ -2154,7 +2208,15 @@
     "description": "Format, validate, and highlight XML markup without server transmissions.",
     "icon": "📝",
     "href": "/tools/xml-formatter",
-    "keywords": ["xml", "formatter", "validator", "beautifier", "pretty print", "xml validator", "xml formatter"],
+    "keywords": [
+      "xml",
+      "formatter",
+      "validator",
+      "beautifier",
+      "pretty print",
+      "xml validator",
+      "xml formatter"
+    ],
     "status": "done"
   },
   {
@@ -2164,7 +2226,14 @@
     "description": "Parse SQL CREATE TABLE and INSERT INTO queries to generate structured JSON schemas and arrays.",
     "icon": "🗃️",
     "href": "/tools/sql-to-json",
-    "keywords": ["sql", "json", "schema", "converter", "database", "parser"],
+    "keywords": [
+      "sql",
+      "json",
+      "schema",
+      "converter",
+      "database",
+      "parser"
+    ],
     "status": "done"
   },
   {
@@ -2174,7 +2243,14 @@
     "description": "Parse conventional git logs and compile beautiful categorized Markdown release changelogs.",
     "icon": "📜",
     "href": "/tools/git-changelog-generator",
-    "keywords": ["git", "changelog", "commit", "release", "conventional", "markdown"],
+    "keywords": [
+      "git",
+      "changelog",
+      "commit",
+      "release",
+      "conventional",
+      "markdown"
+    ],
     "status": "done"
   },
   {
@@ -2184,7 +2260,14 @@
     "description": "Optimize and minify SVG files by removing metadata, comments, editor data, and redundant code.",
     "icon": "✨",
     "href": "/tools/svg-optimizer",
-    "keywords": ["svg", "optimizer", "minifier", "svgomg", "compress", "svg optimization"],
+    "keywords": [
+      "svg",
+      "optimizer",
+      "minifier",
+      "svgomg",
+      "compress",
+      "svg optimization"
+    ],
     "status": "done"
   },
   {
@@ -2194,7 +2277,15 @@
     "description": "Check color contrast ratios against WCAG 2.1 AA/AAA standards.",
     "icon": "♿",
     "href": "/tools/wcag-contrast-checker",
-    "keywords": ["wcag", "contrast", "accessibility", "color", "a11y", "aa", "aaa"],
+    "keywords": [
+      "wcag",
+      "contrast",
+      "accessibility",
+      "color",
+      "a11y",
+      "aa",
+      "aaa"
+    ],
     "status": "done"
   },
   {
@@ -2204,7 +2295,14 @@
     "description": "Upload multiple images and generate a CSS sprite sheet with corresponding CSS background-position rules.",
     "icon": "🧩",
     "href": "/tools/css-sprite-generator",
-    "keywords": ["css", "sprite", "spritesheet", "background", "image", "generator"],
+    "keywords": [
+      "css",
+      "sprite",
+      "spritesheet",
+      "background",
+      "image",
+      "generator"
+    ],
     "status": "planned"
   },
   {
@@ -2214,7 +2312,15 @@
     "description": "Upload web fonts and subset them to only the glyphs you need. Supports language presets and custom Unicode ranges.",
     "icon": "🔤",
     "href": "/tools/font-subsetter",
-    "keywords": ["font", "subset", "woff", "woff2", "ttf", "otf", "glyphs"],
+    "keywords": [
+      "font",
+      "subset",
+      "woff",
+      "woff2",
+      "ttf",
+      "otf",
+      "glyphs"
+    ],
     "status": "planned"
   },
   {
@@ -2224,7 +2330,14 @@
     "description": "Visually build docker-compose.yml files with services, ports, volumes, networks, and environment variables.",
     "icon": "🐳",
     "href": "/tools/docker-compose-generator",
-    "keywords": ["docker", "compose", "yaml", "containers", "devops", "services"],
+    "keywords": [
+      "docker",
+      "compose",
+      "yaml",
+      "containers",
+      "devops",
+      "services"
+    ],
     "status": "planned"
   },
   {
@@ -2234,7 +2347,14 @@
     "description": "Generate optimized NGINX server configurations visually with domains, SSL, caching, and reverse proxy.",
     "icon": "⚙️",
     "href": "/tools/nginx-config-generator",
-    "keywords": ["nginx", "config", "server", "ssl", "reverse proxy", "caching"],
+    "keywords": [
+      "nginx",
+      "config",
+      "server",
+      "ssl",
+      "reverse proxy",
+      "caching"
+    ],
     "status": "planned"
   },
   {
@@ -2244,7 +2364,13 @@
     "description": "Generate .gitignore files by selecting project types, languages, IDEs, and OS combinations.",
     "icon": "🙈",
     "href": "/tools/gitignore-generator",
-    "keywords": ["gitignore", "git", "ignore", "template", "project"],
+    "keywords": [
+      "gitignore",
+      "git",
+      "ignore",
+      "template",
+      "project"
+    ],
     "status": "planned"
   },
   {
@@ -2254,7 +2380,14 @@
     "description": "Visual editor for .env files with parse, edit, validate, and syntax highlighting.",
     "icon": "🔧",
     "href": "/tools/env-editor",
-    "keywords": ["env", "environment", "dotenv", "variables", "editor", "config"],
+    "keywords": [
+      "env",
+      "environment",
+      "dotenv",
+      "variables",
+      "editor",
+      "config"
+    ],
     "status": "planned"
   },
   {
@@ -2264,7 +2397,15 @@
     "description": "Count tokens for GPT-4, Claude, Gemini, and Llama models with cost estimates.",
     "icon": "🤖",
     "href": "/tools/llm-token-counter",
-    "keywords": ["llm", "token", "counter", "gpt", "claude", "gemini", "tiktoken"],
+    "keywords": [
+      "llm",
+      "token",
+      "counter",
+      "gpt",
+      "claude",
+      "gemini",
+      "tiktoken"
+    ],
     "status": "planned"
   },
   {
@@ -2274,7 +2415,14 @@
     "description": "Generate realistic fake data (names, emails, addresses) in JSON, CSV, SQL, and TypeScript formats.",
     "icon": "🎲",
     "href": "/tools/mock-data-generator",
-    "keywords": ["mock", "data", "fake", "generator", "test", "faker"],
+    "keywords": [
+      "mock",
+      "data",
+      "fake",
+      "generator",
+      "test",
+      "faker"
+    ],
     "status": "planned"
   },
   {
@@ -2284,7 +2432,14 @@
     "description": "Write and execute SQL queries in the browser using SQLite compiled to WASM.",
     "icon": "🗃️",
     "href": "/tools/sql-playground",
-    "keywords": ["sql", "sqlite", "playground", "query", "database", "wasm"],
+    "keywords": [
+      "sql",
+      "sqlite",
+      "playground",
+      "query",
+      "database",
+      "wasm"
+    ],
     "status": "planned"
   },
   {
@@ -2294,7 +2449,14 @@
     "description": "Visual drag-and-drop ER diagram editor with tables, columns, relationships, and SQL export.",
     "icon": "🗄️",
     "href": "/tools/database-schema-designer",
-    "keywords": ["database", "schema", "erd", "designer", "diagram", "sql"],
+    "keywords": [
+      "database",
+      "schema",
+      "erd",
+      "designer",
+      "diagram",
+      "sql"
+    ],
     "status": "planned"
   },
   {
@@ -2304,7 +2466,14 @@
     "description": "Build FFmpeg commands visually with input/output formats, codecs, filters, and presets.",
     "icon": "🎬",
     "href": "/tools/ffmpeg-command-generator",
-    "keywords": ["ffmpeg", "command", "video", "audio", "convert", "codec"],
+    "keywords": [
+      "ffmpeg",
+      "command",
+      "video",
+      "audio",
+      "convert",
+      "codec"
+    ],
     "status": "planned"
   },
   {
@@ -2314,7 +2483,20 @@
     "description": "Convert between octal, symbolic, and checkbox-driven chmod permissions with setuid, setgid, and sticky-bit support. Live command preview and copy-to-clipboard.",
     "icon": "🔑",
     "href": "/tools/chmod-calculator",
-    "keywords": ["chmod", "permission", "linux", "unix", "octal", "symbolic", "setuid", "setgid", "sticky", "file mode", "bitmask", "ls -l"],
+    "keywords": [
+      "chmod",
+      "permission",
+      "linux",
+      "unix",
+      "octal",
+      "symbolic",
+      "setuid",
+      "setgid",
+      "sticky",
+      "file mode",
+      "bitmask",
+      "ls -l"
+    ],
     "status": "done"
   },
   {
@@ -2324,7 +2506,14 @@
     "description": "Create beautiful code screenshots for social media with syntax highlighting and custom themes.",
     "icon": "📸",
     "href": "/tools/code-screenshot-generator",
-    "keywords": ["code", "screenshot", "carbon", "syntax", "highlight", "social"],
+    "keywords": [
+      "code",
+      "screenshot",
+      "carbon",
+      "syntax",
+      "highlight",
+      "social"
+    ],
     "status": "planned"
   },
   {
@@ -2334,7 +2523,14 @@
     "description": "Generate manifest.json files for Progressive Web Apps with icons, theme colors, and shortcuts.",
     "icon": "📱",
     "href": "/tools/pwa-manifest-generator",
-    "keywords": ["pwa", "manifest", "progressive", "web", "app", "icons"],
+    "keywords": [
+      "pwa",
+      "manifest",
+      "progressive",
+      "web",
+      "app",
+      "icons"
+    ],
     "status": "planned"
   },
   {
@@ -2344,7 +2540,14 @@
     "description": "Highlight text, add comments, draw shapes, and type text directly on PDF pages.",
     "icon": "🖍️",
     "href": "/tools/pdf-annotator",
-    "keywords": ["pdf", "annotate", "highlight", "comment", "markup", "draw"],
+    "keywords": [
+      "pdf",
+      "annotate",
+      "highlight",
+      "comment",
+      "markup",
+      "draw"
+    ],
     "status": "planned"
   },
   {
@@ -2354,7 +2557,14 @@
     "description": "Create professional invoices with line items, taxes, discounts, and payment terms. Export as PDF.",
     "icon": "🧾",
     "href": "/tools/invoice-generator",
-    "keywords": ["invoice", "generator", "business", "freelance", "pdf", "billing"],
+    "keywords": [
+      "invoice",
+      "generator",
+      "business",
+      "freelance",
+      "pdf",
+      "billing"
+    ],
     "status": "planned"
   },
   {
@@ -2364,7 +2574,13 @@
     "description": "Generate customized certificates from templates with recipient name, date, and custom text.",
     "icon": "📜",
     "href": "/tools/certificate-generator",
-    "keywords": ["certificate", "award", "completion", "template", "pdf"],
+    "keywords": [
+      "certificate",
+      "award",
+      "completion",
+      "template",
+      "pdf"
+    ],
     "status": "planned"
   },
   {
@@ -2374,7 +2590,13 @@
     "description": "Generate Non-Disclosure Agreements customized for unilateral/mutual situations.",
     "icon": "📜",
     "href": "/tools/nda-generator",
-    "keywords": ["nda", "non-disclosure", "agreement", "legal", "contract"],
+    "keywords": [
+      "nda",
+      "non-disclosure",
+      "agreement",
+      "legal",
+      "contract"
+    ],
     "status": "planned"
   },
   {
@@ -2384,7 +2606,14 @@
     "description": "Calculate optimal hourly/daily/project rates based on income, expenses, and billable hours.",
     "icon": "💵",
     "href": "/tools/freelancer-rate-calculator",
-    "keywords": ["freelancer", "rate", "calculator", "hourly", "salary", "income"],
+    "keywords": [
+      "freelancer",
+      "rate",
+      "calculator",
+      "hourly",
+      "salary",
+      "income"
+    ],
     "status": "planned"
   },
   {
@@ -2394,7 +2623,14 @@
     "description": "Generate freelance service contracts with scope, payment terms, deliverables, and IP ownership.",
     "icon": "📝",
     "href": "/tools/freelancer-contract-generator",
-    "keywords": ["freelancer", "contract", "agreement", "scope", "payment", "legal"],
+    "keywords": [
+      "freelancer",
+      "contract",
+      "agreement",
+      "scope",
+      "payment",
+      "legal"
+    ],
     "status": "planned"
   },
   {
@@ -2404,7 +2640,14 @@
     "description": "Generate privacy policy documents for websites and apps with GDPR/CCPA compliance.",
     "icon": "🔒",
     "href": "/tools/privacy-policy-generator",
-    "keywords": ["privacy", "policy", "gdpr", "ccpa", "legal", "compliance"],
+    "keywords": [
+      "privacy",
+      "policy",
+      "gdpr",
+      "ccpa",
+      "legal",
+      "compliance"
+    ],
     "status": "planned"
   },
   {
@@ -2414,7 +2657,15 @@
     "description": "Extract files from ZIP, RAR, 7Z, TAR, GZ, and BZ2 archives directly in the browser.",
     "icon": "📦",
     "href": "/tools/archive-extractor",
-    "keywords": ["archive", "extract", "zip", "rar", "7z", "tar", "gzip"],
+    "keywords": [
+      "archive",
+      "extract",
+      "zip",
+      "rar",
+      "7z",
+      "tar",
+      "gzip"
+    ],
     "status": "planned"
   },
   {
@@ -2424,7 +2675,14 @@
     "description": "Focus timer with customizable work/break intervals, task list, and session history.",
     "icon": "🍅",
     "href": "/tools/pomodoro-timer",
-    "keywords": ["pomodoro", "timer", "focus", "productivity", "study", "work"],
+    "keywords": [
+      "pomodoro",
+      "timer",
+      "focus",
+      "productivity",
+      "study",
+      "work"
+    ],
     "status": "planned"
   },
   {
@@ -2434,7 +2692,14 @@
     "description": "GitHub-style contribution graph for daily habits with streak tracking and heatmaps.",
     "icon": "📅",
     "href": "/tools/habit-tracker",
-    "keywords": ["habit", "tracker", "streak", "heatmap", "productivity", "goals"],
+    "keywords": [
+      "habit",
+      "tracker",
+      "streak",
+      "heatmap",
+      "productivity",
+      "goals"
+    ],
     "status": "planned"
   },
   {
@@ -2444,7 +2709,14 @@
     "description": "Build professional resumes with section-based editor and ATS-friendly templates. Export as PDF.",
     "icon": "📄",
     "href": "/tools/resume-builder",
-    "keywords": ["resume", "cv", "builder", "job", "template", "pdf"],
+    "keywords": [
+      "resume",
+      "cv",
+      "builder",
+      "job",
+      "template",
+      "pdf"
+    ],
     "status": "planned"
   },
   {
@@ -2454,7 +2726,14 @@
     "description": "Record browser tab or screen using Screen Capture API. Export as WebM video.",
     "icon": "🖥️",
     "href": "/tools/screen-recorder",
-    "keywords": ["screen", "record", "capture", "video", "webm", "browser"],
+    "keywords": [
+      "screen",
+      "record",
+      "capture",
+      "video",
+      "webm",
+      "browser"
+    ],
     "status": "planned"
   },
   {
@@ -2464,7 +2743,14 @@
     "description": "Batch edit EXIF metadata (dates, GPS, camera info, copyright) in JPEG and TIFF images.",
     "icon": "📷",
     "href": "/tools/exif-editor",
-    "keywords": ["exif", "metadata", "photo", "gps", "camera", "editor"],
+    "keywords": [
+      "exif",
+      "metadata",
+      "photo",
+      "gps",
+      "camera",
+      "editor"
+    ],
     "status": "planned"
   },
   {
@@ -2474,7 +2760,14 @@
     "description": "Create social media preview images with text overlays, gradients, and backgrounds.",
     "icon": "🖼️",
     "href": "/tools/og-image-generator",
-    "keywords": ["og", "open-graph", "social", "preview", "twitter", "image"],
+    "keywords": [
+      "og",
+      "open-graph",
+      "social",
+      "preview",
+      "twitter",
+      "image"
+    ],
     "status": "planned"
   },
   {
@@ -2484,7 +2777,14 @@
     "description": "Generate formatted citations in APA, MLA, Chicago, Harvard, and IEEE styles.",
     "icon": "📚",
     "href": "/tools/citation-generator",
-    "keywords": ["citation", "bibliography", "apa", "mla", "chicago", "harvard"],
+    "keywords": [
+      "citation",
+      "bibliography",
+      "apa",
+      "mla",
+      "chicago",
+      "harvard"
+    ],
     "status": "planned"
   },
   {
@@ -2494,7 +2794,13 @@
     "description": "Visually create and edit Markdown tables with a spreadsheet-like interface.",
     "icon": "📋",
     "href": "/tools/markdown-table-generator",
-    "keywords": ["markdown", "table", "generator", "editor", "spreadsheet"],
+    "keywords": [
+      "markdown",
+      "table",
+      "generator",
+      "editor",
+      "spreadsheet"
+    ],
     "status": "planned"
   },
   {
@@ -2504,7 +2810,14 @@
     "description": "Generate retro game sound effects using the Web Audio API. Export as WAV.",
     "icon": "🎮",
     "href": "/tools/sound-effect-generator",
-    "keywords": ["sound", "effect", "sfx", "game", "retro", "wav"],
+    "keywords": [
+      "sound",
+      "effect",
+      "sfx",
+      "game",
+      "retro",
+      "wav"
+    ],
     "status": "planned"
   },
   {
@@ -2514,7 +2827,14 @@
     "description": "Create professional email signatures with photo, social links, and custom styling.",
     "icon": "✉️",
     "href": "/tools/email-signature-generator",
-    "keywords": ["email", "signature", "professional", "html", "gmail", "outlook"],
+    "keywords": [
+      "email",
+      "signature",
+      "professional",
+      "html",
+      "gmail",
+      "outlook"
+    ],
     "status": "planned"
   },
   {
@@ -2524,7 +2844,14 @@
     "description": "Visualize debt payoff strategies (snowball vs avalanche) with timeline and interest charts.",
     "icon": "📉",
     "href": "/tools/debt-payoff-visualizer",
-    "keywords": ["debt", "payoff", "snowball", "avalanche", "finance", "interest"],
+    "keywords": [
+      "debt",
+      "payoff",
+      "snowball",
+      "avalanche",
+      "finance",
+      "interest"
+    ],
     "status": "planned"
   },
   {
@@ -2534,7 +2861,14 @@
     "description": "Generate and verify HMAC signatures using SHA-1, SHA-256, SHA-384, SHA-512 algorithms.",
     "icon": "🔐",
     "href": "/tools/hmac-generator",
-    "keywords": ["hmac", "signature", "sha256", "sha512", "security", "webhook"],
+    "keywords": [
+      "hmac",
+      "signature",
+      "sha256",
+      "sha512",
+      "security",
+      "webhook"
+    ],
     "status": "planned"
   },
   {
@@ -2544,7 +2878,14 @@
     "description": "Compare current times across multiple time zones and find optimal meeting times.",
     "icon": "🌐",
     "href": "/tools/world-clock",
-    "keywords": ["world", "clock", "timezone", "time", "converter", "meeting"],
+    "keywords": [
+      "world",
+      "clock",
+      "timezone",
+      "time",
+      "converter",
+      "meeting"
+    ],
     "status": "planned"
   },
   {
@@ -2554,7 +2895,14 @@
     "description": "Preview how content will look when shared on X, Facebook, LinkedIn, and Instagram.",
     "icon": "👁️",
     "href": "/tools/social-media-post-previewer",
-    "keywords": ["social", "media", "preview", "twitter", "facebook", "linkedin"],
+    "keywords": [
+      "social",
+      "media",
+      "preview",
+      "twitter",
+      "facebook",
+      "linkedin"
+    ],
     "status": "planned"
   },
   {
@@ -2564,7 +2912,15 @@
     "description": "Drag-and-drop 3D model viewer supporting glTF, GLB, OBJ, and STL formats.",
     "icon": "🧊",
     "href": "/tools/3d-model-viewer",
-    "keywords": ["3d", "model", "viewer", "gltf", "obj", "stl", "webgl"],
+    "keywords": [
+      "3d",
+      "model",
+      "viewer",
+      "gltf",
+      "obj",
+      "stl",
+      "webgl"
+    ],
     "status": "planned"
   }
 ]
