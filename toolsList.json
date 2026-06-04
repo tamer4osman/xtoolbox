@@ -2297,6 +2297,7 @@
     "description": "Convert between octal, symbolic, and checkbox-driven chmod permissions with setuid, setgid, and sticky-bit support. Live command preview and copy-to-clipboard.",
     "icon": "🔑",
     "href": "/tools/chmod-calculator",
+    "keywords": ["chmod", "permission", "linux", "unix", "octal", "symbolic", "setuid", "setgid", "sticky", "file mode", "bitmask", "ls -l"],
     "status": "done"
   },
   {

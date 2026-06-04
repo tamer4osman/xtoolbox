@@ -11409,4 +11409,4 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 **Total Phase 25:** 39 tools planned (3 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator — 36 remaining).
 
-**After Phase 25:** 280 tools built (244 existing + 36 planned), across 21 categories.
+**After Phase 25:** 280 tools total (244 built + 36 planned), across 21 categories.
