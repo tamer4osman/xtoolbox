@@ -22,7 +22,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [ ] SQL Playground (`sql-playground`)
 - [ ] Database Schema Designer (`database-schema-designer`)
 - [ ] FFmpeg Command Generator (`ffmpeg-command-generator`)
-- [ ] Chmod Calculator (`chmod-calculator`)
+- [x] Chmod Calculator (`chmod-calculator`)
 - [ ] Code Screenshot Generator (`code-screenshot-generator`)
 - [ ] PWA Manifest Generator (`pwa-manifest-generator`)
 

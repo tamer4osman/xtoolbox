@@ -2294,10 +2294,10 @@
     "id": "chmod-calculator",
     "name": "Chmod Calculator",
     "category": "dev",
-    "description": "Visual chmod permission calculator with octal, symbolic notation, and reverse lookup.",
+    "description": "Convert between octal, symbolic, and checkbox-driven chmod permissions with setuid, setgid, and sticky-bit support. Live command preview and copy-to-clipboard.",
     "icon": "🔑",
     "href": "/tools/chmod-calculator",
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "code-screenshot-generator",

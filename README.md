@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 280 unique verified tools (243 built, 37 planned).
+**Total tools:** 280 unique verified tools (244 built, 36 planned).
 
 ## Categories
 
@@ -194,7 +194,7 @@ toolbox/
 │   │   └── seo/                  ← 7 SEO tools (+1 Phase 25)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 280 tool definitions (241 built, 39 planned)
+│   │   ├── tools.json            ← 280 tool definitions (244 built, 36 planned)
 │   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │
@@ -270,7 +270,7 @@ MIT
 
 ---
 
-## Phase 25 Tools (Most Wanted — Planned, 38 tools)
+## Phase 25 Tools (Most Wanted — 36 remaining of 39 planned; 3 built ✅)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 
@@ -278,8 +278,8 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 
 | # | Tool | File | Library | Why |
 |---|------|------|---------|-----|
-| 1 | SVG Optimizer & Minifier | `css/svg-optimizer.js` | SVGO browser port / custom parser | SVGOMG is hugely popular; zero client-side coverage |
-| 2 | WCAG Color Contrast Checker | `css/wcag-contrast-checker.js` | Pure JS (relative luminance) | EU Accessibility Act 2025 driving demand |
+| 1 | ~~SVG Optimizer & Minifier~~ ✅ | `css/svg-optimizer.js` | SVGO browser port / custom parser | SVGOMG is hugely popular; zero client-side coverage — shipped |
+| 2 | ~~WCAG Color Contrast Checker~~ ✅ | `css/wcag-contrast-checker.js` | Pure JS (relative luminance) | EU Accessibility Act 2025 driving demand — shipped |
 | 3 | CSS Sprite Sheet Generator | `css/css-sprite-generator.js` | Canvas API + CSS generation | Active demand from r/gamedev |
 | 4 | Font Subsetter | `css/font-subsetter.js` | opentype.js | Zero free client-side options exist |
 
@@ -296,7 +296,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 | 11 | SQL Playground | `dev/sql-playground.js` | sql.js (SQLite WASM) + CodeMirror | Unique — no competitor offers this |
 | 12 | Database Schema Designer | `dev/database-schema-designer.js` | Canvas/SVG + sql.js | DrawDB trending, no free browser option |
 | 13 | FFmpeg Command Generator | `dev/ffmpeg-command-generator.js` | Pure JS form-to-CLI | FFmpeg CLI notoriously complex |
-| 14 | Chmod Calculator | `dev/chmod-calculator.js` | Pure JS bitwise ops | Every Linux admin uses it |
+| 14 | ~~Chmod Calculator~~ ✅ | `dev/chmod-calculator.js` | Pure JS bitwise ops | Every Linux admin uses it — shipped |
 | 15 | Code Screenshot Generator | `dev/code-screenshot-generator.js` | Highlight.js + html2canvas | Carbon.sh is very popular |
 | 16 | PWA Manifest Generator | `dev/pwa-manifest-generator.js` | JSON generation + Canvas API | PWA development growing |
 
