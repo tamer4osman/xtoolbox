@@ -1090,7 +1090,7 @@
   },
   {
     "id": "remove-watermark-pdf",
-    "name": "Remove Watermark from PDF",
+    "name": "PDF Watermark Remover",
     "category": "pdf",
     "description": "Remove overlay watermarks from PDF pages.",
     "icon": "💧",
@@ -1099,7 +1099,7 @@
   },
   {
     "id": "png-to-jpg",
-    "name": "PNG to JPG Converter",
+    "name": "PNG to JPG",
     "category": "image",
     "description": "Convert PNG images to JPG with quality control.",
     "icon": "🖼️",
@@ -1108,7 +1108,7 @@
   },
   {
     "id": "jpg-to-png",
-    "name": "JPG to PNG Converter",
+    "name": "JPG to PNG",
     "category": "image",
     "description": "Convert JPG images to lossless PNG format.",
     "icon": "🖼️",
@@ -1657,7 +1657,7 @@
   },
   {
     "id": "heic-to-jpg",
-    "name": "HEIC to JPG Converter",
+    "name": "HEIC to JPG",
     "category": "image",
     "description": "Convert iPhone HEIC photos to JPG format.",
     "icon": "📱",
@@ -1666,36 +1666,36 @@
   },
   {
     "id": "webp-to-jpg",
-    "name": "WebP to JPG Converter",
+    "name": "WebP to JPG",
     "category": "image",
-    "description": "Convert WebP images to JPG with quality control.",
+    "description": "Convert WebP images to JPG format.",
     "icon": "🔄",
     "href": "/tools/webp-to-jpg",
     "status": "done"
   },
   {
     "id": "jpg-to-webp",
-    "name": "JPG to WebP Converter",
+    "name": "JPG to WebP",
     "category": "image",
-    "description": "Convert JPG images to WebP with quality control.",
+    "description": "Convert JPG to WebP for smaller file sizes.",
     "icon": "🔄",
     "href": "/tools/jpg-to-webp",
     "status": "done"
   },
   {
     "id": "png-to-svg",
-    "name": "PNG to SVG Converter",
+    "name": "PNG to SVG",
     "category": "image",
-    "description": "Convert PNG images to SVG vector format.",
+    "description": "Vectorize raster PNG images to SVG format.",
     "icon": "✏️",
     "href": "/tools/png-to-svg",
     "status": "done"
   },
   {
     "id": "svg-to-png",
-    "name": "SVG to PNG Converter",
+    "name": "SVG to PNG",
     "category": "image",
-    "description": "Convert SVG images to PNG with size and background control.",
+    "description": "Rasterize SVG vectors to PNG images.",
     "icon": "🖼️",
     "href": "/tools/svg-to-png",
     "status": "done"
@@ -1704,7 +1704,7 @@
     "id": "collage-maker",
     "name": "Collage Maker",
     "category": "image",
-    "description": "Create beautiful photo collages with customizable layouts, spacing, borders, and backgrounds.",
+    "description": "Create multi-photo grid collages.",
     "icon": "🖼️",
     "href": "/tools/collage-maker",
     "status": "done"
@@ -1713,7 +1713,7 @@
     "id": "color-blindness",
     "name": "Color Blindness Simulator",
     "category": "image",
-    "description": "Upload an image and apply color blindness simulations: deuteranopia, protanopia, tritanopia, and more.",
+    "description": "Simulate how images appear with different types of color blindness.",
     "icon": "👁️",
     "href": "/tools/color-blindness",
     "status": "done"
@@ -1722,7 +1722,7 @@
     "id": "blur-background",
     "name": "Blur Background",
     "category": "image",
-    "description": "Apply blur effects to images. Full blur, radial (depth of field), or linear (tilt-shift) modes.",
+    "description": "Selective background blur for portraits.",
     "icon": "🔲",
     "href": "/tools/blur-background",
     "status": "done"
@@ -1731,7 +1731,7 @@
     "id": "add-border-image",
     "name": "Add Border to Image",
     "category": "image",
-    "description": "Add customizable borders to images. Solid, dashed, double, or rounded corners with shadow effects.",
+    "description": "Add colored borders and frames to images.",
     "icon": "⬜",
     "href": "/tools/add-border-image",
     "status": "done"
@@ -1740,7 +1740,7 @@
     "id": "round-image-cropper",
     "name": "Round Image Cropper",
     "category": "image",
-    "description": "Crop images into perfect circles with customizable border, shadow, and background options.",
+    "description": "Circle/rounded crop for profile pictures.",
     "icon": "⭕",
     "href": "/tools/round-image-cropper",
     "status": "done"
@@ -1749,7 +1749,7 @@
     "id": "pixelate-image",
     "name": "Pixelate Image",
     "category": "image",
-    "description": "Apply pixelation/mosaic effect to images. Adjust pixel size, select regions, and control intensity.",
+    "description": "Mosaic/pixelate images for privacy.",
     "icon": "🔲",
     "href": "/tools/pixelate-image",
     "status": "done"
@@ -1758,7 +1758,7 @@
     "id": "image-sharpening",
     "name": "Image Sharpening",
     "category": "image",
-    "description": "Sharpen blurry or soft images using convolution filters. Adjust intensity and preview results in real-time.",
+    "description": "Sharpen images using unsharp mask.",
     "icon": "🔍",
     "href": "/tools/image-sharpening",
     "status": "done"
@@ -1767,7 +1767,7 @@
     "id": "remove-text-image",
     "name": "Remove Text from Image",
     "category": "image",
-    "description": "Remove unwanted text from images by selecting the area. Uses content-aware fill to blend the background.",
+    "description": "OCR + inpainting to erase text from images.",
     "icon": "🧹",
     "href": "/tools/remove-text-image",
     "status": "done"
@@ -1776,7 +1776,7 @@
     "id": "gif-to-mp4",
     "name": "GIF to MP4",
     "category": "video",
-    "description": "Convert animated GIF to MP4 video. MP4 files are smaller and play on all devices.",
+    "description": "Convert animated GIF to MP4 for smaller file size.",
     "icon": "🎬",
     "href": "/tools/gif-to-mp4",
     "status": "done"
@@ -1785,7 +1785,7 @@
     "id": "webm-to-mp4",
     "name": "WEBM to MP4",
     "category": "video",
-    "description": "Convert WEBM videos to MP4 format for universal compatibility.",
+    "description": "Convert WEBM videos to MP4 format.",
     "icon": "🔄",
     "href": "/tools/webm-to-mp4",
     "status": "done"
@@ -1794,7 +1794,7 @@
     "id": "mov-to-mp4",
     "name": "MOV to MP4",
     "category": "video",
-    "description": "Convert MOV videos from iPhones and cameras to MP4.",
+    "description": "Convert iPhone MOV videos to MP4.",
     "icon": "📱",
     "href": "/tools/mov-to-mp4",
     "status": "done"
@@ -1803,7 +1803,7 @@
     "id": "add-subtitles",
     "name": "Add Subtitles to Video",
     "category": "video",
-    "description": "Burn SRT or VTT subtitle files permanently into video.",
+    "description": "Burn SRT/VTT subtitles into video files.",
     "icon": "💬",
     "href": "/tools/add-subtitles",
     "status": "done"
@@ -1812,7 +1812,7 @@
     "id": "video-resizer",
     "name": "Video Resizer",
     "category": "video",
-    "description": "Change video resolution to any size with presets or custom dimensions.",
+    "description": "Change video resolution and dimensions.",
     "icon": "📐",
     "href": "/tools/video-resizer",
     "status": "done"
@@ -1821,7 +1821,7 @@
     "id": "excel-to-xml",
     "name": "Excel to XML",
     "category": "text",
-    "description": "Convert Excel spreadsheets (.xlsx) to XML format.",
+    "description": "Convert Excel spreadsheets to XML format.",
     "icon": "📊",
     "href": "/tools/excel-to-xml",
     "status": "done"
@@ -1830,7 +1830,7 @@
     "id": "xml-to-excel",
     "name": "XML to Excel",
     "category": "text",
-    "description": "Convert XML files to Excel spreadsheets (.xlsx).",
+    "description": "Convert XML files to Excel spreadsheets.",
     "icon": "📊",
     "href": "/tools/xml-to-excel",
     "status": "done"
@@ -1839,7 +1839,7 @@
     "id": "csv-splitter",
     "name": "CSV Splitter",
     "category": "text",
-    "description": "Split large CSV files into smaller files by row count.",
+    "description": "Split large CSV files by row count.",
     "icon": "✂️",
     "href": "/tools/csv-splitter",
     "status": "done"
@@ -1848,7 +1848,7 @@
     "id": "countdown-timer",
     "name": "Countdown Timer",
     "category": "productivity",
-    "description": "Count down to a specific date or event with live updates.",
+    "description": "Count down to a specific date or event.",
     "icon": "⏳",
     "href": "/tools/countdown-timer",
     "status": "done"
@@ -1866,7 +1866,7 @@
     "id": "ascii-art",
     "name": "ASCII Art Generator",
     "category": "text",
-    "description": "Convert text to figlet-style ASCII art with 50+ font styles.",
+    "description": "Convert text to figlet-style ASCII art.",
     "icon": "🎨",
     "href": "/tools/ascii-art",
     "status": "done"
@@ -1875,7 +1875,7 @@
     "id": "typing-speed-test",
     "name": "Typing Speed Test",
     "category": "fun",
-    "description": "Test your typing speed in words per minute with accuracy tracking.",
+    "description": "Test your typing speed in words per minute.",
     "icon": "⌨️",
     "href": "/tools/typing-speed-test",
     "status": "done"
@@ -1884,7 +1884,7 @@
     "id": "stopwatch",
     "name": "Stopwatch with Lap Timer",
     "category": "productivity",
-    "description": "Start, pause, and reset a stopwatch with lap time tracking.",
+    "description": "Start/pause/reset stopwatch with lap tracking.",
     "icon": "⏱️",
     "href": "/tools/stopwatch",
     "status": "done"
@@ -1938,7 +1938,7 @@
     "id": "image-filters",
     "name": "Image Filter Gallery",
     "category": "image",
-    "description": "Apply cinematic filters to your photos. Click any filter to preview and download.",
+    "description": "Apply preset filters: Warm, Cool, Fade, Vivid, and more.",
     "icon": "🎞️",
     "href": "/tools/image-filters",
     "status": "done"
@@ -1947,7 +1947,7 @@
     "id": "curl-builder",
     "name": "cURL Command Builder",
     "category": "dev",
-    "description": "Build cURL commands visually. Select method, add headers, set body, and copy the generated command.",
+    "description": "Build cURL commands visually for HTTP requests.",
     "icon": "🔗",
     "href": "/tools/curl-builder",
     "status": "done"
@@ -1956,7 +1956,7 @@
     "id": "duration-calculator",
     "name": "Time Duration Calculator",
     "category": "math",
-    "description": "Calculate the exact duration between two dates/times. See results in years, months, weeks, days, hours, minutes, and seconds.",
+    "description": "Add and subtract time durations (hours, minutes, seconds).",
     "icon": "⏳",
     "href": "/tools/duration-calculator",
     "status": "done"
@@ -1965,7 +1965,7 @@
     "id": "aspect-ratio",
     "name": "Aspect Ratio Calculator",
     "category": "math",
-    "description": "Calculate aspect ratios from dimensions, find missing dimensions given a ratio, and see common presets.",
+    "description": "Simplify ratios and find equivalent dimensions.",
     "icon": "🖼️",
     "href": "/tools/aspect-ratio",
     "status": "done"
@@ -1974,7 +1974,7 @@
     "id": "roman-numerals",
     "name": "Roman Numeral Converter",
     "category": "text",
-    "description": "Convert between Roman numerals and Arabic numbers. Supports 1–3999 (I–MMMCMXCIX).",
+    "description": "Convert between Roman numerals and Arabic numbers.",
     "icon": "Ⅿ",
     "href": "/tools/roman-numerals",
     "status": "done"
@@ -1983,7 +1983,7 @@
     "id": "line-sorter",
     "name": "Text Line Sorter",
     "category": "text",
-    "description": "Sort, reverse, shuffle, deduplicate, or trim lines of text in one click.",
+    "description": "Sort lines alphabetically, numerically, by length, or randomly.",
     "icon": "↕️",
     "href": "/tools/line-sorter",
     "status": "done"
@@ -1992,7 +1992,7 @@
     "id": "palindrome",
     "name": "Palindrome Checker",
     "category": "fun",
-    "description": "Check if any word, phrase, or number is a palindrome. See the reversed version and a character comparison.",
+    "description": "Check if text is a palindrome.",
     "icon": "🔄",
     "href": "/tools/palindrome",
     "status": "done"
@@ -2001,7 +2001,7 @@
     "id": "url-parser",
     "name": "URL Parser & Builder",
     "category": "dev",
-    "description": "Parse any URL into its components or build a URL from parts. View query parameters as a table.",
+    "description": "Parse URL structure into protocol, host, port, path, query, and hash.",
     "icon": "🔍",
     "href": "/tools/url-parser",
     "status": "done"
@@ -2019,7 +2019,7 @@
     "id": "textbook-splitter",
     "name": "Page Textbook Splitter",
     "category": "pdf",
-    "description": "Split landscape-scanned book pages down the middle into consecutive portrait pages.",
+    "description": "Split landscape-scanned A3 book layouts mathematically down the middle into consecutive portrait pages.",
     "icon": "📖",
     "href": "/tools/textbook-splitter",
     "status": "done"
@@ -2028,7 +2028,7 @@
     "id": "glassmorphism-generator",
     "name": "CSS Glassmorphism Studio",
     "category": "css",
-    "description": "Interactive studio for generating cross-browser glassmorphism (frosted glass) CSS with Safari fallbacks.",
+    "description": "Visual playground to design cross-browser compatible glassmorphism elements with Safari fallbacks.",
     "icon": "🔮",
     "href": "/tools/glassmorphism-generator",
     "status": "done"
