@@ -2364,7 +2364,7 @@
     "description": "Generate .gitignore files by selecting project types, languages, IDEs, and OS combinations.",
     "icon": "🙈",
     "href": "/tools/gitignore-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "gitignore",
       "git",

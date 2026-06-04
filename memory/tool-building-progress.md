@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 243 built, 37 planned = 280 total
+## Current Status: 244 built, 36 planned = 280 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -15,7 +15,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ### Developer Tools (12 planned)
 - [ ] Docker Compose Generator (`docker-compose-generator`)
 - [ ] NGINX Config Generator (`nginx-config-generator`)
-- [ ] Gitignore Generator (`gitignore-generator`)
+- [x] Gitignore Generator (`gitignore-generator`)
 - [ ] Environment Variable Editor (`env-editor`)
 - [ ] LLM Token Counter (`llm-token-counter`)
 - [ ] Mock Data Generator (`mock-data-generator`)

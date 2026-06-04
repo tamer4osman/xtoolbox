@@ -37,10 +37,10 @@
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
 | Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
-| Phase 25: Most Wanted (Planned) | 🟡 | 3 | 39 |
+| Phase 25: Most Wanted (Planned) | 🟡 | 4 | 39 |
 | **Total** | | **280** | |
 
-**Status:** 244 professional tools built. 36 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
+**Status:** 245 professional tools built. 35 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
 
 ---
 
@@ -11318,7 +11318,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 |---|------|------|---------|-------------------|-----------------|
 | 5 | Docker Compose Generator | `dev/docker-compose-generator.js` | js-yaml + pure JS | very-high | compose.ajnart.dev popular; DevOps essential |
 | 6 | NGINX Config Generator | `dev/nginx-config-generator.js` | Pure JS form-to-config | very-high | 6k+ GitHub stars on nginxconfig.io |
-| 7 | Gitignore Generator | `dev/gitignore-generator.js` | Bundled JSON templates | very-high | gitignore.io is most-used dev tool |
+| 7 | Gitignore Generator ✅ | `dev/gitignore-generator.js` | Bundled JSON templates | very-high | gitignore.io is most-used dev tool |
 | 8 | Environment Variable Editor | `dev/env-editor.js` | CodeMirror + pure JS | very-high | No browser-based .env builder exists |
 | 9 | LLM Token Counter | `dev/llm-token-counter.js` | tiktoken WASM | high | Strongest 2025 dev trend |
 | 10 | Mock Data Generator | `dev/mock-data-generator.js` | @faker-js/faker | very-high | 798 upvotes on Reddit; most requested |
@@ -11407,6 +11407,6 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 |---|------|------|---------|-------------------|-----------------|
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | very-high | Marketers need to preview before publishing |
 
-**Total Phase 25:** 39 tools planned (3 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator — 36 remaining).
+**Total Phase 25:** 39 tools planned (4 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator — 35 remaining).
 
-**After Phase 25:** 280 tools total (244 built + 36 planned), across 21 categories.
+**After Phase 25:** 280 tools total (245 built + 35 planned), across 21 categories.
