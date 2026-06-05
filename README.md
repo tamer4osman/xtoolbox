@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 280 unique verified tools (246 built, 34 planned).
+**Total tools:** 280 unique verified tools (247 built, 33 planned).
 
 ## Categories
 
@@ -65,7 +65,7 @@ npm run test       # → Playwright tests
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
 | Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
 | Weather | 4 | — | **4** | wttr.in, Open-Meteo | ✅ |
-| Reference | 4 | +1 | **5** | Free Dictionary API, Open Library | 4/5 |
+| Reference | 5 | — | **5** | Free Dictionary API, Open Library | ✅ |
 | Finance | 9 | +1 | **10** | Chart.js | 9/10 |
 | Math | 10 | — | **10** | math.js | ✅ |
 | Health | 11 | — | **11** | Custom JS | ✅ |
@@ -270,7 +270,7 @@ MIT
 
 ---
 
-## Phase 25 Tools (Most Wanted — 34 remaining of 39 planned; 5 built ✅)
+## Phase 25 Tools (Most Wanted — 33 remaining of 39 planned; 6 built ✅)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 

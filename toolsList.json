@@ -2878,7 +2878,7 @@
     "description": "Compare current times across multiple time zones and find optimal meeting times.",
     "icon": "🌐",
     "href": "/tools/world-clock",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "world",
       "clock",

@@ -37,10 +37,10 @@
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
 | Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
-| Phase 25: Most Wanted (Planned) | 🟡 | 5 | 39 |
+| Phase 25: Most Wanted (Planned) | 🟡 | 6 | 39 |
 | **Total** | | **280** | |
 
-**Status:** 246 professional tools built. 34 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
+**Status:** 247 professional tools built. 33 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
 
 ---
 
@@ -1330,7 +1330,7 @@ export function addStructuredData(data) {
   { "id": "qr", "name": "QR & Barcode", "icon": "📱", "description": "Generate and scan QR codes and barcodes", "toolCount": 4 },
   { "id": "privacy", "name": "Privacy & Security", "icon": "🔒", "description": "Encrypt files, generate passwords, remove metadata", "toolCount": 6 },
   { "id": "weather", "name": "Weather & Location", "icon": "🌤️", "description": "Weather forecasts, IP lookup, sunrise times", "toolCount": 4 },
-  { "id": "reference", "name": "Reference", "icon": "📚", "description": "Dictionary, thesaurus, book lookup, holidays", "toolCount": 4 },
+  { "id": "reference", "name": "Reference", "icon": "📚", "description": "Dictionary, thesaurus, book lookup, holidays, world clock", "toolCount": 5 },
   { "id": "finance", "name": "Finance", "icon": "💰", "description": "Loan, mortgage, SIP, and tax calculators", "toolCount": 8 },
   { "id": "math", "name": "Math & Converters", "icon": "🔢", "description": "Calculators, unit converters, graph plotter", "toolCount": 8 },
   { "id": "health", "name": "Health & Personal", "icon": "🧮", "description": "BMI, calorie, ideal weight calculators", "toolCount": 4 },
@@ -11399,7 +11399,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 | # | Task | File | Library | Client Feasibility | Demand Evidence |
 |---|------|------|---------|-------------------|-----------------|
-| 38 | World Clock & Time Zone Converter | `reference/world-clock.js` | Intl.DateTimeFormat API | very-high | Remote workers constantly need this |
+| 38 | World Clock & Time Zone Converter ✅ | `reference/world-clock.js` | Intl.DateTimeFormat API | very-high | Remote workers constantly need this |
 
 ### 🔍 SEO (1 tool)
 
@@ -11407,6 +11407,6 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 |---|------|------|---------|-------------------|-----------------|
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | very-high | Marketers need to preview before publishing |
 
-**Total Phase 25:** 39 tools planned (5 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator — 34 remaining).
+**Total Phase 25:** 39 tools planned (6 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter — 33 remaining).
 
 **After Phase 25:** 280 tools total (246 built + 34 planned), across 21 categories.
