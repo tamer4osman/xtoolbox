@@ -2391,18 +2391,23 @@
     "id": "env-editor",
     "name": "Environment Variable (.env) Editor",
     "category": "dev",
-    "description": "Visual editor for .env files with parse, edit, validate, and syntax highlighting.",
-    "icon": "🔧",
+    "description": "Edit .env files visually with a live-validating editor, multi-file tabs (.env / .env.example / .env.production / .env.development), a preset library (Postgres, Redis, Stripe, AWS, OAuth, JWT, OpenAI, and more), and one-click conversion to JSON, YAML, shell exports, and docker --env-file format.",
+    "icon": "🔐",
     "href": "/tools/env-editor",
     "keywords": [
       "env",
       "environment",
       "dotenv",
-      "variables",
-      "editor",
-      "config"
+      ".env",
+      "config",
+      "secret",
+      "api key",
+      "docker",
+      "shell",
+      "json",
+      "yaml"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "llm-token-counter",
