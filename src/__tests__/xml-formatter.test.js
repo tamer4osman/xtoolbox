@@ -143,4 +143,18 @@ describe('xml-formatter', () => {
     render(container);
     expect(() => destroy()).not.toThrow();
   });
+
+  it('minify preserves whitespace inside text content and CDATA', () => {
+    const container = document.createElement('div');
+    render(container);
+    const input = container.querySelector('#xf-input');
+    const output = container.querySelector('#xf-output');
+    const minifyBtn = container.querySelector('#xf-minify');
+
+    const xml = '<root><msg>hello   world</msg><data><![CDATA[x   y   z]]></data></root>';
+    input.value = xml;
+    minifyBtn.click();
+
+    expect(output.textContent).toBe('<root><msg>hello   world</msg><data><![CDATA[x   y   z]]></data></root>');
+  });
 });

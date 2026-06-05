@@ -52,14 +52,18 @@ export function validateXml(xml) {
   
   if (errorNode) {
     const errorText = errorNode.textContent;
+    const lineNumber = errorNode.lineNumber;
+    const columnNumber = errorNode.columnNumber;
     const lineMatch = errorText.match(/line (\d+)/i);
     const colMatch = errorText.match(/column (\d+)/i);
-    
+    const line = Number.isInteger(lineNumber) ? lineNumber : (lineMatch ? parseInt(lineMatch[1], 10) : undefined);
+    const column = Number.isInteger(columnNumber) ? columnNumber : (colMatch ? parseInt(colMatch[1], 10) : undefined);
+
     return {
       valid: false,
       error: errorText,
-      line: lineMatch ? parseInt(lineMatch[1], 10) : null,
-      column: colMatch ? parseInt(colMatch[1], 10) : null
+      line: line ?? null,
+      column: column ?? null
     };
   }
   
@@ -241,8 +245,8 @@ export function render(container) {
         return;
       }
       
-      // Remove whitespace between tags
-      const minified = xml.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim();
+      // Collapse whitespace between adjacent tags only (preserve text/CDATA content)
+      const minified = xml.replace(/>\s+</g, '><').trim();
       currentXml = minified;
       output.textContent = minified;
       showStatus('XML minified', 'success');
