@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 248 built, 32 planned = 280 total
+## Current Status: 249 built, 31 planned = 280 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -13,7 +13,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [ ] Font Subsetter (`font-subsetter`)
 
 ### Developer Tools (12 planned)
-- [ ] Docker Compose Generator (`docker-compose-generator`)
+- [x] Docker Compose Generator (`docker-compose-generator`)
 - [x] NGINX Config Generator (`nginx-config-generator`)
 - [x] Gitignore Generator (`gitignore-generator`)
 - [ ] Environment Variable Editor (`env-editor`)

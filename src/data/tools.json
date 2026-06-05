@@ -2327,18 +2327,25 @@
     "id": "docker-compose-generator",
     "name": "Docker Compose Generator",
     "category": "dev",
-    "description": "Visually build docker-compose.yml files with services, ports, volumes, networks, and environment variables.",
+    "description": "Build a docker-compose.yml visually: pick services from a palette (Nginx, Node.js, PostgreSQL, Redis, MySQL, MongoDB, Python, PHP, and more), then tune image, ports, volumes, environment, depends_on, restart, and command. Live YAML output with copy and download.",
     "icon": "🐳",
     "href": "/tools/docker-compose-generator",
     "keywords": [
       "docker",
+      "docker-compose",
       "compose",
+      "yml",
       "yaml",
-      "containers",
-      "devops",
-      "services"
+      "container",
+      "service",
+      "nginx",
+      "postgres",
+      "redis",
+      "mongodb",
+      "mysql",
+      "devops"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "nginx-config-generator",
