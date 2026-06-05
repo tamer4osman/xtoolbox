@@ -2792,7 +2792,7 @@
     "name": "Markdown Table Generator",
     "category": "text",
     "description": "Visually create and edit Markdown tables with a spreadsheet-like interface.",
-    "icon": "??",
+    "icon": "⊞",
     "href": "/tools/markdown-table-generator",
     "keywords": [
       "markdown",
