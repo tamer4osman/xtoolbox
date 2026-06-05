@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 280 unique verified tools (247 built, 33 planned).
+**Total tools:** 280 unique verified tools (248 built, 32 planned).
 
 ## Categories
 
@@ -73,7 +73,7 @@ npm run test       # → Playwright tests
 | Encoding & Hashing | 8 | +1 | **9** | Web Crypto API | 8/9 |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
 | CSS & Web Design | 15 | +4 | **19** | Custom JS | 15/19 |
-| Developer | 17 | +11 | **28** | Custom JS | 17/28 |
+| Developer | 18 | +10 | **28** | Custom JS | 18/28 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | +6 | **14** | Custom JS | 8/14 |
 | SEO | 7 | +1 | **8** | Custom JS | 7/8 |
@@ -270,7 +270,7 @@ MIT
 
 ---
 
-## Phase 25 Tools (Most Wanted — 33 remaining of 39 planned; 6 built ✅)
+## Phase 25 Tools (Most Wanted — 32 remaining of 39 planned; 7 built ✅)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 
@@ -288,7 +288,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 | # | Tool | File | Library | Why |
 |---|------|------|---------|-----|
 | 5 | Docker Compose Generator | `dev/docker-compose-generator.js` | js-yaml + pure JS | DevOps essential, compose.ajnart.dev popular |
-| 6 | NGINX Config Generator | `dev/nginx-config-generator.js` | Pure JS form-to-config | 6k+ GitHub stars on nginxconfig.io |
+| 6 | ~~NGINX Config Generator~~ ✅ | `dev/nginx-config-generator.js` | Pure JS form-to-config | 6k+ GitHub stars on nginxconfig.io — shipped |
 | 7 | ~~Gitignore Generator~~ ✅ | `dev/gitignore-generator.js` | Bundled JSON templates | gitignore.io is one of most-used dev tools — shipped |
 | 8 | Environment Variable Editor | `dev/env-editor.js` | CodeMirror + pure JS | No browser-based .env builder exists |
 | 9 | LLM Token Counter | `dev/llm-token-counter.js` | tiktoken WASM | Strongest 2025 dev trend |

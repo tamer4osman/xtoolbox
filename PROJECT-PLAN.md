@@ -12,7 +12,7 @@
 
 | Phase | Status | Tasks Done | Tasks Total |
 |-------|--------|-----------|-------------|
-| **Overall** | **In Progress** | **467** | **480** |
+| **Overall** | **In Progress** | **468** | **480** |
 | Phase 1: Foundation | ✅ | 62 | 62 |
 | Phase 2: PDF Tools | ✅ | 28 | 28 |
 | Phase 3: Image Tools | ✅ | 31 | 31 |
@@ -37,10 +37,10 @@
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
 | Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
-| Phase 25: Most Wanted (Planned) | 🟡 | 6 | 39 |
+| Phase 25: Most Wanted (Planned) | 🟡 | 7 | 39 |
 | **Total** | | **280** | |
 
-**Status:** 247 professional tools built. 33 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
+**Status:** 248 professional tools built. 32 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
 
 ---
 
@@ -11407,6 +11407,6 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 |---|------|------|---------|-------------------|-----------------|
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | very-high | Marketers need to preview before publishing |
 
-**Total Phase 25:** 39 tools planned (6 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter — 33 remaining).
+**Total Phase 25:** 39 tools planned (7 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter, NGINX Config Generator — 32 remaining).
 
-**After Phase 25:** 280 tools total (247 built + 33 planned), across 21 categories.
+**After Phase 25:** 280 tools total (248 built + 32 planned), across 21 categories.

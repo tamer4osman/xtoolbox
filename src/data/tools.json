@@ -2344,18 +2344,25 @@
     "id": "nginx-config-generator",
     "name": "NGINX Config Generator",
     "category": "dev",
-    "description": "Generate optimized NGINX server configurations visually with domains, SSL, caching, and reverse proxy.",
-    "icon": "⚙️",
+    "description": "Generate nginx.conf server blocks visually with presets for static sites, WordPress, Node.js, and load balancers. Supports HTTPS, reverse proxy, PHP-FPM, upstream load balancing, rate limiting, gzip, static caching, and security headers. Live output with copy and download.",
+    "icon": "🌐",
     "href": "/tools/nginx-config-generator",
     "keywords": [
       "nginx",
-      "config",
-      "server",
-      "ssl",
+      "nginx.conf",
       "reverse proxy",
-      "caching"
+      "ssl",
+      "tls",
+      "https",
+      "php-fpm",
+      "fastcgi",
+      "load balancer",
+      "upstream",
+      "rate limit",
+      "server block",
+      "lets encrypt"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "gitignore-generator",
