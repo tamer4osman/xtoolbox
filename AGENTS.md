@@ -307,17 +307,24 @@ When building a new tool, ALWAYS follow this exact sequence:
 3. **Write Playwright test** — `tests/<tool>.spec.js`
 4. **Verify build** — `npm run build` must pass
 5. **Verify tests** — `npm run test:unit` must pass
-6. **User testing** — Start dev server (`npm run dev`) and ask user to test the tool at `http://localhost:3000/#/tools/<tool-id>`. Wait for user confirmation before proceeding.
-7. **Update docs** — Do NOT skip any of these:
+6. **Self-test with Chrome DevTools** — Smoke-test the tool yourself before asking the user. Start dev server (`npm run dev`) if it is not running, then use the Chrome DevTools MCP to:
+   - Navigate to `http://localhost:3000/#/tools/<tool-id>`
+   - Take a snapshot — confirm the UI renders without broken layouts
+   - `list_console_messages` — confirm 0 errors (warnings about pre-existing a11y issues on other tools are fine)
+   - `list_network_requests` — confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
+   - Click the primary action button and verify the expected output/UI change happens
+   - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
+7. **User testing** — Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
+8. **Update docs** — Do NOT skip any of these:
    - `toolsList.json` — Add tool entry, set status to "done"
    - `src/data/tools.json` — Add tool entry, set status to "done"
    - `README.md` — Update tool count, add phase status
    - `PROJECT-PLAN.md` — Update phase progress, tool count
    - `memory/tool-building-progress.md` — Update completed tools list
-8. **Update main page** — ALL of these must reflect the new total:
+9. **Update main page** — ALL of these must reflect the new total:
    - `src/pages/home.js` — Update tool count (hero, search placeholder, meta description), update popular tools list if needed
    - `src/data/categories.json` — Update all category tool counts to match actual `src/data/tools.json`
    - `src/components/footer.js` — Update tool count in tagline
-9. **Commit** — Only after user approves the tool, commit with descriptive message.
+10. **Commit** — Only after user approves the tool, commit with descriptive message.
 
 Never skip docs. The tool count in README and PROJECT-PLAN must match toolsList.json. Never add a tool to `src/data/tools.json` without also adding it to `toolsList.json` (and vice versa).

@@ -1,11 +1,11 @@
 ---
 name: tool-builder
-description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 9-step tool-building convention from AGENTS.md, including file scaffolding, test templates, doc sync, count propagation, and the user-approval gate.
+description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 10-step tool-building convention from AGENTS.md, including file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
 ---
 
 # Tool Builder
 
-End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 9-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
+End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 10-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
 
 ## When to use
 
@@ -111,19 +111,37 @@ npm run test:unit
 
 All tests must pass. The Playwright suite (`npm run test`) is **not** required here — that runs in CI.
 
-## Step 6 — User testing gate (BLOCKING)
+## Step 6 — Self-test with Chrome DevTools (BLOCKING)
 
-Start the dev server if it is not already running:
+Before asking the user, smoke-test the tool yourself with the Chrome DevTools MCP. Start the dev server if it is not already running:
 
 ```bash
 npm run dev
 ```
 
-Tell the user: "Tool is ready at http://localhost:3000/#/tools/<tool-id>. Please test and confirm before I update docs and commit."
+Then verify all of the following:
 
-**Wait for explicit approval.** Do not proceed to Step 7 if the user has not approved.
+- **Navigate** to `http://localhost:3000/#/tools/<tool-id>`.
+- **Snapshot** the page — confirm the UI renders (tool header, primary controls visible) with no broken layouts.
+- **Console** — `list_console_messages` must show 0 errors. Warnings about pre-existing a11y issues on other tools are fine; a fresh error from your new tool is not.
+- **Network** — `list_network_requests` must show 0 4xx/5xx. The new tool's `.js` module must return 200, and every helper it imports (`../../components/...`, `../../utils/...`) must resolve. If a 4xx appears, the Vite module cache is likely stale: stop the dev server, `rm -rf node_modules/.vite`, restart, and re-test.
+- **Interaction** — click the primary action button and verify the expected output/UI change happens. If the tool is purely input-driven (e.g. paste XML and click Format), simulate that input and assert the result appears.
 
-## Step 7 — Update docs (all required, all in one pass)
+If any check fails, fix the code and re-run from Step 1. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
+
+## Step 7 — User testing gate (BLOCKING)
+
+Tell the user:
+
+> Tool is ready at `http://localhost:3000/#/tools/<tool-id>`. Please test these interactions:
+>
+> 1. …
+> 2. …
+> 3. …
+
+Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 8 if the user has not approved.
+
+## Step 8 — Update docs (all required, all in one pass)
 
 | File | Change |
 |------|--------|
@@ -133,7 +151,7 @@ Tell the user: "Tool is ready at http://localhost:3000/#/tools/<tool-id>. Please
 | `PROJECT-PLAN.md` | Bump the "Tasks Done" total by 1. If the phase finished, mark it ✅. |
 | `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool. |
 
-## Step 8 — Update main-page counts (all required)
+## Step 9 — Update main-page counts (all required)
 
 These MUST reflect the new total — the tool count appears in 4 user-facing files and must agree:
 
@@ -149,7 +167,7 @@ rg -n "(\\d+)\\+?\\s*(free\\s*)?(online\\s*)?tools" README.md src/pages/home.js 
 
 Every number should be the same.
 
-## Step 9 — Commit (only after user approval)
+## Step 10 — Commit (only after user approval)
 
 Stage only the files you touched. Write a descriptive commit message:
 
@@ -166,7 +184,7 @@ Add <tool-name> tool (<category>)
 
 ## Red lines
 
-- Do not commit before Step 6 approval.
+- Do not commit before Step 7 (user) approval. Step 6 is your own self-test; only the user's explicit approval clears the gate to Steps 8-10.
 - Do not edit `package.json` to add a dependency without asking — many Phase 25 tools can be built with browser built-ins only (see the AGENTS.md / README convention).
 - Do not add a tool to `src/data/tools.json` without also adding it to `toolsList.json` and vice versa.
 - Do not add comments to the tool source (AGENTS.md: "DO NOT ADD ANY COMMENTS unless asked").
