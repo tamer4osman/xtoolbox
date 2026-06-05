@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 280 unique verified tools (245 built, 35 planned).
+**Total tools:** 280 unique verified tools (246 built, 34 planned).
 
 ## Categories
 
@@ -69,7 +69,7 @@ npm run test       # → Playwright tests
 | Finance | 9 | +1 | **10** | Chart.js | 9/10 |
 | Math | 10 | — | **10** | math.js | ✅ |
 | Health | 11 | — | **11** | Custom JS | ✅ |
-| Text & Content | 29 | +2 | **31** | marked, turndown, js-yaml, SheetJS | 29/31 |
+| Text & Content | 30 | +1 | **31** | marked, turndown, js-yaml, SheetJS | 30/31 |
 | Encoding & Hashing | 8 | +1 | **9** | Web Crypto API | 8/9 |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
 | CSS & Web Design | 15 | +4 | **19** | Custom JS | 15/19 |
@@ -270,7 +270,7 @@ MIT
 
 ---
 
-## Phase 25 Tools (Most Wanted — 35 remaining of 39 planned; 4 built ✅)
+## Phase 25 Tools (Most Wanted — 34 remaining of 39 planned; 5 built ✅)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 

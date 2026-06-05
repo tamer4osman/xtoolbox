@@ -37,10 +37,10 @@
 | Phase 22: Format Converters | ✅ | 15 | 15 |
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
 | Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
-| Phase 25: Most Wanted (Planned) | 🟡 | 4 | 39 |
+| Phase 25: Most Wanted (Planned) | 🟡 | 5 | 39 |
 | **Total** | | **280** | |
 
-**Status:** 245 professional tools built. 35 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
+**Status:** 246 professional tools built. 34 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
 
 ---
 
@@ -11375,7 +11375,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 | # | Task | File | Library | Client Feasibility | Demand Evidence |
 |---|------|------|---------|-------------------|-----------------|
 | 33 | Citation & Bibliography Generator | `text/citation-generator.js` | Pure JS string formatting | very-high | EasyBib now aggressive paywalls |
-| 34 | Markdown Table Generator | `text/markdown-table-generator.js` | Pure JS string formatting | very-high | Creating MD tables by hand is tedious |
+| 34 | Markdown Table Generator ✅ | `text/markdown-table-generator.js` | Pure JS string formatting | very-high | Creating MD tables by hand is tedious |
 
 ### 🔊 Audio (1 tool)
 
@@ -11407,6 +11407,6 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 |---|------|------|---------|-------------------|-----------------|
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | very-high | Marketers need to preview before publishing |
 
-**Total Phase 25:** 39 tools planned (4 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator — 35 remaining).
+**Total Phase 25:** 39 tools planned (5 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator — 34 remaining).
 
-**After Phase 25:** 280 tools total (245 built + 35 planned), across 21 categories.
+**After Phase 25:** 280 tools total (246 built + 34 planned), across 21 categories.

@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 244 built, 36 planned = 280 total
+## Current Status: 245 built, 35 planned = 280 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -54,7 +54,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 
 ### Text (2 planned)
 - [ ] Citation & Bibliography Generator (`citation-generator`)
-- [ ] Markdown Table Generator (`markdown-table-generator`)
+- [x] Markdown Table Generator (`markdown-table-generator`)
 
 ### Audio (1 planned)
 - [ ] Sound Effect Generator (`sound-effect-generator`)
