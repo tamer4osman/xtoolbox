@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 280 unique verified tools (250 built, 30 planned).
+**Total tools:** 280 unique verified tools (251 built, 29 planned).
 
 ## Categories
 
@@ -73,7 +73,7 @@ npm run test       # → Playwright tests
 | Encoding & Hashing | 8 | +1 | **9** | Web Crypto API | 8/9 |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
 | CSS & Web Design | 15 | +4 | **19** | Custom JS | 15/19 |
-| Developer | 20 | +8 | **28** | Custom JS | 20/28 |
+| Developer | 21 | +7 | **28** | Custom JS | 21/28 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | +6 | **14** | Custom JS | 8/14 |
 | SEO | 7 | +1 | **8** | Custom JS | 7/8 |
@@ -270,7 +270,7 @@ MIT
 
 ---
 
-## Phase 25 Tools (Most Wanted — 30 remaining of 39 planned; 9 built ✅)
+## Phase 25 Tools (Most Wanted — 29 remaining of 39 planned; 10 built ✅)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 
@@ -291,7 +291,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 | 6 | ~~NGINX Config Generator~~ ✅ | `dev/nginx-config-generator.js` | Pure JS form-to-config | 6k+ GitHub stars on nginxconfig.io — shipped |
 | 7 | ~~Gitignore Generator~~ ✅ | `dev/gitignore-generator.js` | Bundled JSON templates | gitignore.io is one of most-used dev tools — shipped |
 | 8 | ~~Environment Variable Editor~~ ✅ | `dev/env-editor.js` | Pure JS editor + custom syntax highlight | No browser-based .env builder exists — shipped |
-| 9 | LLM Token Counter | `dev/llm-token-counter.js` | tiktoken WASM | Strongest 2025 dev trend |
+| 9 | ~~LLM Token Counter~~ ✅ | `dev/llm-token-counter.js` | Pure JS heuristic | Strongest 2025 dev trend — shipped |
 | 10 | Mock Data Generator | `dev/mock-data-generator.js` | @faker-js/faker | 798 upvotes on Reddit, most requested |
 | 11 | SQL Playground | `dev/sql-playground.js` | sql.js (SQLite WASM) + CodeMirror | Unique — no competitor offers this |
 | 12 | Database Schema Designer | `dev/database-schema-designer.js` | Canvas/SVG + sql.js | DrawDB trending, no free browser option |

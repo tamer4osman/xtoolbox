@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 250 built, 30 planned = 280 total
+## Current Status: 251 built, 29 planned = 280 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -17,7 +17,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] NGINX Config Generator (`nginx-config-generator`)
 - [x] Gitignore Generator (`gitignore-generator`)
 - [x] Environment Variable Editor (`env-editor`)
-- [ ] LLM Token Counter (`llm-token-counter`)
+- [x] LLM Token Counter (`llm-token-counter`)
 - [ ] Mock Data Generator (`mock-data-generator`)
 - [ ] SQL Playground (`sql-playground`)
 - [ ] Database Schema Designer (`database-schema-designer`)
