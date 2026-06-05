@@ -1,3 +1,5 @@
+import { showToast } from '../../components/toast.js';
+
 export const toolConfig = {
   id: 'bulk-utm-builder',
   name: 'Bulk UTM Campaign URL Builder',
@@ -124,7 +126,7 @@ export function render(container) {
       term: container.querySelector('#utm-term').value,
     });
     if (!savePresets(presets)) {
-      alert('Failed to save preset. Storage may be full or unavailable.');
+      showToast({ message: 'Failed to save preset. Storage may be full or unavailable.', type: 'error' });
       return;
     }
     refreshPresetList();
@@ -149,7 +151,7 @@ export function render(container) {
     const presets = loadPresets();
     presets.splice(parseInt(idx), 1);
     if (!savePresets(presets)) {
-      alert('Failed to delete preset. Storage may be full or unavailable.');
+      showToast({ message: 'Failed to delete preset. Storage may be full or unavailable.', type: 'error' });
       return;
     }
     refreshPresetList();
