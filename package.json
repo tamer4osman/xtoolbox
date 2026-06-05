@@ -54,5 +54,19 @@
     "tesseract.js": "^7.0.0",
     "wavesurfer.js": "^7.12.6",
     "xlsx": "^0.18.5"
-  }
+  },
+  "main": "playwright.config.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamer4osman/xtoolbox.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/tamer4osman/xtoolbox/issues"
+  },
+  "homepage": "https://github.com/tamer4osman/xtoolbox#readme"
 }
