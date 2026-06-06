@@ -1,7 +1,7 @@
-import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
-import { loadPdf, savePdf, renderAllPages } from './pdf-utils.js';
+import { loadPdf, savePdf } from './pdf-utils.js';
 import { rgb } from 'pdf-lib';
+import { createPdfPageBrowser } from './pdf-page-browser.js';
 
 export const toolConfig = {
   id: 'pdf-secure-redact',
@@ -35,114 +35,123 @@ export const toolConfig = {
   ]
 };
 
-let _style = null;
-let pageCanvases = [];
-let redactionRects = [];
+const STYLE_CSS = `
+  .page-navigation { display: flex; align-items: center; justify-content: center; gap: var(--space-4); margin-bottom: var(--space-4); }
+  .page-navigation span { font-weight: 600; min-width: 120px; text-align: center; }
+  .redact-canvas-container { position: relative; overflow: auto; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #f5f5f5; padding: var(--space-2); max-height: 600px; }
+  .redact-canvas-container canvas { display: block; margin: 0 auto; box-shadow: var(--shadow-md); }
+  .redact-hint { text-align: center; color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-2); }
+  .redact-actions { margin-top: var(--space-4); text-align: center; }
+  .redact-overlay { position: absolute; background: rgba(0,0,0,0.8); border: 2px solid #ff0000; cursor: pointer; z-index: 10; }
+  .redact-overlay.selected { border-color: #00ff00; }
+  .redact-overlay:hover { opacity: 0.9; }
+`;
+
+const OPTIONS_HTML = `
+  <div class="page-navigation">
+    <button class="btn btn-secondary" id="prev-page" disabled>Previous</button>
+    <span id="page-indicator">Page 1 of 1</span>
+    <button class="btn btn-secondary" id="next-page" disabled>Next</button>
+  </div>
+  <div class="redact-canvas-container" id="canvas-container">
+    <div class="redact-hint">Click and drag to draw a redaction rectangle on the page</div>
+  </div>
+  <div class="redact-actions">
+    <button class="btn btn-primary btn-lg" id="apply-redact-btn">Apply Redactions</button>
+  </div>
+`;
+
+const RENDER_SCALE = 0.75;
+const INV_SCALE = 1 / RENDER_SCALE;
+
+let _browser = null;
+let _redactionRects = [];
+let _selectedRectIndex = -1;
+let _isDrawing = false;
+let _drawStart = null;
+let _currentPageIndex = 0;
+let _pageCanvasesRef = [];
 
 export function render(container) {
-  let currentFile = null;
-  let selectedRectIndex = -1;
-  let isDrawing = false;
-  let drawStart = null;
-  let currentPageIndex = 0;
+  _redactionRects = [];
+  _selectedRectIndex = -1;
+  _isDrawing = false;
+  _drawStart = null;
+  _currentPageIndex = 0;
+  _pageCanvasesRef = [];
 
-  const upload = createFileUpload({
-    accept: '.pdf',
-    multiple: false,
-    maxSizeMB: 100,
-    onFilesSelected: (files) => {
-      currentFile = files[0] || null;
-      if (currentFile) {
-        optionsArea.style.display = 'block';
-        uploadArea.style.display = 'none';
-        loadAndRenderPages();
+  _browser = createPdfPageBrowser({
+    container,
+    optionsHTML: OPTIONS_HTML,
+    styleCSS: STYLE_CSS,
+    actionButtonSelector: '#apply-redact-btn',
+    renderScale: RENDER_SCALE,
+    initialProcessingMessage: 'Processing PDF...',
+
+    onPagesLoaded: (canvases) => {
+      _pageCanvasesRef = canvases;
+      _redactionRects = new Array(canvases.length).fill(null).map(() => []);
+      _currentPageIndex = 0;
+      _selectedRectIndex = -1;
+      renderPage(0);
+      updateNavigation();
+    },
+
+    onReset: () => {
+      _redactionRects = [];
+      _selectedRectIndex = -1;
+      _currentPageIndex = 0;
+      _pageCanvasesRef = [];
+      container.querySelector('#canvas-container').innerHTML = '';
+    },
+
+    onAction: async (api) => {
+      const totalRects = _redactionRects.reduce((sum, r) => sum + r.length, 0);
+      if (totalRects === 0) {
+        showToast({ message: 'No redaction rectangles drawn. Drag on the page to create one.', type: 'warning' });
+        return;
+      }
+
+      api.showProcessing('Applying redactions to PDF...');
+      try {
+        const pdfDoc = await loadPdf(api.file);
+        const pages = pdfDoc.getPages();
+
+        for (let i = 0; i < pages.length && i < _redactionRects.length; i++) {
+          const rects = _redactionRects[i];
+          const page = pages[i];
+          const { height } = page.getSize();
+
+          for (const rect of rects) {
+            page.drawRectangle({
+              x: rect.x * INV_SCALE,
+              y: height - (rect.y + rect.h) * INV_SCALE,
+              width: rect.w * INV_SCALE,
+              height: rect.h * INV_SCALE,
+              color: rgb(0, 0, 0),
+              opacity: 1
+            });
+          }
+        }
+
+        await savePdf(pdfDoc, 'redacted.pdf');
+        showToast({ message: `Redacted ${totalRects} area(s) successfully!`, type: 'success' });
+      } catch (err) {
+        showToast({ message: 'Error: ' + err.message, type: 'error' });
+      } finally {
+        api.hideProcessing();
       }
     }
   });
 
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="tool-options" id="options-area" style="display:none;">
-        <div class="page-navigation">
-          <button class="btn btn-secondary" id="prev-page" disabled>Previous</button>
-          <span id="page-indicator">Page 1 of 1</span>
-          <button class="btn btn-secondary" id="next-page" disabled>Next</button>
-        </div>
-        <div class="redact-canvas-container" id="canvas-container">
-          <div class="redact-hint">Click and drag to draw a redaction rectangle on the page</div>
-        </div>
-        <div class="redact-actions">
-          <button class="btn btn-primary btn-lg" id="apply-redact-btn">Apply Redactions</button>
-          <button class="btn btn-secondary" id="change-file-btn" style="margin-top:var(--space-2);">Change File</button>
-        </div>
-      </div>
-      <div class="tool-processing" id="processing" style="display:none;">
-        <div class="spinner"></div>
-        <p id="processing-text">Processing PDF...</p>
-      </div>
-    </div>
-  `;
-
-  const uploadArea = container.querySelector('#upload-area');
-  uploadArea.appendChild(upload.element);
-
-  const changeFileBtn = container.querySelector('#change-file-btn');
-
-  function resetToUpload() {
-    upload.clear();
-    currentFile = null;
-    pageCanvases = [];
-    redactionRects = [];
-    selectedRectIndex = -1;
-    currentPageIndex = 0;
-    optionsArea.style.display = 'none';
-    uploadArea.style.display = '';
-    canvasContainer.innerHTML = '';
-  }
-
-  changeFileBtn.addEventListener('click', resetToUpload);
-
-  const optionsArea = container.querySelector('#options-area');
   const canvasContainer = container.querySelector('#canvas-container');
   const pageIndicator = container.querySelector('#page-indicator');
   const prevBtn = container.querySelector('#prev-page');
   const nextBtn = container.querySelector('#next-page');
-  const applyBtn = container.querySelector('#apply-redact-btn');
-  const processing = container.querySelector('#processing');
-  const processingText = container.querySelector('#processing-text');
-
-  _style = document.createElement('style');
-  _style.textContent = `
-    .page-navigation { display: flex; align-items: center; justify-content: center; gap: var(--space-4); margin-bottom: var(--space-4); }
-    .page-navigation span { font-weight: 600; min-width: 120px; text-align: center; }
-    .redact-canvas-container { position: relative; overflow: auto; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: #f5f5f5; padding: var(--space-2); max-height: 600px; }
-    .redact-canvas-container canvas { display: block; margin: 0 auto; box-shadow: var(--shadow-md); }
-    .redact-hint { text-align: center; color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-2); }
-    .redact-actions { margin-top: var(--space-4); text-align: center; }
-    .redact-overlay { position: absolute; background: rgba(0,0,0,0.8); border: 2px solid #ff0000; cursor: pointer; z-index: 10; }
-    .redact-overlay.selected { border-color: #00ff00; }
-    .redact-overlay:hover { opacity: 0.9; }
-  `;
-  container.appendChild(_style);
-
-  async function loadAndRenderPages() {
-    try {
-      const canvases = await renderAllPages(currentFile, 0.75);
-      pageCanvases = canvases.filter(c => c instanceof HTMLCanvasElement);
-      redactionRects = new Array(pageCanvases.length).fill(null).map(() => []);
-      currentPageIndex = 0;
-      selectedRectIndex = -1;
-      renderPage(0);
-      updateNavigation();
-    } catch (err) {
-      showToast({ message: 'Failed to load PDF: ' + err.message, type: 'error' });
-    }
-  }
 
   function createOverlayDiv(rect, i, wrapper) {
     const div = document.createElement('div');
-    div.className = 'redact-overlay' + (i === selectedRectIndex ? ' selected' : '');
+    div.className = 'redact-overlay' + (i === _selectedRectIndex ? ' selected' : '');
     div.style.left = rect.x + 'px';
     div.style.top = rect.y + 'px';
     div.style.width = rect.w + 'px';
@@ -150,7 +159,7 @@ export function render(container) {
     div.dataset.index = i;
     div.addEventListener('click', (e) => {
       e.stopPropagation();
-      selectedRectIndex = Number.parseInt(e.currentTarget.dataset.index);
+      _selectedRectIndex = Number.parseInt(e.currentTarget.dataset.index);
       wrapper.querySelectorAll('.redact-overlay').forEach(el => el.classList.remove('selected'));
       e.currentTarget.classList.add('selected');
     });
@@ -162,158 +171,119 @@ export function render(container) {
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    drawStart = { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
-    isDrawing = true;
-    selectedRectIndex = -1;
+    _drawStart = { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+    _isDrawing = true;
+    _selectedRectIndex = -1;
     wrapper.querySelectorAll('.redact-overlay').forEach(el => el.classList.remove('selected'));
   }
 
   function handleMouseMove(e, canvas, overlayPreview) {
-    if (!isDrawing || !drawStart) return;
+    if (!_isDrawing || !_drawStart) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
     const curX = (e.clientX - rect.left) * scaleX;
     const curY = (e.clientY - rect.top) * scaleY;
     overlayPreview.style.display = 'block';
-    overlayPreview.style.left = Math.min(drawStart.x, curX) + 'px';
-    overlayPreview.style.top = Math.min(drawStart.y, curY) + 'px';
-    overlayPreview.style.width = Math.abs(curX - drawStart.x) + 'px';
-    overlayPreview.style.height = Math.abs(curY - drawStart.y) + 'px';
+    overlayPreview.style.left = Math.min(_drawStart.x, curX) + 'px';
+    overlayPreview.style.top = Math.min(_drawStart.y, curY) + 'px';
+    overlayPreview.style.width = Math.abs(curX - _drawStart.x) + 'px';
+    overlayPreview.style.height = Math.abs(curY - _drawStart.y) + 'px';
   }
 
   function handleMouseUp(e, canvas, overlayPreview, index) {
-    if (!isDrawing || !drawStart) return;
-    isDrawing = false;
+    if (!_isDrawing || !_drawStart) return;
+    _isDrawing = false;
     overlayPreview.style.display = 'none';
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
     const endX = (e.clientX - rect.left) * scaleX;
     const endY = (e.clientY - rect.top) * scaleY;
-    const w = Math.abs(endX - drawStart.x);
-    const h = Math.abs(endY - drawStart.y);
+    const w = Math.abs(endX - _drawStart.x);
+    const h = Math.abs(endY - _drawStart.y);
     if (w > 5 && h > 5) {
-      redactionRects[index].push({
-        x: Math.min(drawStart.x, endX),
-        y: Math.min(drawStart.y, endY),
+      _redactionRects[index].push({
+        x: Math.min(_drawStart.x, endX),
+        y: Math.min(_drawStart.y, endY),
         w, h
       });
       renderPage(index);
     }
-    drawStart = null;
+    _drawStart = null;
   }
 
   function handleKeyDown(e) {
-    if ((e.key === 'Delete' || e.key === 'Backspace') && selectedRectIndex >= 0) {
-      const rects = redactionRects[currentPageIndex];
-      if (rects && rects.length > selectedRectIndex) {
-        rects.splice(selectedRectIndex, 1);
-        selectedRectIndex = -1;
-        renderPage(currentPageIndex);
+    if ((e.key === 'Delete' || e.key === 'Backspace') && _selectedRectIndex >= 0) {
+      const rects = _redactionRects[_currentPageIndex];
+      if (rects && rects.length > _selectedRectIndex) {
+        rects.splice(_selectedRectIndex, 1);
+        _selectedRectIndex = -1;
+        renderPage(_currentPageIndex);
       }
     }
   }
 
   function renderPage(index) {
-    if (!pageCanvases.length || index < 0 || index >= pageCanvases.length) return;
-    currentPageIndex = index;
-    canvasContainer.innerHTML = '';
-    pageIndicator.textContent = `Page ${index + 1} of ${pageCanvases.length}`;
+    if (!_pageCanvasesRef.length || index < 0 || index >= _pageCanvasesRef.length) return;
+    _currentPageIndex = index;
+    canvasContainerEl.innerHTML = '';
+    pageIndicator.textContent = `Page ${index + 1} of ${_pageCanvasesRef.length}`;
 
     const wrapper = document.createElement('div');
     wrapper.style.position = 'relative';
     wrapper.style.display = 'inline-block';
 
     const canvas = document.createElement('canvas');
-    canvas.width = pageCanvases[index].width;
-    canvas.height = pageCanvases[index].height;
+    canvas.width = _pageCanvasesRef[index].width;
+    canvas.height = _pageCanvasesRef[index].height;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(pageCanvases[index], 0, 0);
+    ctx.drawImage(_pageCanvasesRef[index], 0, 0);
     canvas.style.maxWidth = '100%';
     wrapper.appendChild(canvas);
 
-    const rects = redactionRects[index] || [];
+    const rects = _redactionRects[index] || [];
     rects.forEach((rect, i) => {
       wrapper.appendChild(createOverlayDiv(rect, i, wrapper));
     });
 
-    canvasContainer.appendChild(wrapper);
+    canvasContainerEl.appendChild(wrapper);
 
     const overlayPreview = document.createElement('div');
     overlayPreview.style.cssText = 'position:absolute;background:rgba(0,0,0,0.5);border:1px dashed #ff0000;display:none;pointer-events:none;z-index:20;';
     wrapper.appendChild(overlayPreview);
 
-    canvasContainer.onmousedown = (e) => handleMouseDown(e, canvas, wrapper);
-    canvasContainer.onmousemove = (e) => handleMouseMove(e, canvas, overlayPreview);
-    canvasContainer.onmouseup = (e) => handleMouseUp(e, canvas, overlayPreview, index);
+    canvasContainerEl.onmousedown = (e) => handleMouseDown(e, canvas, wrapper);
+    canvasContainerEl.onmousemove = (e) => handleMouseMove(e, canvas, overlayPreview);
+    canvasContainerEl.onmouseup = (e) => handleMouseUp(e, canvas, overlayPreview, index);
     document.addEventListener('keydown', handleKeyDown);
   }
 
   function updateNavigation() {
-    prevBtn.disabled = currentPageIndex <= 0;
-    nextBtn.disabled = currentPageIndex >= pageCanvases.length - 1;
+    prevBtn.disabled = _currentPageIndex <= 0;
+    nextBtn.disabled = _currentPageIndex >= _pageCanvasesRef.length - 1;
   }
 
   prevBtn.addEventListener('click', () => {
-    if (currentPageIndex > 0) renderPage(currentPageIndex - 1);
+    if (_currentPageIndex > 0) renderPage(_currentPageIndex - 1);
     updateNavigation();
   });
 
   nextBtn.addEventListener('click', () => {
-    if (currentPageIndex < pageCanvases.length - 1) renderPage(currentPageIndex + 1);
+    if (_currentPageIndex < _pageCanvasesRef.length - 1) renderPage(_currentPageIndex + 1);
     updateNavigation();
-  });
-
-  applyBtn.addEventListener('click', async () => {
-    if (!currentFile) return;
-
-    const totalRects = redactionRects.reduce((sum, r) => sum + r.length, 0);
-    if (totalRects === 0) {
-      showToast({ message: 'No redaction rectangles drawn. Drag on the page to create one.', type: 'warning' });
-      return;
-    }
-
-    processing.style.display = 'block';
-    processingText.textContent = 'Applying redactions to PDF...';
-    applyBtn.style.display = 'none';
-
-    try {
-      const renderScale = 0.75;
-      const invScale = 1 / renderScale;
-      const pdfDoc = await loadPdf(currentFile);
-      const pages = pdfDoc.getPages();
-
-      for (let i = 0; i < pages.length && i < redactionRects.length; i++) {
-        const rects = redactionRects[i];
-        const page = pages[i];
-        const { height } = page.getSize();
-
-        for (const rect of rects) {
-          page.drawRectangle({
-            x: rect.x * invScale,
-            y: height - (rect.y + rect.h) * invScale,
-            width: rect.w * invScale,
-            height: rect.h * invScale,
-            color: rgb(0, 0, 0),
-            opacity: 1
-          });
-        }
-      }
-
-      await savePdf(pdfDoc, 'redacted.pdf');
-      showToast({ message: `Redacted ${totalRects} area(s) successfully!`, type: 'success' });
-    } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
-    } finally {
-      processing.style.display = 'none';
-      applyBtn.style.display = 'inline-flex';
-    }
   });
 }
 
 export function destroy() {
-  if (_style) _style.remove();
-  pageCanvases = [];
-  redactionRects = [];
+  _redactionRects = [];
+  _selectedRectIndex = -1;
+  _isDrawing = false;
+  _drawStart = null;
+  _currentPageIndex = 0;
+  _pageCanvasesRef = [];
+  if (_browser) {
+    _browser.destroy();
+    _browser = null;
+  }
 }
