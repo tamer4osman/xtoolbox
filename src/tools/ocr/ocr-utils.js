@@ -1,6 +1,10 @@
 /**
  * Supported languages for OCR
  */
+import { showToast } from '../../components/toast.js';
+import { copyToClipboard } from '../../utils/clipboard.js';
+import { downloadBlob } from '../../utils/file.js';
+
 export const OCR_LANGUAGES = [
   { code: 'eng', name: 'English' },
   { code: 'chi_sim', name: 'Chinese (Simplified)' },
@@ -63,5 +67,102 @@ export async function recognizeTextDetailed(imageSource, language = 'eng', onPro
     words: result.data.words || [],
     lines: result.data.lines || [],
     paragraphs: result.data.paragraphs || []
+  };
+}
+
+/**
+ * Mount a complete OCR pipeline (options + processing + results panel)
+ * at the end of `container`. The caller provides input collection
+ * (file upload, paste, etc.) and supplies the current input via
+ * getInputFile(). Call ocr.onInputReady() to reveal the options area
+ * once the input is loaded.
+ *
+ * @param {HTMLElement} container
+ * @param {Object} opts
+ * @param {() => (File|Blob|null)} opts.getInputFile - Returns the current input
+ * @param {string} [opts.filename='extracted-text.txt']
+ * @returns {{ onInputReady: () => void, reset: () => void }}
+ */
+export function createOcrTool({ container, getInputFile, filename = 'extracted-text.txt' }) {
+  const pipeline = document.createElement('div');
+  pipeline.innerHTML = `
+    <div class="tool-options" id="options-area" style="display:none;">
+      <div class="form-group">
+        <label>Language</label>
+        <select id="lang-select" class="select-input">
+          ${OCR_LANGUAGES.map(l => `<option value="${l.code}" ${l.code === 'eng' ? 'selected' : ''}>${l.name}</option>`).join('')}
+        </select>
+      </div>
+      <button class="btn btn-primary btn-lg" id="extract-btn" style="width:100%;">Extract Text</button>
+    </div>
+    <div class="tool-processing" id="processing" style="display:none;">
+      <div class="spinner"></div>
+      <p>Recognizing text... <span id="progress-pct">0</span>%</p>
+    </div>
+    <div id="results-area" style="display:none;margin-top:var(--space-6);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+        <h3 style="font-size:var(--text-lg);font-weight:600;">Extracted Text</h3>
+        <div style="display:flex;gap:var(--space-2);">
+          <button class="btn btn-sm btn-secondary" id="copy-btn">📋 Copy</button>
+          <button class="btn btn-sm btn-secondary" id="download-btn">⬇️ Download</button>
+        </div>
+      </div>
+      <pre id="text-output" style="background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-md);white-space:pre-wrap;word-break:break-word;font-size:var(--text-sm);line-height:1.6;max-height:400px;overflow-y:auto;border:1px solid var(--color-border);"></pre>
+    </div>
+  `;
+  container.appendChild(pipeline);
+
+  const optionsArea = pipeline.querySelector('#options-area');
+  const extractBtn = pipeline.querySelector('#extract-btn');
+  const processing = pipeline.querySelector('#processing');
+  const progressPct = pipeline.querySelector('#progress-pct');
+  const resultsArea = pipeline.querySelector('#results-area');
+  const textOutput = pipeline.querySelector('#text-output');
+  const copyBtn = pipeline.querySelector('#copy-btn');
+  const downloadBtn = pipeline.querySelector('#download-btn');
+  let extractedText = '';
+
+  extractBtn.addEventListener('click', async () => {
+    const file = getInputFile();
+    if (!file) return;
+    const lang = pipeline.querySelector('#lang-select').value;
+
+    processing.style.display = 'block';
+    extractBtn.style.display = 'none';
+    resultsArea.style.display = 'none';
+
+    try {
+      extractedText = await recognizeText(file, lang, (pct) => {
+        progressPct.textContent = pct;
+      });
+
+      textOutput.textContent = extractedText || '(No text found)';
+      resultsArea.style.display = 'block';
+      showToast({ message: 'Text extracted!', type: 'success' });
+    } catch (err) {
+      showToast({ message: 'Error: ' + err.message, type: 'error' });
+    } finally {
+      processing.style.display = 'none';
+      extractBtn.style.display = 'inline-flex';
+    }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    await copyToClipboard(extractedText);
+    showToast({ message: 'Copied!', type: 'success' });
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    downloadBlob(new Blob([extractedText], { type: 'text/plain' }), filename);
+  });
+
+  return {
+    onInputReady() {
+      optionsArea.style.display = 'block';
+    },
+    reset() {
+      optionsArea.style.display = 'none';
+      resultsArea.style.display = 'none';
+    }
   };
 }
