@@ -211,6 +211,16 @@ export function buildLocationBlocks(state) {
   return out;
 }
 
+function appendLocations(lines, locations, withHeader = true) {
+  if (locations.length === 0) return;
+  lines.push('');
+  if (withHeader) lines.push('    # Locations');
+  locations.forEach((loc, i) => {
+    lines.push(loc);
+    if (i < locations.length - 1) lines.push('');
+  });
+}
+
 export function buildServerBlock(state) {
   const lines = [];
   lines.push('# ============================================');
@@ -251,14 +261,7 @@ export function buildServerBlock(state) {
   lines.push(`    error_log ${errorLog};`);
 
   const locations = buildLocationBlocks(state);
-  if (locations.length > 0) {
-    lines.push('');
-    lines.push('    # Locations');
-    locations.forEach((loc, i) => {
-      lines.push(loc);
-      if (i < locations.length - 1) lines.push('');
-    });
-  }
+  appendLocations(lines, locations, true);
 
   if (state.enableSecurityHeaders) {
     lines.push('');
@@ -292,13 +295,7 @@ export function buildServerBlock(state) {
     lines.push('    ssl_session_timeout 1d;');
     lines.push('    ssl_session_tickets off;');
 
-    if (locations.length > 0) {
-      lines.push('');
-      locations.forEach((loc, i) => {
-        lines.push(loc);
-        if (i < locations.length - 1) lines.push('');
-      });
-    }
+    appendLocations(lines, locations, false);
 
     if (state.enableSecurityHeaders) {
       lines.push('');

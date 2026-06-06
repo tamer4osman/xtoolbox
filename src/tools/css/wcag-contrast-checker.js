@@ -1,3 +1,7 @@
+import { rgbToHex, hue2rgb } from '../../utils/color.js';
+
+export { rgbToHex };
+
 export function parseColor(input) {
   const trimmed = input.trim().toLowerCase();
 
@@ -18,14 +22,6 @@ export function parseColor(input) {
     const h = parseInt(hslMatch[1]) / 360;
     const s = parseInt(hslMatch[2]) / 100;
     const l = parseInt(hslMatch[3]) / 100;
-    const hue2rgb = (p, q, t) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1 / 6) return p + (q - p) * 6 * t;
-      if (t < 1 / 2) return q;
-      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-      return p;
-    };
     let r, g, b;
     if (s === 0) {
       r = g = b = l;
@@ -86,10 +82,6 @@ export function suggestFix(fg, bg, targetRatio) {
     }
   }
   return best ? best.color : null;
-}
-
-export function rgbToHex(r, g, b) {
-  return '#' + [r, g, b].map(c => Math.round(c).toString(16).padStart(2, '0')).join('');
 }
 
 export function simulateColorBlindness(rgb, type) {

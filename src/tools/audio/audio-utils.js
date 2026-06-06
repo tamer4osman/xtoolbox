@@ -134,16 +134,7 @@ export function concatAudioBuffers(buffers) {
  * Apply gain to AudioBuffer
  */
 export function applyGain(buffer, gain) {
-  const ctx = audioContext();
-  const newBuffer = ctx.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
-  for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
-    const source = buffer.getChannelData(ch);
-    const dest = newBuffer.getChannelData(ch);
-    for (let i = 0; i < source.length; i++) {
-      dest[i] = Math.max(-1, Math.min(1, source[i] * gain));
-    }
-  }
-  return newBuffer;
+  return mapBuffer(buffer, (sample) => Math.max(-1, Math.min(1, sample * gain)));
 }
 
 /**
@@ -151,13 +142,10 @@ export function applyGain(buffer, gain) {
  */
 export function getPeakLevel(buffer) {
   let peak = 0;
-  for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
-    const data = buffer.getChannelData(ch);
-    for (let i = 0; i < data.length; i++) {
-      const abs = Math.abs(data[i]);
-      if (abs > peak) peak = abs;
-    }
-  }
+  forEachSample(buffer, (sample) => {
+    const abs = Math.abs(sample);
+    if (abs > peak) peak = abs;
+  });
   return peak;
 }
 
@@ -165,16 +153,29 @@ export function getPeakLevel(buffer) {
  * Reverse AudioBuffer
  */
 export function reverseAudioBuffer(buffer) {
+  return mapBuffer(buffer, (_sample, i, source) => source[source.length - 1 - i]);
+}
+
+function mapBuffer(buffer, fn) {
   const ctx = audioContext();
-  const newBuffer = ctx.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
+  const out = ctx.createBuffer(buffer.numberOfChannels, buffer.length, buffer.sampleRate);
   for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
     const source = buffer.getChannelData(ch);
-    const dest = newBuffer.getChannelData(ch);
+    const dest = out.getChannelData(ch);
     for (let i = 0; i < source.length; i++) {
-      dest[i] = source[source.length - 1 - i];
+      dest[i] = fn(source[i], i, source);
     }
   }
-  return newBuffer;
+  return out;
+}
+
+function forEachSample(buffer, fn) {
+  for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
+    const data = buffer.getChannelData(ch);
+    for (let i = 0; i < data.length; i++) {
+      fn(data[i], i, ch);
+    }
+  }
 }
 
 /**

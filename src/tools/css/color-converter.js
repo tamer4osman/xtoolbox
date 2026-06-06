@@ -1,11 +1,9 @@
+import { rgbToHex, hue2rgb } from '../../utils/color.js';
+
 function hexToRgb(hex) {
   const m = hex.replace('#', '').match(/^([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
   if (!m) return null;
   return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
-}
-
-function rgbToHex(r, g, b) {
-  return '#' + [r, g, b].map(c => Math.round(c).toString(16).padStart(2, '0')).join('');
 }
 
 function rgbToHsl(r, g, b) {
@@ -25,7 +23,6 @@ function rgbToHsl(r, g, b) {
 function hslToRgb(h, s, l) {
   h /= 360; s /= 100; l /= 100;
   if (s === 0) return { r: l * 255, g: l * 255, b: l * 255 };
-  const hue2rgb = (p, q, t) => { if (t < 0) t += 1; if (t > 1) t -= 1; if (t < 1 / 6) return p + (q - p) * 6 * t; if (t < 1 / 2) return q; if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6; return p; };
   const q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
   return { r: hue2rgb(p, q, h + 1 / 3) * 255, g: hue2rgb(p, q, h) * 255, b: hue2rgb(p, q, h - 1 / 3) * 255 };
 }
