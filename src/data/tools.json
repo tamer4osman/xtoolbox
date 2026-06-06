@@ -864,15 +864,6 @@
     "status": "done"
   },
   {
-    "id": "extract-text-pdf",
-    "name": "Extract Text from PDF",
-    "category": "pdf",
-    "description": "Extract all text content from a PDF file.",
-    "icon": "📋",
-    "href": "/tools/extract-text-pdf",
-    "status": "done"
-  },
-  {
     "id": "fill-pdf-forms",
     "name": "Fill PDF Forms",
     "category": "pdf",

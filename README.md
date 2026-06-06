@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**280 free online tools. 100% client-side processing — your files never leave your device.**
+**279 free online tools. 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -51,13 +51,13 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 280 unique verified tools (251 built, 29 planned).
+**Total tools:** 279 unique verified tools (250 built, 29 planned).
 
 ## Categories
 
 | Category | Existing | Planned | Total | Key Libraries | Status |
 |----------|----------|---------|-------|---------------|--------|
-| PDF | 33 | +1 | **34** | pdf-lib, PDF.js, jsPDF | 33/34 |
+| PDF | 32 | +1 | **33** | pdf-lib, PDF.js, jsPDF | 32/33 |
 | Image | 34 | +2 | **36** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 34/36 |
 | Video | 15 | +1 | **16** | ffmpeg.wasm | 15/16 |
 | Audio | 10 | +1 | **11** | Web Audio API, lamejs, Wavesurfer.js | 10/11 |
@@ -194,7 +194,7 @@ toolbox/
 │   │   └── seo/                  ← 7 SEO tools (+1 Phase 25)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 280 tool definitions (244 built, 36 planned)
+│   │   ├── tools.json            ← 279 tool definitions (243 built, 36 planned)
 │   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │

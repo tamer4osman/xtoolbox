@@ -126,7 +126,6 @@ project-root/
 │   │   │   ├── unlock-pdf.js
 │   │   │   ├── protect-pdf.js
 │   │   │   ├── fill-pdf-forms.js
-│   │   │   ├── extract-text-pdf.js
 │   │   │   ├── reorder-pdf.js
 │   │   │   └── crop-pdf.js
 │   │   │
@@ -1768,13 +1767,7 @@ export async function savePdf(pdfDoc, filename) {
 - [x] UI: Upload PDF → show form fields (if any) → user fills fields → "Download Filled PDF"
 - [x] Logic: Load PDF → get form → fill fields → save
 
-#### Task 2.3.12: Build Extract Text from PDF
-
-- [x] File: `src/tools/pdf/extract-text-pdf.js`
-- [x] UI: Upload PDF → show extracted text per page → "Copy All" button → download as .txt
-- [x] Logic: Use PDF.js to extract text content from each page
-
-#### Task 2.3.13: Build Reorder PDF Pages
+#### Task 2.3.12: Build Reorder PDF Pages
 
 - [x] File: `src/tools/pdf/reorder-pdf.js`
 - [x] UI: Upload PDF → show page thumbnails → drag to reorder → "Download Reordered PDF"
@@ -1805,7 +1798,7 @@ export async function savePdf(pdfDoc, filename) {
 
 - `src/tools/pdf/pdf-utils.js` — shared PDF utilities (load, render, save, extract text)
 - `src/tools/pdf/pdf-preview.js` — page thumbnail component with selection + drag reorder
-- 14 tool files: merge-pdf, split-pdf, compress-pdf, pdf-to-image, image-to-pdf, rotate-pdf, watermark-pdf, page-numbers-pdf, unlock-pdf, protect-pdf, fill-pdf-forms, extract-text-pdf, reorder-pdf, crop-pdf
+- 14 tool files: merge-pdf, split-pdf, compress-pdf, pdf-to-image, image-to-pdf, rotate-pdf, watermark-pdf, page-numbers-pdf, unlock-pdf, protect-pdf, fill-pdf-forms, reorder-pdf, crop-pdf
 
 **Build status:** ✅ All 14 tools code-split into separate chunks (2-403KB each)
 **Category page:** ✅ `/category/pdf` shows all 14 tools
@@ -4984,7 +4977,6 @@ Create file: `src/data/tools.json`
   {"id":"unlock-pdf","name":"Unlock PDF","category":"pdf","description":"Remove password protection from a PDF (requires password).","icon":"🔓","href":"/tools/unlock-pdf","keywords":["unlock pdf","remove pdf password","decrypt pdf"],"accept":".pdf","maxSizeMB":100},
   {"id":"protect-pdf","name":"Protect PDF","category":"pdf","description":"Add password protection to a PDF file.","icon":"🔒","href":"/tools/protect-pdf","keywords":["protect pdf","password pdf","encrypt pdf","secure pdf"],"accept":".pdf","maxSizeMB":100},
   {"id":"fill-pdf-forms","name":"Fill PDF Forms","category":"pdf","description":"Fill in interactive PDF form fields and download.","icon":"✍️","href":"/tools/fill-pdf-forms","keywords":["fill pdf form","pdf form filler","fill pdf fields"],"accept":".pdf","maxSizeMB":50},
-  {"id":"extract-text-pdf","name":"Extract Text from PDF","category":"pdf","description":"Extract all text content from a PDF file.","icon":"📋","href":"/tools/extract-text-pdf","keywords":["extract text pdf","pdf to text","pdf text extractor","get text from pdf"],"accept":".pdf","maxSizeMB":100},
   {"id":"reorder-pdf","name":"Reorder PDF Pages","category":"pdf","description":"Drag and drop to reorder pages in a PDF.","icon":"↕️","href":"/tools/reorder-pdf","keywords":["reorder pdf","arrange pdf pages","sort pdf pages"],"accept":".pdf","maxSizeMB":100},
   {"id":"crop-pdf","name":"Crop PDF Pages","category":"pdf","description":"Crop margins from PDF pages.","icon":"✂️","href":"/tools/crop-pdf","keywords":["crop pdf","trim pdf margins","cut pdf"],"accept":".pdf","maxSizeMB":100},
 
@@ -10704,7 +10696,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 
 ## 23.4 PDF Metadata Viewer
 
-**Why new:** `view-exif.js` reads image EXIF data only. `extract-text-pdf.js` extracts text content. `fill-pdf-forms.js` fills form fields. No tool reads PDF document metadata.
+**Why new:** `view-exif.js` reads image EXIF data only. `pdf-to-text.js` extracts text content. `fill-pdf-forms.js` fills form fields. No tool reads PDF document metadata.
 
 - [ ] File: `src/tools/pdf/pdf-info.js`
 - [ ] Library: `pdf-lib` (already installed) + `pdfjs-dist` (already installed)

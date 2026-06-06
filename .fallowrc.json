@@ -4,6 +4,7 @@
     "src/sw.js"
   ],
   "ignorePatterns": [
-    "src/data/add-fun.cjs"
+    "src/data/add-fun.cjs",
+    "src/tools/pdf/extract-text-pdf.js"
   ]
 }

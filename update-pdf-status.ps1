@@ -3,7 +3,7 @@ $tools = Get-Content 'D:\Projects\xtoolbox\toolsList.json' | ConvertFrom-Json
 $pdfIds = @(
     'merge-pdf', 'split-pdf', 'compress-pdf', 'pdf-to-image', 'image-to-pdf',
     'rotate-pdf', 'watermark-pdf', 'page-numbers-pdf', 'unlock-pdf', 'protect-pdf',
-    'fill-pdf-forms', 'extract-text-pdf', 'reorder-pdf', 'crop-pdf', 'pdf-metadata-viewer',
+    'fill-pdf-forms', 'reorder-pdf', 'crop-pdf', 'pdf-metadata-viewer',
     'pdf-password-info', 'word-to-pdf', 'excel-to-pdf', 'pdf-esign'
 )
 

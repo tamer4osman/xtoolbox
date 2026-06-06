@@ -25,7 +25,6 @@ export const toolConfig = {
 };
 
 import QRCode from 'qrcode';
-import { downloadDataUrl } from '../../utils/file.js';
 
 let _style = null;
 

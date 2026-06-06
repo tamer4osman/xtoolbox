@@ -1,6 +1,6 @@
 [
   { "id": "image", "name": "Image Tools", "icon": "🖼️", "description": "Compress, resize, convert, and edit images", "toolCount": 36 },
-  { "id": "pdf", "name": "PDF Tools", "icon": "📄", "description": "Merge, split, compress, and edit PDF files", "toolCount": 34 },
+  { "id": "pdf", "name": "PDF Tools", "icon": "📄", "description": "Merge, split, compress, and edit PDF files", "toolCount": 33 },
   { "id": "text", "name": "Text & Content", "icon": "📝", "description": "Format converters, word counter, text tools", "toolCount": 31 },
   { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder", "toolCount": 28 },
   { "id": "css", "name": "CSS & Web Design", "icon": "🎨", "description": "Gradient, shadow, grid generators", "toolCount": 19 },
