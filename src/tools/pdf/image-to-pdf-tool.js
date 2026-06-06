@@ -13,8 +13,8 @@ const PAGE_SIZES = {
 function computePageDimensions(pageSize, orientation, image, margin) {
   let pageWidth, pageHeight;
   if (pageSize === 'fit') {
-    pageWidth = image.width + margin * 2;
-    pageHeight = image.height + margin * 2;
+    pageWidth = image.naturalWidth + margin * 2;
+    pageHeight = image.naturalHeight + margin * 2;
   } else {
     [pageWidth, pageHeight] = PAGE_SIZES[pageSize];
     if (orientation === 'landscape' || (orientation === 'auto' && image.naturalWidth > image.naturalHeight)) {
@@ -26,16 +26,20 @@ function computePageDimensions(pageSize, orientation, image, margin) {
   return [pageWidth, pageHeight];
 }
 
+export { computePageDimensions };
+
 function fitImageToPage(image, pageWidth, pageHeight, margin) {
   const availWidth = pageWidth - margin * 2;
   const availHeight = pageHeight - margin * 2;
-  const imgRatio = image.width / image.height;
+  const imgRatio = image.naturalWidth / image.naturalHeight;
   const pageRatio = availWidth / availHeight;
   if (imgRatio > pageRatio) {
     return { drawWidth: availWidth, drawHeight: availWidth / imgRatio };
   }
   return { drawWidth: availHeight * imgRatio, drawHeight: availHeight };
 }
+
+export { fitImageToPage };
 
 /**
  * Factory for image-to-PDF conversion tools (JPG, PNG, etc.).
