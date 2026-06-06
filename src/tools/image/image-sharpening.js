@@ -1,7 +1,7 @@
 import { createFileUpload } from '../../components/file-upload.js';
+import { loadImageFromFile } from './image-utils.js';
+import { setupPreviewCanvas, downloadTransformedImage } from './pixel-tool-utils.js';
 import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
 
 export const toolConfig = {
   id: 'image-sharpening',
@@ -61,7 +61,6 @@ export function render(container) {
   const uploadArea = container.querySelector('#upload-area');
   const optionsArea = container.querySelector('#options-area');
   const previewArea = container.querySelector('#preview-area');
-  const actionsArea = container.querySelector('#actions-area');
   const countInfo = container.querySelector('#count-info');
   const intensityRange = container.querySelector('#intensity-range');
   const intensityVal = container.querySelector('#intensity-val');
@@ -88,41 +87,25 @@ export function render(container) {
     if (!originalImage) return;
     downloadBtn.disabled = true;
     downloadBtn.textContent = 'Processing...';
-
     try {
-      const canvas = document.createElement('canvas');
-      canvas.width = originalImage.naturalWidth;
-      canvas.height = originalImage.naturalHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(originalImage, 0, 0);
-      applySharpening(ctx, canvas.width, canvas.height, intensity);
-      const blob = await canvasToBlob(canvas, 'image/png');
-      downloadBlob(blob, 'sharpened.png');
-      showToast('Image sharpened successfully!', 'success');
+      await downloadTransformedImage(
+        originalImage,
+        (ctx, w, h) => applySharpening(ctx, w, h, intensity),
+        'sharpened.png',
+        'Image sharpened successfully!'
+      );
     } catch (err) {
       showToast('Failed to sharpen image: ' + err.message, 'error');
     }
-
     downloadBtn.disabled = false;
     downloadBtn.textContent = 'Download';
   });
 
   function renderPreview() {
     if (!originalImage) return;
-
-    const maxW = Math.min(600, container.parentElement.clientWidth - 40);
-    const scale = maxW / originalImage.naturalWidth;
-    const displayW = Math.round(originalImage.naturalWidth * scale);
-    const displayH = Math.round(originalImage.naturalHeight * scale);
-
-    previewCanvas.width = displayW;
-    previewCanvas.height = displayH;
-
-    const ctx = previewCanvas.getContext('2d');
-    ctx.clearRect(0, 0, displayW, displayH);
-    ctx.drawImage(originalImage, 0, 0, displayW, displayH);
-
+    const { width: displayW, height: displayH } = setupPreviewCanvas(previewCanvas, originalImage, container);
     if (!showingOriginal && intensity > 0) {
+      const ctx = previewCanvas.getContext('2d');
       applySharpening(ctx, displayW, displayH, intensity);
     }
   }
@@ -132,9 +115,6 @@ export function render(container) {
     const data = imageData.data;
     const copy = new Uint8ClampedArray(data);
 
-    // Unsharp mask kernel: center = 1 + 4*amount, neighbors = -amount
-    // Simplified: sharpen = original + amount * (original - blurred)
-    // Using a 3x3 Laplacian-like kernel
     const kernel = [
       0, -1, 0,
       -1, 4 + (1 / amount), -1,
@@ -142,7 +122,6 @@ export function render(container) {
     ];
 
     const scale = amount;
-    const offset = 128 * (1 - scale);
 
     for (let y = 1; y < h - 1; y++) {
       for (let x = 1; x < w - 1; x++) {

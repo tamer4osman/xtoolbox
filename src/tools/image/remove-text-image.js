@@ -1,7 +1,8 @@
 import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
 import { loadImageFromFile, canvasToBlob } from './image-utils.js';
+import { setupPreviewCanvas, attachDragSelection } from './pixel-tool-utils.js';
+import { downloadBlob } from '../../utils/file.js';
+import { showToast } from '../../components/toast.js';
 
 export const toolConfig = {
   id: 'remove-text-image',
@@ -21,9 +22,7 @@ export const toolConfig = {
 
 export function render(container) {
   let originalImage = null;
-  let isDrawing = false;
   let selection = null;
-  let selStart = { x: 0, y: 0 };
 
   const upload = createFileUpload({
     accept: 'image/*',
@@ -75,47 +74,9 @@ export function render(container) {
 
   uploadArea.appendChild(upload.element);
 
-  previewCanvas.addEventListener('mousedown', (e) => {
-    if (!originalImage) return;
-    isDrawing = true;
-    const rect = previewCanvas.getBoundingClientRect();
-    const scaleX = previewCanvas.width / rect.width;
-    const scaleY = previewCanvas.height / rect.height;
-    selStart = {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY
-    };
-    selection = null;
-  });
-
-  previewCanvas.addEventListener('mousemove', (e) => {
-    if (!isDrawing || !originalImage) return;
-    const rect = previewCanvas.getBoundingClientRect();
-    const scaleX = previewCanvas.width / rect.width;
-    const scaleY = previewCanvas.height / rect.height;
-    const current = {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY
-    };
-    selection = {
-      x: Math.min(selStart.x, current.x),
-      y: Math.min(selStart.y, current.y),
-      w: Math.abs(current.x - selStart.x),
-      h: Math.abs(current.y - selStart.y)
-    };
+  attachDragSelection(previewCanvas, (sel) => {
+    selection = sel;
     renderPreview();
-  });
-
-  previewCanvas.addEventListener('mouseup', () => {
-    isDrawing = false;
-    if (selection && (selection.w < 5 || selection.h < 5)) {
-      selection = null;
-      renderPreview();
-    }
-  });
-
-  previewCanvas.addEventListener('mouseleave', () => {
-    isDrawing = false;
   });
 
   clearBtn.addEventListener('click', () => {
@@ -175,20 +136,10 @@ export function render(container) {
 
   function renderPreview() {
     if (!originalImage) return;
-
-    const maxW = Math.min(600, container.parentElement.clientWidth - 40);
-    const scale = maxW / originalImage.naturalWidth;
-    const displayW = Math.round(originalImage.naturalWidth * scale);
-    const displayH = Math.round(originalImage.naturalHeight * scale);
-
-    previewCanvas.width = displayW;
-    previewCanvas.height = displayH;
-
-    const ctx = previewCanvas.getContext('2d');
-    ctx.clearRect(0, 0, displayW, displayH);
-    ctx.drawImage(originalImage, 0, 0, displayW, displayH);
+    setupPreviewCanvas(previewCanvas, originalImage, container);
 
     if (selection && selection.w > 2 && selection.h > 2) {
+      const ctx = previewCanvas.getContext('2d');
       ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
       ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
       ctx.strokeStyle = '#ef4444';
@@ -203,18 +154,6 @@ export function render(container) {
     const imageData = ctx.getImageData(0, 0, w, h);
     const data = imageData.data;
 
-    // Create mask
-    const mask = new Uint8Array(w * h);
-    for (let y = sel.y; y < sel.y + sel.h; y++) {
-      for (let x = sel.x; x < sel.x + sel.w; x++) {
-        if (x >= 0 && x < w && y >= 0 && y < h) {
-          mask[y * w + x] = 1;
-        }
-      }
-    }
-
-    // Phase 1: Fill selection with weighted average of boundary pixels
-    // For each pixel, sample from the 4 edges of the selection
     const result = new Uint8ClampedArray(data);
     const cx = sel.x + sel.w / 2;
     const cy = sel.y + sel.h / 2;
@@ -223,17 +162,14 @@ export function render(container) {
       for (let x = sel.x; x < sel.x + sel.w; x++) {
         if (x < 0 || x >= w || y < 0 || y >= h) continue;
 
-        // Distance from center (0 to 1)
         const dx = (x - cx) / (sel.w / 2);
         const dy = (y - cy) / (sel.h / 2);
 
-        // Weights for each edge based on proximity
         const wLeft = (1 - dx) / 2;
         const wRight = (1 + dx) / 2;
         const wTop = (1 - dy) / 2;
         const wBottom = (1 + dy) / 2;
 
-        // Sample boundary pixels
         const topIdx = (sel.y * w + x) * 4;
         const bottomIdx = ((sel.y + sel.h - 1) * w + x) * 4;
         const leftIdx = (y * w + sel.x) * 4;
@@ -257,7 +193,6 @@ export function render(container) {
       }
     }
 
-    // Phase 2: Fast blur to smooth the fill
     for (let pass = 0; pass < 8; pass++) {
       const temp = new Uint8ClampedArray(result);
       for (let y = sel.y + 1; y < sel.y + sel.h - 1; y++) {

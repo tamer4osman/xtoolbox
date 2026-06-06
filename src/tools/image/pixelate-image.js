@@ -1,7 +1,7 @@
 import { createFileUpload } from '../../components/file-upload.js';
+import { loadImageFromFile } from './image-utils.js';
+import { setupPreviewCanvas, attachDragSelection, downloadTransformedImage } from './pixel-tool-utils.js';
 import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
 
 export const toolConfig = {
   id: 'pixelate-image',
@@ -23,10 +23,7 @@ export function render(container) {
   let originalImage = null;
   let pixelSize = 10;
   let pixelateMode = 'full';
-  let selectMode = false;
   let selection = null;
-  let isSelecting = false;
-  let selStart = { x: 0, y: 0 };
 
   const upload = createFileUpload({
     accept: 'image/*',
@@ -72,7 +69,6 @@ export function render(container) {
   const uploadArea = container.querySelector('#upload-area');
   const optionsArea = container.querySelector('#options-area');
   const previewArea = container.querySelector('#preview-area');
-  const actionsArea = container.querySelector('#actions-area');
   const countInfo = container.querySelector('#count-info');
   const modeButtons = container.querySelector('#mode-buttons');
   const pixelRange = container.querySelector('#pixel-range');
@@ -95,10 +91,10 @@ export function render(container) {
     btn.innerHTML = `${mode.icon} ${mode.label}`;
     btn.addEventListener('click', () => {
       pixelateMode = mode.id;
-      selectMode = mode.id === 'select';
-      selectHint.style.display = selectMode ? 'block' : 'none';
-      if (!selectMode) selection = null;
-      previewCanvas.style.cursor = selectMode ? 'crosshair' : 'default';
+      const isSelect = mode.id === 'select';
+      selectHint.style.display = isSelect ? 'block' : 'none';
+      if (!isSelect) selection = null;
+      previewCanvas.style.cursor = isSelect ? 'crosshair' : 'default';
       modeButtons.querySelectorAll('.btn').forEach(b => {
         b.classList.remove('btn-primary');
         b.classList.add('btn-secondary');
@@ -121,91 +117,39 @@ export function render(container) {
     renderPreview();
   });
 
-  previewCanvas.addEventListener('mousedown', (e) => {
-    if (!selectMode || !originalImage) return;
-    isSelecting = true;
-    const rect = previewCanvas.getBoundingClientRect();
-    const scaleX = previewCanvas.width / rect.width;
-    const scaleY = previewCanvas.height / rect.height;
-    selStart = {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY
-    };
-    selection = null;
-  });
-
-  previewCanvas.addEventListener('mousemove', (e) => {
-    if (!isSelecting || !originalImage) return;
-    const rect = previewCanvas.getBoundingClientRect();
-    const scaleX = previewCanvas.width / rect.width;
-    const scaleY = previewCanvas.height / rect.height;
-    const current = {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY
-    };
-    selection = {
-      x: Math.min(selStart.x, current.x),
-      y: Math.min(selStart.y, current.y),
-      w: Math.abs(current.x - selStart.x),
-      h: Math.abs(current.y - selStart.y)
-    };
+  attachDragSelection(previewCanvas, (sel) => {
+    selection = sel;
     renderPreview();
-  });
-
-  previewCanvas.addEventListener('mouseup', () => {
-    isSelecting = false;
-    if (selection && (selection.w < 5 || selection.h < 5)) {
-      selection = null;
-      renderPreview();
-    }
-  });
-
-  previewCanvas.addEventListener('mouseleave', () => {
-    isSelecting = false;
   });
 
   downloadBtn.addEventListener('click', async () => {
     if (!originalImage) return;
     downloadBtn.disabled = true;
     downloadBtn.textContent = 'Processing...';
-
     try {
-      const canvas = document.createElement('canvas');
-      canvas.width = originalImage.naturalWidth;
-      canvas.height = originalImage.naturalHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(originalImage, 0, 0);
-      applyPixelation(ctx, canvas.width, canvas.height);
-      const blob = await canvasToBlob(canvas, 'image/png');
-      downloadBlob(blob, 'pixelated.png');
-      showToast('Image pixelated successfully!', 'success');
+      await downloadTransformedImage(
+        originalImage,
+        (ctx, w, h) => applyPixelation(ctx, w, h),
+        'pixelated.png',
+        'Image pixelated successfully!'
+      );
     } catch (err) {
       showToast('Failed to pixelate image: ' + err.message, 'error');
     }
-
     downloadBtn.disabled = false;
     downloadBtn.textContent = 'Download';
   });
 
   function renderPreview() {
     if (!originalImage) return;
-
-    const maxW = Math.min(600, container.parentElement.clientWidth - 40);
-    const scale = maxW / originalImage.naturalWidth;
-    const displayW = Math.round(originalImage.naturalWidth * scale);
-    const displayH = Math.round(originalImage.naturalHeight * scale);
-
-    previewCanvas.width = displayW;
-    previewCanvas.height = displayH;
-
-    const ctx = previewCanvas.getContext('2d');
-    ctx.clearRect(0, 0, displayW, displayH);
-    ctx.drawImage(originalImage, 0, 0, displayW, displayH);
+    const { scale } = setupPreviewCanvas(previewCanvas, originalImage, container);
 
     if (pixelSize > 1) {
       if (pixelateMode === 'full') {
-        applyPixelation(ctx, displayW, displayH);
+        const ctx = previewCanvas.getContext('2d');
+        applyPixelation(ctx, previewCanvas.width, previewCanvas.height);
       } else if (pixelateMode === 'select' && selection && selection.w > 2 && selection.h > 2) {
+        const ctx = previewCanvas.getContext('2d');
         const scaledSel = {
           x: selection.x * scale,
           y: selection.y * scale,
@@ -216,7 +160,7 @@ export function render(container) {
         ctx.beginPath();
         ctx.rect(scaledSel.x, scaledSel.y, scaledSel.w, scaledSel.h);
         ctx.clip();
-        applyPixelation(ctx, displayW, displayH);
+        applyPixelation(ctx, previewCanvas.width, previewCanvas.height);
         ctx.restore();
 
         ctx.strokeStyle = '#3b82f6';
