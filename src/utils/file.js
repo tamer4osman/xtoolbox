@@ -10,20 +10,6 @@ export function formatFileSize(bytes) {
 }
 
 /**
- * Validate file type against allowed types
- */
-export function validateFileType(file, allowedTypes) {
-  return allowedTypes.includes(file.type);
-}
-
-/**
- * Validate file size
- */
-export function validateFileSize(file, maxSizeMB) {
-  return file.size <= maxSizeMB * 1024 * 1024;
-}
-
-/**
  * Trigger browser download from Blob
  */
 export function downloadBlob(blob, filename) {
@@ -35,52 +21,4 @@ export function downloadBlob(blob, filename) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-}
-
-/**
- * Trigger browser download from data URL
- */
-export function downloadDataUrl(dataUrl, filename) {
-  const a = document.createElement('a');
-  a.href = dataUrl;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
-/**
- * Read file as ArrayBuffer
- */
-export function readFileAsArrayBuffer(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsArrayBuffer(file);
-  });
-}
-
-/**
- * Read file as Data URL
- */
-export function readFileAsDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-/**
- * Read file as Text
- */
-export function readFileAsText(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsText(file);
-  });
 }

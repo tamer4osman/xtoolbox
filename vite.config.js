@@ -49,5 +49,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: []
-  }
+  },
+  // Workaround: Avast on this dev box holds persistent handles on
+  // node_modules/.vite/deps/* after `npm install`. Move the cache out
+  // so `npm run dev` can rebuild it. Revert to default once Avast
+  // excludes D:\Projects\xtoolbox.
+  cacheDir: '.vite-cache'
 });

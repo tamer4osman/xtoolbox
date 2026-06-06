@@ -1,0 +1,878 @@
+{
+  "finding_counts": {
+    "src/pages/home.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/pages/tool.js": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/router.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/audio/audio-utils.js": {
+      "crap_moderate": {
+        "count": 3
+      }
+    },
+    "src/tools/audio/convert-audio.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/audio/trim-audio.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/business/break-even.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/business/churn-calculator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/business/ltv-calculator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/business/revenue-forecast.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/business/roi-calculator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/css/border-radius-generator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/css/clip-path-generator.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/css/color-palette.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/css/css-triangle-generator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/cron-builder.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/docker-compose-generator.js": {
+      "complexity_critical": {
+        "count": 2
+      },
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/env-editor.js": {
+      "complexity_moderate": {
+        "count": 2
+      }
+    },
+    "src/tools/dev/htaccess-generator.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/log-anonymizer.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/lorem-ipsum.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/nginx-config-generator.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/regex-tester.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/robots-txt-generator.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/security-headers-generator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/sitemap-visualizer.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/sql-to-json.js": {
+      "complexity_high": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/dev/user-agent-parser.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/encoding/timestamp-converter.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/finance/crypto-prices.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/finance/german-salary-calculator.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/fun/palindrome.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/health/blood-pressure-checker.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/health/bmi-calculator.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/health/body-fat-calculator.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/health/calorie-estimator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/health/macros-calculator.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/add-border-image.js": {
+      "crap_high": {
+        "count": 3
+      }
+    },
+    "src/tools/image/blur-background.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "src/tools/image/collage-maker.js": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/image/crop-image.js": {
+      "crap_moderate": {
+        "count": 3
+      }
+    },
+    "src/tools/image/heic-to-jpg.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/image/image-color-picker.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/image/image-colorizer.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/image/image-sharpening.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/image/jpg-to-png.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/jpg-to-webp.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/merge-images.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/image/pixelate-image.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/png-to-jpg.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/png-to-svg.js": {
+      "complexity_high": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/remove-exif.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/image/remove-text-image.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/image/resize-image.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/rotate-flip-image.js": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "src/tools/image/round-image-cropper.js": {
+      "crap_high": {
+        "count": 2
+      }
+    },
+    "src/tools/image/split-image.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/svg-to-png.js": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/watermark-image.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/image/webp-to-jpg.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/math/age-calculator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/math/duration-calculator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/math/fraction-calculator.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/math/graph-plotter.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/math/scientific-calculator.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/math/unit-converter.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/ocr/screenshot-to-text.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/crop-pdf.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/delete-pdf-pages.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/epub-to-pdf.js": {
+      "complexity_critical": {
+        "count": 2
+      },
+      "crap_critical": {
+        "count": 2
+      },
+      "crap_high": {
+        "count": 2
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/excel-to-pdf.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/fill-pdf-forms.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "src/tools/pdf/image-to-pdf.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/jpg-to-pdf.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/page-numbers-pdf.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pdf-esign.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pdf-metadata-viewer.js": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pdf-password-info.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pdf-to-csv.js": {
+      "crap_high": {
+        "count": 2
+      }
+    },
+    "src/tools/pdf/pdf-to-epub.js": {
+      "complexity_high": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pdf-to-excel.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pdf-to-image.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pdf-to-word.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/png-to-pdf.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/pptx-to-pdf.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "complexity_high": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/protect-pdf.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/remove-watermark-pdf.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/split-pdf.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/pdf/watermark-pdf.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/privacy/password-checker.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/privacy/password-generator.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/privacy/steganography.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/productivity/ambient-sound-mixer.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/productivity/subtitle-time-shifter.js": {
+      "complexity_high": {
+        "count": 2
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/qr/barcode-generator.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/qr/qr-generator.js": {
+      "crap_high": {
+        "count": 4
+      }
+    },
+    "src/tools/qr/qr-scanner.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/reference/book-lookup.js": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "src/tools/reference/dictionary.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/reference/holiday-calendar.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/reference/thesaurus.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/seo/meta-tag-generator.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/seo/og-generator.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/text/base64-codec.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/text/hash-generator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/html-entity-codec.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/text/json-csv.js": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "src/tools/text/line-sorter.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/markdown-html.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/markdown-table-generator.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "complexity_moderate": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/morse-code.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/text/number-to-words.js": {
+      "complexity_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/random-picker.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/readability-score.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/text/text-diff.js": {
+      "crap_high": {
+        "count": 2
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/text-similarity.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/text-summarizer.js": {
+      "crap_moderate": {
+        "count": 2
+      }
+    },
+    "src/tools/text/text-to-table.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/url-codec.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/text/uuid-generator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/word-counter.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/text/word-frequency.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/text/xml-json.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/text/xml-to-csv.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 4
+      }
+    },
+    "src/tools/text/yaml-json.js": {
+      "complexity_critical": {
+        "count": 1
+      },
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/video/add-audio-video.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/add-subtitles.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/compress-video.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/convert-video.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/video/gif-to-mp4.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/images-to-video.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    },
+    "src/tools/video/mov-to-mp4.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/trim-video.js": {
+      "crap_high": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/video-speed.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/video-to-images.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/video/webm-to-mp4.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/visualization/chart-generator.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/weather/air-quality.js": {
+      "crap_critical": {
+        "count": 1
+      },
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/tools/weather/sunrise-sunset.js": {
+      "crap_high": {
+        "count": 1
+      }
+    },
+    "src/tools/weather/weather-forecast.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "src/utils/seo.js": {
+      "crap_moderate": {
+        "count": 1
+      }
+    },
+    "vite.config.js": {
+      "crap_critical": {
+        "count": 1
+      }
+    }
+  },
+  "runtime_coverage_findings": [],
+  "target_keys": [
+    "src/utils/dom.js:high impact",
+    "src/tools/text/markdown-table-generator.js:complexity",
+    "src/tools/productivity/subtitle-time-shifter.js:complexity",
+    "src/tools/dev/docker-compose-generator.js:complexity",
+    "src/tools/text/text-diff.js:untested risk",
+    "src/tools/text/json-csv.js:untested risk",
+    "src/tools/pdf/pdf-to-excel.js:complexity",
+    "src/tools/dev/nginx-config-generator.js:complexity",
+    "src/tools/math/scientific-calculator.js:complexity",
+    "src/tools/text/yaml-json.js:complexity",
+    "src/tools/finance/german-salary-calculator.js:complexity"
+  ]
+}

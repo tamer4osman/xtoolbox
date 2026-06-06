@@ -40,17 +40,3 @@ export function createElement(tag, attrs = {}, children = []) {
 export function $(selector, parent = document) {
   return parent.querySelector(selector);
 }
-
-/**
- * Query selector all shorthand
- */
-export function $$(selector, parent = document) {
-  return Array.from(parent.querySelectorAll(selector));
-}
-
-/**
- * Clear all children of an element
- */
-export function clearElement(el) {
-  el.innerHTML = '';
-}

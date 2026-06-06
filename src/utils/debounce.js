@@ -11,6 +11,7 @@ export function debounce(fn, ms = 300) {
 
 /**
  * Throttle: execute at most once every ms
+ * @public
  */
 export function throttle(fn, ms = 300) {
   let last = 0;

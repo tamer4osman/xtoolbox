@@ -1,0 +1,9 @@
+{
+  "dynamicallyLoaded": [
+    "src/tools/**",
+    "src/sw.js"
+  ],
+  "ignorePatterns": [
+    "src/data/add-fun.cjs"
+  ]
+}

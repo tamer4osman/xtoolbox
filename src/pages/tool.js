@@ -1,5 +1,6 @@
 import { $, createElement } from '../utils/dom.js';
 import { updatePageMeta, addStructuredData } from '../utils/seo.js';
+import { createAdSlot } from '../components/ad-slot.js';
 import toolsData from '../data/tools.json';
 
 const toolCache = {};
@@ -68,6 +69,11 @@ export async function renderTool(toolId) {
       renderFn(toolContainer);
       const internalHeaders = toolContainer.querySelectorAll('h1, h2, .tool-header');
       internalHeaders.forEach(h => h.remove());
+
+      const adSection = document.createElement('div');
+      adSection.className = 'tool-ad-section';
+      adSection.appendChild(createAdSlot({ slot: 'TOOL_BODY_SLOT' }));
+      toolPage?.appendChild(adSection);
     } else {
       console.error('No render function found in module:', toolModule);
     }

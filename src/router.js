@@ -19,6 +19,9 @@ export function navigate(path) {
   window.location.hash = '#' + path;
 }
 
+/**
+ * @public
+ */
 export function getCurrentPath() {
   return window.location.hash.slice(1) || '/';
 }
