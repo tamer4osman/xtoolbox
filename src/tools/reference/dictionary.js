@@ -1,3 +1,5 @@
+import { wireLookupSearch, escapeHtml } from '../shared/lookup.js';
+
 export const toolConfig = {
   id: 'dictionary',
   name: 'Dictionary',
@@ -55,77 +57,47 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const searchBtn = container.querySelector('#search-btn');
-  const wordInput = container.querySelector('#word-input');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
   const playBtn = container.querySelector('#play-audio');
   let audioUrl = null;
 
-  async function lookupWord(word) {
-    const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word);
-    if (!res.ok) throw new Error('Word not found');
-    return res.json();
-  }
-
-  searchBtn.addEventListener('click', async () => {
-    const word = wordInput.value.trim();
-    if (!word) { alert('Enter a word'); return; }
-
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
-
-    try {
-      const data = await lookupWord(word);
+  wireLookupSearch({
+    container,
+    searchButtonId: 'search-btn',
+    inputSelector: 'input',
+    errorMessage: 'Word not found. Please try another word.',
+    validate: (vals) => !vals['word-input']?.trim() ? 'Enter a word' : null,
+    onSearch: async (vals) => {
+      const word = vals['word-input'].trim();
+      const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word));
+      if (!res.ok) throw new Error('Word not found');
+      const data = await res.json();
       const entry = data[0];
-      
-      document.getElementById('word').textContent = entry.word;
-      document.getElementById('phonetic').textContent = entry.phonetic || '';
-      
-      const meaningsDiv = document.getElementById('meanings');
+
+      container.querySelector('#word').textContent = entry.word;
+      container.querySelector('#phonetic').textContent = entry.phonetic || '';
+
+      const meaningsDiv = container.querySelector('#meanings');
       meaningsDiv.innerHTML = '';
-      
       audioUrl = entry.phonetics?.find(p => p.audio)?.audio || null;
       playBtn.classList.toggle('hidden', !audioUrl);
 
       entry.meanings.forEach(meaning => {
         const section = document.createElement('div');
         section.className = 'meaning-section';
-        section.innerHTML = '<div class="part-of-speech">' + meaning.partOfSpeech + '</div>';
-        
-        meaning.definitions.slice(0, 3).forEach(def => {
-          section.innerHTML += '<div class="definition">• ' + def.definition + '</div>';
-          if (def.example) {
-            section.innerHTML += '<div class="example">"' + def.example + '"</div>';
-          }
-        });
-        
-        if (meaning.synonyms?.length) {
-          section.innerHTML += '<div class="synonyms">Synonyms: ' + meaning.synonyms.slice(0, 5).map(s => '<span class="synonym">' + s + '</span>').join('') + '</div>';
-        }
-        
+        const defs = meaning.definitions.slice(0, 3).map(def => {
+          const example = def.example ? `<div class="example">"${escapeHtml(def.example)}"</div>` : '';
+          return `<div class="definition">• ${escapeHtml(def.definition)}</div>${example}`;
+        }).join('');
+        const syns = meaning.synonyms?.length
+          ? `<div class="synonyms">Synonyms: ${meaning.synonyms.slice(0, 5).map(s => `<span class="synonym">${escapeHtml(s)}</span>`).join('')}</div>`
+          : '';
+        section.innerHTML = `<div class="part-of-speech">${escapeHtml(meaning.partOfSpeech)}</div>${defs}${syns}`;
         meaningsDiv.appendChild(section);
       });
-
-      result.classList.remove('hidden');
-    } catch (err) {
-      error.textContent = 'Word not found. Please try another word.';
-      error.classList.remove('hidden');
-    } finally {
-      loading.classList.add('hidden');
     }
   });
 
   playBtn.addEventListener('click', () => {
-    if (audioUrl) {
-      new Audio(audioUrl).play();
-    }
+    if (audioUrl) new Audio(audioUrl).play();
   });
-
-  wordInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') searchBtn.click();
-  });
-
-  }
+}

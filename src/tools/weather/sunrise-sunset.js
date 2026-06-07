@@ -1,3 +1,5 @@
+import { wireLookupSearch } from '../shared/lookup.js';
+
 export const toolConfig = {
   id: 'sunrise-sunset',
   name: 'Sunrise & Sunset Times',
@@ -91,62 +93,43 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const searchBtn = container.querySelector('#search-btn');
-  const locationInput = container.querySelector('#location-input');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
+  const formatTime = (iso) => new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const formatDuration = (sec) => {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    return h + 'h ' + m + 'm';
+  };
 
-  async function getCoords(location) {
-    const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(location) + '&limit=1');
-    const data = await res.json();
-    if (!data.length) throw new Error('Location not found');
-    return { lat: data[0].lat, lon: data[0].lon, name: data[0].display_name.split(',')[0] };
-  }
+  wireLookupSearch({
+    container,
+    searchButtonId: 'search-btn',
+    inputSelector: 'input',
+    errorMessage: 'Could not find location. Please try again.',
+    validate: (vals) => !vals['location-input']?.trim() ? 'Enter a location' : null,
+    onSearch: async (vals) => {
+      const location = vals['location-input'].trim();
+      const geoRes = await fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(location) + '&limit=1');
+      const geoData = await geoRes.json();
+      if (!geoData.length) throw new Error('Location not found');
+      const coords = { lat: geoData[0].lat, lon: geoData[0].lon, name: geoData[0].display_name.split(',')[0] };
 
-  searchBtn.addEventListener('click', async () => {
-    const location = locationInput.value;
-    if (!location) { alert('Enter a location'); return; }
-
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
-
-    try {
-      const coords = await getCoords(location);
       const date = new Date().toISOString().split('T')[0];
       const res = await fetch('https://api.sunrise-sunset.org/json?lat=' + coords.lat + '&lng=' + coords.lon + '&date=' + date + '&formatted=0');
       const data = await res.json();
-
       if (!data.results) throw new Error('Failed to get times');
 
-      const formatTime = (iso) => new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const formatDuration = (sec) => {
-        const h = Math.floor(sec / 3600);
-        const m = Math.floor((sec % 3600) / 60);
-        return h + 'h ' + m + 'm';
-      };
-
-      document.getElementById('location-name').textContent = coords.name;
-      document.getElementById('result-date').textContent = new Date().toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      document.getElementById('sunrise').textContent = formatTime(data.results.sunrise);
-      document.getElementById('sunset').textContent = formatTime(data.results.sunset);
-      document.getElementById('solar-noon').textContent = formatTime(data.results.solar_noon);
-      document.getElementById('day-length').textContent = formatDuration(data.results.day_length);
+      container.querySelector('#location-name').textContent = coords.name;
+      container.querySelector('#result-date').textContent = new Date().toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      container.querySelector('#sunrise').textContent = formatTime(data.results.sunrise);
+      container.querySelector('#sunset').textContent = formatTime(data.results.sunset);
+      container.querySelector('#solar-noon').textContent = formatTime(data.results.solar_noon);
+      container.querySelector('#day-length').textContent = formatDuration(data.results.day_length);
       const goldenMorning = data.results.golden_hour_morning;
       const goldenEvening = data.results.golden_hour_evening;
-      document.getElementById('golden-morning').textContent = (goldenMorning && goldenMorning.trim()) ? formatTime(goldenMorning) : 'N/A';
-      document.getElementById('golden-evening').textContent = (goldenEvening && goldenEvening.trim()) ? formatTime(goldenEvening) : 'N/A';
-      document.getElementById('dawn').textContent = formatTime(data.results.civil_twilight_begin);
-      document.getElementById('dusk').textContent = formatTime(data.results.civil_twilight_end);
-
-      result.classList.remove('hidden');
-    } catch (err) {
-      error.textContent = err.message;
-      error.classList.remove('hidden');
-    } finally {
-      loading.classList.add('hidden');
+      container.querySelector('#golden-morning').textContent = (goldenMorning && goldenMorning.trim()) ? formatTime(goldenMorning) : 'N/A';
+      container.querySelector('#golden-evening').textContent = (goldenEvening && goldenEvening.trim()) ? formatTime(goldenEvening) : 'N/A';
+      container.querySelector('#dawn').textContent = formatTime(data.results.civil_twilight_begin);
+      container.querySelector('#dusk').textContent = formatTime(data.results.civil_twilight_end);
     }
   });
-
-  }
+}

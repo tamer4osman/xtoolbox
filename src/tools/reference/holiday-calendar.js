@@ -1,3 +1,5 @@
+import { wireLookupSearch, escapeHtml } from '../shared/lookup.js';
+
 export const toolConfig = {
   id: 'holiday-calendar',
   name: 'Public Holiday Calendar',
@@ -6,6 +8,24 @@ export const toolConfig = {
   icon: '📅',
   status: 'done'
 };
+
+const COUNTRIES = [
+  { code: 'US', name: 'United States' },
+  { code: 'GB', name: 'United Kingdom' },
+  { code: 'CA', name: 'Canada' },
+  { code: 'AU', name: 'Australia' },
+  { code: 'DE', name: 'Germany' },
+  { code: 'FR', name: 'France' },
+  { code: 'JP', name: 'Japan' },
+  { code: 'IN', name: 'India' },
+  { code: 'BR', name: 'Brazil' },
+  { code: 'MX', name: 'Mexico' },
+  { code: 'ES', name: 'Spain' },
+  { code: 'IT', name: 'Italy' },
+  { code: 'NL', name: 'Netherlands' },
+  { code: 'SE', name: 'Sweden' },
+  { code: 'NO', name: 'Norway' }
+];
 
 export function render(container) {
   container.innerHTML = `
@@ -54,76 +74,36 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const searchBtn = container.querySelector('#search-btn');
   const countrySelect = container.querySelector('#country-select');
-  const yearInput = container.querySelector('#year-input');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
-
-  const countries = [
-    { code: 'US', name: 'United States' },
-    { code: 'GB', name: 'United Kingdom' },
-    { code: 'CA', name: 'Canada' },
-    { code: 'AU', name: 'Australia' },
-    { code: 'DE', name: 'Germany' },
-    { code: 'FR', name: 'France' },
-    { code: 'JP', name: 'Japan' },
-    { code: 'IN', name: 'India' },
-    { code: 'BR', name: 'Brazil' },
-    { code: 'MX', name: 'Mexico' },
-    { code: 'ES', name: 'Spain' },
-    { code: 'IT', name: 'Italy' },
-    { code: 'NL', name: 'Netherlands' },
-    { code: 'SE', name: 'Sweden' },
-    { code: 'NO', name: 'Norway' }
-  ];
-
-  countries.forEach(c => {
+  COUNTRIES.forEach(c => {
     const opt = document.createElement('option');
     opt.value = c.code;
     opt.textContent = c.name;
     countrySelect.appendChild(opt);
   });
 
-  async function getHolidays(countryCode, year) {
-    const res = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/' + countryCode);
-    if (!res.ok) throw new Error('Failed to fetch holidays');
-    return res.json();
-  }
+  wireLookupSearch({
+    container,
+    searchButtonId: 'search-btn',
+    inputSelector: 'select, input',
+    errorMessage: 'Could not load holidays. Try another country.',
+    validate: () => !countrySelect.value ? 'Select a country' : null,
+    onSearch: async () => {
+      const country = countrySelect.value;
+      const year = container.querySelector('#year-input').value;
+      const res = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/' + country);
+      if (!res.ok) throw new Error('Failed to fetch holidays');
+      const holidays = await res.json();
+      const countryName = COUNTRIES.find(c => c.code === country)?.name || country;
 
-  searchBtn.addEventListener('click', async () => {
-    const country = countrySelect.value;
-    const year = yearInput.value;
-    
-    if (!country) { alert('Select a country'); return; }
-
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
-
-    try {
-      const holidays = await getHolidays(country, year);
-      const countryName = countries.find(c => c.code === country)?.name || country;
-      
-      document.getElementById('result-title').textContent = 'Holidays in ' + countryName + ' ' + year;
-      
-      const list = document.getElementById('holidays-list');
-      list.innerHTML = holidays.map(h => `
+      container.querySelector('#result-title').textContent = 'Holidays in ' + countryName + ' ' + year;
+      container.querySelector('#holidays-list').innerHTML = holidays.map(h => `
         <div class="holiday-item">
-          <span class="holiday-date">${h.date}</span>
-          <span class="holiday-name">${h.localName}</span>
-          <span class="holiday-type">${h.counties ? h.counties.join(', ') : h.type}</span>
+          <span class="holiday-date">${escapeHtml(h.date)}</span>
+          <span class="holiday-name">${escapeHtml(h.localName)}</span>
+          <span class="holiday-type">${escapeHtml(h.counties ? h.counties.join(', ') : h.type)}</span>
         </div>
       `).join('');
-
-      result.classList.remove('hidden');
-    } catch (err) {
-      error.textContent = 'Could not load holidays. Try another country.';
-      error.classList.remove('hidden');
-    } finally {
-      loading.classList.add('hidden');
     }
   });
-
-  }
+}

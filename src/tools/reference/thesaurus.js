@@ -1,3 +1,5 @@
+import { wireLookupSearch, escapeHtml } from '../shared/lookup.js';
+
 export const toolConfig = {
   id: 'thesaurus',
   name: 'Thesaurus',
@@ -62,35 +64,23 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const searchBtn = container.querySelector('#search-btn');
-  const wordInput = container.querySelector('#word-input');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
-
-  async function lookupWord(word) {
-    const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + word);
-    if (!res.ok) throw new Error('Word not found');
-    return res.json();
-  }
-
-  searchBtn.addEventListener('click', async () => {
-    const word = wordInput.value.trim();
-    if (!word) { alert('Enter a word'); return; }
-
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
-
-    try {
-      const data = await lookupWord(word);
+  wireLookupSearch({
+    container,
+    searchButtonId: 'search-btn',
+    inputSelector: 'input',
+    errorMessage: 'Word not found. Please try another word.',
+    validate: (vals) => !vals['word-input']?.trim() ? 'Enter a word' : null,
+    onSearch: async (vals) => {
+      const word = vals['word-input'].trim();
+      const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word));
+      if (!res.ok) throw new Error('Word not found');
+      const data = await res.json();
       const entry = data[0];
-      
-      document.getElementById('word').textContent = entry.word;
+
+      container.querySelector('#word').textContent = entry.word;
 
       const synonyms = new Set();
       const antonyms = new Set();
-      
       entry.meanings.forEach(meaning => {
         meaning.synonyms.forEach(s => synonyms.add(s));
         meaning.antonyms.forEach(a => antonyms.add(a));
@@ -100,35 +90,20 @@ export function render(container) {
         });
       });
 
-      const synDiv = document.getElementById('synonyms');
-      const antDiv = document.getElementById('antonyms');
-      
-      synDiv.innerHTML = synonyms.size 
-        ? Array.from(synonyms).slice(0, 20).map(s => '<span class="word-tag">' + s + '</span>').join('')
-        : '<span style="color: var(--color-text-muted)">No synonyms found</span>';
-      
-      antDiv.innerHTML = antonyms.size
-        ? Array.from(antonyms).slice(0, 20).map(a => '<span class="word-tag">' + a + '</span>').join('')
-        : '<span style="color: var(--color-text-muted)">No antonyms found</span>';
+      const renderTags = (set) => set.size
+        ? Array.from(set).slice(0, 20).map(s => `<span class="word-tag">${escapeHtml(s)}</span>`).join('')
+        : '<span style="color: var(--color-text-muted)">No matches found</span>';
 
-      result.classList.remove('hidden');
-    } catch (err) {
-      error.textContent = 'Word not found. Please try another word.';
-      error.classList.remove('hidden');
-    } finally {
-      loading.classList.add('hidden');
+      container.querySelector('#synonyms').innerHTML = renderTags(synonyms);
+      container.querySelector('#antonyms').innerHTML = renderTags(antonyms);
     }
   });
 
   container.addEventListener('click', (e) => {
     if (e.target.classList.contains('word-tag')) {
+      const wordInput = container.querySelector('#word-input');
       wordInput.value = e.target.textContent;
-      searchBtn.click();
+      container.querySelector('#search-btn').click();
     }
   });
-
-  wordInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') searchBtn.click();
-  });
-
-  }
+}

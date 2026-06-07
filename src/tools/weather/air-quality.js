@@ -1,3 +1,5 @@
+import { wireLookupSearch } from '../shared/lookup.js';
+
 export const toolConfig = {
   id: 'air-quality',
   name: 'Air Quality Index',
@@ -6,6 +8,15 @@ export const toolConfig = {
   icon: '🌬️',
   status: 'done'
 };
+
+function getAQIColor(aqi) {
+  if (aqi <= 50) return { bg: '#10b981', label: 'Good', desc: 'Air quality is satisfactory.' };
+  if (aqi <= 100) return { bg: '#f59e0b', label: 'Moderate', desc: 'Acceptable.' };
+  if (aqi <= 150) return { bg: '#f97316', label: 'Unhealthy for Sensitive', desc: 'Sensitive groups may experience effects.' };
+  if (aqi <= 200) return { bg: '#ef4444', label: 'Unhealthy', desc: 'Everyone may experience effects.' };
+  if (aqi <= 300) return { bg: '#7c3aed', label: 'Very Unhealthy', desc: 'Health warnings of emergency conditions.' };
+  return { bg: '#7f1d1d', label: 'Hazardous', desc: 'Health alert: serious effects.' };
+}
 
 export function render(container) {
   container.innerHTML = `
@@ -32,30 +43,12 @@ export function render(container) {
           <div class="pollutants">
             <h3>Pollutant Levels</h3>
             <div class="pollutant-grid">
-              <div class="pollutant">
-                <span class="pollutant-name">PM2.5</span>
-                <span class="pollutant-value" id="pm25"></span>
-              </div>
-              <div class="pollutant">
-                <span class="pollutant-name">PM10</span>
-                <span class="pollutant-value" id="pm10"></span>
-              </div>
-              <div class="pollutant">
-                <span class="pollutant-name">O₃</span>
-                <span class="pollutant-value" id="o3"></span>
-              </div>
-              <div class="pollutant">
-                <span class="pollutant-name">NO₂</span>
-                <span class="pollutant-value" id="no2"></span>
-              </div>
-              <div class="pollutant">
-                <span class="pollutant-name">SO₂</span>
-                <span class="pollutant-value" id="so2"></span>
-              </div>
-              <div class="pollutant">
-                <span class="pollutant-name">CO</span>
-                <span class="pollutant-value" id="co"></span>
-              </div>
+              <div class="pollutant"><span class="pollutant-name">PM2.5</span><span class="pollutant-value" id="pm25"></span></div>
+              <div class="pollutant"><span class="pollutant-name">PM10</span><span class="pollutant-value" id="pm10"></span></div>
+              <div class="pollutant"><span class="pollutant-name">O₃</span><span class="pollutant-value" id="o3"></span></div>
+              <div class="pollutant"><span class="pollutant-name">NO₂</span><span class="pollutant-value" id="no2"></span></div>
+              <div class="pollutant"><span class="pollutant-name">SO₂</span><span class="pollutant-value" id="so2"></span></div>
+              <div class="pollutant"><span class="pollutant-name">CO</span><span class="pollutant-value" id="co"></span></div>
             </div>
           </div>
           <div class="location-info">
@@ -94,60 +87,33 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const searchBtn = container.querySelector('#search-btn');
-  const cityInput = container.querySelector('#city-input');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
+  wireLookupSearch({
+    container,
+    searchButtonId: 'search-btn',
+    inputSelector: 'input',
+    errorMessage: 'Could not find AQI for the specified city.',
+    validate: (vals) => !vals['city-input']?.trim() ? 'Enter a city' : null,
+    onSearch: async (vals) => {
+      const city = vals['city-input'].trim();
+      const res = await fetch('https://api.waqi.info/feed/' + encodeURIComponent(city) + '/?token=demo');
+      const data = await res.json();
+      if (data.status !== 'ok') throw new Error('City not found');
 
-  function getAQIColor(aqi) {
-    if (aqi <= 50) return { bg: '#10b981', label: 'Good', desc: 'Air quality is satisfactory.' };
-    if (aqi <= 100) return { bg: '#f59e0b', label: 'Moderate', desc: 'Acceptable.' };
-    if (aqi <= 150) return { bg: '#f97316', label: 'Unhealthy for Sensitive', desc: 'Sensitive groups may experience effects.' };
-    if (aqi <= 200) return { bg: '#ef4444', label: 'Unhealthy', desc: 'Everyone may experience effects.' };
-    if (aqi <= 300) return { bg: '#7c3aed', label: 'Very Unhealthy', desc: 'Health warnings of emergency conditions.' };
-    return { bg: '#7f1d1d', label: 'Hazardous', desc: 'Health alert: serious effects.' };
-  }
-
-  searchBtn.addEventListener('click', async () => {
-    const city = cityInput.value;
-    if (!city) { alert('Enter a city'); return; }
-
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
-
-    try {
-      const geoRes = await fetch('https://api.waqi.info/feed/' + encodeURIComponent(city) + '/?token=demo');
-      const geoData = await geoRes.json();
-
-      if (geoData.status !== 'ok') throw new Error('City not found');
-
-      const aqi = geoData.data.aqi;
+      const aqi = data.data.aqi;
       const color = getAQIColor(aqi);
-      const circle = container.querySelector('#aqi-circle');
-      circle.style.background = color.bg;
+      container.querySelector('#aqi-circle').style.background = color.bg;
       container.querySelector('#aqi-value').textContent = aqi;
       container.querySelector('#aqi-label').textContent = color.label;
       container.querySelector('#aqi-desc').textContent = color.desc;
 
-      const iaqi = geoData.data.iaqi;
+      const iaqi = data.data.iaqi;
       container.querySelector('#pm25').textContent = iaqi.pm25?.v || '-';
       container.querySelector('#pm10').textContent = iaqi.pm10?.v || '-';
       container.querySelector('#o3').textContent = iaqi.o3?.v || '-';
       container.querySelector('#no2').textContent = iaqi.no2?.v || '-';
       container.querySelector('#so2').textContent = iaqi.so2?.v || '-';
       container.querySelector('#co').textContent = iaqi.co?.v || '-';
-
-      container.querySelector('#station-name').textContent = geoData.data.city?.name || city;
-
-      result.classList.remove('hidden');
-    } catch (err) {
-      error.textContent = 'Could not find AQI for "' + city + '"';
-      error.classList.remove('hidden');
-    } finally {
-      loading.classList.add('hidden');
+      container.querySelector('#station-name').textContent = data.data.city?.name || city;
     }
   });
-
-  }
+}
