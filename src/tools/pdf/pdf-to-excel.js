@@ -1,8 +1,6 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
+import { createPdfConverter } from './pdf-converter-factory.js';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -28,11 +26,11 @@ function parseCSV(content) {
   let currentRow = [];
   let currentCell = '';
   let inQuotes = false;
-  
+
   for (let i = 0; i < content.length; i++) {
     const char = content[i];
     const nextChar = content[i + 1];
-    
+
     if (inQuotes) {
       if (char === '"' && nextChar === '"') {
         currentCell += '"';
@@ -61,26 +59,26 @@ function parseCSV(content) {
       }
     }
   }
-  
+
   if (currentCell || currentRow.length > 0) {
     currentRow.push(currentCell.trim());
     if (currentRow.some(cell => cell)) {
       rows.push(currentRow);
     }
   }
-  
+
   return rows;
 }
 
 function generateXLSX(content) {
   const BOM = '\uFEFF';
   const rows = parseCSV(content);
-  
+
   if (rows.length === 0) {
     return BOM + 'No tables found in PDF';
   }
-  
-  const xlsxContent = rows.map(row => 
+
+  const xlsxContent = rows.map(row =>
     row.map(cell => {
       if (cell.includes(',') || cell.includes('"') || cell.includes('\n')) {
         return `"${cell.replace(/"/g, '""')}"`;
@@ -88,81 +86,31 @@ function generateXLSX(content) {
       return cell;
     }).join(',')
   ).join('\n');
-  
+
   return BOM + xlsxContent;
 }
 
 export function render(container) {
-  let pdfBuffer = null;
-
-  const upload = createFileUpload({
+  createPdfConverter({
+    container,
+    toolId: 'pdf-to-excel',
     accept: '.pdf',
-    multiple: false,
     maxSizeMB: 50,
-    onFilesSelected: (files) => {
-      if (files.length > 0) {
-        pdfBuffer = files[0];
-        convertBtn.style.display = 'inline-flex';
-        fileName.textContent = files[0].name;
-        fileInfo.textContent = (files[0].size / 1024 / 1024).toFixed(2) + ' MB';
-        filePanel.style.display = 'block';
-      }
-    }
-  });
-
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="file-info-panel" id="file-panel" style="display:none;margin:var(--space-4) 0;">
-        <div class="file-details">
-          <span class="file-icon">📄</span>
-          <div class="file-details-text">
-            <div class="file-name" id="file-name"></div>
-            <div class="file-size" id="file-info"></div>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-primary btn-lg" id="convert-btn" style="display:none;width:100%;">Convert to Excel</button>
-      <div class="tool-processing" id="processing" style="display:none;">
-        <div class="spinner"></div>
-        <p>Extracting tables from PDF... <span id="progress-pct">0</span>%</p>
-      </div>
-    </div>
-    <style>
-      .file-info-panel { background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-lg); }
-      .file-details { display:flex;align-items:center;gap:var(--space-4); }
-      .file-icon { font-size:32px; }
-      .file-name { font-weight:600; }
-      .file-size { font-size:var(--text-sm);color:var(--color-text-secondary); }
-    </style>
-  `;
-
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const convertBtn = container.querySelector('#convert-btn');
-  const processing = container.querySelector('#processing');
-  const progressPct = container.querySelector('#progress-pct');
-  const filePanel = container.querySelector('#file-panel');
-  const fileName = container.querySelector('#file-name');
-  const fileInfo = container.querySelector('#file-info');
-
-  convertBtn.addEventListener('click', async () => {
-    if (!pdfBuffer) return;
-
-    processing.style.display = 'block';
-    convertBtn.style.display = 'none';
-    filePanel.style.display = 'none';
-
-    try {
-      const arrayBuffer = await pdfBuffer.arrayBuffer();
+    convertButtonText: 'Convert to Excel',
+    progressMessage: 'Extracting tables from PDF...',
+    successMessage: 'PDF converted to Excel!',
+    outputExt: 'xlsx',
+    outputMime: 'text/csv;charset=utf-8',
+    convert: async (file, onProgress) => {
+      const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       const numPages = pdf.numPages;
-      let allTables = [];
+      const allTables = [];
 
       for (let i = 1; i <= numPages; i++) {
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
-        const progress = Math.round((i / numPages) * 100);
-        progressPct.textContent = progress;
+        onProgress(Math.round((i / numPages) * 100));
 
         const pageText = textContent.items
           .map(item => item.str)
@@ -176,18 +124,7 @@ export function render(container) {
         }
       }
 
-      const xlsxContent = generateXLSX(allTables.join('\n'));
-      const blob = new Blob([xlsxContent], { type: 'text/csv;charset=utf-8' });
-      const fileNameWithoutExt = pdfBuffer.name.replace(/\.pdf$/i, '');
-      downloadBlob(blob, `${fileNameWithoutExt}.xlsx`);
-
-      showToast({ message: 'PDF converted to Excel!', type: 'success' });
-    } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
-    } finally {
-      processing.style.display = 'none';
-      convertBtn.style.display = 'inline-flex';
-      filePanel.style.display = 'block';
+      return new Blob([generateXLSX(allTables.join('\n'))], { type: 'text/csv;charset=utf-8' });
     }
   });
 }
