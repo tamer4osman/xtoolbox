@@ -3,6 +3,7 @@ import { createHealthCalculator } from '../tools/health/health-calculator.js';
 import { bodyFatPercent, classifyBodyFat, scaleBarPercent } from '../tools/health/body-fat-calculator.js';
 import { getRatios, adjustForGoal } from '../tools/health/macros-calculator.js';
 import { feetInchesToCm } from '../tools/health/bmi-calculator.js';
+import { computeMacros } from '../tools/health/calorie-estimator.js';
 
 function makeContainer() {
   const c = document.createElement('div');
@@ -359,5 +360,50 @@ describe('macros math', () => {
   it('returns ratios unchanged for maintain', () => {
     const adjusted = adjustForGoal([30, 40, 30], 'maintain');
     expect(adjusted).toEqual([30, 40, 30]);
+  });
+});
+
+describe('computeMacros', () => {
+  it('prioritizes protein at 1.6 g/kg bodyweight', () => {
+    const { protein } = computeMacros(2000, 70);
+    expect(protein).toBe(112);
+  });
+
+  it('macros sum to TDEE (within rounding tolerance)', () => {
+    const cases = [
+      { tdee: 2000, weight: 70 },
+      { tdee: 1200, weight: 40 },
+      { tdee: 3000, weight: 100 },
+      { tdee: 2500, weight: 80 }
+    ];
+    for (const { tdee, weight } of cases) {
+      const { protein, carbs, fat } = computeMacros(tdee, weight);
+      const totalCals = protein * 4 + carbs * 4 + fat * 9;
+      expect(Math.abs(totalCals - tdee)).toBeLessThanOrEqual(5);
+    }
+  });
+
+  it('carbs and fat split remaining calories 50/50 after protein', () => {
+    const tdee = 2000;
+    const weight = 70;
+    const { protein, carbs, fat } = computeMacros(tdee, weight);
+    const proteinCals = protein * 4;
+    const remaining = tdee - proteinCals;
+    expect(Math.abs(carbs * 4 - remaining / 2)).toBeLessThanOrEqual(2);
+    expect(Math.abs(fat * 9 - remaining / 2)).toBeLessThanOrEqual(5);
+  });
+
+  it('returns non-negative macros for all values', () => {
+    const cases = [
+      { tdee: 800, weight: 30 },
+      { tdee: 1000, weight: 35 },
+      { tdee: 5000, weight: 150 }
+    ];
+    for (const { tdee, weight } of cases) {
+      const { protein, carbs, fat } = computeMacros(tdee, weight);
+      expect(protein).toBeGreaterThan(0);
+      expect(carbs).toBeGreaterThan(0);
+      expect(fat).toBeGreaterThan(0);
+    }
   });
 });

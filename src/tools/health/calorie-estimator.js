@@ -1,5 +1,14 @@
 import { createHealthCalculator } from './health-calculator.js';
 
+export function computeMacros(tdee, weight) {
+  const protein = Math.round(weight * 1.6);
+  const proteinCals = protein * 4;
+  const remainingCals = tdee - proteinCals;
+  const carbs = Math.round(remainingCals * 0.5 / 4);
+  const fat = Math.round(remainingCals * 0.5 / 9);
+  return { protein, carbs, fat };
+}
+
 export const toolConfig = {
   id: 'calorie-estimator',
   name: 'Calorie Estimator',
@@ -66,10 +75,7 @@ export function render(container) {
         : 10 * weight + 6.25 * height - 5 * age - 161;
 
       const tdee = Math.round(bmr * activity + goal);
-
-      const protein = Math.round(weight * 1.6);
-      const carbs = Math.round(tdee * 0.35 / 4);
-      const fat = Math.round(tdee * 0.25 / 9);
+      const { protein, carbs, fat } = computeMacros(tdee, weight);
 
       resultEl.innerHTML = `
         <div class="calorie-card">
