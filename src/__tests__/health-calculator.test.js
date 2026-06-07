@@ -141,6 +141,137 @@ describe('createHealthCalculator', () => {
   });
 });
 
+describe('createHealthCalculator XSS protection', () => {
+  it('escapes HTML in field.label', () => {
+    const container = makeContainer();
+    createHealthCalculator({
+      container,
+      containerClass: 'test-c',
+      fields: [{ id: 'a', label: '<img src=x onerror=alert(1)>', value: 1 }],
+      onCalculate: () => {}
+    });
+    const label = container.querySelector('label');
+    expect(label.innerHTML).toBe('&lt;img src=x onerror=alert(1)&gt;');
+    expect(label.querySelector('img')).toBeNull();
+  });
+
+  it('escapes HTML in field.id', () => {
+    const container = makeContainer();
+    createHealthCalculator({
+      container,
+      containerClass: 'test-c',
+      fields: [{ id: 'a"><script>alert(1)</script>', label: 'A', value: 1 }],
+      onCalculate: () => {}
+    });
+    expect(container.querySelector('script')).toBeNull();
+    expect(container.innerHTML).not.toContain('<script>alert(1)</script>');
+  });
+
+  it('escapes HTML in field.value', () => {
+    const container = makeContainer();
+    createHealthCalculator({
+      container,
+      containerClass: 'test-c',
+      fields: [{ id: 'a', label: 'A', value: '"><script>alert(1)</script>' }],
+      onCalculate: () => {}
+    });
+    expect(container.querySelector('script')).toBeNull();
+  });
+
+  it('escapes HTML in select options', () => {
+    const container = makeContainer();
+    createHealthCalculator({
+      container,
+      containerClass: 'test-c',
+      fields: [{ id: 's', type: 'select', label: 'S', options: [
+        { value: 'v', label: '<img onerror=alert(1)>' }
+      ]}],
+      onCalculate: () => {}
+    });
+    const opt = container.querySelector('option');
+    expect(opt.innerHTML).toContain('&lt;img');
+    expect(container.querySelector('img')).toBeNull();
+  });
+
+  it('escapes HTML in calcButtonLabel', () => {
+    const container = makeContainer();
+    createHealthCalculator({
+      container,
+      containerClass: 'test-c',
+      calcButtonLabel: '<script>alert(1)</script>',
+      fields: [],
+      onCalculate: () => {}
+    });
+    const btn = container.querySelector('#hc-calc-btn');
+    expect(btn.textContent).toBe('<script>alert(1)</script>');
+    expect(btn.innerHTML).toBe('&lt;script&gt;alert(1)&lt;/script&gt;');
+    expect(container.querySelector('script')).toBeNull();
+  });
+
+  it('rejects containerClass with HTML-injection characters', () => {
+    const container = makeContainer();
+    expect(() => createHealthCalculator({
+      container,
+      containerClass: 'evil"><script>alert(1)</script>',
+      fields: [],
+      onCalculate: () => {}
+    })).toThrow(/containerClass/);
+  });
+
+  it('rejects containerClass starting with digit or hyphen', () => {
+    const container = makeContainer();
+    expect(() => createHealthCalculator({
+      container,
+      containerClass: '1bad',
+      fields: [],
+      onCalculate: () => {}
+    })).toThrow(/containerClass/);
+    expect(() => createHealthCalculator({
+      container,
+      containerClass: '-bad',
+      fields: [],
+      onCalculate: () => {}
+    })).toThrow(/containerClass/);
+  });
+
+  it('accepts valid containerClass names with hyphens and underscores', () => {
+    const container = makeContainer();
+    expect(() => createHealthCalculator({
+      container,
+      containerClass: 'bf-container_v2',
+      fields: [],
+      onCalculate: () => {}
+    })).not.toThrow();
+  });
+
+  it('skips min/max attribute when not a number', () => {
+    const container = makeContainer();
+    createHealthCalculator({
+      container,
+      containerClass: 'test-c',
+      fields: [{ id: 'a', label: 'A', value: 1, min: '<script>alert(1)</script>', max: '">' }],
+      onCalculate: () => {}
+    });
+    const input = container.querySelector('#a');
+    expect(input.hasAttribute('min')).toBe(false);
+    expect(input.hasAttribute('max')).toBe(false);
+    expect(container.querySelector('script')).toBeNull();
+  });
+
+  it('keeps min/max attribute when numeric', () => {
+    const container = makeContainer();
+    createHealthCalculator({
+      container,
+      containerClass: 'test-c',
+      fields: [{ id: 'a', label: 'A', value: 1, min: 0, max: 100 }],
+      onCalculate: () => {}
+    });
+    const input = container.querySelector('#a');
+    expect(input.getAttribute('min')).toBe('0');
+    expect(input.getAttribute('max')).toBe('100');
+  });
+});
+
 describe('body-fat math', () => {
   it('classifies male in athletes range', () => {
     const bf = bodyFatPercent({ gender: 'male', height: 175, neck: 38, waist: 80, hip: 0 });

@@ -11,17 +11,28 @@ const SHARED_CSS = `
   .hidden { display: none; }
 `;
 
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  const div = document.createElement('div');
+  div.textContent = String(str);
+  return div.innerHTML;
+}
+
+function isSafeClassName(name) {
+  return typeof name === 'string' && /^[a-zA-Z][a-zA-Z0-9_-]*$/.test(name);
+}
+
 function renderField(field) {
   if (field.type === 'custom') return field.html;
   if (field.type === 'select') {
     const opts = field.options.map(o =>
-      `<option value="${o.value}"${o.selected ? ' selected' : ''}>${o.label}</option>`
+      `<option value="${escapeHtml(o.value)}"${o.selected ? ' selected' : ''}>${escapeHtml(o.label)}</option>`
     ).join('');
-    return `<div class="form-group"><label>${field.label}</label><select id="${field.id}">${opts}</select></div>`;
+    return `<div class="form-group"><label>${escapeHtml(field.label)}</label><select id="${escapeHtml(field.id)}">${opts}</select></div>`;
   }
-  const minAttr = field.min !== undefined ? ` min="${field.min}"` : '';
-  const maxAttr = field.max !== undefined ? ` max="${field.max}"` : '';
-  return `<div class="form-group"><label>${field.label}</label><input type="${field.type || 'number'}" id="${field.id}" value="${field.value ?? ''}"${minAttr}${maxAttr} /></div>`;
+  const minAttr = typeof field.min === 'number' ? ` min="${field.min}"` : '';
+  const maxAttr = typeof field.max === 'number' ? ` max="${field.max}"` : '';
+  return `<div class="form-group"><label>${escapeHtml(field.label)}</label><input type="${escapeHtml(field.type || 'number')}" id="${escapeHtml(field.id)}" value="${escapeHtml(String(field.value ?? ''))}"${minAttr}${maxAttr} /></div>`;
 }
 
 /**
@@ -49,6 +60,10 @@ export function createHealthCalculator({
   onCalculate,
   autoCalc = true
 }) {
+  if (!isSafeClassName(containerClass)) {
+    throw new Error(`createHealthCalculator: containerClass "${containerClass}" must match /^[a-zA-Z][a-zA-Z0-9_-]*$/`);
+  }
+
   const style = document.createElement('style');
   style.textContent = `
     .${containerClass} { max-width: 500px; margin: 0 auto; }
@@ -62,7 +77,7 @@ export function createHealthCalculator({
     <div class="${containerClass}">
       <div class="${containerClass}-form hc-form">
         ${formHTML}
-        <button id="hc-calc-btn" class="calc-button">${calcButtonLabel}</button>
+        <button id="hc-calc-btn" class="calc-button">${escapeHtml(calcButtonLabel)}</button>
       </div>
       <div id="hc-result" class="result hidden"></div>
     </div>
