@@ -22,9 +22,9 @@ export function render(container) {
     onScanFile: async (file) => {
       try {
         const html5QrCode = new Html5Qrcode('barcode-scanner-reader');
-        const result = await html5QrCode.scanFile(file, true);
-        const formatName = result.result.format?.formatName || 'Unknown';
-        scanner.showResult(result.text, `Format: ${formatName}`);
+        const decoded = await html5QrCode.scanFileV2(file, true);
+        const formatName = decoded.result.format?.formatName || 'Unknown';
+        scanner.showResult(decoded.decodedText, `Format: ${formatName}`);
       } catch {
         scanner.showError('No barcode found. Try a clearer image.');
       }
