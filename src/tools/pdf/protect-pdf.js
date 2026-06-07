@@ -1,6 +1,5 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { loadPdf, savePdf } from './pdf-utils.js';
+import { loadPdf } from './pdf-utils.js';
+import { createPdfOptionsTool } from './pdf-options-tool-factory.js';
 
 export const toolConfig = {
   id: 'protect-pdf',
@@ -19,64 +18,38 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let currentFile = null;
-
-  const upload = createFileUpload({
-    accept: '.pdf',
-    multiple: false,
-    maxSizeMB: 100,
-    onFilesSelected: (files) => {
-      currentFile = files[0] || null;
-      optionsArea.style.display = currentFile ? 'block' : 'none';
-    }
-  });
-
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="tool-options" id="options-area" style="display:none;">
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="password-input" class="text-input" placeholder="Enter a password">
-        </div>
-        <div class="form-group">
-          <label>Confirm Password</label>
-          <input type="password" id="confirm-input" class="text-input" placeholder="Confirm the password">
-        </div>
-        <button class="btn btn-primary btn-lg" id="protect-btn" style="width:100%;">Protect PDF</button>
-      </div>
-      <div class="tool-processing" id="processing" style="display:none;"><div class="spinner"></div><p>Protecting PDF...</p></div>
+  const optionsHTML = `
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password-input" class="text-input" placeholder="Enter a password">
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" id="confirm-input" class="text-input" placeholder="Confirm the password">
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const protectBtn = container.querySelector('#protect-btn');
-  const processing = container.querySelector('#processing');
-
-  protectBtn.addEventListener('click', async () => {
-    if (!currentFile) return;
-    const password = container.querySelector('#password-input').value;
-    const confirm = container.querySelector('#confirm-input').value;
-
-    if (!password) { showToast({ message: 'Please enter a password', type: 'warning' }); return; }
-    if (password !== confirm) { showToast({ message: 'Passwords do not match', type: 'error' }); return; }
-
-    processing.style.display = 'block';
-    protectBtn.style.display = 'none';
-
-    try {
-      const pdfDoc = await loadPdf(currentFile);
-      // Note: pdf-lib doesn't directly support encryption on save.
-      // We'll save without encryption but note this limitation.
-      // For actual encryption, a server-side solution or different library is needed.
-      await savePdf(pdfDoc, 'protected.pdf');
-      showToast({ message: 'PDF saved! Note: Client-side encryption has limitations.', type: 'warning' });
-    } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
-    } finally {
-      processing.style.display = 'none';
-      protectBtn.style.display = 'inline-flex';
+  createPdfOptionsTool({
+    container,
+    toolId: 'protect-pdf',
+    optionsHTML,
+    actionButtonText: 'Protect PDF',
+    processingMessage: 'Protecting PDF...',
+    outputFilename: 'protected.pdf',
+    successMessage: 'PDF saved! Note: Client-side encryption has limitations.',
+    validate: (root) => {
+      const password = root.querySelector('#password-input').value;
+      const confirm = root.querySelector('#confirm-input').value;
+      if (!password) return 'Please enter a password';
+      if (password !== confirm) return 'Passwords do not match';
+      return null;
+    },
+    process: async (file) => {
+      const password = document.querySelector('#password-input').value;
+      const pdfDoc = await loadPdf(file);
+      pdfDoc.encrypt(password || '');
+      const bytes = await pdfDoc.save();
+      return { blob: new Blob([bytes], { type: 'application/pdf' }), successMessage: 'PDF protected successfully!' };
     }
   });
 }
