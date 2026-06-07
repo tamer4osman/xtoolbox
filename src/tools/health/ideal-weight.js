@@ -14,8 +14,10 @@ const HEIGHT_FIELD = {
   html: `
     <div class="form-group">
       <label>Height</label>
-      <div class="input-group">
+      <div class="input-group" id="height-group">
         <input type="number" id="height" value="170" min="100" max="250" />
+        <input type="number" id="height-feet" value="5" min="1" max="8" style="display:none" />
+        <input type="number" id="height-inches" value="7" min="0" max="11" style="display:none" />
         <select id="unit">
           <option value="cm" selected>cm</option>
           <option value="ft">ft/in</option>
@@ -53,11 +55,31 @@ export function render(container) {
       ]}
     ],
     onCalculate: (container, resultEl) => {
-      let h = parseFloat(container.querySelector('#height').value) || 170;
-      const unit = container.querySelector('#unit').value;
+      const unitEl = container.querySelector('#unit');
+      const unit = unitEl.value;
       const gender = container.querySelector('#gender').value;
 
-      if (unit === 'ft') h = h * 30.48;
+      if (!unitEl._toggleWired) {
+        const cmInput = container.querySelector('#height');
+        const ftInput = container.querySelector('#height-feet');
+        const inInput = container.querySelector('#height-inches');
+        unitEl.addEventListener('change', () => {
+          const isMetric = unitEl.value === 'cm';
+          cmInput.style.display = isMetric ? '' : 'none';
+          ftInput.style.display = isMetric ? 'none' : '';
+          inInput.style.display = isMetric ? 'none' : '';
+        });
+        unitEl._toggleWired = true;
+      }
+
+      let h;
+      if (unit === 'ft') {
+        const feet = parseFloat(container.querySelector('#height-feet').value) || 5;
+        const inches = parseFloat(container.querySelector('#height-inches').value) || 0;
+        h = (feet * 12 + inches) * 2.54;
+      } else {
+        h = parseFloat(container.querySelector('#height').value) || 170;
+      }
 
       const hM = h / 100;
       const minBMI = 18.5;

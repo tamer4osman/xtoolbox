@@ -14,8 +14,10 @@ const HEIGHT_FIELD = {
   html: `
     <div class="form-group">
       <label>Height</label>
-      <div class="input-group">
+      <div class="input-group" id="height-group">
         <input type="number" id="height" value="170" min="50" max="300" />
+        <input type="number" id="height-feet" value="5" min="1" max="8" style="display:none" />
+        <input type="number" id="height-inches" value="7" min="0" max="11" style="display:none" />
         <select id="height-unit">
           <option value="cm" selected>cm</option>
           <option value="ft">ft/in</option>
@@ -59,6 +61,10 @@ function classifyBmi(bmi) {
   return ['Obese', '#ef4444'];
 }
 
+export function feetInchesToCm(feet, inches) {
+  return (feet * 12 + inches) * 2.54;
+}
+
 export function render(container) {
   createHealthCalculator({
     container,
@@ -67,12 +73,33 @@ export function render(container) {
     extraCSS: CONTAINER_EXTRA + RESULT_CSS,
     fields: [HEIGHT_FIELD, WEIGHT_FIELD],
     onCalculate: (container, resultEl) => {
-      let h = parseFloat(container.querySelector('#height').value) || 170;
-      let w = parseFloat(container.querySelector('#weight').value) || 70;
       const hUnit = container.querySelector('#height-unit').value;
-      const wUnit = container.querySelector('#weight-unit').value;
 
-      if (hUnit === 'ft') h = h * 30.48;
+      const heightUnit = container.querySelector('#height-unit');
+      if (!heightUnit._toggleWired) {
+        const cmInput = container.querySelector('#height');
+        const ftInput = container.querySelector('#height-feet');
+        const inInput = container.querySelector('#height-inches');
+        heightUnit.addEventListener('change', () => {
+          const isMetric = heightUnit.value === 'cm';
+          cmInput.style.display = isMetric ? '' : 'none';
+          ftInput.style.display = isMetric ? 'none' : '';
+          inInput.style.display = isMetric ? 'none' : '';
+        });
+        heightUnit._toggleWired = true;
+      }
+
+      let h;
+      if (hUnit === 'ft') {
+        const feet = parseFloat(container.querySelector('#height-feet').value) || 5;
+        const inches = parseFloat(container.querySelector('#height-inches').value) || 0;
+        h = feetInchesToCm(feet, inches);
+      } else {
+        h = parseFloat(container.querySelector('#height').value) || 170;
+      }
+
+      let w = parseFloat(container.querySelector('#weight').value) || 70;
+      const wUnit = container.querySelector('#weight-unit').value;
       if (wUnit === 'lbs') w = w * 0.453592;
 
       const bmi = w / ((h / 100) ** 2);

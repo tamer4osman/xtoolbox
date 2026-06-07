@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { createHealthCalculator } from '../tools/health/health-calculator.js';
 import { bodyFatPercent, classifyBodyFat, scaleBarPercent } from '../tools/health/body-fat-calculator.js';
 import { getRatios, adjustForGoal } from '../tools/health/macros-calculator.js';
+import { feetInchesToCm } from '../tools/health/bmi-calculator.js';
 
 function makeContainer() {
   const c = document.createElement('div');
@@ -269,6 +270,24 @@ describe('createHealthCalculator XSS protection', () => {
     const input = container.querySelector('#a');
     expect(input.getAttribute('min')).toBe('0');
     expect(input.getAttribute('max')).toBe('100');
+  });
+});
+
+describe('feetInchesToCm', () => {
+  it('converts 5 feet 7 inches to ~170 cm', () => {
+    expect(feetInchesToCm(5, 7)).toBeCloseTo(170.18, 2);
+  });
+
+  it('converts 6 feet 0 inches to ~183 cm', () => {
+    expect(feetInchesToCm(6, 0)).toBeCloseTo(182.88, 2);
+  });
+
+  it('converts 0 feet 0 inches to 0 cm', () => {
+    expect(feetInchesToCm(0, 0)).toBe(0);
+  });
+
+  it('treats inches as 0-11, not 12+ (no overflow)', () => {
+    expect(feetInchesToCm(5, 12)).toBeCloseTo(feetInchesToCm(6, 0), 2);
   });
 });
 
