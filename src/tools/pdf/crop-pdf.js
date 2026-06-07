@@ -1,6 +1,5 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { loadPdf, savePdf, getPdfPageCount } from './pdf-utils.js';
+import { loadPdf } from './pdf-utils.js';
+import { createPdfOptionsTool } from './pdf-options-tool-factory.js';
 
 export const toolConfig = {
   id: 'crop-pdf',
@@ -18,107 +17,87 @@ export const toolConfig = {
   ]
 };
 
+const FIELDS = [
+  { id: 'crop-top', key: 'top' },
+  { id: 'crop-right', key: 'right' },
+  { id: 'crop-bottom', key: 'bottom' },
+  { id: 'crop-left', key: 'left' }
+];
+
 export function render(container) {
-  let currentFile = null;
-
-  const upload = createFileUpload({
-    accept: '.pdf',
-    multiple: false,
-    maxSizeMB: 100,
-    onFilesSelected: (files) => {
-      currentFile = files[0] || null;
-      optionsArea.style.display = currentFile ? 'block' : 'none';
-    }
-  });
-
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="tool-options" id="options-area" style="display:none;">
-        <p style="font-size:var(--text-sm);color:var(--color-text-secondary);margin-bottom:var(--space-4);">Set margins in points (72pt = 1 inch). These margins will be removed from each page.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
-          <div class="form-group">
-            <label>Top (pt)</label>
-            <input type="number" id="crop-top" class="text-input" value="0" min="0">
-          </div>
-          <div class="form-group">
-            <label>Right (pt)</label>
-            <input type="number" id="crop-right" class="text-input" value="0" min="0">
-          </div>
-          <div class="form-group">
-            <label>Bottom (pt)</label>
-            <input type="number" id="crop-bottom" class="text-input" value="0" min="0">
-          </div>
-          <div class="form-group">
-            <label>Left (pt)</label>
-            <input type="number" id="crop-left" class="text-input" value="0" min="0">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Quick Presets</label>
-          <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;">
-            <button class="btn btn-sm btn-secondary" data-preset="20,20,20,20">Small (20pt)</button>
-            <button class="btn btn-sm btn-secondary" data-preset="50,50,50,50">Medium (50pt)</button>
-            <button class="btn btn-sm btn-secondary" data-preset="72,72,72,72">Large (1in)</button>
-            <button class="btn btn-sm btn-secondary" data-preset="0,0,0,0">Reset</button>
-          </div>
-        </div>
-        <button class="btn btn-primary btn-lg" id="crop-btn" style="width:100%;">Crop PDF</button>
+  const optionsHTML = `
+    <p style="font-size:var(--text-sm);color:var(--color-text-secondary);margin-bottom:var(--space-4);">Set margins in points (72pt = 1 inch). These margins will be removed from each page.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+      <div class="form-group">
+        <label>Top (pt)</label>
+        <input type="number" id="crop-top" class="text-input" value="0" min="0">
       </div>
-      <div class="tool-processing" id="processing" style="display:none;"><div class="spinner"></div><p>Cropping...</p></div>
+      <div class="form-group">
+        <label>Right (pt)</label>
+        <input type="number" id="crop-right" class="text-input" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label>Bottom (pt)</label>
+        <input type="number" id="crop-bottom" class="text-input" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label>Left (pt)</label>
+        <input type="number" id="crop-left" class="text-input" value="0" min="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Quick Presets</label>
+      <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;">
+        <button type="button" class="btn btn-sm btn-secondary" data-preset="20,20,20,20">Small (20pt)</button>
+        <button type="button" class="btn btn-sm btn-secondary" data-preset="50,50,50,50">Medium (50pt)</button>
+        <button type="button" class="btn btn-sm btn-secondary" data-preset="72,72,72,72">Large (1in)</button>
+        <button type="button" class="btn btn-sm btn-secondary" data-preset="0,0,0,0">Reset</button>
+      </div>
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const cropBtn = container.querySelector('#crop-btn');
-  const processing = container.querySelector('#processing');
+  const { optionsArea } = createPdfOptionsTool({
+    container,
+    toolId: 'crop-pdf',
+    optionsHTML,
+    actionButtonText: 'Crop PDF',
+    processingMessage: 'Cropping...',
+    outputFilename: 'cropped.pdf',
+    successMessage: 'Done!',
+    validate: (root) => {
+      const allZero = FIELDS.every(f => (parseFloat(root.querySelector(`#${f.id}`).value) || 0) === 0);
+      return allZero ? 'Set at least one margin to crop' : null;
+    },
+    process: async (file) => {
+      const vals = {};
+      for (const f of FIELDS) {
+        vals[f.key] = parseFloat(optionsArea.querySelector(`#${f.id}`).value) || 0;
+      }
 
-  // Presets
-  optionsArea.querySelectorAll('[data-preset]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const [t, r, b, l] = btn.dataset.preset.split(',');
-      container.querySelector('#crop-top').value = t;
-      container.querySelector('#crop-right').value = r;
-      container.querySelector('#crop-bottom').value = b;
-      container.querySelector('#crop-left').value = l;
-    });
-  });
-
-  cropBtn.addEventListener('click', async () => {
-    if (!currentFile) return;
-    const top = parseFloat(container.querySelector('#crop-top').value) || 0;
-    const right = parseFloat(container.querySelector('#crop-right').value) || 0;
-    const bottom = parseFloat(container.querySelector('#crop-bottom').value) || 0;
-    const left = parseFloat(container.querySelector('#crop-left').value) || 0;
-
-    if (top === 0 && right === 0 && bottom === 0 && left === 0) {
-      showToast({ message: 'Set at least one margin to crop', type: 'warning' });
-      return;
-    }
-
-    processing.style.display = 'block';
-    cropBtn.style.display = 'none';
-
-    try {
-      const pdfDoc = await loadPdf(currentFile);
+      const pdfDoc = await loadPdf(file);
       const pages = pdfDoc.getPages();
 
       pages.forEach(page => {
         const { width, height } = page.getSize();
-        const newWidth = Math.max(1, width - left - right);
-        const newHeight = Math.max(1, height - top - bottom);
-        page.setCropBox(left, bottom, newWidth, newHeight);
+        const newWidth = Math.max(1, width - vals.left - vals.right);
+        const newHeight = Math.max(1, height - vals.top - vals.bottom);
+        page.setCropBox(vals.left, vals.bottom, newWidth, newHeight);
       });
 
-      await savePdf(pdfDoc, 'cropped.pdf');
-      showToast({ message: `Cropped ${pages.length} page(s)!`, type: 'success' });
-    } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
-    } finally {
-      processing.style.display = 'none';
-      cropBtn.style.display = 'inline-flex';
+      const bytes = await pdfDoc.save();
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      return { blob, successMessage: `Cropped ${pages.length} page(s)!` };
     }
+  });
+
+  optionsArea.querySelectorAll('[data-preset]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const [t, r, b, l] = btn.dataset.preset.split(',');
+      optionsArea.querySelector('#crop-top').value = t;
+      optionsArea.querySelector('#crop-right').value = r;
+      optionsArea.querySelector('#crop-bottom').value = b;
+      optionsArea.querySelector('#crop-left').value = l;
+    });
   });
 }
 
