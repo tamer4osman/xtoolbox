@@ -64,7 +64,6 @@ export function render(container) {
     extraCSS: RESULT_CSS,
     fields: [
       { id: 'gender', type: 'select', label: 'Gender', options: GENDER_OPTIONS },
-      { id: 'age', label: 'Age', value: 30, min: 18, max: 100 },
       { id: 'height', label: 'Height (cm)', value: 170, min: 100, max: 250 },
       { id: 'weight', label: 'Weight (kg)', value: 70, min: 30, max: 300 },
       { id: 'neck', label: 'Neck (cm)', value: 38, min: 20, max: 60 },
