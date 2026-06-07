@@ -7,7 +7,10 @@ node_modules/
 
 # Test outputs
 test-results/
+test-results-temp/
 playwright-report/
+playwright-report-temp/
+playwright-temp.config.js
 *.tar.gz
 *.jpeg
 
