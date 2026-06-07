@@ -1,5 +1,6 @@
 import { showToast } from '../../components/toast.js';
 import { copyToClipboard } from '../../utils/clipboard.js';
+import { parseCSV } from '../../utils/csv.js';
 
 export const toolConfig = {
   id: 'markdown-table-generator',
@@ -31,46 +32,13 @@ export function escapeCell(s) {
 
 export function parseDelimited(text, delimiter) {
   if (text == null) return [];
+  if (delimiter === ',') return parseCSV(text);
+
   const raw = String(text).replace(/\r\n?/g, '\n');
   const lines = raw.split('\n').filter((_, i, arr) => i < arr.length - 1 || arr[i].length > 0);
   if (lines.length === 0) return [];
 
   const rows = [];
-  if (delimiter === ',') {
-    let row = [];
-    let cell = '';
-    let inQuotes = false;
-    for (let i = 0; i < raw.length; i++) {
-      const c = raw[i];
-      if (inQuotes) {
-        if (c === '"') {
-          if (raw[i + 1] === '"') { cell += '"'; i++; }
-          else { inQuotes = false; }
-        } else {
-          cell += c;
-        }
-      } else {
-        if (c === '"' && cell.length === 0) {
-          inQuotes = true;
-        } else if (c === '"' && /[",]/.test(raw[i + 1] || '')) {
-          inQuotes = false;
-        } else if (c === ',') {
-          row.push(cell); cell = '';
-        } else if (c === '\n') {
-          row.push(cell); cell = '';
-          rows.push(row); row = [];
-        } else {
-          cell += c;
-        }
-      }
-    }
-    if (cell.length > 0 || row.length > 0) {
-      row.push(cell);
-      rows.push(row);
-    }
-    return rows.map(r => r.map(c => c.trim()));
-  }
-
   for (const line of lines) {
     if (line === '' && rows.length === 0) continue;
     if (delimiter === 'tsv') {

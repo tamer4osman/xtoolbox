@@ -46,12 +46,42 @@ export const TEMPLATES = {
   keycloak: { name: 'Keycloak', icon: '🔐', image: 'quay.io/keycloak/keycloak:23.0', ports: ['8080:8080'], environment: ['KEYCLOAK_ADMIN=admin', 'KEYCLOAK_ADMIN_PASSWORD=changeme'], command: 'start-dev' }
 };
 
+const DEFAULT_NAMES = {
+  postgres: 'db', mysql: 'db', mariadb: 'db', mongodb: 'db',
+  redis: 'cache', elasticsearch: 'search', rabbitmq: 'mq',
+  meilisearch: 'search', minio: 'storage', traefik: 'proxy', keycloak: 'auth',
+  memcached: 'cache', adminer: 'adminer'
+};
+
+let _idCounter = 0;
+function uid() {
+  _idCounter += 1;
+  return 'svc_' + Date.now().toString(36) + '_' + _idCounter;
+}
+
+export function defaultServiceFromTemplate(key) {
+  const t = TEMPLATES[key];
+  if (!t) return null;
+  return {
+    id: uid(),
+    name: DEFAULT_NAMES[key] || key,
+    image: t.image || '',
+    command: t.command || '',
+    ports: Array.isArray(t.ports) ? [...t.ports] : [],
+    volumes: Array.isArray(t.volumes) ? [...t.volumes] : [],
+    environment: Array.isArray(t.environment) ? [...t.environment] : [],
+    dependsOn: [],
+    networks: [],
+    restart: 'unless-stopped'
+  };
+}
+
 export function needsQuotes(s) {
   if (s === '') return true;
   if (/^-?\d+(\.\d+)?$/.test(s)) return true;
   if (/^(null|true|false|yes|no|on|off)$/i.test(s)) return true;
   if (/[:#\s\t\n\r]|["'`|&*?><!%@]/.test(s)) return true;
-  if (/^[-?:\,\[\]\{\}\&\*#\!\|\>'"%@]/.test(s)) return true;
+  if (/^[-?:\,\[\]\{\}\&\*#\!\|\>\'"%@\s]/.test(s)) return true;
   return false;
 }
 
@@ -177,33 +207,10 @@ function inlineValue(value, indent) {
   if (typeof value === 'object') {
     return toYaml(value, indent);
   }
-  return formatScalar(value);
-}
+return formatScalar(value);
+  }
 
-let _idCounter = 0;
-function uid() {
-  _idCounter += 1;
-  return 'svc_' + Date.now().toString(36) + '_' + _idCounter;
-}
-
-export function defaultServiceFromTemplate(key) {
-  const t = TEMPLATES[key];
-  if (!t) return null;
-  return {
-    id: uid(),
-    name: key === 'postgres' ? 'db' : key === 'mysql' || key === 'mariadb' ? 'db' : key === 'mongodb' ? 'db' : key === 'redis' ? 'cache' : key === 'elasticsearch' ? 'search' : key === 'rabbitmq' ? 'mq' : key === 'meilisearch' ? 'search' : key === 'minio' ? 'storage' : key === 'adminer' ? 'adminer' : key === 'traefik' ? 'proxy' : key === 'keycloak' ? 'auth' : key === 'memcached' ? 'cache' : key,
-    image: t.image || '',
-    command: t.command || '',
-    ports: Array.isArray(t.ports) ? [...t.ports] : [],
-    volumes: Array.isArray(t.volumes) ? [...t.volumes] : [],
-    environment: Array.isArray(t.environment) ? [...t.environment] : [],
-    dependsOn: [],
-    networks: [],
-    restart: 'unless-stopped'
-  };
-}
-
-export function render(container) {
+  export function render(container) {
   const state = {
     projectName: 'myapp',
     services: []

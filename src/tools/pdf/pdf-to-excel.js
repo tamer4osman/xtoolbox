@@ -1,6 +1,7 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { createPdfConverter } from './pdf-converter-factory.js';
+import { parseCSV } from '../../utils/csv.js';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -20,55 +21,6 @@ export const toolConfig = {
     { question: 'Are scanned PDFs supported?', answer: 'Only PDFs with selectable text. Scanned images need OCR first.' }
   ]
 };
-
-function parseCSV(content) {
-  const rows = [];
-  let currentRow = [];
-  let currentCell = '';
-  let inQuotes = false;
-
-  for (let i = 0; i < content.length; i++) {
-    const char = content[i];
-    const nextChar = content[i + 1];
-
-    if (inQuotes) {
-      if (char === '"' && nextChar === '"') {
-        currentCell += '"';
-        i++;
-      } else if (char === '"') {
-        inQuotes = false;
-      } else {
-        currentCell += char;
-      }
-    } else {
-      if (char === '"') {
-        inQuotes = true;
-      } else if (char === ',') {
-        currentRow.push(currentCell.trim());
-        currentCell = '';
-      } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
-        currentRow.push(currentCell.trim());
-        if (currentRow.some(cell => cell)) {
-          rows.push(currentRow);
-        }
-        currentRow = [];
-        currentCell = '';
-        if (char === '\r') i++;
-      } else if (char !== '\r') {
-        currentCell += char;
-      }
-    }
-  }
-
-  if (currentCell || currentRow.length > 0) {
-    currentRow.push(currentCell.trim());
-    if (currentRow.some(cell => cell)) {
-      rows.push(currentRow);
-    }
-  }
-
-  return rows;
-}
 
 function generateXLSX(content) {
   const BOM = '\uFEFF';
