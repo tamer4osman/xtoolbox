@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { createHealthCalculator } from '../tools/health/health-calculator.js';
-import { bodyFatPercent, classifyBodyFat } from '../tools/health/body-fat-calculator.js';
+import { bodyFatPercent, classifyBodyFat, scaleBarPercent } from '../tools/health/body-fat-calculator.js';
 import { getRatios, adjustForGoal } from '../tools/health/macros-calculator.js';
 
 function makeContainer() {
@@ -165,6 +165,25 @@ describe('body-fat math', () => {
     const [name, color] = classifyBodyFat('male', 12);
     expect(name).toBe('Athletes');
     expect(color).toMatch(/^#[0-9a-f]{6}$/i);
+  });
+
+  it('scaleBarPercent is 0 at 0% body fat', () => {
+    expect(scaleBarPercent(0)).toBe(0);
+  });
+
+  it('scaleBarPercent is 100 at 40% body fat', () => {
+    expect(scaleBarPercent(40)).toBe(100);
+  });
+
+  it('scaleBarPercent caps at 100 for body fat > 40% (no overflow)', () => {
+    expect(scaleBarPercent(50)).toBe(100);
+    expect(scaleBarPercent(60)).toBe(100);
+  });
+
+  it('scaleBarPercent scales linearly below 40%', () => {
+    expect(scaleBarPercent(10)).toBe(25);
+    expect(scaleBarPercent(20)).toBe(50);
+    expect(scaleBarPercent(30)).toBe(75);
   });
 });
 

@@ -37,6 +37,10 @@ export function bodyFatPercent({ gender, height, neck, waist, hip }) {
   return Math.max(2, Math.min(60, bf));
 }
 
+export function scaleBarPercent(bodyFat) {
+  return Math.min(100, (bodyFat / 40) * 100);
+}
+
 export function classifyBodyFat(gender, bf) {
   if (gender === 'male') {
     if (bf < 6) return ['Essential Fat', '#3b82f6'];
@@ -79,7 +83,7 @@ export function render(container) {
       const fatMass = weight * bodyFat / 100;
       const leanMass = weight - fatMass;
       const [category, color] = classifyBodyFat(gender, bodyFat);
-      const percent = (bodyFat / 40) * 100;
+      const percent = scaleBarPercent(bodyFat);
 
       resultEl.innerHTML = `
         <div class="bf-display">
