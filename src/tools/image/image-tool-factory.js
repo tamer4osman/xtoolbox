@@ -129,5 +129,10 @@ export function createImageTool({
     });
   }
 
-  return { state, elements, bindOptionChange };
+  return {
+    state,
+    elements,
+    bindOptionChange,
+    renderPreview: () => renderPreview({ state, container, elements })
+  };
 }
