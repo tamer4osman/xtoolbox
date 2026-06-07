@@ -1,7 +1,5 @@
 import { PDFDocument } from 'pdf-lib';
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
+import { createPdfOptionsTool } from './pdf-options-tool-factory.js';
 
 export const toolConfig = {
   id: 'unlock-pdf',
@@ -20,56 +18,30 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let currentFile = null;
-
-  const upload = createFileUpload({
-    accept: '.pdf',
-    multiple: false,
-    maxSizeMB: 100,
-    onFilesSelected: (files) => {
-      currentFile = files[0] || null;
-      optionsArea.style.display = currentFile ? 'block' : 'none';
-    }
-  });
-
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="tool-options" id="options-area" style="display:none;">
-        <div class="form-group">
-          <label>PDF Password</label>
-          <input type="password" id="password-input" class="text-input" placeholder="Enter the PDF password">
-        </div>
-        <button class="btn btn-primary btn-lg" id="unlock-btn" style="width:100%;">Unlock PDF</button>
-      </div>
-      <div class="tool-processing" id="processing" style="display:none;"><div class="spinner"></div><p>Unlocking...</p></div>
+  const optionsHTML = `
+    <div class="form-group">
+      <label>PDF Password</label>
+      <input type="password" id="password-input" class="text-input" placeholder="Enter the PDF password">
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const unlockBtn = container.querySelector('#unlock-btn');
-  const processing = container.querySelector('#processing');
-
-  unlockBtn.addEventListener('click', async () => {
-    if (!currentFile) return;
-    const password = container.querySelector('#password-input').value;
-    if (!password) { showToast({ message: 'Please enter the password', type: 'warning' }); return; }
-
-    processing.style.display = 'block';
-    unlockBtn.style.display = 'none';
-
-    try {
-      const bytes = await currentFile.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(bytes, { password });
+  createPdfOptionsTool({
+    container,
+    toolId: 'unlock-pdf',
+    optionsHTML,
+    actionButtonText: 'Unlock PDF',
+    processingMessage: 'Unlocking...',
+    outputFilename: 'unlocked.pdf',
+    successMessage: 'PDF unlocked!',
+    validate: (root) => {
+      const password = root.querySelector('#password-input').value;
+      return password ? null : 'Please enter the password';
+    },
+    process: async (file) => {
+      const bytes = await file.arrayBuffer();
+      const pdfDoc = await PDFDocument.load(bytes, { password: container.querySelector('#password-input').value });
       const unlockedBytes = await pdfDoc.save();
-      downloadBlob(new Blob([unlockedBytes], { type: 'application/pdf' }), 'unlocked.pdf');
-      showToast({ message: 'PDF unlocked!', type: 'success' });
-    } catch (err) {
-      showToast({ message: 'Wrong password or invalid PDF: ' + err.message, type: 'error' });
-    } finally {
-      processing.style.display = 'none';
-      unlockBtn.style.display = 'inline-flex';
+      return new Blob([unlockedBytes], { type: 'application/pdf' });
     }
   });
 }
