@@ -185,7 +185,7 @@ export function createScanner({
   if (hasOpenUrl && elements.openUrl) {
     elements.openUrl.addEventListener('click', () => {
       const url = elements.resultContent.textContent;
-      if (url.startsWith('http')) window.open(url, '_blank');
+      if (url.startsWith('http')) window.open(url, '_blank', 'noopener,noreferrer');
     });
   }
 

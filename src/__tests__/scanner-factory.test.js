@@ -193,4 +193,42 @@ describe('createScanner', () => {
     await new Promise(r => setTimeout(r, 0));
     expect(container.querySelector('#test-scanner-result').classList.contains('hidden')).toBe(true);
   });
+
+  it('opens URL with noopener,noreferrer to prevent tabnabbing', () => {
+    const openFn = vi.fn();
+    vi.stubGlobal('open', openFn);
+    const container = makeContainer();
+    const { showResult } = createScanner({
+      container,
+      toolConfig: { id: 'test-scanner', name: 'T', category: 'qr', description: '', icon: '', status: 'done' },
+      scanLabel: 'QR code',
+      resultTitle: 'Decoded Content',
+      resultMetaId: 'result-type',
+      hasCamera: false,
+      hasOpenUrl: true,
+      onScanFile: async () => {}
+    });
+    showResult('https://example.com', 'Type: URL');
+    container.querySelector('#test-scanner-open-url').click();
+    expect(openFn).toHaveBeenCalledWith('https://example.com', '_blank', 'noopener,noreferrer');
+  });
+
+  it('does not open URL when result is not an http(s) URL', () => {
+    const openFn = vi.fn();
+    vi.stubGlobal('open', openFn);
+    const container = makeContainer();
+    const { showResult } = createScanner({
+      container,
+      toolConfig: { id: 'test-scanner', name: 'T', category: 'qr', description: '', icon: '', status: 'done' },
+      scanLabel: 'QR code',
+      resultTitle: 'Decoded Content',
+      resultMetaId: 'result-type',
+      hasCamera: false,
+      hasOpenUrl: true,
+      onScanFile: async () => {}
+    });
+    showResult('WIFI:T:WPA;S:foo;P:bar;;', 'Type: WiFi');
+    container.querySelector('#test-scanner-open-url').click();
+    expect(openFn).not.toHaveBeenCalled();
+  });
 });
