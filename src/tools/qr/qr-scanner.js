@@ -36,11 +36,7 @@ export function render(container) {
         const text = await html5QrCode.scanFile(file, true);
         displayDecoded(text);
       } catch {
-        try {
-          await scanWithCanvas(file);
-        } catch {
-          scanner.showError('No QR code found in image. Please try a clearer image.');
-        }
+        scanner.showError('No QR code found in image. Please try a clearer image.');
       }
     }
   });
@@ -51,30 +47,6 @@ export function render(container) {
     const type = detectType(text);
     scanner.showResult(text, `Type: ${type}`);
     elements.openUrl.classList.toggle('hidden', !text.startsWith('http'));
-  }
-
-  function scanWithCanvas(file) {
-    return new Promise((resolve, reject) => {
-      const imageUrl = URL.createObjectURL(file);
-      const img = new Image();
-      img.onload = async () => {
-        try {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
-          const html5Qrcode = new Html5Qrcode('qr-scanner-reader');
-          const text = await html5Qrcode.scanImage(canvas, { verbose: true });
-          displayDecoded(text);
-          resolve(text);
-        } catch (e) {
-          reject(e);
-        }
-      };
-      img.onerror = reject;
-      img.src = imageUrl;
-    });
   }
 
   let cameraInstance = null;
