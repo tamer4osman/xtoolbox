@@ -1,3 +1,5 @@
+import { wireLookupSearch, escapeHtml } from '../shared/lookup.js';
+
 export const toolConfig = {
   id: 'book-lookup',
   name: 'Book Info Lookup',
@@ -58,65 +60,39 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const searchBtn = container.querySelector('#search-btn');
-  const queryInput = container.querySelector('#query-input');
-  const searchType = container.querySelector('#search-type');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
-
   async function searchBooks(query, type) {
-    let url;
     if (type === 'isbn') {
-      url = 'https://openlibrary.org/isbn/' + query + '.json';
-      const data = await fetch(url).then(r => r.json());
+      const res = await fetch('https://openlibrary.org/isbn/' + query + '.json');
+      const data = await res.json();
       return [{ key: data.key, title: 'ISBN: ' + query, author_name: [data.authors?.[0]?.name || 'Unknown'] }];
-    } else {
-      url = 'https://openlibrary.org/search.json?' + type + '=' + encodeURIComponent(query) + '&limit=10';
-      const data = await fetch(url).then(r => r.json());
-      return data.docs || [];
     }
+    const res = await fetch('https://openlibrary.org/search.json?' + type + '=' + encodeURIComponent(query) + '&limit=10');
+    const data = await res.json();
+    return data.docs || [];
   }
 
-  searchBtn.addEventListener('click', async () => {
-    const query = queryInput.value.trim();
-    const type = searchType.value;
-    if (!query) { alert('Enter a search term'); return; }
-
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
-
-    try {
+  wireLookupSearch({
+    container,
+    searchButtonId: 'search-btn',
+    inputSelector: 'input',
+    errorMessage: 'No books found. Try a different search.',
+    validate: (vals) => !vals['query-input']?.trim() ? 'Enter a search term' : null,
+    onSearch: async (vals) => {
+      const query = vals['query-input'].trim();
+      const type = container.querySelector('#search-type').value;
       const books = await searchBooks(query, type);
-      
-      if (books.length === 0) {
-        throw new Error('No books found');
-      }
-
-      const grid = document.getElementById('books-grid');
+      if (books.length === 0) throw new Error('No books found');
+      const grid = container.querySelector('#books-grid');
       grid.innerHTML = books.map(book => `
         <div class="book-card">
-          <img class="book-cover" src="https://covers.openlibrary.org/b/id/${book.cover_i || ''}-M.jpg" onerror="this.style.display='none'" />
+          <img class="book-cover" src="https://covers.openlibrary.org/b/id/${escapeHtml(book.cover_i || '')}-M.jpg" onerror="this.style.display='none'" alt="" />
           <div class="book-info">
-            <div class="book-title">${book.title || 'Unknown'}</div>
-            <div class="book-author">${book.author_name?.join(', ') || 'Unknown Author'}</div>
-            <div class="book-year">${book.first_publish_year || ''}</div>
+            <div class="book-title">${escapeHtml(book.title || 'Unknown')}</div>
+            <div class="book-author">${escapeHtml(book.author_name?.join(', ') || 'Unknown Author')}</div>
+            <div class="book-year">${escapeHtml(book.first_publish_year || '')}</div>
           </div>
         </div>
       `).join('');
-
-      result.classList.remove('hidden');
-    } catch (err) {
-      error.textContent = 'No books found. Try a different search.';
-      error.classList.remove('hidden');
-    } finally {
-      loading.classList.add('hidden');
     }
   });
-
-  queryInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') searchBtn.click();
-  });
-
-  }
+}
