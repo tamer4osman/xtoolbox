@@ -10,7 +10,7 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  const { fire, controls } = createCssGenerator({
+  const { fire } = createCssGenerator({
     container,
     cssClass: 'gradient-gen',
     maxWidth: '700px',
@@ -38,7 +38,7 @@ export function render(container) {
       </div>
       <button id="addStopBtn" class="add-btn">+ Add Color</button>
     `,
-    onUpdate: ({ values, preview, cssOutput, container }) => {
+    onUpdate: ({ values, preview, cssOutput, container, controls }) => {
       const type = values.type;
       const angle = values.angle;
       const colorEls = controls.querySelectorAll('.color-stop input[type="color"]');
@@ -54,11 +54,12 @@ export function render(container) {
     }
   });
 
+  const controlsEl = container.querySelector('.controls');
   container.querySelector('#addStopBtn').addEventListener('click', () => {
     const div = document.createElement('div');
     div.className = 'color-stop';
     div.innerHTML = '<input type="color" value="#ffffff"><input type="text" value="#ffffff">';
-    controls.querySelector('#colorStops').appendChild(div);
+    controlsEl.querySelector('#colorStops').appendChild(div);
     div.querySelector('input[type="color"]').addEventListener('input', fire);
     div.querySelector('input[type="text"]').addEventListener('input', fire);
     fire();
