@@ -129,7 +129,21 @@ Then verify all of the following:
 
 If any check fails, fix the code and re-run from Step 1. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
 
-## Step 7 — User testing gate (BLOCKING)
+## Step 7 — Fallow static analysis (BLOCKING)
+
+Run Fallow against the new tool's file to catch dead code and complexity issues before the user sees it:
+
+```bash
+npx fallow dead-code src/tools/<category>/<tool-id>.js
+npx fallow health src/tools/<category>/<tool-id>.js
+```
+
+- **Dead code** — Fallow must report 0 unused exports in the new tool file. Every exported symbol (`toolConfig`, `render`, and any helper functions) must be consumed by the module graph. If Fallow flags something, either remove it or add a re-export/barrel.
+- **Health** — Fallow must not report any file with complexity above the project threshold. If the tool file triggers a warning, refactor to reduce branching.
+
+If either check fails, fix the code and re-run Step 7. Do not proceed to Step 8 until both pass clean.
+
+## Step 8 — User testing gate (BLOCKING)
 
 Tell the user:
 
@@ -139,9 +153,9 @@ Tell the user:
 > 2. …
 > 3. …
 
-Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 8 if the user has not approved.
+Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 9 if the user has not approved.
 
-## Step 8 — Update docs (all required, all in one pass)
+## Step 9 — Update docs (all required, all in one pass)
 
 | File | Change |
 |------|--------|
@@ -151,7 +165,7 @@ Be specific about what to try — call out the primary controls, any edge cases,
 | `PROJECT-PLAN.md` | Bump the "Tasks Done" total by 1. If the phase finished, mark it ✅. |
 | `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool. |
 
-## Step 9 — Update main-page counts (all required)
+## Step 10 — Update main-page counts (all required)
 
 These MUST reflect the new total — the tool count appears in 4 user-facing files and must agree:
 
@@ -167,7 +181,7 @@ rg -n "(\\d+)\\+?\\s*(free\\s*)?(online\\s*)?tools" README.md src/pages/home.js 
 
 Every number should be the same.
 
-## Step 10 — Commit (only after user approval)
+## Step 11 — Commit (only after user approval)
 
 Stage only the files you touched. Write a descriptive commit message:
 
@@ -184,7 +198,7 @@ Add <tool-name> tool (<category>)
 
 ## Red lines
 
-- Do not commit before Step 7 (user) approval. Step 6 is your own self-test; only the user's explicit approval clears the gate to Steps 8-10.
+- Do not commit before Step 8 (user) approval. Step 6 is your own self-test; Step 7 is Fallow static analysis; only the user's explicit approval clears the gate to Steps 9-11.
 - Do not edit `package.json` to add a dependency without asking — many Phase 25 tools can be built with browser built-ins only (see the AGENTS.md / README convention).
 - Do not add a tool to `src/data/tools.json` without also adding it to `toolsList.json` and vice versa.
 - Do not add comments to the tool source (AGENTS.md: "DO NOT ADD ANY COMMENTS unless asked").
