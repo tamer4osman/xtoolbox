@@ -10,6 +10,61 @@ export const toolConfig = {
   steps: ['Enter YAML', 'Get JSON']
 };
 
+export function parseYAMLValue(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    return trimmed.slice(1, -1).split(',').map(s => s.trim());
+  }
+  if (trimmed === 'null') return null;
+  if (trimmed === 'true') return true;
+  if (trimmed === 'false') return false;
+  if (!isNaN(trimmed)) return Number(trimmed);
+  return trimmed.replace(/^["']|["']$/g, '');
+}
+
+export function parseYAML(yaml) {
+  const lines = yaml.split('\n');
+  const result = {};
+  const stack = [{ obj: result, indent: -1 }];
+  
+  for (const line of lines) {
+    if (!line.trim() || line.trim().startsWith('#')) continue;
+    
+    const indent = line.search(/\S/);
+    const keyMatch = line.match(/^(\s*)([^:]+):(.*)$/);
+    
+    if (keyMatch) {
+      const [, , key, value] = keyMatch;
+      const trimmedKey = key.trim();
+      const trimmedValue = value.trim();
+      
+      while (stack.length > 1 && stack[stack.length - 1].indent >= indent) {
+        stack.pop();
+      }
+      
+      const current = stack[stack.length - 1].obj;
+      
+      if (trimmedValue) {
+        current[trimmedKey] = parseYAMLValue(value);
+      } else {
+        current[trimmedKey] = {};
+        stack.push({ obj: current[trimmedKey], indent });
+      }
+    } else if (line.trim().startsWith('-')) {
+      const value = line.trim().slice(1).trim();
+      const current = stack[stack.length - 1].obj;
+      if (!Array.isArray(current)) {
+        current[Object.keys(current).pop()] = [];
+      }
+      if (value) {
+        current[Object.keys(current).pop()].push(value.replace(/^["']|["']$/g, ''));
+      }
+    }
+  }
+  return result;
+}
+
 export function render(container) {
   container.innerHTML = `
     <div class="convert-container">
@@ -45,60 +100,6 @@ skills:
   const yamlInput = container.querySelector('#yaml-input');
   const jsonOutput = container.querySelector('#json-output');
   const copyBtn = container.querySelector('#copy-btn');
-
-  function parseYAML(yaml) {
-    const lines = yaml.split('\n');
-    const result = {};
-    const stack = [{ obj: result, indent: -1 }];
-    
-    for (const line of lines) {
-      if (!line.trim() || line.trim().startsWith('#')) continue;
-      
-      const indent = line.search(/\S/);
-      const keyMatch = line.match(/^(\s*)([^:]+):(.*)$/);
-      
-      if (keyMatch) {
-        const [, , key, value] = keyMatch;
-        const trimmedKey = key.trim();
-        const trimmedValue = value.trim();
-        
-        while (stack.length > 1 && stack[stack.length - 1].indent >= indent) {
-          stack.pop();
-        }
-        
-        const current = stack[stack.length - 1].obj;
-        
-        if (trimmedValue) {
-          if (trimmedValue.startsWith('[') && trimmedValue.endsWith(']')) {
-            current[trimmedKey] = trimmedValue.slice(1, -1).split(',').map(s => s.trim());
-          } else if (trimmedValue === 'null') {
-            current[trimmedKey] = null;
-          } else if (trimmedValue === 'true') {
-            current[trimmedKey] = true;
-          } else if (trimmedValue === 'false') {
-            current[trimmedKey] = false;
-          } else if (!isNaN(trimmedValue)) {
-            current[trimmedKey] = Number(trimmedValue);
-          } else {
-            current[trimmedKey] = trimmedValue.replace(/^["']|["']$/g, '');
-          }
-        } else {
-          current[trimmedKey] = {};
-          stack.push({ obj: current[trimmedKey], indent });
-        }
-      } else if (line.trim().startsWith('-')) {
-        const value = line.trim().slice(1).trim();
-        const current = stack[stack.length - 1].obj;
-        if (!Array.isArray(current)) {
-          current[Object.keys(current).pop()] = [];
-        }
-        if (value) {
-          current[Object.keys(current).pop()].push(value.replace(/^["']|["']$/g, ''));
-        }
-      }
-    }
-    return result;
-  }
 
   function convert() {
     try {
