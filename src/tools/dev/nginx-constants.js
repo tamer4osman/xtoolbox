@@ -71,3 +71,80 @@ export function checkHtml(id, label, state, hint) {
           ${hint ? `<small class="ngx-hint">${hint}</small>` : ''}
         </label>`;
 }
+
+export const NGX_FIELDS = [
+  { id: 'listen', label: 'Port', type: 'number', min: 1, max: 65535 },
+  { id: 'listenExtra', label: 'Extra listen flags (e.g. default_server)', type: 'text' },
+  { id: 'serverName', label: 'Server name (domain)', type: 'text' },
+  { id: 'root', label: 'Root directory', type: 'text' },
+  { id: 'index', label: 'Index files', type: 'text' },
+  { id: 'accessLog', label: 'Access log path', type: 'text' },
+  { id: 'errorLog', label: 'Error log path', type: 'text' },
+  { id: 'sslCertificate', label: 'SSL certificate path', type: 'text' },
+  { id: 'sslCertificateKey', label: 'SSL certificate key', type: 'text' },
+  { id: 'sslProtocols', label: 'SSL protocols', type: 'text' },
+  { id: 'cacheExpires', label: 'Static cache expires', type: 'text' },
+  { id: 'phpSocket', label: 'PHP-FPM socket / address', type: 'text' },
+  { id: 'proxyUrl', label: 'Proxy pass URL', type: 'text' },
+  { id: 'upstreamName', label: 'Upstream name', type: 'text' },
+  { id: 'upstreamBackends', label: 'Upstream backends (one per line)', type: 'textarea' },
+  { id: 'rateLimitRate', label: 'Rate (e.g. 10r/s)', type: 'text' },
+  { id: 'rateLimitBurst', label: 'Burst size', type: 'text' }
+];
+
+export function bindNginxEvents(ctx) {
+  const { container, getState, setState, syncFormFromState, syncConditional, generate } = ctx;
+
+  container.querySelector('#ngx-preset').addEventListener('change', e => {
+    const id = e.target.value;
+    const { applyPreset } = ctx;
+    setState(applyPreset(id, getState()));
+    container.querySelector('#ngx-preset-desc').textContent = ctx.PRESETS[id]?.description || '';
+    syncFormFromState();
+    syncConditional();
+    generate();
+  });
+
+  container.querySelectorAll('.ngx-toggle').forEach(el => {
+    el.addEventListener('change', () => {
+      const s = getState(); s[el.dataset.field] = el.checked; setState(s);
+      syncConditional();
+      generate();
+    });
+  });
+
+  container.querySelectorAll('.ngx-field').forEach(el => {
+    const evt = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(evt, () => {
+      const f = el.dataset.field;
+      const s = getState();
+      s[f] = f === 'listen' ? (parseInt(el.value, 10) || 80) : el.value;
+      setState(s);
+      generate();
+    });
+  });
+
+  container.querySelector('#ngx-copy').addEventListener('click', async () => {
+    const text = container.querySelector('#ngx-output').textContent;
+    const ok = await ctx.copyToClipboard(text);
+    ctx.showToast({ message: ok ? 'Config copied to clipboard' : 'Copy failed', type: ok ? 'success' : 'error' });
+  });
+
+  container.querySelector('#ngx-download').addEventListener('click', () => {
+    const text = container.querySelector('#ngx-output').textContent;
+    const s = getState();
+    const blob = new Blob([text], { type: 'text/plain' });
+    const name = (s.serverName || 'nginx').split(/\s+/)[0].replace(/[^A-Za-z0-9.-]/g, '_') || 'nginx';
+    ctx.downloadBlob(blob, `${name}.conf`);
+    ctx.showToast({ message: `Downloaded ${name}.conf`, type: 'success' });
+  });
+
+  container.querySelector('#ngx-reset').addEventListener('click', () => {
+    ctx.resetState();
+    syncFormFromState();
+    syncConditional();
+    container.querySelector('#ngx-preset').value = 'custom';
+    container.querySelector('#ngx-preset-desc').textContent = ctx.PRESETS.custom.description;
+    generate();
+  });
+}
