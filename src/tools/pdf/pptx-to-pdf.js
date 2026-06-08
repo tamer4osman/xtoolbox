@@ -1,8 +1,8 @@
 import JSZip from 'jszip';
 import { jsPDF } from 'jspdf';
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
 import { downloadBlob } from '../../utils/file.js';
+import { showToast } from '../../components/toast.js';
+import { createSingleFileTool } from '../../utils/single-file-tool.js';
 
 export const toolConfig = {
   id: 'pptx-to-pdf',
@@ -22,48 +22,32 @@ export const toolConfig = {
 };
 
 async function extractSlideText(zip, slidePath) {
-  const slideXml = await zip.file(slidePath)?.async('text');
-  if (!slideXml) return [];
-
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(slideXml, 'application/xml');
-  const textElements = doc.getElementsByTagName('a:t');
-  
+  const xml = await zip.file(slidePath)?.async('text');
+  if (!xml) return [];
+  const doc = new DOMParser().parseFromString(xml, 'application/xml');
   const texts = [];
-  for (let i = 0; i < textElements.length; i++) {
-    const text = textElements[i].textContent;
-    if (text.trim()) {
-      texts.push(text.trim());
-    }
+  for (const el of doc.getElementsByTagName('a:t')) {
+    const t = el.textContent.trim();
+    if (t) texts.push(t);
   }
   return texts;
 }
 
 async function extractSlideImages(zip, slidePath, mediaPaths) {
-  const slideXml = await zip.file(slidePath)?.async('text');
-  if (!slideXml) return [];
-
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(slideXml, 'application/xml');
-  const blipElements = doc.getElementsByTagName('a:blip');
-  
+  const xml = await zip.file(slidePath)?.async('text');
+  if (!xml) return [];
+  const doc = new DOMParser().parseFromString(xml, 'application/xml');
   const images = [];
-  for (let i = 0; i < blipElements.length; i++) {
-    const embedId = blipElements[i].getAttribute('r:embed');
-    if (embedId) {
-      const relsXml = await zip.file('ppt/slides/_rels/' + slidePath.split('/').pop() + '.rels')?.async('text');
-      if (relsXml) {
-        const relDoc = parser.parseFromString(relsXml, 'application/xml');
-        const rels = relDoc.getElementsByTagName('Relationship');
-        for (let j = 0; j < rels.length; j++) {
-          if (rels[j].getAttribute('Id') === embedId) {
-            const target = rels[j].getAttribute('Target');
-            const mediaPath = 'ppt/media/' + target.replace('../media/', '');
-            if (mediaPaths[mediaPath]) {
-              images.push({ path: mediaPath, data: mediaPaths[mediaPath] });
-            }
-          }
-        }
+  for (const blip of doc.getElementsByTagName('a:blip')) {
+    const embedId = blip.getAttribute('r:embed');
+    if (!embedId) continue;
+    const relsXml = await zip.file('ppt/slides/_rels/' + slidePath.split('/').pop() + '.rels')?.async('text');
+    if (!relsXml) continue;
+    const relDoc = new DOMParser().parseFromString(relsXml, 'application/xml');
+    for (const rel of relDoc.getElementsByTagName('Relationship')) {
+      if (rel.getAttribute('Id') === embedId) {
+        const mediaPath = 'ppt/media/' + rel.getAttribute('Target').replace('../media/', '');
+        if (mediaPaths[mediaPath]) images.push({ path: mediaPath, data: mediaPaths[mediaPath] });
       }
     }
   }
@@ -71,135 +55,54 @@ async function extractSlideImages(zip, slidePath, mediaPaths) {
 }
 
 export function render(container) {
-  let pptxFile = null;
-
-  const upload = createFileUpload({
+  createSingleFileTool({
+    container,
+    toolId: 'pptx2pdf',
     accept: '.pptx',
-    multiple: false,
-    maxSizeMB: 50,
-    onFilesSelected: (files) => {
-      if (files.length > 0) {
-        pptxFile = files[0];
-        convertBtn.style.display = 'inline-flex';
-        fileName.textContent = files[0].name;
-        fileInfo.textContent = (files[0].size / 1024 / 1024).toFixed(2) + ' MB';
-        filePanel.style.display = 'block';
-      }
-    }
-  });
-
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="file-info-panel" id="file-panel" style="display:none;margin:var(--space-4) 0;">
-        <div class="file-details">
-          <span class="file-icon"></span>
-          <div class="file-details-text">
-            <div class="file-name" id="file-name"></div>
-            <div class="file-size" id="file-info"></div>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-primary btn-lg" id="convert-btn" style="display:none;width:100%;">Convert to PDF</button>
-      <div class="tool-processing" id="processing" style="display:none;">
-        <div class="spinner"></div>
-        <p>Converting presentation to PDF... <span id="progress-pct">0</span>%</p>
-      </div>
-    </div>
-    <style>
-      .file-info-panel { background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-lg); }
-      .file-details { display:flex;align-items:center;gap:var(--space-4); }
-      .file-icon { font-size:32px; }
-      .file-name { font-weight:600; }
-      .file-size { font-size:var(--text-sm);color:var(--color-text-secondary); }
-    </style>
-  `;
-
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const convertBtn = container.querySelector('#convert-btn');
-  const processing = container.querySelector('#processing');
-  const progressPct = container.querySelector('#progress-pct');
-  const filePanel = container.querySelector('#file-panel');
-  const fileName = container.querySelector('#file-name');
-  const fileInfo = container.querySelector('#file-info');
-
-  convertBtn.addEventListener('click', async () => {
-    if (!pptxFile) return;
-
-    processing.style.display = 'block';
-    convertBtn.style.display = 'none';
-    filePanel.style.display = 'none';
-
-    try {
-      const zip = await JSZip.loadAsync(pptxFile);
-      const presentationXml = await zip.file('ppt/presentation.xml')?.async('text');
-      if (!presentationXml) throw new Error('Invalid PPTX file');
-
-      const parser = new DOMParser();
-      const presDoc = parser.parseFromString(presentationXml, 'application/xml');
-      const slideIds = presDoc.getElementsByTagName('p:sldId');
-      const totalSlides = slideIds.length;
+    icon: '',
+    buttonText: 'Convert to PDF',
+    processingMessage: 'Converting presentation to PDF...',
+    async onConvert({ file, progress }) {
+      const zip = await JSZip.loadAsync(file);
+      const presXml = await zip.file('ppt/presentation.xml')?.async('text');
+      if (!presXml) throw new Error('Invalid PPTX file');
+      const totalSlides = new DOMParser().parseFromString(presXml, 'application/xml').getElementsByTagName('p:sldId').length;
 
       const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
+      const pw = doc.internal.pageSize.getWidth();
+      const ph = doc.internal.pageSize.getHeight();
 
-      // Cache media files
       const mediaPaths = {};
-      zip.forEach((relativePath, file) => {
-        if (relativePath.startsWith('ppt/media/')) {
-          mediaPaths[relativePath] = file;
-        }
-      });
+      zip.forEach((path, f) => { if (path.startsWith('ppt/media/')) mediaPaths[path] = f; });
 
       for (let i = 0; i < totalSlides; i++) {
         if (i > 0) doc.addPage();
-        progressPct.textContent = Math.round(((i + 1) / totalSlides) * 100);
-
+        progress(Math.round(((i + 1) / totalSlides) * 100));
         const slidePath = `ppt/slides/slide${i + 1}.xml`;
         const texts = await extractSlideText(zip, slidePath);
         const images = await extractSlideImages(zip, slidePath, mediaPaths);
 
-        let y = 20;
-        const lineHeight = 8;
-
-        // Add images first (background)
         for (const img of images) {
           try {
-            const imgData = await img.data.async('base64');
+            const data = await img.data.async('base64');
             const ext = img.path.split('.').pop().toLowerCase();
-            const format = ext === 'png' ? 'PNG' : 'JPEG';
-            doc.addImage(`data:image/${ext};base64,${imgData}`, format, 10, 10, pageWidth - 20, pageHeight - 20);
-          } catch (e) {
-            console.warn('Failed to add image:', e);
-          }
+            doc.addImage(`data:image/${ext};base64,${data}`, ext === 'png' ? 'PNG' : 'JPEG', 10, 10, pw - 20, ph - 20);
+          } catch (e) { console.warn('Failed to add image:', e); }
         }
 
-        // Add text
+        let y = 20;
         doc.setFontSize(12);
         doc.setTextColor(0, 0, 0);
-        
         for (const text of texts) {
-          if (y > pageHeight - 20) {
-            doc.addPage();
-            y = 20;
-          }
-          const splitText = doc.splitTextToSize(text, pageWidth - 40);
-          doc.text(splitText, 20, y);
-          y += splitText.length * lineHeight;
+          if (y > ph - 20) { doc.addPage(); y = 20; }
+          const split = doc.splitTextToSize(text, pw - 40);
+          doc.text(split, 20, y);
+          y += split.length * 8;
         }
       }
 
-      const pdfBlob = doc.output('blob');
-      const fileNameWithoutExt = pptxFile.name.replace(/\.pptx$/i, '');
-      downloadBlob(pdfBlob, `${fileNameWithoutExt}.pdf`);
+      downloadBlob(doc.output('blob'), file.name.replace(/\.pptx$/i, '') + '.pdf');
       showToast({ message: `Converted ${totalSlides} slides to PDF!`, type: 'success' });
-    } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
-    } finally {
-      processing.style.display = 'none';
-      convertBtn.style.display = 'inline-flex';
-      filePanel.style.display = 'block';
     }
   });
 }
