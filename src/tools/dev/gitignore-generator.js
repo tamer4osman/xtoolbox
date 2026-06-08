@@ -1256,8 +1256,26 @@ export function buildGitignore(selectedKeys, customLines, templates = TEMPLATES)
   return out;
 }
 
+const GITIGNORE_USER_PRESETS_KEY = 'gitignore-generator:user-presets';
+
+export function loadUserPresets() {
+  try {
+    const raw = localStorage.getItem(GITIGNORE_USER_PRESETS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveUserPresets(list) {
+  try {
+    localStorage.setItem(GITIGNORE_USER_PRESETS_KEY, JSON.stringify(list));
+  } catch {
+    showToast({ message: 'Could not save preset (storage unavailable)', type: 'error' });
+  }
+}
+
 export function render(container) {
-  const STORAGE_KEY = 'gitignore-generator:user-presets';
   const state = {
     selected: new Set(),
     custom: '',
@@ -1327,23 +1345,6 @@ export function render(container) {
   const clearBtn = container.querySelector('#gig-clear');
   const copyBtn = container.querySelector('#gig-copy');
   const downloadBtn = container.querySelector('#gig-download');
-
-  function loadUserPresets() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  }
-
-  function saveUserPresets(list) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    } catch {
-      showToast({ message: 'Could not save preset (storage unavailable)', type: 'error' });
-    }
-  }
 
   function renderPresetDropdown() {
     const user = loadUserPresets();
