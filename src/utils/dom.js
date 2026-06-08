@@ -1,25 +1,33 @@
 /**
- * Create an HTML element with attributes and children
+ * Apply special attribute handlers
  */
+const ATTR_HANDLERS = {
+  className: (el, value) => (el.className = value),
+  innerHTML: (el, value) => (el.innerHTML = value),
+  textContent: (el, value) => (el.textContent = value),
+  style: (el, value) => Object.assign(el.style, value),
+  dataset: (el, value) => Object.assign(el.dataset, value),
+};
+
+function handleAttribute(el, key, value) {
+  if (typeof ATTR_HANDLERS[key] === 'function') {
+    ATTR_HANDLERS[key](el, value);
+  } else if (key.startsWith('on')) {
+    el.addEventListener(key.slice(2).toLowerCase(), value);
+  } else {
+    el.setAttribute(key, value);
+  }
+}
+
+function setAttributes(el, attrs) {
+  for (const [key, value] of Object.entries(attrs)) {
+    handleAttribute(el, key, value);
+  }
+}
+
 export function createElement(tag, attrs = {}, children = []) {
   const el = document.createElement(tag);
-  for (const [key, value] of Object.entries(attrs)) {
-    if (key === 'className') {
-      el.className = value;
-    } else if (key === 'innerHTML') {
-      el.innerHTML = value;
-    } else if (key === 'textContent') {
-      el.textContent = value;
-    } else if (key.startsWith('on')) {
-      el.addEventListener(key.slice(2).toLowerCase(), value);
-    } else if (key === 'style' && typeof value === 'object') {
-      Object.assign(el.style, value);
-    } else if (key === 'dataset') {
-      Object.assign(el.dataset, value);
-    } else {
-      el.setAttribute(key, value);
-    }
-  }
+  setAttributes(el, attrs);
   if (typeof children === 'string') {
     el.textContent = children;
   } else if (Array.isArray(children)) {
