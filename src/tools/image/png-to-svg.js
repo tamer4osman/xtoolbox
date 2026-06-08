@@ -1,7 +1,7 @@
-import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
 import { downloadBlob } from '../../utils/file.js';
 import { loadImageFromFile } from './image-utils.js';
+import { createUploadTool } from './upload-tool-factory.js';
 
 export const toolConfig = {
   id: 'png-to-svg',
@@ -21,127 +21,63 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let images = [];
-  let files = [];
-
-  const upload = createFileUpload({
+  createUploadTool({
+    container,
+    toolId: 'png2svg',
+    fileTypeName: 'PNG',
     accept: '.png',
-    multiple: true,
-    maxSizeMB: 50,
-    onFilesSelected: async (selectedFiles) => {
-      if (selectedFiles.length === 0) return;
-      
-      files = Array.from(selectedFiles);
-      images = [];
-      
-      for (const file of files) {
-        const img = await loadImageFromFile(file);
-        images.push(img);
-      }
-      
-      totalFiles.textContent = files.length + ' PNG file(s)';
-      totalSize.textContent = (files.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1) + ' KB total';
-      optionsArea.style.display = 'block';
-    }
-  });
-
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="tool-options" id="options-area" style="display:none;">
-        <div style="display:flex;gap:var(--space-6);margin-bottom:var(--space-4);">
-          <div><span style="font-size:var(--text-xs);color:var(--color-text-muted);">Files</span><div id="total-files" style="font-weight:600;">-</div></div>
-          <div><span style="font-size:var(--text-xs);color:var(--color-text-muted);">Total Size</span><div id="total-size" style="font-weight:600;">-</div></div>
-        </div>
-        <div class="form-group">
-          <label>Mode</label>
-          <select id="mode-select" class="select-input">
-            <option value="embed">Embed PNG in SVG (base64)</option>
-            <option value="trace">Simple trace (pixel-to-rect)</option>
-          </select>
-        </div>
-        <div class="form-group" id="trace-options" style="display:none;">
-          <label>Detail Level: <strong id="detail-display">50</strong></label>
-          <input type="range" id="detail-slider" min="10" max="100" value="50" step="5" class="range-slider-input">
-          <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-2);">Higher = more detail, larger file</p>
-        </div>
-        <button class="btn btn-primary btn-lg" id="convert-btn" style="width:100%;">Convert to SVG</button>
-        <div class="tool-processing" id="processing" style="display:none;">
-          <div class="spinner"></div>
-          <p>Converting... <span id="progress-pct">0</span>%</p>
-        </div>
+    buttonText: 'Convert to SVG',
+    optionsHTML: `
+      <div class="form-group">
+        <label>Mode</label>
+        <select id="png2svg-mode" class="select-input">
+          <option value="embed">Embed PNG in SVG (base64)</option>
+          <option value="trace">Simple trace (pixel-to-rect)</option>
+        </select>
       </div>
-    </div>
-    <style>
-      .select-input { padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);background:var(--color-surface);color:var(--color-text);width:100%; }
-    </style>
-  `;
+      <div class="form-group" id="png2svg-trace-options" style="display:none;">
+        <label>Detail Level: <strong id="png2svg-detail-display">50</strong></label>
+        <input type="range" id="png2svg-detail" min="10" max="100" value="50" step="5">
+        <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-2);">Higher = more detail, larger file</p>
+      </div>
+    `,
+    async onConvert({ files, uploadedData, progress }) {
+      const images = [];
+      for (const file of files) {
+        images.push(await loadImageFromFile(file));
+      }
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const totalFiles = container.querySelector('#total-files');
-  const totalSize = container.querySelector('#total-size');
-  const modeSelect = container.querySelector('#mode-select');
-  const traceOptions = container.querySelector('#trace-options');
-  const detailSlider = container.querySelector('#detail-slider');
-  const detailDisplay = container.querySelector('#detail-display');
-  const convertBtn = container.querySelector('#convert-btn');
-  const processing = container.querySelector('#processing');
-  const progressPct = container.querySelector('#progress-pct');
+      const mode = container.querySelector('#png2svg-mode').value;
+      const detail = parseInt(container.querySelector('#png2svg-detail').value);
 
-  modeSelect.addEventListener('change', () => {
-    traceOptions.style.display = modeSelect.value === 'trace' ? 'block' : 'none';
-  });
-  
-  detailSlider.addEventListener('input', () => { detailDisplay.textContent = detailSlider.value; });
-
-  convertBtn.addEventListener('click', async () => {
-    if (images.length === 0) return;
-    
-    processing.style.display = 'block';
-    convertBtn.style.display = 'none';
-    
-    const mode = modeSelect.value;
-    const detail = parseInt(detailSlider.value);
-    
-    try {
       for (let i = 0; i < images.length; i++) {
-        progressPct.textContent = Math.round(((i + 1) / images.length) * 100);
-        
+        progress(Math.round(((i + 1) / images.length) * 100));
         const img = images[i];
-        const width = img.naturalWidth;
-        const height = img.naturalHeight;
-        let svgContent;
-        
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
+        let svg;
+
         if (mode === 'embed') {
-          // Create canvas and get base64
           const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0);
           const dataUrl = canvas.toDataURL('image/png');
-          
-          svgContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-  <image width="${width}" height="${height}" xlink:href="${dataUrl}"/>
-</svg>`;
+          svg = `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><image width="${w}" height="${h}" xlink:href="${dataUrl}"/></svg>`;
         } else {
-          // Simple pixel trace
           const canvas = document.createElement('canvas');
           const scale = Math.max(1, Math.floor(detail / 10));
-          const scaledWidth = Math.ceil(width / scale);
-          const scaledHeight = Math.ceil(height / scale);
-          canvas.width = scaledWidth;
-          canvas.height = scaledHeight;
+          const sw = Math.ceil(w / scale);
+          const sh = Math.ceil(h / scale);
+          canvas.width = sw;
+          canvas.height = sh;
           const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
-          const imageData = ctx.getImageData(0, 0, scaledWidth, scaledHeight);
-          
+          ctx.drawImage(img, 0, 0, sw, sh);
+          const imageData = ctx.getImageData(0, 0, sw, sh);
           let rects = '';
-          for (let y = 0; y < scaledHeight; y++) {
-            for (let x = 0; x < scaledWidth; x++) {
-              const idx = (y * scaledWidth + x) * 4;
+          for (let y = 0; y < sh; y++) {
+            for (let x = 0; x < sw; x++) {
+              const idx = (y * sw + x) * 4;
               const r = imageData.data[idx];
               const g = imageData.data[idx + 1];
               const b = imageData.data[idx + 2];
@@ -151,25 +87,20 @@ export function render(container) {
               }
             }
           }
-          
-          svgContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-${rects}
-</svg>`;
+          svg = `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${rects}</svg>`;
         }
-        
-        const fileName = files[i].name.replace(/\.png$/i, '');
-        const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-        downloadBlob(blob, `${fileName}.svg`);
+
+        downloadBlob(new Blob([svg], { type: 'image/svg+xml' }), files[i].name.replace(/\.png$/i, '') + '.svg');
       }
-      
       showToast({ message: `Converted ${images.length} PNG(s) to SVG!`, type: 'success' });
-    } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
-    } finally {
-      processing.style.display = 'none';
-      convertBtn.style.display = 'inline-flex';
     }
+  });
+
+  container.querySelector('#png2svg-mode')?.addEventListener('change', (e) => {
+    container.querySelector('#png2svg-trace-options').style.display = e.target.value === 'trace' ? 'block' : 'none';
+  });
+  container.querySelector('#png2svg-detail')?.addEventListener('input', (e) => {
+    container.querySelector('#png2svg-detail-display').textContent = e.target.value;
   });
 }
 
