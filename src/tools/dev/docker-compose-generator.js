@@ -212,6 +212,98 @@ function inlineValue(value, indent) {
   return formatScalar(value);
 }
 
+function escapeAttr(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderListRow(listKey, i, value, placeholder) {
+  return `<div class="dc-list-row" style="display:flex;gap:var(--space-1);align-items:center;">
+    <input type="text" class="text-input dc-list-input" data-list="${listKey}" data-i="${i}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" style="flex:1;font-size:var(--text-sm);">
+    <button type="button" class="btn btn-secondary btn-sm dc-list-remove" data-list="${listKey}" data-i="${i}" style="padding:0 var(--space-2);">×</button>
+  </div>`;
+}
+
+function renderServiceCard(svc, idx) {
+  const ports = (svc.ports || []).map((p, i) => renderListRow('ports', i, p, '80:80')).join('');
+  const volumes = (svc.volumes || []).map((v, i) => renderListRow('volumes', i, v, './data:/data')).join('');
+  const env = (svc.environment || []).map((e, i) => renderListRow('environment', i, e, 'KEY=VALUE')).join('');
+  const deps = (svc.dependsOn || []).map((d, i) => renderListRow('dependsOn', i, d, 'other-service')).join('');
+  const nets = (svc.networks || []).map((n, i) => renderListRow('networks', i, n, 'frontend')).join('');
+
+  return `
+    <div class="dc-card" data-idx="${idx}" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-3);">
+        <div style="display:flex;align-items:center;gap:var(--space-2);flex:1;min-width:200px;">
+          <span style="font-size:1.4em;">${TEMPLATES[svc.templateKey]?.icon || '🧩'}</span>
+          <input type="text" class="text-input dc-name" data-idx="${idx}" value="${escapeAttr(svc.name)}" placeholder="service-name" style="font-weight:600;font-size:var(--text-base);max-width:240px;">
+        </div>
+        <div style="display:flex;gap:var(--space-2);">
+          <button type="button" class="btn btn-secondary btn-sm dc-move-up" data-idx="${idx}">↑</button>
+          <button type="button" class="btn btn-secondary btn-sm dc-move-down" data-idx="${idx}">↓</button>
+          <button type="button" class="btn btn-secondary btn-sm dc-remove" data-idx="${idx}">Remove</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-3);">
+        <div>
+          <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Image</label>
+          <input type="text" class="text-input dc-image" data-idx="${idx}" value="${escapeAttr(svc.image)}" placeholder="nginx:alpine">
+        </div>
+        <div>
+          <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Command (optional)</label>
+          <input type="text" class="text-input dc-cmd" data-idx="${idx}" value="${escapeAttr(svc.command)}" placeholder="server /data --console-address :9001">
+        </div>
+        <div>
+          <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Restart policy</label>
+          <select class="text-input dc-restart" data-idx="${idx}">
+            <option value="no" ${svc.restart === 'no' ? 'selected' : ''}>no</option>
+            <option value="always" ${svc.restart === 'always' ? 'selected' : ''}>always</option>
+            <option value="on-failure" ${svc.restart === 'on-failure' ? 'selected' : ''}>on-failure</option>
+            <option value="unless-stopped" ${svc.restart === 'unless-stopped' ? 'selected' : ''}>unless-stopped</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-3);margin-top:var(--space-3);">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
+            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Ports (host:container)</label>
+            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="ports">+ Add</button>
+          </div>
+          <div class="dc-list" data-idx="${idx}" data-list="ports" style="display:flex;flex-direction:column;gap:var(--space-1);">${ports || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No ports</div>'}</div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
+            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Volumes (host:container or named:path)</label>
+            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="volumes">+ Add</button>
+          </div>
+          <div class="dc-list" data-idx="${idx}" data-list="volumes" style="display:flex;flex-direction:column;gap:var(--space-1);">${volumes || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No volumes</div>'}</div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
+            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Environment (KEY=VALUE)</label>
+            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="environment">+ Add</button>
+          </div>
+          <div class="dc-list" data-idx="${idx}" data-list="environment" style="display:flex;flex-direction:column;gap:var(--space-1);">${env || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No env vars</div>'}</div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
+            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Depends on (other service names)</label>
+            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="dependsOn">+ Add</button>
+          </div>
+          <div class="dc-list" data-idx="${idx}" data-list="dependsOn" style="display:flex;flex-direction:column;gap:var(--space-1);">${deps || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No dependencies</div>'}</div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
+            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Networks (custom names)</label>
+            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="networks">+ Add</button>
+          </div>
+          <div class="dc-list" data-idx="${idx}" data-list="networks" style="display:flex;flex-direction:column;gap:var(--space-1);">${nets || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">Default network only</div>'}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 export function render(container) {
   const state = {
     projectName: 'myapp',
@@ -277,98 +369,6 @@ export function render(container) {
     }
     emptyEl.style.display = 'none';
     servicesEl.innerHTML = state.services.map((svc, idx) => renderServiceCard(svc, idx)).join('');
-  }
-
-  function renderServiceCard(svc, idx) {
-    const ports = (svc.ports || []).map((p, i) => renderListRow('ports', i, p, '80:80')).join('');
-    const volumes = (svc.volumes || []).map((v, i) => renderListRow('volumes', i, v, './data:/data')).join('');
-    const env = (svc.environment || []).map((e, i) => renderListRow('environment', i, e, 'KEY=VALUE')).join('');
-    const deps = (svc.dependsOn || []).map((d, i) => renderListRow('dependsOn', i, d, 'other-service')).join('');
-    const nets = (svc.networks || []).map((n, i) => renderListRow('networks', i, n, 'frontend')).join('');
-
-    return `
-      <div class="dc-card" data-idx="${idx}" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-3);">
-          <div style="display:flex;align-items:center;gap:var(--space-2);flex:1;min-width:200px;">
-            <span style="font-size:1.4em;">${TEMPLATES[svc.templateKey]?.icon || '🧩'}</span>
-            <input type="text" class="text-input dc-name" data-idx="${idx}" value="${escapeAttr(svc.name)}" placeholder="service-name" style="font-weight:600;font-size:var(--text-base);max-width:240px;">
-          </div>
-          <div style="display:flex;gap:var(--space-2);">
-            <button type="button" class="btn btn-secondary btn-sm dc-move-up" data-idx="${idx}">↑</button>
-            <button type="button" class="btn btn-secondary btn-sm dc-move-down" data-idx="${idx}">↓</button>
-            <button type="button" class="btn btn-secondary btn-sm dc-remove" data-idx="${idx}">Remove</button>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-3);">
-          <div>
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Image</label>
-            <input type="text" class="text-input dc-image" data-idx="${idx}" value="${escapeAttr(svc.image)}" placeholder="nginx:alpine">
-          </div>
-          <div>
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Command (optional)</label>
-            <input type="text" class="text-input dc-cmd" data-idx="${idx}" value="${escapeAttr(svc.command)}" placeholder="server /data --console-address :9001">
-          </div>
-          <div>
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Restart policy</label>
-            <select class="text-input dc-restart" data-idx="${idx}">
-              <option value="no" ${svc.restart === 'no' ? 'selected' : ''}>no</option>
-              <option value="always" ${svc.restart === 'always' ? 'selected' : ''}>always</option>
-              <option value="on-failure" ${svc.restart === 'on-failure' ? 'selected' : ''}>on-failure</option>
-              <option value="unless-stopped" ${svc.restart === 'unless-stopped' ? 'selected' : ''}>unless-stopped</option>
-            </select>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-3);margin-top:var(--space-3);">
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-              <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Ports (host:container)</label>
-              <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="ports">+ Add</button>
-            </div>
-            <div class="dc-list" data-idx="${idx}" data-list="ports" style="display:flex;flex-direction:column;gap:var(--space-1);">${ports || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No ports</div>'}</div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-              <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Volumes (host:container or named:path)</label>
-              <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="volumes">+ Add</button>
-            </div>
-            <div class="dc-list" data-idx="${idx}" data-list="volumes" style="display:flex;flex-direction:column;gap:var(--space-1);">${volumes || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No volumes</div>'}</div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-              <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Environment (KEY=VALUE)</label>
-              <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="environment">+ Add</button>
-            </div>
-            <div class="dc-list" data-idx="${idx}" data-list="environment" style="display:flex;flex-direction:column;gap:var(--space-1);">${env || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No env vars</div>'}</div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-              <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Depends on (other service names)</label>
-              <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="dependsOn">+ Add</button>
-            </div>
-            <div class="dc-list" data-idx="${idx}" data-list="dependsOn" style="display:flex;flex-direction:column;gap:var(--space-1);">${deps || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No dependencies</div>'}</div>
-          </div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-              <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Networks (custom names)</label>
-              <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="networks">+ Add</button>
-            </div>
-            <div class="dc-list" data-idx="${idx}" data-list="networks" style="display:flex;flex-direction:column;gap:var(--space-1);">${nets || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">Default network only</div>'}</div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderListRow(listKey, i, value, placeholder) {
-    return `<div class="dc-list-row" style="display:flex;gap:var(--space-1);align-items:center;">
-      <input type="text" class="text-input dc-list-input" data-list="${listKey}" data-i="${i}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" style="flex:1;font-size:var(--text-sm);">
-      <button type="button" class="btn btn-secondary btn-sm dc-list-remove" data-list="${listKey}" data-i="${i}" style="padding:0 var(--space-2);">×</button>
-    </div>`;
-  }
-
-  function escapeAttr(s) {
-    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function renderOutput() {
