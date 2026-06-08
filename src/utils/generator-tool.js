@@ -1,4 +1,4 @@
-export function createCopyHandler(btn, getText) {
+function createCopyHandler(btn, getText) {
   btn.addEventListener('click', () => {
     navigator.clipboard.writeText(getText());
     const original = btn.textContent;
