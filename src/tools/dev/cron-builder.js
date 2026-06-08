@@ -9,6 +9,14 @@ export const toolConfig = {
   status: 'done'
 };
 
+export function getCronDescription(values) {
+  if (values.minute === '*' && values.hour === '*') return 'Runs every minute';
+  if (values.minute === '0' && values.hour === '*') return 'Runs every hour at minute 0';
+  if (values.minute === '0' && values.hour === '0') return 'Runs daily at midnight';
+  if (values.weekday === '1-5' && values.hour === '9') return 'Runs weekdays at 9 AM';
+  return `Runs at ${values.minute} ${values.hour} ${values.day} ${values.month} ${values.weekday}`;
+}
+
 export function render(container) {
   const { cssOutput } = createCssGenerator({
     container,
@@ -38,15 +46,10 @@ export function render(container) {
         <button data-cron="*/15 * * * *">Every 15 min</button>
       </div>
     `,
-    onUpdate: ({ values, cssOutput, container }) => {
+    onUpdate: ({ values, cssOutput }) => {
       const cron = `${values.minute} ${values.hour} ${values.day} ${values.month} ${values.weekday}`;
       cssOutput.textContent = cron;
-      let desc = 'Runs ';
-      if (values.minute === '*' && values.hour === '*') desc += 'every minute';
-      else if (values.minute === '0' && values.hour === '*') desc += 'every hour at minute 0';
-      else if (values.minute === '0' && values.hour === '0') desc += 'daily at midnight';
-      else if (values.weekday === '1-5' && values.hour === '9') desc += 'weekdays at 9 AM';
-      else desc += 'at ' + cron;
+      const desc = getCronDescription(values);
       const descEl = container.querySelector('#desc');
       if (descEl) descEl.textContent = desc;
     }
