@@ -6,7 +6,8 @@ import {
   isNamedVolume,
   buildCompose,
   toYaml,
-  defaultServiceFromTemplate
+  defaultServiceFromTemplate,
+  buildServiceDef
 } from '../tools/dev/docker-compose-generator.js';
 
 describe('docker-compose-generator: needsQuotes', () => {
@@ -283,6 +284,52 @@ describe('docker-compose-generator: buildCompose', () => {
     expect(out).toContain('- "80:80"');
     expect(out).not.toContain('- ""');
     expect(out).not.toContain('- " "');
+  });
+});
+
+describe('docker-compose-generator: buildServiceDef', () => {
+  it('builds minimal service with image only', () => {
+    const namedVolumes = new Set();
+    const networks = new Set();
+    const def = buildServiceDef({ name: 'web', image: 'nginx:alpine' }, namedVolumes, networks);
+    expect(def.image).toBe('nginx:alpine');
+    expect(Object.keys(def)).toHaveLength(1);
+  });
+
+  it('includes command when present', () => {
+    const namedVolumes = new Set();
+    const networks = new Set();
+    const def = buildServiceDef({ image: 'node:20', command: 'node server.js' }, namedVolumes, networks);
+    expect(def.command).toBe('node server.js');
+  });
+
+  it('extracts named volume to collection', () => {
+    const namedVolumes = new Set();
+    const networks = new Set();
+    buildServiceDef({ image: 'postgres', volumes: ['pgdata:/var/lib/postgresql/data'] }, namedVolumes, networks);
+    expect(namedVolumes.has('pgdata')).toBe(true);
+  });
+
+  it('does not extract bind mount paths', () => {
+    const namedVolumes = new Set();
+    const networks = new Set();
+    buildServiceDef({ image: 'nginx', volumes: ['./data:/data'] }, namedVolumes, networks);
+    expect(namedVolumes.size).toBe(0);
+  });
+
+  it('adds networks to collection', () => {
+    const namedVolumes = new Set();
+    const networks = new Set();
+    buildServiceDef({ image: 'nginx', networks: ['frontend', 'backend'] }, namedVolumes, networks);
+    expect(networks.has('frontend')).toBe(true);
+    expect(networks.has('backend')).toBe(true);
+  });
+
+  it('omits restart when set to no', () => {
+    const namedVolumes = new Set();
+    const networks = new Set();
+    const def = buildServiceDef({ image: 'nginx', restart: 'no' }, namedVolumes, networks);
+    expect(def.restart).toBeUndefined();
   });
 });
 

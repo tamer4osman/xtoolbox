@@ -102,6 +102,31 @@ export function isNamedVolume(v) {
   return /^[A-Za-z0-9_.-]+$/.test(head);
 }
 
+export function buildServiceDef(svc, namedVolumes, networks) {
+  const def = {};
+  if (svc.image?.trim()) def.image = svc.image.trim();
+  if (svc.command?.trim()) def.command = svc.command.trim();
+  if (Array.isArray(svc.ports) && svc.ports.length) {
+    def.ports = svc.ports.map(s => s.trim()).filter(Boolean);
+  }
+  if (Array.isArray(svc.volumes) && svc.volumes.length) {
+    def.volumes = svc.volumes.map(s => s.trim()).filter(Boolean);
+    for (const v of def.volumes) if (isNamedVolume(v)) namedVolumes.add(v.split(':')[0]);
+  }
+  if (Array.isArray(svc.environment) && svc.environment.length) {
+    def.environment = svc.environment.map(s => s.trim()).filter(Boolean);
+  }
+  if (Array.isArray(svc.dependsOn) && svc.dependsOn.length) {
+    def.depends_on = svc.dependsOn.map(s => s.trim()).filter(Boolean);
+  }
+  if (Array.isArray(svc.networks) && svc.networks.length) {
+    def.networks = svc.networks.map(s => s.trim()).filter(Boolean);
+    svc.networks.forEach(n => n.trim() && networks.add(n.trim()));
+  }
+  if (svc.restart && svc.restart !== 'no') def.restart = svc.restart;
+  return def;
+}
+
 export function buildCompose(state) {
   const services = {};
   const namedVolumes = new Set();
@@ -110,28 +135,7 @@ export function buildCompose(state) {
   for (const svc of state.services) {
     const name = (svc.name || '').trim();
     if (!name) continue;
-    const def = {};
-    if (svc.image && svc.image.trim()) def.image = svc.image.trim();
-    if (svc.command && svc.command.trim()) def.command = svc.command.trim();
-    if (Array.isArray(svc.ports) && svc.ports.length) {
-      def.ports = svc.ports.map(s => s.trim()).filter(Boolean);
-    }
-    if (Array.isArray(svc.volumes) && svc.volumes.length) {
-      const vols = svc.volumes.map(s => s.trim()).filter(Boolean);
-      def.volumes = vols;
-      for (const v of vols) if (isNamedVolume(v)) namedVolumes.add(v.split(':')[0]);
-    }
-    if (Array.isArray(svc.environment) && svc.environment.length) {
-      def.environment = svc.environment.map(s => s.trim()).filter(Boolean);
-    }
-    if (Array.isArray(svc.dependsOn) && svc.dependsOn.length) {
-      def.depends_on = svc.dependsOn.map(s => s.trim()).filter(Boolean);
-    }
-    if (Array.isArray(svc.networks) && svc.networks.length) {
-      def.networks = svc.networks.map(s => s.trim()).filter(Boolean);
-      svc.networks.forEach(n => n.trim() && networks.add(n.trim()));
-    }
-    if (svc.restart && svc.restart !== 'no') def.restart = svc.restart;
+    const def = buildServiceDef(svc, namedVolumes, networks);
     services[name] = def;
   }
 
@@ -141,11 +145,9 @@ export function buildCompose(state) {
   }
   out.services = services;
   if (namedVolumes.size) {
-    const volMap = {};
-    for (const v of namedVolumes) volMap[v] = null;
-    out.volumes = volMap;
+    out.volumes = Object.fromEntries([...namedVolumes].map(v => [v, null]));
   }
-  if (state.projectName && state.projectName.trim()) {
+  if (state.projectName?.trim()) {
     out.networks = { default: { name: state.projectName.trim() + '_default' } };
   }
   return toYaml(out) + '\n';
@@ -207,10 +209,10 @@ function inlineValue(value, indent) {
   if (typeof value === 'object') {
     return toYaml(value, indent);
   }
-return formatScalar(value);
-  }
+  return formatScalar(value);
+}
 
-  export function render(container) {
+export function render(container) {
   const state = {
     projectName: 'myapp',
     services: []
