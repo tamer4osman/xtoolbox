@@ -7,6 +7,38 @@ export const toolConfig = {
   status: 'done'
 };
 
+export function getTaxThresholds(taxYear) {
+  return {
+    grundfreibetrag: taxYear >= 2026 ? 12096 : (taxYear >= 2025 ? 11784 : 11604),
+    kinderfreibetragAnnual: taxYear >= 2026 ? 9600 : (taxYear >= 2025 ? 9540 : 9456)
+  };
+}
+
+export function calculateIncomeTax(taxableIncome) {
+  if (taxableIncome <= 17005) {
+    return (1164.67 * taxableIncome / 10000 + 1400) * taxableIncome / 10000;
+  } else if (taxableIncome <= 66760) {
+    return (181.19 * taxableIncome / 10000 + 2397) * taxableIncome / 10000 + 1025.38;
+  } else if (taxableIncome <= 277825) {
+    return 0.42 * taxableIncome - 10602.13;
+  } else {
+    return 0.45 * taxableIncome - 18936.88;
+  }
+}
+
+export function calculateSocialContributions(adjustedGross, isPrivateHealth, isPrivatePension, age) {
+  const health = isPrivateHealth ? 0 : adjustedGross / 12 * 0.073;
+  const careRate = age >= 23 ? 0.034 : 0.02;
+  let care = isPrivateHealth ? 0 : adjustedGross / 12 * careRate;
+  if (adjustedGross > 90600 && !isPrivateHealth) {
+    care += (adjustedGross - 90600) / 12 * 0.002;
+  }
+  const pension = isPrivatePension ? 0 : adjustedGross / 12 * 0.093;
+  const unemployment = isPrivatePension ? 0 : adjustedGross / 12 * 0.012;
+  
+  return { health, pension, unemployment, care };
+}
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
@@ -226,7 +258,6 @@ export function render(container) {
     const isMonthly = inputs.payPeriod.value === 'month';
     let grossMonthly = parseFloat(inputs.grossSalary.value) || 0;
     const grossAnnual = isMonthly ? grossMonthly * 12 : grossMonthly;
-    const salariesPerYear = parseInt(inputs.salariesPerYear.value);
     const taxYear = parseInt(inputs.taxYear.value);
     const isChurchMember = inputs.churchTax.value === 'yes';
     const childrenCount = parseInt(inputs.childrenCount.value) || 0;
@@ -243,26 +274,14 @@ export function render(container) {
 
     const adjustedGross = grossAnnual - (companyPension * 12) - (companyCar * 12);
     
-    const kinderfreibetragAnnual = taxYear >= 2026 ? 9600 : (taxYear >= 2025 ? 9540 : 9456);
+    const { grundfreibetrag, kinderfreibetragAnnual } = getTaxThresholds(taxYear);
     const kinderfreibetrag = childrenCount > 0 ? kinderfreibetragAnnual * childrenCount : 0;
-    const grundfreibetrag = taxYear >= 2026 ? 12096 : (taxYear >= 2025 ? 11784 : 11604);
     
     let annualTax = 0;
     const totalAllowance = grundfreibetrag + kinderfreibetrag;
     if (adjustedGross > totalAllowance) {
       const taxableIncome = adjustedGross - totalAllowance;
-      let tax = 0;
-      
-      if (taxableIncome <= 17005) {
-        tax = (1164.67 * taxableIncome / 10000 + 1400) * taxableIncome / 10000;
-      } else if (taxableIncome <= 66760) {
-        tax = (181.19 * taxableIncome / 10000 + 2397) * taxableIncome / 10000 + 1025.38;
-      } else if (taxableIncome <= 277825) {
-        tax = 0.42 * taxableIncome - 10602.13;
-      } else {
-        tax = 0.45 * taxableIncome - 18936.88;
-      }
-      annualTax = Math.max(0, tax);
+      annualTax = Math.max(0, calculateIncomeTax(taxableIncome));
     }
 
     const churchTax = isChurchMember && annualTax > 0 ? annualTax * 0.09 : 0;
@@ -274,24 +293,8 @@ export function render(container) {
 
     const totalTaxAnnual = annualTax + churchTax + solidarity;
 
-    let healthMonthly = 0;
-    let pensionMonthly = 0;
-    let unemploymentMonthly = 0;
-    let careMonthly = 0;
-
-    if (!isPrivateHealth) {
-      healthMonthly = adjustedGross / 12 * 0.073;
-      const careRate = age >= 23 ? 0.034 : 0.02;
-      careMonthly = adjustedGross / 12 * careRate;
-      if (adjustedGross > 90600) {
-        careMonthly += (adjustedGross - 90600) / 12 * 0.002;
-      }
-    }
-
-    if (!isPrivatePension) {
-      pensionMonthly = adjustedGross / 12 * 0.093;
-      unemploymentMonthly = adjustedGross / 12 * 0.012;
-    }
+    const { health: healthMonthly, pension: pensionMonthly, unemployment: unemploymentMonthly, care: careMonthly } = 
+      calculateSocialContributions(adjustedGross, isPrivateHealth, isPrivatePension, age);
 
     const totalDeductionsMonthly = (totalTaxAnnual / 12) + healthMonthly + pensionMonthly + unemploymentMonthly + careMonthly;
     const netMonthly = grossMonthly - totalDeductionsMonthly;
