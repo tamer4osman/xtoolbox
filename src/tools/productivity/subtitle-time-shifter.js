@@ -28,63 +28,49 @@ export function shiftSubtitles(content, offsetMs, isVtt) {
   const lines = content.split('\n');
   const result = [];
   let i = 0;
-  
-  // Skip VTT header
-  if (isVtt && lines[0].trim() === 'WEBVTT') {
+
+  if (isVtt && lines[0]?.trim() === 'WEBVTT') {
     result.push(lines[0]);
     i = 1;
-    // Skip empty lines after header
-    while (i < lines.length && lines[i].trim() === '') {
-      result.push(lines[i]);
-      i++;
+    while (i < lines.length && lines[i]?.trim() === '') {
+      result.push(lines[i++]);
     }
   }
-  
+
   while (i < lines.length) {
     const line = lines[i].trim();
-    
-    // Check for timestamp line (contains -->)
+
     if (line.includes('-->')) {
-      const parts = line.split('-->');
-      if (parts.length === 2) {
-        const startTime = parseTime(parts[0], isVtt);
-        const endTime = parseTime(parts[1], isVtt);
-        
-        if (startTime !== null && endTime !== null) {
-          const newStart = startTime + offsetMs;
-          const newEnd = endTime + offsetMs;
-          result.push(`${formatTime(newStart, isVtt)} --> ${formatTime(newEnd, isVtt)}`);
-          i++;
-          
-          // Copy subtitle text lines until empty line or next timestamp
-          while (i < lines.length && lines[i].trim() !== '' && !lines[i].trim().includes('-->')) {
-            result.push(lines[i]);
-            i++;
-          }
-          
-          // Add empty line separator if present
-          if (i < lines.length && lines[i].trim() === '') {
-            result.push(lines[i]);
-            i++;
-          }
-          continue;
+      const shifted = shiftTimestampLine(line, offsetMs, isVtt);
+      if (shifted) {
+        result.push(shifted);
+        i++;
+        while (i < lines.length && lines[i].trim() && !lines[i].includes('-->')) {
+          result.push(lines[i++]);
         }
+        if (i < lines.length && lines[i]?.trim() === '') result.push(lines[i++]);
+        continue;
       }
     }
-    
-    // For SRT: skip sequence numbers (lines that are just numbers)
+
     if (!isVtt && /^\d+$/.test(line)) {
-      result.push(lines[i]);
-      i++;
+      result.push(lines[i++]);
       continue;
     }
-    
-    // Default: keep line as is
-    result.push(lines[i]);
-    i++;
+
+    result.push(lines[i++]);
   }
-  
+
   return result.join('\n');
+}
+
+function shiftTimestampLine(line, offsetMs, isVtt) {
+  const parts = line.split('-->');
+  if (parts.length !== 2) return null;
+  const startTime = parseTime(parts[0], isVtt);
+  const endTime = parseTime(parts[1], isVtt);
+  if (startTime === null || endTime === null) return null;
+  return `${formatTime(startTime + offsetMs, isVtt)} --> ${formatTime(endTime + offsetMs, isVtt)}`;
 }
 
 export const toolConfig = {
@@ -103,6 +89,36 @@ export const toolConfig = {
     { question: 'Will this change the subtitle text?', answer: 'No, only the timestamps are adjusted. The subtitle text remains unchanged.' }
   ]
 };
+
+function extractPreview(content, isVtt, maxEntries = 5) {
+  const lines = content.split('\n');
+  const previewLines = [];
+  let entryCount = 0;
+  let i = 0;
+
+  if (isVtt && lines[0]?.trim() === 'WEBVTT') {
+    previewLines.push(lines[0]);
+    i = 1;
+    while (i < lines.length && lines[i]?.trim() === '') previewLines.push(lines[i++]);
+  }
+
+  while (i < lines.length && entryCount < maxEntries) {
+    const line = lines[i].trim();
+    if (line.includes('-->')) {
+      entryCount++;
+      previewLines.push(lines[i]);
+      i++;
+      while (i < lines.length && lines[i].trim() && !lines[i].includes('-->')) previewLines.push(lines[i++]);
+      if (i < lines.length && lines[i]?.trim() === '') previewLines.push(lines[i++]);
+    } else {
+      previewLines.push(lines[i]);
+      i++;
+    }
+  }
+
+  if (entryCount >= maxEntries) previewLines.push('...');
+  return previewLines.join('\n');
+}
 
 export function render(container) {
   container.innerHTML = `
@@ -168,71 +184,29 @@ export function render(container) {
     if (!originalContent) return;
     const offset = parseInt(offsetInput.value) || 0;
     const shifted = shiftSubtitles(originalContent, offset, isVtt);
-    
-    // Show preview (first 5 entries)
-    const lines = shifted.split('\n');
-    let previewLines = [];
-    let entryCount = 0;
-    let i = 0;
-    
-    // Skip VTT header
-    if (isVtt && lines[0].trim() === 'WEBVTT') {
-      previewLines.push(lines[0]);
-      i = 1;
-      while (i < lines.length && lines[i].trim() === '') {
-        previewLines.push(lines[i]);
-        i++;
-      }
-    }
-    
-    while (i < lines.length && entryCount < 5) {
-      const line = lines[i].trim();
-      if (line.includes('-->')) {
-        entryCount++;
-        previewLines.push(lines[i]);
-        i++;
-        while (i < lines.length && lines[i].trim() !== '' && !lines[i].trim().includes('-->')) {
-          previewLines.push(lines[i]);
-          i++;
-        }
-        if (i < lines.length && lines[i].trim() === '') {
-          previewLines.push(lines[i]);
-          i++;
-        }
-      } else {
-        previewLines.push(lines[i]);
-        i++;
-      }
-    }
-    
-    if (entryCount >= 5) {
-      previewLines.push('...');
-    }
-    
-    output.textContent = previewLines.join('\n');
+    output.textContent = extractPreview(shifted, isVtt);
     appliedOffsetEl.textContent = `${offset} ms`;
+  }
+
+  function setOffset(value) {
+    offsetInput.value = value;
+    offsetSlider.value = value;
+    updateOutput();
   }
 
   fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     currentFileName = file.name;
     isVtt = file.name.toLowerCase().endsWith('.vtt');
     formatEl.textContent = isVtt ? 'WebVTT (.vtt)' : 'SRT (.srt)';
-    
+
     const reader = new FileReader();
     reader.onload = (event) => {
       originalContent = event.target.result;
-      
-      // Count entries
-      const lines = originalContent.split('\n');
-      let count = 0;
-      for (const line of lines) {
-        if (line.trim().includes('-->')) count++;
-      }
+      const count = (originalContent.split('\n').filter(l => l.trim().includes('-->')).length);
       countEl.textContent = count;
-      
       preview.style.display = 'block';
       info.style.display = 'block';
       updateOutput();
@@ -250,37 +224,11 @@ export function render(container) {
     updateOutput();
   });
 
-  // Preset buttons
-  container.querySelector('#sts-preset-100').addEventListener('click', () => {
-    offsetInput.value = '100';
-    offsetSlider.value = '100';
-    updateOutput();
-  });
-  container.querySelector('#sts-preset-500').addEventListener('click', () => {
-    offsetInput.value = '500';
-    offsetSlider.value = '500';
-    updateOutput();
-  });
-  container.querySelector('#sts-preset-1000').addEventListener('click', () => {
-    offsetInput.value = '1000';
-    offsetSlider.value = '1000';
-    updateOutput();
-  });
-  container.querySelector('#sts-preset-n100').addEventListener('click', () => {
-    offsetInput.value = '-100';
-    offsetSlider.value = '-100';
-    updateOutput();
-  });
-  container.querySelector('#sts-preset-n500').addEventListener('click', () => {
-    offsetInput.value = '-500';
-    offsetSlider.value = '-500';
-    updateOutput();
-  });
-  container.querySelector('#sts-preset-n1000').addEventListener('click', () => {
-    offsetInput.value = '-1000';
-    offsetSlider.value = '-1000';
-    updateOutput();
-  });
+  const presets = [100, 500, 1000, -100, -500, -1000];
+  const presetIds = ['sts-preset-100', 'sts-preset-500', 'sts-preset-1000', 'sts-preset-n100', 'sts-preset-n500', 'sts-preset-n1000'];
+  for (let i = 0; i < presets.length; i++) {
+    container.querySelector(`#${presetIds[i]}`).addEventListener('click', () => setOffset(presetIds[i].includes('n') ? -Math.abs(presets[i]) : presets[i]));
+  }
 
   copyBtn.addEventListener('click', async () => {
     if (!originalContent) return;
