@@ -1,3 +1,6 @@
+import { extractAssets } from './web-asset-extractors.js';
+import { WAE_STYLES, WAE_DEMO } from './web-asset-constants.js';
+
 export const toolConfig = {
   id: 'web-asset-extractor',
   name: 'Website Asset Extractor',
@@ -7,11 +10,110 @@ export const toolConfig = {
   status: 'done'
 };
 
-function escHtml(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function createItemElement(item, index, tab) {
+  const div = document.createElement('div');
+  div.className = 'wae-item';
+
+  const header = document.createElement('div');
+  header.className = 'wae-item-header';
+
+  const label = document.createElement('span');
+  label.className = 'wae-item-label';
+  label.textContent = item.label || `${tab} #${index + 1}`;
+  header.appendChild(label);
+
+  const actions = document.createElement('div');
+  actions.className = 'wae-item-actions';
+
+  const copyBtn = document.createElement('button');
+  copyBtn.textContent = 'Copy';
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(item.content).then(() => {
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+    }).catch(() => {
+      copyBtn.textContent = 'Failed';
+      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  actions.appendChild(copyBtn);
+
+  if (item.download) {
+    const dlBtn = document.createElement('button');
+    dlBtn.textContent = 'Download';
+    dlBtn.addEventListener('click', () => {
+      const blob = new Blob([item.content], { type: item.type || 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = item.filename || `asset-${index + 1}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+    actions.appendChild(dlBtn);
+  }
+
+  header.appendChild(actions);
+  div.appendChild(header);
+
+  if (tab === 'images' && item.url) {
+    const img = document.createElement('img');
+    img.src = item.url;
+    img.alt = item.label;
+    img.onerror = () => { img.style.display = 'none'; };
+    div.appendChild(img);
+  }
+
+  const pre = document.createElement('pre');
+  pre.textContent = item.content;
+  div.appendChild(pre);
+
+  return div;
+}
+
+function renderTabContent(container, items, tab) {
+  const content = container.querySelector('#wae-tab-content');
+  content.textContent = '';
+  if (!items || items.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'wae-empty';
+    empty.textContent = `No ${tab} found`;
+    content.appendChild(empty);
+    return;
+  }
+  const list = document.createElement('div');
+  list.className = 'wae-list';
+  items.forEach((item, i) => list.appendChild(createItemElement(item, i, tab)));
+  content.appendChild(list);
+}
+
+function renderStats(container, data) {
+  const stats = container.querySelector('#wae-stats');
+  stats.textContent = '';
+  [
+    { label: 'SVGs', count: data.svg.length },
+    { label: 'Images', count: data.images.length },
+    { label: 'Styles', count: data.styles.length },
+    { label: 'Fonts', count: data.fonts.length },
+    { label: 'Scripts', count: data.scripts.length }
+  ].forEach(s => {
+    const badge = document.createElement('span');
+    badge.className = 'wae-stat';
+    const num = document.createElement('span');
+    num.className = 'num';
+    num.textContent = s.count;
+    badge.appendChild(num);
+    badge.appendChild(document.createTextNode(` ${s.label}`));
+    stats.appendChild(badge);
+  });
 }
 
 export function render(container) {
+  let currentData = { svg: [], images: [], styles: [], fonts: [], scripts: [] };
+  let activeTab = 'svg';
+
   container.innerHTML = `
     <div class="wae-container">
       <div class="wae-input-section">
@@ -37,309 +139,38 @@ export function render(container) {
   `;
 
   const style = document.createElement('style');
-  style.textContent = `
-    .wae-container { max-width: 900px; margin: 0 auto; }
-    .wae-input-section textarea { width: 100%; height: 200px; padding: var(--space-3); border: 2px solid var(--color-border); border-radius: var(--radius-xl); font-family: monospace; font-size: var(--text-sm); resize: vertical; background: var(--color-surface); margin-bottom: var(--space-3); }
-    .wae-input-section textarea:focus { outline: none; border-color: var(--color-primary); }
-    .wae-actions { display: flex; gap: var(--space-3); }
-    .wae-btn { padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); border: none; cursor: pointer; font-size: var(--text-sm); font-weight: 500; }
-    .wae-btn-primary { background: var(--color-primary); color: #fff; }
-    .wae-btn-primary:hover { background: var(--color-primary-hover); }
-    .wae-btn-ghost { background: transparent; color: var(--color-text-secondary); }
-    .wae-results { margin-top: var(--space-4); }
-    .wae-stats { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-3); }
-    .wae-stat { padding: var(--space-1) var(--space-3); background: var(--color-surface); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: 500; }
-    .wae-stat .num { color: var(--color-primary); font-weight: 700; }
-    .wae-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-3); border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-2); }
-    .wae-tab { padding: var(--space-2) var(--space-3); border: none; background: none; cursor: pointer; font-size: var(--text-sm); border-radius: var(--radius-md) var(--radius-md) 0 0; }
-    .wae-tab.active { background: var(--color-primary); color: #fff; }
-    .wae-tab:hover:not(.active) { background: var(--color-surface); }
-    .wae-list { display: flex; flex-direction: column; gap: var(--space-2); }
-    .wae-item { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-3); }
-    .wae-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2); }
-    .wae-item-label { font-weight: 600; font-size: var(--text-sm); }
-    .wae-item-actions { display: flex; gap: var(--space-2); }
-    .wae-item-actions button { padding: 2px 8px; font-size: var(--text-xs); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); cursor: pointer; }
-    .wae-item-actions button:hover { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
-    .wae-item pre { background: #1e1e2e; color: #cdd6f4; padding: var(--space-3); border-radius: var(--radius-md); font-family: monospace; font-size: var(--text-xs); overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 200px; overflow-y: auto; margin: 0; }
-    .wae-item img { max-width: 100%; max-height: 150px; border-radius: var(--radius-md); border: 1px solid var(--color-border); }
-    .wae-empty { text-align: center; padding: var(--space-6); color: var(--color-text-secondary); }
-  `;
+  style.textContent = WAE_STYLES;
   container.appendChild(style);
 
-  const demo = `<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-  </style>
-</head>
-<body>
-  <div class="hero">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#fff"/></svg>
-    <svg width="200" height="100"><rect x="10" y="10" width="80" height="80" fill="coral" rx="10"/></svg>
-    <img src="https://via.placeholder.com/300x200" alt="placeholder">
-    <img src="https://via.placeholder.com/150x150" alt="avatar">
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    console.log('Hello');
-  </script>
-</body>
-</html>`;
-
   container.querySelector('#wae-load-demo').addEventListener('click', () => {
-    container.querySelector('#wae-input').value = demo;
+    container.querySelector('#wae-input').value = WAE_DEMO;
   });
-
-  let currentData = { svg: [], images: [], styles: [], fonts: [], scripts: [] };
-  let activeTab = 'svg';
 
   container.querySelectorAll('.wae-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       container.querySelectorAll('.wae-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       activeTab = tab.dataset.tab;
-      renderTab();
+      renderTabContent(container, currentData[activeTab], activeTab);
     });
   });
-
-  function renderTab() {
-    const content = container.querySelector('#wae-tab-content');
-    const items = currentData[activeTab];
-    if (!items || items.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'wae-empty';
-      empty.textContent = 'No ' + activeTab + ' found';
-      content.textContent = '';
-      content.appendChild(empty);
-      return;
-    }
-    const list = document.createElement('div');
-    list.className = 'wae-list';
-    items.forEach((item, i) => {
-      const div = document.createElement('div');
-      div.className = 'wae-item';
-
-      const header = document.createElement('div');
-      header.className = 'wae-item-header';
-
-      const label = document.createElement('span');
-      label.className = 'wae-item-label';
-      label.textContent = item.label || (activeTab + ' #' + (i + 1));
-      header.appendChild(label);
-
-      const actions = document.createElement('div');
-      actions.className = 'wae-item-actions';
-
-      const copyBtn = document.createElement('button');
-      copyBtn.textContent = 'Copy';
-      copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(item.content).then(() => {
-          copyBtn.textContent = 'Copied!';
-          setTimeout(() => copyBtn.textContent = 'Copy', 1500);
-        }).catch(() => {
-          copyBtn.textContent = 'Failed';
-          setTimeout(() => copyBtn.textContent = 'Copy', 1500);
-        });
-      });
-      actions.appendChild(copyBtn);
-
-      if (item.download) {
-        const dlBtn = document.createElement('button');
-        dlBtn.textContent = 'Download';
-        dlBtn.addEventListener('click', () => {
-          const blob = new Blob([item.content], { type: item.type || 'text/plain' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = item.filename || 'asset-' + (i + 1) + '.txt';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        });
-        actions.appendChild(dlBtn);
-      }
-
-      header.appendChild(actions);
-      div.appendChild(header);
-
-      if (activeTab === 'images' && item.url) {
-        const img = document.createElement('img');
-        img.src = item.url;
-        img.alt = item.label;
-        img.onerror = () => { img.style.display = 'none'; };
-        div.appendChild(img);
-      }
-
-      const pre = document.createElement('pre');
-      pre.textContent = item.content;
-      div.appendChild(pre);
-
-      list.appendChild(div);
-    });
-    content.textContent = '';
-    content.appendChild(list);
-  }
 
   container.querySelector('#wae-extract').addEventListener('click', () => {
     const html = container.querySelector('#wae-input').value.trim();
     if (!html) return;
-
     try {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-
-      // SVGs
-      const svgs = [];
-      doc.querySelectorAll('svg').forEach((svg, i) => {
-        const content = svg.outerHTML;
-        const labels = [];
-        if (svg.querySelector('circle')) labels.push('circle');
-        if (svg.querySelector('rect')) labels.push('rect');
-        if (svg.querySelector('path')) labels.push('path');
-        if (svg.querySelector('polygon')) labels.push('polygon');
-        const viewBox = svg.getAttribute('viewBox');
-        const w = svg.getAttribute('width');
-        const h = svg.getAttribute('height');
-        const size = (w && h) ? w + 'x' + h : (viewBox || 'unknown');
-        svgs.push({
-          label: 'SVG #' + (i + 1) + ' (' + size + ')' + (labels.length ? ' \u2014 ' + labels.join(', ') : ''),
-          content,
-          download: true,
-          filename: 'svg-' + (i + 1) + '.svg',
-          type: 'image/svg+xml'
-        });
-      });
-
-      // Images
-      const images = [];
-      doc.querySelectorAll('img').forEach((img, i) => {
-        const src = img.getAttribute('src') || '';
-        const alt = img.getAttribute('alt') || '';
-        images.push({
-          label: 'Image #' + (i + 1) + ': ' + (alt || src.slice(0, 50)),
-          content: src,
-          url: src,
-          download: false
-        });
-      });
-
-      // Styles
-      const styles = [];
-      doc.querySelectorAll('link[rel="stylesheet"]').forEach((link, i) => {
-        const href = link.getAttribute('href') || 'unknown';
-        styles.push({
-          label: 'External CSS #' + (i + 1) + ': ' + href,
-          content: '<link rel="stylesheet" href="' + escHtml(href) + '">',
-          download: true,
-          filename: 'style-' + (i + 1) + '.html',
-          type: 'text/html'
-        });
-      });
-      doc.querySelectorAll('style').forEach((s, i) => {
-        styles.push({
-          label: 'Inline Style #' + (i + 1),
-          content: s.textContent,
-          download: true,
-          filename: 'inline-style-' + (i + 1) + '.css',
-          type: 'text/css'
-        });
-      });
-
-      // Fonts
-      const fonts = [];
-      const fontUrls = new Set();
-      doc.querySelectorAll('link[href*="fonts.googleapis.com"], link[href*="fonts.gstatic.com"]').forEach((link) => {
-        const href = link.getAttribute('href');
-        if (!fontUrls.has(href)) {
-          fontUrls.add(href);
-          fonts.push({
-            label: 'Google Font #' + (fonts.length + 1),
-            content: '<link href="' + escHtml(href) + '" rel="stylesheet">',
-            download: true,
-            filename: 'font-' + (fonts.length + 1) + '.html',
-            type: 'text/html'
-          });
-        }
-      });
-      const inlineFontMatches = html.match(/font-family\s*:\s*['"]?([^;'"}\s]+)['"]?/gi);
-      if (inlineFontMatches) {
-        const seen = new Set();
-        const skip = ['sans-serif', 'serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'inherit', 'initial'];
-        inlineFontMatches.forEach(m => {
-          const name = m.replace(/font-family\s*:\s*['"]?/i, '').replace(/['"]?\s*$/, '').trim();
-          if (name && !seen.has(name.toLowerCase()) && !skip.includes(name.toLowerCase())) {
-            seen.add(name.toLowerCase());
-            fonts.push({
-              label: 'Font Family: ' + name,
-              content: "font-family: '" + name + "', sans-serif;",
-              download: false
-            });
-          }
-        });
-      }
-
-      // Scripts
-      const scripts = [];
-      doc.querySelectorAll('script[src]').forEach((script, i) => {
-        const src = script.getAttribute('src') || 'unknown';
-        scripts.push({
-          label: 'External Script #' + (i + 1) + ': ' + src.slice(0, 60),
-          content: '<script src="' + escHtml(src) + '"><\/script>',
-          download: true,
-          filename: 'script-' + (i + 1) + '.html',
-          type: 'text/html'
-        });
-      });
-      doc.querySelectorAll('script:not([src])').forEach((script, i) => {
-        if (script.textContent.trim()) {
-          scripts.push({
-            label: 'Inline Script #' + (i + 1),
-            content: script.textContent,
-            download: true,
-            filename: 'inline-script-' + (i + 1) + '.js',
-            type: 'application/javascript'
-          });
-        }
-      });
-
-      currentData = { svg: svgs, images, styles, fonts, scripts };
-
-      const stats = container.querySelector('#wae-stats');
-      stats.textContent = '';
-      [
-        { label: 'SVGs', count: svgs.length },
-        { label: 'Images', count: images.length },
-        { label: 'Styles', count: styles.length },
-        { label: 'Fonts', count: fonts.length },
-        { label: 'Scripts', count: scripts.length }
-      ].forEach(s => {
-        const badge = document.createElement('span');
-        badge.className = 'wae-stat';
-        const num = document.createElement('span');
-        num.className = 'num';
-        num.textContent = s.count;
-        badge.appendChild(num);
-        badge.appendChild(document.createTextNode(' ' + s.label));
-        stats.appendChild(badge);
-      });
-
+      currentData = extractAssets(html);
+      renderStats(container, currentData);
       container.querySelector('#wae-results').style.display = 'block';
-      renderTab();
+      renderTabContent(container, currentData[activeTab], activeTab);
     } catch (e) {
-      const results = container.querySelector('#wae-results');
-      results.style.display = 'block';
+      container.querySelector('#wae-results').style.display = 'block';
       container.querySelector('#wae-stats').textContent = '';
+      const tabContent = container.querySelector('#wae-tab-content');
+      tabContent.textContent = '';
       const empty = document.createElement('div');
       empty.className = 'wae-empty';
       empty.textContent = 'Error: ' + e.message;
-      const tabContent = container.querySelector('#wae-tab-content');
-      tabContent.textContent = '';
       tabContent.appendChild(empty);
     }
   });
