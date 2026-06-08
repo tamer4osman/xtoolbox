@@ -1,5 +1,5 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
+import { createFileUpload } from '../components/file-upload.js';
+import { showToast } from '../components/toast.js';
 
 const PANEL_STYLES = `
   .file-info-panel { background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-lg); }
