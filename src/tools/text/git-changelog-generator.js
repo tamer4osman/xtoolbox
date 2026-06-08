@@ -15,6 +15,68 @@ const COMMIT_TYPES = {
   revert: { label: '⏪ Reverts', order: 11 }
 };
 
+const CHANGELOG_CSS = `
+  .changelog-container { max-width: 1000px; margin: 0 auto; }
+  .log-textarea, .output-textarea { width: 100%; height: 250px; padding: var(--space-4); border: 2px solid var(--color-border); border-radius: var(--radius-xl); background: var(--color-surface); font-family: 'Fira Code', monospace; font-size: var(--text-sm); resize: vertical; }
+  .log-textarea:focus { outline: none; border-color: var(--color-primary); }
+  .output-textarea { background: var(--color-bg); cursor: default; }
+  .file-input { display: block; padding: var(--space-3); border: 2px dashed var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); cursor: pointer; }
+  .file-input:hover { border-color: var(--color-primary); }
+  .options-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4); }
+  .text-input, .select-input { width: 100%; padding: var(--space-3); border: 2px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); font-size: var(--text-sm); }
+  .text-input:focus, .select-input:focus { outline: none; border-color: var(--color-primary); }
+  .checkbox-row { display: flex; gap: var(--space-6); margin-bottom: var(--space-4); }
+  .checkbox-label { display: flex; align-items: center; gap: var(--space-2); cursor: pointer; }
+  .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--color-primary); }
+  .action-buttons { display: flex; gap: var(--space-3); margin: var(--space-6) 0; flex-wrap: wrap; }
+  .action-buttons .btn { flex: 1; min-width: 140px; }
+  .stats { padding: var(--space-4); margin-bottom: var(--space-4); background: var(--color-surface); border-radius: var(--radius-lg); display: none; }
+  .stats.visible { display: block; }
+  .stat-item { display: inline-block; padding: var(--space-2) var(--space-3); margin: var(--space-1); background: var(--color-primary-light); color: var(--color-primary); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 500; }
+`;
+
+const CHANGELOG_HTML = `
+  <div class="changelog-container">
+    <div class="form-group">
+      <label for="git-log-input">Git Log Input</label>
+      <textarea id="git-log-input" class="log-textarea" placeholder="Paste your git log here...&#10;&#10;Example:&#10;abc1234 feat(auth): add login&#10;def5678 fix(api): handle null response&#10;ghi9012 docs: update README"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="file-upload">Or upload a .txt/.log file:</label>
+      <input type="file" id="file-upload" accept=".txt,.log" class="file-input">
+    </div>
+    <div class="options-row">
+      <div class="form-group">
+        <label for="changelog-title">Title</label>
+        <input type="text" id="changelog-title" value="Changelog" class="text-input">
+      </div>
+      <div class="form-group">
+        <label for="output-format">Output Format</label>
+        <select id="output-format" class="select-input">
+          <option value="markdown">Markdown</option>
+          <option value="json">JSON</option>
+          <option value="csv">CSV</option>
+        </select>
+      </div>
+    </div>
+    <div class="checkbox-row">
+      <label class="checkbox-label"><input type="checkbox" id="include-hash" checked> Include Commit Hash</label>
+      <label class="checkbox-label"><input type="checkbox" id="include-scope" checked> Include Scope</label>
+    </div>
+    <div class="action-buttons">
+      <button id="generate-btn" class="btn btn-primary">Generate Changelog</button>
+      <button id="copy-btn" class="btn btn-secondary" disabled>Copy to Clipboard</button>
+      <button id="download-btn" class="btn btn-secondary" disabled>Download</button>
+      <button id="clear-btn" class="btn btn-ghost">Clear</button>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="form-group">
+      <label for="output">Output</label>
+      <textarea id="output" class="output-textarea" readonly placeholder="Generated changelog will appear here..."></textarea>
+    </div>
+  </div>
+`;
+
 export function parseConventionalCommits(text) {
   const lines = text.split('\n').filter(line => line.trim());
   const commits = [];
@@ -151,226 +213,87 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  container.innerHTML = `
-    <div class="changelog-container">
-      <div class="form-group">
-        <label for="git-log-input">Git Log Input</label>
-        <textarea id="git-log-input" class="log-textarea" placeholder="Paste your git log here...&#10;&#10;Example:&#10;abc1234 feat(auth): add login&#10;def5678 fix(api): handle null response&#10;ghi9012 docs: update README"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="file-upload">Or upload a .txt/.log file:</label>
-        <input type="file" id="file-upload" accept=".txt,.log" class="file-input">
-      </div>
-
-      <div class="options-row">
-        <div class="form-group">
-          <label for="changelog-title">Title</label>
-          <input type="text" id="changelog-title" value="Changelog" class="text-input">
-        </div>
-        <div class="form-group">
-          <label for="output-format">Output Format</label>
-          <select id="output-format" class="select-input">
-            <option value="markdown">Markdown</option>
-            <option value="json">JSON</option>
-            <option value="csv">CSV</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="checkbox-row">
-        <label class="checkbox-label">
-          <input type="checkbox" id="include-hash" checked> Include Commit Hash
-        </label>
-        <label class="checkbox-label">
-          <input type="checkbox" id="include-scope" checked> Include Scope
-        </label>
-      </div>
-
-      <div class="action-buttons">
-        <button id="generate-btn" class="btn btn-primary">Generate Changelog</button>
-        <button id="copy-btn" class="btn btn-secondary" disabled>Copy to Clipboard</button>
-        <button id="download-btn" class="btn btn-secondary" disabled>Download</button>
-        <button id="clear-btn" class="btn btn-ghost">Clear</button>
-      </div>
-
-      <div class="stats" id="stats"></div>
-
-      <div class="form-group">
-        <label for="output">Output</label>
-        <textarea id="output" class="output-textarea" readonly placeholder="Generated changelog will appear here..."></textarea>
-      </div>
-    </div>
-  `;
+  container.innerHTML = CHANGELOG_HTML;
 
   const style = document.createElement('style');
-  style.textContent = `
-    .changelog-container { max-width: 1000px; margin: 0 auto; }
-    .log-textarea, .output-textarea {
-      width: 100%;
-      height: 250px;
-      padding: var(--space-4);
-      border: 2px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      background: var(--color-surface);
-      font-family: 'Fira Code', monospace;
-      font-size: var(--text-sm);
-      resize: vertical;
-    }
-    .log-textarea:focus { outline: none; border-color: var(--color-primary); }
-    .output-textarea { background: var(--color-bg); cursor: default; }
-    .file-input {
-      display: block;
-      padding: var(--space-3);
-      border: 2px dashed var(--color-border);
-      border-radius: var(--radius-lg);
-      background: var(--color-surface);
-      cursor: pointer;
-    }
-    .file-input:hover { border-color: var(--color-primary); }
-    .options-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-4);
-      margin-bottom: var(--space-4);
-    }
-    .text-input, .select-input {
-      width: 100%;
-      padding: var(--space-3);
-      border: 2px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      background: var(--color-surface);
-      font-size: var(--text-sm);
-    }
-    .text-input:focus, .select-input:focus {
-      outline: none;
-      border-color: var(--color-primary);
-    }
-    .checkbox-row {
-      display: flex;
-      gap: var(--space-6);
-      margin-bottom: var(--space-4);
-    }
-    .checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      cursor: pointer;
-    }
-    .checkbox-label input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--color-primary);
-    }
-    .action-buttons {
-      display: flex;
-      gap: var(--space-3);
-      margin: var(--space-6) 0;
-      flex-wrap: wrap;
-    }
-    .action-buttons .btn { flex: 1; min-width: 140px; }
-    .stats {
-      padding: var(--space-4);
-      margin-bottom: var(--space-4);
-      background: var(--color-surface);
-      border-radius: var(--radius-lg);
-      display: none;
-    }
-    .stats.visible { display: block; }
-    .stat-item {
-      display: inline-block;
-      padding: var(--space-2) var(--space-3);
-      margin: var(--space-1);
-      background: var(--color-primary-light);
-      color: var(--color-primary);
-      border-radius: var(--radius-md);
-      font-size: var(--text-sm);
-      font-weight: 500;
-    }
-  `;
+  style.textContent = CHANGELOG_CSS;
   container.appendChild(style);
 
-  const gitLogInput = container.querySelector('#git-log-input');
-  const fileUpload = container.querySelector('#file-upload');
-  const titleInput = container.querySelector('#changelog-title');
-  const formatSelect = container.querySelector('#output-format');
-  const includeHash = container.querySelector('#include-hash');
-  const includeScope = container.querySelector('#include-scope');
-  const generateBtn = container.querySelector('#generate-btn');
-  const copyBtn = container.querySelector('#copy-btn');
-  const downloadBtn = container.querySelector('#download-btn');
-  const clearBtn = container.querySelector('#clear-btn');
-  const stats = container.querySelector('#stats');
-  const output = container.querySelector('#output');
+  const q = id => container.querySelector(`#${id}`);
+  const els = {
+    gitLogInput: q('git-log-input'),
+    fileUpload: q('file-upload'),
+    titleInput: q('changelog-title'),
+    formatSelect: q('output-format'),
+    includeHash: q('include-hash'),
+    includeScope: q('include-scope'),
+    generateBtn: q('generate-btn'),
+    copyBtn: q('copy-btn'),
+    downloadBtn: q('download-btn'),
+    clearBtn: q('clear-btn'),
+    stats: q('stats'),
+    output: q('output'),
+  };
 
   let currentCommits = [];
 
-  fileUpload.addEventListener('change', (e) => {
+  els.fileUpload.addEventListener('change', e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        gitLogInput.value = event.target.result;
-      };
+      reader.onload = ev => { els.gitLogInput.value = ev.target.result; };
       reader.readAsText(file);
     }
   });
 
-  generateBtn.addEventListener('click', () => {
-    const text = gitLogInput.value.trim();
-    if (!text) {
-      alert('Please paste a git log or upload a file first.');
-      return;
-    }
+  els.generateBtn.addEventListener('click', () => {
+    const text = els.gitLogInput.value.trim();
+    if (!text) { alert('Please paste a git log or upload a file first.'); return; }
 
     currentCommits = parseConventionalCommits(text);
-    if (currentCommits.length === 0) {
-      alert('No conventional commits found. Please check the format.');
-      return;
-    }
+    if (currentCommits.length === 0) { alert('No conventional commits found. Please check the format.'); return; }
 
     const grouped = groupCommitsByType(currentCommits);
     const typeCounts = Object.entries(grouped)
       .map(([type, commits]) => `<span class="stat-item">${type}: ${commits.length}</span>`)
       .join('');
-    stats.innerHTML = `<strong>Found ${currentCommits.length} commits:</strong> ${typeCounts}`;
-    stats.classList.add('visible');
+    els.stats.innerHTML = `<strong>Found ${currentCommits.length} commits:</strong> ${typeCounts}`;
+    els.stats.classList.add('visible');
 
-    const format = formatSelect.value;
+    const format = els.formatSelect.value;
     let result;
-
     if (format === 'json') {
       result = exportToJson(currentCommits);
     } else if (format === 'csv') {
       result = exportToCsv(currentCommits);
     } else {
       result = generateChangelog(currentCommits, {
-        includeHash: includeHash.checked,
-        includeScope: includeScope.checked,
-        title: titleInput.value || 'Changelog'
+        includeHash: els.includeHash.checked,
+        includeScope: els.includeScope.checked,
+        title: els.titleInput.value || 'Changelog'
       });
     }
 
-    output.value = result;
-    copyBtn.disabled = false;
-    downloadBtn.disabled = false;
+    els.output.value = result;
+    els.copyBtn.disabled = false;
+    els.downloadBtn.disabled = false;
   });
 
-  copyBtn.addEventListener('click', async () => {
+  els.copyBtn.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(output.value);
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
+      await navigator.clipboard.writeText(els.output.value);
+      els.copyBtn.textContent = 'Copied!';
+      setTimeout(() => { els.copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
     } catch (err) {
       console.error('Failed to copy:', err);
     }
   });
 
-  downloadBtn.addEventListener('click', () => {
-    const format = formatSelect.value;
+  els.downloadBtn.addEventListener('click', () => {
+    const format = els.formatSelect.value;
     const ext = format === 'json' ? 'json' : format === 'csv' ? 'csv' : 'md';
     const mime = format === 'json' ? 'application/json' : format === 'csv' ? 'text/csv' : 'text/markdown';
-
-    const blob = new Blob([output.value], { type: mime });
+    const blob = new Blob([els.output.value], { type: mime });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -379,14 +302,14 @@ export function render(container) {
     URL.revokeObjectURL(url);
   });
 
-  clearBtn.addEventListener('click', () => {
-    gitLogInput.value = '';
-    output.value = '';
-    stats.innerHTML = '';
-    stats.classList.remove('visible');
-    copyBtn.disabled = true;
-    downloadBtn.disabled = true;
-    fileUpload.value = '';
+  els.clearBtn.addEventListener('click', () => {
+    els.gitLogInput.value = '';
+    els.output.value = '';
+    els.stats.innerHTML = '';
+    els.stats.classList.remove('visible');
+    els.copyBtn.disabled = true;
+    els.downloadBtn.disabled = true;
+    els.fileUpload.value = '';
     currentCommits = [];
   });
 }

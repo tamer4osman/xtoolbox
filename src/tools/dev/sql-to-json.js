@@ -26,6 +26,93 @@ export const toolConfig = {
   ]
 };
 
+const SQL_CSS = `
+  .sql-converter-container { max-width: 1000px; margin: 0 auto; }
+  .sql-textarea, .output-textarea {
+    width: 100%; height: 250px; padding: var(--space-4);
+    border: 2px solid var(--color-border); border-radius: var(--radius-xl);
+    background: var(--color-surface); font-family: 'Fira Code', monospace;
+    font-size: var(--text-sm); resize: vertical;
+  }
+  .sql-textarea:focus { outline: none; border-color: var(--color-primary); }
+  .output-textarea { background: var(--color-bg); cursor: default; }
+  .file-input { display: block; padding: var(--space-3); border: 2px dashed var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); cursor: pointer; }
+  .file-input:hover { border-color: var(--color-primary); }
+  .action-buttons { display: flex; gap: var(--space-3); margin: var(--space-6) 0; flex-wrap: wrap; }
+  .action-buttons .btn { flex: 1; min-width: 120px; }
+  .tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); border-bottom: 2px solid var(--color-border); }
+  .tab { padding: var(--space-3) var(--space-4); background: transparent; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; cursor: pointer; font-weight: 500; color: var(--color-text-secondary); }
+  .tab:hover { color: var(--color-text); }
+  .tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .data-preview { padding: var(--space-4); background: var(--color-surface); border-radius: var(--radius-lg); overflow-x: auto; }
+  .data-preview table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  .data-preview th, .data-preview td { padding: var(--space-2) var(--space-3); text-align: left; border-bottom: 1px solid var(--color-border); }
+  .data-preview th { background: var(--color-bg); font-weight: 600; }
+`;
+
+const SQL_HTML = `
+  <div class="sql-converter-container">
+    <div class="form-group">
+      <label for="sql-input">SQL Input</label>
+      <textarea id="sql-input" class="sql-textarea" placeholder="Paste your SQL CREATE TABLE or INSERT statements here..."></textarea>
+    </div>
+    <div class="form-group">
+      <label for="file-upload">Or upload a .sql file:</label>
+      <input type="file" id="file-upload" accept=".sql" class="file-input">
+    </div>
+    <div class="action-buttons">
+      <button id="parse-btn" class="btn btn-primary">Parse SQL</button>
+      <button id="copy-json-btn" class="btn btn-secondary" disabled>Copy JSON</button>
+      <button id="copy-schema-btn" class="btn btn-secondary" disabled>Copy Schema</button>
+      <button id="download-json-btn" class="btn btn-secondary" disabled>Download JSON</button>
+      <button id="download-schema-btn" class="btn btn-secondary" disabled>Download Schema</button>
+      <button id="clear-btn" class="btn btn-ghost">Clear</button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="json">JSON Output</button>
+      <button class="tab" data-tab="schema">JSON Schema</button>
+      <button class="tab" data-tab="preview">Data Preview</button>
+    </div>
+    <div class="tab-content">
+      <div id="json-tab" class="tab-panel active">
+        <div class="form-group">
+          <label for="json-output">JSON Output</label>
+          <textarea id="json-output" class="output-textarea" readonly placeholder="Converted JSON will appear here..."></textarea>
+        </div>
+      </div>
+      <div id="schema-tab" class="tab-panel">
+        <div class="form-group">
+          <label for="schema-output">JSON Schema</label>
+          <textarea id="schema-output" class="output-textarea" readonly placeholder="JSON Schema will appear here..."></textarea>
+        </div>
+      </div>
+      <div id="preview-tab" class="tab-panel">
+        <div id="data-preview" class="data-preview"></div>
+      </div>
+    </div>
+  </div>
+`;
+
+function buildPreviewHtml(jsonData) {
+  let html = '';
+  for (const [tableName, data] of Object.entries(jsonData)) {
+    if (data.rows.length > 0) {
+      html += `<h4>${tableName}</h4><table><thead><tr>`;
+      Object.keys(data.rows[0]).forEach(col => { html += `<th>${col}</th>`; });
+      html += '</tr></thead><tbody>';
+      data.rows.slice(0, 10).forEach(row => {
+        html += '<tr>';
+        Object.values(row).forEach(val => { html += `<td>${val === null ? 'NULL' : val}</td>`; });
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+    }
+  }
+  return html || '<p>No data rows found to preview.</p>';
+}
+
 function parseCreateTable(sql) {
   const tables = {};
   const createRegex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`"']?(\w+)[`"']?\s*\(([\s\S]*?)\)\s*;/gi;
@@ -192,218 +279,69 @@ export function generateSchema(tables) {
 }
 
 export function render(container) {
-  container.innerHTML = `
-    <div class="sql-converter-container">
-      <div class="form-group">
-        <label for="sql-input">SQL Input</label>
-        <textarea id="sql-input" class="sql-textarea" placeholder="Paste your SQL CREATE TABLE or INSERT statements here..."></textarea>
-      </div>
-      <div class="form-group">
-        <label for="file-upload">Or upload a .sql file:</label>
-        <input type="file" id="file-upload" accept=".sql" class="file-input">
-      </div>
-
-      <div class="action-buttons">
-        <button id="parse-btn" class="btn btn-primary">Parse SQL</button>
-        <button id="copy-json-btn" class="btn btn-secondary" disabled>Copy JSON</button>
-        <button id="copy-schema-btn" class="btn btn-secondary" disabled>Copy Schema</button>
-        <button id="download-json-btn" class="btn btn-secondary" disabled>Download JSON</button>
-        <button id="download-schema-btn" class="btn btn-secondary" disabled>Download Schema</button>
-        <button id="clear-btn" class="btn btn-ghost">Clear</button>
-      </div>
-
-      <div class="tabs">
-        <button class="tab active" data-tab="json">JSON Output</button>
-        <button class="tab" data-tab="schema">JSON Schema</button>
-        <button class="tab" data-tab="preview">Data Preview</button>
-      </div>
-
-      <div class="tab-content">
-        <div id="json-tab" class="tab-panel active">
-          <div class="form-group">
-            <label for="json-output">JSON Output</label>
-            <textarea id="json-output" class="output-textarea" readonly placeholder="Converted JSON will appear here..."></textarea>
-          </div>
-        </div>
-        <div id="schema-tab" class="tab-panel">
-          <div class="form-group">
-            <label for="schema-output">JSON Schema</label>
-            <textarea id="schema-output" class="output-textarea" readonly placeholder="JSON Schema will appear here..."></textarea>
-          </div>
-        </div>
-        <div id="preview-tab" class="tab-panel">
-          <div id="data-preview" class="data-preview"></div>
-        </div>
-      </div>
-    </div>
-  `;
+  container.innerHTML = SQL_HTML;
 
   const style = document.createElement('style');
-  style.textContent = `
-    .sql-converter-container { max-width: 1000px; margin: 0 auto; }
-    .sql-textarea, .output-textarea {
-      width: 100%;
-      height: 250px;
-      padding: var(--space-4);
-      border: 2px solid var(--color-border);
-      border-radius: var(--radius-xl);
-      background: var(--color-surface);
-      font-family: 'Fira Code', monospace;
-      font-size: var(--text-sm);
-      resize: vertical;
-    }
-    .sql-textarea:focus { outline: none; border-color: var(--color-primary); }
-    .output-textarea { background: var(--color-bg); cursor: default; }
-    .file-input {
-      display: block;
-      padding: var(--space-3);
-      border: 2px dashed var(--color-border);
-      border-radius: var(--radius-lg);
-      background: var(--color-surface);
-      cursor: pointer;
-    }
-    .file-input:hover { border-color: var(--color-primary); }
-    .action-buttons {
-      display: flex;
-      gap: var(--space-3);
-      margin: var(--space-6) 0;
-      flex-wrap: wrap;
-    }
-    .action-buttons .btn { flex: 1; min-width: 120px; }
-    .tabs {
-      display: flex;
-      gap: var(--space-2);
-      margin-bottom: var(--space-4);
-      border-bottom: 2px solid var(--color-border);
-    }
-    .tab {
-      padding: var(--space-3) var(--space-4);
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      cursor: pointer;
-      font-weight: 500;
-      color: var(--color-text-secondary);
-    }
-    .tab:hover { color: var(--color-text); }
-    .tab.active {
-      color: var(--color-primary);
-      border-bottom-color: var(--color-primary);
-    }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-    .data-preview {
-      padding: var(--space-4);
-      background: var(--color-surface);
-      border-radius: var(--radius-lg);
-      overflow-x: auto;
-    }
-    .data-preview table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: var(--text-sm);
-    }
-    .data-preview th, .data-preview td {
-      padding: var(--space-2) var(--space-3);
-      text-align: left;
-      border-bottom: 1px solid var(--color-border);
-    }
-    .data-preview th {
-      background: var(--color-bg);
-      font-weight: 600;
-    }
-  `;
+  style.textContent = SQL_CSS;
   container.appendChild(style);
 
-  const sqlInput = container.querySelector('#sql-input');
-  const fileUpload = container.querySelector('#file-upload');
-  const jsonOutput = container.querySelector('#json-output');
-  const schemaOutput = container.querySelector('#schema-output');
-  const dataPreview = container.querySelector('#data-preview');
-  const parseBtn = container.querySelector('#parse-btn');
-  const copyJsonBtn = container.querySelector('#copy-json-btn');
-  const copySchemaBtn = container.querySelector('#copy-schema-btn');
-  const downloadJsonBtn = container.querySelector('#download-json-btn');
-  const downloadSchemaBtn = container.querySelector('#download-schema-btn');
-  const clearBtn = container.querySelector('#clear-btn');
-  const tabs = container.querySelectorAll('.tab');
-  const tabPanels = container.querySelectorAll('.tab-panel');
+  const q = id => container.querySelector(`#${id}`);
+  const els = {
+    sqlInput: q('sql-input'),
+    fileUpload: q('file-upload'),
+    jsonOutput: q('json-output'),
+    schemaOutput: q('schema-output'),
+    dataPreview: q('data-preview'),
+    parseBtn: q('parse-btn'),
+    copyJsonBtn: q('copy-json-btn'),
+    copySchemaBtn: q('copy-schema-btn'),
+    downloadJsonBtn: q('download-json-btn'),
+    downloadSchemaBtn: q('download-schema-btn'),
+    clearBtn: q('clear-btn'),
+    tabs: container.querySelectorAll('.tab'),
+    tabPanels: container.querySelectorAll('.tab-panel'),
+  };
 
   let parsedData = null;
   let parsedSchema = null;
 
-  tabs.forEach(tab => {
+  els.tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tabPanels.forEach(p => p.classList.remove('active'));
+      els.tabs.forEach(t => t.classList.remove('active'));
+      els.tabPanels.forEach(p => p.classList.remove('active'));
       tab.classList.add('active');
       container.querySelector(`#${tab.dataset.tab}-tab`).classList.add('active');
     });
   });
 
-  fileUpload.addEventListener('change', (e) => {
+  els.fileUpload.addEventListener('change', e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        sqlInput.value = event.target.result;
-      };
+      reader.onload = ev => { els.sqlInput.value = ev.target.result; };
       reader.readAsText(file);
     }
   });
 
-  parseBtn.addEventListener('click', () => {
-    const sql = sqlInput.value.trim();
-    if (!sql) {
-      alert('Please paste SQL or upload a .sql file first.');
-      return;
-    }
-
+  els.parseBtn.addEventListener('click', () => {
+    const sql = els.sqlInput.value.trim();
+    if (!sql) { alert('Please paste SQL or upload a .sql file first.'); return; }
     try {
       const tables = parseCreateTable(sql);
       const inserts = parseInsertStatements(sql);
-
       const jsonData = {};
       for (const [tableName, columns] of Object.entries(tables)) {
-        jsonData[tableName] = {
-          structure: columns,
-          rows: inserts[tableName] || []
-        };
+        jsonData[tableName] = { structure: columns, rows: inserts[tableName] || [] };
       }
-
       parsedData = jsonData;
       parsedSchema = generateSchema(tables);
-
-      jsonOutput.value = JSON.stringify(jsonData, null, 2);
-      schemaOutput.value = JSON.stringify(parsedSchema, null, 2);
-
-      // Build preview table
-      let previewHtml = '';
-      for (const [tableName, data] of Object.entries(jsonData)) {
-        if (data.rows.length > 0) {
-          previewHtml += `<h4>${tableName}</h4>`;
-          previewHtml += '<table><thead><tr>';
-          Object.keys(data.rows[0]).forEach(col => {
-            previewHtml += `<th>${col}</th>`;
-          });
-          previewHtml += '</tr></thead><tbody>';
-          data.rows.slice(0, 10).forEach(row => {
-            previewHtml += '<tr>';
-            Object.values(row).forEach(val => {
-              previewHtml += `<td>${val === null ? 'NULL' : val}</td>`;
-            });
-            previewHtml += '</tr>';
-          });
-          previewHtml += '</tbody></table>';
-        }
-      }
-      dataPreview.innerHTML = previewHtml || '<p>No data rows found to preview.</p>';
-
-      copyJsonBtn.disabled = false;
-      copySchemaBtn.disabled = false;
-      downloadJsonBtn.disabled = false;
-      downloadSchemaBtn.disabled = false;
+      els.jsonOutput.value = JSON.stringify(jsonData, null, 2);
+      els.schemaOutput.value = JSON.stringify(parsedSchema, null, 2);
+      els.dataPreview.innerHTML = buildPreviewHtml(jsonData);
+      els.copyJsonBtn.disabled = false;
+      els.copySchemaBtn.disabled = false;
+      els.downloadJsonBtn.disabled = false;
+      els.downloadSchemaBtn.disabled = false;
     } catch (err) {
       alert('Error parsing SQL: ' + err.message);
     }
@@ -430,23 +368,23 @@ export function render(container) {
     URL.revokeObjectURL(url);
   };
 
-  copyJsonBtn.addEventListener('click', () => copyToClipboard(jsonOutput.value, copyJsonBtn));
-  copySchemaBtn.addEventListener('click', () => copyToClipboard(schemaOutput.value, copySchemaBtn));
-  downloadJsonBtn.addEventListener('click', () => downloadFile(jsonOutput.value, 'converted-data.json'));
-  downloadSchemaBtn.addEventListener('click', () => downloadFile(schemaOutput.value, 'schema.json'));
+  els.copyJsonBtn.addEventListener('click', () => copyToClipboard(els.jsonOutput.value, els.copyJsonBtn));
+  els.copySchemaBtn.addEventListener('click', () => copyToClipboard(els.schemaOutput.value, els.copySchemaBtn));
+  els.downloadJsonBtn.addEventListener('click', () => downloadFile(els.jsonOutput.value, 'converted-data.json'));
+  els.downloadSchemaBtn.addEventListener('click', () => downloadFile(els.schemaOutput.value, 'schema.json'));
 
-  clearBtn.addEventListener('click', () => {
-    sqlInput.value = '';
-    jsonOutput.value = '';
-    schemaOutput.value = '';
-    dataPreview.innerHTML = '';
+  els.clearBtn.addEventListener('click', () => {
+    els.sqlInput.value = '';
+    els.jsonOutput.value = '';
+    els.schemaOutput.value = '';
+    els.dataPreview.innerHTML = '';
     parsedData = null;
     parsedSchema = null;
-    copyJsonBtn.disabled = true;
-    copySchemaBtn.disabled = true;
-    downloadJsonBtn.disabled = true;
-    downloadSchemaBtn.disabled = true;
-    fileUpload.value = '';
+    els.copyJsonBtn.disabled = true;
+    els.copySchemaBtn.disabled = true;
+    els.downloadJsonBtn.disabled = true;
+    els.downloadSchemaBtn.disabled = true;
+    els.fileUpload.value = '';
   });
 }
 

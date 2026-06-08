@@ -84,6 +84,76 @@ export const toolConfig = {
   ]
 };
 
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function formatBytes(b) {
+  if (b === 0) return '0 B';
+  const k = 1024;
+  const s = ['B', 'KB', 'MB'];
+  const i = Math.floor(Math.log(b) / Math.log(k));
+  return (b / Math.pow(k, i)).toFixed(1) + ' ' + s[i];
+}
+
+function getOptions(container) {
+  return {
+    removeMetadata: container.querySelector('#opt-metadata').checked,
+    removeComments: container.querySelector('#opt-comments').checked,
+    removeEditorData: container.querySelector('#opt-editor').checked,
+    removeEmptyGroups: container.querySelector('#opt-groups').checked,
+    collapseGroups: container.querySelector('#opt-collapse').checked,
+    removeUselessDefs: container.querySelector('#opt-defs').checked,
+    precision: parseInt(container.querySelector('#opt-precision').value)
+  };
+}
+
+function showResults(container, result, originalSvg, originalName) {
+  const { stats, optimized } = result;
+  const isGood = stats.saved > 0;
+  const resultsEl = container.querySelector('#svg-results');
+  const previewEl = container.querySelector('#svg-preview');
+  const originalPreview = container.querySelector('#svg-preview-original');
+  const optimizedPreview = container.querySelector('#svg-preview-optimized');
+
+  resultsEl.style.display = 'block';
+  previewEl.style.display = 'grid';
+  resultsEl.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);margin-bottom:var(--space-4);">
+      <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
+        <div style="font-size:var(--text-xl);font-weight:700;color:var(--color-text);">${formatBytes(stats.before)}</div>
+        <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Original</div>
+      </div>
+      <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
+        <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? 'var(--color-success)' : 'var(--color-text)'};">${formatBytes(stats.after)}</div>
+        <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Optimized</div>
+      </div>
+      <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
+        <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? 'var(--color-success)' : 'var(--color-text-muted)'};">${isGood ? '-' : ''}${formatBytes(Math.abs(stats.saved))} (${stats.percent}%)</div>
+        <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Saved</div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-lg" id="svg-download-btn" style="width:100%;margin-bottom:var(--space-3);">Download Optimized SVG</button>
+    <details>
+      <summary style="cursor:pointer;font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-2);">View Optimized Code</summary>
+      <pre style="background:var(--color-surface);padding:var(--space-3);border-radius:var(--radius-md);font-size:12px;overflow-x:auto;max-height:300px;overflow-y:auto;border:1px solid var(--color-border);"><code>${esc(optimized)}</code></pre>
+    </details>
+  `;
+
+  originalPreview.innerHTML = originalSvg;
+  optimizedPreview.innerHTML = optimized;
+
+  container.querySelector('#svg-download-btn').addEventListener('click', () => {
+    const blob = new Blob([optimized], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = originalName.replace(/\.svg$/i, '') + '.min.svg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+}
+
 export function render(container) {
   let originalSvg = null;
   let originalName = 'input.svg';
@@ -100,24 +170,12 @@ export function render(container) {
       </div>
       <div class="tool-options" id="svg-options" style="display:none;">
         <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-3);">
-          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;">
-            <input type="checkbox" id="opt-metadata" checked> Metadata
-          </label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;">
-            <input type="checkbox" id="opt-comments" checked> Comments
-          </label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;">
-            <input type="checkbox" id="opt-editor" checked> Editor data
-          </label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;">
-            <input type="checkbox" id="opt-groups" checked> Empty groups
-          </label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;">
-            <input type="checkbox" id="opt-collapse" checked> Collapse groups
-          </label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;">
-            <input type="checkbox" id="opt-defs" checked> Useless defs
-          </label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;"><input type="checkbox" id="opt-metadata" checked> Metadata</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;"><input type="checkbox" id="opt-comments" checked> Comments</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;"><input type="checkbox" id="opt-editor" checked> Editor data</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;"><input type="checkbox" id="opt-groups" checked> Empty groups</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;"><input type="checkbox" id="opt-collapse" checked> Collapse groups</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:var(--text-sm);cursor:pointer;"><input type="checkbox" id="opt-defs" checked> Useless defs</label>
         </div>
         <div class="form-group" style="margin-bottom:var(--space-3);">
           <label>Precision: <strong id="opt-precision-val">2</strong> decimal places</label>
@@ -144,15 +202,16 @@ export function render(container) {
   const uploadArea = container.querySelector('#svg-upload-area');
   const pasteArea = container.querySelector('#svg-paste-area');
   const optionsArea = container.querySelector('#svg-options');
-  const resultsEl = container.querySelector('#svg-results');
-  const previewEl = container.querySelector('#svg-preview');
-  const originalPreview = container.querySelector('#svg-preview-original');
-  const optimizedPreview = container.querySelector('#svg-preview-optimized');
   const precisionSlider = container.querySelector('#opt-precision');
   const precisionVal = container.querySelector('#opt-precision-val');
   const optimizeBtn = container.querySelector('#svg-optimize-btn');
   const pasteInput = container.querySelector('#svg-paste-input');
   const pasteBtn = container.querySelector('#svg-paste-btn');
+
+  function optimizeSvgFile() {
+    if (!originalSvg) return;
+    showResults(container, optimizeSvg(originalSvg, getOptions(container)), originalSvg, originalName);
+  }
 
   function showUploadOrPaste() {
     uploadArea.innerHTML = '';
@@ -172,37 +231,25 @@ export function render(container) {
     `;
     uploadArea.appendChild(dropZone);
 
-    const fileInput = dropZone.querySelector('#svg-file-input');
-    fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
-
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--color-primary)'; });
+    dropZone.querySelector('#svg-file-input').addEventListener('change', e => handleFile(e.target.files[0]));
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = 'var(--color-primary)'; });
     dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = ''; });
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.style.borderColor = '';
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
-
-    dropZone.querySelector('#svg-show-paste').addEventListener('click', () => {
-      pasteArea.style.display = 'block';
-    });
+    dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.style.borderColor = ''; if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+    dropZone.querySelector('#svg-show-paste').addEventListener('click', () => { pasteArea.style.display = 'block'; });
   }
 
   function handleFile(file) {
     if (!file) return;
     originalName = file.name;
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = e => {
       originalSvg = e.target.result;
       optionsArea.style.display = 'block';
       pasteArea.style.display = 'none';
       uploadArea.innerHTML = `
         <div style="padding:var(--space-3);background:var(--color-surface);border-radius:var(--radius-md);display:flex;align-items:center;gap:var(--space-3);">
           <span style="font-size:24px;">📄</span>
-          <div style="flex:1;">
-            <div style="font-weight:600;font-size:var(--text-sm);">${esc(file.name)}</div>
-            <div style="font-size:var(--text-xs);color:var(--color-text-muted);">${formatBytes(file.size)}</div>
-          </div>
+          <div style="flex:1;"><div style="font-weight:600;font-size:var(--text-sm);">${esc(file.name)}</div><div style="font-size:var(--text-xs);color:var(--color-text-muted);">${formatBytes(file.size)}</div></div>
           <button class="btn btn-ghost btn-sm" id="svg-change-file">Change</button>
         </div>
       `;
@@ -212,82 +259,7 @@ export function render(container) {
     reader.readAsText(file);
   }
 
-  function getOptions() {
-    return {
-      removeMetadata: container.querySelector('#opt-metadata').checked,
-      removeComments: container.querySelector('#opt-comments').checked,
-      removeEditorData: container.querySelector('#opt-editor').checked,
-      removeEmptyGroups: container.querySelector('#opt-groups').checked,
-      collapseGroups: container.querySelector('#opt-collapse').checked,
-      removeUselessDefs: container.querySelector('#opt-defs').checked,
-      precision: parseInt(precisionSlider.value)
-    };
-  }
-
-  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-  function formatBytes(b) {
-    if (b === 0) return '0 B';
-    const k = 1024;
-    const s = ['B', 'KB', 'MB'];
-    const i = Math.floor(Math.log(b) / Math.log(k));
-    return (b / Math.pow(k, i)).toFixed(1) + ' ' + s[i];
-  }
-
-  function optimizeSvgFile() {
-    if (!originalSvg) return;
-    const result = optimizeSvg(originalSvg, getOptions());
-    showResults(result);
-  }
-
-  function showResults(result) {
-    const { stats, optimized } = result;
-    const isGood = stats.saved > 0;
-
-    resultsEl.style.display = 'block';
-    previewEl.style.display = 'grid';
-    resultsEl.innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);margin-bottom:var(--space-4);">
-        <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
-          <div style="font-size:var(--text-xl);font-weight:700;color:var(--color-text);">${formatBytes(stats.before)}</div>
-          <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Original</div>
-        </div>
-        <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
-          <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? 'var(--color-success)' : 'var(--color-text)'};">${formatBytes(stats.after)}</div>
-          <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Optimized</div>
-        </div>
-        <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
-          <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? 'var(--color-success)' : 'var(--color-text-muted)'};">${isGood ? '-' : ''}${formatBytes(Math.abs(stats.saved))} (${stats.percent}%)</div>
-          <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Saved</div>
-        </div>
-      </div>
-      <button class="btn btn-primary btn-lg" id="svg-download-btn" style="width:100%;margin-bottom:var(--space-3);">Download Optimized SVG</button>
-      <details>
-        <summary style="cursor:pointer;font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-2);">View Optimized Code</summary>
-        <pre style="background:var(--color-surface);padding:var(--space-3);border-radius:var(--radius-md);font-size:12px;overflow-x:auto;max-height:300px;overflow-y:auto;border:1px solid var(--color-border);"><code>${esc(optimized)}</code></pre>
-      </details>
-    `;
-
-    originalPreview.innerHTML = originalSvg;
-    optimizedPreview.innerHTML = optimized;
-
-    container.querySelector('#svg-download-btn').addEventListener('click', () => {
-      const blob = new Blob([optimized], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = originalName.replace(/\.svg$/i, '') + '.min.svg';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-  }
-
-  precisionSlider.addEventListener('input', () => {
-    precisionVal.textContent = precisionSlider.value;
-  });
-
+  precisionSlider.addEventListener('input', () => { precisionVal.textContent = precisionSlider.value; });
   optimizeBtn.addEventListener('click', optimizeSvgFile);
 
   pasteBtn.addEventListener('click', () => {
@@ -300,10 +272,7 @@ export function render(container) {
     uploadArea.innerHTML = `
       <div style="padding:var(--space-3);background:var(--color-surface);border-radius:var(--radius-md);display:flex;align-items:center;gap:var(--space-3);">
         <span style="font-size:24px;">📋</span>
-        <div style="flex:1;">
-          <div style="font-weight:600;font-size:var(--text-sm);">Pasted SVG</div>
-          <div style="font-size:var(--text-xs);color:var(--color-text-muted);">${formatBytes(val.length)}</div>
-        </div>
+        <div style="flex:1;"><div style="font-weight:600;font-size:var(--text-sm);">Pasted SVG</div><div style="font-size:var(--text-xs);color:var(--color-text-muted);">${formatBytes(val.length)}</div></div>
         <button class="btn btn-ghost btn-sm" id="svg-change-file">Change</button>
       </div>
     `;

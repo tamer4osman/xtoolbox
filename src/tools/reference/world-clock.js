@@ -175,12 +175,66 @@ function toTimeInputValue(date) {
   return `${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
 }
 
-function parseLocalDateTime(dateStr, timeStr) {
-  if (!dateStr || !timeStr) return null;
-  const [y, mo, d] = dateStr.split('-').map(Number);
-  const [h, mi] = timeStr.split(':').map(Number);
-  if ([y, mo, d, h, mi].some(n => !Number.isFinite(n))) return null;
-  return new Date(y, mo - 1, d, h, mi, 0, 0);
+function formatOffset(min) {
+  const sign = min >= 0 ? '+' : '-';
+  const a = Math.abs(min);
+  return `UTC${sign}${pad2(Math.floor(a / 60))}:${pad2(a % 60)}`;
+}
+
+function renderClockRow(z, i, now, state) {
+  const offset = getZoneOffsetMinutes(z, now);
+  const time = formatInZone(now, z);
+  const date = formatDateInZone(now, z);
+  const isBase = z === state.baseZone;
+  return `
+    <div class="wc-row" data-zone="${z}" style="display:grid;grid-template-columns:1fr auto auto;gap:var(--space-3);align-items:center;padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-border);${isBase ? 'background:var(--color-primary-light, rgba(99,102,241,0.08));' : ''}">
+      <div>
+        <div style="font-weight:600;font-size:var(--text-base);">${zoneLabel(z)}</div>
+        <div style="font-size:var(--text-xs);color:var(--color-text-muted);">${z} · ${formatOffset(offset)}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="wc-time" data-zone="${z}" style="font-family:monospace;font-size:var(--text-xl);font-weight:600;letter-spacing:0.05em;">${time}</div>
+        <div class="wc-date" data-zone="${z}" style="font-size:var(--text-xs);color:var(--color-text-muted);">${date}</div>
+      </div>
+      <div style="display:flex;gap:var(--space-1);">
+        <button class="btn btn-sm wc-base" data-zone="${z}" type="button" title="Set as converter base" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);${isBase ? 'color:var(--color-primary);border-color:var(--color-primary);' : ''}">${isBase ? '★' : '☆'}</button>
+        <button class="btn btn-sm wc-up" data-zone="${z}" type="button" title="Move up" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);" ${i === 0 ? 'disabled' : ''}>↑</button>
+        <button class="btn btn-sm wc-down" data-zone="${z}" type="button" title="Move down" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);" ${i === state.zones.length - 1 ? 'disabled' : ''}>↓</button>
+        <button class="btn btn-sm wc-rm" data-zone="${z}" type="button" title="Remove" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);">×</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderConverterCard(z, converted, state) {
+  const offset = getZoneOffsetMinutes(z, converted);
+  const time = formatInZone(converted, z);
+  const date = formatDateInZone(converted, z);
+  return `
+    <div style="background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
+      <div style="font-size:var(--text-xs);color:var(--color-text-muted);">${zoneLabel(z)} · ${formatOffset(offset)}</div>
+      <div style="font-family:monospace;font-size:var(--text-lg);font-weight:600;letter-spacing:0.04em;margin-top:var(--space-1);">${time}</div>
+      <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1);">${date}</div>
+    </div>
+  `;
+}
+
+function renderListHtml(zones, now, state) {
+  if (zones.length === 0) {
+    return '<div style="padding:var(--space-4);text-align:center;color:var(--color-text-muted);font-size:var(--text-sm);">Add a zone to get started.</div>';
+  }
+  return zones.map((z, i) => renderClockRow(z, i, now, state)).join('');
+}
+
+function renderConverterHtml(zones, baseZone, dateStr, timeStr) {
+  if (!baseZone) {
+    return '<div style="color:var(--color-text-muted);font-size:var(--text-sm);">Pick a base zone above to use the converter.</div>';
+  }
+  const local = buildSourceUTC(dateStr, timeStr);
+  if (!local) {
+    return '<div style="color:var(--color-text-muted);font-size:var(--text-sm);">Enter a valid date and time.</div>';
+  }
+  return zones.map(z => renderConverterCard(z, convertTime(local, baseZone, z))).join('');
 }
 
 export function render(container) {
@@ -256,20 +310,12 @@ export function render(container) {
   const nowBtn = container.querySelector('#wc-now');
   const outEl = container.querySelector('#wc-converter-out');
 
-  function persist() {
-    saveState({ zones: state.zones, baseZone: state.baseZone });
-  }
+  function persist() { saveState({ zones: state.zones, baseZone: state.baseZone }); }
 
   function addZone(zone) {
     if (!zone) return;
-    if (!allZones.includes(zone)) {
-      showToast({ message: `Unknown zone: ${zone}`, type: 'error' });
-      return;
-    }
-    if (state.zones.includes(zone)) {
-      showToast({ message: `${zoneLabel(zone)} is already in the list`, type: 'info' });
-      return;
-    }
+    if (!allZones.includes(zone)) { showToast({ message: `Unknown zone: ${zone}`, type: 'error' }); return; }
+    if (state.zones.includes(zone)) { showToast({ message: `${zoneLabel(zone)} is already in the list`, type: 'info' }); return; }
     state.zones.push(zone);
     if (!state.baseZone) state.baseZone = zone;
     inputEl.value = '';
@@ -289,98 +335,23 @@ export function render(container) {
     if (i < 0) return;
     const j = i + delta;
     if (j < 0 || j >= state.zones.length) return;
-    const arr = state.zones;
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [state.zones[i], state.zones[j]] = [state.zones[j], state.zones[i]];
     persist();
     renderAll();
   }
 
-  function setBase(zone) {
-    state.baseZone = zone;
-    persist();
-    renderAll();
-  }
+  function setBase(zone) { state.baseZone = zone; persist(); renderAll(); }
 
-  function formatOffset(min) {
-    const sign = min >= 0 ? '+' : '-';
-    const a = Math.abs(min);
-    return `UTC${sign}${pad2(Math.floor(a / 60))}:${pad2(a % 60)}`;
-  }
-
-  function renderList(now) {
-    if (state.zones.length === 0) {
-      listEl.innerHTML = '<div style="padding:var(--space-4);text-align:center;color:var(--color-text-muted);font-size:var(--text-sm);">Add a zone to get started.</div>';
-      return;
-    }
-    listEl.innerHTML = state.zones.map((z, i) => {
-      const offset = getZoneOffsetMinutes(z, now);
-      const time = formatInZone(now, z);
-      const date = formatDateInZone(now, z);
-      const isBase = z === state.baseZone;
-      return `
-        <div class="wc-row" data-zone="${z}" style="display:grid;grid-template-columns:1fr auto auto;gap:var(--space-3);align-items:center;padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-border);${isBase ? 'background:var(--color-primary-light, rgba(99,102,241,0.08));' : ''}">
-          <div>
-            <div style="font-weight:600;font-size:var(--text-base);">${zoneLabel(z)}</div>
-            <div style="font-size:var(--text-xs);color:var(--color-text-muted);">${z} · ${formatOffset(offset)}</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="wc-time" data-zone="${z}" style="font-family:monospace;font-size:var(--text-xl);font-weight:600;letter-spacing:0.05em;">${time}</div>
-            <div class="wc-date" data-zone="${z}" style="font-size:var(--text-xs);color:var(--color-text-muted);">${date}</div>
-          </div>
-          <div style="display:flex;gap:var(--space-1);">
-            <button class="btn btn-sm wc-base" data-zone="${z}" type="button" title="Set as converter base" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);${isBase ? 'color:var(--color-primary);border-color:var(--color-primary);' : ''}">${isBase ? '★' : '☆'}</button>
-            <button class="btn btn-sm wc-up" data-zone="${z}" type="button" title="Move up" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);" ${i === 0 ? 'disabled' : ''}>↑</button>
-            <button class="btn btn-sm wc-down" data-zone="${z}" type="button" title="Move down" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);" ${i === state.zones.length - 1 ? 'disabled' : ''}>↓</button>
-            <button class="btn btn-sm wc-rm" data-zone="${z}" type="button" title="Remove" style="background:transparent;border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;padding:2px 6px;border-radius:var(--radius-sm);">×</button>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function renderBaseSelect() {
+  function renderAll() {
+    listEl.innerHTML = renderListHtml(state.zones, new Date(), state);
     baseEl.innerHTML = state.zones.map(z => `<option value="${z}" ${z === state.baseZone ? 'selected' : ''}>${zoneLabel(z)} (${z})</option>`).join('');
-  }
-
-  function renderConverter() {
-    if (!state.baseZone) {
-      outEl.innerHTML = '<div style="color:var(--color-text-muted);font-size:var(--text-sm);">Pick a base zone above to use the converter.</div>';
-      return;
-    }
-    const local = buildSourceUTC(dateEl.value, timeEl.value);
-    if (!local) {
-      outEl.innerHTML = '<div style="color:var(--color-text-muted);font-size:var(--text-sm);">Enter a valid date and time.</div>';
-      return;
-    }
-    outEl.innerHTML = state.zones.map(z => {
-      const converted = convertTime(local, state.baseZone, z);
-      const offset = getZoneOffsetMinutes(z, converted);
-      const time = formatInZone(converted, z);
-      const date = formatDateInZone(converted, z);
-      return `
-        <div style="background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
-          <div style="font-size:var(--text-xs);color:var(--color-text-muted);">${zoneLabel(z)} · ${formatOffset(offset)}</div>
-          <div style="font-family:monospace;font-size:var(--text-lg);font-weight:600;letter-spacing:0.04em;margin-top:var(--space-1);">${time}</div>
-          <div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1);">${date}</div>
-        </div>
-      `;
-    }).join('');
+    outEl.innerHTML = renderConverterHtml(state.zones, state.baseZone, dateEl.value, timeEl.value);
   }
 
   function tick() {
     const now = new Date();
-    container.querySelectorAll('.wc-time').forEach(el => {
-      el.textContent = formatInZone(now, el.dataset.zone);
-    });
-    container.querySelectorAll('.wc-date').forEach(el => {
-      el.textContent = formatDateInZone(now, el.dataset.zone);
-    });
-  }
-
-  function renderAll() {
-    renderList(new Date());
-    renderBaseSelect();
-    renderConverter();
+    container.querySelectorAll('.wc-time').forEach(el => { el.textContent = formatInZone(now, el.dataset.zone); });
+    container.querySelectorAll('.wc-date').forEach(el => { el.textContent = formatDateInZone(now, el.dataset.zone); });
   }
 
   addBtn.addEventListener('click', () => addZone(inputEl.value.trim()));
@@ -407,14 +378,14 @@ export function render(container) {
   });
 
   baseEl.addEventListener('change', () => { state.baseZone = baseEl.value; persist(); renderAll(); });
-  dateEl.addEventListener('input', renderConverter);
-  timeEl.addEventListener('input', renderConverter);
+  dateEl.addEventListener('input', renderAll);
+  timeEl.addEventListener('input', renderAll);
 
   nowBtn.addEventListener('click', () => {
     const n = new Date();
     dateEl.value = toDateInputValue(n);
     timeEl.value = toTimeInputValue(n);
-    renderConverter();
+    renderAll();
   });
 
   const n = new Date();
@@ -423,14 +394,9 @@ export function render(container) {
   renderAll();
 
   const intervalId = setInterval(tick, 1000);
-
   const prevDestroy = container.dataset.destroy;
   container.dataset.destroy = 'true';
-  const originalDestroy = () => {
-    clearInterval(intervalId);
-    if (typeof prevDestroy === 'function') prevDestroy();
-  };
-  container._destroy = originalDestroy;
+  container._destroy = () => { clearInterval(intervalId); if (typeof prevDestroy === 'function') prevDestroy(); };
 }
 
 export function destroy() {}

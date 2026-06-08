@@ -1275,242 +1275,97 @@ export function saveUserPresets(list) {
   }
 }
 
-export function render(container) {
-  const state = {
-    selected: new Set(),
-    custom: '',
-    collapsed: {}
-  };
+function renderPresetDropdown(presetEl) {
+  const user = loadUserPresets();
+  let html = '<option value="">— select a preset —</option><optgroup label="Built-in">';
+  PRESETS.forEach((p, i) => { html += `<option value="builtin:${i}">${p.name}</option>`; });
+  html += '</optgroup>';
+  if (user.length) {
+    html += '<optgroup label="My presets">';
+    user.forEach((p, i) => { html += `<option value="user:${i}">${p.name} (delete)</option>`; });
+    html += '</optgroup>';
+  }
+  presetEl.innerHTML = html;
+}
 
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-4);">
-        <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:flex-end;">
-          <div style="flex:1;min-width:200px;">
-            <label for="gig-preset" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-2);">Preset</label>
-            <select id="gig-preset" class="text-input"></select>
-          </div>
-          <button class="btn btn-secondary btn-sm" id="gig-clear" type="button">Clear selection</button>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-3);align-items:flex-end;">
-          <div style="flex:1;min-width:180px;">
-            <label for="gig-preset-name" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-2);">Save current selection as</label>
-            <input type="text" id="gig-preset-name" class="text-input" placeholder="e.g. my-monorepo" maxlength="40">
-          </div>
-          <button class="btn btn-secondary btn-sm" id="gig-save-preset" type="button">Save preset</button>
-        </div>
-      </div>
-
-      <div style="margin-bottom:var(--space-3);">
-        <input type="search" id="gig-search" class="text-input" placeholder="Search templates (node, react, vscode, macos, ...)" autocomplete="off">
-      </div>
-
-      <div style="margin-bottom:var(--space-4);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2);">
-          <span style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);">Selected (<span id="gig-count">0</span>)</span>
-          <span style="font-size:var(--text-xs);color:var(--color-text-muted);">Click a chip to remove</span>
-        </div>
-        <div id="gig-chips" style="display:flex;flex-wrap:wrap;gap:var(--space-2);min-height:32px;padding:var(--space-2);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);"></div>
-      </div>
-
-      <div id="gig-categories" style="margin-bottom:var(--space-4);"></div>
-
-      <div style="margin-bottom:var(--space-4);">
-        <label for="gig-custom" style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);display:block;margin-bottom:var(--space-2);">Custom lines (optional)</label>
-        <textarea id="gig-custom" class="text-input" rows="3" placeholder="Add your own patterns, one per line&#10;e.g.&#10;secrets/&#10;*.local&#10;.env.production" style="font-family:monospace;font-size:var(--text-sm);resize:vertical;"></textarea>
-      </div>
-
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2);">
-          <span style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);">Generated .gitignore</span>
-          <div style="display:flex;gap:var(--space-2);">
-            <button class="btn btn-secondary btn-sm" id="gig-copy" type="button">Copy</button>
-            <button class="btn btn-primary btn-sm" id="gig-download" type="button">Download .gitignore</button>
-          </div>
-        </div>
-        <pre id="gig-output" style="background:#1e1e2e;color:#cdd6f4;padding:var(--space-3);border-radius:var(--radius-md);overflow-x:auto;font-size:var(--text-sm);line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:160px;font-family:monospace;max-height:480px;overflow-y:auto;"></pre>
+function renderCategorySection(cat, selected, collapsed) {
+  const items = Object.entries(TEMPLATES).filter(([, t]) => t.category === cat.id);
+  const isCollapsed = !!collapsed[cat.id];
+  return `
+    <div class="gig-cat" data-cat="${cat.id}" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-3);">
+      <button class="gig-cat-toggle" data-cat="${cat.id}" type="button" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:var(--space-3) var(--space-4);background:transparent;border:none;cursor:pointer;font-size:var(--text-base);font-weight:600;color:var(--color-text);">
+        <span>${cat.icon} ${cat.name} <span style="color:var(--color-text-muted);font-weight:400;font-size:var(--text-sm);">(${items.length})</span></span>
+        <span class="gig-cat-arrow" style="transition:transform 0.2s;${isCollapsed ? '' : 'transform:rotate(90deg);'}">▸</span>
+      </button>
+      <div class="gig-cat-body" data-cat="${cat.id}" style="display:${isCollapsed ? 'none' : 'grid'};grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-2);padding:0 var(--space-4) var(--space-4);">
+        ${items.map(([key, t]) => `
+          <label class="gig-tpl" data-key="${key}" data-name="${t.name.toLowerCase()}" style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;font-size:var(--text-sm);user-select:none;background:var(--color-bg);">
+            <input type="checkbox" class="gig-tpl-cb" data-key="${key}" ${selected.has(key) ? 'checked' : ''} style="width:16px;height:16px;cursor:pointer;accent-color:var(--color-primary);">
+            <span>${t.name}</span>
+          </label>
+        `).join('')}
       </div>
     </div>
   `;
+}
 
-  const searchEl = container.querySelector('#gig-search');
-  const chipsEl = container.querySelector('#gig-chips');
-  const countEl = container.querySelector('#gig-count');
-  const categoriesEl = container.querySelector('#gig-categories');
-  const customEl = container.querySelector('#gig-custom');
-  const outputEl = container.querySelector('#gig-output');
-  const presetEl = container.querySelector('#gig-preset');
-  const presetNameEl = container.querySelector('#gig-preset-name');
-  const saveBtn = container.querySelector('#gig-save-preset');
-  const clearBtn = container.querySelector('#gig-clear');
-  const copyBtn = container.querySelector('#gig-copy');
-  const downloadBtn = container.querySelector('#gig-download');
-
-  function renderPresetDropdown() {
-    const user = loadUserPresets();
-    let html = '<option value="">— select a preset —</option>';
-    html += '<optgroup label="Built-in">';
-    PRESETS.forEach((p, i) => {
-      html += `<option value="builtin:${i}">${p.name}</option>`;
-    });
-    html += '</optgroup>';
-    if (user.length) {
-      html += '<optgroup label="My presets">';
-      user.forEach((p, i) => {
-        html += `<option value="user:${i}">${p.name} (delete)</option>`;
-      });
-      html += '</optgroup>';
-    }
-    presetEl.innerHTML = html;
+function renderChips(selected, chipsEl, countEl) {
+  if (selected.size === 0) {
+    chipsEl.innerHTML = '<span style="color:var(--color-text-muted);font-size:var(--text-sm);">No templates selected yet. Pick a preset or toggle one below.</span>';
+  } else {
+    chipsEl.innerHTML = Array.from(selected).map(key => {
+      const t = TEMPLATES[key];
+      return t ? `<span class="gig-chip" data-key="${key}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-primary);color:white;border-radius:var(--radius-md);font-size:var(--text-sm);cursor:pointer;" title="Click to remove">${t.name} <span style="opacity:0.8;">×</span></span>` : '';
+    }).join('');
   }
+  countEl.textContent = selected.size;
+}
 
-  function renderCategorySection(cat) {
-    const items = Object.entries(TEMPLATES).filter(([, t]) => t.category === cat.id);
-    const collapsed = !!state.collapsed[cat.id];
-    return `
-      <div class="gig-cat" data-cat="${cat.id}" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-3);">
-        <button class="gig-cat-toggle" data-cat="${cat.id}" type="button" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:var(--space-3) var(--space-4);background:transparent;border:none;cursor:pointer;font-size:var(--text-base);font-weight:600;color:var(--color-text);">
-          <span>${cat.icon} ${cat.name} <span style="color:var(--color-text-muted);font-weight:400;font-size:var(--text-sm);">(${items.length})</span></span>
-          <span class="gig-cat-arrow" style="transition:transform 0.2s;${collapsed ? '' : 'transform:rotate(90deg);'}">▸</span>
-        </button>
-        <div class="gig-cat-body" data-cat="${cat.id}" style="display:${collapsed ? 'none' : 'grid'};grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-2);padding:0 var(--space-4) var(--space-4);">
-          ${items.map(([key, t]) => `
-            <label class="gig-tpl" data-key="${key}" data-name="${t.name.toLowerCase()}" style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;font-size:var(--text-sm);user-select:none;background:var(--color-bg);">
-              <input type="checkbox" class="gig-tpl-cb" data-key="${key}" ${state.selected.has(key) ? 'checked' : ''} style="width:16px;height:16px;cursor:pointer;accent-color:var(--color-primary);">
-              <span>${t.name}</span>
-            </label>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
-
-  function renderCategories() {
-    categoriesEl.innerHTML = CATEGORIES.map(renderCategorySection).join('');
-  }
-
-  function renderChips() {
-    if (state.selected.size === 0) {
-      chipsEl.innerHTML = '<span style="color:var(--color-text-muted);font-size:var(--text-sm);">No templates selected yet. Pick a preset or toggle one below.</span>';
-    } else {
-      chipsEl.innerHTML = Array.from(state.selected).map(key => {
-        const t = TEMPLATES[key];
-        if (!t) return '';
-        return `<span class="gig-chip" data-key="${key}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-primary);color:white;border-radius:var(--radius-md);font-size:var(--text-sm);cursor:pointer;" title="Click to remove">${t.name} <span style="opacity:0.8;">×</span></span>`;
-      }).join('');
-    }
-    countEl.textContent = state.selected.size;
-  }
-
-  function renderOutput() {
-    const text = buildGitignore(Array.from(state.selected), state.custom);
-    outputEl.textContent = text || 'Select templates above (or type custom lines) to build your .gitignore.';
-  }
-
-  function applyFilter() {
-    const q = searchEl.value.trim().toLowerCase();
-    container.querySelectorAll('.gig-tpl').forEach(el => {
-      const name = el.dataset.name;
-      el.style.display = (q === '' || name.includes(q)) ? '' : 'none';
-    });
-    container.querySelectorAll('.gig-cat').forEach(catEl => {
-      const catId = catEl.dataset.cat;
-      const visible = Array.from(catEl.querySelectorAll('.gig-tpl')).some(el => el.style.display !== 'none');
-      catEl.style.display = visible ? '' : 'none';
-    });
-  }
-
-  function applyPreset(value) {
-    if (!value) return;
-    if (value.startsWith('builtin:')) {
-      const idx = parseInt(value.slice(8), 10);
-      const p = PRESETS[idx];
-      if (!p) return;
-      state.selected = new Set(p.keys.filter(k => TEMPLATES[k]));
-      renderChips();
-      syncCheckboxes();
-      renderOutput();
-      showToast({ message: `Applied preset: ${p.name}`, type: 'success' });
-    } else if (value.startsWith('user:')) {
-      const idx = parseInt(value.slice(5), 10);
-      const user = loadUserPresets();
-      const p = user[idx];
-      if (!p) return;
-      state.selected = new Set(p.keys.filter(k => TEMPLATES[k]));
-      renderChips();
-      syncCheckboxes();
-      renderOutput();
-      showToast({ message: `Loaded preset: ${p.name}`, type: 'success' });
-    }
-  }
-
-  function syncCheckboxes() {
-    container.querySelectorAll('.gig-tpl-cb').forEach(cb => {
-      cb.checked = state.selected.has(cb.dataset.key);
-    });
-  }
+function bindGitignoreEvents(ctx) {
+  const { container, state, searchEl, chipsEl, categoriesEl, customEl, outputEl, presetEl, presetNameEl, saveBtn, clearBtn, copyBtn, downloadBtn, countEl, renderAll, syncCheckboxes, showToast, copyToClipboard, downloadBlob } = ctx;
 
   presetEl.addEventListener('change', () => {
     const v = presetEl.value;
-    applyPreset(v);
-    if (v.startsWith('user:')) {
-      const idx = parseInt(v.slice(5), 10);
+    if (!v) return;
+    if (v.startsWith('builtin:')) {
+      const p = PRESETS[parseInt(v.slice(8), 10)];
+      if (p) { state.selected = new Set(p.keys.filter(k => TEMPLATES[k])); renderAll(); showToast({ message: `Applied preset: ${p.name}`, type: 'success' }); }
+    } else if (v.startsWith('user:')) {
       const user = loadUserPresets();
-      if (confirm(`Delete user preset "${user[idx]?.name || ''}"?`)) {
-        user.splice(idx, 1);
-        saveUserPresets(user);
-        renderPresetDropdown();
+      const p = user[parseInt(v.slice(5), 10)];
+      if (p) { state.selected = new Set(p.keys.filter(k => TEMPLATES[k])); renderAll(); showToast({ message: `Loaded preset: ${p.name}`, type: 'success' }); }
+      if (confirm(`Delete user preset "${p?.name || ''}"?`)) {
+        user.splice(parseInt(v.slice(5), 10), 1); saveUserPresets(user); renderPresetDropdown(presetEl);
         showToast({ message: 'Preset deleted', type: 'success' });
-      } else {
-        renderPresetDropdown();
-      }
+      } else { renderPresetDropdown(presetEl); }
     }
   });
 
   saveBtn.addEventListener('click', () => {
     const name = presetNameEl.value.trim();
-    if (!name) {
-      showToast({ message: 'Enter a name for the preset', type: 'error' });
-      return;
-    }
-    if (state.selected.size === 0) {
-      showToast({ message: 'Select at least one template first', type: 'error' });
-      return;
-    }
+    if (!name) { showToast({ message: 'Enter a name for the preset', type: 'error' }); return; }
+    if (state.selected.size === 0) { showToast({ message: 'Select at least one template first', type: 'error' }); return; }
     const user = loadUserPresets();
-    if (user.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-      showToast({ message: 'A preset with that name already exists', type: 'error' });
-      return;
-    }
-    user.push({ name, keys: Array.from(state.selected) });
-    saveUserPresets(user);
-    renderPresetDropdown();
-    presetNameEl.value = '';
+    if (user.some(p => p.name.toLowerCase() === name.toLowerCase())) { showToast({ message: 'A preset with that name already exists', type: 'error' }); return; }
+    user.push({ name, keys: Array.from(state.selected) }); saveUserPresets(user); renderPresetDropdown(presetEl); presetNameEl.value = '';
     showToast({ message: `Saved preset "${name}"`, type: 'success' });
   });
 
-  clearBtn.addEventListener('click', () => {
-    state.selected.clear();
-    renderChips();
-    syncCheckboxes();
-    renderOutput();
+  clearBtn.addEventListener('click', () => { state.selected.clear(); renderAll(); });
+  searchEl.addEventListener('input', () => {
+    const q = searchEl.value.trim().toLowerCase();
+    container.querySelectorAll('.gig-tpl').forEach(el => { el.style.display = (q === '' || el.dataset.name.includes(q)) ? '' : 'none'; });
+    container.querySelectorAll('.gig-cat').forEach(catEl => {
+      catEl.style.display = Array.from(catEl.querySelectorAll('.gig-tpl')).some(el => el.style.display !== 'none') ? '' : 'none';
+    });
   });
-
-  searchEl.addEventListener('input', applyFilter);
-
-  customEl.addEventListener('input', () => {
-    state.custom = customEl.value;
-    renderOutput();
-  });
+  customEl.addEventListener('input', () => { state.custom = customEl.value; ctx.renderOutput(); });
 
   categoriesEl.addEventListener('change', e => {
     const cb = e.target.closest('.gig-tpl-cb');
     if (!cb) return;
-    const key = cb.dataset.key;
-    if (cb.checked) state.selected.add(key);
-    else state.selected.delete(key);
-    renderChips();
-    renderOutput();
+    if (cb.checked) state.selected.add(cb.dataset.key); else state.selected.delete(cb.dataset.key);
+    renderAll();
   });
 
   categoriesEl.addEventListener('click', e => {
@@ -1520,50 +1375,82 @@ export function render(container) {
     state.collapsed[catId] = !state.collapsed[catId];
     const body = container.querySelector(`.gig-cat-body[data-cat="${catId}"]`);
     const arrow = toggle.querySelector('.gig-cat-arrow');
-    if (state.collapsed[catId]) {
-      body.style.display = 'none';
-      arrow.style.transform = '';
-    } else {
-      body.style.display = 'grid';
-      arrow.style.transform = 'rotate(90deg)';
-    }
+    body.style.display = state.collapsed[catId] ? 'none' : 'grid';
+    arrow.style.transform = state.collapsed[catId] ? '' : 'rotate(90deg)';
   });
 
   chipsEl.addEventListener('click', e => {
     const chip = e.target.closest('.gig-chip');
     if (!chip) return;
-    const key = chip.dataset.key;
-    state.selected.delete(key);
-    renderChips();
-    syncCheckboxes();
-    renderOutput();
+    state.selected.delete(chip.dataset.key); renderAll();
   });
 
   copyBtn.addEventListener('click', async () => {
     const text = outputEl.textContent;
-    if (!text || text.startsWith('Select templates')) {
-      showToast({ message: 'Nothing to copy yet', type: 'error' });
-      return;
-    }
+    if (!text || text.startsWith('Select templates')) { showToast({ message: 'Nothing to copy yet', type: 'error' }); return; }
     const ok = await copyToClipboard(text);
     showToast({ message: ok ? 'Copied .gitignore to clipboard' : 'Copy failed', type: ok ? 'success' : 'error' });
   });
 
   downloadBtn.addEventListener('click', () => {
     const text = outputEl.textContent;
-    if (!text || text.startsWith('Select templates')) {
-      showToast({ message: 'Nothing to download yet', type: 'error' });
-      return;
-    }
-    const blob = new Blob([text], { type: 'text/plain' });
-    downloadBlob(blob, '.gitignore');
+    if (!text || text.startsWith('Select templates')) { showToast({ message: 'Nothing to download yet', type: 'error' }); return; }
+    downloadBlob(new Blob([text], { type: 'text/plain' }), '.gitignore');
     showToast({ message: 'Downloaded .gitignore', type: 'success' });
   });
+}
 
-  renderPresetDropdown();
-  renderCategories();
-  renderChips();
-  renderOutput();
+export function render(container) {
+  const state = { selected: new Set(), custom: '', collapsed: {} };
+
+  container.innerHTML = `
+    <div class="tool-layout">
+      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-4);">
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:flex-end;">
+          <div style="flex:1;min-width:200px;"><label for="gig-preset" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-2);">Preset</label><select id="gig-preset" class="text-input"></select></div>
+          <button class="btn btn-secondary btn-sm" id="gig-clear" type="button">Clear selection</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-3);align-items:flex-end;">
+          <div style="flex:1;min-width:180px;"><label for="gig-preset-name" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-2);">Save current selection as</label><input type="text" id="gig-preset-name" class="text-input" placeholder="e.g. my-monorepo" maxlength="40"></div>
+          <button class="btn btn-secondary btn-sm" id="gig-save-preset" type="button">Save preset</button>
+        </div>
+      </div>
+      <div style="margin-bottom:var(--space-3);"><input type="search" id="gig-search" class="text-input" placeholder="Search templates (node, react, vscode, macos, ...)" autocomplete="off"></div>
+      <div style="margin-bottom:var(--space-4);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2);"><span style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);">Selected (<span id="gig-count">0</span>)</span><span style="font-size:var(--text-xs);color:var(--color-text-muted);">Click a chip to remove</span></div>
+        <div id="gig-chips" style="display:flex;flex-wrap:wrap;gap:var(--space-2);min-height:32px;padding:var(--space-2);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);"></div>
+      </div>
+      <div id="gig-categories" style="margin-bottom:var(--space-4);"></div>
+      <div style="margin-bottom:var(--space-4);"><label for="gig-custom" style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);display:block;margin-bottom:var(--space-2);">Custom lines (optional)</label><textarea id="gig-custom" class="text-input" rows="3" placeholder="Add your own patterns, one per line&#10;e.g.&#10;secrets/&#10;*.local&#10;.env.production" style="font-family:monospace;font-size:var(--text-sm);resize:vertical;"></textarea></div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2);"><span style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);">Generated .gitignore</span><div style="display:flex;gap:var(--space-2);"><button class="btn btn-secondary btn-sm" id="gig-copy" type="button">Copy</button><button class="btn btn-primary btn-sm" id="gig-download" type="button">Download .gitignore</button></div></div>
+        <pre id="gig-output" style="background:#1e1e2e;color:#cdd6f4;padding:var(--space-3);border-radius:var(--radius-md);overflow-x:auto;font-size:var(--text-sm);line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:160px;font-family:monospace;max-height:480px;overflow-y:auto;"></pre>
+      </div>
+    </div>
+  `;
+
+  const q = id => container.querySelector(`#${id}`);
+  const els = { searchEl: q('gig-search'), chipsEl: q('gig-chips'), countEl: q('gig-count'), categoriesEl: q('gig-categories'), customEl: q('gig-custom'), outputEl: q('gig-output'), presetEl: q('gig-preset'), presetNameEl: q('gig-preset-name'), saveBtn: q('gig-save-preset'), clearBtn: q('gig-clear'), copyBtn: q('gig-copy'), downloadBtn: q('gig-download') };
+
+  function renderOutput() {
+    els.outputEl.textContent = buildGitignore(Array.from(state.selected), state.custom) || 'Select templates above (or type custom lines) to build your .gitignore.';
+  }
+
+  function syncCheckboxes() {
+    container.querySelectorAll('.gig-tpl-cb').forEach(cb => { cb.checked = state.selected.has(cb.dataset.key); });
+  }
+
+  function renderAll() {
+    renderChips(state.selected, els.chipsEl, els.countEl);
+    els.categoriesEl.innerHTML = CATEGORIES.map(cat => renderCategorySection(cat, state.selected, state.collapsed)).join('');
+    syncCheckboxes();
+    renderOutput();
+  }
+
+  bindGitignoreEvents({ container, state, ...els, renderAll, syncCheckboxes, renderOutput, showToast, copyToClipboard, downloadBlob });
+
+  renderPresetDropdown(els.presetEl);
+  renderAll();
 }
 
 export function destroy() {}
