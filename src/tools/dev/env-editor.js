@@ -343,174 +343,8 @@ function highlightLine(line) {
   return `<span class="env-line env-line-invalid">${escapeHtml(raw)}</span>`;
 }
 
-export function render(container) {
-  const STORAGE_KEY = 'env-editor:files';
-  let state = {
-    active: '.env',
-    files: { ...DEFAULT_FILE_TEMPLATES }
-  };
-
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.files && typeof parsed.files === 'object') {
-        state.files = { ...DEFAULT_FILE_TEMPLATES, ...parsed.files };
-        if (parsed.active && state.files[parsed.active] != null) state.active = parsed.active;
-      }
-    }
-  } catch {}
-
-  function persist() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ active: state.active, files: state.files }));
-    } catch {}
-  }
-
-  container.innerHTML = `
-    <div class="tool-layout" style="display:flex;flex-direction:column;gap:var(--space-4);">
-      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);">
-        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3);">
-          <div id="env-tabs" style="display:flex;flex-wrap:wrap;gap:var(--space-1);flex:1;min-width:0;"></div>
-          <button class="btn btn-secondary btn-sm" id="env-add-file" type="button">+ File</button>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;">
-          <input type="search" id="env-search" class="text-input" placeholder="Search keys or values…" autocomplete="off" style="flex:1;min-width:160px;">
-          <button class="btn btn-secondary btn-sm" id="env-clear" type="button">Clear file</button>
-          <button class="btn btn-secondary btn-sm" id="env-reset" type="button">Reset all</button>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-4);">
-        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-border);background:var(--color-bg);">
-            <span id="env-active-label" style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);"></span>
-            <span id="env-stats" style="font-size:var(--text-xs);color:var(--color-text-muted);"></span>
-          </div>
-          <div style="position:relative;display:grid;grid-template-columns:auto 1fr;background:#1e1e2e;">
-            <pre id="env-gutter" style="margin:0;padding:var(--space-3) var(--space-2) var(--space-3) var(--space-3);background:#1e1e2e;color:#6c7086;text-align:right;font-family:monospace;font-size:var(--text-sm);line-height:1.6;user-select:none;min-width:48px;overflow:hidden;"></pre>
-            <div style="position:relative;">
-              <pre id="env-highlight" aria-hidden="true" style="position:absolute;inset:0;margin:0;padding:var(--space-3);background:transparent;color:#cdd6f4;font-family:monospace;font-size:var(--text-sm);line-height:1.6;white-space:pre;pointer-events:none;overflow:auto;"></pre>
-              <textarea id="env-textarea" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" wrap="off" style="position:relative;display:block;width:100%;min-height:420px;padding:var(--space-3);background:transparent;color:transparent;caret-color:#cdd6f4;font-family:monospace;font-size:var(--text-sm);line-height:1.6;border:none;outline:none;resize:vertical;white-space:pre;overflow:auto;tab-size:4;"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-3);">
-          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
-            <div style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);margin-bottom:var(--space-2);">Presets</div>
-            <div id="env-presets" style="display:flex;flex-wrap:wrap;gap:var(--space-1);"></div>
-          </div>
-          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
-            <div style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);margin-bottom:var(--space-2);">Validation</div>
-            <ul id="env-issues" style="margin:0;padding-left:var(--space-4);font-size:var(--text-xs);color:var(--color-text-muted);max-height:160px;overflow-y:auto;"></ul>
-          </div>
-        </div>
-
-        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-2);">
-            <div style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);">Output &amp; convert</div>
-            <div style="display:flex;flex-wrap:wrap;gap:var(--space-1);">
-              <button class="btn btn-secondary btn-sm" id="env-conv-json" type="button">As JSON</button>
-              <button class="btn btn-secondary btn-sm" id="env-conv-yaml" type="button">As YAML</button>
-              <button class="btn btn-secondary btn-sm" id="env-conv-shell" type="button">As shell</button>
-              <button class="btn btn-secondary btn-sm" id="env-conv-docker" type="button">As docker</button>
-            </div>
-          </div>
-          <pre id="env-output" style="background:#1e1e2e;color:#cdd6f4;padding:var(--space-3);border-radius:var(--radius-md);overflow-x:auto;font-size:var(--text-sm);line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:120px;font-family:monospace;max-height:280px;overflow-y:auto;margin:0;"></pre>
-          <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2);">
-            <button class="btn btn-secondary btn-sm" id="env-copy" type="button">Copy</button>
-            <button class="btn btn-primary btn-sm" id="env-download" type="button">Download</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  const tabsEl = container.querySelector('#env-tabs');
-  const addFileBtn = container.querySelector('#env-add-file');
-  const searchEl = container.querySelector('#env-search');
-  const clearBtn = container.querySelector('#env-clear');
-  const resetBtn = container.querySelector('#env-reset');
-  const activeLabel = container.querySelector('#env-active-label');
-  const statsEl = container.querySelector('#env-stats');
-  const gutterEl = container.querySelector('#env-gutter');
-  const highlightEl = container.querySelector('#env-highlight');
-  const textarea = container.querySelector('#env-textarea');
-  const presetsEl = container.querySelector('#env-presets');
-  const issuesEl = container.querySelector('#env-issues');
-  const outputEl = container.querySelector('#env-output');
-  const copyBtn = container.querySelector('#env-copy');
-  const downloadBtn = container.querySelector('#env-download');
-  const convJsonBtn = container.querySelector('#env-conv-json');
-  const convYamlBtn = container.querySelector('#env-conv-yaml');
-  const convShellBtn = container.querySelector('#env-conv-shell');
-  const convDockerBtn = container.querySelector('#env-conv-docker');
-
-  let currentOutput = '';
-  let currentOutputName = '';
-
-  function renderTabs() {
-    const names = Object.keys(state.files);
-    tabsEl.innerHTML = names.map(n => {
-      const active = n === state.active;
-      return `<button type="button" class="env-tab" data-name="${escapeAttr(n)}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-3);background:${active ? 'var(--color-primary)' : 'var(--color-bg)'};color:${active ? 'white' : 'var(--color-text)'};border:1px solid ${active ? 'var(--color-primary)' : 'var(--color-border)'};border-radius:999px;font-size:var(--text-sm);cursor:pointer;transition:all 0.15s;">${escapeHtml(n)}${!FILE_TABS.includes(n) ? ` <span class="env-tab-remove" data-name="${escapeAttr(n)}" style="opacity:0.7;padding:0 var(--space-1);" title="Remove file">×</span>` : ''}</button>`;
-    }).join('');
-  }
-
-  function renderPresets() {
-    presetsEl.innerHTML = PRESETS.map(p => {
-      return `<button type="button" class="env-preset" data-id="${escapeAttr(p.id)}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);border-radius:999px;font-size:var(--text-xs);cursor:pointer;" title="Append ${escapeAttr(p.vars.length)} variable(s) to ${escapeAttr(state.active)}">${p.icon} ${escapeHtml(p.name)}</button>`;
-    }).join('');
-  }
-
-  function updateOutput(format) {
-    const text = state.files[state.active] || '';
-    const entries = parseEnv(text);
-    let out = '';
-    if (format === 'json') { out = toJson(entries); currentOutputName = state.active + '.json'; }
-    else if (format === 'yaml') { out = toYaml(entries); currentOutputName = state.active + '.yaml'; }
-    else if (format === 'shell') { out = toShell(entries); currentOutputName = state.active + '.sh'; }
-    else if (format === 'docker') { out = toDockerArgs(entries); currentOutputName = state.active + '.docker.txt'; }
-    else { out = text; currentOutputName = state.active; }
-    currentOutput = out;
-    outputEl.textContent = out;
-  }
-
-  function renderActive() {
-    textarea.value = state.files[state.active] || '';
-    activeLabel.textContent = `Editing: ${state.active}`;
-    renderHighlight();
-    renderStats();
-    renderIssues();
-    persist();
-  }
-
-  function renderHighlight() {
-    const text = textarea.value;
-    const lines = text.split('\n');
-    gutterEl.textContent = lines.map((_, i) => i + 1).join('\n');
-    highlightEl.innerHTML = lines.map(highlightLine).join('\n');
-  }
-
-  function renderStats() {
-    const entries = parseEnv(textarea.value);
-    const s = stats(entries);
-    statsEl.textContent = `${s.vars} vars • ${s.comments} comments • ${s.blanks} blanks${s.invalid ? ` • ${s.invalid} invalid` : ''}`;
-  }
-
-  function renderIssues() {
-    const entries = parseEnv(textarea.value);
-    const issues = validateEnv(entries);
-    if (issues.length === 0) {
-      issuesEl.innerHTML = '<li style="color:var(--color-text-muted);">No issues found ✓</li>';
-      return;
-    }
-    issuesEl.innerHTML = issues.map(i => {
-      const color = i.severity === 'error' ? 'var(--color-error, #f38ba8)' : 'var(--color-warning, #f9e2af)';
-      return `<li style="color:${color};">Line ${i.line}: ${escapeHtml(i.message)}</li>`;
-    }).join('');
-  }
+function bindEnvEditorEvents(ctx) {
+  const { container, state, tabsEl, addFileBtn, searchEl, clearBtn, resetBtn, textarea, gutterEl, highlightEl, presetsEl, convJsonBtn, convYamlBtn, convShellBtn, convDockerBtn, copyBtn, downloadBtn, outputEl, persist, renderTabs, renderActive, renderHighlight, renderStats, renderIssues, updateOutput } = ctx;
 
   tabsEl.addEventListener('click', e => {
     const remove = e.target.closest('.env-tab-remove');
@@ -622,6 +456,9 @@ export function render(container) {
   convShellBtn.addEventListener('click', () => updateOutput('shell'));
   convDockerBtn.addEventListener('click', () => updateOutput('docker'));
 
+  let currentOutput = '';
+  let currentOutputName = '';
+
   copyBtn.addEventListener('click', async () => {
     if (!currentOutput) updateOutput('env');
     const ok = await copyToClipboard(currentOutput);
@@ -634,11 +471,145 @@ export function render(container) {
     downloadBlob(blob, currentOutputName);
     showToast({ message: `Downloaded ${currentOutputName}`, type: 'success' });
   });
+}
 
-  renderTabs();
-  renderPresets();
-  renderActive();
-  updateOutput('env');
+export function render(container) {
+  let state = {
+    active: '.env',
+    files: { ...DEFAULT_FILE_TEMPLATES }
+  };
+
+  try {
+    const raw = localStorage.getItem('env-editor:files');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.files && typeof parsed.files === 'object') {
+        state.files = { ...DEFAULT_FILE_TEMPLATES, ...parsed.files };
+        if (parsed.active && state.files[parsed.active] != null) state.active = parsed.active;
+      }
+    }
+  } catch {}
+
+  function persist() {
+    try { localStorage.setItem('env-editor:files', JSON.stringify({ active: state.active, files: state.files })); } catch {}
+  }
+
+  container.innerHTML = `
+    <div class="tool-layout" style="display:flex;flex-direction:column;gap:var(--space-4);">
+      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3);">
+          <div id="env-tabs" style="display:flex;flex-wrap:wrap;gap:var(--space-1);flex:1;min-width:0;"></div>
+          <button class="btn btn-secondary btn-sm" id="env-add-file" type="button">+ File</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;">
+          <input type="search" id="env-search" class="text-input" placeholder="Search keys or values…" autocomplete="off" style="flex:1;min-width:160px;">
+          <button class="btn btn-secondary btn-sm" id="env-clear" type="button">Clear file</button>
+          <button class="btn btn-secondary btn-sm" id="env-reset" type="button">Reset all</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-4);">
+        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-border);background:var(--color-bg);">
+            <span id="env-active-label" style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);"></span>
+            <span id="env-stats" style="font-size:var(--text-xs);color:var(--color-text-muted);"></span>
+          </div>
+          <div style="position:relative;display:grid;grid-template-columns:auto 1fr;background:#1e1e2e;">
+            <pre id="env-gutter" style="margin:0;padding:var(--space-3) var(--space-2) var(--space-3) var(--space-3);background:#1e1e2e;color:#6c7086;text-align:right;font-family:monospace;font-size:var(--text-sm);line-height:1.6;user-select:none;min-width:48px;overflow:hidden;"></pre>
+            <div style="position:relative;">
+              <pre id="env-highlight" aria-hidden="true" style="position:absolute;inset:0;margin:0;padding:var(--space-3);background:transparent;color:#cdd6f4;font-family:monospace;font-size:var(--text-sm);line-height:1.6;white-space:pre;pointer-events:none;overflow:auto;"></pre>
+              <textarea id="env-textarea" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" wrap="off" style="position:relative;display:block;width:100%;min-height:420px;padding:var(--space-3);background:transparent;color:transparent;caret-color:#cdd6f4;font-family:monospace;font-size:var(--text-sm);line-height:1.6;border:none;outline:none;resize:vertical;white-space:pre;overflow:auto;tab-size:4;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-3);">
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
+            <div style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);margin-bottom:var(--space-2);">Presets</div>
+            <div id="env-presets" style="display:flex;flex-wrap:wrap;gap:var(--space-1);"></div>
+          </div>
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
+            <div style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);margin-bottom:var(--space-2);">Validation</div>
+            <ul id="env-issues" style="margin:0;padding-left:var(--space-4);font-size:var(--text-xs);color:var(--color-text-muted);max-height:160px;overflow-y:auto;"></ul>
+          </div>
+        </div>
+        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-2);">
+            <div style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);">Output &amp; convert</div>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-1);">
+              <button class="btn btn-secondary btn-sm" id="env-conv-json" type="button">As JSON</button>
+              <button class="btn btn-secondary btn-sm" id="env-conv-yaml" type="button">As YAML</button>
+              <button class="btn btn-secondary btn-sm" id="env-conv-shell" type="button">As shell</button>
+              <button class="btn btn-secondary btn-sm" id="env-conv-docker" type="button">As docker</button>
+            </div>
+          </div>
+          <pre id="env-output" style="background:#1e1e2e;color:#cdd6f4;padding:var(--space-3);border-radius:var(--radius-md);overflow-x:auto;font-size:var(--text-sm);line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:120px;font-family:monospace;max-height:280px;overflow-y:auto;margin:0;"></pre>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2);">
+            <button class="btn btn-secondary btn-sm" id="env-copy" type="button">Copy</button>
+            <button class="btn btn-primary btn-sm" id="env-download" type="button">Download</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const q = id => container.querySelector(`#${id}`);
+  const els = { tabsEl: q('env-tabs'), addFileBtn: q('env-add-file'), searchEl: q('env-search'), clearBtn: q('env-clear'), resetBtn: q('env-reset'), activeLabel: q('env-active-label'), statsEl: q('env-stats'), gutterEl: q('env-gutter'), highlightEl: q('env-highlight'), textarea: q('env-textarea'), presetsEl: q('env-presets'), issuesEl: q('env-issues'), outputEl: q('env-output'), copyBtn: q('env-copy'), downloadBtn: q('env-download'), convJsonBtn: q('env-conv-json'), convYamlBtn: q('env-conv-yaml'), convShellBtn: q('env-conv-shell'), convDockerBtn: q('env-conv-docker') };
+
+  let currentOutput = '';
+  let currentOutputName = '';
+
+  function renderTabs() {
+    els.tabsEl.innerHTML = Object.keys(state.files).map(n => {
+      const active = n === state.active;
+      return `<button type="button" class="env-tab" data-name="${escapeAttr(n)}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-3);background:${active ? 'var(--color-primary)' : 'var(--color-bg)'};color:${active ? 'white' : 'var(--color-text)'};border:1px solid ${active ? 'var(--color-primary)' : 'var(--color-border)'};border-radius:999px;font-size:var(--text-sm);cursor:pointer;transition:all 0.15s;">${escapeHtml(n)}${!FILE_TABS.includes(n) ? ` <span class="env-tab-remove" data-name="${escapeAttr(n)}" style="opacity:0.7;padding:0 var(--space-1);" title="Remove file">×</span>` : ''}</button>`;
+    }).join('');
+  }
+
+  function renderPresets() {
+    els.presetsEl.innerHTML = PRESETS.map(p =>
+      `<button type="button" class="env-preset" data-id="${escapeAttr(p.id)}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);border-radius:999px;font-size:var(--text-xs);cursor:pointer;" title="Append ${escapeAttr(p.vars.length)} variable(s) to ${escapeAttr(state.active)}">${p.icon} ${escapeHtml(p.name)}</button>`
+    ).join('');
+  }
+
+  function updateOutput(format) {
+    const text = state.files[state.active] || '';
+    const entries = parseEnv(text);
+    let out = '', name = state.active;
+    if (format === 'json') { out = toJson(entries); name += '.json'; }
+    else if (format === 'yaml') { out = toYaml(entries); name += '.yaml'; }
+    else if (format === 'shell') { out = toShell(entries); name += '.sh'; }
+    else if (format === 'docker') { out = toDockerArgs(entries); name += '.docker.txt'; }
+    else { out = text; }
+    currentOutput = out; currentOutputName = name;
+    els.outputEl.textContent = out;
+  }
+
+  function renderActive() {
+    els.textarea.value = state.files[state.active] || '';
+    els.activeLabel.textContent = `Editing: ${state.active}`;
+    renderHighlight(); renderStats(); renderIssues(); persist();
+  }
+
+  function renderHighlight() {
+    const lines = els.textarea.value.split('\n');
+    els.gutterEl.textContent = lines.map((_, i) => i + 1).join('\n');
+    els.highlightEl.innerHTML = lines.map(highlightLine).join('\n');
+  }
+
+  function renderStats() {
+    const s = stats(parseEnv(els.textarea.value));
+    els.statsEl.textContent = `${s.vars} vars • ${s.comments} comments • ${s.blanks} blanks${s.invalid ? ` • ${s.invalid} invalid` : ''}`;
+  }
+
+  function renderIssues() {
+    const issues = validateEnv(parseEnv(els.textarea.value));
+    els.issuesEl.innerHTML = issues.length === 0
+      ? '<li style="color:var(--color-text-muted);">No issues found ✓</li>'
+      : issues.map(i => `<li style="color:${i.severity === 'error' ? 'var(--color-error, #f38ba8)' : 'var(--color-warning, #f9e2af)'};">Line ${i.line}: ${escapeHtml(i.message)}</li>`).join('');
+  }
+
+  bindEnvEditorEvents({ container, state, ...els, persist, renderTabs, renderActive, renderHighlight, renderStats, renderIssues, updateOutput });
+
+  renderTabs(); renderPresets(); renderActive(); updateOutput('env');
 }
 
 export function destroy() {}
