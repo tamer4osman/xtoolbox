@@ -11,7 +11,11 @@ import {
   buildLocationBlocks,
   buildServerBlock,
   buildNginxConfig,
-  applyPreset
+  applyPreset,
+  buildMainServerBlock,
+  buildHttpsBlock,
+  buildWwwRedirectBlock,
+  buildHttpRedirectBlock
 } from '../tools/dev/nginx-config-generator.js';
 
 describe('nginx-config-generator', () => {
@@ -291,6 +295,65 @@ describe('nginx-config-generator', () => {
       expect(DEFAULT_STATE.enableProxy).toBe(false);
       expect(DEFAULT_STATE.enablePhp).toBe(false);
       expect(DEFAULT_STATE.enableUpstream).toBe(false);
+    });
+  });
+
+  describe('buildMainServerBlock', () => {
+    it('emits server block with listen, server_name, root, index', () => {
+      const { lines } = buildMainServerBlock({ serverName: 'test.com', root: '/var/www', index: 'index.html', listen: 443 });
+      expect(lines.join('\n')).toContain('listen 443;');
+      expect(lines.join('\n')).toContain('server_name test.com;');
+    });
+
+    it('returns listenExtra for HTTPS block to reuse', () => {
+      const { listenExtra } = buildMainServerBlock({ listenExtra: 'ssl' });
+      expect(listenExtra).toBe('ssl');
+    });
+  });
+
+  describe('buildHttpsBlock', () => {
+    it('emits HTTPS server block with ssl_certificate', () => {
+      const out = buildHttpsBlock({ sslCertificate: '/cert.pem', sslCertificateKey: '/key.pem', sslProtocols: 'TLSv1.2', serverName: 'x' }, '');
+      expect(out).toContain('listen 443 ssl;');
+      expect(out).toContain('ssl_certificate /cert.pem;');
+    });
+
+    it('includes security headers when enabled', () => {
+      const out = buildHttpsBlock({ enableSecurityHeaders: true }, '');
+      expect(out).toContain('X-Frame-Options');
+    });
+  });
+
+  describe('buildWwwRedirectBlock', () => {
+    it('returns empty string for no redirect', () => {
+      expect(buildWwwRedirectBlock({}, '')).toBe('');
+      expect(buildWwwRedirectBlock({ enableWwwRedirect: 'none' }, '')).toBe('');
+    });
+
+    it('emits to-www redirect', () => {
+      const out = buildWwwRedirectBlock({ serverName: 'example.com', enableWwwRedirect: 'to-www' }, '');
+      expect(out).toContain('return 301 $scheme://www.example.com$request_uri;');
+    });
+
+    it('emits from-www redirect', () => {
+      const out = buildWwwRedirectBlock({ serverName: 'example.com', enableWwwRedirect: 'from-www' }, '');
+      expect(out).toContain('server_name www.example.com;');
+      expect(out).toContain('return 301 $scheme://example.com$request_uri;');
+    });
+  });
+
+  describe('buildHttpRedirectBlock', () => {
+    it('returns empty string when no HTTPS', () => {
+      expect(buildHttpRedirectBlock({ enableHttpRedirect: true }, '')).toBe('');
+    });
+
+    it('returns empty string when no redirect enabled', () => {
+      expect(buildHttpRedirectBlock({ enableHttps: true }, '')).toBe('');
+    });
+
+    it('emits HTTP to HTTPS redirect', () => {
+      const out = buildHttpRedirectBlock({ serverName: 'x', enableHttps: true, enableHttpRedirect: true }, '');
+      expect(out).toContain('return 301 https://$host$request_uri;');
     });
   });
 });
