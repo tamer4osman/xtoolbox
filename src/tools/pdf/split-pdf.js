@@ -1,9 +1,9 @@
 import { PDFDocument } from 'pdf-lib';
-import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
 import { downloadBlob } from '../../utils/file.js';
-import { loadPdf, copyPages, getPdfPageCount } from './pdf-utils.js';
+import { loadPdf, copyPages } from './pdf-utils.js';
 import { createPdfPreview } from './pdf-preview.js';
+import { createPdfPreviewTool } from './pdf-preview-tool-factory.js';
 
 export const toolConfig = {
   id: 'split-pdf',
@@ -22,21 +22,11 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let currentFile = null;
-  let preview = null;
-
-  const upload = createFileUpload({
-    accept: '.pdf',
-    multiple: false,
-    maxSizeMB: 100,
-    onFilesSelected: async (files) => {
-      if (files.length === 0) return;
-      currentFile = files[0];
-      optionsArea.style.display = 'block';
-      previewContainer.innerHTML = '<div style="text-align:center;padding:var(--space-8);"><div class="spinner"></div><p>Rendering pages...</p></div>';
-
+  const { getFile, optionsArea, previewContainer, processing } = createPdfPreviewTool({
+    container,
+    async onFileLoaded(file) {
       preview = await createPdfPreview({
-        file: currentFile,
+        file,
         selectable: true,
         onSelectionChange: (selected) => {
           extractBtn.textContent = `Extract ${selected.length} Page${selected.length !== 1 ? 's' : ''}`;
@@ -48,33 +38,26 @@ export function render(container) {
     }
   });
 
-  container.innerHTML = `
-    <div class="tool-layout">
-      <div class="tool-upload-area" id="upload-area"></div>
-      <div class="tool-options" id="options-area" style="display:none;">
-        <div id="preview-container"></div>
-        <button class="btn btn-primary btn-lg" id="extract-btn" style="width:100%;" disabled>Extract 0 Pages</button>
-      </div>
-      <div class="tool-processing" id="processing" style="display:none;"><div class="spinner"></div><p>Splitting PDF...</p></div>
-    </div>
+  let preview = null;
+
+  optionsArea.innerHTML = `
+    <div id="preview-container"></div>
+    <button class="btn btn-primary btn-lg" id="extract-btn" style="width:100%;" disabled>Extract 0 Pages</button>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const previewContainer = container.querySelector('#preview-container');
-  const extractBtn = container.querySelector('#extract-btn');
-  const processing = container.querySelector('#processing');
+  optionsArea.querySelector('#preview-container').replaceWith(previewContainer);
+  const extractBtn = optionsArea.querySelector('#extract-btn');
 
   extractBtn.addEventListener('click', async () => {
-    if (!currentFile || !preview) return;
+    const file = getFile();
+    if (!file || !preview) return;
     const selected = preview.getSelectedPages();
     if (selected.length === 0) return;
 
     processing.style.display = 'block';
     extractBtn.style.display = 'none';
-
     try {
-      const srcDoc = await loadPdf(currentFile);
+      const srcDoc = await loadPdf(file);
       const newDoc = await PDFDocument.create();
       await copyPages(srcDoc, newDoc, selected);
       const bytes = await newDoc.save();
