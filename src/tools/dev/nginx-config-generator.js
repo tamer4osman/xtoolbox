@@ -1,6 +1,7 @@
 import { showToast } from '../../components/toast.js';
 import { copyToClipboard } from '../../utils/clipboard.js';
 import { downloadBlob } from '../../utils/file.js';
+import { NGX_CSS, escapeHtml, fieldHtml, selectHtml, checkHtml } from './nginx-constants.js';
 
 export const toolConfig = {
   id: 'nginx-config-generator',
@@ -459,45 +460,9 @@ export function render(container) {
   ];
   const TEXT_FIELDS = new Set(FIELDS.filter(f => f.type === 'text' || f.type === 'number').map(f => f.id));
   const AREA_FIELDS = new Set(FIELDS.filter(f => f.type === 'textarea').map(f => f.id));
-
-  function fieldHtml(id, label, placeholder) {
-    const def = DEFAULT_STATE[id];
-    const value = state[id] !== undefined ? state[id] : def;
-    if (AREA_FIELDS.has(id)) {
-      return `
-        <div class="form-group">
-          <label for="ngx-${id}">${label}</label>
-          <textarea id="ngx-${id}" class="text-input ngx-field ngx-area" data-field="${id}" rows="3" spellcheck="false" placeholder="${placeholder || ''}">${escapeHtml(String(value ?? ''))}</textarea>
-        </div>`;
-    }
-    const inputType = FIELDS.find(f => f.id === id)?.type || 'text';
-    return `
-        <div class="form-group">
-          <label for="ngx-${id}">${label}</label>
-          <input id="ngx-${id}" type="${inputType}" class="text-input ngx-field" data-field="${id}" value="${escapeHtml(String(value ?? ''))}" placeholder="${placeholder || ''}">
-        </div>`;
-  }
-
-  function selectHtml(id, label, options) {
-    const value = state[id];
-    return `
-        <div class="form-group">
-          <label for="ngx-${id}">${label}</label>
-          <select id="ngx-${id}" class="text-input ngx-field" data-field="${id}">
-            ${options.map(o => `<option value="${escapeHtml(o.value)}"${o.value === value ? ' selected' : ''}>${escapeHtml(o.label)}</option>`).join('')}
-          </select>
-        </div>`;
-  }
-
-  function checkHtml(id, label, hint) {
-    const checked = state[id];
-    return `
-        <label class="ngx-check">
-          <input type="checkbox" id="ngx-${id}" class="ngx-toggle" data-field="${id}"${checked ? ' checked' : ''}>
-          <span>${label}</span>
-          ${hint ? `<small class="ngx-hint">${hint}</small>` : ''}
-        </label>`;
-  }
+  const fh = (id, label, ph) => fieldHtml(id, label, state, FIELDS, AREA_FIELDS, ph);
+  const sh = (id, label, opts) => selectHtml(id, label, opts, state);
+  const ch = (id, label, hint) => checkHtml(id, label, state, hint);
 
   container.innerHTML = `
     <div class="tool-layout">
@@ -516,59 +481,59 @@ export function render(container) {
 
           <div class="ngx-section">
             <h3>Server</h3>
-            ${fieldHtml('listen', 'Listen port', '80')}
-            ${fieldHtml('listenExtra', 'Extra listen flags', 'default_server')}
-            ${fieldHtml('serverName', 'Server name', 'example.com www.example.com')}
-            ${fieldHtml('root', 'Root directory', '/var/www/html')}
-            ${fieldHtml('index', 'Index files', 'index.html index.htm')}
+            ${fh('listen', 'Listen port', '80')}
+            ${fh('listenExtra', 'Extra listen flags', 'default_server')}
+            ${fh('serverName', 'Server name', 'example.com www.example.com')}
+            ${fh('root', 'Root directory', '/var/www/html')}
+            ${fh('index', 'Index files', 'index.html index.htm')}
           </div>
 
           <div class="ngx-section">
             <h3>Logging</h3>
-            ${fieldHtml('accessLog', 'Access log', '/var/log/nginx/access.log')}
-            ${fieldHtml('errorLog', 'Error log', '/var/log/nginx/error.log')}
+            ${fh('accessLog', 'Access log', '/var/log/nginx/access.log')}
+            ${fh('errorLog', 'Error log', '/var/log/nginx/error.log')}
           </div>
 
           <div class="ngx-section">
             <h3>Performance</h3>
             <div class="ngx-checks">
-              ${checkHtml('enableGzip', 'Enable gzip', 'Compress text responses')}
-              ${checkHtml('enableStaticCache', 'Cache static assets', 'expires + Cache-Control headers')}
+              ${ch('enableGzip', 'Enable gzip', 'Compress text responses')}
+              ${ch('enableStaticCache', 'Cache static assets', 'expires + Cache-Control headers')}
             </div>
-            <div id="ngx-cacheExpires-wrap" style="display:none;">${fieldHtml('cacheExpires', 'Expires (e.g. 30d, 12h)', '30d')}</div>
+            <div id="ngx-cacheExpires-wrap" style="display:none;">${fh('cacheExpires', 'Expires (e.g. 30d, 12h)', '30d')}</div>
           </div>
 
           <div class="ngx-section">
             <h3>Security</h3>
             <div class="ngx-checks">
-              ${checkHtml('enableSecurityHeaders', 'Add security headers', 'XFO, nosniff, Referrer-Policy, Permissions-Policy')}
+              ${ch('enableSecurityHeaders', 'Add security headers', 'XFO, nosniff, Referrer-Policy, Permissions-Policy')}
             </div>
             <h4>Rate limiting</h4>
             <div class="ngx-checks">
-              ${checkHtml('enableRateLimit', 'Enable rate limiting', 'limit_req in server block')}
+              ${ch('enableRateLimit', 'Enable rate limiting', 'limit_req in server block')}
             </div>
             <div id="ngx-rate-opts" style="display:none;">
-              ${fieldHtml('rateLimitRate', 'Rate', '10r/s')}
-              ${fieldHtml('rateLimitBurst', 'Burst', '20')}
+              ${fh('rateLimitRate', 'Rate', '10r/s')}
+              ${fh('rateLimitBurst', 'Burst', '20')}
             </div>
           </div>
 
           <div class="ngx-section">
             <h3>HTTPS / TLS</h3>
             <div class="ngx-checks">
-              ${checkHtml('enableHttps', 'Enable HTTPS server block (port 443)')}
-              ${checkHtml('enableHttpRedirect', 'Redirect HTTP → HTTPS')}
+              ${ch('enableHttps', 'Enable HTTPS server block (port 443)')}
+              ${ch('enableHttpRedirect', 'Redirect HTTP → HTTPS')}
             </div>
             <div id="ngx-https-opts" style="display:none;">
-              ${fieldHtml('sslCertificate', 'ssl_certificate', '/etc/letsencrypt/live/example.com/fullchain.pem')}
-              ${fieldHtml('sslCertificateKey', 'ssl_certificate_key', '/etc/letsencrypt/live/example.com/privkey.pem')}
-              ${fieldHtml('sslProtocols', 'ssl_protocols', 'TLSv1.2 TLSv1.3')}
+              ${fh('sslCertificate', 'ssl_certificate', '/etc/letsencrypt/live/example.com/fullchain.pem')}
+              ${fh('sslCertificateKey', 'ssl_certificate_key', '/etc/letsencrypt/live/example.com/privkey.pem')}
+              ${fh('sslProtocols', 'ssl_protocols', 'TLSv1.2 TLSv1.3')}
             </div>
           </div>
 
           <div class="ngx-section">
             <h3>WWW redirect</h3>
-            ${selectHtml('enableWwwRedirect', 'Redirect', [
+            ${sh('enableWwwRedirect', 'Redirect', [
               { value: 'none', label: 'No redirect' },
               { value: 'to-www', label: 'Force www. prefix' },
               { value: 'from-www', label: 'Force non-www' }
@@ -578,30 +543,30 @@ export function render(container) {
           <div class="ngx-section">
             <h3>PHP-FPM</h3>
             <div class="ngx-checks">
-              ${checkHtml('enablePhp', 'Pass .php to PHP-FPM', 'Adds a fastcgi location block')}
+              ${ch('enablePhp', 'Pass .php to PHP-FPM', 'Adds a fastcgi location block')}
             </div>
-            <div id="ngx-php-opts" style="display:none;">${fieldHtml('phpSocket', 'FPM socket / address', 'unix:/run/php/php8.2-fpm.sock')}</div>
+            <div id="ngx-php-opts" style="display:none;">${fh('phpSocket', 'FPM socket / address', 'unix:/run/php/php8.2-fpm.sock')}</div>
           </div>
 
           <div class="ngx-section">
             <h3>Reverse proxy</h3>
             <div class="ngx-checks">
-              ${checkHtml('enableProxy', 'Enable reverse proxy', 'Adds a location / with proxy_pass')}
+              ${ch('enableProxy', 'Enable reverse proxy', 'Adds a location / with proxy_pass')}
             </div>
             <div id="ngx-proxy-opts" style="display:none;">
-              ${fieldHtml('proxyUrl', 'Proxy pass URL', 'http://127.0.0.1:3000')}
-              <div class="ngx-checks">${checkHtml('proxyWebsockets', 'WebSocket support', 'Adds Upgrade/Connection headers')}</div>
+              ${fh('proxyUrl', 'Proxy pass URL', 'http://127.0.0.1:3000')}
+              <div class="ngx-checks">${ch('proxyWebsockets', 'WebSocket support', 'Adds Upgrade/Connection headers')}</div>
             </div>
           </div>
 
           <div class="ngx-section">
             <h3>Load balancing (upstream)</h3>
             <div class="ngx-checks">
-              ${checkHtml('enableUpstream', 'Define upstream block', 'Round-robins between backends')}
+              ${ch('enableUpstream', 'Define upstream block', 'Round-robins between backends')}
             </div>
             <div id="ngx-upstream-opts" style="display:none;">
-              ${fieldHtml('upstreamName', 'Upstream name', 'backend')}
-              ${fieldHtml('upstreamBackends', 'Backends (one per line)', 'http://127.0.0.1:8080')}
+              ${fh('upstreamName', 'Upstream name', 'backend')}
+              ${fh('upstreamBackends', 'Backends (one per line)', 'http://127.0.0.1:8080')}
               <small class="ngx-hint">Use the upstream name (e.g. <code>http://backend</code>) as the proxy URL above to route to this pool.</small>
             </div>
           </div>
@@ -629,32 +594,7 @@ export function render(container) {
   `;
 
   const style = document.createElement('style');
-  style.textContent = `
-    .ngx-shell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); }
-    @media (max-width: 980px) { .ngx-shell { grid-template-columns: 1fr; } }
-    .ngx-pane { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-4); }
-    .ngx-controls { max-height: 78vh; overflow-y: auto; }
-    .ngx-section { padding: var(--space-3) 0; border-bottom: 1px dashed var(--color-border); }
-    .ngx-section:last-child { border-bottom: 0; }
-    .ngx-section h3 { font-size: var(--text-sm); font-weight: 600; margin: 0 0 var(--space-2); color: var(--color-text); }
-    .ngx-section h4 { font-size: var(--text-xs); font-weight: 600; margin: var(--space-3) 0 var(--space-2); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
-    .ngx-checks { display: flex; flex-direction: column; gap: var(--space-1); margin-bottom: var(--space-2); }
-    .ngx-check { display: flex; align-items: flex-start; gap: var(--space-2); cursor: pointer; font-size: var(--text-sm); padding: 2px 0; }
-    .ngx-check input { margin-top: 3px; }
-    .ngx-check .ngx-hint { color: var(--color-text-muted); font-size: var(--text-xs); margin-left: 4px; }
-    .ngx-hint { display: block; color: var(--color-text-muted); font-size: var(--text-xs); margin-top: var(--space-1); }
-    .ngx-hint code { background: var(--color-bg); padding: 1px 4px; border-radius: var(--radius-sm); }
-    .ngx-area { font-family: monospace; min-height: 64px; resize: vertical; }
-    .ngx-output { display: flex; flex-direction: column; }
-    .ngx-output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3); gap: var(--space-2); flex-wrap: wrap; }
-    .ngx-meta { display: flex; gap: var(--space-2); }
-    .ngx-badge { font-size: var(--text-xs); padding: 2px 8px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-full); color: var(--color-text-secondary); }
-    .ngx-badge-soft { background: transparent; }
-    .ngx-actions { display: flex; gap: var(--space-2); }
-    .ngx-code { flex: 1; background: #1e1e2e; color: #cdd6f4; padding: var(--space-4); border-radius: var(--radius-md); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: var(--text-xs); line-height: 1.55; overflow: auto; white-space: pre; max-height: 70vh; margin: 0; }
-    .ngx-foot { margin-top: var(--space-3); color: var(--color-text-muted); }
-    .ngx-foot code { background: var(--color-bg); padding: 1px 4px; border-radius: var(--radius-sm); }
-  `;
+  style.textContent = NGX_CSS;
   container.appendChild(style);
 
   const output = container.querySelector('#ngx-output');
@@ -763,13 +703,4 @@ export function render(container) {
   syncFormFromState();
   syncConditional();
   generate();
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
 }
