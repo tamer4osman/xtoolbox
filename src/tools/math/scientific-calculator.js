@@ -7,6 +7,36 @@ export const toolConfig = {
   status: 'done'
 };
 
+export function calculate(value, operation) {
+  const n = parseFloat(value);
+  switch (operation) {
+    case 'sqrt': return Math.sqrt(n);
+    case 'pow': return Math.pow(n, 2);
+    case 'cube': return Math.pow(n, 3);
+    case 'cubert': return Math.cbrt(n);
+    case 'inv': return 1 / n;
+    case 'abs': return Math.abs(n);
+    case 'sin': return Math.sin(n * Math.PI / 180);
+    case 'cos': return Math.cos(n * Math.PI / 180);
+    case 'tan': return Math.tan(n * Math.PI / 180);
+    case 'asin': return Math.asin(n) * 180 / Math.PI;
+    case 'acos': return Math.acos(n) * 180 / Math.PI;
+    case 'atan': return Math.atan(n) * 180 / Math.PI;
+    case 'log': return Math.log10(n);
+    case 'ln': return Math.log(n);
+    case 'exp': return Math.exp(n);
+    case 'tenpow': return Math.pow(10, n);
+    case 'factorial':
+      const num = parseInt(value);
+      let fact = 1;
+      for (let i = 2; i <= num; i++) fact *= i;
+      return fact;
+    case 'pi': return Math.PI;
+    case 'e': return Math.E;
+    default: return null;
+  }
+}
+
 export function render(container) {
   container.innerHTML = `
     <div class="calc-container">
@@ -98,6 +128,7 @@ export function render(container) {
   container.querySelectorAll('.calc-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const action = btn.dataset.action;
+      const unaryOps = ['sqrt', 'pow', 'cube', 'cubert', 'factorial', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'log', 'ln', 'exp', 'tenpow', 'inv', 'abs'];
       
       if (!isNaN(action) || action === '.') {
         if (newNumber) {
@@ -118,7 +149,7 @@ export function render(container) {
       } else if (action === 'percent') {
         current = (parseFloat(current) / 100).toString();
         newNumber = true;
-      } else if (action === '+' || action === '-' || action === '*' || action === '/') {
+      } else if (['+', '-', '*', '/'].includes(action)) {
         previous = current;
         operation = action;
         newNumber = true;
@@ -139,65 +170,9 @@ export function render(container) {
           operation = null;
           newNumber = true;
         }
-      } else if (action === 'sqrt') {
-        current = Math.sqrt(parseFloat(current)).toString();
-        newNumber = true;
-      } else if (action === 'pow') {
-        current = Math.pow(parseFloat(current), 2).toString();
-        newNumber = true;
-      } else if (action === 'cube') {
-        current = Math.pow(parseFloat(current), 3).toString();
-        newNumber = true;
-      } else if (action === 'cubert') {
-        current = Math.cbrt(parseFloat(current)).toString();
-        newNumber = true;
-      } else if (action === 'factorial') {
-        const n = parseInt(current);
-        let fact = 1;
-        for (let i = 2; i <= n; i++) fact *= i;
-        current = fact.toString();
-        newNumber = true;
-      } else if (action === 'sin') {
-        current = Math.sin(parseFloat(current) * Math.PI / 180).toString();
-        newNumber = true;
-      } else if (action === 'cos') {
-        current = Math.cos(parseFloat(current) * Math.PI / 180).toString();
-        newNumber = true;
-      } else if (action === 'tan') {
-        current = Math.tan(parseFloat(current) * Math.PI / 180).toString();
-        newNumber = true;
-      } else if (action === 'asin') {
-        current = (Math.asin(parseFloat(current)) * 180 / Math.PI).toString();
-        newNumber = true;
-      } else if (action === 'acos') {
-        current = (Math.acos(parseFloat(current)) * 180 / Math.PI).toString();
-        newNumber = true;
-      } else if (action === 'atan') {
-        current = (Math.atan(parseFloat(current)) * 180 / Math.PI).toString();
-        newNumber = true;
-      } else if (action === 'log') {
-        current = Math.log10(parseFloat(current)).toString();
-        newNumber = true;
-      } else if (action === 'ln') {
-        current = Math.log(parseFloat(current)).toString();
-        newNumber = true;
-      } else if (action === 'tenpow') {
-        current = Math.pow(10, parseFloat(current)).toString();
-        newNumber = true;
-      } else if (action === 'exp') {
-        current = Math.exp(parseFloat(current)).toString();
-        newNumber = true;
-      } else if (action === 'pi') {
-        current = Math.PI.toString();
-        newNumber = true;
-      } else if (action === 'e') {
-        current = Math.E.toString();
-        newNumber = true;
-      } else if (action === 'inv') {
-        current = (1 / parseFloat(current)).toString();
-        newNumber = true;
-      } else if (action === 'abs') {
-        current = Math.abs(parseFloat(current)).toString();
+      } else if (unaryOps.includes(action) || action === 'pi' || action === 'e') {
+        const result = calculate(current, action);
+        current = result.toString();
         newNumber = true;
       }
       updateDisplay();
