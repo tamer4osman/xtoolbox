@@ -15,7 +15,10 @@ export const CONTENT_BUILDERS = {
     const org = c.querySelector('#vcard-org').value;
     const title = c.querySelector('#vcard-title').value;
     const website = c.querySelector('#vcard-website').value;
-    return `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nORG:${org}\nTITLE:${title}\nURL:${website}\nEND:VCARD`;
+    const parts = name.trim().split(/\s+/);
+    const lastName = parts.length > 1 ? parts.pop() : '';
+    const firstName = parts.join(' ');
+    return `BEGIN:VCARD\nVERSION:3.0\nN:${lastName};${firstName};;;\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nORG:${org}\nTITLE:${title}\nURL:${website}\nEND:VCARD`;
   },
   email: (c) => {
     const address = c.querySelector('#email-address').value;
