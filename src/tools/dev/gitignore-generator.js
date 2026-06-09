@@ -1275,14 +1275,18 @@ export function saveUserPresets(list) {
   }
 }
 
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function renderPresetDropdown(presetEl) {
   const user = loadUserPresets();
   let html = '<option value="">— select a preset —</option><optgroup label="Built-in">';
-  PRESETS.forEach((p, i) => { html += `<option value="builtin:${i}">${p.name}</option>`; });
+  PRESETS.forEach((p, i) => { html += `<option value="builtin:${i}">${escapeHtml(p.name)}</option>`; });
   html += '</optgroup>';
   if (user.length) {
     html += '<optgroup label="My presets">';
-    user.forEach((p, i) => { html += `<option value="user:${i}">${p.name} (delete)</option>`; });
+    user.forEach((p, i) => { html += `<option value="user:${i}">${escapeHtml(p.name)} (delete)</option>`; });
     html += '</optgroup>';
   }
   presetEl.innerHTML = html;
