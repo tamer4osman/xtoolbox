@@ -95,16 +95,20 @@ const SQL_HTML = `
   </div>
 `;
 
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function buildPreviewHtml(jsonData) {
   let html = '';
   for (const [tableName, data] of Object.entries(jsonData)) {
     if (data.rows.length > 0) {
-      html += `<h4>${tableName}</h4><table><thead><tr>`;
-      Object.keys(data.rows[0]).forEach(col => { html += `<th>${col}</th>`; });
+      html += `<h4>${escapeHtml(tableName)}</h4><table><thead><tr>`;
+      Object.keys(data.rows[0]).forEach(col => { html += `<th>${escapeHtml(col)}</th>`; });
       html += '</tr></thead><tbody>';
       data.rows.slice(0, 10).forEach(row => {
         html += '<tr>';
-        Object.values(row).forEach(val => { html += `<td>${val === null ? 'NULL' : val}</td>`; });
+        Object.values(row).forEach(val => { html += `<td>${val === null ? 'NULL' : escapeHtml(val)}</td>`; });
         html += '</tr>';
       });
       html += '</tbody></table>';
