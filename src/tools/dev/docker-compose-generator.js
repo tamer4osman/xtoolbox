@@ -223,13 +223,26 @@ function renderListRow(listKey, i, value, placeholder) {
   </div>`;
 }
 
-function renderServiceCard(svc, idx) {
-  const ports = (svc.ports || []).map((p, i) => renderListRow('ports', i, p, '80:80')).join('');
-  const volumes = (svc.volumes || []).map((v, i) => renderListRow('volumes', i, v, './data:/data')).join('');
-  const env = (svc.environment || []).map((e, i) => renderListRow('environment', i, e, 'KEY=VALUE')).join('');
-  const deps = (svc.dependsOn || []).map((d, i) => renderListRow('dependsOn', i, d, 'other-service')).join('');
-  const nets = (svc.networks || []).map((n, i) => renderListRow('networks', i, n, 'frontend')).join('');
+const DC_LIST_SECTIONS = [
+  { list: 'ports', label: 'Ports (host:container)', ph: '80:80', empty: 'No ports' },
+  { list: 'volumes', label: 'Volumes (host:container or named:path)', ph: './data:/data', empty: 'No volumes' },
+  { list: 'environment', label: 'Environment (KEY=VALUE)', ph: 'KEY=VALUE', empty: 'No env vars' },
+  { list: 'dependsOn', label: 'Depends on (other service names)', ph: 'other-service', empty: 'No dependencies' },
+  { list: 'networks', label: 'Networks (custom names)', ph: 'frontend', empty: 'Default network only' }
+];
 
+function renderListSection(svc, idx, section) {
+  const items = (svc[section.list] || []).map((v, i) => renderListRow(section.list, i, v, section.ph)).join('');
+  return `<div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
+      <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">${section.label}</label>
+      <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="${section.list}">+ Add</button>
+    </div>
+    <div class="dc-list" data-idx="${idx}" data-list="${section.list}" style="display:flex;flex-direction:column;gap:var(--space-1);">${items || `<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">${section.empty}</div>`}</div>
+  </div>`;
+}
+
+function renderServiceCard(svc, idx) {
   return `
     <div class="dc-card" data-idx="${idx}" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-3);">
@@ -262,272 +275,24 @@ function renderServiceCard(svc, idx) {
           </select>
         </div>
       </div>
-
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-3);margin-top:var(--space-3);">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Ports (host:container)</label>
-            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="ports">+ Add</button>
-          </div>
-          <div class="dc-list" data-idx="${idx}" data-list="ports" style="display:flex;flex-direction:column;gap:var(--space-1);">${ports || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No ports</div>'}</div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Volumes (host:container or named:path)</label>
-            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="volumes">+ Add</button>
-          </div>
-          <div class="dc-list" data-idx="${idx}" data-list="volumes" style="display:flex;flex-direction:column;gap:var(--space-1);">${volumes || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No volumes</div>'}</div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Environment (KEY=VALUE)</label>
-            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="environment">+ Add</button>
-          </div>
-          <div class="dc-list" data-idx="${idx}" data-list="environment" style="display:flex;flex-direction:column;gap:var(--space-1);">${env || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No env vars</div>'}</div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Depends on (other service names)</label>
-            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="dependsOn">+ Add</button>
-          </div>
-          <div class="dc-list" data-idx="${idx}" data-list="dependsOn" style="display:flex;flex-direction:column;gap:var(--space-1);">${deps || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">No dependencies</div>'}</div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-            <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">Networks (custom names)</label>
-            <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="networks">+ Add</button>
-          </div>
-          <div class="dc-list" data-idx="${idx}" data-list="networks" style="display:flex;flex-direction:column;gap:var(--space-1);">${nets || '<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">Default network only</div>'}</div>
-        </div>
+        ${DC_LIST_SECTIONS.map(s => renderListSection(svc, idx, s)).join('')}
       </div>
     </div>
   `;
 }
 
 export function render(container) {
-  const state = {
-    projectName: 'myapp',
-    services: []
-  };
-
-  container.innerHTML = `
-    <div class="tool-layout" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-4);">
-      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);">
-        <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:flex-end;">
-          <div style="flex:1;min-width:200px;">
-            <label for="dc-project" style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-2);">Project name</label>
-            <input type="text" id="dc-project" class="text-input" value="myapp" maxlength="60" placeholder="myapp">
-          </div>
-          <button class="btn btn-secondary btn-sm" id="dc-clear" type="button">Clear all</button>
-        </div>
-        <div style="margin-top:var(--space-3);">
-          <div style="font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);margin-bottom:var(--space-2);">Service palette — click to add</div>
-          <div id="dc-palette" style="display:flex;flex-wrap:wrap;gap:var(--space-2);"></div>
-        </div>
-      </div>
-
-      <div id="dc-services" style="display:flex;flex-direction:column;gap:var(--space-3);"></div>
-
-      <div id="dc-empty" style="background:var(--color-surface);border:1px dashed var(--color-border);border-radius:var(--radius-md);padding:var(--space-5);text-align:center;color:var(--color-text-muted);font-size:var(--text-sm);">
-        No services yet. Click a chip above to add one.
-      </div>
-
-      <div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2);flex-wrap:wrap;gap:var(--space-2);">
-          <span style="font-weight:600;font-size:var(--text-sm);color:var(--color-text-muted);">Generated docker-compose.yml</span>
-          <div style="display:flex;gap:var(--space-2);">
-            <button class="btn btn-secondary btn-sm" id="dc-copy" type="button">Copy</button>
-            <button class="btn btn-primary btn-sm" id="dc-download" type="button">Download docker-compose.yml</button>
-          </div>
-        </div>
-        <pre id="dc-output" style="background:#1e1e2e;color:#cdd6f4;padding:var(--space-3);border-radius:var(--radius-md);overflow-x:auto;font-size:var(--text-sm);line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:200px;font-family:monospace;max-height:560px;overflow-y:auto;margin:0;"></pre>
-      </div>
-    </div>
-  `;
-
-  const projectEl = container.querySelector('#dc-project');
+  const state = { projectName: 'myapp', services: [] };
+  container.innerHTML = DC_HTML;
   const paletteEl = container.querySelector('#dc-palette');
   const servicesEl = container.querySelector('#dc-services');
   const emptyEl = container.querySelector('#dc-empty');
   const outputEl = container.querySelector('#dc-output');
-  const clearBtn = container.querySelector('#dc-clear');
-  const copyBtn = container.querySelector('#dc-copy');
-  const downloadBtn = container.querySelector('#dc-download');
-
-  function renderPalette() {
-    const entries = Object.entries(TEMPLATES);
-    paletteEl.innerHTML = entries.map(([key, t]) => {
-      return `<button type="button" class="dc-palette-chip" data-key="${key}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-3);background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-border);border-radius:999px;font-size:var(--text-sm);cursor:pointer;transition:all 0.15s;">${t.icon} ${t.name}</button>`;
-    }).join('');
-  }
-
-  function renderServices() {
-    if (state.services.length === 0) {
-      servicesEl.innerHTML = '';
-      emptyEl.style.display = '';
-      return;
-    }
-    emptyEl.style.display = 'none';
-    servicesEl.innerHTML = state.services.map((svc, idx) => renderServiceCard(svc, idx)).join('');
-  }
-
-  function renderOutput() {
-    outputEl.textContent = buildCompose(state);
-  }
-
-  function rerender() {
-    renderServices();
-    renderOutput();
-  }
-
-  projectEl.addEventListener('input', () => {
-    state.projectName = projectEl.value;
-    renderOutput();
-  });
-
-  paletteEl.addEventListener('click', e => {
-    const chip = e.target.closest('.dc-palette-chip');
-    if (!chip) return;
-    const key = chip.dataset.key;
-    const svc = defaultServiceFromTemplate(key);
-    if (!svc) return;
-    svc.templateKey = key;
-    let name = svc.name;
-    let n = 2;
-    while (state.services.some(s => s.name === name)) {
-      name = svc.name + n;
-      n += 1;
-    }
-    svc.name = name;
-    state.services.push(svc);
-    rerender();
-    showToast({ message: `Added ${TEMPLATES[key].name} service`, type: 'success' });
-  });
-
-  servicesEl.addEventListener('click', e => {
-    const removeBtn = e.target.closest('.dc-remove');
-    if (removeBtn) {
-      const idx = parseInt(removeBtn.dataset.idx, 10);
-      state.services.splice(idx, 1);
-      rerender();
-      return;
-    }
-    const upBtn = e.target.closest('.dc-move-up');
-    if (upBtn) {
-      const idx = parseInt(upBtn.dataset.idx, 10);
-      if (idx > 0) {
-        const tmp = state.services[idx];
-        state.services[idx] = state.services[idx - 1];
-        state.services[idx - 1] = tmp;
-        rerender();
-      }
-      return;
-    }
-    const downBtn = e.target.closest('.dc-move-down');
-    if (downBtn) {
-      const idx = parseInt(downBtn.dataset.idx, 10);
-      if (idx < state.services.length - 1) {
-        const tmp = state.services[idx];
-        state.services[idx] = state.services[idx + 1];
-        state.services[idx + 1] = tmp;
-        rerender();
-      }
-      return;
-    }
-    const addBtn = e.target.closest('.dc-add-list');
-    if (addBtn) {
-      const idx = parseInt(addBtn.dataset.idx, 10);
-      const list = addBtn.dataset.list;
-      const svc = state.services[idx];
-      if (svc) {
-        svc[list] = svc[list] || [];
-        svc[list].push('');
-        rerender();
-      }
-      return;
-    }
-    const listRm = e.target.closest('.dc-list-remove');
-    if (listRm) {
-      const card = listRm.closest('.dc-card');
-      const idx = parseInt(card.dataset.idx, 10);
-      const list = listRm.dataset.list;
-      const i = parseInt(listRm.dataset.i, 10);
-      const svc = state.services[idx];
-      if (svc && Array.isArray(svc[list])) {
-        svc[list].splice(i, 1);
-        rerender();
-      }
-      return;
-    }
-  });
-
-  servicesEl.addEventListener('input', e => {
-    const card = e.target.closest('.dc-card');
-    if (!card) return;
-    const idx = parseInt(card.dataset.idx, 10);
-    const svc = state.services[idx];
-    if (!svc) return;
-    if (e.target.classList.contains('dc-name')) {
-      svc.name = e.target.value.trim();
-      renderOutput();
-      return;
-    }
-    if (e.target.classList.contains('dc-image')) {
-      svc.image = e.target.value;
-      renderOutput();
-      return;
-    }
-    if (e.target.classList.contains('dc-cmd')) {
-      svc.command = e.target.value;
-      renderOutput();
-      return;
-    }
-    if (e.target.classList.contains('dc-restart')) {
-      svc.restart = e.target.value;
-      renderOutput();
-      return;
-    }
-    if (e.target.classList.contains('dc-list-input')) {
-      const list = e.target.dataset.list;
-      const i = parseInt(e.target.dataset.i, 10);
-      svc[list][i] = e.target.value;
-      renderOutput();
-      return;
-    }
-  });
-
-  clearBtn.addEventListener('click', () => {
-    if (state.services.length === 0) return;
-    if (!confirm('Remove all services?')) return;
-    state.services = [];
-    rerender();
-    showToast({ message: 'Cleared all services', type: 'success' });
-  });
-
-  copyBtn.addEventListener('click', async () => {
-    const text = buildCompose(state);
-    if (!text || text.startsWith('# Add at least one service')) {
-      showToast({ message: 'Add at least one service first', type: 'error' });
-      return;
-    }
-    const ok = await copyToClipboard(text);
-    showToast({ message: ok ? 'Copied docker-compose.yml' : 'Copy failed', type: ok ? 'success' : 'error' });
-  });
-
-  downloadBtn.addEventListener('click', () => {
-    const text = buildCompose(state);
-    if (!text || text.startsWith('# Add at least one service')) {
-      showToast({ message: 'Add at least one service first', type: 'error' });
-      return;
-    }
-    const blob = new Blob([text], { type: 'text/yaml' });
-    downloadBlob(blob, 'docker-compose.yml');
-    showToast({ message: 'Downloaded docker-compose.yml', type: 'success' });
-  });
-
-  renderPalette();
-  renderServices();
-  renderOutput();
+  renderPalette(paletteEl);
+  bindDockerEvents(container, state, { paletteEl, servicesEl, outputEl, emptyEl });
+  renderServicesList(state, servicesEl, emptyEl);
+  outputEl.textContent = buildCompose(state);
 }
 
 export function destroy() {}

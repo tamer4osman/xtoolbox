@@ -172,14 +172,7 @@ function tokenToHtml(tok) {
   return `<span style="background:rgba(166,173,200,0.18);border-radius:3px;padding:0 1px;">${escapeHtml(tok)}</span>`;
 }
 
-export function render(container) {
-  const state = {
-    text: '',
-    modelId: 'gpt-4o',
-    inputRatio: 0.5
-  };
-
-  container.innerHTML = `
+const LLM_HTML = `
     <div class="tool-layout" style="display:flex;flex-direction:column;gap:var(--space-4);">
       <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);">
         <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);align-items:flex-end;">
@@ -195,7 +188,6 @@ export function render(container) {
           <button class="btn btn-secondary btn-sm" id="ltc-clear" type="button">Clear</button>
         </div>
       </div>
-
       <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-4);">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:var(--space-4);">
           <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">
@@ -213,185 +205,82 @@ export function render(container) {
             <pre id="ltc-highlight" style="margin:0;padding:var(--space-3);background:#1e1e2e;color:#cdd6f4;font-family:monospace;font-size:var(--text-sm);line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:280px;max-height:520px;overflow-y:auto;"></pre>
           </div>
         </div>
-
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-2);" id="ltc-stats"></div>
-
         <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-3);">
             <span style="font-weight:600;font-size:var(--text-base);">Cost for <span id="ltc-model-name"></span></span>
             <span id="ltc-cost-total" style="font-size:var(--text-2xl);font-weight:700;color:var(--color-primary);"></span>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3);font-size:var(--text-sm);">
-            <div style="padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-md);">
-              <div style="color:var(--color-text-muted);">Input</div>
-              <div style="font-weight:600;" id="ltc-input-tokens"></div>
-              <div id="ltc-input-cost" style="color:var(--color-text-muted);"></div>
-            </div>
-            <div style="padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-md);">
-              <div style="color:var(--color-text-muted);">Output</div>
-              <div style="font-weight:600;" id="ltc-output-tokens"></div>
-              <div id="ltc-output-cost" style="color:var(--color-text-muted);"></div>
-            </div>
+            <div style="padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-md);"><div style="color:var(--color-text-muted);">Input</div><div style="font-weight:600;" id="ltc-input-tokens"></div><div id="ltc-input-cost" style="color:var(--color-text-muted);"></div></div>
+            <div style="padding:var(--space-3);background:var(--color-bg);border-radius:var(--radius-md);"><div style="color:var(--color-text-muted);">Output</div><div style="font-weight:600;" id="ltc-output-tokens"></div><div id="ltc-output-cost" style="color:var(--color-text-muted);"></div></div>
           </div>
         </div>
-
         <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);">
           <div style="font-weight:600;font-size:var(--text-base);margin-bottom:var(--space-3);">Compare all models (50% input / 50% output split)</div>
           <div style="overflow-x:auto;">
             <table style="width:100%;border-collapse:collapse;font-size:var(--text-sm);" id="ltc-compare">
-              <thead>
-                <tr style="text-align:left;color:var(--color-text-muted);">
-                  <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">Model</th>
-                  <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">Provider</th>
-                  <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">Input / 1M</th>
-                  <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">Output / 1M</th>
-                  <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">Cost</th>
-                </tr>
-              </thead>
+              <thead><tr style="text-align:left;color:var(--color-text-muted);">
+                <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">Model</th>
+                <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">Provider</th>
+                <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">Input / 1M</th>
+                <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">Output / 1M</th>
+                <th style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">Cost</th>
+              </tr></thead>
               <tbody id="ltc-compare-body"></tbody>
             </table>
           </div>
         </div>
-
         <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
           <button class="btn btn-secondary btn-sm" id="ltc-copy-json" type="button">Copy stats as JSON</button>
           <button class="btn btn-secondary btn-sm" id="ltc-copy-md" type="button">Copy stats as Markdown</button>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  const modelEl = container.querySelector('#ltc-model');
-  const ratioEl = container.querySelector('#ltc-ratio');
-  const ratioValEl = container.querySelector('#ltc-ratio-val');
-  const sampleBtn = container.querySelector('#ltc-sample');
-  const clearBtn = container.querySelector('#ltc-clear');
-  const textEl = container.querySelector('#ltc-text');
-  const highlightEl = container.querySelector('#ltc-highlight');
-  const ctBadgeEl = container.querySelector('#ltc-ct-badge');
-  const statsEl = container.querySelector('#ltc-stats');
-  const modelNameEl = container.querySelector('#ltc-model-name');
-  const costTotalEl = container.querySelector('#ltc-cost-total');
-  const inputTokensEl = container.querySelector('#ltc-input-tokens');
-  const inputCostEl = container.querySelector('#ltc-input-cost');
-  const outputTokensEl = container.querySelector('#ltc-output-tokens');
-  const outputCostEl = container.querySelector('#ltc-output-cost');
-  const compareBodyEl = container.querySelector('#ltc-compare-body');
-  const copyJsonBtn = container.querySelector('#ltc-copy-json');
-  const copyMdBtn = container.querySelector('#ltc-copy-md');
+function renderStats(state, { ctBadgeEl, statsEl, modelNameEl, costTotalEl, inputTokensEl, inputCostEl, outputTokensEl, outputCostEl, compareBodyEl, highlightEl }) {
+  const ct = detectContentType(state.text);
+  const tokens = estimateTokens(state.text, ct);
+  const model = MODELS.find(m => m.id === state.modelId) || MODELS[1];
+  ctBadgeEl.textContent = `type: ${ct}`;
+  const cells = [
+    { label: 'Tokens (est.)', value: tokens.toLocaleString(), highlight: true },
+    { label: 'Characters', value: countChars(state.text).toLocaleString() },
+    { label: 'Words', value: countWords(state.text).toLocaleString() },
+    { label: 'Lines', value: countLines(state.text).toLocaleString() },
+    { label: 'Sentences', value: countSentences(state.text).toLocaleString() },
+    { label: 'Type', value: ct }
+  ];
+  statsEl.innerHTML = cells.map(c => `<div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);text-align:center;${c.highlight ? 'border-color:var(--color-primary);' : ''}"><div style="font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.5px;">${escapeHtml(c.label)}</div><div style="font-size:${c.highlight ? 'var(--text-2xl)' : 'var(--text-base)'};font-weight:${c.highlight ? '700' : '600'};margin-top:var(--space-1);">${escapeHtml(String(c.value))}</div></div>`).join('');
+  const cost = calculateCost(tokens, state.inputRatio, model.inputPer1M, model.outputPer1M);
+  modelNameEl.textContent = model.name; costTotalEl.textContent = formatUsd(cost.totalCost);
+  inputTokensEl.textContent = `${cost.inputTokens.toLocaleString()} tokens`; inputCostEl.textContent = formatUsd(cost.inputCost);
+  outputTokensEl.textContent = `${cost.outputTokens.toLocaleString()} tokens`; outputCostEl.textContent = formatUsd(cost.outputCost);
+  compareBodyEl.innerHTML = compareAllModels(tokens).map(r => {
+    const sel = r.model.id === state.modelId;
+    return `<tr style="${sel ? 'background:var(--color-bg);font-weight:600;' : ''}"><td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">${escapeHtml(r.model.name)}</td><td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);color:var(--color-text-muted);">${escapeHtml(r.model.provider)}</td><td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">$${r.model.inputPer1M.toFixed(3)}</td><td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">$${r.model.outputPer1M.toFixed(3)}</td><td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;color:var(--color-primary);">${formatUsd(r.totalCost)}</td></tr>`;
+  }).join('');
+  highlightEl.innerHTML = splitByTokens(state.text, ct).map(tokenToHtml).join('');
+}
 
-  function renderModelOptions() {
-    modelEl.innerHTML = MODELS.map(m =>
-      `<option value="${escapeHtml(m.id)}" ${m.id === state.modelId ? 'selected' : ''}>${escapeHtml(m.provider)} — ${escapeHtml(m.name)}</option>`
-    ).join('');
-  }
+export function render(container) {
+  const state = { text: '', modelId: 'gpt-4o', inputRatio: 0.5 };
+  container.innerHTML = LLM_HTML;
+  const els = { modelEl: container.querySelector('#ltc-model'), ratioEl: container.querySelector('#ltc-ratio'), ratioValEl: container.querySelector('#ltc-ratio-val'), sampleBtn: container.querySelector('#ltc-sample'), clearBtn: container.querySelector('#ltc-clear'), textEl: container.querySelector('#ltc-text'), highlightEl: container.querySelector('#ltc-highlight'), ctBadgeEl: container.querySelector('#ltc-ct-badge'), statsEl: container.querySelector('#ltc-stats'), modelNameEl: container.querySelector('#ltc-model-name'), costTotalEl: container.querySelector('#ltc-cost-total'), inputTokensEl: container.querySelector('#ltc-input-tokens'), inputCostEl: container.querySelector('#ltc-input-cost'), outputTokensEl: container.querySelector('#ltc-output-tokens'), outputCostEl: container.querySelector('#ltc-output-cost'), compareBodyEl: container.querySelector('#ltc-compare-body') };
 
-  function renderStats() {
-    const text = state.text;
-    const ct = detectContentType(text);
-    const tokens = estimateTokens(text, ct);
-    const model = MODELS.find(m => m.id === state.modelId) || MODELS[1];
-
-    ctBadgeEl.textContent = `type: ${ct}`;
-
-    const cells = [
-      { label: 'Tokens (est.)', value: tokens.toLocaleString(), highlight: true },
-      { label: 'Characters', value: countChars(text).toLocaleString() },
-      { label: 'Words', value: countWords(text).toLocaleString() },
-      { label: 'Lines', value: countLines(text).toLocaleString() },
-      { label: 'Sentences', value: countSentences(text).toLocaleString() },
-      { label: 'Type', value: ct }
-    ];
-    statsEl.innerHTML = cells.map(c => `
-      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);text-align:center;${c.highlight ? 'border-color:var(--color-primary);' : ''}">
-        <div style="font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.5px;">${escapeHtml(c.label)}</div>
-        <div style="font-size:${c.highlight ? 'var(--text-2xl)' : 'var(--text-base)'};font-weight:${c.highlight ? '700' : '600'};margin-top:var(--space-1);">${escapeHtml(String(c.value))}</div>
-      </div>
-    `).join('');
-
-    const cost = calculateCost(tokens, state.inputRatio, model.inputPer1M, model.outputPer1M);
-    modelNameEl.textContent = model.name;
-    costTotalEl.textContent = formatUsd(cost.totalCost);
-    inputTokensEl.textContent = `${cost.inputTokens.toLocaleString()} tokens`;
-    inputCostEl.textContent = formatUsd(cost.inputCost);
-    outputTokensEl.textContent = `${cost.outputTokens.toLocaleString()} tokens`;
-    outputCostEl.textContent = formatUsd(cost.outputCost);
-
-    const rows = compareAllModels(tokens);
-    compareBodyEl.innerHTML = rows.map(r => {
-      const isSelected = r.model.id === state.modelId;
-      return `<tr style="${isSelected ? 'background:var(--color-bg);font-weight:600;' : ''}">
-        <td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">${escapeHtml(r.model.name)}</td>
-        <td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);color:var(--color-text-muted);">${escapeHtml(r.model.provider)}</td>
-        <td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">$${r.model.inputPer1M.toFixed(3)}</td>
-        <td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;">$${r.model.outputPer1M.toFixed(3)}</td>
-        <td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);text-align:right;color:var(--color-primary);">${formatUsd(r.totalCost)}</td>
-      </tr>`;
-    }).join('');
-
-    const tokensArr = splitByTokens(text, ct);
-    highlightEl.innerHTML = tokensArr.map(tokenToHtml).join('');
-  }
-
-  modelEl.addEventListener('change', () => {
-    state.modelId = modelEl.value;
-    renderStats();
-  });
-
-  ratioEl.addEventListener('input', () => {
-    state.inputRatio = parseInt(ratioEl.value, 10) / 100;
-    ratioValEl.textContent = ratioEl.value + '%';
-    renderStats();
-  });
-
-  textEl.addEventListener('input', () => {
-    state.text = textEl.value;
-    renderStats();
-  });
-
-  sampleBtn.addEventListener('click', () => {
-    state.text = SAMPLE_TEXT;
-    textEl.value = state.text;
-    renderStats();
-    showToast({ message: 'Sample text loaded', type: 'success' });
-  });
-
-  clearBtn.addEventListener('click', () => {
-    state.text = '';
-    textEl.value = '';
-    renderStats();
-    showToast({ message: 'Cleared', type: 'success' });
-  });
-
-  copyJsonBtn.addEventListener('click', async () => {
+  els.modelEl.innerHTML = MODELS.map(m => `<option value="${escapeHtml(m.id)}" ${m.id === state.modelId ? 'selected' : ''}>${escapeHtml(m.provider)} — ${escapeHtml(m.name)}</option>`).join('');
+  els.modelEl.addEventListener('change', () => { state.modelId = els.modelEl.value; renderStats(state, els); });
+  els.ratioEl.addEventListener('input', () => { state.inputRatio = parseInt(els.ratioEl.value, 10) / 100; els.ratioValEl.textContent = els.ratioEl.value + '%'; renderStats(state, els); });
+  els.textEl.addEventListener('input', () => { state.text = els.textEl.value; renderStats(state, els); });
+  els.sampleBtn.addEventListener('click', () => { state.text = SAMPLE_TEXT; els.textEl.value = state.text; renderStats(state, els); showToast({ message: 'Sample text loaded', type: 'success' }); });
+  els.clearBtn.addEventListener('click', () => { state.text = ''; els.textEl.value = ''; renderStats(state, els); showToast({ message: 'Cleared', type: 'success' }); });
+  container.querySelector('#ltc-copy-json').addEventListener('click', async () => { const snap = buildStatsSnapshot(state.text, state.modelId, state.inputRatio); const ok = await copyToClipboard(JSON.stringify(snap, null, 2)); showToast({ message: ok ? 'Copied stats as JSON' : 'Copy failed', type: ok ? 'success' : 'error' }); });
+  container.querySelector('#ltc-copy-md').addEventListener('click', async () => {
     const snap = buildStatsSnapshot(state.text, state.modelId, state.inputRatio);
-    const ok = await copyToClipboard(JSON.stringify(snap, null, 2));
-    showToast({ message: ok ? 'Copied stats as JSON' : 'Copy failed', type: ok ? 'success' : 'error' });
+    const md = `# LLM Token Counter stats\n\n- **Model:** ${snap.model} (${snap.provider})\n- **Characters:** ${snap.text_length_chars}\n- **Words:** ${snap.words}\n- **Lines:** ${snap.lines}\n- **Sentences:** ${snap.sentences}\n- **Detected content type:** ${snap.detected_content_type}\n- **Estimated tokens:** ${snap.estimated_tokens}\n- **Input tokens (${Math.round(state.inputRatio * 100)}%):** ${snap.input_tokens} — ${formatUsd(snap.input_cost_usd)}\n- **Output tokens (${Math.round((1 - state.inputRatio) * 100)}%):** ${snap.output_tokens} — ${formatUsd(snap.output_cost_usd)}\n- **Total cost:** ${formatUsd(snap.total_cost_usd)}\n\n_${snap.note}_\n`;
+    const ok = await copyToClipboard(md); showToast({ message: ok ? 'Copied stats as Markdown' : 'Copy failed', type: ok ? 'success' : 'error' });
   });
-
-  copyMdBtn.addEventListener('click', async () => {
-    const snap = buildStatsSnapshot(state.text, state.modelId, state.inputRatio);
-    const md = `# LLM Token Counter stats
-
-- **Model:** ${snap.model} (${snap.provider})
-- **Characters:** ${snap.text_length_chars}
-- **Words:** ${snap.words}
-- **Lines:** ${snap.lines}
-- **Sentences:** ${snap.sentences}
-- **Detected content type:** ${snap.detected_content_type}
-- **Estimated tokens:** ${snap.estimated_tokens}
-- **Input tokens (${Math.round(state.inputRatio * 100)}%):** ${snap.input_tokens} — ${formatUsd(snap.input_cost_usd)}
-- **Output tokens (${Math.round((1 - state.inputRatio) * 100)}%):** ${snap.output_tokens} — ${formatUsd(snap.output_cost_usd)}
-- **Total cost:** ${formatUsd(snap.total_cost_usd)}
-
-_${snap.note}_
-`;
-    const ok = await copyToClipboard(md);
-    showToast({ message: ok ? 'Copied stats as Markdown' : 'Copy failed', type: ok ? 'success' : 'error' });
-  });
-
-  renderModelOptions();
-  renderStats();
+  renderStats(state, els);
 }
 
 export function destroy() {}
