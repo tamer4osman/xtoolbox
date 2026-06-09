@@ -394,8 +394,7 @@ export function render(container) {
   renderAll();
 
   const intervalId = setInterval(tick, 1000);
-  const prevDestroy = container.dataset.destroy;
-  container.dataset.destroy = 'true';
+  const prevDestroy = container._destroy;
   container._destroy = () => { clearInterval(intervalId); if (typeof prevDestroy === 'function') prevDestroy(); };
 }
 
