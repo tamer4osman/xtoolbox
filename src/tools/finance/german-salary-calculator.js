@@ -239,7 +239,7 @@ function writeResults(container, r) {
   q('gross-monthly').textContent = fmt(r.grossMonthly);
   q('total-deductions').textContent = fmt(r.totalDeductionsMonthly);
   q('net-monthly').textContent = fmt(r.netMonthly);
-  q('kinderfreibetrag').textContent = r.childrenCount > 0 ? fmt(r.kinderfreibetrag / 12) + ' x ' + r.childrenCount + ' child' : '0';
+  q('kinderfreibetrag').textContent = r.childrenCount > 0 ? r.childrenCount + ' × ' + fmt(r.kinderfreibetrag / 12 / r.childrenCount) + ' each' : '0';
   q('income-tax').textContent = fmt(r.annualTax / 12);
   q('church-tax-val').textContent = fmt(r.churchTax / 12);
   q('solidarity').textContent = fmt(r.solidarity / 12);
