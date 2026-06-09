@@ -29,6 +29,7 @@ export function render(container) {
       </div>
     `,
     generate(c) {
+      const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const title = c.querySelector('#title').value;
       const desc = c.querySelector('#desc').value;
       const keywords = c.querySelector('#keywords').value;
@@ -37,14 +38,14 @@ export function render(container) {
       const ogDesc = c.querySelector('#ogDesc').value || desc;
       const ogImage = c.querySelector('#ogImage').value;
 
-      let tags = '<title>' + title + '</title>\n';
-      if (desc) tags += '<meta name="description" content="' + desc + '">\n';
-      if (keywords) tags += '<meta name="keywords" content="' + keywords + '">\n';
-      if (canonical) tags += '<link rel="canonical" href="' + canonical + '">\n';
+      let tags = '<title>' + esc(title) + '</title>\n';
+      if (desc) tags += '<meta name="description" content="' + esc(desc) + '">\n';
+      if (keywords) tags += '<meta name="keywords" content="' + esc(keywords) + '">\n';
+      if (canonical) tags += '<link rel="canonical" href="' + esc(canonical) + '">\n';
       tags += '\n<!-- Open Graph -->\n';
-      tags += '<meta property="og:title" content="' + ogTitle + '">\n';
-      tags += '<meta property="og:description" content="' + ogDesc + '">\n';
-      if (ogImage) tags += '<meta property="og:image" content="' + ogImage + '">\n';
+      tags += '<meta property="og:title" content="' + esc(ogTitle) + '">\n';
+      tags += '<meta property="og:description" content="' + esc(ogDesc) + '">\n';
+      if (ogImage) tags += '<meta property="og:image" content="' + esc(ogImage) + '">\n';
       tags += '\n<!-- Robots -->\n';
       if (c.querySelector('#noindex').checked) tags += '<meta name="robots" content="noindex">\n';
       if (c.querySelector('#nofollow').checked) tags += '<meta name="robots" content="nofollow">\n';
