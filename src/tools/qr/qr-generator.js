@@ -66,13 +66,24 @@ async function generateQR(container) {
       resultSize.textContent = 'SVG format generated';
     } else if (format === 'utf8') {
       const ascii = await QRCode.toString(data, { type: 'terminal', errorCorrectionLevel: errorLevel });
-      const pre = document.createElement('pre');
-      pre.style.cssText = 'background:#1a1a1a;color:#00ff00;padding:20px;border-radius:8px;overflow-x:auto;text-align:left;font-family:monospace;';
+      const previewContainer = resultSection.querySelector('.preview-container');
+      let pre = resultSection.querySelector('.ascii-preview');
+      if (!pre) {
+        pre = document.createElement('pre');
+        pre.className = 'ascii-preview';
+        pre.style.cssText = 'background:#1a1a1a;color:#00ff00;padding:20px;border-radius:8px;overflow-x:auto;text-align:left;font-family:monospace;';
+        previewContainer.after(pre);
+      }
       pre.textContent = ascii;
-      resultSection.querySelector('.preview-container').replaceWith(pre);
+      pre.style.display = 'block';
+      previewContainer.style.display = 'none';
       resultSection.classList.remove('hidden');
       resultSize.textContent = 'Terminal/ASCII format';
     } else {
+      const previewContainer = resultSection.querySelector('.preview-container');
+      const pre = resultSection.querySelector('.ascii-preview');
+      if (pre) pre.style.display = 'none';
+      previewContainer.style.display = 'inline-block';
       await QRCode.toCanvas(qrCanvas, data, { width: size, errorCorrectionLevel: errorLevel, color: { dark: color, light: '#ffffff' } });
       resultSection.classList.remove('hidden');
       resultSize.textContent = `${size} × ${size} pixels`;
