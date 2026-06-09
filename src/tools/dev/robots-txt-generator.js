@@ -23,7 +23,9 @@ export function render(container) {
       <label><input type="checkbox" id="cgi"> Block /cgi-bin/</label>
     `,
     generate(c) {
-      const url = (c.querySelector('#siteUrl').value || 'example.com').replace(/\/$/, '');
+      let url = c.querySelector('#siteUrl').value.trim() || 'https://example.com';
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+      url = url.replace(/\/$/, '');
       let code = `User-agent: *\n`;
       if (c.querySelector('#allowAll').checked) {
         code += 'Allow: /\n';
