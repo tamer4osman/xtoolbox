@@ -51,12 +51,12 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 279 unique verified tools (250 built, 29 planned).
+**Total tools:** 279 (250 built, 29 planned).
 
 ## Categories
 
-| Category | Existing | Planned | Total | Key Libraries | Status |
-|----------|----------|---------|-------|---------------|--------|
+| Category | Built | Planned | Total | Key Libraries | Status |
+|----------|-------|---------|-------|---------------|--------|
 | PDF | 32 | +1 | **33** | pdf-lib, PDF.js, jsPDF | 32/33 |
 | Image | 34 | +2 | **36** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 34/36 |
 | Video | 15 | +1 | **16** | ffmpeg.wasm | 15/16 |
@@ -72,8 +72,8 @@ npm run test       # → Playwright tests
 | Text & Content | 30 | +1 | **31** | marked, turndown, js-yaml, SheetJS | 30/31 |
 | Encoding & Hashing | 8 | +1 | **9** | Web Crypto API | 8/9 |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 15 | +4 | **19** | Custom JS | 15/19 |
-| Developer | 21 | +7 | **28** | Custom JS | 21/28 |
+| CSS & Web Design | 17 | +2 | **19** | Custom JS | 17/19 |
+| Developer | 22 | +6 | **28** | Custom JS | 22/28 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | +6 | **14** | Custom JS | 8/14 |
 | SEO | 7 | +1 | **8** | Custom JS | 7/8 |
@@ -171,30 +171,30 @@ toolbox/
 │   │   ├── about.js / privacy.js / terms.js / not-found.js
 │   │
 │   ├── tools/                    ← Tool implementations
-│   │   ├── pdf/                  ← 33 PDF tools
-│   │   ├── image/                ← 34 image tools
-│   │   ├── video/                ← 15 video tools
-│   │   ├── audio/                ← 10 audio tools
+│   │   ├── pdf/                  ← 32 PDF tools (33 total, 1 planned)
+│   │   ├── image/                ← 34 image tools (36 total, 2 planned)
+│   │   ├── video/                ← 15 video tools (16 total, 1 planned)
+│   │   ├── audio/                ← 10 audio tools (11 total, 1 planned)
 │   │   ├── ocr/                  ← 4 OCR tools
 │   │   ├── qr/                   ← 4 QR tools
 │   │   ├── privacy/              ← 6 privacy tools
 │   │   ├── weather/              ← 4 weather tools
-│   │   ├── reference/            ← 4 reference tools
-│   │   ├── finance/              ← 9 finance tools
+│   │   ├── reference/            ← 5 reference tools
+│   │   ├── finance/              ← 9 finance tools (10 total, 1 planned)
 │   │   ├── math/                 ← 10 math tools
 │   │   ├── health/               ← 11 health tools
-│   │   ├── text/                 ← 27 text tools (+2 Phase 24)
-│   │   ├── encoding/             ← 8 encoding tools
+│   │   ├── text/                 ← 30 text tools (31 total, 1 planned)
+│   │   ├── encoding/             ← 8 encoding tools (9 total, 1 planned)
 │   │   ├── visualization/        ← 4 visualization tools
-│   │   ├── css/                  ← 13 CSS tools (+5 Phase 24)
-│   │   ├── dev/                  ← 16 developer tools (+12 Phase 25)
-│   │   ├── productivity/         ← 5 tools (+6 Phase 25)
+│   │   ├── css/                  ← 17 CSS tools (19 total, 2 planned)
+│   │   ├── dev/                  ← 22 developer tools (28 total, 6 planned)
+│   │   ├── productivity/         ← 5 productivity tools (11 total, 6 planned)
 │   │   ├── fun/                  ← 5 fun tools
-│   │   ├── business/             ← 8 business tools (+6 Phase 25)
-│   │   └── seo/                  ← 7 SEO tools (+1 Phase 25)
+│   │   ├── business/             ← 8 business tools (14 total, 6 planned)
+│   │   └── seo/                  ← 7 SEO tools (8 total, 1 planned)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 279 tool definitions (243 built, 36 planned)
+│   │   ├── tools.json            ← 279 tool definitions (250 built, 29 planned)
 │   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │

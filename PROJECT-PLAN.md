@@ -40,7 +40,7 @@
 | Phase 25: Most Wanted (Planned) | 🟡 | 10 | 39 |
 | **Total** | | **280** | |
 
-**Status:** 251 professional tools built. 29 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
+**Status:** 250 professional tools built. 29 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
 
 ---
 
