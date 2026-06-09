@@ -62,6 +62,10 @@ const DEMO_XML = `<?xml version="1.0" encoding="UTF-8"?>
   <url><loc>https://example.com/terms</loc><lastmod>2025-06-15</lastmod><priority>0.3</priority></url>
 </urlset>`;
 
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function renderTree(node, depth) {
   let html = '';
   const keys = Object.keys(node).sort((a, b) => {
@@ -81,7 +85,7 @@ function renderTree(node, depth) {
     html += `<div class="sv-node-row" style="padding-left:${depth * 20}px">`;
     html += `<span class="sv-toggle ${toggleClass}"></span>`;
     html += `<span class="sv-icon">${icon}</span>`;
-    html += `<span class="sv-name">${key}</span>${count}`;
+    html += `<span class="sv-name">${escapeHtml(key)}</span>${count}`;
     if (child._urls?.length === 1 && !hasChildren) {
       const m = child._urls[0].lastmod;
       if (m) html += `<span class="sv-meta">${m}</span>`;
@@ -96,7 +100,7 @@ function renderTree(node, depth) {
       html += `<div class="sv-url-list" style="display:block;padding-left:${depth * 20 + 20}px">`;
       child._urls.forEach(u => {
         const m = u.lastmod ? ` — ${u.lastmod}` : '';
-        html += `<div class="sv-url-item">${u.loc}${m}</div>`;
+        html += `<div class="sv-url-item">${escapeHtml(u.loc)}${m}</div>`;
       });
       html += `</div>`;
     }
