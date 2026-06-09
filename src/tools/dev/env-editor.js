@@ -344,7 +344,7 @@ function highlightLine(line) {
 }
 
 function bindEnvEditorEvents(ctx) {
-  const { container, state, tabsEl, addFileBtn, searchEl, clearBtn, resetBtn, textarea, gutterEl, highlightEl, presetsEl, convJsonBtn, convYamlBtn, convShellBtn, convDockerBtn, copyBtn, downloadBtn, outputEl, persist, renderTabs, renderActive, renderHighlight, renderStats, renderIssues, updateOutput } = ctx;
+  const { container, state, outputState, tabsEl, addFileBtn, searchEl, clearBtn, resetBtn, textarea, gutterEl, highlightEl, presetsEl, convJsonBtn, convYamlBtn, convShellBtn, convDockerBtn, copyBtn, downloadBtn, outputEl, persist, renderTabs, renderActive, renderHighlight, renderStats, renderIssues, updateOutput } = ctx;
 
   tabsEl.addEventListener('click', e => {
     const remove = e.target.closest('.env-tab-remove');
@@ -456,20 +456,17 @@ function bindEnvEditorEvents(ctx) {
   convShellBtn.addEventListener('click', () => updateOutput('shell'));
   convDockerBtn.addEventListener('click', () => updateOutput('docker'));
 
-  let currentOutput = '';
-  let currentOutputName = '';
-
   copyBtn.addEventListener('click', async () => {
-    if (!currentOutput) updateOutput('env');
-    const ok = await copyToClipboard(currentOutput);
-    showToast({ message: ok ? `Copied ${currentOutputName}` : 'Copy failed', type: ok ? 'success' : 'error' });
+    if (!outputState.currentOutput) updateOutput('env');
+    const ok = await copyToClipboard(outputState.currentOutput);
+    showToast({ message: ok ? `Copied ${outputState.currentOutputName}` : 'Copy failed', type: ok ? 'success' : 'error' });
   });
 
   downloadBtn.addEventListener('click', () => {
-    if (!currentOutput) updateOutput('env');
-    const blob = new Blob([currentOutput], { type: 'text/plain' });
-    downloadBlob(blob, currentOutputName);
-    showToast({ message: `Downloaded ${currentOutputName}`, type: 'success' });
+    if (!outputState.currentOutput) updateOutput('env');
+    const blob = new Blob([outputState.currentOutput], { type: 'text/plain' });
+    downloadBlob(blob, outputState.currentOutputName);
+    showToast({ message: `Downloaded ${outputState.currentOutputName}`, type: 'success' });
   });
 }
 
@@ -554,8 +551,7 @@ export function render(container) {
   const q = id => container.querySelector(`#${id}`);
   const els = { tabsEl: q('env-tabs'), addFileBtn: q('env-add-file'), searchEl: q('env-search'), clearBtn: q('env-clear'), resetBtn: q('env-reset'), activeLabel: q('env-active-label'), statsEl: q('env-stats'), gutterEl: q('env-gutter'), highlightEl: q('env-highlight'), textarea: q('env-textarea'), presetsEl: q('env-presets'), issuesEl: q('env-issues'), outputEl: q('env-output'), copyBtn: q('env-copy'), downloadBtn: q('env-download'), convJsonBtn: q('env-conv-json'), convYamlBtn: q('env-conv-yaml'), convShellBtn: q('env-conv-shell'), convDockerBtn: q('env-conv-docker') };
 
-  let currentOutput = '';
-  let currentOutputName = '';
+  const outputState = { currentOutput: '', currentOutputName: '' };
 
   function renderTabs() {
     els.tabsEl.innerHTML = Object.keys(state.files).map(n => {
@@ -579,7 +575,7 @@ export function render(container) {
     else if (format === 'shell') { out = toShell(entries); name += '.sh'; }
     else if (format === 'docker') { out = toDockerArgs(entries); name += '.docker.txt'; }
     else { out = text; }
-    currentOutput = out; currentOutputName = name;
+    outputState.currentOutput = out; outputState.currentOutputName = name;
     els.outputEl.textContent = out;
   }
 
@@ -607,7 +603,7 @@ export function render(container) {
       : issues.map(i => `<li style="color:${i.severity === 'error' ? 'var(--color-error, #f38ba8)' : 'var(--color-warning, #f9e2af)'};">Line ${i.line}: ${escapeHtml(i.message)}</li>`).join('');
   }
 
-  bindEnvEditorEvents({ container, state, ...els, persist, renderTabs, renderActive, renderHighlight, renderStats, renderIssues, updateOutput });
+  bindEnvEditorEvents({ container, state, outputState, ...els, persist, renderTabs, renderActive, renderHighlight, renderStats, renderIssues, updateOutput });
 
   renderTabs(); renderPresets(); renderActive(); updateOutput('env');
 }
