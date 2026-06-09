@@ -47,10 +47,11 @@ function parseXmlToRows(xmlString) {
 
   function extractRows(element, path = '') {
     const children = Array.from(element.children);
-    if (children.length === 0) return null;
     const row = {};
-    let hasTextContent = element.textContent.trim() && children.length === 0;
-    if (hasTextContent && path) row[path] = element.textContent.trim();
+    if (children.length === 0) {
+      if (path && element.textContent.trim()) row[path] = element.textContent.trim();
+      return Object.keys(row).length > 0 ? row : null;
+    }
     for (const child of children) {
       const childPath = path ? `${path}.${child.tagName}` : child.tagName;
       const childData = extractRows(child, childPath);
