@@ -38,7 +38,7 @@ export function render(container) {
 
   const resultEl = container.querySelector('#gen-result');
   const previewTable = document.createElement('table');
-  resultEl.replaceWith(previewTable);
+  resultEl.after(previewTable);
   resultEl.style.display = 'none';
 
   const copyHtmlBtn = document.createElement('button');
