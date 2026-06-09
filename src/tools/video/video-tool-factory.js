@@ -11,10 +11,15 @@ export function createVideoTool({ container, onFileLoaded }) {
     onFilesSelected: async (files) => {
       if (files.length === 0) return;
       currentFile = files[0];
-      const info = await getVideoInfo(currentFile);
-      videoInfo.textContent = `${info.name} — ${formatTime(info.duration)} — ${info.sizeFormatted}`;
-      optionsArea.style.display = 'block';
-      onFileLoaded?.();
+      try {
+        const info = await getVideoInfo(currentFile);
+        videoInfo.textContent = `${info.name} — ${formatTime(info.duration)} — ${info.sizeFormatted}`;
+        optionsArea.style.display = 'block';
+        onFileLoaded?.();
+      } catch {
+        currentFile = null;
+        videoInfo.textContent = 'Failed to load video metadata';
+      }
     }
   });
 
