@@ -62,8 +62,9 @@ export function init() {
   document.getElementById('toggleBtn').addEventListener('click', toToggle);
 
   document.getElementById('copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(output.value);
-    showToast({ message: 'Copied!' });
+    navigator.clipboard.writeText(output.value)
+      .then(() => showToast({ message: 'Copied!' }))
+      .catch(() => showToast({ message: 'Failed to copy', type: 'error' }));
   });
   document.getElementById('clearBtn').addEventListener('click', () => { input.value = ''; output.value = ''; });
 }

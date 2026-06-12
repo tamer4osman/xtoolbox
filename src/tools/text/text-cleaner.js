@@ -68,7 +68,11 @@ export function init() {
   document.getElementById('sortLinesBtn').onclick = () => output.value = ops.sortLines(input.value);
   document.getElementById('uniqueLinesBtn').onclick = () => output.value = ops.uniqueLines(input.value);
   document.getElementById('allBtn').onclick = () => output.value = ops.all(input.value);
-  document.getElementById('copyBtn').onclick = () => { navigator.clipboard.writeText(output.value); showToast({ message: 'Copied!' }); };
+  document.getElementById('copyBtn').onclick = () => {
+    navigator.clipboard.writeText(output.value)
+      .then(() => showToast({ message: 'Copied!' }))
+      .catch(() => showToast({ message: 'Failed to copy', type: 'error' }));
+  };
   document.getElementById('clearBtn').onclick = () => { input.value = ''; output.value = ''; };
 }
 
