@@ -13,8 +13,11 @@ export function jsonToCsv(data) {
   }
   if (data.length === 0) return '';
 
-  const headers = Object.keys(data[0]);
-  const rows = data.map(row =>
+  const objects = data.filter(item => item !== null && typeof item === 'object' && !Array.isArray(item));
+  if (objects.length === 0) return '';
+
+  const headers = Object.keys(objects[0]);
+  const rows = objects.map(row =>
     headers.map(h => {
       const val = row[h];
       if (val === null || val === undefined) return '';
@@ -76,6 +79,9 @@ export function render(container) {
     copyBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(output.value).then(() => {
         copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy CSV', 2000);
+      }).catch(() => {
+        copyBtn.textContent = 'Failed';
         setTimeout(() => copyBtn.textContent = 'Copy CSV', 2000);
       });
     });
