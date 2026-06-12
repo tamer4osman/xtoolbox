@@ -16,9 +16,9 @@ export function createVideoTool({ container, onFileLoaded }) {
         videoInfo.textContent = `${info.name} — ${formatTime(info.duration)} — ${info.sizeFormatted}`;
         optionsArea.style.display = 'block';
         onFileLoaded?.();
-      } catch {
+      } catch (err) {
         currentFile = null;
-        videoInfo.textContent = 'Failed to load video metadata';
+        videoInfo.textContent = `Failed to load video metadata: ${err.message || err}`;
       }
     }
   });
