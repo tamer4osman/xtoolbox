@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/dom.js';
+
 export const toolConfig = {
   id: 'og-generator',
   name: 'Open Graph Generator',
@@ -144,15 +146,6 @@ export function render(container) {
       image: imgInput.value,
       type: typeSelect.value
     };
-  }
-
-  function escapeHtml(str) {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
   }
 
   function renderPreview(platform) {

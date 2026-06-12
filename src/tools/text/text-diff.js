@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/dom.js';
+
 export const toolConfig = {
   id: 'text-diff',
   name: 'Text Diff',
@@ -32,10 +34,6 @@ export function diffLines(oldText, newText) {
     }
   }
   return result;
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function renderDiff(diff) {

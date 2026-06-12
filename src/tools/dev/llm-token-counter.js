@@ -1,5 +1,6 @@
 import { showToast } from '../../components/toast.js';
 import { copyToClipboard } from '../../utils/clipboard.js';
+import { escapeHtml } from '../../utils/dom.js';
 
 export const toolConfig = {
   id: 'llm-token-counter',
@@ -156,15 +157,6 @@ function greet(name) {
 }
 
 console.log(greet("World"))`;
-
-function escapeHtml(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 
 function tokenToHtml(tok) {
   if (!tok) return '';

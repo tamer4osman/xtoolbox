@@ -1,6 +1,7 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import JSZip from 'jszip';
+import { escapeHtml } from '../../utils/dom.js';
 import { downloadBlob } from '../../utils/file.js';
 import { showToast } from '../../components/toast.js';
 import { createSingleFileTool } from '../../utils/single-file-tool.js';
@@ -23,12 +24,6 @@ export const toolConfig = {
     { question: 'Are scanned PDFs supported?', answer: 'Only PDFs with selectable text. Scanned images need OCR first.' }
   ]
 };
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
 
 async function extractPdfText(file) {
   const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;

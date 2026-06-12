@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/dom.js';
+
 export const toolConfig = {
   id: 'sitemap-visualizer',
   name: 'Sitemap XML Visualizer',
@@ -61,10 +63,6 @@ const DEMO_XML = `<?xml version="1.0" encoding="UTF-8"?>
   <url><loc>https://example.com/privacy</loc><lastmod>2025-06-15</lastmod><priority>0.3</priority></url>
   <url><loc>https://example.com/terms</loc><lastmod>2025-06-15</lastmod><priority>0.3</priority></url>
 </urlset>`;
-
-function escapeHtml(s) {
-  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
 
 function renderTree(node, depth) {
   let html = '';

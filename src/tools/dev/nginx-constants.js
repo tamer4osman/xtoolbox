@@ -1,3 +1,7 @@
+import { escapeHtml } from '../../utils/dom.js';
+
+export { escapeHtml };
+
 export const NGX_CSS = `
     .ngx-shell { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); }
     @media (max-width: 980px) { .ngx-shell { grid-template-columns: 1fr; } }
@@ -24,15 +28,6 @@ export const NGX_CSS = `
     .ngx-foot { margin-top: var(--space-3); color: var(--color-text-muted); }
     .ngx-foot code { background: var(--color-bg); padding: 1px 4px; border-radius: var(--radius-sm); }
 `;
-
-export function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 
 export function fieldHtml(id, label, state, fields, areaFields, placeholder) {
   const def = state[id] !== undefined ? state[id] : '';

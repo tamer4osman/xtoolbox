@@ -1,6 +1,7 @@
 import { showToast } from '../../components/toast.js';
 import { copyToClipboard } from '../../utils/clipboard.js';
 import { downloadBlob } from '../../utils/file.js';
+import { escapeHtml } from '../../utils/dom.js';
 
 export const toolConfig = {
   id: 'env-editor',
@@ -316,15 +317,6 @@ export function stats(entries) {
     else if (e.type === 'invalid') invalid++;
   }
   return { vars, comments, blanks, invalid, total: entries.length };
-}
-
-function escapeHtml(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
 }
 
 const escapeAttr = escapeHtml;

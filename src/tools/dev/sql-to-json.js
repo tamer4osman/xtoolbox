@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/dom.js';
+
 export const toolConfig = {
   id: 'sql-to-json',
   name: 'SQL to JSON & Schema Converter',
@@ -94,10 +96,6 @@ const SQL_HTML = `
     </div>
   </div>
 `;
-
-function escapeHtml(s) {
-  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
 
 function buildPreviewHtml(jsonData) {
   let html = '';

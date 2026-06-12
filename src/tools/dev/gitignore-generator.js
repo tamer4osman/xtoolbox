@@ -1,6 +1,7 @@
 import { showToast } from '../../components/toast.js';
 import { copyToClipboard } from '../../utils/clipboard.js';
 import { downloadBlob } from '../../utils/file.js';
+import { escapeHtml } from '../../utils/dom.js';
 
 export const toolConfig = {
   id: 'gitignore-generator',
@@ -1273,10 +1274,6 @@ export function saveUserPresets(list) {
   } catch {
     showToast({ message: 'Could not save preset (storage unavailable)', type: 'error' });
   }
-}
-
-function escapeHtml(s) {
-  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function renderPresetDropdown(presetEl) {
