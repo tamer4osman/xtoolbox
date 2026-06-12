@@ -47,18 +47,26 @@ export function render() {
   `;
 }
 
+export function trimText(t) { return t.trim(); }
+export function removeExtraSpaces(t) { return t.replace(/\s+/g, ' ').trim(); }
+export function removeEmptyLines(t) { return t.split('\n').filter(l => l.trim()).join('\n'); }
+export function removeAllLineBreaks(t) { return t.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim(); }
+export function sortLines(t) { return t.split('\n').sort((a, b) => a.localeCompare(b)).join('\n'); }
+export function uniqueLines(t) { return [...new Set(t.split('\n'))].join('\n'); }
+export function cleanAll(t) { return t.replace(/\s+/g, ' ').replace(/\n\s*\n/g, '\n').trim(); }
+
 export function init() {
   const input = document.getElementById('input');
   const output = document.getElementById('output');
 
-  const ops = {
+const ops = {
     trim: t => t.trim(),
-    removeExtra: t => t.replace(/\\s+/g, ' ').trim(),
-    removeLines: t => t.split('\\n').filter(l => l.trim()).join('\\n'),
-    removeAll: t => t.replace(/\\n/g, ' ').replace(/\\s+/g, ' ').trim(),
-    sortLines: t => t.split('\\n').sort((a, b) => a.localeCompare(b)).join('\\n'),
-    uniqueLines: t => [...new Set(t.split('\\n'))].join('\\n'),
-    all: t => t.replace(/\\s+/g, ' ').replace(/\\n\\s*\\n/g, '\\n').trim()
+    removeExtra: t => t.replace(/\s+/g, ' ').trim(),
+    removeLines: t => t.split('\n').filter(l => l.trim()).join('\n'),
+    removeAll: t => t.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim(),
+    sortLines: t => t.split('\n').sort((a, b) => a.localeCompare(b)).join('\n'),
+    uniqueLines: t => [...new Set(t.split('\n'))].join('\n'),
+    all: t => t.replace(/\s+/g, ' ').replace(/\n\s*\n/g, '\n').trim()
   };
 
   document.getElementById('trimBtn').onclick = () => output.value = ops.trim(input.value);

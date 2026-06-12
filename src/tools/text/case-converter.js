@@ -45,14 +45,20 @@ export function render() {
   `;
 }
 
+export function toLowerCase(text) { return text.toLowerCase(); }
+export function toUpperCase(text) { return text.toUpperCase(); }
+export function toTitleCase(text) { return text.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()); }
+export function toSentenceCase(text) { return text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); }
+export function toToggleCase(text) { return text.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join(''); }
+
 export function init() {
   const input = document.getElementById('input');
   const output = document.getElementById('output');
 
   const toLower = () => output.value = input.value.toLowerCase();
   const toUpper = () => output.value = input.value.toUpperCase();
-  const toTitle = () => output.value = input.value.replace(/\\w\\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
-  const toSentence = () => output.value = input.value.toLowerCase().replace(/(^\\s*\\w|[.!?]\\s*\\w)/g, c => c.toUpperCase());
+  const toTitle = () => output.value = input.value.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
+  const toSentence = () => output.value = input.value.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
   const toToggle = () => output.value = input.value.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join('');
 
   document.getElementById('lowerBtn').addEventListener('click', toLower);
