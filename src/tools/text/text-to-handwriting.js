@@ -1,3 +1,5 @@
+import { BASIC_TOOL_CSS } from '../shared/basic-tool-css.js';
+
 export const toolConfig = {
   id: 'text-to-handwriting',
   name: 'Text to Handwriting',
@@ -12,7 +14,7 @@ export const toolConfig = {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="handwriting-container">
+    <div class="tool-container">
       <div class="handwriting-input">
         <textarea id="text-input" placeholder="Enter text to convert to handwriting...">Hello World!</textarea>
       </div>
@@ -37,13 +39,9 @@ export function render(container) {
 
   const style = document.createElement('style');
   style.textContent = `
-    .handwriting-container { max-width: 700px; margin: 0 auto; }
+    ${BASIC_TOOL_CSS}
     .handwriting-input { margin-bottom: var(--space-4); }
-    .handwriting-input textarea { 
-      width: 100%; min-height: 100px; padding: var(--space-3); 
-      border: 1px solid var(--color-border); border-radius: var(--radius-md);
-      font-size: var(--text-base);
-    }
+    .handwriting-input textarea { font-size: var(--text-base); }
     .handwriting-options { display: flex; gap: var(--space-4); align-items: center; margin-bottom: var(--space-4); flex-wrap: wrap; }
     .handwriting-options label { font-weight: 600; }
     .handwriting-options select { padding: var(--space-2); border-radius: var(--radius-md); }

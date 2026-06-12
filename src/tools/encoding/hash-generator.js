@@ -1,3 +1,5 @@
+import { BASIC_TOOL_CSS } from '../shared/basic-tool-css.js';
+
 export const toolConfig = {
   id: 'hash-generator',
   name: 'Hash Generator',
@@ -12,9 +14,9 @@ export const toolConfig = {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="hash-container">
+    <div class="tool-container">
       <textarea id="input" placeholder="Enter text to hash..."></textarea>
-      <div class="hash-buttons">
+      <div class="tool-buttons hash-buttons">
         <button class="btn hash-btn active" data-algo="sha256">SHA-256</button>
         <button class="btn hash-btn" data-algo="sha1">SHA-1</button>
         <button class="btn hash-btn" data-algo="md5">MD5</button>
@@ -30,9 +32,8 @@ export function render(container) {
 
   const style = document.createElement('style');
   style.textContent = `
-    .hash-container { max-width: 600px; margin: 0 auto; }
-    .hash-container textarea { width: 100%; min-height: 100px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); margin-bottom: var(--space-3); font-family: monospace; }
-    .hash-buttons { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-3); }
+    ${BASIC_TOOL_CSS}
+    .hash-buttons { flex-wrap: wrap; }
     .hash-buttons .btn { flex: 1; min-width: 80px; }
     .hash-output textarea { background: var(--color-surface); min-height: 80px; }
     .hash-output { position: relative; }

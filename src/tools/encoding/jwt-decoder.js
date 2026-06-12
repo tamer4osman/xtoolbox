@@ -1,3 +1,5 @@
+import { BASIC_TOOL_CSS } from '../shared/basic-tool-css.js';
+
 export const toolConfig = {
   id: 'jwt-decoder',
   name: 'JWT Decoder',
@@ -12,7 +14,7 @@ export const toolConfig = {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="jwt-container">
+    <div class="tool-container">
       <textarea id="jwt-input" placeholder="Paste JWT token here..."></textarea>
       <div id="jwt-output" class="jwt-output"></div>
     </div>
@@ -20,8 +22,8 @@ export function render(container) {
 
   const style = document.createElement('style');
   style.textContent = `
-    .jwt-container { max-width: 700px; margin: 0 auto; }
-    .jwt-container textarea { width: 100%; min-height: 100px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); margin-bottom: var(--space-4); font-family: monospace; font-size: 13px; }
+    ${BASIC_TOOL_CSS}
+    .tool-container textarea { margin-bottom: var(--space-4); font-size: 13px; }
     .jwt-section { margin-bottom: var(--space-4); }
     .jwt-section h3 { font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-2); }
     .jwt-section pre { background: var(--color-surface); padding: var(--space-3); border-radius: var(--radius-md); overflow: auto; font-size: 13px; }

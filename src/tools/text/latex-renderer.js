@@ -1,4 +1,5 @@
 import { createFileUpload } from '../../components/file-upload.js';
+import { BASIC_TOOL_CSS } from '../shared/basic-tool-css.js';
 
 export const toolConfig = {
   id: 'latex-renderer',
@@ -14,11 +15,11 @@ export const toolConfig = {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="latex-container">
+    <div class="tool-container">
       <div class="latex-input">
         <textarea id="latex-input" placeholder="Enter LaTeX code here...">x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}</textarea>
       </div>
-      <div class="latex-controls">
+      <div class="latex-controls tool-buttons">
         <button id="render-btn" class="btn btn-primary">Render</button>
         <button id="download-btn" class="btn btn-secondary" disabled>Download PNG</button>
       </div>
@@ -28,14 +29,10 @@ export function render(container) {
 
   const style = document.createElement('style');
   style.textContent = `
-    .latex-container { max-width: 800px; margin: 0 auto; }
+    ${BASIC_TOOL_CSS}
+    .tool-container { max-width: 800px; }
     .latex-input { margin-bottom: var(--space-4); }
-    .latex-input textarea { 
-      width: 100%; min-height: 120px; font-family: 'Courier New', monospace;
-      padding: var(--space-3); border: 1px solid var(--color-border);
-      border-radius: var(--radius-md); font-size: var(--text-base);
-    }
-    .latex-controls { display: flex; gap: var(--space-3); margin-bottom: var(--space-4); }
+    .latex-input textarea { min-height: 120px; font-family: 'Courier New', monospace; font-size: var(--text-base); }
     .latex-preview { 
       min-height: 150px; padding: var(--space-6); 
       background: white; border-radius: var(--radius-lg);

@@ -1,3 +1,5 @@
+import { BASIC_TOOL_CSS } from '../shared/basic-tool-css.js';
+
 export const toolConfig = {
   id: 'word-frequency',
   name: 'Word Frequency',
@@ -12,7 +14,7 @@ export const toolConfig = {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="freq-container">
+    <div class="tool-container">
       <textarea id="input" placeholder="Enter text to analyze..."></textarea>
       <div class="freq-options">
         <label>Top words: <input type="number" id="top-n" value="20" min="5" max="100"></label>
@@ -26,8 +28,8 @@ export function render(container) {
 
   const style = document.createElement('style');
   style.textContent = `
-    .freq-container { max-width: 700px; margin: 0 auto; }
-    .freq-container textarea { width: 100%; min-height: 150px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); margin-bottom: var(--space-3); }
+    ${BASIC_TOOL_CSS}
+    .tool-container textarea { min-height: 150px; }
     .freq-options { display: flex; gap: var(--space-4); align-items: center; margin-bottom: var(--space-3); flex-wrap: wrap; }
     .freq-options label { display: flex; align-items: center; gap: var(--space-2); }
     .freq-options input[type="number"] { width: 60px; }
