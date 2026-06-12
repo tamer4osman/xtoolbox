@@ -54,11 +54,13 @@ export function render(container) {
   actions.append(copyHtmlBtn, copyMdBtn);
   container.querySelector('.gen-output').after(actions);
 
-  const observer = new MutationObserver(() => {
+  function syncPreview() {
     previewTable.innerHTML = resultEl.textContent;
-  });
+  }
+
+  const observer = new MutationObserver(syncPreview);
   observer.observe(resultEl, { childList: true, characterData: true, subtree: true });
-  previewTable.innerHTML = resultEl.textContent;
+  syncPreview();
 
   copyHtmlBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(previewTable.outerHTML);
