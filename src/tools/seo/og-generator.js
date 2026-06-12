@@ -162,18 +162,10 @@ export function render(container) {
       return '<div class="empty-preview">Fill in title and description to see preview</div>';
     }
 
-    switch (platform) {
-      case 'facebook':
-        return `<div class="fb-card"><div class="fb-card-img">${imgTag}</div><div class="fb-card-body"><div class="fb-card-domain">${escapeHtml(domain)}</div><div class="fb-card-title">${escapeHtml(title || 'Title')}</div><div class="fb-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
-      case 'twitter':
-        return `<div class="tw-card"><div class="tw-card-img">${imgTag}</div><div class="tw-card-body"><div class="tw-card-domain">${escapeHtml(domain)}</div><div class="tw-card-title">${escapeHtml(title || 'Title')}</div><div class="tw-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
-      case 'linkedin':
-        return `<div class="li-card"><div class="li-card-img">${imgTag}</div><div class="li-card-body"><div class="li-card-domain">${escapeHtml(domain)}</div><div class="li-card-title">${escapeHtml(title || 'Title')}</div><div class="li-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
-      case 'slack':
-        return `<div class="slack-card"><div class="slack-card-img">${imgTag}</div><div class="slack-card-body"><div class="slack-card-domain">${escapeHtml(domain)}</div><div class="slack-card-title">${escapeHtml(title || 'Title')}</div><div class="slack-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
-      default:
-        return '<div class="empty-preview">Unknown platform</div>';
-    }
+    const prefix = { facebook: 'fb', twitter: 'tw', linkedin: 'li', slack: 'slack' }[platform];
+    if (!prefix) return '<div class="empty-preview">Unknown platform</div>';
+
+    return `<div class="${prefix}-card"><div class="${prefix}-card-img">${imgTag}</div><div class="${prefix}-card-body"><div class="${prefix}-card-domain">${escapeHtml(domain)}</div><div class="${prefix}-card-title">${escapeHtml(title || 'Title')}</div><div class="${prefix}-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
   }
 
   function updateAllPreviews() {
