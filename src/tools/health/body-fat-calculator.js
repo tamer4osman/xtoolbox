@@ -19,7 +19,7 @@ const RESULT_CSS = `
   .bf-value { font-size: 3.5rem; font-weight: 700; }
   .bf-category { font-size: var(--text-lg); color: var(--color-text-secondary); }
   .bf-scale { margin-bottom: var(--space-6); }
-  .scale-bar { height: 12px; background: linear-gradient(90deg, #3b82f6 0%, #10b981 25%, #10b981 50%, #f59e0b 75%, #ef4444 100%); border-radius: 6px; position: relative; }
+  .scale-bar { height: 12px; background: linear-gradient(90deg, #3b82f6 0%, #10b981 25%, #10b981 50%, #f59e0b 75%, #ef4444 100%); border-radius: 6px; position: relative; overflow: hidden; }
   .scale-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--color-text-muted); margin-top: var(--space-1); }
   .bf-mass { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
   .mass-item { background: var(--color-surface); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center; }
