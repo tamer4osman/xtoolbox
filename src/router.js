@@ -47,10 +47,7 @@ function matchRoute(path) {
 async function handleRouteChange() {
   const path = getCurrentPath();
 
-  if (currentRoute && currentRoute.startsWith('/tools/') && path.startsWith('/tools/') && currentRoute !== path) {
-    const { cleanupToolResources } = await import('./pages/tool.js');
-    await cleanupToolResources();
-  } else if (currentRoute && currentRoute.startsWith('/tools/') && !path.startsWith('/tools/')) {
+  if (currentRoute && currentRoute.startsWith('/tools/') && !path.startsWith('/tools/')) {
     const { cleanupToolResources } = await import('./pages/tool.js');
     await cleanupToolResources();
   }
