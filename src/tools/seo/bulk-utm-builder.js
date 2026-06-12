@@ -121,10 +121,16 @@ function getParams(container) {
   };
 }
 
+function sanitizeCsvValue(v) {
+  const str = v || '';
+  if (/^[=+\-@\t\r]/.test(str)) return "'" + str;
+  return str;
+}
+
 function exportCsv(baseUrls, params, urls) {
   const header = 'base_url,utm_source,utm_medium,utm_campaign,utm_content,utm_term,full_url';
   const rows = baseUrls.map((u, i) =>
-    [u, params.source, params.medium, params.campaign, params.content, params.term, urls[i] || ''].map(v => '"' + (v || '').replace(/"/g, '""') + '"').join(',')
+    [u, params.source, params.medium, params.campaign, params.content, params.term, urls[i] || ''].map(v => '"' + sanitizeCsvValue(v).replace(/"/g, '""') + '"').join(',')
   );
   const csv = header + '\n' + rows.join('\n');
   const blob = new Blob([csv], { type: 'text/csv' });
