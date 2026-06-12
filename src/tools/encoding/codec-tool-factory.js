@@ -15,11 +15,12 @@ export function createCodecTool(config) {
             <textarea id="dec-input" placeholder="${config.decodePlaceholder}">${config.decodeDefault || ''}</textarea>
             <div class="output"><span>${config.decodeLabel}:</span><pre id="dec-output"></pre></div>
           </div>
+          ${config.extraHTML || ''}
         </div>
       `;
 
       const style = document.createElement('style');
-      style.textContent = CODEC_CSS;
+      style.textContent = CODEC_CSS + (config.extraCSS || '');
       container.appendChild(style);
 
       container.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
