@@ -10,10 +10,12 @@ export const toolConfig = {
   steps: ['Browse or search emojis', 'Click to copy', 'Paste anywhere']
 };
 
+import { CHAR_GRID_CSS } from '../shared/char-grid-css.js';
+
 export function render(container) {
   container.innerHTML = `
-    <div class="emoji-container">
-      <div class="emoji-search">
+    <div class="char-grid-container">
+      <div class="char-grid-search">
         <input type="text" id="search-input" placeholder="Search emojis (e.g., 'smile', 'heart', 'food')...">
       </div>
       <div class="emoji-categories">
@@ -26,36 +28,20 @@ export function render(container) {
         <button class="cat-btn" data-cat="objects">💡 Objects</button>
         <button class="cat-btn" data-cat="symbols">❤️ Symbols</button>
       </div>
-      <div id="results" class="emoji-results"></div>
+      <div id="results" class="char-grid-results"></div>
       <div id="toast" class="emoji-toast">Copied!</div>
     </div>
   `;
 
   const style = document.createElement('style');
   style.textContent = `
-    .emoji-container { max-width: 600px; margin: 0 auto; }
-    .emoji-search { margin-bottom: var(--space-3); }
-    .emoji-search input { 
-      width: 100%; padding: var(--space-3); 
-      border: 1px solid var(--color-border); border-radius: var(--radius-md);
-    }
+    ${CHAR_GRID_CSS}
     .emoji-categories { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-4); }
     .cat-btn { 
       padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border);
       border-radius: var(--radius-md); background: var(--color-surface); cursor: pointer;
     }
     .cat-btn.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
-    .emoji-results { 
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); 
-      gap: var(--space-2); max-height: 400px; overflow-y: auto;
-      padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
-    }
-    .emoji-item { 
-      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      font-size: 1.8em; cursor: pointer; border-radius: var(--radius-md);
-      transition: transform 0.1s, background 0.2s;
-    }
-    .emoji-item:hover { transform: scale(1.2); background: var(--color-surface); }
     .emoji-toast {
       position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
       background: var(--color-success); color: white; padding: var(--space-3) var(--space-6);
@@ -83,10 +69,10 @@ export function render(container) {
 
   function renderEmojis(emojis) {
     results.innerHTML = emojis.map(e => 
-      `<div class="emoji-item">${e}</div>`
+      `<div class="char-grid-item">${e}</div>`
     ).join('');
     
-    results.querySelectorAll('.emoji-item').forEach(el => {
+    results.querySelectorAll('.char-grid-item').forEach(el => {
       el.addEventListener('click', () => {
         navigator.clipboard.writeText(el.textContent);
         toast.classList.add('show');

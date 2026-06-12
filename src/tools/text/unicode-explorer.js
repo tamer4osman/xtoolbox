@@ -10,10 +10,12 @@ export const toolConfig = {
   steps: ['Search for a character', 'Copy to clipboard', 'View details']
 };
 
+import { CHAR_GRID_CSS } from '../shared/char-grid-css.js';
+
 export function render(container) {
   container.innerHTML = `
-    <div class="unicode-container">
-      <div class="unicode-search">
+    <div class="char-grid-container">
+      <div class="char-grid-search">
         <input type="text" id="search-input" placeholder="Search by name (e.g., 'arrow', 'heart', 'emoji')...">
         <select id="category-select">
           <option value="">All Categories</option>
@@ -25,28 +27,15 @@ export function render(container) {
           <option value="latin">Latin Extended</option>
         </select>
       </div>
-      <div id="results" class="unicode-results"></div>
+      <div id="results" class="char-grid-results"></div>
       <div id="details" class="unicode-details"></div>
     </div>
   `;
 
   const style = document.createElement('style');
   style.textContent = `
-    .unicode-container { max-width: 800px; margin: 0 auto; }
-    .unicode-search { display: flex; gap: var(--space-3); margin-bottom: var(--space-4); }
-    .unicode-search input { flex: 1; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+    ${CHAR_GRID_CSS}
     .unicode-search select { padding: var(--space-3); border-radius: var(--radius-md); }
-    .unicode-results { 
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
-      gap: var(--space-2); max-height: 400px; overflow-y: auto;
-      padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
-    }
-    .unicode-char { 
-      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      font-size: 1.5em; cursor: pointer; border-radius: var(--radius-md);
-      transition: background 0.2s;
-    }
-    .unicode-char:hover { background: var(--color-primary); color: white; }
     .unicode-char.selected { background: var(--color-primary); color: white; }
     .unicode-details { 
       margin-top: var(--space-4); padding: var(--space-4); 
@@ -119,12 +108,12 @@ export function render(container) {
 
   function renderResults(chars) {
     results.innerHTML = chars.map((c, i) => 
-      `<div class="unicode-char" data-index="${i}">${c.char}</div>`
+      `<div class="char-grid-item unicode-char" data-index="${i}">${c.char}</div>`
     ).join('');
     
-    results.querySelectorAll('.unicode-char').forEach(el => {
+    results.querySelectorAll('.char-grid-item').forEach(el => {
       el.addEventListener('click', () => {
-        results.querySelectorAll('.unicode-char').forEach(x => x.classList.remove('selected'));
+        results.querySelectorAll('.char-grid-item').forEach(x => x.classList.remove('selected'));
         el.classList.add('selected');
         const idx = parseInt(el.dataset.index);
         showDetails(chars[idx]);
