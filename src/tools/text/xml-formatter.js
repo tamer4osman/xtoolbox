@@ -30,11 +30,18 @@ export function formatXml(xml, indent = 2) {
     
     output += ' '.repeat(currentIndent) + line + '\n';
     
-    // Check for opening tag (not self-closing, not closing, not comment/CDATA)
-    if (line.startsWith('<') && !line.startsWith('</') && !line.startsWith('<?') && 
-        !line.startsWith('<!--') && !line.startsWith('<![CDATA[') &&
-        !line.endsWith('/>') && !/<[^/][^>]*\/>/.test(line)) {
-      // Check if it's a complete tag with content
+    // Skip comments and CDATA sections entirely - they don't affect indentation
+    if (line.startsWith('<!--') || line.startsWith('<![CDATA[')) {
+      continue;
+    }
+    
+    // Check for opening tag (not self-closing, not closing, not processing instruction)
+    if (line.startsWith('<') && !line.startsWith('</') && !line.startsWith('<?')) {
+      // Skip self-closing tags (end with /> or match self-closing pattern)
+      if (line.endsWith('/>') || /<[^/][^>]*\/>/.test(line)) {
+        continue;
+      }
+      // Check if it's a complete tag with content (opening + text + closing on same line)
       const match = line.match(/^<[^>]+>[^<]*<\/[^>]+>$/);
       if (!match) {
         currentIndent += indent;
@@ -153,7 +160,7 @@ export function render(container) {
       <div id="xf-status" style="display:none;padding:var(--space-3);border-radius:var(--radius-md);margin-bottom:var(--space-3);font-size:var(--text-sm);"></div>
       
       <div class="form-group">
-        <label>Formatted Output</label>
+        <label for="xf-output">Formatted Output</label>
         <div style="position:relative;">
           <pre id="xf-output" style="background:var(--color-code-bg, #1e1e2e);color:#cdd6f4;padding:var(--space-3);border-radius:var(--radius-md);overflow-x:auto;font-size:var(--text-sm);line-height:1.6;white-space:pre-wrap;word-break:break-all;min-height:120px;font-family:monospace;max-height:400px;overflow-y:auto;"></pre>
           <div style="position:absolute;top:var(--space-2);right:var(--space-2);display:flex;gap:var(--space-2);">
@@ -223,9 +230,13 @@ export function render(container) {
       showStatus('XML is valid (well-formed)', 'success');
     } else {
       let errorMsg = 'Invalid XML: ' + result.error;
-      if (result.line) errorMsg += ` (line ${result.line}`;
-      if (result.column) errorMsg += `, column ${result.column}`;
-      if (result.line) errorMsg += ')';
+      if (result.line || result.column) {
+        errorMsg += ' (';
+        if (result.line) errorMsg += `line ${result.line}`;
+        if (result.line && result.column) errorMsg += ', ';
+        if (result.column) errorMsg += `column ${result.column}`;
+        errorMsg += ')';
+      }
       showStatus(errorMsg, 'error');
     }
   }
@@ -246,7 +257,11 @@ export function render(container) {
       }
       
       // Collapse whitespace between adjacent tags only (preserve text/CDATA content)
-      const minified = xml.replace(/>\s+</g, '><').trim();
+      // Match whitespace between tags that is NOT adjacent to text content
+      const minified = xml
+        .replace(/>\s+(?=<)/g, '>')
+        .replace(/(?<=>)\s+</g, '<')
+        .trim();
       currentXml = minified;
       output.textContent = minified;
       showStatus('XML minified', 'success');
