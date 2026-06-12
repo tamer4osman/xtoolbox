@@ -1305,7 +1305,7 @@ function renderCategorySection(cat, selected, collapsed) {
         ${items.map(([key, t]) => `
           <label class="gig-tpl" data-key="${key}" data-name="${t.name.toLowerCase()}" style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;font-size:var(--text-sm);user-select:none;background:var(--color-bg);">
             <input type="checkbox" class="gig-tpl-cb" data-key="${key}" ${selected.has(key) ? 'checked' : ''} style="width:16px;height:16px;cursor:pointer;accent-color:var(--color-primary);">
-            <span>${t.name}</span>
+            <span>${escapeHtml(t.name)}</span>
           </label>
         `).join('')}
       </div>
@@ -1319,7 +1319,7 @@ function renderChips(selected, chipsEl, countEl) {
   } else {
     chipsEl.innerHTML = Array.from(selected).map(key => {
       const t = TEMPLATES[key];
-      return t ? `<span class="gig-chip" data-key="${key}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-primary);color:white;border-radius:var(--radius-md);font-size:var(--text-sm);cursor:pointer;" title="Click to remove">${t.name} <span style="opacity:0.8;">×</span></span>` : '';
+      return t ? `<span class="gig-chip" data-key="${key}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-primary);color:white;border-radius:var(--radius-md);font-size:var(--text-sm);cursor:pointer;" title="Click to remove">${escapeHtml(t.name)} <span style="opacity:0.8;">×</span></span>` : '';
     }).join('');
   }
   countEl.textContent = selected.size;
