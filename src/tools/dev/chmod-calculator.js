@@ -88,6 +88,7 @@ export function render(container) {
   const BITS = ['r', 'w', 'x'];
   const ROLE_LABELS = { owner: 'Owner', group: 'Group', other: 'Other' };
   const BIT_LABELS = { r: 'Read', w: 'Write', x: 'Execute' };
+  const listeners = [];
 
   container.innerHTML = `
     <div class="tool-layout">
@@ -201,42 +202,37 @@ export function render(container) {
     renderAll();
   }
 
-  bitChecks.forEach(cb => {
-    cb.addEventListener('change', () => {
-      const role = cb.dataset.role;
-      const bit = cb.dataset.bit;
-      state.perms[role][bit] = cb.checked;
+  function onBitChange(cb) {
+    const role = cb.dataset.role;
+    const bit = cb.dataset.bit;
+    state.perms[role][bit] = cb.checked;
+    renderAll();
+  }
+
+  function onSpecialChange(cb) {
+    state.perms.special[cb.dataset.special] = cb.checked;
+    renderAll();
+  }
+
+  function onPresetClick(btn) {
+    const parsed = octalToChmod(btn.dataset.octal);
+    if (parsed) {
+      state.perms = parsed;
       renderAll();
-    });
-  });
+    }
+  }
 
-  specialChecks.forEach(cb => {
-    cb.addEventListener('change', () => {
-      state.perms.special[cb.dataset.special] = cb.checked;
-      renderAll();
-    });
-  });
+  function onOctalBlur() { commitOctal(); }
 
-  presetBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const parsed = octalToChmod(btn.dataset.octal);
-      if (parsed) {
-        state.perms = parsed;
-        renderAll();
-      }
-    });
-  });
-
-  octalInput.addEventListener('blur', commitOctal);
-  octalInput.addEventListener('keydown', e => {
+  function onOctalKeydown(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
       commitOctal();
       octalInput.blur();
     }
-  });
+  }
 
-  copyBtn.addEventListener('click', () => {
+  function onCopyClick() {
     const text = commandEl.textContent;
     if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(text).then(() => {
@@ -245,9 +241,42 @@ export function render(container) {
         setTimeout(() => { copyBtn.textContent = original; }, 1200);
       }).catch(() => {});
     }
+  }
+
+  bitChecks.forEach(cb => {
+    const handler = () => onBitChange(cb);
+    cb.addEventListener('change', handler);
+    listeners.push({ el: cb, event: 'change', handler });
   });
 
+  specialChecks.forEach(cb => {
+    const handler = () => onSpecialChange(cb);
+    cb.addEventListener('change', handler);
+    listeners.push({ el: cb, event: 'change', handler });
+  });
+
+  presetBtns.forEach(btn => {
+    const handler = () => onPresetClick(btn);
+    btn.addEventListener('click', handler);
+    listeners.push({ el: btn, event: 'click', handler });
+  });
+
+  octalInput.addEventListener('blur', onOctalBlur);
+  listeners.push({ el: octalInput, event: 'blur', handler: onOctalBlur });
+
+  octalInput.addEventListener('keydown', onOctalKeydown);
+  listeners.push({ el: octalInput, event: 'keydown', handler: onOctalKeydown });
+
+  copyBtn.addEventListener('click', onCopyClick);
+  listeners.push({ el: copyBtn, event: 'click', handler: onCopyClick });
+
   renderAll();
+
+  return () => {
+    if (state.flashTimer) clearTimeout(state.flashTimer);
+    listeners.forEach(({ el, event, handler }) => el.removeEventListener(event, handler));
+    listeners.length = 0;
+  };
 }
 
 export function destroy() {}
