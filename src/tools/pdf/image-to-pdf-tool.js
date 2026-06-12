@@ -12,12 +12,14 @@ const PAGE_SIZES = {
 
 function computePageDimensions(pageSize, orientation, image, margin) {
   let pageWidth, pageHeight;
+  const imgWidth = image.naturalWidth || image.width;
+  const imgHeight = image.naturalHeight || image.height;
   if (pageSize === 'fit') {
-    pageWidth = image.naturalWidth + margin * 2;
-    pageHeight = image.naturalHeight + margin * 2;
+    pageWidth = imgWidth + margin * 2;
+    pageHeight = imgHeight + margin * 2;
   } else {
     [pageWidth, pageHeight] = PAGE_SIZES[pageSize];
-    if (orientation === 'landscape' || (orientation === 'auto' && image.naturalWidth > image.naturalHeight)) {
+    if (orientation === 'landscape' || (orientation === 'auto' && imgWidth > imgHeight)) {
       if (pageWidth < pageHeight) [pageWidth, pageHeight] = [pageHeight, pageWidth];
     } else if (orientation === 'portrait' || orientation === 'auto') {
       if (pageWidth > pageHeight) [pageWidth, pageHeight] = [pageHeight, pageWidth];
@@ -31,7 +33,9 @@ export { computePageDimensions };
 function fitImageToPage(image, pageWidth, pageHeight, margin) {
   const availWidth = pageWidth - margin * 2;
   const availHeight = pageHeight - margin * 2;
-  const imgRatio = image.naturalWidth / image.naturalHeight;
+  const imgWidth = image.naturalWidth || image.width;
+  const imgHeight = image.naturalHeight || image.height;
+  const imgRatio = imgWidth / imgHeight;
   const pageRatio = availWidth / availHeight;
   if (imgRatio > pageRatio) {
     return { drawWidth: availWidth, drawHeight: availWidth / imgRatio };
