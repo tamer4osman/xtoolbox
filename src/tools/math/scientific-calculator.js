@@ -172,7 +172,11 @@ export function render(container) {
         }
       } else if (unaryOps.includes(action) || action === 'pi' || action === 'e') {
         const result = calculate(current, action);
-        current = result.toString();
+        if (result !== null && !isNaN(result) && isFinite(result)) {
+          current = result.toString();
+        } else {
+          current = 'Error';
+        }
         newNumber = true;
       }
       updateDisplay();
