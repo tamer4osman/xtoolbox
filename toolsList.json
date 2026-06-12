@@ -1594,8 +1594,9 @@
     "name": "PDF to EPUB",
     "category": "pdf",
     "description": "Convert PDF to e-book format for e-readers.",
-    "icon": "",
+    "icon": "📚",
     "href": "/tools/pdf-to-epub",
+    "keywords": ["pdf to epub", "convert pdf epub", "pdf converter", "ebook converter"],
     "status": "done"
   },
   {
@@ -1603,8 +1604,9 @@
     "name": "Delete PDF Pages",
     "category": "pdf",
     "description": "Remove specific pages from a PDF with visual selector.",
-    "icon": "",
+    "icon": "📄",
     "href": "/tools/delete-pdf-pages",
+    "keywords": ["delete pdf pages", "remove pdf pages", "remove pages from pdf"],
     "status": "done"
   },
   {
@@ -1612,8 +1614,9 @@
     "name": "PowerPoint to PDF",
     "category": "pdf",
     "description": "Convert .pptx presentations to PDF files.",
-    "icon": "",
+    "icon": "📊",
     "href": "/tools/pptx-to-pdf",
+    "keywords": ["pptx to pdf", "powerpoint to pdf", "convert pptx pdf"],
     "status": "done"
   },
   {
@@ -2008,8 +2011,9 @@
     "name": "JPG to PDF Converter",
     "category": "pdf",
     "description": "Convert JPG images to PDF documents.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/jpg-to-pdf",
+    "keywords": ["jpg to pdf", "jpeg to pdf", "image to pdf", "photo to pdf"],
     "status": "done"
   },
   {
@@ -2017,8 +2021,9 @@
     "name": "PNG to PDF Converter",
     "category": "pdf",
     "description": "Convert PNG images to PDF documents.",
-    "icon": "",
+    "icon": "🖼️",
     "href": "/tools/png-to-pdf",
+    "keywords": ["png to pdf", "image to pdf", "photo to pdf"],
     "status": "done"
   },
   {
