@@ -65,7 +65,7 @@ function extractFonts(doc, html) {
       const name = m.replace(/font-family\s*:\s*['"]?/i, '').replace(/['"]?\s*$/, '').trim();
       if (name && !seen.has(name.toLowerCase()) && !skip.includes(name.toLowerCase())) {
         seen.add(name.toLowerCase());
-        fonts.push({ label: `Font Family: ${name}`, content: `font-family: '${name.replace(/'/g, "\\'")}', sans-serif;`, download: false });
+        fonts.push({ label: `Font Family: ${name}`, content: `font-family: '${name.replace(/\\/g, '\\\\').replace(/'/g, "\\'}")}', sans-serif;`, download: false });
       }
     });
   }
