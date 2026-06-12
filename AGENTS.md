@@ -298,6 +298,25 @@ bash mimo_api.sh audio /path/to/audio.wav "转录音频内容"
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
 
+## Commit Convention
+
+Each related change gets its own commit. **Never bundle unrelated changes into a single commit.**
+
+- One logical fix = one commit
+- Related files (e.g. source + its test) commit together in one commit
+- Use conventional prefixes: `fix:`, `test:`, `docs:`, `refactor:`
+- Message describes what the change does, not what was broken
+
+**Examples:**
+```
+fix(yaml-json): fix array dash syntax using parent reference for correct scope
+fix(bmi-calculator,ideal-weight): update height label to include cm/ft/in
+test(text-diff): import diffLines from source instead of duplicating
+docs: fix empty tool icons and sync total count
+```
+
+**Wrong:** `fix: resolve Coderabbit review issues across codebase` (23 files in one commit)
+
 ## Tool Building Convention
 
 When building a new tool, ALWAYS follow this exact sequence:
