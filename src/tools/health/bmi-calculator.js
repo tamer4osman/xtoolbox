@@ -13,7 +13,7 @@ const HEIGHT_FIELD = {
   type: 'custom',
   html: `
     <div class="form-group">
-      <label>Height</label>
+      <label>Height (cm or ft/in)</label>
       <div class="input-group" id="height-group">
         <input type="number" id="height" value="170" min="50" max="300" />
         <input type="number" id="height-feet" value="5" min="1" max="8" style="display:none" />
