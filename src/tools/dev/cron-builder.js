@@ -12,8 +12,24 @@ export const toolConfig = {
 export function getCronDescription(values) {
   if (values.minute === '*' && values.hour === '*') return 'Runs every minute';
   if (values.minute === '0' && values.hour === '*') return 'Runs every hour at minute 0';
-  if (values.minute === '0' && values.hour === '0') return 'Runs daily at midnight';
-  if (values.weekday === '1-5' && values.hour === '9') return 'Runs weekdays at 9 AM';
+  if (values.minute === '0' && values.hour === '0' && values.day === '*' && values.month === '*') {
+    if (values.weekday === '*') return 'Runs daily at midnight';
+    if (values.weekday === '1-5') return 'Runs weekdays at midnight';
+    if (values.weekday === '0,6') return 'Runs weekends at midnight';
+    if (values.weekday === '0') return 'Runs Sundays at midnight';
+    if (values.weekday === '1') return 'Runs Mondays at midnight';
+    if (values.weekday === '5') return 'Runs Fridays at midnight';
+    return `Runs at midnight on weekdays ${values.weekday}`;
+  }
+  if (values.minute === '0' && values.hour === '9' && values.day === '*' && values.month === '*') {
+    if (values.weekday === '*') return 'Runs daily at 9 AM';
+    if (values.weekday === '1-5') return 'Runs weekdays at 9 AM';
+    if (values.weekday === '0,6') return 'Runs weekends at 9 AM';
+    if (values.weekday === '0') return 'Runs Sundays at 9 AM';
+    if (values.weekday === '1') return 'Runs Mondays at 9 AM';
+    if (values.weekday === '5') return 'Runs Fridays at 9 AM';
+    return `Runs at 9 AM on weekdays ${values.weekday}`;
+  }
   return `Runs at ${values.minute} ${values.hour} ${values.day} ${values.month} ${values.weekday}`;
 }
 
