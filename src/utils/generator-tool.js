@@ -1,9 +1,15 @@
 function createCopyHandler(btn, getText) {
-  btn.addEventListener('click', () => {
-    navigator.clipboard.writeText(getText());
-    const original = btn.textContent;
-    btn.textContent = 'Copied!';
-    setTimeout(() => { btn.textContent = original; }, 1500);
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(getText());
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    } catch {
+      const original = btn.textContent;
+      btn.textContent = 'Failed';
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    }
   });
 }
 
