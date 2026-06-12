@@ -5,8 +5,18 @@ const ATTR_HANDLERS = {
   className: (el, value) => (el.className = value),
   innerHTML: (el, value) => (el.innerHTML = value),
   textContent: (el, value) => (el.textContent = value),
-  style: (el, value) => Object.assign(el.style, value),
-  dataset: (el, value) => Object.assign(el.dataset, value),
+  style: (el, value) => {
+    if (value && typeof value === 'object') {
+      Object.assign(el.style, value);
+    } else if (typeof value === 'string') {
+      el.style.cssText = value;
+    }
+  },
+  dataset: (el, value) => {
+    if (value && typeof value === 'object') {
+      Object.assign(el.dataset, value);
+    }
+  },
 };
 
 function handleAttribute(el, key, value) {
