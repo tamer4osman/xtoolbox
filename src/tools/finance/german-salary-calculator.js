@@ -34,7 +34,7 @@ export function calculateSocialContributions(adjustedGross, isPrivateHealth, isP
     care += (adjustedGross - 90600) / 12 * 0.002;
   }
   const pension = isPrivatePension ? 0 : adjustedGross / 12 * 0.093;
-  const unemployment = isPrivatePension ? 0 : adjustedGross / 12 * 0.012;
+  const unemployment = isPrivateHealth ? 0 : adjustedGross / 12 * 0.012;
 
   return { health, pension, unemployment, care };
 }
@@ -239,7 +239,7 @@ function writeResults(container, r) {
   q('gross-monthly').textContent = fmt(r.grossMonthly);
   q('total-deductions').textContent = fmt(r.totalDeductionsMonthly);
   q('net-monthly').textContent = fmt(r.netMonthly);
-  q('kinderfreibetrag').textContent = r.childrenCount > 0 ? r.childrenCount + ' × ' + fmt(r.kinderfreibetrag / 12 / r.childrenCount) + ' each' : '0';
+  q('kinderfreibetrag').textContent = r.childrenCount > 0 ? `${r.childrenCount} child${r.childrenCount > 1 ? 'ren' : ''} × ${fmt(r.kinderfreibetrag / 12 / r.childrenCount)}/mo` : '0';
   q('income-tax').textContent = fmt(r.annualTax / 12);
   q('church-tax-val').textContent = fmt(r.churchTax / 12);
   q('solidarity').textContent = fmt(r.solidarity / 12);
