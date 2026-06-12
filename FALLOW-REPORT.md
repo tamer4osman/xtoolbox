@@ -12,10 +12,10 @@
 | Files analyzed | 487 |
 | Functions analyzed | 4,137 |
 | Total JS lines | 47,621 |
-| Clone groups | 135 |
-| Clone instances | 325 |
-| Duplicated lines | 3,812 (8.0%) |
-| Files with clones | 149/464 |
+| Clone groups | 131 |
+| Clone instances | ~300 |
+| Duplicated lines | 3,571 (7.5%) |
+| Files with clones | ~140/464 |
 | Avg maintainability | 93.8 |
 
 ---
@@ -127,12 +127,19 @@
 | Duplicated lines | 4,514 | 3,812 | -702 |
 | Duplication % | 9.4% | 8.0% | -1.4% |
 
-### What was refactored:
+### Sessions
+
+**Session 2026-06-12 (initial):**
 1. **CSS modules** — Extracted `lookup-css.js`, `tabs-css.js`, `basic-tool-css.js`, `char-grid-css.js`
 2. **Image tools factory** — `create-image-tool.js` with 5 tools using it
 3. **escapeHtml dedup** — Centralized to `src/utils/dom.js`, 11 copies removed
 4. **Video tools factory** — `video-tool-factory.js` with 3 tools using it
 5. **og-generator** — Data-driven preview rendering (switch → lookup)
+
+**Session 2026-06-12 (parallel agents):**
+1. **Codec tools** — `codec-tool-factory.js` + `codec-css.js` for 3 tools (base64, html-entity, url)
+2. **Tab switching** — `tab-switching.js` helper for privacy tools (encrypt-file, steganography)
+3. **Test helper** — `tool-config-test.js` for standardized tool config tests
 
 ### Remaining targets:
 1. **Test template** (#2, 155 lines) — 19 identical .spec.js files could share a test helper
