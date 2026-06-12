@@ -57,11 +57,11 @@ function parseXmlToRows(xmlString) {
       const childData = extractRows(child, childPath);
       if (childData) Object.assign(row, childData);
     }
-    if (Object.keys(row).length > 0) rows.push(row);
-    return null;
+    return Object.keys(row).length > 0 ? row : null;
   }
 
-  extractRows(doc.documentElement);
+  const rootRow = extractRows(doc.documentElement);
+  if (rootRow) rows.push(rootRow);
 
   const allElements = doc.getElementsByTagName('*');
   const tagCounts = {};
