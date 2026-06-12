@@ -1,3 +1,5 @@
+import { TABS_CSS } from '../shared/tabs-css.js';
+
 export const toolConfig = {
   id: 'encrypt-file',
   name: 'File Encryption',
@@ -56,26 +58,11 @@ export function render(container) {
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
     .tool-icon { font-size: 4rem; margin-bottom: var(--space-4); }
     .tool-description { color: var(--color-text-secondary); }
-    .tabs { display: flex; border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-6); }
-    .tab { flex: 1; padding: var(--space-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 500; color: var(--color-text-secondary); }
-    .tab.active { color: var(--color-primary); border-color: var(--color-primary); }
-    .tab-panel { display: none; flex-direction: column; gap: var(--space-4); }
-    .tab-panel.active { display: flex; }
-    .input-section { display: flex; flex-direction: column; gap: var(--space-2); }
-    .input-section label { font-weight: 500; }
-    .upload-zone { border: 2px dashed var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center; cursor: pointer; transition: all 0.2s; }
-    .upload-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
     .upload-link { color: var(--color-primary); cursor: pointer; text-decoration: underline; }
     .upload-hint { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-2); }
-    .tool-input { padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--text-base); }
-    .tool-input:focus { outline: none; border-color: var(--color-primary); }
-    .tool-button { padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); font-weight: 600; cursor: pointer; }
-    .tool-button.primary { background: var(--color-primary); color: white; border: none; }
-    .tool-button.primary:hover { background: var(--color-primary-hover); }
-    .result-section { margin-top: var(--space-4); text-align: center; padding: var(--space-4); border-radius: var(--radius-md); }
-    .result-section.hidden { display: none; }
     .result-section.success { background: #dcfce7; color: #166534; }
     .result-section.error { background: #fef2f2; color: var(--color-error); }
+    ${TABS_CSS}
   `;
   container.appendChild(style);
 

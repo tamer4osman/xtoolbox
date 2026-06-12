@@ -1,3 +1,5 @@
+import { TABS_CSS } from '../shared/tabs-css.js';
+
 export const toolConfig = {
   id: 'steganography',
   name: 'Steganography',
@@ -49,19 +51,11 @@ export function render(container) {
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
-    .tabs { display: flex; border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-6); }
-    .tab { flex: 1; padding: var(--space-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 500; color: var(--color-text-secondary); }
-    .tab.active { color: var(--color-primary); border-color: var(--color-primary); }
-    .tab-panel { display: none; flex-direction: column; gap: var(--space-4); }
-    .tab-panel.active { display: flex; }
-    .input-section { display: flex; flex-direction: column; gap: var(--space-2); }
-    .upload-zone { border: 2px dashed var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center; cursor: pointer; }
-    .upload-zone:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
     .tool-textarea { min-height: 100px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); resize: vertical; }
-    .tool-button { padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); font-weight: 600; background: var(--color-primary); color: white; border: none; cursor: pointer; }
     .decoded-result { margin-top: var(--space-4); padding: var(--space-4); background: var(--color-surface); border-radius: var(--radius-lg); }
     .decoded-result.hidden { display: none; }
     .decoded-result pre { white-space: pre-wrap; word-break: break-all; }
+    ${TABS_CSS}
   `;
   container.appendChild(style);
 
