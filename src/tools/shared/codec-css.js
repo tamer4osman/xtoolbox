@@ -1,0 +1,13 @@
+export const CODEC_CSS = `
+  .codec-container { max-width: 700px; margin: 0 auto; }
+  .codec-container h2 { text-align: center; margin-bottom: var(--space-4); }
+  .codec-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .codec-tabs .tab { flex: 1; padding: var(--space-3); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); cursor: pointer; }
+  .codec-tabs .tab.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .panel textarea { width: 100%; height: 100px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-xl); background: var(--color-surface); margin-bottom: var(--space-4); resize: vertical; }
+  .output { background: var(--color-surface); border-radius: var(--radius-xl); padding: var(--space-4); }
+  .output span { font-weight: 600; font-size: var(--text-sm); display: block; margin-bottom: var(--space-2); }
+  .output pre { margin: 0; font-family: monospace; font-size: var(--text-sm); word-break: break-all; }
+`;

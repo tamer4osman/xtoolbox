@@ -1,62 +1,16 @@
-export const toolConfig = {
-  id: 'html-entity-codec',
-  name: 'HTML Entity Encoder',
-  category: 'encoding',
-  description: 'Encode HTML entities.',
-  icon: '🏷️',
-  status: 'done'
-};
+import { createCodecTool } from './codec-tool-factory.js';
 
-export function render(container) {
-  container.innerHTML = `
-    <div class="codec-container">
-      <div class="codec-tabs"><button class="tab active" data-tab="encode">Encode</button><button class="tab" data-tab="decode">Decode</button></div>
-      <div class="panel active" id="encode">
-        <textarea id="enc-input" placeholder="Text to encode..."><div>Hello & "World"</textarea>
-        <div class="output"><span>Encoded:</span><pre id="enc-output"></pre></div>
-      </div>
-      <div class="panel" id="decode">
-        <textarea id="dec-input" placeholder="HTML entities to decode...">&lt;div&gt;Hello &amp; &quot;World&quot;</textarea>
-        <div class="output"><span>Decoded:</span><pre id="dec-output"></pre></div>
-      </div>
-    </div>
-  `;
+const encodeMap = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
+const decodeMap = {'&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'"};
 
-  const style = document.createElement('style');
-  style.textContent = `
-    .codec-container { max-width: 700px; margin: 0 auto; }
-    .codec-container h2 { text-align: center; margin-bottom: var(--space-4); }
-    .codec-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
-    .codec-tabs .tab { flex: 1; padding: var(--space-3); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); cursor: pointer; }
-    .codec-tabs .tab.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
-    .panel { display: none; }
-    .panel.active { display: block; }
-    .panel textarea { width: 100%; height: 100px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-xl); background: var(--color-surface); margin-bottom: var(--space-4); resize: vertical; }
-    .output { background: var(--color-surface); border-radius: var(--radius-xl); padding: var(--space-4); }
-    .output span { font-weight: 600; font-size: var(--text-sm); display: block; margin-bottom: var(--space-2); }
-    .output pre { margin: 0; font-family: monospace; font-size: var(--text-sm); word-break: break-all; }
-  `;
-  container.appendChild(style);
-
-  container.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
-    container.querySelectorAll('.tab, .panel').forEach(el => el.classList.remove('active'));
-    t.classList.add('active');
-    container.querySelector('#' + t.dataset.tab).classList.add('active');
-  }));
-
-  const encodeMap = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
-  const decodeMap = {'&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'"};
-
-  container.querySelector('#enc-input').addEventListener('input', () => {
-    const text = container.querySelector('#enc-input').value;
-    container.querySelector('#enc-output').textContent = text.replace(/[&<>"']/g, m => encodeMap[m]);
-  });
-
-  container.querySelector('#dec-input').addEventListener('input', () => {
-    let text = container.querySelector('#dec-input').value;
-    Object.entries(decodeMap).forEach(([k, v]) => text = text.replace(new RegExp(k, 'g'), v));
-    container.querySelector('#dec-output').textContent = text;
-  });
-
-  container.querySelector('#enc-input').dispatchEvent(new Event('input'));
-}
+export const { toolConfig, render } = createCodecTool({
+  toolConfig: { id: 'html-entity-codec', name: 'HTML Entity Encoder', category: 'encoding', description: 'Encode HTML entities.', icon: '🏷️', status: 'done' },
+  encodePlaceholder: 'Text to encode...',
+  encodeDefault: '<div>Hello & "World"',
+  encodeLabel: 'Encoded',
+  decodePlaceholder: 'HTML entities to decode...',
+  decodeDefault: '&lt;div&gt;Hello &amp; &quot;World&quot;',
+  decodeLabel: 'Decoded',
+  encode: (s) => s.replace(/[&<>"']/g, m => encodeMap[m]),
+  decode: (s) => { let r = s; Object.entries(decodeMap).forEach(([k, v]) => r = r.replace(new RegExp(k, 'g'), v)); return r; },
+});

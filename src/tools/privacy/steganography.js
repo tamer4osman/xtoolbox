@@ -1,4 +1,5 @@
 import { TABS_CSS } from '../shared/tabs-css.js';
+import { wireTabSwitching } from '../shared/tab-switching.js';
 
 export const toolConfig = {
   id: 'steganography',
@@ -59,15 +60,10 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const tabs = container.querySelectorAll('.tab');
-  tabs.forEach(t => t.addEventListener('click', () => {
-    tabs.forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    container.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === t.dataset.tab + '-panel'));
-  }));
-
   const encodeBtn = container.querySelector('#encode-btn');
   const decodeBtn = container.querySelector('#decode-btn');
+
+  wireTabSwitching(container);
 
   encodeBtn.addEventListener('click', async () => {
     const fileInput = container.querySelector('#encode-file');

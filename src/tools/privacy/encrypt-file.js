@@ -1,4 +1,5 @@
 import { TABS_CSS } from '../shared/tabs-css.js';
+import { wireTabSwitching } from '../shared/tab-switching.js';
 
 export const toolConfig = {
   id: 'encrypt-file',
@@ -72,19 +73,10 @@ export function render(container) {
   const encryptFile = container.querySelector('#encrypt-file');
   const decryptFile = container.querySelector('#decrypt-file');
   const encryptFilename = container.querySelector('#encrypt-filename');
-  const decryptFilename = container.querySelector('#decrypt-section');
   const resultSection = container.querySelector('#result-section');
   const resultMessage = container.querySelector('#result-message');
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const isEncrypt = tab.dataset.tab === 'encrypt';
-      encryptPanel.classList.toggle('active', isEncrypt);
-      decryptPanel.classList.toggle('active', !isEncrypt);
-    });
-  });
+  wireTabSwitching(container);
 
   encryptFile.addEventListener('change', () => {
     if (encryptFile.files[0]) encryptFilename.textContent = encryptFile.files[0].name;
