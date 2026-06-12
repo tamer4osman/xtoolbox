@@ -57,8 +57,11 @@ describe('yaml-json', () => {
 
     it('handles arrays via dash syntax', () => {
       const out = parseYAML('skills:\n  - JavaScript\n  - Python');
-      // Note: pre-existing parser quirk - arrays may have unexpected structure
       expect(out.skills).toBeDefined();
+      expect(Array.isArray(out.skills)).toBe(true);
+      expect(out.skills).toContain('JavaScript');
+      expect(out.skills).toContain('Python');
+      expect(out.skills.length).toBe(2);
     });
 
     it('skips comments and empty lines', () => {

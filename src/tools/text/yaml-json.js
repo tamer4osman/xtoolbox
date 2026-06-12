@@ -49,16 +49,21 @@ export function parseYAML(yaml) {
         current[trimmedKey] = parseYAMLValue(value);
       } else {
         current[trimmedKey] = {};
-        stack.push({ obj: current[trimmedKey], indent });
+        stack.push({ obj: current[trimmedKey], parent: current, indent, lastKey: trimmedKey });
       }
     } else if (line.trim().startsWith('-')) {
       const value = line.trim().slice(1).trim();
-      const current = stack[stack.length - 1].obj;
-      if (!Array.isArray(current)) {
-        current[Object.keys(current).pop()] = [];
+      const parent = stack[stack.length - 1].parent;
+      const parentKey = stack[stack.length - 1].lastKey;
+      
+      if (parent && parentKey && !Array.isArray(parent[parentKey])) {
+        parent[parentKey] = [];
       }
-      if (value) {
-        current[Object.keys(current).pop()].push(value.replace(/^["']|["']$/g, ''));
+      
+      if (parent && parentKey) {
+        if (value) {
+          parent[parentKey].push(parseYAMLValue(value));
+        }
       }
     }
   }
