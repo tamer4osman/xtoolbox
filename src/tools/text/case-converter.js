@@ -1,3 +1,5 @@
+import { showToast } from '../../components/toast.js';
+
 export const toolConfig = {
   id: 'case-converter',
   name: 'Case Converter',
@@ -61,15 +63,8 @@ export function init() {
 
   document.getElementById('copyBtn').addEventListener('click', () => {
     navigator.clipboard.writeText(output.value);
-    showToast('Copied!');
+    showToast({ message: 'Copied!' });
   });
   document.getElementById('clearBtn').addEventListener('click', () => { input.value = ''; output.value = ''; });
 }
 
-function showToast(msg) {
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2000);
-}

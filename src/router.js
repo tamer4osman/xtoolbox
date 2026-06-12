@@ -46,6 +46,14 @@ function matchRoute(path) {
 
 function handleRouteChange() {
   const path = getCurrentPath();
+
+  // Cleanup before route change if leaving tool page
+  if (currentRoute && currentRoute.startsWith('/tools/') && path.startsWith('/tools/') && currentRoute !== path) {
+    import('./pages/tool.js').then(({ cleanupToolResources }) => cleanupToolResources());
+  } else if (currentRoute && currentRoute.startsWith('/tools/') && !path.startsWith('/tools/')) {
+    import('./pages/tool.js').then(({ cleanupToolResources }) => cleanupToolResources());
+  }
+
   const matched = matchRoute(path);
 
   if (matched) {

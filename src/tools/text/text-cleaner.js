@@ -1,3 +1,5 @@
+import { showToast } from '../../components/toast.js';
+
 export const toolConfig = {
   id: 'text-cleaner',
   name: 'Text Cleaner',
@@ -66,14 +68,7 @@ export function init() {
   document.getElementById('sortLinesBtn').onclick = () => output.value = ops.sortLines(input.value);
   document.getElementById('uniqueLinesBtn').onclick = () => output.value = ops.uniqueLines(input.value);
   document.getElementById('allBtn').onclick = () => output.value = ops.all(input.value);
-  document.getElementById('copyBtn').onclick = () => { navigator.clipboard.writeText(output.value); showToast('Copied!'); };
+  document.getElementById('copyBtn').onclick = () => { navigator.clipboard.writeText(output.value); showToast({ message: 'Copied!' }); };
   document.getElementById('clearBtn').onclick = () => { input.value = ''; output.value = ''; };
 }
 
-function showToast(m) {
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = m;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2000);
-}

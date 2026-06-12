@@ -4,8 +4,12 @@ import { createAdSlot } from '../components/ad-slot.js';
 import toolsData from '../data/tools.json';
 
 const toolCache = {};
+let currentToolId = null;
+let cleanupFn = null;
 
 export async function renderTool(toolId) {
+  // Cleanup previous tool before loading new one
+  await cleanupCurrentTool();
   const main = $('#main-content');
   if (!main) {
     console.error('Main content not found');
@@ -137,9 +141,43 @@ async function loadToolModule(category, toolId) {
 
   try {
     const module = await loader();
+
+    // Store cleanup function if tool provides one
+    if (module.cleanup) {
+      cleanupFn = module.cleanup;
+    }
+
     toolCache[cacheKey] = module;
     return module;
   } catch (error) {
     throw new Error(`Failed to load tool module: ${error.message}`);
   }
+}
+
+async function cleanupCurrentTool() {
+  // Call tool's cleanup function if exists
+  if (cleanupFn) {
+    try {
+      cleanupFn();
+    } catch (e) {
+      console.error('Tool cleanup error:', e);
+    }
+    cleanupFn = null;
+  }
+
+  const main = $('#main-content');
+  if (main) {
+    main.innerHTML = '';
+  }
+
+  // Clear old tool cache entries (keep last 10)
+  const keys = Object.keys(toolCache);
+  if (keys.length > 10) {
+    const toRemove = keys.slice(0, keys.length - 10);
+    toRemove.forEach(k => delete toolCache[k]);
+  }
+}
+
+export function cleanupToolResources() {
+  cleanupCurrentTool();
 }
