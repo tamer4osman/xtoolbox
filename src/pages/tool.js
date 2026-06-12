@@ -4,7 +4,6 @@ import { createAdSlot } from '../components/ad-slot.js';
 import toolsData from '../data/tools.json';
 
 const toolCache = {};
-let currentToolId = null;
 let cleanupFn = null;
 
 export async function renderTool(toolId) {
@@ -128,7 +127,13 @@ const toolModules = import.meta.glob('../tools/*/*.{js,jsx}');
 
 async function loadToolModule(category, toolId) {
   const cacheKey = `${category}/${toolId}`;
-  if (toolCache[cacheKey]) return toolCache[cacheKey];
+  if (toolCache[cacheKey]) {
+    const module = toolCache[cacheKey];
+    if (module.cleanup) {
+      cleanupFn = module.cleanup;
+    }
+    return module;
+  }
 
   let modulePathJs = `../tools/${category}/${toolId}.js`;
   let modulePathJsx = `../tools/${category}/${toolId}.jsx`;
@@ -142,7 +147,6 @@ async function loadToolModule(category, toolId) {
   try {
     const module = await loader();
 
-    // Store cleanup function if tool provides one
     if (module.cleanup) {
       cleanupFn = module.cleanup;
     }
@@ -155,10 +159,9 @@ async function loadToolModule(category, toolId) {
 }
 
 async function cleanupCurrentTool() {
-  // Call tool's cleanup function if exists
   if (cleanupFn) {
     try {
-      cleanupFn();
+      await cleanupFn();
     } catch (e) {
       console.error('Tool cleanup error:', e);
     }
@@ -170,7 +173,6 @@ async function cleanupCurrentTool() {
     main.innerHTML = '';
   }
 
-  // Clear old tool cache entries (keep last 10)
   const keys = Object.keys(toolCache);
   if (keys.length > 10) {
     const toRemove = keys.slice(0, keys.length - 10);
@@ -178,6 +180,6 @@ async function cleanupCurrentTool() {
   }
 }
 
-export function cleanupToolResources() {
-  cleanupCurrentTool();
+export async function cleanupToolResources() {
+  await cleanupCurrentTool();
 }

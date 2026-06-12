@@ -44,14 +44,15 @@ function matchRoute(path) {
   return null;
 }
 
-function handleRouteChange() {
+async function handleRouteChange() {
   const path = getCurrentPath();
 
-  // Cleanup before route change if leaving tool page
   if (currentRoute && currentRoute.startsWith('/tools/') && path.startsWith('/tools/') && currentRoute !== path) {
-    import('./pages/tool.js').then(({ cleanupToolResources }) => cleanupToolResources());
+    const { cleanupToolResources } = await import('./pages/tool.js');
+    await cleanupToolResources();
   } else if (currentRoute && currentRoute.startsWith('/tools/') && !path.startsWith('/tools/')) {
-    import('./pages/tool.js').then(({ cleanupToolResources }) => cleanupToolResources());
+    const { cleanupToolResources } = await import('./pages/tool.js');
+    await cleanupToolResources();
   }
 
   const matched = matchRoute(path);
