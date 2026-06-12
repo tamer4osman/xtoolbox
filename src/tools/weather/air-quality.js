@@ -1,4 +1,5 @@
 import { wireLookupSearch } from '../shared/lookup.js';
+import { LOOKUP_CSS } from '../shared/lookup-css.js';
 
 export const toolConfig = {
   id: 'air-quality',
@@ -62,16 +63,7 @@ export function render(container) {
 
   const style = document.createElement('style');
   style.textContent = `
-    .tool-container { max-width: 600px; margin: 0 auto; }
-    .tool-header { text-align: center; margin-bottom: var(--space-8); }
-    .search-box { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); }
-    .tool-input { flex: 1; padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
-    .tool-input:focus { border-color: var(--color-primary); outline: none; }
-    .tool-button.primary { padding: var(--space-3) var(--space-6); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; }
-    .loading, .error { text-align: center; padding: var(--space-8); color: var(--color-text-secondary); }
-    .error { color: var(--color-error); }
-    .result { animation: fadeIn 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    ${LOOKUP_CSS}
     .aqi-display { text-align: center; padding: var(--space-8); background: var(--color-surface); border-radius: var(--radius-xl); margin-bottom: var(--space-4); }
     .aqi-circle { width: 150px; height: 150px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-4); font-size: 3rem; font-weight: 700; color: white; }
     .aqi-label { font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-2); }
@@ -83,7 +75,6 @@ export function render(container) {
     .pollutant-name { display: block; font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-1); }
     .pollutant-value { font-size: var(--text-lg); font-weight: 700; }
     .location-info { text-align: center; color: var(--color-text-muted); font-size: var(--text-sm); }
-    .hidden { display: none !important; }
   `;
   container.appendChild(style);
 

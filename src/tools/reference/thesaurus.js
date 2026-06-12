@@ -1,4 +1,5 @@
 import { wireLookupSearch, escapeHtml } from '../shared/lookup.js';
+import { LOOKUP_CSS } from '../shared/lookup-css.js';
 
 export const toolConfig = {
   id: 'thesaurus',
@@ -43,16 +44,7 @@ export function render(container) {
 
   const style = document.createElement('style');
   style.textContent = `
-    .tool-container { max-width: 600px; margin: 0 auto; }
-    .tool-header { text-align: center; margin-bottom: var(--space-8); }
-    .search-box { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); }
-    .tool-input { flex: 1; padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
-    .tool-input:focus { border-color: var(--color-primary); outline: none; }
-    .tool-button.primary { padding: var(--space-3) var(--space-6); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; }
-    .loading, .error { text-align: center; padding: var(--space-8); color: var(--color-text-secondary); }
-    .error { color: var(--color-error); }
-    .result { animation: fadeIn 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    ${LOOKUP_CSS}
     .word-header { text-align: center; margin-bottom: var(--space-6); }
     .word-header h2 { font-size: 2rem; }
     .word-section { background: var(--color-surface); border-radius: var(--radius-lg); padding: var(--space-4); margin-bottom: var(--space-4); }
@@ -60,7 +52,6 @@ export function render(container) {
     .word-list { display: flex; flex-wrap: wrap; gap: var(--space-2); }
     .word-tag { background: var(--color-bg); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); font-size: var(--text-sm); cursor: pointer; transition: all 0.2s; }
     .word-tag:hover { background: var(--color-primary); color: white; }
-    .hidden { display: none !important; }
   `;
   container.appendChild(style);
 
