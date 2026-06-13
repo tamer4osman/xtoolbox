@@ -120,65 +120,68 @@ export function render(container) {
   let operation = null;
   let newNumber = true;
 
+  const UNARY_OPS = ['sqrt', 'pow', 'cube', 'cubert', 'factorial', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'log', 'ln', 'exp', 'tenpow', 'inv', 'abs'];
+  const BINARY_OPS = ['+', '-', '*', '/'];
+
   function updateDisplay() {
     container.querySelector('#current').textContent = current;
     container.querySelector('#previous').textContent = previous + (operation || '');
   }
 
+  function handleDigit(action) {
+    if (newNumber) {
+      current = action;
+      newNumber = false;
+    } else if (action === '.' && current.includes('.')) {
+      return;
+    } else {
+      current += action;
+    }
+  }
+
+  function handleClear() {
+    current = '0';
+    previous = '';
+    operation = null;
+    newNumber = true;
+  }
+
+  function handleBinaryOp(action) {
+    previous = current;
+    operation = action;
+    newNumber = true;
+  }
+
+  function handleEquals() {
+    if (!previous || !operation) return;
+    const a = parseFloat(previous);
+    const b = parseFloat(current);
+    const ops = { '+': a + b, '-': a - b, '*': a * b, '/': b !== 0 ? a / b : 'Error', 'mod': a % b };
+    current = (ops[operation] ?? 'Error').toString();
+    previous = '';
+    operation = null;
+    newNumber = true;
+  }
+
+  function handleUnaryOp(action) {
+    const result = calculate(current, action);
+    current = (result !== null && !isNaN(result) && isFinite(result)) ? result.toString() : 'Error';
+    newNumber = true;
+  }
+
   container.querySelectorAll('.calc-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const action = btn.dataset.action;
-      const unaryOps = ['sqrt', 'pow', 'cube', 'cubert', 'factorial', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'log', 'ln', 'exp', 'tenpow', 'inv', 'abs'];
-      
-      if (!isNaN(action) || action === '.') {
-        if (newNumber) {
-          current = action;
-          newNumber = false;
-        } else if (action === '.' && current.includes('.')) {
-          return;
-        } else {
-          current += action;
-        }
-      } else if (action === 'clear') {
-        current = '0';
-        previous = '';
-        operation = null;
-        newNumber = true;
-      } else if (action === 'backspace') {
-        current = current.length > 1 ? current.slice(0, -1) : '0';
-      } else if (action === 'percent') {
-        current = (parseFloat(current) / 100).toString();
-        newNumber = true;
-      } else if (['+', '-', '*', '/'].includes(action)) {
-        previous = current;
-        operation = action;
-        newNumber = true;
-      } else if (action === '=') {
-        if (previous && operation) {
-          const a = parseFloat(previous);
-          const b = parseFloat(current);
-          let result;
-          switch (operation) {
-            case '+': result = a + b; break;
-            case '-': result = a - b; break;
-            case '*': result = a * b; break;
-            case '/': result = b !== 0 ? a / b : 'Error'; break;
-            case 'mod': result = a % b; break;
-          }
-          current = result.toString();
-          previous = '';
-          operation = null;
-          newNumber = true;
-        }
-      } else if (unaryOps.includes(action) || action === 'pi' || action === 'e') {
-        const result = calculate(current, action);
-        if (result !== null && !isNaN(result) && isFinite(result)) {
-          current = result.toString();
-        } else {
-          current = 'Error';
-        }
-        newNumber = true;
-      }
+      const isDigit = !isNaN(action) || action === '.';
+
+      if (isDigit) handleDigit(action);
+      else if (action === 'clear') handleClear();
+      else if (action === 'backspace') current = current.length > 1 ? current.slice(0, -1) : '0';
+      else if (action === 'percent') { current = (parseFloat(current) / 100).toString(); newNumber = true; }
+      else if (BINARY_OPS.includes(action)) handleBinaryOp(action);
+      else if (action === '=') handleEquals();
+      else if (UNARY_OPS.includes(action) || action === 'pi' || action === 'e') handleUnaryOp(action);
+
       updateDisplay();
     });
   });

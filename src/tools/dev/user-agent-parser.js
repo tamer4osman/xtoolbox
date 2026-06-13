@@ -30,36 +30,51 @@ export function render(container) {
   const result = container.querySelector('#result');
   const parseBtn = container.querySelector('#parseBtn');
 
-  function parseUA(ua) {
-    const info = { browser: 'Unknown', os: 'Unknown', device: 'Desktop' };
-    
-    // Browser detection
-    if (ua.includes('Firefox/')) {
-      const match = ua.match(/Firefox\/(\d+)/);
-      info.browser = 'Firefox ' + (match ? match[1] : '');
-    } else if (ua.includes('Edg/')) {
-      const match = ua.match(/Edg\/(\d+)/);
-      info.browser = 'Edge ' + (match ? match[1] : '');
-    } else if (ua.includes('Chrome/') && !ua.includes('Edg')) {
-      const match = ua.match(/Chrome\/(\d+)/);
-      info.browser = 'Chrome ' + (match ? match[1] : '');
-    } else if (ua.includes('Safari/') && !ua.includes('Chrome')) {
-      const match = ua.match(/Version\/(\d+)/);
-      info.browser = 'Safari ' + (match ? match[1] : '');
+  const BROWSERS = [
+    { pattern: 'Firefox/', regex: /Firefox\/(\d+)/, name: 'Firefox ' },
+    { pattern: 'Edg/', regex: /Edg\/(\d+)/, name: 'Edge ' },
+    { pattern: 'Chrome/', not: 'Edg', regex: /Chrome\/(\d+)/, name: 'Chrome ' },
+    { pattern: 'Safari/', not: 'Chrome', regex: /Version\/(\d+)/, name: 'Safari ' }
+  ];
+
+  const OS_MAP = [
+    { keyword: 'Windows', name: 'Windows' },
+    { keyword: 'Mac OS', name: 'macOS' },
+    { keyword: 'Linux', name: 'Linux' },
+    { keyword: 'Android', name: 'Android' },
+    { keyword: 'iPhone', name: 'iOS' },
+    { keyword: 'iPad', name: 'iOS' }
+  ];
+
+  function detectBrowser(ua) {
+    for (const b of BROWSERS) {
+      if (!b.pattern || ua.includes(b.pattern)) continue;
+      if (b.not && ua.includes(b.not)) continue;
+      const match = ua.match(b.regex);
+      return b.name + (match ? match[1] : '');
     }
-    
-    // OS detection
-    if (ua.includes('Windows')) info.os = 'Windows';
-    else if (ua.includes('Mac OS')) info.os = 'macOS';
-    else if (ua.includes('Linux')) info.os = 'Linux';
-    else if (ua.includes('Android')) info.os = 'Android';
-    else if (ua.includes('iPhone') || ua.includes('iPad')) info.os = 'iOS';
-    
-    // Device detection
-    if (ua.includes('Mobile')) info.device = 'Mobile';
-    if (ua.includes('Tablet') || ua.includes('iPad')) info.device = 'Tablet';
-    
-    return info;
+    return 'Unknown';
+  }
+
+  function detectOS(ua) {
+    for (const o of OS_MAP) {
+      if (ua.includes(o.keyword)) return o.name;
+    }
+    return 'Unknown';
+  }
+
+  function detectDevice(ua) {
+    if (ua.includes('Tablet') || ua.includes('iPad')) return 'Tablet';
+    if (ua.includes('Mobile')) return 'Mobile';
+    return 'Desktop';
+  }
+
+  function parseUA(ua) {
+    return {
+      browser: detectBrowser(ua),
+      os: detectOS(ua),
+      device: detectDevice(ua)
+    };
   }
 
   parseBtn.addEventListener('click', () => {
