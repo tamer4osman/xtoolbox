@@ -1,4 +1,5 @@
 import { createFileUpload } from '../../components/file-upload.js';
+import { escapeCsvValue } from '../../utils/csv-parser.js';
 
 export const toolConfig = {
   id: 'xml-to-csv',
@@ -98,11 +99,7 @@ function rowsToCsv(rows) {
   const keys = Array.from(allKeys);
   const header = keys.join(',');
   const lines = rows.map(row =>
-    keys.map(k => {
-      const val = row[k] || '';
-      if (val.includes(',') || val.includes('"') || val.includes('\n')) return '"' + val.replace(/"/g, '""') + '"';
-      return val;
-    }).join(',')
+    keys.map(k => escapeCsvValue(row[k] || '')).join(',')
   );
   return [header, ...lines].join('\n');
 }
