@@ -1,18 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, toLowerCase, toUpperCase, toTitleCase, toSentenceCase, toToggleCase } from '../tools/text/case-converter.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('case-converter', () => {
-  describe('toolConfig', () => {
-    it('has correct id, name, category', () => {
-      expect(toolConfig.id).toBe('case-converter');
-      expect(toolConfig.name).toBe('Case Converter');
-      expect(toolConfig.category).toBe('text');
-    });
-  });
+  testSimpleToolConfig(toolConfig, 'case-converter', 'Case Converter', 'text');
 
   describe('toLowerCase', () => {
     it('converts to lowercase', () => {
-      expect(toolConfig.id).toBe('case-converter');
       expect(toLowerCase('HELLO')).toBe('hello');
     });
   });

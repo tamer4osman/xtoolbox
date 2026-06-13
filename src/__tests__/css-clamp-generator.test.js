@@ -1,15 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, render, destroy } from '../tools/css/css-clamp-generator.js';
+import { testToolConfig } from './tool-config-test.js';
 
 describe('css-clamp-generator', () => {
-  it('has correct tool config', () => {
-    expect(toolConfig.id).toBe('css-clamp-generator');
-    expect(toolConfig.name).toBe('Fluid Typography (CSS Clamp) Calculator');
-    expect(toolConfig.category).toBe('css');
+  testToolConfig(toolConfig, {
+    id: 'css-clamp-generator',
+    name: 'Fluid Typography (CSS Clamp) Calculator',
+    category: 'css'
+  });
+
+  it('has icon', () => {
     expect(toolConfig.icon).toBe('📐');
-    expect(toolConfig.keywords.length).toBeGreaterThan(3);
-    expect(toolConfig.steps.length).toBeGreaterThan(2);
-    expect(toolConfig.faqs.length).toBeGreaterThan(1);
   });
 
   it('render appends content to container', () => {

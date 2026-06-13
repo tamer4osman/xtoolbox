@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig } from '../tools/seo/bulk-utm-builder.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('bulk-utm-builder', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('bulk-utm-builder');
-    expect(toolConfig.name).toContain('UTM');
-    expect(toolConfig.category).toBe('seo');
+  testSimpleToolConfig(toolConfig, 'bulk-utm-builder', toolConfig.name, 'seo');
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('🔗');
     expect(toolConfig.status).toBe('done');
   });

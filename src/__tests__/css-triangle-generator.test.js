@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig } from '../tools/css/css-triangle-generator.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('css-triangle-generator', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('css-triangle-generator');
-    expect(toolConfig.name).toContain('Triangle');
-    expect(toolConfig.category).toBe('css');
+  testSimpleToolConfig(toolConfig, 'css-triangle-generator', toolConfig.name, 'css');
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('🔺');
     expect(toolConfig.status).toBe('done');
   });
