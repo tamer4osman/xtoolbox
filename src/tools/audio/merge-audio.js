@@ -1,6 +1,7 @@
 import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
-import { downloadBlob, formatFileSize } from '../../utils/file.js';
+import { downloadBlob } from '../../utils/file.js';
+import { createFileList } from '../../utils/file-list.js';
 import { loadAudioFile, audioBufferToWav, concatAudioBuffers, formatAudioTime } from './audio-utils.js';
 
 export const toolConfig = {
@@ -46,13 +47,7 @@ export function render(container) {
   const processing = container.querySelector('#processing');
 
   function renderFileList() {
-    fileList.innerHTML = files.map((f, i) => `
-      <div style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-2);">
-        <span style="font-weight:600;color:var(--color-text-muted);">${i + 1}.</span>
-        <span style="flex:1;font-size:var(--text-sm);">${f.name}</span>
-        <span style="font-size:var(--text-xs);color:var(--color-text-muted);">${formatFileSize(f.size)}</span>
-      </div>
-    `).join('');
+    fileList.innerHTML = createFileList(files);
   }
 
   mergeBtn.addEventListener('click', async () => {
