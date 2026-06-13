@@ -3,24 +3,9 @@ import JSZip from 'jszip';
 import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
 import { downloadBlob, formatFileSize } from '../../utils/file.js';
+import { splitCsvData, generateCsvText } from '../../utils/csv-parser.js';
 
-export function splitCsvData(data, rowsPerFile) {
-  const files = [];
-  for (let i = 0; i < data.length; i += rowsPerFile) {
-    files.push(data.slice(i, i + rowsPerFile));
-  }
-  return files;
-}
-
-export function generateCsvText(headers, rows) {
-  const esc = v => {
-    const s = v == null ? '' : String(v);
-    return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g, '""')}"` : s;
-  };
-  const headerLine = headers.map(esc).join(',');
-  const bodyLines = rows.map(r => headers.map(h => esc(r[h])).join(','));
-  return headerLine + '\n' + bodyLines.join('\n');
-}
+export { splitCsvData, generateCsvText };
 
 export const toolConfig = {
   id: 'csv-splitter',
