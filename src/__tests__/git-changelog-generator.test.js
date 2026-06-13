@@ -9,17 +9,18 @@ import {
   render,
   destroy
 } from '../tools/text/git-changelog-generator.js';
+import { testToolConfig, testRenderAndDestroy } from './tool-config-test.js';
 
 describe('git-changelog-generator', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('git-changelog-generator');
-    expect(toolConfig.name).toContain('Changelog');
-    expect(toolConfig.category).toBe('text');
+  testToolConfig(toolConfig, {
+    id: 'git-changelog-generator',
+    name: 'Conventional Commit Changelog Generator',
+    category: 'text'
+  });
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('📜');
     expect(toolConfig.status).toBe('done');
-    expect(toolConfig.keywords.length).toBeGreaterThan(3);
-    expect(toolConfig.steps.length).toBeGreaterThan(2);
-    expect(toolConfig.faqs.length).toBeGreaterThan(1);
   });
 
   describe('parseConventionalCommits', () => {
@@ -138,48 +139,36 @@ def5678 fix: handle bug`;
     });
   });
 
-  describe('render', () => {
-    it('appends content to container', () => {
-      const container = document.createElement('div');
-      render(container);
-      expect(container.querySelector('.changelog-container')).toBeTruthy();
-      expect(container.querySelector('#git-log-input')).toBeTruthy();
-      expect(container.querySelector('#output')).toBeTruthy();
-      expect(container.querySelector('#generate-btn')).toBeTruthy();
-      expect(container.querySelector('#copy-btn')).toBeTruthy();
-      expect(container.querySelector('#download-btn')).toBeTruthy();
-      expect(container.querySelector('#clear-btn')).toBeTruthy();
-    });
+  testRenderAndDestroy(render, destroy, [
+    '.changelog-container',
+    '#git-log-input',
+    '#output',
+    '#generate-btn',
+    '#copy-btn',
+    '#download-btn',
+    '#clear-btn'
+  ]);
 
-    it('creates output format options', () => {
-      const container = document.createElement('div');
-      render(container);
-      const select = container.querySelector('#output-format');
-      expect(select).toBeTruthy();
-      expect(select.options.length).toBe(3);
-    });
-
-    it('creates checkbox options', () => {
-      const container = document.createElement('div');
-      render(container);
-      expect(container.querySelector('#include-hash')).toBeTruthy();
-      expect(container.querySelector('#include-scope')).toBeTruthy();
-    });
-
-    it('creates file upload input', () => {
-      const container = document.createElement('div');
-      render(container);
-      const fileInput = container.querySelector('#file-upload');
-      expect(fileInput).toBeTruthy();
-      expect(fileInput.type).toBe('file');
-    });
+  it('creates output format options', () => {
+    const container = document.createElement('div');
+    render(container);
+    const select = container.querySelector('#output-format');
+    expect(select).toBeTruthy();
+    expect(select.options.length).toBe(3);
   });
 
-  describe('destroy', () => {
-    it('cleans up without throwing', () => {
-      const container = document.createElement('div');
-      render(container);
-      expect(() => destroy()).not.toThrow();
-    });
+  it('creates checkbox options', () => {
+    const container = document.createElement('div');
+    render(container);
+    expect(container.querySelector('#include-hash')).toBeTruthy();
+    expect(container.querySelector('#include-scope')).toBeTruthy();
+  });
+
+  it('creates file upload input', () => {
+    const container = document.createElement('div');
+    render(container);
+    const fileInput = container.querySelector('#file-upload');
+    expect(fileInput).toBeTruthy();
+    expect(fileInput.type).toBe('file');
   });
 });

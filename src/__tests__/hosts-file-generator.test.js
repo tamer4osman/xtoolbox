@@ -1,28 +1,27 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, render, destroy } from '../tools/dev/hosts-file-generator.js';
+import { testToolConfig, testRenderAndDestroy } from './tool-config-test.js';
 
 describe('hosts-file-generator', () => {
-  it('has correct tool config', () => {
-    expect(toolConfig.id).toBe('hosts-file-generator');
-    expect(toolConfig.name).toBe('Hosts File Configurator');
-    expect(toolConfig.category).toBe('dev');
-    expect(toolConfig.icon).toBe('🌐');
-    expect(toolConfig.keywords.length).toBeGreaterThan(3);
-    expect(toolConfig.steps.length).toBeGreaterThan(2);
-    expect(toolConfig.faqs.length).toBeGreaterThan(1);
+  testToolConfig(toolConfig, {
+    id: 'hosts-file-generator',
+    name: 'Hosts File Configurator',
+    category: 'dev'
   });
 
-  it('render appends content to container', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(container.querySelector('.tool-layout')).toBeTruthy();
-    expect(container.querySelector('#hfg-template')).toBeTruthy();
-    expect(container.querySelector('#hfg-entries')).toBeTruthy();
-    expect(container.querySelector('#hfg-add')).toBeTruthy();
-    expect(container.querySelector('#hfg-output')).toBeTruthy();
-    expect(container.querySelector('#hfg-copy')).toBeTruthy();
-    expect(container.querySelector('#hfg-download')).toBeTruthy();
+  it('has icon', () => {
+    expect(toolConfig.icon).toBe('🌐');
   });
+
+  testRenderAndDestroy(render, destroy, [
+    '.tool-layout',
+    '#hfg-template',
+    '#hfg-entries',
+    '#hfg-add',
+    '#hfg-output',
+    '#hfg-copy',
+    '#hfg-download'
+  ]);
 
   it('has template options', () => {
     const container = document.createElement('div');
@@ -30,12 +29,6 @@ describe('hosts-file-generator', () => {
     const select = container.querySelector('#hfg-template');
     expect(select).toBeTruthy();
     expect(select.options.length).toBe(5);
-  });
-
-  it('destroy cleans up without throwing', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(() => destroy()).not.toThrow();
   });
 
   it('adding entry creates a row', () => {

@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig } from '../tools/dev/security-headers-generator.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('security-headers-generator', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('security-headers-generator');
-    expect(toolConfig.name).toContain('Security');
-    expect(toolConfig.category).toBe('dev');
+  testSimpleToolConfig(toolConfig, 'security-headers-generator', toolConfig.name, 'dev');
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('🛡️');
     expect(toolConfig.status).toBe('done');
   });

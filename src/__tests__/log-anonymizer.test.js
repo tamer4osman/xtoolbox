@@ -1,16 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, anonymizeLog, render, destroy } from '../tools/dev/log-anonymizer.js';
+import { testToolConfig, testRenderAndDestroy } from './tool-config-test.js';
 
 describe('log-anonymizer', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('log-anonymizer');
-    expect(toolConfig.name).toContain('Log');
-    expect(toolConfig.category).toBe('dev');
+  testToolConfig(toolConfig, {
+    id: 'log-anonymizer',
+    name: 'Log File Sensitive Data Masker',
+    category: 'dev'
+  });
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('🕵️');
     expect(toolConfig.status).toBe('done');
-    expect(toolConfig.keywords.length).toBeGreaterThan(3);
-    expect(toolConfig.steps.length).toBeGreaterThan(2);
-    expect(toolConfig.faqs.length).toBeGreaterThan(1);
   });
 
   it('anonymizeLog masks IPv4 addresses', () => {
@@ -73,17 +74,15 @@ describe('log-anonymizer', () => {
     expect(Object.keys(found).length).toBe(0);
   });
 
-  it('render appends content to container', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(container.querySelector('.anonymizer-container')).toBeTruthy();
-    expect(container.querySelector('#log-input')).toBeTruthy();
-    expect(container.querySelector('#log-output')).toBeTruthy();
-    expect(container.querySelector('#anonymize-btn')).toBeTruthy();
-    expect(container.querySelector('#copy-btn')).toBeTruthy();
-    expect(container.querySelector('#download-btn')).toBeTruthy();
-    expect(container.querySelector('#clear-btn')).toBeTruthy();
-  });
+  testRenderAndDestroy(render, destroy, [
+    '.anonymizer-container',
+    '#log-input',
+    '#log-output',
+    '#anonymize-btn',
+    '#copy-btn',
+    '#download-btn',
+    '#clear-btn'
+  ]);
 
   it('render creates checkbox options for all data types', () => {
     const container = document.createElement('div');
@@ -96,11 +95,5 @@ describe('log-anonymizer', () => {
     expect(container.querySelector('#mask-db')).toBeTruthy();
     expect(container.querySelector('#mask-credit')).toBeTruthy();
     expect(container.querySelector('#mask-uuid')).toBeTruthy();
-  });
-
-  it('destroy cleans up without throwing', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(() => destroy()).not.toThrow();
   });
 });

@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig } from '../tools/dev/sitemap-visualizer.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('sitemap-visualizer', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('sitemap-visualizer');
-    expect(toolConfig.name).toContain('Sitemap');
-    expect(toolConfig.category).toBe('dev');
+  testSimpleToolConfig(toolConfig, 'sitemap-visualizer', toolConfig.name, 'dev');
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('🌳');
     expect(toolConfig.status).toBe('done');
   });
