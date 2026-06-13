@@ -27,25 +27,16 @@ const RESULT_CSS = `
   .bp-tips li { margin-bottom: var(--space-1); }
 `;
 
+const BP_CATEGORIES = [
+  { maxSys: 119, maxDia: 79, category: 'Normal', color: '#10b981', desc: 'Keep up the good work', tips: '<ul><li>Maintain healthy lifestyle</li><li>Regular check-ups</li><li>Stay active</li></ul>', pos: 15 },
+  { maxSys: 129, maxDia: 79, category: 'Elevated', color: '#10b981', desc: 'Lifestyle modifications advised', tips: '<ul><li>Maintain healthy diet</li><li>Regular exercise</li><li>Monitor readings</li></ul>', pos: 35 },
+  { maxSys: 139, maxDia: 89, category: 'High Blood Pressure (Stage 1)', color: '#f59e0b', desc: 'Lifestyle changes recommended', tips: '<ul><li>Reduce sodium</li><li>Increase physical activity</li><li>Maintain healthy weight</li><li>Monitor regularly</li></ul>', pos: 55 },
+  { maxSys: 179, maxDia: 119, category: 'High Blood Pressure (Stage 2)', color: '#ef4444', desc: 'Consult a healthcare provider', tips: '<ul><li>Schedule appointment soon</li><li>Reduce sodium intake</li><li>Exercise regularly</li><li>Limit alcohol</li></ul>', pos: 75 },
+  { maxSys: Infinity, maxDia: Infinity, category: 'Hypertensive Crisis', color: '#dc2626', desc: 'Seek immediate medical attention', tips: '<ul><li>Call emergency services immediately</li><li>Do not wait</li><li>This is a medical emergency</li></ul>', pos: 95 }
+];
+
 function classifyBp(sys, dia) {
-  if (sys > 180 || dia > 120) {
-    return { category: 'Hypertensive Crisis', color: '#dc2626', desc: 'Seek immediate medical attention',
-      tips: '<ul><li>Call emergency services immediately</li><li>Do not wait</li><li>This is a medical emergency</li></ul>', pos: 95 };
-  }
-  if (sys >= 140 || dia >= 90) {
-    return { category: 'High Blood Pressure (Stage 2)', color: '#ef4444', desc: 'Consult a healthcare provider',
-      tips: '<ul><li>Schedule appointment soon</li><li>Reduce sodium intake</li><li>Exercise regularly</li><li>Limit alcohol</li></ul>', pos: 75 };
-  }
-  if (sys >= 130 || dia >= 80) {
-    return { category: 'High Blood Pressure (Stage 1)', color: '#f59e0b', desc: 'Lifestyle changes recommended',
-      tips: '<ul><li>Reduce sodium</li><li>Increase physical activity</li><li>Maintain healthy weight</li><li>Monitor regularly</li></ul>', pos: 55 };
-  }
-  if (sys >= 120 && sys < 130 && dia < 80) {
-    return { category: 'Elevated', color: '#10b981', desc: 'Lifestyle modifications advised',
-      tips: '<ul><li>Maintain healthy diet</li><li>Regular exercise</li><li>Monitor readings</li></ul>', pos: 35 };
-  }
-  return { category: 'Normal', color: '#10b981', desc: 'Keep up the good work',
-    tips: '<ul><li>Maintain healthy lifestyle</li><li>Regular check-ups</li><li>Stay active</li></ul>', pos: 15 };
+  return BP_CATEGORIES.find(cat => sys <= cat.maxSys && dia <= cat.maxDia) || BP_CATEGORIES[0];
 }
 
 export function render(container) {

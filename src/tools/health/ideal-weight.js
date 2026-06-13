@@ -84,16 +84,19 @@ export function render(container) {
       const hM = h / 100;
       const minBMI = 18.5;
       const maxBMI = 24.9;
-
       const minKg = minBMI * hM * hM;
       const maxKg = maxBMI * hM * hM;
 
       const base = gender === 'male' ? 52 : 49;
-      const robinson = base + 1.9 * (h / 2.54 - 60);
-      const miller = base + 3.1 * (h / 2.54 - 60);
-      const devine = base + 2.3 * (h / 2.54 - 60);
+      const inches = h / 2.54 - 60;
+      const calc = (factor) => base + factor * inches;
 
-      const ideal = (robinson + miller + devine) / 3;
+      const weights = {
+        robinson: calc(1.9),
+        miller: calc(3.1),
+        devine: calc(2.3),
+        ideal: (calc(1.9) + calc(3.1) + calc(2.3)) / 3
+      };
 
       resultEl.innerHTML = `
         <div class="weight-card">
@@ -107,20 +110,20 @@ export function render(container) {
           </div>
           <div class="ideal-weight">
             <div class="ideal-label">Ideal Weight</div>
-            <div class="ideal-value">${ideal.toFixed(1)} kg</div>
+            <div class="ideal-value">${weights.ideal.toFixed(1)} kg</div>
           </div>
           <div class="weight-methods">
             <div class="method">
               <div class="method-name">Robinson Formula</div>
-              <div class="method-value">${robinson.toFixed(1)} kg</div>
+              <div class="method-value">${weights.robinson.toFixed(1)} kg</div>
             </div>
             <div class="method">
               <div class="method-name">Miller Formula</div>
-              <div class="method-value">${miller.toFixed(1)} kg</div>
+              <div class="method-value">${weights.miller.toFixed(1)} kg</div>
             </div>
             <div class="method">
               <div class="method-name">Devine Formula</div>
-              <div class="method-value">${devine.toFixed(1)} kg</div>
+              <div class="method-value">${weights.devine.toFixed(1)} kg</div>
             </div>
           </div>
         </div>
