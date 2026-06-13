@@ -1,13 +1,5 @@
-import { wireLookupSearch, escapeHtml } from '../shared/lookup.js';
-
-export const toolConfig = {
-  id: 'holiday-calendar',
-  name: 'Public Holiday Calendar',
-  category: 'reference',
-  description: 'View public holidays for any country and year.',
-  icon: '📅',
-  status: 'done'
-};
+import { createLookupTool } from '../shared/lookup-tool-factory.js';
+import { escapeHtml } from '../../utils/dom.js';
 
 const COUNTRIES = [
   { code: 'US', name: 'United States' },
@@ -27,83 +19,67 @@ const COUNTRIES = [
   { code: 'NO', name: 'Norway' }
 ];
 
-export function render(container) {
-  container.innerHTML = `
-    <div class="tool-container">
-      <div class="tool-header">
-        <div class="tool-icon">📅</div>
-        <h1>Public Holiday Calendar</h1>
-        <p class="tool-description">View public holidays for any country and year.</p>
-      </div>
-      <div class="tool-content">
-        <div class="search-box">
-          <select id="country-select" class="tool-select">
-            <option value="">Select Country</option>
-          </select>
-          <input type="number" id="year-input" class="tool-input year-input" value="2026" min="1900" max="2100" />
-          <button id="search-btn" class="tool-button primary">Get Holidays</button>
-        </div>
-        <div id="loading" class="loading hidden">Loading...</div>
-        <div id="result" class="result hidden">
-          <h3 id="result-title"></h3>
-          <div id="holidays-list" class="holidays-list"></div>
-        </div>
-        <div id="error" class="error hidden"></div>
-      </div>
+const { toolConfig, render } = createLookupTool({
+  toolConfig: {
+    id: 'holiday-calendar',
+    name: 'Public Holiday Calendar',
+    category: 'reference',
+    description: 'View public holidays for any country and year.',
+    icon: '📅',
+    status: 'done'
+  },
+  contentHTML: `
+    <div class="search-box">
+      <select id="country-select" class="tool-select">
+        <option value="">Select Country</option>
+      </select>
+      <input type="number" id="year-input" class="tool-input year-input" value="2026" min="1900" max="2100" />
+      <button id="search-btn" class="tool-button primary">Get Holidays</button>
     </div>
-  `;
-
-  const style = document.createElement('style');
-  style.textContent = `
-    .tool-container { max-width: 600px; margin: 0 auto; }
-    .tool-header { text-align: center; margin-bottom: var(--space-8); }
-    .search-box { display: flex; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
+  `,
+  resultHTML: `
+    <h3 id="result-title"></h3>
+    <div id="holidays-list" class="holidays-list"></div>
+  `,
+  extraCSS: `
     .tool-select, .year-input { padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: white; }
     .year-input { width: 100px; }
-    .tool-button.primary { padding: var(--space-3) var(--space-6); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; }
-    .loading, .error { text-align: center; padding: var(--space-8); color: var(--color-text-secondary); }
-    .error { color: var(--color-error); }
-    .result { animation: fadeIn 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     #result-title { margin-bottom: var(--space-4); }
     .holiday-item { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) var(--space-4); background: var(--color-surface); border-radius: var(--radius-md); margin-bottom: var(--space-2); }
     .holiday-date { font-weight: 600; color: var(--color-primary); }
     .holiday-name { flex: 1; margin-left: var(--space-3); }
     .holiday-type { font-size: var(--text-sm); color: var(--color-text-muted); }
-    .hidden { display: none !important; }
-  `;
-  container.appendChild(style);
+  `,
+  searchButtonId: 'search-btn',
+  inputSelector: 'select, input',
+  errorMessage: 'Could not load holidays. Try another country.',
+  validate: () => !document.querySelector('#country-select')?.value ? 'Select a country' : null,
+  onSearch: async (vals, container) => {
+    const country = container.querySelector('#country-select').value;
+    const year = container.querySelector('#year-input').value;
+    const res = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/' + country);
+    if (!res.ok) throw new Error('Failed to fetch holidays');
+    const holidays = await res.json();
+    const countryName = COUNTRIES.find(c => c.code === country)?.name || country;
 
-  const countrySelect = container.querySelector('#country-select');
-  COUNTRIES.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c.code;
-    opt.textContent = c.name;
-    countrySelect.appendChild(opt);
-  });
+    container.querySelector('#result-title').textContent = 'Holidays in ' + countryName + ' ' + year;
+    container.querySelector('#holidays-list').innerHTML = holidays.map(h => `
+      <div class="holiday-item">
+        <span class="holiday-date">${escapeHtml(h.date)}</span>
+        <span class="holiday-name">${escapeHtml(h.localName)}</span>
+        <span class="holiday-type">${escapeHtml(h.counties ? h.counties.join(', ') : h.type)}</span>
+      </div>
+    `).join('');
+  },
+  init(container) {
+    const countrySelect = container.querySelector('#country-select');
+    COUNTRIES.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.code;
+      opt.textContent = c.name;
+      countrySelect.appendChild(opt);
+    });
+  }
+});
 
-  wireLookupSearch({
-    container,
-    searchButtonId: 'search-btn',
-    inputSelector: 'select, input',
-    errorMessage: 'Could not load holidays. Try another country.',
-    validate: () => !countrySelect.value ? 'Select a country' : null,
-    onSearch: async () => {
-      const country = countrySelect.value;
-      const year = container.querySelector('#year-input').value;
-      const res = await fetch('https://date.nager.at/api/v3/PublicHolidays/' + year + '/' + country);
-      if (!res.ok) throw new Error('Failed to fetch holidays');
-      const holidays = await res.json();
-      const countryName = COUNTRIES.find(c => c.code === country)?.name || country;
-
-      container.querySelector('#result-title').textContent = 'Holidays in ' + countryName + ' ' + year;
-      container.querySelector('#holidays-list').innerHTML = holidays.map(h => `
-        <div class="holiday-item">
-          <span class="holiday-date">${escapeHtml(h.date)}</span>
-          <span class="holiday-name">${escapeHtml(h.localName)}</span>
-          <span class="holiday-type">${escapeHtml(h.counties ? h.counties.join(', ') : h.type)}</span>
-        </div>
-      `).join('');
-    }
-  });
-}
+export { toolConfig, render };
