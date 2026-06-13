@@ -1,14 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, initTextDiff, diffLines } from '../tools/text/text-diff.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('text-diff', () => {
-  describe('toolConfig', () => {
-    it('has correct id, name, category', () => {
-      expect(toolConfig.id).toBe('text-diff');
-      expect(toolConfig.name).toBe('Text Diff');
-      expect(toolConfig.category).toBe('text');
-    });
-  });
+  testSimpleToolConfig(toolConfig, 'text-diff', 'Text Diff', 'text');
 
   describe('initTextDiff', () => {
     it('returns early when required elements are missing', () => {

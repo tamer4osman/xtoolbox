@@ -1,15 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, formatXml, validateXml, highlightXml, render, destroy } from '../tools/text/xml-formatter.js';
+import { testToolConfig, testRenderAndDestroy } from './tool-config-test.js';
 
 describe('xml-formatter', () => {
-  it('has correct tool config', () => {
-    expect(toolConfig.id).toBe('xml-formatter');
-    expect(toolConfig.name).toBe('XML Formatter & Validator');
-    expect(toolConfig.category).toBe('text');
+  testToolConfig(toolConfig, {
+    id: 'xml-formatter',
+    name: 'XML Formatter & Validator',
+    category: 'text'
+  });
+
+  it('has icon', () => {
     expect(toolConfig.icon).toBe('📝');
-    expect(toolConfig.keywords.length).toBeGreaterThan(3);
-    expect(toolConfig.steps.length).toBeGreaterThan(2);
-    expect(toolConfig.faqs.length).toBeGreaterThan(1);
   });
 
   describe('formatXml', () => {
@@ -123,26 +124,18 @@ describe('xml-formatter', () => {
     });
   });
 
-  it('render appends content to container', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(container.querySelector('.tool-layout')).toBeTruthy();
-    expect(container.querySelector('#xf-input')).toBeTruthy();
-    expect(container.querySelector('#xf-output')).toBeTruthy();
-    expect(container.querySelector('#xf-format')).toBeTruthy();
-    expect(container.querySelector('#xf-validate')).toBeTruthy();
-    expect(container.querySelector('#xf-minify')).toBeTruthy();
-    expect(container.querySelector('#xf-clear')).toBeTruthy();
-    expect(container.querySelector('#xf-copy')).toBeTruthy();
-    expect(container.querySelector('#xf-download')).toBeTruthy();
-    expect(container.querySelector('#xf-status')).toBeTruthy();
-  });
-
-  it('destroy cleans up without throwing', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(() => destroy()).not.toThrow();
-  });
+  testRenderAndDestroy(render, destroy, [
+    '.tool-layout',
+    '#xf-input',
+    '#xf-output',
+    '#xf-format',
+    '#xf-validate',
+    '#xf-minify',
+    '#xf-clear',
+    '#xf-copy',
+    '#xf-download',
+    '#xf-status'
+  ]);
 
   it('minify preserves whitespace inside text content and CDATA', () => {
     const container = document.createElement('div');

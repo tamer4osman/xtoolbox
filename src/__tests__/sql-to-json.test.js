@@ -1,16 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, generateSchema, render, destroy } from '../tools/dev/sql-to-json.js';
+import { testToolConfig, testRenderAndDestroy } from './tool-config-test.js';
 
 describe('sql-to-json', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('sql-to-json');
-    expect(toolConfig.name).toContain('SQL');
-    expect(toolConfig.category).toBe('dev');
+  testToolConfig(toolConfig, {
+    id: 'sql-to-json',
+    name: 'SQL to JSON & Schema Converter',
+    category: 'dev'
+  });
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('🗃️');
     expect(toolConfig.status).toBe('done');
-    expect(toolConfig.keywords.length).toBeGreaterThan(3);
-    expect(toolConfig.steps.length).toBeGreaterThan(2);
-    expect(toolConfig.faqs.length).toBeGreaterThan(1);
   });
 
   it('generateSchema creates valid schema from table structure', () => {
@@ -45,21 +46,19 @@ describe('sql-to-json', () => {
     expect(Object.keys(schema).length).toBe(0);
   });
 
-  it('render appends content to container', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(container.querySelector('.sql-converter-container')).toBeTruthy();
-    expect(container.querySelector('#sql-input')).toBeTruthy();
-    expect(container.querySelector('#json-output')).toBeTruthy();
-    expect(container.querySelector('#schema-output')).toBeTruthy();
-    expect(container.querySelector('#data-preview')).toBeTruthy();
-    expect(container.querySelector('#parse-btn')).toBeTruthy();
-    expect(container.querySelector('#copy-json-btn')).toBeTruthy();
-    expect(container.querySelector('#copy-schema-btn')).toBeTruthy();
-    expect(container.querySelector('#download-json-btn')).toBeTruthy();
-    expect(container.querySelector('#download-schema-btn')).toBeTruthy();
-    expect(container.querySelector('#clear-btn')).toBeTruthy();
-  });
+  testRenderAndDestroy(render, destroy, [
+    '.sql-converter-container',
+    '#sql-input',
+    '#json-output',
+    '#schema-output',
+    '#data-preview',
+    '#parse-btn',
+    '#copy-json-btn',
+    '#copy-schema-btn',
+    '#download-json-btn',
+    '#download-schema-btn',
+    '#clear-btn'
+  ]);
 
   it('render creates tabs for JSON, Schema, and Preview', () => {
     const container = document.createElement('div');
@@ -78,11 +77,5 @@ describe('sql-to-json', () => {
     expect(fileInput).toBeTruthy();
     expect(fileInput.type).toBe('file');
     expect(fileInput.accept).toContain('.sql');
-  });
-
-  it('destroy cleans up without throwing', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(() => destroy()).not.toThrow();
   });
 });

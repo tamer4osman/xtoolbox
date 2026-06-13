@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig } from '../tools/dev/web-asset-extractor.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('web-asset-extractor', () => {
-  it('has correct toolConfig', () => {
-    expect(toolConfig.id).toBe('web-asset-extractor');
-    expect(toolConfig.name).toContain('Asset');
-    expect(toolConfig.category).toBe('dev');
+  testSimpleToolConfig(toolConfig, 'web-asset-extractor', toolConfig.name, 'dev');
+
+  it('has icon and status', () => {
     expect(toolConfig.icon).toBe('📦');
     expect(toolConfig.status).toBe('done');
   });

@@ -1,15 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, parseTime, formatTime, shiftSubtitles, render, destroy } from '../tools/productivity/subtitle-time-shifter.js';
+import { testToolConfig, testRenderAndDestroy } from './tool-config-test.js';
 
 describe('subtitle-time-shifter', () => {
-  it('has correct tool config', () => {
-    expect(toolConfig.id).toBe('subtitle-time-shifter');
-    expect(toolConfig.name).toBe('SRT / VTT Subtitle Sync Shifter');
-    expect(toolConfig.category).toBe('productivity');
+  testToolConfig(toolConfig, {
+    id: 'subtitle-time-shifter',
+    name: 'SRT / VTT Subtitle Sync Shifter',
+    category: 'productivity'
+  });
+
+  it('has icon', () => {
     expect(toolConfig.icon).toBe('⏱️');
-    expect(toolConfig.keywords.length).toBeGreaterThan(3);
-    expect(toolConfig.steps.length).toBeGreaterThan(2);
-    expect(toolConfig.faqs.length).toBeGreaterThan(1);
   });
 
   describe('parseTime', () => {
@@ -106,23 +107,15 @@ Line 2`;
     });
   });
 
-  it('render appends content to container', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(container.querySelector('.tool-layout')).toBeTruthy();
-    expect(container.querySelector('#sts-file')).toBeTruthy();
-    expect(container.querySelector('#sts-offset-slider')).toBeTruthy();
-    expect(container.querySelector('#sts-offset-input')).toBeTruthy();
-    expect(container.querySelector('#sts-preview')).toBeTruthy();
-    expect(container.querySelector('#sts-output')).toBeTruthy();
-    expect(container.querySelector('#sts-copy')).toBeTruthy();
-    expect(container.querySelector('#sts-download')).toBeTruthy();
-    expect(container.querySelector('#sts-info')).toBeTruthy();
-  });
-
-  it('destroy cleans up without throwing', () => {
-    const container = document.createElement('div');
-    render(container);
-    expect(() => destroy()).not.toThrow();
-  });
+  testRenderAndDestroy(render, destroy, [
+    '.tool-layout',
+    '#sts-file',
+    '#sts-offset-slider',
+    '#sts-offset-input',
+    '#sts-preview',
+    '#sts-output',
+    '#sts-copy',
+    '#sts-download',
+    '#sts-info'
+  ]);
 });

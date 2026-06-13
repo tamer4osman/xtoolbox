@@ -1,14 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, trimText, removeExtraSpaces, removeEmptyLines, removeAllLineBreaks, sortLines, uniqueLines, cleanAll } from '../tools/text/text-cleaner.js';
+import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('text-cleaner', () => {
-  describe('toolConfig', () => {
-    it('has correct id, name, category', () => {
-      expect(toolConfig.id).toBe('text-cleaner');
-      expect(toolConfig.name).toBe('Text Cleaner');
-      expect(toolConfig.category).toBe('text');
-    });
-  });
+  testSimpleToolConfig(toolConfig, 'text-cleaner', 'Text Cleaner', 'text');
 
   describe('trimText', () => {
     it('trims whitespace', () => {
