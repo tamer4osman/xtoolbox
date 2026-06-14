@@ -2531,7 +2531,7 @@
     "description": "Create beautiful code screenshots for social media with syntax highlighting and custom themes.",
     "icon": "📸",
     "href": "/tools/code-screenshot-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "code",
       "screenshot",

@@ -23,7 +23,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] Database Schema Designer (`database-schema-designer`)
 - [x] FFmpeg Command Generator (`ffmpeg-command-generator`)
 - [x] Chmod Calculator (`chmod-calculator`)
-- [ ] Code Screenshot Generator (`code-screenshot-generator`)
+- [x] Code Screenshot Generator (`code-screenshot-generator`)
 - [ ] PWA Manifest Generator (`pwa-manifest-generator`)
 
 ### PDF (1 planned)

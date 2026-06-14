@@ -1,7 +1,7 @@
 {
   "name": "toolbox",
   "version": "1.0.0",
-  "description": "285+ free online tools. 100% client-side processing.",
+  "description": "286+ free online tools. 100% client-side processing.",
   "type": "module",
   "scripts": {
     "dev": "vite",
