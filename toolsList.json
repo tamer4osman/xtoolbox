@@ -2457,7 +2457,7 @@
     "description": "Write and execute SQL queries in the browser using SQLite compiled to WASM.",
     "icon": "🗃️",
     "href": "/tools/sql-playground",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "sql",
       "sqlite",

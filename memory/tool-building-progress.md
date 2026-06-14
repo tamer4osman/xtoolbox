@@ -19,7 +19,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] Environment Variable Editor (`env-editor`)
 - [x] LLM Token Counter (`llm-token-counter`)
 - [x] Mock Data Generator (`mock-data-generator`)
-- [ ] SQL Playground (`sql-playground`)
+- [x] SQL Playground (`sql-playground`)
 - [ ] Database Schema Designer (`database-schema-designer`)
 - [ ] FFmpeg Command Generator (`ffmpeg-command-generator`)
 - [x] Chmod Calculator (`chmod-calculator`)

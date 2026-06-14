@@ -2460,7 +2460,7 @@
       "database",
       "wasm"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "database-schema-designer",
