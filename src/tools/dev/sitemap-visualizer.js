@@ -1,4 +1,4 @@
-import { escapeHtml } from '../../utils/dom.js';
+import { escapeHtml } from '../../utils/escape-html.js';
 
 export const toolConfig = {
   id: 'sitemap-visualizer',

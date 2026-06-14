@@ -41,7 +41,7 @@ const XML_CSV_HTML = `
   </div>
 `;
 
-function parseXmlToRows(xmlString) {
+export function parseXmlToRows(xmlString) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(xmlString, 'text/xml');
   const rows = [];
@@ -92,7 +92,7 @@ function parseXmlToRows(xmlString) {
   return rows;
 }
 
-function rowsToCsv(rows) {
+export function rowsToCsv(rows) {
   if (rows.length === 0) return '';
   const allKeys = new Set();
   rows.forEach(row => Object.keys(row).forEach(k => allKeys.add(k)));

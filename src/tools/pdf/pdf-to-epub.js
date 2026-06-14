@@ -1,7 +1,7 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import JSZip from 'jszip';
-import { escapeHtml } from '../../utils/dom.js';
+import { escapeHtml } from '../../utils/escape-html.js';
 import { downloadBlob } from '../../utils/file.js';
 import { showToast } from '../../components/toast.js';
 import { createSingleFileTool } from '../../utils/single-file-tool.js';

@@ -1,7 +1,7 @@
 import { showToast } from '../../components/toast.js';
 import { copyToClipboard } from '../../utils/clipboard.js';
 import { downloadBlob } from '../../utils/file.js';
-import { escapeHtml } from '../../utils/dom.js';
+import { escapeHtml } from '../../utils/escape-html.js';
 
 export const toolConfig = {
   id: 'env-editor',

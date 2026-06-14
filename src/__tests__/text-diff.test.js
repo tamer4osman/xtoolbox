@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, initTextDiff, diffLines } from '../tools/text/text-diff.js';
-import { escapeHtml } from '../utils/dom.js';
+import { escapeHtml } from '../utils/escape-html.js';
 import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('text-diff', () => {

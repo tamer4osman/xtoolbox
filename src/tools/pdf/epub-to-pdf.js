@@ -21,7 +21,7 @@ export const toolConfig = {
   ]
 };
 
-function parseOpf(xmlText) {
+export function parseOpf(xmlText) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(xmlText, 'application/xhtml+xml');
   const title = doc.querySelector('dc\\:title, title')?.textContent || 'Untitled';
@@ -38,7 +38,7 @@ function parseOpf(xmlText) {
   return { title, author, manifest, spine };
 }
 
-function extractTextFromXhtml(htmlText) {
+export function extractTextFromXhtml(htmlText) {
   const doc = new DOMParser().parseFromString(htmlText, 'text/html');
   const blocks = [];
   function walk(node) {

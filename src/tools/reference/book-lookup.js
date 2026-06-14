@@ -1,5 +1,5 @@
 import { createLookupTool } from '../shared/lookup-tool-factory.js';
-import { escapeHtml } from '../../utils/dom.js';
+import { escapeHtml } from '../../utils/escape-html.js';
 
 async function searchBooks(query, type) {
   if (type === 'isbn') {

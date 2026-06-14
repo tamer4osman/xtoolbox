@@ -11,7 +11,7 @@ const SHARED_CSS = `
   .hidden { display: none; }
 `;
 
-import { escapeHtml } from '../../utils/dom.js';
+import { escapeHtml } from '../../utils/escape-html.js';
 
 function isSafeClassName(name) {
   return typeof name === 'string' && /^[a-zA-Z][a-zA-Z0-9_-]*$/.test(name);
