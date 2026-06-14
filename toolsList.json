@@ -2474,7 +2474,7 @@
     "description": "Visual drag-and-drop ER diagram editor with tables, columns, relationships, and SQL export.",
     "icon": "🗄️",
     "href": "/tools/database-schema-designer",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "database",
       "schema",

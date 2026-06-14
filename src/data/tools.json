@@ -2477,7 +2477,7 @@
       "diagram",
       "sql"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "ffmpeg-command-generator",

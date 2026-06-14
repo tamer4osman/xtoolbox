@@ -20,7 +20,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] LLM Token Counter (`llm-token-counter`)
 - [x] Mock Data Generator (`mock-data-generator`)
 - [x] SQL Playground (`sql-playground`)
-- [ ] Database Schema Designer (`database-schema-designer`)
+- [x] Database Schema Designer (`database-schema-designer`)
 - [ ] FFmpeg Command Generator (`ffmpeg-command-generator`)
 - [x] Chmod Calculator (`chmod-calculator`)
 - [ ] Code Screenshot Generator (`code-screenshot-generator`)
