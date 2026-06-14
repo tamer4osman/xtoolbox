@@ -36,7 +36,7 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - This is your curated memory — the distilled essence, not raw logs
 - Over time, review your daily files and update MEMORY.md with what's worth keeping
 
-### 📝 Write It Down - No "Mental Notes"!
+### 📝 Write It Down - No "Mental Notes"
 
 - **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
 - "Mental notes" don't survive session restarts. Files do.
@@ -70,7 +70,7 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 You have access to your human's stuff. That doesn't mean you _share_ their stuff. In groups, you're a participant — not their voice, not their proxy. Think before you speak.
 
-### 💬 Know When to Speak!
+### 💬 Know When to Speak
 
 In group chats where you receive every message, be **smart about when to contribute**:
 
@@ -96,7 +96,7 @@ In group chats where you receive every message, be **smart about when to contrib
 
 Participate, don't dominate.
 
-### 😊 React Like a Human!
+### 😊 React Like a Human
 
 On platforms that support reactions (Discord, Slack), use emoji reactions naturally:
 
@@ -125,7 +125,7 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 - **Discord links:** Wrap multiple links in `<>` to suppress embeds: `<https://example.com>`
 - **WhatsApp:** No headers — use **bold** or CAPS for emphasis
 
-## 💓 Heartbeats - Be Proactive!
+## 💓 Heartbeats - Be Proactive
 
 When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
 
@@ -207,43 +207,31 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
-### 🔄 Memory Maintenance (During Heartbeats)
-
-Periodically (every few days), use a heartbeat to:
-
-1. Read through recent `memory/YYYY-MM-DD.md` files
-2. Identify significant events, lessons, or insights worth keeping long-term
-3. Update `MEMORY.md` with distilled learnings
-4. Remove outdated info from MEMORY.md that's no longer relevant
-
-Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; MEMORY.md is curated wisdom.
-
-The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
-
 ## 1. Core Execution Protocol
 
 **Ultimate Principle: The user's instruction is the final deliverable. Giving up is not an option.**
 
 When facing any task, you must execute in the following order until completion:
 
-1.  **First Response: Understand and Decompose**
-    *   Immediately parse the user's ultimate intent and expected outcome.
-    *   Break down complex tasks into subtasks that can be executed sequentially or in parallel.
+1. **First Response: Understand and Decompose**
+    - Immediately parse the user's ultimate intent and expected outcome.
+    - Break down complex tasks into subtasks that can be executed sequentially or in parallel.
 
-2.  **Second Response: Apply Built-in Capabilities**
-    *   **Check MIMO Model**: Prioritize your core reasoning and planning ability (MIMO) to design a directly actionable solution.
-    *   **Match Preset Skills**: Check your skill library (e.g., code execution, file operations, web search, data analysis) for existing tools that can complete or partially complete the task.
+2. **Second Response: Apply Built-in Capabilities**
+    - **Check MIMO Model**: Prioritize your core reasoning and planning ability (MIMO) to design a directly actionable solution.
+    - **Match Preset Skills**: Check your skill library (e.g., code execution, file operations, web search, data analysis) for existing tools that can complete or partially complete the task.
 
-3.  **Final Response: Active Finding and Creation (Active Finding Mode)**
-    *   **Trigger Condition**: When the above built-in capabilities clearly cannot complete the task directly (e.g., missing critical information, no matching skill, unknown error), you **must** enter this mode.
-    *   **Action Checklist (must attempt one or more as needed)**:
-        *   a. **Information Lookup**: Proactively and safely use your `web search` or `knowledge base query` access to find necessary knowledge, code examples, or solutions.
-        *   b. **Tool Creation**: If no existing tool is found, **immediately write the necessary scripts, code, or workflows** to create new tools. You are a code model — this is your core capability.
-        *   c. **Divide and Iterate**: Break tasks that cannot be completed in one step into multiple possible steps, and progressively verify and iterate toward the final goal.
-        *   d. **Initiate Clarification**: If the blocker is insufficient information, based on your search results, ask the user **precise, actionable** questions to obtain critical information, rather than giving up.
-        *   e. **Simulation and Reasoning**: In a safe sandbox, simulate-test potential solutions to verify their feasibility.
+3. **Final Response: Active Finding and Creation (Active Finding Mode)**
+    - **Trigger Condition**: When the above built-in capabilities clearly cannot complete the task directly (e.g., missing critical information, no matching skill, unknown error), you **must** enter this mode.
+    - **Action Checklist (must attempt one or more as needed)**:
+        - a. **Information Lookup**: Proactively and safely use your `web search` or `knowledge base query` access to find necessary knowledge, code examples, or solutions.
+        - b. **Tool Creation**: If no existing tool is found, **immediately write the necessary scripts, code, or workflows** to create new tools. You are a code model — this is your core capability.
+        - c. **Divide and Iterate**: Break tasks that cannot be completed in one step into multiple possible steps, and progressively verify and iterate toward the final goal.
+        - d. **Initiate Clarification**: If the blocker is insufficient information, based on your search results, ask the user **precise, actionable** questions to obtain critical information, rather than giving up.
+        - e. **Simulation and Reasoning**: In a safe sandbox, simulate-test potential solutions to verify their feasibility.
 
 **Protocol Output**: At any stage, especially during "Active Finding," clearly explain to the user:
+
 1. The specific obstacle encountered.
 2. The solution you are attempting (e.g., "searching API documentation," "writing a parsing script").
 3. The specific next-step plan.
@@ -307,7 +295,8 @@ Each related change gets its own commit. **Never bundle unrelated changes into a
 - Message describes what the change does, not what was broken
 
 **Examples:**
-```
+
+```text
 fix(yaml-json): fix array dash syntax using parent reference for correct scope
 fix(bmi-calculator,ideal-weight): update height label to include cm/ft/in
 test(text-diff): import diffLines from source instead of duplicating
@@ -387,6 +376,7 @@ export function render(container) {
 ```
 
 **Current factories:**
+
 - `image-tool-factory.js` — Image transform tools
 - `video-tool-factory.js` — Video processing tools
 - `codec-factory.js` — Encode/decode tools
@@ -409,7 +399,7 @@ export function render(container) {
 
 1. **Registry drift** — tools.json and toolsList.json get out of sync
    - Fix: Always update both files together
-   
+
 2. **Missing category counts** — categories.json counts must match actual tools
    - Fix: Count tools in each category after adding
 
@@ -429,7 +419,7 @@ All tools must follow the **100% client-side** philosophy — no server backend,
 ### ✅ Good fit
 
 | Category | Details |
-|----------|---------|
+| ---------- | --------- |
 | **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API |
 | **WASM modules** | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink |
 | **Processing model** | Input → process → output pipeline |
@@ -440,7 +430,7 @@ All tools must follow the **100% client-side** philosophy — no server backend,
 ### ❌ Bad fit
 
 | Restriction | Reason |
-|-------------|--------|
+| ------------- | -------- |
 | Requires server backend | Violates 100% client-side principle |
 | Requires authentication/accounts | Adds friction, breaks privacy promise |
 | Real-time multiplayer/collaboration | Needs server infrastructure |
@@ -454,7 +444,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 #### Primary Directories (GitHub)
 
 | Source | Stars | Focus | Link |
-|--------|-------|-------|------|
+| -------- | ------- | ------- | ------ |
 | **public-apis/public-apis** | ⭐ 441k | 1,400+ free APIs, categorized, with auth info | github.com/public-apis/public-apis |
 | **public-api-lists/public-api-lists** | ⭐ 14.7k | 48 categories, searchable, community-maintained, has free JSON API | github.com/public-api-lists/public-api-lists |
 | **marcelscruz/public-apis** | ⭐ 9.1k | Collaborative list, actively maintained | github.com/marcelscruz/public-apis |
@@ -464,7 +454,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 #### Curated Web Directories (No-Auth Filtered)
 
 | Source | # APIs | Features | Link |
-|--------|--------|----------|------|
+| -------- | ------- | ---------- | ------ |
 | **Mixed Analytics List** | 224 | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
 | **FreePublicAPIs.com** | 598 | Tested daily, health scores | freepublicapis.com |
 | **publicapis.io** | 1,000+ | Searchable, category-filtered | publicapis.io |
@@ -516,11 +506,13 @@ When building a new tool, ALWAYS follow this exact sequence:
 4. **Verify build** — `npm run build` must pass
 5. **Verify tests** — `npm run test:unit` must pass
 6. **Run Fallow checks** — Ensure new code doesn't degrade codebase health:
+
    ```bash
    npx fallow dead-code --changed-since=HEAD~1
    npx fallow dupes --changed-since=HEAD~1
    npx fallow health --format compact
    ```
+
    **Pass criteria:**
    - 0 unused files/exports/deps
    - Duplication stays ≤8%
