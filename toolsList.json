@@ -2491,7 +2491,7 @@
     "description": "Build FFmpeg commands visually with input/output formats, codecs, filters, and presets.",
     "icon": "🎬",
     "href": "/tools/ffmpeg-command-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "ffmpeg",
       "command",
