@@ -2440,7 +2440,7 @@
     "description": "Generate realistic fake data (names, emails, addresses) in JSON, CSV, SQL, and TypeScript formats.",
     "icon": "🎲",
     "href": "/tools/mock-data-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "mock",
       "data",

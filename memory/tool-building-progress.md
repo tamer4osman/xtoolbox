@@ -18,7 +18,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] Gitignore Generator (`gitignore-generator`)
 - [x] Environment Variable Editor (`env-editor`)
 - [x] LLM Token Counter (`llm-token-counter`)
-- [ ] Mock Data Generator (`mock-data-generator`)
+- [x] Mock Data Generator (`mock-data-generator`)
 - [ ] SQL Playground (`sql-playground`)
 - [ ] Database Schema Designer (`database-schema-designer`)
 - [ ] FFmpeg Command Generator (`ffmpeg-command-generator`)
