@@ -9,7 +9,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ### CSS & Web Design (4 planned)
 - [x] SVG Optimizer & Minifier (`svg-optimizer`)
 - [x] WCAG Color Contrast Checker (`wcag-contrast-checker`)
-- [ ] CSS Sprite Sheet Generator (`css-sprite-generator`)
+- [x] CSS Sprite Sheet Generator (`css-sprite-generator`)
 - [ ] Font Subsetter (`font-subsetter`)
 
 ### Developer Tools (12 planned)
