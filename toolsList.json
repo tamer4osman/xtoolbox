@@ -2332,7 +2332,7 @@
     "description": "Upload web fonts and subset them to only the glyphs you need. Supports language presets and custom Unicode ranges.",
     "icon": "🔤",
     "href": "/tools/font-subsetter",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "font",
       "subset",

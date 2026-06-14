@@ -10,7 +10,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] SVG Optimizer & Minifier (`svg-optimizer`)
 - [x] WCAG Color Contrast Checker (`wcag-contrast-checker`)
 - [x] CSS Sprite Sheet Generator (`css-sprite-generator`)
-- [ ] Font Subsetter (`font-subsetter`)
+- [x] Font Subsetter (`font-subsetter`)
 
 ### Developer Tools (12 planned)
 - [x] Docker Compose Generator (`docker-compose-generator`)
