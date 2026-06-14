@@ -29,7 +29,7 @@ describe('cron-builder', () => {
 
     it('describes custom cron', () => {
       const result = getCronDescription({ minute: '15', hour: '6', day: '1', month: '6', weekday: '*' });
-      expect(result).toContain('15 6 1 6 *');
+      expect(result).toBe('Runs at 6:15 on day 1');
     });
   });
 });

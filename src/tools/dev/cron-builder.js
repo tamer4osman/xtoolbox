@@ -23,7 +23,7 @@ function getWeekdayLabel(wd) {
 
 function formatTime(h, m) {
   if (h === '*' && m === '*') return 'every minute';
-  if (m === '0' && h === '*') return 'every hour';
+  if (m === '0' && h === '*') return 'every hour at minute 0';
   const hour = { '0': 'midnight', '9': '9 AM', '12': 'noon', '18': '6 PM' };
   return hour[h] || `${h}:${m}`;
 }
@@ -34,6 +34,7 @@ export function getCronDescription(values) {
   if (time === 'every minute') return 'Runs every minute';
   if (values.day !== '*') return `Runs at ${time} on day ${values.day}`;
   if (values.month !== '*') return `Runs at ${time} in month ${values.month}`;
+  if (time.startsWith('every')) return `Runs ${time}`;
   return day ? `Runs ${day} at ${time}` : `Runs at ${values.minute} ${values.hour} ${values.day} ${values.month} ${values.weekday}`;
 }
 
