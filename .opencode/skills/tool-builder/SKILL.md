@@ -15,13 +15,28 @@ End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 1
 
 If the user just wants to fix or modify an existing tool, do not use this skill — edit in place.
 
-## Step 0 — Confirm the tool
+## Step 0 — Research & Confirm (BLOCKING)
 
 Before any work:
 
-1. Read `memory/tool-building-progress.md` to see what's planned.
-2. Read the entry for the target tool (file path, category, library, rationale).
-3. Ask the user only if the category, file path, or library is unclear. Otherwise proceed.
+1. **Web Search** — Research the best approach for this tool type:
+   - Search for "how to implement [tool name] in JavaScript browser"
+   - Search for "[tool name] open source library JavaScript"
+   - Check existing tools in the project for similar patterns
+   - Identify libraries needed (WASM, npm packages) or if pure JS is sufficient
+
+2. **Approach Decision** — Choose the best implementation path:
+   - Pure browser APIs (Canvas, Web Audio, FileReader, etc.)
+   - WASM modules already in project (pdf-lib, tesseract, ffmpeg.wasm)
+   - External library via CDN (check if already available in package.json)
+   - Pure JS implementation (most reliable for client-side only)
+
+3. **Confirm with User** — Present findings:
+   - "Best approach: [chosen method]"
+   - "Libraries needed: [none / package name]"
+   - "Potential issues: [any concerns]"
+   
+   Wait for user confirmation before proceeding to Step 1.
 
 ## Step 1 — Create the tool file
 
