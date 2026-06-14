@@ -2,7 +2,7 @@ export const toolConfig = {
   id: 'code-screenshot-generator',
   name: 'Code Screenshot Generator',
   category: 'dev',
-  description: 'Create beautiful code screenshots for social media with syntax highlighting and custom themes.',
+  description: 'Create beautiful code screenshots for social media. Supports JavaScript syntax highlighting.',
   icon: '📸',
   keywords: ['code', 'screenshot', 'carbon', 'syntax', 'highlight', 'social'],
   accept: '.js,.ts,.py,.html,.css,.json',
@@ -12,7 +12,7 @@ export const toolConfig = {
 let state = {
   code: 'console.log("Hello, World!");',
   language: 'javascript',
-  theme: 'monokai',
+  theme: 0,
   background: '#272822',
   foreground: '#f8f8f2',
   padding: 32,
@@ -35,16 +35,6 @@ const themes = [
   { name: 'One Dark', bg: '#282c34', fg: '#abb2bf', ak: '#61afef', bl: '#c678dd', bn: '#e06c75', gn: '#98c379', gy: '#5c6370', ow: '#d19a66', pp: '#c678dd', rd: '#e06c75', sy: '#e5c07b' },
   { name: 'VS Code', bg: '#1e1e1e', fg: '#d4d4d4', ak: '#9cdcfe', bl: '#c586c0', bn: '#f44747', gn: '#6a9955', gy: '#6a6a6a', ow: '#ce9178', pp: '#c586c0', rd: '#f44747', sy: '#dcdcaa' }
 ];
-
-const colors = {
-  keyword: '#569cd6',
-  string: '#ce9178', 
-  number: '#b5cea8',
-  comment: '#6a9955',
-  function: '#dcdcaa',
-  operator: '#d4d4d4',
-  class: '#4ec9b0'
-};
 
 export function render(container) {
   container.innerHTML = `
@@ -72,7 +62,7 @@ export function render(container) {
         <div class="preview-section">
           <h3>Preview</h3>
           <div class="screenshot-preview" id="screenshotPreview" style="background:${state.background};padding:${state.padding}px;">
-            <pre id="codeBlock" style="color:${state.foreground};font-size:${state.fontSize}px;margin:0;"></pre>
+            <pre id="codeBlock" style="color:${state.foreground};font-size:${state.fontSize}px;margin:0;line-height:1.5;font-family:monospace;white-space:pre-wrap;"></pre>
           </div>
         </div>
 
@@ -116,120 +106,117 @@ export function render(container) {
   bindEvents(container);
 }
 
-function highlightCode(container) {
-  const code = container.querySelector('#codeInput').value;
-  const block = container.querySelector('#codeBlock');
-  const theme = themes[state.theme < themes.length ? state.theme : 0];
-  
-  let html = escapeHtml(code);
-  html = applySyntaxHighlighting(html, container.querySelector('#language').value, theme);
-  block.innerHTML = html;
-}
-
 function escapeHtml(text) {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function applySyntaxHighlighting(code, lang, theme) {
-  const patterns = [
-    { regex: /(\/\/.*$)/gm, color: theme.gy },
-    { regex: /(\/\*[\s\S]*?\*\/)/g, color: theme.gy },
-    { regex: /(".*?")/g, color: theme.sy },
-    { regex: /('.*?')/g, color: theme.sy },
-    { regex: /(\b\d+\b)/g, color: theme.pp },
-    { regex: /\b(const|let|var|function|return|if|else|for|while|class|import|export|from|async|await)\b/g, color: theme.bn },
-    { regex: /\b(console|log|Array|Object|String|Number|Boolean)\b/g, color: theme.ow },
-  ];
+function highlightCode(container, skipHighlight = false) {
+  const code = container.querySelector('#codeInput').value;
+  const block = container.querySelector('#codeBlock');
+  const lang = container.querySelector('#language').value;
+  const theme = themes[state.theme];
   
-  let result = code;
-  patterns.forEach(p => {
-    result = result.replace(p.regex, `<span style="color:${p.color}">$1</span>`);
-  });
-  return result.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;');
+  if (skipHighlight || lang !== 'javascript') {
+    block.innerHTML = escapeHtml(code);
+    return;
+  }
+  
+  const highlighted = highlightJavaScript(code, theme);
+  block.innerHTML = highlighted;
+}
+
+function highlightJavaScript(code, theme) {
+  let result = escapeHtml(code);
+  
+  result = result.replace(/(\/\/.*$)/gm, `<span style="color:${theme.gy}">$1</span>`);
+  result = result.replace(/(\/\*[\s\S]*?\*\/)/g, `<span style="color:${theme.gy}">$1</span>`);
+  result = result.replace(/(["'][^"']*["'])/g, `<span style="color:${theme.sy}">$1</span>`);
+  result = result.replace(/\b(\d+)\b/g, `<span style="color:${theme.pp}">$1</span>`);
+  result = result.replace(/\b(const|let|var|function|return|if|else|for|while|class|import|export|from|async|await|new|this|try|catch|throw)\b/g, `<span style="color:${theme.bn}">$1</span>`);
+  result = result.replace(/\b(console|Array|Object|String|Number|Boolean|Date|Map|Set|Promise)\b/g, `<span style="color:${theme.ow}">$1</span>`);
+  
+  return result;
 }
 
 function bindEvents(container) {
-  const codeInput = container.querySelector('#codeInput');
-  const language = container.querySelector('#language');
-  const padding = container.querySelector('#padding');
-  const fontSize = container.querySelector('#fontSize');
-  const themeGrid = container.querySelector('#themeGrid');
-  const downloadBtn = container.querySelector('#downloadBtn');
+  container.querySelector('#codeInput').addEventListener('input', () => highlightCode(container));
+  container.querySelector('#language').addEventListener('change', () => highlightCode(container));
 
-  codeInput.addEventListener('input', () => highlightCode(container));
-  language.addEventListener('change', () => highlightCode(container));
-
-  padding.addEventListener('input', e => {
+  container.querySelector('#padding').addEventListener('input', e => {
     state.padding = parseInt(e.target.value);
     container.querySelector('#paddingVal').textContent = state.padding + 'px';
     container.querySelector('#screenshotPreview').style.padding = state.padding + 'px';
   });
 
-  fontSize.addEventListener('change', e => {
+  container.querySelector('#fontSize').addEventListener('change', e => {
     state.fontSize = parseInt(e.target.value);
     container.querySelector('#codeBlock').style.fontSize = state.fontSize + 'px';
   });
 
-  themeGrid.addEventListener('click', e => {
+  container.querySelector('#themeGrid').addEventListener('click', e => {
     const btn = e.target.closest('.theme-btn');
     if (!btn) return;
-
-    const idx = parseInt(btn.dataset.theme);
-    state.theme = idx;
-    const theme = themes[idx];
     
+    state.theme = parseInt(btn.dataset.theme);
+    const theme = themes[state.theme];
     state.background = theme.bg;
     state.foreground = theme.fg;
-
+    
     container.querySelectorAll('.theme-btn').forEach(b => b.style.border = 'none');
     btn.style.border = '2px solid ' + theme.sy;
-
+    
     container.querySelector('#screenshotPreview').style.background = theme.bg;
     container.querySelector('#screenshotPreview').style.color = theme.fg;
     
     highlightCode(container);
   });
 
-  downloadBtn.addEventListener('click', () => downloadScreenshot(container));
+  container.querySelector('#downloadBtn').addEventListener('click', () => downloadScreenshot(container));
 }
 
-function downloadScreenshot(container) {
+async function downloadScreenshot(container) {
   const preview = container.querySelector('#screenshotPreview');
   const btn = container.querySelector('#downloadBtn');
   btn.textContent = 'Generating...';
 
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  
-  const rect = preview.getBoundingClientRect();
-  canvas.width = rect.width * 2;
-  canvas.height = rect.height * 2;
-  ctx.scale(2, 2);
-  
-  ctx.fillStyle = state.background;
-  ctx.fillRect(0, 0, rect.width, rect.height);
-  
-  const code = preview.querySelector('#codeBlock');
-  ctx.font = state.fontSize + 'px monospace';
-  ctx.fillStyle = state.foreground;
-  
-  const lines = code.innerHTML.split('<br>');
-  lines.forEach((line, i) => {
-    const text = line.replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-    ctx.fillText(text, state.padding, state.padding + state.fontSize + i * (state.fontSize + 4));
-  });
+  if (!window.html2canvas) {
+    await loadHtml2Canvas();
+  }
 
-  canvas.toBlob(blob => {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'code-screenshot.png';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    btn.textContent = 'Downloaded!';
+  try {
+    const canvas = await window.html2canvas(preview, {
+      backgroundColor: null,
+      scale: 2,
+      useCORS: true,
+      allowTaint: true
+    });
+
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'code-screenshot.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      btn.textContent = 'Downloaded!';
+      setTimeout(() => btn.textContent = 'Download Screenshot', 2000);
+    }, 'image/png');
+  } catch (err) {
+    console.error('Screenshot error:', err);
+    btn.textContent = 'Error';
     setTimeout(() => btn.textContent = 'Download Screenshot', 2000);
-  }, 'image/png');
+  }
+}
+
+function loadHtml2Canvas() {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.6/dist/html2canvas.min.js';
+    script.onload = () => resolve();
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
 }
