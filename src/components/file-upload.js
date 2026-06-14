@@ -1,5 +1,5 @@
 import { formatFileSize } from '../utils/file.js';
-import { createElement } from '../utils/dom.js';
+import { createElement } from '../utils/dom-create.js';
 
 /**
  * Create a file upload dropzone component

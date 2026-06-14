@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { createElement, $ } from '../utils/dom.js';
+import { createElement } from '../utils/dom-create.js';
+import { $ } from '../utils/dom-query.js';
 
 describe('dom', () => {
   describe('createElement', () => {
