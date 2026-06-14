@@ -1,4 +1,5 @@
-import { $, createElement } from '../utils/dom.js';
+import { $ } from '../utils/dom-query.js';
+import { createElement } from '../utils/dom-create.js';
 import { updatePageMeta, addStructuredData } from '../utils/seo.js';
 import { createAdSlot } from '../components/ad-slot.js';
 import toolsData from '../data/tools.json';

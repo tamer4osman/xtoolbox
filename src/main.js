@@ -13,7 +13,7 @@ import { initRouter, on, setNotFound } from './router.js';
 import { renderNavbar, initNavbar } from './components/navbar.js';
 import { renderFooter } from './components/footer.js';
 import { initTooltips } from './components/tooltip.js';
-import { $ } from './utils/dom.js';
+import { $ } from './utils/dom-query.js';
 
 // ===== Import Page Renderers =====
 import { renderHome } from './pages/home.js';

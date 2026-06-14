@@ -1,4 +1,4 @@
-import { $ } from '../utils/dom.js';
+import { $ } from '../utils/dom-query.js';
 
 export function renderNotFound() {
   const main = $('#main-content');

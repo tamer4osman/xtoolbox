@@ -1,4 +1,4 @@
-import { $ } from '../utils/dom.js';
+import { $ } from '../utils/dom-query.js';
 import { updatePageMeta } from '../utils/seo.js';
 import { createToolCard } from '../components/card.js';
 import toolsData from '../data/tools.json';

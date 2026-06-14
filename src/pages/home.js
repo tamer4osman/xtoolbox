@@ -1,4 +1,4 @@
-import { $ } from '../utils/dom.js';
+import { $ } from '../utils/dom-query.js';
 import { debounce } from '../utils/debounce.js';
 import { navigate } from '../router.js';
 import { updatePageMeta } from '../utils/seo.js';
