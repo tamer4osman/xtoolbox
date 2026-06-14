@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/dom.js';
+
 export function parseCIDR(input) {
   const match = input.trim().match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)\/(\d+)$/);
   if (!match) return null;
@@ -70,12 +72,10 @@ export function render(container) {
   const calcBtn = container.querySelector('#sc-calc');
   const results = container.querySelector('#sc-results');
 
-  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
   function renderRow(label, value) {
     return `<div style="display:flex;justify-content:space-between;padding:var(--space-2) 0;border-bottom:1px solid var(--color-border);font-family:monospace;font-size:var(--text-sm);">
       <span style="color:var(--color-text-muted);">${label}</span>
-      <span style="font-weight:600;">${esc(value)}</span>
+      <span style="font-weight:600;">${escapeHtml(value)}</span>
     </div>`;
   }
 

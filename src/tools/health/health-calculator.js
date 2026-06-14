@@ -11,12 +11,7 @@ const SHARED_CSS = `
   .hidden { display: none; }
 `;
 
-function escapeHtml(str) {
-  if (str === null || str === undefined) return '';
-  const div = document.createElement('div');
-  div.textContent = String(str);
-  return div.innerHTML;
-}
+import { escapeHtml } from '../../utils/dom.js';
 
 function isSafeClassName(name) {
   return typeof name === 'string' && /^[a-zA-Z][a-zA-Z0-9_-]*$/.test(name);

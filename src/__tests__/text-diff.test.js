@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { toolConfig, initTextDiff, diffLines } from '../tools/text/text-diff.js';
+import { escapeHtml } from '../utils/dom.js';
 import { testSimpleToolConfig } from './tool-config-test.js';
 
 describe('text-diff', () => {
@@ -13,10 +14,6 @@ describe('text-diff', () => {
 });
 
 describe('text-diff: diffLines', () => {
-  function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
   it('detects unchanged lines', () => {
     const diff = diffLines('a\nb\nc', 'a\nb\nc');
     expect(diff).toEqual([

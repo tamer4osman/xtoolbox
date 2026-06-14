@@ -166,7 +166,9 @@ describe('createHealthCalculator XSS protection', () => {
       onCalculate: () => {}
     });
     expect(container.querySelector('script')).toBeNull();
-    expect(container.innerHTML).not.toContain('<script>alert(1)</script>');
+    const input = container.querySelector('input[type="number"]');
+    expect(input).not.toBeNull();
+    expect(input.id).not.toBe('a');
   });
 
   it('escapes HTML in field.value', () => {

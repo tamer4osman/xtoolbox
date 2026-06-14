@@ -1,4 +1,4 @@
-import { $, createElement } from '../utils/dom.js';
+import { $ } from '../utils/dom.js';
 import { debounce } from '../utils/debounce.js';
 import { navigate } from '../router.js';
 import { updatePageMeta } from '../utils/seo.js';
