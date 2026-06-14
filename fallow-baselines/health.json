@@ -638,21 +638,6 @@
         "count": 1
       }
     },
-    "src/tools/text/base64-codec.js": {
-      "crap_high": {
-        "count": 1
-      }
-    },
-    "src/tools/text/hash-generator.js": {
-      "crap_moderate": {
-        "count": 1
-      }
-    },
-    "src/tools/text/html-entity-codec.js": {
-      "crap_high": {
-        "count": 1
-      }
-    },
     "src/tools/text/json-csv.js": {
       "crap_moderate": {
         "count": 2
@@ -679,18 +664,8 @@
         "count": 1
       }
     },
-    "src/tools/text/morse-code.js": {
-      "crap_high": {
-        "count": 1
-      }
-    },
     "src/tools/text/number-to-words.js": {
       "complexity_moderate": {
-        "count": 1
-      }
-    },
-    "src/tools/text/random-picker.js": {
-      "crap_moderate": {
         "count": 1
       }
     },
@@ -721,16 +696,6 @@
       "crap_high": {
         "count": 1
       },
-      "crap_moderate": {
-        "count": 1
-      }
-    },
-    "src/tools/text/url-codec.js": {
-      "crap_high": {
-        "count": 1
-      }
-    },
-    "src/tools/text/uuid-generator.js": {
       "crap_moderate": {
         "count": 1
       }
