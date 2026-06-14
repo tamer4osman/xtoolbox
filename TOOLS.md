@@ -4,7 +4,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 
 ## Project: xtoolbox
 
-A client-side web app with 279 online tools. All processing happens in the browser.
+A client-side web app with 299 online tools (250 built, 49 planned). All processing happens in the browser.
 
 ### Build Commands
 - `npm run dev` - Dev server at localhost:3000
@@ -175,6 +175,14 @@ export function render(container) {
 - Free Dictionary API
 - Open Library
 - CoinGecko markets API
+- Open Food Facts (food/product data)
+- Nager.Date (public holidays)
+- ExchangeRate-API (currency rates)
+- Microlink (URL metadata/screenshot)
+- USGS Earthquake (seismic data)
+- Cloudflare DoH (DNS-over-HTTPS)
+- RDAP.org (domain registration)
+- Google DNS-over-HTTPS (DNS resolution)
 
 ---
 

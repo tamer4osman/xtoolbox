@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**279 free online tools. 100% client-side processing — your files never leave your device.**
+**299 free online tools. 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-24 phases. Phases 1–24 complete.
+26 phases. Phases 1–24 complete. Phase 25 in progress (10/39). Phase 26 planned (20 tools).
 
 | Phase | Status |
 |-------|--------|
@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 279 (250 built, 29 planned).
+**Total tools:** 299 (250 built, 49 planned).
 
 ## Categories
 
@@ -194,7 +194,7 @@ toolbox/
 │   │   └── seo/                  ← 7 SEO tools (8 total, 1 planned)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 279 tool definitions (250 built, 29 planned)
+│   │   ├── tools.json            ← 299 tool definitions (250 built, 49 planned)
 │   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │
@@ -318,7 +318,7 @@ MIT
 
 ---
 
-## Phase 25 Tools (Most Wanted — 29 remaining of 39 planned; 10 built ✅)
+## Phase 25 Tools (Most Wanted — 🟡 10/39 built, 29 remaining)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 
@@ -427,3 +427,32 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | Marketers need to preview before publishing |
 
 > Note: Tool #39 (social-media-post-previewer) is included in the 39 total planned tools. See categories.json for authoritative counts.
+
+---
+
+## Phase 26 Tools (Uncommon High-Demand Tools — ⬜ 0/20 planned)
+
+Source: System 2 analytical framework + adversarial audit + API discovery (public-apis/public-apis + Mixed Analytics List). All 20 tools validated through the 7-step Tool Idea Generation Process.
+
+| # | Tool | File | Category | Library | Demand |
+|---|------|------|----------|---------|--------|
+| 1 | Color Blindness Simulator | `image/color-blindness-simulator.js` | `image` | Canvas API + daltonize.js | Very High |
+| 2 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API | Very High |
+| 3 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace | Very High |
+| 4 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | High |
+| 5 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API | High |
+| 6 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram) | Very High |
+| 7 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH | High |
+| 8 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API | Medium |
+| 9 | Spreadsheet Viewer & Editor | `productivity/spreadsheet-viewer.js` | `productivity` | SheetJS + custom grid | Very High |
+| 10 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API | High |
+| 11 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API | High |
+| 12 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org | Very High |
+| 13 | LaTeX Equation Editor & Renderer | `dev/latex-equation-editor.js` | `dev` | KaTeX + custom editor | Very High |
+| 14 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF | Very High |
+| 15 | Photo Metadata (EXIF) Viewer & Scrubber | `image/exif-scrubber.js` | `image` | exifr + piexifjs | Very High |
+| 16 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API | Very High |
+| 17 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid | High |
+| 18 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO | High |
+| 19 | Diff Viewer & Merge Tool | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI | Very High |
+| 20 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG) | Very High |

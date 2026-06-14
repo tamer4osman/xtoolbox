@@ -1,6 +1,6 @@
 # 🛠️ Client-Side Tool Website — DETAILED Project Plan
 
-> **Goal:** 279+ professional tools, 100% client-side, monetized with Google AdSense
+> **Goal:** 299+ professional tools, 100% client-side, monetized with Google AdSense
 > **Stack:** Vite + Vanilla JS + WASM libraries
 > **Hosting:** Cloudflare Pages (free tier)
 > **Cost:** ~$10/year (domain only)
@@ -90,7 +90,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 | Phase | Status | Tasks Done | Tasks Total |
 |-------|--------|-----------|-------------|
-| **Overall** | **In Progress** | **471** | **480** |
+| **Overall** | **In Progress** | **471** | **500** |
 | Phase 1: Foundation | ✅ | 62 | 62 |
 | Phase 2: PDF Tools | ✅ | 28 | 28 |
 | Phase 3: Image Tools | ✅ | 31 | 31 |
@@ -116,9 +116,10 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 | Phase 23: Gap Fill II | ✅ | 27 | 27 |
 | Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
 | Phase 25: Most Wanted (Planned) | 🟡 | 10 | 39 |
-| **Total** | | **471** | **480** |
+| Phase 26: Uncommon High-Demand Tools | ⬜ | 0 | 20 |
+| **Total** | | **471** | **500** |
 
-**Status:** 250 professional tools built. 29 tools planned in Phase 25 (Most Wanted — sourced from community demand across Reddit, HN, X, and dev communities).
+**Status:** 250 professional tools built. 29 tools planned in Phase 25 + 20 tools planned in Phase 26 = 49 tools remaining. Total: 299 tools.
 
 ---
 
@@ -1423,7 +1424,7 @@ export function addStructuredData(data) {
 #### Task 1.9.2: Create tools data
 
 - [x] Create file: `src/data/tools.json`
-- [x] Contents: Array of ALL 128 tool objects:
+- [x] Contents: Array of ALL tool objects:
 
 ```json
 
@@ -1450,12 +1451,12 @@ export function addStructuredData(data) {
     "accept": ".pdf",
     "maxSizeMB": 100
   }
-  ... (continue for all 128 tools)
+  ... (continue for all tools)
 ]
 
 ```
 
-- [x] Add ALL 128 tools to this file (I can help generate the full list)
+- [x] Add ALL tools to this file (I can help generate the full list)
 
 #### Task 1.9.3: Create countries data
 
@@ -1648,7 +1649,7 @@ if ('serviceWorker' in navigator) {
 - 5 CSS files (tokens, reset, global, utilities, components — 22KB total)
 - 6 utility modules (file, dom, debounce, format, clipboard, seo)
 - 15 components (navbar, footer, file-upload, toast, card, range-slider, modal, loading, tabs, select, progress-bar, tooltip, comparison-slider, ad-slot)
-- 3 data files (categories.json, tools.json [128 tools], countries.json)
+- 3 data files (categories.json, tools.json [250+ tools], countries.json)
 - 7 page modules (home, category, tool, about, privacy, terms, not-found)
 - 1 router, 1 main entry, 1 service worker
 - 1 working tool (password-generator.js)
@@ -2771,7 +2772,7 @@ server: {
 
 ### 20.3 Testing (6 tasks)
 
-**Task 20.3.1:** Test all 128 tools end-to-end
+**Task 20.3.1:** Test all 250+ tools end-to-end
 **Task 20.3.2:** Test on Chrome, Firefox, Safari, Edge
 **Task 20.3.3:** Test on iOS Safari and Android Chrome
 **Task 20.3.4:** Test with 3G throttling
@@ -2808,7 +2809,7 @@ server: {
 
 ## A. COMPLETE DEPENDENCY INSTALL LIST
 
-Run this ONE command at the start of Phase 2. It installs everything you need for all 128 tools:
+Run this ONE command at the start of Phase 2. It installs everything you need for all tools:
 
 ```bash
 
@@ -3646,7 +3647,7 @@ function highlightMatch(text, query) {
   <input 
     type="text" 
     id="search-input" 
-    placeholder="Search 128+ tools..." 
+    placeholder="Search 299+ tools..." 
     autocomplete="off"
     aria-label="Search tools"
   >
@@ -5037,7 +5038,7 @@ If you are an AI model building this, **DO NOT**:
 
 ---
 
-## O. COMPLETE tools.json (All 128 Entries)
+## O. COMPLETE tools.json (All Entries)
 
 Create file: `src/data/tools.json`
 
@@ -6432,7 +6433,7 @@ STEP 8: Service Worker
 
 STEP 9: Data Files
   52. src/data/categories.json (Phase 1, Task 1.9.1)
-  53. src/data/tools.json (Section O)                  ← COMPLETE 128 entries
+   53. src/data/tools.json (Section O)                  ← COMPLETE entries
   54. src/data/countries.json (Phase 1, Task 1.9.3)
 
 STEP 10: Install Dependencies
@@ -6449,7 +6450,7 @@ STEP 11: Build Tools (Phase 2-18)
 >
 > **Total file size: ~200KB of instructions**
 > **Total sections: A through S**
-> **Total tools defined: 128 (complete in tools.json)**
+> **Total tools defined: 299 (complete in tools.json)**
 > **Total component code: 15 components (all with CSS)**
 > **Total utility code: 6 utility files (all with code)**
 > **Total page code: 7 pages (all defined)**
@@ -6474,7 +6475,7 @@ STEP 11: Build Tools (Phase 2-18)
 | Phase 23: Audio Format Converters | ⬜ | 12 | 6 |
 | Phase 24: Advanced Image Tools | ⬜ | 28 | 14 |
 | Phase 25: Photo Editing & Effects | ⬜ | 24 | 12 |
-| Phase 26: Social Media & Career | ⬜ | 21 | 11 |
+| Phase 26: Uncommon High-Demand Tools | ⬜ | 0 | 20 |
 | Phase 27: Finance Expansion | ⬜ | 12 | 3 |
 | Phase 28: Developer & Math Tools | ⬜ | 24 | 12 |
 | Phase 29: SEO & Encoding Tools | ⬜ | 15 | 5 |
@@ -10062,10 +10063,10 @@ npm install terser sql-formatter juice faker
 
 | Phase Range | Tools | Status |
 |---|---|---|
-| Phases 1-20 (original) | 128 | ✅ Done |
+| Phases 1-20 (original) | 250 | ✅ Done |
 | Phases 21-30 (Part 1 expansion) | 88 | ⬜ New |
 | Phases 31-44 (Part 2 expansion) | 107 | ⬜ New |
-| **Grand Total** | **323** | **128 done, 195 new** |
+| **Grand Total** | **299** | **250 done, 49 planned** |
 
 | Category | Count |
 |---|---|
@@ -11480,3 +11481,72 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 **Total Phase 25:** 39 tools planned (10 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter, NGINX Config Generator, Docker Compose Generator, Environment Variable Editor, LLM Token Counter — 29 remaining).
 
 **After Phase 25:** 283 tools total (254 built + 29 planned), across 21 categories.
+
+---
+
+## Phase 26 Tools (Uncommon High-Demand Tools — 20 tools)
+
+Source: System 2 analytical framework + adversarial audit + Step 1-2 API discovery (public-apis/public-apis + Mixed Analytics List)
+
+All 20 tools validated through the 7-step Tool Idea Generation Process. 6 tools were downgraded from the original proposal based on adversarial audit findings (not truly uncommon — free alternatives already exist). Replaced with genuinely uncommon tools from API discovery.
+
+### Downgraded Tools (Replaced)
+
+| Original Tool | Reason for Replacement | Replacement |
+|---------------|----------------------|-------------|
+| Broken JSON Repair | Not uncommon — jsonlint.com, fixjson.com, jsonformatter.org all free | Food Nutrition Scanner (Open Food Facts API) |
+| Cron Expression Builder | Ubiquitous — crontab.guru, cron.help everywhere | DNS Speed Test (Cloudflare DoH vs Google DoH) |
+| Keyboard Shortcut Mapper | Niche demand, moderate at best | Earthquake Monitor (USGS API) |
+| EPUB Reader & Converter | Exists — epubreader.io, Readium | Link Preview Generator (Microlink API) |
+| Favicon & App Icon Generator | Extremely common — realfavicongenerator, favicon.io | Currency Exchange Calculator (ExchangeRate-API) |
+| DNS Record Lookup | Fragile single API dep + no production WHOIS | Domain Intelligence (Cloudflare DoH + RDAP.org) |
+
+### Final 20 Tools
+
+| # | Tool | File | Category | Library | Uncommon? | Demand | Feasibility |
+|---|------|------|----------|---------|-----------|--------|-------------|
+| 1 | Color Blindness Simulator | `image/color-blindness-simulator.js` | `image` | Canvas API + daltonize.js | Cat A | Very High | Excellent |
+| 2 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API (free, no auth, CORS) | Cat A | Very High | Excellent |
+| 3 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace + country spec DB | Cat B | Very High | Good |
+| 4 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | Cat A | High | Moderate |
+| 5 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API + manual fallback | Cat B | High | Excellent |
+| 6 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram + regex parser) | Cat B | Very High | Good |
+| 7 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH (both CORS, no auth) | Cat A | High | Excellent |
+| 8 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API (free, no auth, CORS) | Cat A | Medium | Excellent |
+| 9 | Spreadsheet Viewer & Editor (CSV/XLSX) | `productivity/spreadsheet-viewer.js` | `productivity` | SheetJS + custom grid renderer | Cat B | Very High | Good |
+| 10 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API (free, no auth, CORS) | Cat B | High | Excellent |
+| 11 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API (free tier, CORS, no auth) | Cat A | High | Excellent |
+| 12 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org (both CORS, no auth) | Cat A | Very High | Excellent |
+| 13 | LaTeX Equation Editor & Renderer | `dev/latex-equation-editor.js` | `dev` | KaTeX + custom editor | Cat B | Very High | Excellent |
+| 14 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF | Cat B | Very High | Moderate |
+| 15 | Photo Metadata (EXIF) Viewer & Scrubber | `image/exif-scrubber.js` | `image` | exifr + piexifjs | Cat B | Very High | Excellent |
+| 16 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API (free, no auth, CORS) | Cat A | Very High | Excellent |
+| 17 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid | Cat A | High | Good |
+| 18 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO browser port | Cat B | High | Good |
+| 19 | Diff Viewer & Merge Tool (Text & Code) | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI | Cat B | Very High | Excellent |
+| 20 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG rules, pasted HTML only) | Cat B | Very High | Good |
+
+### Category Impact
+
+| Category | Before Phase 26 | Phase 26 Addition | After Phase 26 |
+|----------|----------------|-------------------|----------------|
+| Developer | 28 | +8 | 36 |
+| Image | 36 | +4 | 40 |
+| Reference | 5 | +3 | 8 |
+| Productivity | 11 | +3 | 14 |
+| Finance | 10 | +1 | 11 |
+| CSS | 19 | +1 | 20 |
+
+### API Dependencies & Fallback Strategies
+
+| Tool | Primary API | Fallback |
+|------|------------|----------|
+| Food Nutrition Scanner | Open Food Facts | Error message (community-maintained, high uptime) |
+| DNS Speed Test | Cloudflare DoH + Google DoH | Either serves as fallback for the other |
+| Earthquake Monitor | USGS Earthquake | Cached last results + "data unavailable" message |
+| World Holiday Calendar | Nager.Date | Embedded holiday calculation rules (deterministic for most countries) |
+| Link Preview Generator | Microlink | Rate limit error with retry suggestion |
+| Domain Intelligence | Cloudflare DoH + RDAP.org | DNS-only mode (DoH) if RDAP unavailable |
+| Currency Exchange | ExchangeRate-API | Fawazahmed0 Currency API via jsDelivr CDN |
+
+**Total tools after Phase 26:** 299 (250 built + 29 Phase 25 planned + 20 Phase 26)
