@@ -317,7 +317,197 @@ docs: fix empty tool icons and sync total count
 
 **Wrong:** `fix: resolve Coderabbit review issues across codebase` (23 files in one commit)
 
-## Tool Building Convention
+## Code Style & Patterns
+
+### Naming Conventions
+
+- **Files:** `kebab-case.js` (e.g., `merge-pdf.js`, `video-to-gif.js`)
+- **Functions:** `camelCase` (e.g., `formatFileSize`, `readFileAsText`)
+- **Constants:** `UPPER_SNAKE_CASE` (e.g., `MAX_FILE_SIZE`, `DEFAULT_QUALITY`)
+- **CSS classes:** `kebab-case` with BEM-like prefixes (e.g., `.tool-upload-area`, `.btn-primary`)
+- **IDs:** `toolId-element` pattern (e.g., `chmod-calculator-octal`)
+
+### Tool File Structure
+
+Every tool file MUST follow this pattern:
+
+```js
+// 1. Imports
+import { something } from '../../utils/file.js';
+
+// 2. Pure helper functions (exported for testing)
+export function helperFunction(input) {
+  // ...
+}
+
+// 3. Tool config (required)
+export const toolConfig = {
+  id: 'tool-name',
+  name: 'Tool Name',
+  category: 'category',
+  description: 'What it does',
+  icon: '🔧',
+  accept: '.ext',
+  maxSizeMB: 100,
+  keywords: ['keyword1', 'keyword2'],
+  steps: ['Step 1', 'Step 2'],
+  faqs: [{ question: 'Q?', answer: 'A.' }]
+};
+
+// 4. Render function (required)
+export function render(container) {
+  // Build UI here
+}
+```
+
+### Factory Pattern (for deduplication)
+
+When 3+ tools share the same scaffold, extract a factory:
+
+```js
+// src/tools/image/image-tool-factory.js
+export function createImageTool(config) {
+  const { container, toolId, optionsHTML, renderPreview, processForDownload } = config;
+  
+  // Common scaffold: upload area, options, preview, download
+  // Tool-specific parts: optionsHTML, renderPreview, processForDownload
+  
+  return { state, elements, bindOptionChange };
+}
+
+// Usage in tool file:
+export function render(container) {
+  createImageTool({
+    container,
+    toolId: 'my-tool',
+    optionsHTML: '<input type="range" ...>',
+    renderPreview: ({ state, canvas }) => { /* draw */ },
+    processForDownload: ({ state, canvas }) => { /* full-size draw */ }
+  });
+}
+```
+
+**Current factories:**
+- `image-tool-factory.js` — Image transform tools
+- `video-tool-factory.js` — Video processing tools
+- `codec-factory.js` — Encode/decode tools
+- `lookup-tool-factory.js` — API lookup tools
+- `merge-tool-factory.js` — File merge tools
+- `pdf-options-tool-factory.js` — PDF option tools
+
+### Anti-Patterns (Don't Do This)
+
+❌ **Copy-pasting tool code** — Use factories instead
+❌ **God functions** — If a function does 3 things, split it
+❌ **Inline CSS** — Use tokens from `tokens.css`
+❌ **Magic numbers** — Extract to constants
+❌ **Missing error handling** — Always try/catch user-facing operations
+❌ **Committing before testing** — Always test first, commit after user approval
+❌ **Updating one registry file** — Update BOTH `tools.json` AND `toolsList.json`
+❌ **Forgetting docs** — Update README, PROJECT-PLAN, tool-building-progress
+
+### Common Mistakes (From Memory Files)
+
+1. **Registry drift** — tools.json and toolsList.json get out of sync
+   - Fix: Always update both files together
+   
+2. **Missing category counts** — categories.json counts must match actual tools
+   - Fix: Count tools in each category after adding
+
+3. **Skipping user testing** — Committed before user could test
+   - Fix: Always wait for user approval before committing
+
+4. **Duplicate code** — Same scaffold copied across tools
+   - Fix: Extract to factory when you see 3+ similar tools
+
+5. **Missing docs updates** — Tool built but README/PROJECT-PLAN not updated
+   - Fix: Follow the 10-step workflow in Tool Building Convention
+
+### Tool Criteria
+
+All tools must follow the **100% client-side** philosophy — no server backend, no accounts, no API keys.
+
+### ✅ Good fit
+
+| Category | Details |
+|----------|---------|
+| **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API |
+| **WASM modules** | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink |
+| **Processing model** | Input → process → output pipeline |
+| **Data source** | Self-contained or public API without API key |
+| **Embedded ML** | Small ONNX models (≤100MB) for classification, detection, transcription. Modules: Transformers.js, SqueezeNet, MobileNet V2, YOLOv8n, DeepLabV3, all-MiniLM-L6-v2, DistilBERT SST-2, Whisper tiny, Moonshine tiny, BlazeFace |
+| **Audience** | Developers, creators, or general users |
+
+### ❌ Bad fit
+
+| Restriction | Reason |
+|-------------|--------|
+| Requires server backend | Violates 100% client-side principle |
+| Requires authentication/accounts | Adds friction, breaks privacy promise |
+| Real-time multiplayer/collaboration | Needs server infrastructure |
+| Generative AI / LLMs / Chatbots | Out of scope — use dedicated AI platforms |
+| Niche industrial use cases | Too narrow for general audience |
+
+### 🔍 API Research References
+
+Use these sources to discover new tool ideas, free public APIs, and validate criteria compliance.
+
+#### Primary Directories (GitHub)
+
+| Source | Stars | Focus | Link |
+|--------|-------|-------|------|
+| **public-apis/public-apis** | ⭐ 441k | 1,400+ free APIs, categorized, with auth info | github.com/public-apis/public-apis |
+| **public-api-lists/public-api-lists** | ⭐ 14.7k | 48 categories, searchable, community-maintained, has free JSON API | github.com/public-api-lists/public-api-lists |
+| **marcelscruz/public-apis** | ⭐ 9.1k | Collaborative list, actively maintained | github.com/marcelscruz/public-apis |
+| **dspinellis/awesome-rest-apis** | ⭐ 3.5k | Curated REST API list | github.com/dspinellis/awesome-rest-apis |
+| **APIs-guru/graphql-apis** | ⭐ 4.7k | Public GraphQL APIs | github.com/APIs-guru/graphql-apis |
+
+#### Curated Web Directories (No-Auth Filtered)
+
+| Source | # APIs | Features | Link |
+|--------|--------|----------|------|
+| **Mixed Analytics List** | 224 | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
+| **FreePublicAPIs.com** | 598 | Tested daily, health scores | freepublicapis.com |
+| **publicapis.io** | 1,000+ | Searchable, category-filtered | publicapis.io |
+| **public-apis.io** | 1,000+ | REST APIs, categorized | public-apis.io |
+| **Apipheny Free API List** | 90+ | Code examples in JS/Python | apipheny.io/free-api |
+| **FreeAPIHub.com** | 193 | APIs + AI models | freeapihub.com |
+
+#### How to Find New Tool Ideas
+
+1. **Filter by "No Auth"** — Only APIs requiring no API key (matches project criteria)
+2. **Filter by CORS** — APIs supporting browser fetch (client-side requirement)
+3. **Check category demand** — Weather, Finance, Food, Animals, Geolocation have highest user demand
+4. **Verify endpoint uptime** — Test sample URLs before building tools
+5. **Check response format** — JSON required, no binary streams
+
+#### Tool Idea Generation Process
+
+1. **Discover** — Browse `public-apis/public-apis` for categories matching tool gaps
+2. **Cross-reference** — Check `Mixed Analytics List` (no-auth only) for verified free APIs
+3. **Deduplicate** — Check if any existing tool already covers this (avoid duplicates)
+4. **Validate against Tool Criteria** — Must pass ALL of these:
+
+   **✅ Good fit (must match at least one):**
+   - Pure browser API (Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API)
+   - WASM module (pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink)
+   - Input → process → output pipeline
+   - Self-contained or public API without API key
+   - Small ONNX model (≤100MB) for classification, detection, transcription (Transformers.js, SqueezeNet, MobileNet V2, YOLOv8n, DeepLabV3, all-MiniLM-L6-v2, DistilBERT SST-2, Whisper tiny, Moonshine tiny, BlazeFace)
+   - Useful to developers, creators, or general users
+
+   **❌ Bad fit (must NOT match any):**
+   - Requires server backend (violates 100% client-side)
+   - Requires authentication/accounts (adds friction, breaks privacy)
+   - Real-time multiplayer/collaboration (needs server infrastructure)
+   - Generative AI / LLMs / Chatbots (out of scope)
+   - Niche industrial use cases (too narrow for general audience)
+
+5. **Technical check** — API returns JSON, supports CORS, no binary streams
+6. **Demand check** — Estimate user demand (search volume, community requests)
+7. **Build** — Create tool following the 10-step workflow below
+
+### Workflow
 
 When building a new tool, ALWAYS follow this exact sequence:
 

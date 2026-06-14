@@ -260,6 +260,54 @@ toolbox/
 
 ---
 
+## Tool Criteria
+
+All tools must follow the **100% client-side** philosophy — no server backend, no accounts, no API keys.
+
+### ✅ Good fit
+
+| Category | Details |
+|----------|---------|
+| **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API |
+| **WASM modules** | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink |
+| **Processing model** | Input → process → output pipeline |
+| **Data source** | Self-contained or public API without API key |
+| **Embedded ML** | Small ONNX models (≤100MB) for classification, detection, transcription. Modules: Transformers.js, SqueezeNet, MobileNet V2, YOLOv8n, DeepLabV3, all-MiniLM-L6-v2, DistilBERT SST-2, Whisper tiny, Moonshine tiny, BlazeFace |
+| **Audience** | Developers, creators, or general users |
+
+### ❌ Bad fit
+
+| Restriction | Reason |
+|-------------|--------|
+| Requires server backend | Violates 100% client-side principle |
+| Requires authentication/accounts | Adds friction, breaks privacy promise |
+| Real-time multiplayer/collaboration | Needs server infrastructure |
+| Generative AI / LLMs / Chatbots | Out of scope — use dedicated AI platforms |
+| Niche industrial use cases | Too narrow for general audience |
+
+### 🔍 API Research References
+
+Use these sources to discover new tool ideas, free public APIs, and validate criteria compliance.
+
+#### Primary Directories (GitHub)
+
+| Source | Stars | Focus | Link |
+|--------|-------|-------|------|
+| **public-apis/public-apis** | ⭐ 441k | 1,400+ free APIs, categorized, with auth info | github.com/public-apis/public-apis |
+| **public-api-lists/public-api-lists** | ⭐ 14.7k | 48 categories, searchable, community-maintained | github.com/public-api-lists/public-api-lists |
+| **marcelscruz/public-apis** | ⭐ 9.1k | Collaborative list, actively maintained | github.com/marcelscruz/public-apis |
+
+#### Curated Web Directories (No-Auth Filtered)
+
+| Source | # APIs | Features | Link |
+|--------|--------|----------|------|
+| **Mixed Analytics List** | 224 | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
+| **FreePublicAPIs.com** | 598 | Tested daily, health scores | freepublicapis.com |
+| **publicapis.io** | 1,000+ | Searchable, category-filtered | publicapis.io |
+| **Apipheny Free API List** | 90+ | Code examples in JS/Python | apipheny.io/free-api |
+
+---
+
 ## Deploy
 
 Designed for Cloudflare Pages (free tier). Push to GitHub, connect repo, deploy.
