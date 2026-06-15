@@ -252,6 +252,15 @@
     "status": "done"
   },
   {
+    "id": "json-diff-viewer",
+    "name": "JSON Diff Viewer",
+    "category": "dev",
+    "description": "Compare two JSON objects side-by-side and see added, removed, and changed values.",
+    "icon": "🔀",
+    "href": "/tools/json-diff-viewer",
+    "status": "done"
+  },
+  {
     "id": "json-validator",
     "name": "JSON Validator & Formatter",
     "category": "dev",

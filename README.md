@@ -21,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-26 phases. Phases 1–24 complete. Phase 25 in progress (10/39). Phase 26 planned (20 tools).
+27 phases complete. Phases 1–25 complete. Phase 26 in progress (15/20). Phase 27 planned (20 tools).
 
 | Phase | Status |
 |-------|--------|
@@ -51,33 +51,33 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 299 (250 built, 49 planned).
+**Total tools:** 319 (251 built, 68 planned).
 
 ## Categories
 
 | Category | Built | Planned | Total | Key Libraries | Status |
 |----------|-------|---------|-------|---------------|--------|
 | PDF | 32 | +1 | **33** | pdf-lib, PDF.js, jsPDF | 32/33 |
-| Image | 34 | +2 | **36** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 34/36 |
-| Video | 15 | +1 | **16** | ffmpeg.wasm | 15/16 |
-| Audio | 10 | +1 | **11** | Web Audio API, lamejs, Wavesurfer.js | 10/11 |
+| Image | 34 | +4 | **38** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 34/38 |
+| Video | 15 | +4 | **19** | ffmpeg.wasm | 15/19 |
+| Audio | 10 | +5 | **15** | Web Audio API, lamejs, Wavesurfer.js | 10/15 |
 | OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
-| Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
+| Privacy & Security | 6 | +1 | **7** | Web Crypto API | 6/7 |
 | Weather | 4 | — | **4** | wttr.in, Open-Meteo | ✅ |
 | Reference | 5 | — | **5** | Free Dictionary API, Open Library | ✅ |
-| Finance | 9 | +1 | **10** | Chart.js | 9/10 |
+| Finance | 9 | +2 | **11** | Chart.js | 9/11 |
 | Math | 10 | — | **10** | math.js | ✅ |
-| Health | 11 | — | **11** | Custom JS | ✅ |
-| Text & Content | 30 | +1 | **31** | marked, turndown, js-yaml, SheetJS | 30/31 |
+| Health | 11 | +1 | **12** | Custom JS | 11/12 |
+| Text & Content | 30 | +4 | **34** | marked, turndown, js-yaml, SheetJS | 30/34 |
 | Encoding & Hashing | 8 | +1 | **9** | Web Crypto API | 8/9 |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
 | CSS & Web Design | 17 | +2 | **19** | Custom JS | 17/19 |
-| Developer | 22 | +6 | **28** | Custom JS | 22/28 |
+| Developer | 23 | +8 | **31** | Custom JS | 23/31 |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
 | Business | 8 | +6 | **14** | Custom JS | 8/14 |
 | SEO | 7 | +1 | **8** | Custom JS | 7/8 |
-| Productivity | 5 | +6 | **11** | Custom JS | 5/11 |
+| Productivity | 5 | +8 | **13** | Custom JS | 5/13 |
 
 ## Phase 21 Tools (Market Expansion — Complete)
 

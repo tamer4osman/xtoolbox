@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 250 built, 49 planned = 299 total
+## Current Status: 251 built, 68 planned = 319 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -76,7 +76,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ## Phase 26: Uncommon High-Demand Tools (Planned)
 
 > Source: System 2 analytical framework + adversarial audit + API discovery
-> Status: ⬜ Not yet started. 20 tools planned.
+> Status: 🟡 In progress. 15/20 built.
 
 | # | Tool | File | Category | Library |
 |---|------|------|----------|---------|
@@ -100,6 +100,36 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 | 18 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO |
 | 19 | Diff Viewer & Merge Tool | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI |
 | 20 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG) |
+
+---
+
+## Phase 27: 20 High-Demand Tools (Planned)
+
+> Source: User demand + market gap analysis + competitor benchmarking
+> Status: 🟡 In progress. 1/20 built.
+
+| # | Tool | File | Category | Library |
+|---|------|------|----------|---------|
+| 1 | Vocal / Stem Separator | `audio/stem-separator.js` | `audio` | ONNX Runtime + demucs-mini |
+| 2 | Noise / Hiss Remover | `audio/noise-remover.js` | `audio` | ONNX Runtime + DeepFilterNet |
+| 3 | BPM & Key Detector | `audio/bpm-key-detector.js` | `audio` | Essentia.js WASM |
+| 4 | Audio EQ & Visualizer | `audio/audio-equalizer.js` | `audio` | Web Audio API + lamejs |
+| 5 | Video Screenshot Extractor | `video/video-screenshot-extractor.js` | `video` | Canvas API + JSZip |
+| 6 | Local Video Transcriber | `video/video-transcriber.js` | `video` | Transformers.js (Whisper tiny) |
+| 7 | Video Silence Remover | `video/silence-remover.js` | `video` | ffmpeg.wasm |
+| 8 | JSON Diff Viewer | `dev/json-diff-viewer.js` | `dev` | Pure JS |
+| 9 | OpenAPI / Swagger Visualizer | `dev/openapi-visualizer.js` | `dev` | js-yaml + Redoc standalone |
+| 10 | GraphQL Schema Explorer | `dev/graphql-schema-explorer.js` | `dev` | graphql browser build |
+| 11 | Offline Text Translator | `text/offline-translator.js` | `text` | Transformers.js (NLLB-200) |
+| 12 | Legal Clause Simplifier | `text/legal-simplifier.js` | `text` | Transformers.js (DistilBERT) |
+| 13 | Text Sentiment Heatmap | `text/sentiment-heatmap.js` | `text` | Transformers.js (DistilBERT SST-2) |
+| 14 | Meeting Cost Calculator | `productivity/meeting-cost-calculator.js` | `productivity` | Pure JS + jsPDF |
+| 15 | Working Days Calculator | `productivity/working-days-calculator.js` | `productivity` | Intl + bundled holidays JSON |
+| 16 | AI Image Upscaler (4×) | `image/ai-image-upscaler.js` | `image` | ONNX Runtime + Real-ESRGAN-tiny |
+| 17 | Metadata Stripper | `privacy/metadata-stripper.js` | `privacy` | pdf-lib + piexifjs + JSZip |
+| 18 | Net Worth Tracker | `finance/net-worth-tracker.js` | `finance` | Chart.js + localStorage |
+| 19 | Symptom Onset Tracker | `health/symptom-tracker.js` | `health` | Pure JS + jsPDF + localStorage |
+| 20 | Face Blur / Anonymizer | `image/face-blur.js` | `image` | ONNX Runtime + BlazeFace |
 
 ---
 
