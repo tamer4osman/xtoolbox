@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**299 free online tools. 100% client-side processing — your files never leave your device.**
+**281 free online tools. 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-27 phases complete. Phases 1–25 complete. Phase 26 in progress (15/20). Phase 27 planned (20 tools).
+27 phases complete. Phases 1–25 complete. Phase 26 in progress (2/16). Phase 27 planned (1/15).
 
 | Phase | Status |
 |-------|--------|
@@ -430,13 +430,13 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 
 ---
 
-## Phase 26 Tools (Uncommon High-Demand Tools — ⬜ 0/20 planned)
+## Phase 26 Tools (Uncommon High-Demand Tools — 🟡 2/16 in progress)
 
 Source: System 2 analytical framework + adversarial audit + API discovery (public-apis/public-apis + Mixed Analytics List). All 20 tools validated through the 7-step Tool Idea Generation Process.
 
 | # | Tool | File | Category | Library | Demand |
 |---|------|------|----------|---------|--------|
-| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API | Very High |
+| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API | Very High | ✅ |
 | 2 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace | Very High |
 | 3 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | High |
 | 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API | High |

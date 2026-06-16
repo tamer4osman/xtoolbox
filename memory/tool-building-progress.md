@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 252 built, 53 planned = 305 total
+## Current Status: 253 built, 52 planned = 305 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -76,11 +76,11 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ## Phase 26: Uncommon High-Demand Tools (Planned)
 
 > Source: System 2 analytical framework + adversarial audit + API discovery
-> Status: 🟡 In progress. 1/16 built. (4 removed: duplicates of `color-blindness`, `latex-renderer`, `excel-viewer`, `remove-exif`)
+> Status: 🟡 In progress. 2/16 built. (4 removed: duplicates of `color-blindness`, `latex-renderer`, `excel-viewer`, `remove-exif`)
 
 | # | Tool | File | Category | Library |
 |---|------|------|----------|---------|
-| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API |
+| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API ✅ |
 | 2 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace |
 | 3 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM |
 | 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API |

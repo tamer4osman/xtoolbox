@@ -2918,6 +2918,22 @@
     "status": "done"
   },
   {
+    "id": "food-nutrition-scanner",
+    "name": "Food Nutrition Scanner",
+    "category": "reference",
+    "description": "Scan food barcodes or search products to view detailed nutrition facts from Open Food Facts.",
+    "icon": "🍎",
+    "href": "/tools/food-nutrition-scanner",
+    "keywords": [
+      "nutrition",
+      "food",
+      "barcode",
+      "calories",
+      "health"
+    ],
+    "status": "done"
+  },
+  {
     "id": "social-media-post-previewer",
     "name": "Social Media Post Previewer",
     "category": "seo",
