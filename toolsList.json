@@ -2600,7 +2600,7 @@
     "description": "Generate manifest.json files for Progressive Web Apps with icons, theme colors, and shortcuts.",
     "icon": "📱",
     "href": "/tools/pwa-manifest-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "pwa",
       "manifest",
