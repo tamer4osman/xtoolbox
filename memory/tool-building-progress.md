@@ -24,10 +24,10 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] FFmpeg Command Generator (`ffmpeg-command-generator`)
 - [x] Chmod Calculator (`chmod-calculator`)
 - [x] Code Screenshot Generator (`code-screenshot-generator`)
-- [ ] PWA Manifest Generator (`pwa-manifest-generator`)
+- [x] PWA Manifest Generator (`pwa-manifest-generator`)
 
 ### PDF (1 planned)
-- [ ] PDF Annotator (`pdf-annotator`)
+- [x] PDF Annotator (`pdf-annotator`)
 
 ### Business (6 planned)
 - [ ] Invoice Generator (`invoice-generator`)

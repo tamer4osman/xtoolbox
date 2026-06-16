@@ -2617,7 +2617,7 @@
     "description": "Highlight text, add comments, draw shapes, and type text directly on PDF pages.",
     "icon": "🖍️",
     "href": "/tools/pdf-annotator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "pdf",
       "annotate",
