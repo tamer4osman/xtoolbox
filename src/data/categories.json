@@ -5,7 +5,7 @@
   { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder, DNS speed test", "toolCount": 30 },
   { "id": "css", "name": "CSS & Web Design", "icon": "🎨", "description": "Gradient, shadow, grid generators", "toolCount": 19 },
   { "id": "video", "name": "Video Tools", "icon": "🎬", "description": "Compress, trim, convert, and edit videos", "toolCount": 16 },
-  { "id": "business", "name": "Business", "icon": "💼", "description": "ROI, profit margin, churn rate calculators", "toolCount": 14 },
+  { "id": "business", "name": "Business", "icon": "💼", "description": "ROI, profit margin, churn rate calculators", "toolCount": 15 },
   { "id": "audio", "name": "Audio Tools", "icon": "🔊", "description": "Trim, convert, merge, and edit audio files", "toolCount": 11 },
   { "id": "health", "name": "Health & Personal", "icon": "❤️", "description": "BMI, calorie, ideal weight calculators", "toolCount": 11 },
   { "id": "productivity", "name": "Productivity", "icon": "⏱️", "description": "Stopwatch, countdown timer, drawing pad", "toolCount": 11 },

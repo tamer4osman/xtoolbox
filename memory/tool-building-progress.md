@@ -30,7 +30,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] PDF Annotator (`pdf-annotator`)
 
 ### Business (6 planned)
-- [ ] Invoice Generator (`invoice-generator`)
+- [x] Invoice Generator (`invoice-generator`)
 - [ ] Certificate Generator (`certificate-generator`)
 - [ ] NDA Generator (`nda-generator`)
 - [ ] Freelancer Rate Calculator (`freelancer-rate-calculator`)

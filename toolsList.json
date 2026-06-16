@@ -162,6 +162,15 @@
     "status": "done"
   },
   {
+    "id": "invoice-generator",
+    "name": "Invoice Generator",
+    "category": "business",
+    "description": "Create professional PDF invoices with customizable fields.",
+    "icon": "📄",
+    "href": "/tools/invoice-generator",
+    "status": "done"
+  },
+  {
     "id": "border-radius-generator",
     "name": "Border Radius Generator",
     "category": "css",
