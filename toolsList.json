@@ -2923,6 +2923,16 @@
     ]
   },
   {
+    "id": "pixel-art-editor",
+    "name": "Pixel Art & Sprite Sheet Editor",
+    "category": "image",
+    "description": "Create pixel art and sprite sheets with customizable grids, color palettes, and export options.",
+    "icon": "🎨",
+    "href": "/tools/pixel-art-editor",
+    "status": "done",
+    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"]
+  },
+  {
     "id": "currency-converter",
     "name": "Currency Exchange Calculator",
     "category": "finance",
