@@ -1338,6 +1338,16 @@
     "status": "done"
   },
   {
+    "id": "diff-merge",
+    "name": "Diff Viewer & Merge Tool",
+    "category": "text",
+    "description": "Compare two texts side-by-side and merge changes with accept/reject controls.",
+    "icon": "🔀",
+    "href": "/tools/diff-merge",
+    "status": "done",
+    "keywords": ["diff", "merge", "compare", "changes"]
+  },
+  {
     "id": "text-similarity",
     "name": "Text Similarity",
     "category": "text",

@@ -36,7 +36,7 @@ export function diffLines(oldText, newText) {
   return result;
 }
 
-function buildMergeResult(diff, accepted) {
+export function buildMergeResult(diff, accepted) {
   const lines = [];
   for (let i = 0; i < diff.length; i++) {
     const d = diff[i];
