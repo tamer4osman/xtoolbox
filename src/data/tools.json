@@ -2918,6 +2918,22 @@
     "status": "done"
   },
   {
+    "id": "earthquake-monitor",
+    "name": "Earthquake Monitor",
+    "category": "reference",
+    "description": "Track recent earthquakes worldwide with magnitude, location, and depth data from USGS.",
+    "icon": "🌍",
+    "href": "/tools/earthquake-monitor",
+    "keywords": [
+      "earthquake",
+      "seismic",
+      "usgs",
+      "magnitude",
+      "tremor"
+    ],
+    "status": "done"
+  },
+  {
     "id": "dns-speed-test",
     "name": "DNS Speed Test",
     "category": "dev",

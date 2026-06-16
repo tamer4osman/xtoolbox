@@ -15,7 +15,7 @@
   { "id": "seo", "name": "SEO Tools", "icon": "🔍", "description": "Meta tags, sitemaps, keyword density checker", "toolCount": 8 },
   { "id": "privacy", "name": "Privacy & Security", "icon": "🔒", "description": "Encrypt files, generate passwords, remove metadata", "toolCount": 6 },
   { "id": "fun", "name": "Fun & Games", "icon": "🎮", "description": "Coin flip, dice roller, typing speed test", "toolCount": 5 },
-  { "id": "reference", "name": "Reference", "icon": "📚", "description": "Dictionary, thesaurus, book lookup, holidays, food nutrition", "toolCount": 6 },
+  { "id": "reference", "name": "Reference", "icon": "📚", "description": "Dictionary, thesaurus, book lookup, holidays, food nutrition, earthquakes", "toolCount": 7 },
   { "id": "ocr", "name": "OCR & Document", "icon": "🔍", "description": "Extract text from images and PDFs", "toolCount": 4 },
   { "id": "qr", "name": "QR & Barcode", "icon": "📱", "description": "Generate and scan QR codes and barcodes", "toolCount": 4 },
   { "id": "visualization", "name": "Data Visualization", "icon": "📊", "description": "Charts, CSV visualizer, JSON viewer", "toolCount": 4 },

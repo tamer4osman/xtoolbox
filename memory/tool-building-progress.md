@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 254 built, 51 planned = 305 total
+## Current Status: 255 built, 50 planned = 305 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -76,7 +76,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ## Phase 26: Uncommon High-Demand Tools (Planned)
 
 > Source: System 2 analytical framework + adversarial audit + API discovery
-> Status: 🟡 In progress. 3/16 built. (4 removed: duplicates of `color-blindness`, `latex-renderer`, `excel-viewer`, `remove-exif`)
+> Status: 🟡 In progress. 4/16 built. (4 removed: duplicates of `color-blindness`, `latex-renderer`, `excel-viewer`, `remove-exif`)
 
 | # | Tool | File | Category | Library |
 |---|------|------|----------|---------|
@@ -86,7 +86,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 | 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API |
 | 5 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram) — enhance existing `regex-tester` |
 | 6 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH ✅ |
-| 7 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API |
+| 7 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API ✅ |
 | 8 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API |
 | 9 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API |
 | 10 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org |
