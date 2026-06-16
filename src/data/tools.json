@@ -2918,6 +2918,23 @@
     "status": "done"
   },
   {
+    "id": "wireframe-sketcher",
+    "name": "Wireframe & Mockup Sketcher",
+    "category": "productivity",
+    "description": "Quick wireframe and mockup sketcher with drag-and-drop shapes, text, and freehand drawing.",
+    "icon": "✏️",
+    "href": "/tools/wireframe-sketcher",
+    "keywords": [
+      "wireframe",
+      "mockup",
+      "sketch",
+      "draw",
+      "canvas",
+      "prototype"
+    ],
+    "status": "done"
+  },
+  {
     "id": "earthquake-monitor",
     "name": "Earthquake Monitor",
     "category": "reference",

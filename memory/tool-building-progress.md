@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 255 built, 50 planned = 305 total
+## Current Status: 256 built, 49 planned = 305 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -76,7 +76,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ## Phase 26: Uncommon High-Demand Tools (Planned)
 
 > Source: System 2 analytical framework + adversarial audit + API discovery
-> Status: 🟡 In progress. 4/16 built. (4 removed: duplicates of `color-blindness`, `latex-renderer`, `excel-viewer`, `remove-exif`)
+> Status: 🟡 In progress. 5/16 built. (4 removed: duplicates of `color-blindness`, `latex-renderer`, `excel-viewer`, `remove-exif`)
 
 | # | Tool | File | Category | Library |
 |---|------|------|----------|---------|
@@ -90,7 +90,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 | 8 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API |
 | 9 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API |
 | 10 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org |
-| 11 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF |
+| 11 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF ✅ |
 | 12 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API |
 | 13 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid |
 | 14 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO |
