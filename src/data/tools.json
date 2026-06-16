@@ -2918,6 +2918,16 @@
     "status": "done"
   },
   {
+    "id": "currency-converter",
+    "name": "Currency Exchange Calculator",
+    "category": "finance",
+    "description": "Convert between currencies using live exchange rates with historical charts.",
+    "icon": "💱",
+    "href": "/tools/currency-converter",
+    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"],
+    "status": "done"
+  },
+  {
     "id": "passport-photo-maker",
     "name": "Passport / ID Photo Maker",
     "category": "image",
