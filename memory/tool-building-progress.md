@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 251 built, 68 planned = 319 total
+## Current Status: 252 built, 53 planned = 305 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -76,37 +76,33 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ## Phase 26: Uncommon High-Demand Tools (Planned)
 
 > Source: System 2 analytical framework + adversarial audit + API discovery
-> Status: 🟡 In progress. 15/20 built.
+> Status: 🟡 In progress. 1/16 built. (4 removed: duplicates of `color-blindness`, `latex-renderer`, `excel-viewer`, `remove-exif`)
 
 | # | Tool | File | Category | Library |
 |---|------|------|----------|---------|
-| 1 | Color Blindness Simulator | `image/color-blindness-simulator.js` | `image` | Canvas API + daltonize.js |
-| 2 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API |
-| 3 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace |
-| 4 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM |
-| 5 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API |
-| 6 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram) |
-| 7 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH |
-| 8 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API |
-| 9 | Spreadsheet Viewer & Editor | `productivity/spreadsheet-viewer.js` | `productivity` | SheetJS + custom grid |
-| 10 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API |
-| 11 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API |
-| 12 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org |
-| 13 | LaTeX Equation Editor & Renderer | `dev/latex-equation-editor.js` | `dev` | KaTeX + custom editor |
-| 14 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF |
-| 15 | Photo Metadata (EXIF) Viewer & Scrubber | `image/exif-scrubber.js` | `image` | exifr + piexifjs |
-| 16 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API |
-| 17 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid |
-| 18 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO |
-| 19 | Diff Viewer & Merge Tool | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI |
-| 20 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG) |
+| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API |
+| 2 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace |
+| 3 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM |
+| 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API |
+| 5 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram) — enhance existing `regex-tester` |
+| 6 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH |
+| 7 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API |
+| 8 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API |
+| 9 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API |
+| 10 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org |
+| 11 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF |
+| 12 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API |
+| 13 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid |
+| 14 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO |
+| 15 | Diff Viewer & Merge Tool | `dev/diff-merge.js` | `dev` | enhance existing `text-diff` with merge ✅ |
+| 16 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG) |
 
 ---
 
 ## Phase 27: 20 High-Demand Tools (Planned)
 
 > Source: User demand + market gap analysis + competitor benchmarking
-> Status: 🟡 In progress. 1/20 built.
+> Status: 🟡 In progress. 1/15 built. (2 removed: duplicates of `upscale-image`, `remove-metadata`)
 
 | # | Tool | File | Category | Library |
 |---|------|------|----------|---------|
@@ -114,22 +110,19 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 | 2 | Noise / Hiss Remover | `audio/noise-remover.js` | `audio` | ONNX Runtime + DeepFilterNet |
 | 3 | BPM & Key Detector | `audio/bpm-key-detector.js` | `audio` | Essentia.js WASM |
 | 4 | Audio EQ & Visualizer | `audio/audio-equalizer.js` | `audio` | Web Audio API + lamejs |
-| 5 | Video Screenshot Extractor | `video/video-screenshot-extractor.js` | `video` | Canvas API + JSZip |
-| 6 | Local Video Transcriber | `video/video-transcriber.js` | `video` | Transformers.js (Whisper tiny) |
-| 7 | Video Silence Remover | `video/silence-remover.js` | `video` | ffmpeg.wasm |
-| 8 | JSON Diff Viewer | `dev/json-diff-viewer.js` | `dev` | Pure JS |
-| 9 | OpenAPI / Swagger Visualizer | `dev/openapi-visualizer.js` | `dev` | js-yaml + Redoc standalone |
-| 10 | GraphQL Schema Explorer | `dev/graphql-schema-explorer.js` | `dev` | graphql browser build |
-| 11 | Offline Text Translator | `text/offline-translator.js` | `text` | Transformers.js (NLLB-200) |
-| 12 | Legal Clause Simplifier | `text/legal-simplifier.js` | `text` | Transformers.js (DistilBERT) |
-| 13 | Text Sentiment Heatmap | `text/sentiment-heatmap.js` | `text` | Transformers.js (DistilBERT SST-2) |
-| 14 | Meeting Cost Calculator | `productivity/meeting-cost-calculator.js` | `productivity` | Pure JS + jsPDF |
-| 15 | Working Days Calculator | `productivity/working-days-calculator.js` | `productivity` | Intl + bundled holidays JSON |
-| 16 | AI Image Upscaler (4×) | `image/ai-image-upscaler.js` | `image` | ONNX Runtime + Real-ESRGAN-tiny |
-| 17 | Metadata Stripper | `privacy/metadata-stripper.js` | `privacy` | pdf-lib + piexifjs + JSZip |
-| 18 | Net Worth Tracker | `finance/net-worth-tracker.js` | `finance` | Chart.js + localStorage |
-| 19 | Symptom Onset Tracker | `health/symptom-tracker.js` | `health` | Pure JS + jsPDF + localStorage |
-| 20 | Face Blur / Anonymizer | `image/face-blur.js` | `image` | ONNX Runtime + BlazeFace |
+| 5 | Local Video Transcriber | `video/video-transcriber.js` | `video` | Transformers.js (Whisper tiny) |
+| 6 | Video Silence Remover | `video/silence-remover.js` | `video` | ffmpeg.wasm |
+| 7 | JSON Diff Viewer | `dev/json-diff-viewer.js` | `dev` | Pure JS |
+| 8 | OpenAPI / Swagger Visualizer | `dev/openapi-visualizer.js` | `dev` | js-yaml + Redoc standalone |
+| 9 | GraphQL Schema Explorer | `dev/graphql-schema-explorer.js` | `dev` | graphql browser build |
+| 10 | Offline Text Translator | `text/offline-translator.js` | `text` | Transformers.js (NLLB-200) |
+| 11 | Legal Clause Simplifier | `text/legal-simplifier.js` | `text` | Transformers.js (DistilBERT) |
+| 12 | Text Sentiment Heatmap | `text/sentiment-heatmap.js` | `text` | Transformers.js (DistilBERT SST-2) |
+| 13 | Meeting Cost Calculator | `productivity/meeting-cost-calculator.js` | `productivity` | Pure JS + jsPDF |
+| 14 | Working Days Calculator | `productivity/working-days-calculator.js` | `productivity` | Intl + bundled holidays JSON |
+| 15 | Net Worth Tracker | `finance/net-worth-tracker.js` | `finance` | Chart.js + localStorage |
+| 16 | Symptom Onset Tracker | `health/symptom-tracker.js` | `health` | Pure JS + jsPDF + localStorage |
+| 17 | Face Blur / Anonymizer | `image/face-blur.js` | `image` | ONNX Runtime + BlazeFace |
 
 ---
 

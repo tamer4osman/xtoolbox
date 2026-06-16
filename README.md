@@ -436,23 +436,19 @@ Source: System 2 analytical framework + adversarial audit + API discovery (publi
 
 | # | Tool | File | Category | Library | Demand |
 |---|------|------|----------|---------|--------|
-| 1 | Color Blindness Simulator | `image/color-blindness-simulator.js` | `image` | Canvas API + daltonize.js | Very High |
-| 2 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API | Very High |
-| 3 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace | Very High |
-| 4 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | High |
-| 5 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API | High |
-| 6 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram) | Very High |
-| 7 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH | High |
-| 8 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API | Medium |
-| 9 | Spreadsheet Viewer & Editor | `productivity/spreadsheet-viewer.js` | `productivity` | SheetJS + custom grid | Very High |
-| 10 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API | High |
-| 11 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API | High |
-| 12 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org | Very High |
-| 13 | LaTeX Equation Editor & Renderer | `dev/latex-equation-editor.js` | `dev` | KaTeX + custom editor | Very High |
-| 14 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF | Very High |
-| 15 | Photo Metadata (EXIF) Viewer & Scrubber | `image/exif-scrubber.js` | `image` | exifr + piexifjs | Very High |
-| 16 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API | Very High |
-| 17 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid | High |
-| 18 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO | High |
-| 19 | Diff Viewer & Merge Tool | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI | Very High |
-| 20 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG) | Very High |
+| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API | Very High |
+| 2 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace | Very High |
+| 3 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | High |
+| 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API | High |
+| 5 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram) | Very High |
+| 6 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH | High |
+| 7 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API | Medium |
+| 8 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API | High |
+| 9 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API | High |
+| 10 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org | Very High |
+| 11 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF | Very High |
+| 12 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API | Very High |
+| 13 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid | High |
+| 14 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO | High |
+| 15 | Diff Viewer & Merge Tool | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI | Very High |
+| 16 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG) | Very High |

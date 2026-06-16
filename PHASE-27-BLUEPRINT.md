@@ -15,22 +15,19 @@
 | 2 | Noise / Hiss Remover | `audio/noise-remover.js` | audio | ONNX Runtime + DeepFilterNet |
 | 3 | BPM & Key Detector | `audio/bpm-key-detector.js` | audio | Essentia.js WASM |
 | 4 | Audio EQ & Visualizer | `audio/audio-equalizer.js` | audio | Web Audio API + lamejs |
-| 5 | Video Screenshot Extractor | `video/video-screenshot-extractor.js` | video | Canvas API + JSZip |
-| 6 | Local Video Transcriber | `video/video-transcriber.js` | video | Transformers.js (Whisper tiny) |
-| 7 | Video Silence Remover | `video/silence-remover.js` | video | ffmpeg.wasm |
-| 8 | JSON Diff Viewer | `dev/json-diff-viewer.js` | dev | Pure JS |
-| 9 | OpenAPI / Swagger Visualizer | `dev/openapi-visualizer.js` | dev | js-yaml + Redoc standalone |
-| 10 | GraphQL Schema Explorer | `dev/graphql-schema-explorer.js` | dev | graphql browser build |
-| 11 | Offline Text Translator | `text/offline-translator.js` | text | Transformers.js (NLLB-200) |
-| 12 | Legal Clause Simplifier | `text/legal-simplifier.js` | text | Transformers.js (DistilBERT) |
-| 13 | Text Sentiment Heatmap | `text/sentiment-heatmap.js` | text | Transformers.js (DistilBERT SST-2) |
-| 14 | Meeting Cost Calculator | `productivity/meeting-cost-calculator.js` | productivity | Pure JS + jsPDF |
-| 15 | Working Days Calculator | `productivity/working-days-calculator.js` | productivity | Intl + bundled holidays JSON |
-| 16 | AI Image Upscaler (4×) | `image/ai-image-upscaler.js` | image | ONNX Runtime + Real-ESRGAN-tiny |
-| 17 | Metadata Stripper | `privacy/metadata-stripper.js` | privacy | pdf-lib + piexifjs + JSZip |
-| 18 | Net Worth Tracker | `finance/net-worth-tracker.js` | finance | Chart.js + localStorage |
-| 19 | Symptom Onset Tracker | `health/symptom-tracker.js` | health | Pure JS + jsPDF + localStorage |
-| 20 | Face Blur / Anonymizer | `image/face-blur.js` | image | ONNX Runtime + BlazeFace |
+| 5 | Local Video Transcriber | `video/video-transcriber.js` | video | Transformers.js (Whisper tiny) |
+| 6 | Video Silence Remover | `video/silence-remover.js` | video | ffmpeg.wasm |
+| 7 | JSON Diff Viewer | `dev/json-diff-viewer.js` | dev | Pure JS |
+| 8 | OpenAPI / Swagger Visualizer | `dev/openapi-visualizer.js` | dev | js-yaml + Redoc standalone |
+| 9 | GraphQL Schema Explorer | `dev/graphql-schema-explorer.js` | dev | graphql browser build |
+| 10 | Offline Text Translator | `text/offline-translator.js` | text | Transformers.js (NLLB-200) |
+| 11 | Legal Clause Simplifier | `text/legal-simplifier.js` | text | Transformers.js (DistilBERT) |
+| 12 | Text Sentiment Heatmap | `text/sentiment-heatmap.js` | text | Transformers.js (DistilBERT SST-2) |
+| 13 | Meeting Cost Calculator | `productivity/meeting-cost-calculator.js` | productivity | Pure JS + jsPDF |
+| 14 | Working Days Calculator | `productivity/working-days-calculator.js` | productivity | Intl + bundled holidays JSON |
+| 15 | Net Worth Tracker | `finance/net-worth-tracker.js` | finance | Chart.js + localStorage |
+| 16 | Symptom Onset Tracker | `health/symptom-tracker.js` | health | Pure JS + jsPDF + localStorage |
+| 17 | Face Blur / Anonymizer | `image/face-blur.js` | image | ONNX Runtime + BlazeFace |
 
 ---
 
@@ -287,73 +284,7 @@ A **10-band parametric EQ** with a real-time frequency spectrum visualiser. Load
 
 ---
 
-## Tool 5 — Video Screenshot Extractor
-
-**File:** `src/tools/video/video-screenshot-extractor.js`  
-**Tool ID:** `video-screenshot-extractor`  
-**Category:** `video`
-
-### What it does
-
-Extract still frames from any local video file at:
-
-- **Custom interval** (e.g., every 5 seconds)
-- **Specific timestamps** (comma-separated list)
-- **Every frame** (max 1000 frames safety cap)
-
-Download all frames as a ZIP of numbered PNGs — or individually.
-
-### Input → Process → Output
-
-```
-[Video file drop zone]
-       ↓  <video> element src = URL.createObjectURL(file)
-       ↓  seeked + drawImage(video, 0, 0) on Canvas per timestamp
-       ↓  canvas.toBlob('image/png') → Blob array
-       ↓  JSZip.file() → frames.zip → download
-```
-
-### UI layout
-
-```
-┌─────────────────────────────────────────────────┐
-│  Drop video file (MP4, MOV, WEBM, AVI)          │
-├─────────────────────────────────────────────────┤
-│  Mode: ◉ Every N seconds  ○ Specific timestamps │
-│  Every: [5] seconds  (or list: 0:05, 1:30, 2:00)│
-│  Format: [PNG ▾]   Quality: [95%]               │
-│  [Extract Frames]                                │
-├─────────────────────────────────────────────────┤
-│  [thumbnail grid — 3×N — click to download one] │
-│  Extracted: 48 frames                           │
-│  [⬇ Download all as ZIP]                        │
-└─────────────────────────────────────────────────┘
-```
-
-### Key implementation notes
-
-- Create a hidden `<video>` element. Seek with `video.currentTime = t` and await the `seeked` event.
-- Batch-seek using an async queue (one `seeked` → resolve → next seek) to avoid race conditions.
-- Render 3-column thumbnail grid using `<img src="dataURL">` for previews.
-- Safety cap: warn user if > 1000 frames would be extracted and ask for confirmation.
-
-### Libraries
-
-```json
-"jszip": "^3.10"
-```
-
-### Constraint check
-
-| Criterion | Status |
-|-----------|--------|
-| 100% client-side | ✅ Canvas API |
-| No upload | ✅ `createObjectURL` |
-| Existing duplicate | ❌ `video-to-images.js` exists but converts at fixed FPS via ffmpeg — different UX |
-
----
-
-## Tool 6 — Local Video Transcriber
+## Tool 5 — Local Video Transcriber
 
 **File:** `src/tools/video/video-transcriber.js`  
 **Tool ID:** `video-transcriber`  
@@ -999,142 +930,7 @@ Pure vanilla JS + bundled `holidays.json`.
 
 ---
 
-## Tool 16 — AI Image Upscaler (4×)
-
-**File:** `src/tools/image/ai-image-upscaler.js`  
-**Tool ID:** `ai-image-upscaler`  
-**Category:** `image`
-
-### What it does
-
-Upscale any image up to **4× its original resolution** using a **Real-ESRGAN tiny** ONNX model. Zero upload, works fully offline. Produces noticeably sharper results than bicubic interpolation.
-
-### Why it's rare
-
-waifu2x requires a server. Topaz Gigapixel is $200. Adobe Super Resolution requires Creative Cloud. A free, private, client-side AI upscaler is one of the most-requested tools on the web.
-
-### Input → Process → Output
-
-```
-[Image drop zone (JPG, PNG, WebP)]
-       ↓  Canvas API: decode to ImageData (RGBA Float32)
-       ↓  Tile into 128×128 patches (with 8px overlap)
-       ↓  ONNX Runtime: Real-ESRGAN-tiny (each tile 128→512)
-       ↓  Stitch tiles with overlap blending
-       ↓  canvas.toBlob('image/png') → download
-```
-
-### UI layout
-
-```
-┌─────────────────────────────────────────────────┐
-│  Drop image (JPG, PNG, WebP)                    │
-├────────────────────────┬────────────────────────┤
-│  Original (800×600)    │  Upscaled (3200×2400)  │
-│  [Before image]        │  [After image]         │
-│  ← drag slider →       │                        │
-└────────────────────────┴────────────────────────┘
-│  Scale: ◉ 2×  ○ 4×    Format: [PNG ▾]          │
-│  [Upscale]   Progress: [████████░░░░] 72%       │
-│  [⬇ Download]                                   │
-└─────────────────────────────────────────────────┘
-```
-
-### Key implementation notes
-
-- Model: `realesrgan-x4plus-anime` or the general `realesrgan-x4` ONNX (both ~16 MB quantised INT8).
-- **Tile processing is mandatory** — full 4× upscale of a 4K image at once would OOM. Use 128×128 input tiles with 8 px padding → 512×512 output tiles, blend overlaps.
-- Use a `Worker` + `Comlink` for tiling loop so UI stays responsive.
-- Show tile-by-tile progress: "Processing tile 12 / 48…".
-- Before/after comparison slider: reuse the `comparison-slider.js` component that already exists in the project.
-- Model path: `public/models/realesrgan-x4.onnx` — already noted in README file structure.
-
-### Libraries
-
-```json
-"onnxruntime-web": "^1.18"
-```
-
-### Constraint check
-
-| Criterion | Status |
-|-----------|--------|
-| 100% client-side | ✅ |
-| Model ≤ 100 MB | ✅ ~16 MB |
-| Already in model list | ✅ README lists `realesrgan-x4.onnx` in `public/models/` |
-| Existing duplicate | ❌ `upscale-image.js` exists but uses bicubic (Canvas) — this is AI-powered |
-
----
-
-## Tool 17 — Metadata Stripper (All File Types)
-
-**File:** `src/tools/privacy/metadata-stripper.js`  
-**Tool ID:** `metadata-stripper`  
-**Category:** `privacy`
-
-### What it does
-
-Drop **any file** (image, PDF, DOCX, MP3, MP4) and strip all embedded metadata before sharing — EXIF tags, XMP data, document properties (author, company, revision history), ID3 audio tags, MP4 atoms. Downloads a clean copy.
-
-### Why it's rare
-
-`remove-metadata.js` already strips EXIF from images. This tool extends to **PDF, DOCX, MP3** — no single browser tool covers all four types. Journalists, lawyers, and privacy-conscious users urgently need this.
-
-### Input → Process → Output
-
-```
-[Multi-file drop zone]
-       ↓  Detect file type by MIME / extension
-       ├─ .jpg/.png → piexifjs: zero out all EXIF tags
-       ├─ .pdf → pdf-lib: remove Info dict, XMP metadata stream
-       ├─ .docx → JSZip: open zip, rewrite docProps/core.xml and app.xml with blank values
-       ├─ .mp3 → id3 parser: strip ID3v1 and ID3v2 tags
-       └─ .mp4 → strip moov.udta atom using ArrayBuffer manipulation
-       ↓  Download cleaned file (same name + "_clean" suffix)
-```
-
-### UI layout
-
-```
-┌─────────────────────────────────────────────────┐
-│  Drop files to strip metadata                   │
-│  Supported: JPG, PNG, PDF, DOCX, MP3            │
-├─────────────────────────────────────────────────┤
-│  photo.jpg     ✅ Stripped 47 EXIF tags         │
-│  contract.pdf  ✅ Removed author, creation date │
-│  report.docx   ✅ Cleared 6 document properties │
-│  podcast.mp3   ✅ Removed ID3 tags (artist,…)  │
-├─────────────────────────────────────────────────┤
-│  [⬇ Download all (ZIP)]                        │
-└─────────────────────────────────────────────────┘
-```
-
-### Key implementation notes
-
-- Route each file through a typed handler function: `stripImage`, `stripPDF`, `stripDOCX`, `stripMP3`.
-- DOCX: `docProps/core.xml` contains `dc:creator`, `dc:description`, `cp:lastModifiedBy` — blank them. `docProps/app.xml` has `Company`, `Template` — blank them. Re-zip with `JSZip`.
-- MP3 ID3: use a tiny parser to find ID3 header (`ID3\x03` at byte 0) and overwrite or truncate before the audio frame.
-- PDF: `pdf-lib` — `pdfDoc.setTitle('')`, `setAuthor('')`, `setSubject('')`, `setCreator('')`, `setProducer('')`, `setKeywords([])` + remove `XMP` metadata stream if present.
-- This tool differs from `remove-metadata.js` (image-only EXIF only). Maintain both — this is the multi-format version.
-
-### Libraries
-
-```json
-"piexifjs": "^1.0",
-"pdf-lib": "^1.17",   // already in project
-"jszip": "^3.10"       // already in project
-```
-
-### Constraint check
-
-| Criterion | Status |
-|-----------|--------|
-| 100% client-side | ✅ |
-| Existing duplicate | ⚠️ `remove-metadata.js` handles images — this adds PDF/DOCX/MP3 |
-
----
-
-## Tool 18 — Net Worth / Personal Balance Sheet
+## Tool 15 — Net Worth / Personal Balance Sheet
 
 **File:** `src/tools/finance/net-worth-tracker.js`  
 **Tool ID:** `net-worth-tracker`  
@@ -1354,7 +1150,6 @@ Add these entries to `src/data/tools.json` and `toolsList.json`. Status starts a
   { "id": "noise-remover",         "title": "Noise / Hiss Remover",          "category": "audio",        "file": "audio/noise-remover.js",           "status": "planned", "phase": 27 },
   { "id": "bpm-key-detector",      "title": "BPM & Key Detector",            "category": "audio",        "file": "audio/bpm-key-detector.js",        "status": "planned", "phase": 27 },
   { "id": "audio-equalizer",       "title": "Audio EQ & Visualizer",         "category": "audio",        "file": "audio/audio-equalizer.js",         "status": "planned", "phase": 27 },
-  { "id": "video-screenshot-extractor", "title": "Video Screenshot Extractor", "category": "video",    "file": "video/video-screenshot-extractor.js","status": "planned", "phase": 27 },
   { "id": "video-transcriber",     "title": "Local Video Transcriber",       "category": "video",        "file": "video/video-transcriber.js",       "status": "planned", "phase": 27 },
   { "id": "video-silence-remover", "title": "Video Silence Remover",         "category": "video",        "file": "video/silence-remover.js",         "status": "planned", "phase": 27 },
   { "id": "json-diff-viewer",      "title": "JSON Diff Viewer",              "category": "dev",          "file": "dev/json-diff-viewer.js",          "status": "planned", "phase": 27 },
@@ -1365,8 +1160,6 @@ Add these entries to `src/data/tools.json` and `toolsList.json`. Status starts a
   { "id": "sentiment-heatmap",     "title": "Text Sentiment Heatmap",        "category": "text",         "file": "text/sentiment-heatmap.js",        "status": "planned", "phase": 27 },
   { "id": "meeting-cost-calculator","title": "Meeting Cost Calculator",       "category": "productivity", "file": "productivity/meeting-cost-calculator.js","status":"planned","phase":27},
   { "id": "working-days-calculator","title": "Working Days Calculator",       "category": "productivity", "file": "productivity/working-days-calculator.js","status":"planned","phase":27},
-  { "id": "ai-image-upscaler",     "title": "AI Image Upscaler (4×)",        "category": "image",        "file": "image/ai-image-upscaler.js",       "status": "planned", "phase": 27 },
-  { "id": "metadata-stripper",     "title": "Metadata Stripper",             "category": "privacy",      "file": "privacy/metadata-stripper.js",     "status": "planned", "phase": 27 },
   { "id": "net-worth-tracker",     "title": "Net Worth Tracker",             "category": "finance",      "file": "finance/net-worth-tracker.js",     "status": "planned", "phase": 27 },
   { "id": "symptom-tracker",       "title": "Symptom Onset Tracker",         "category": "health",       "file": "health/symptom-tracker.js",        "status": "planned", "phase": 27 },
   { "id": "face-blur",             "title": "Face Blur / Anonymizer",        "category": "image",        "file": "image/face-blur.js",               "status": "planned", "phase": 27 }
@@ -1379,26 +1172,23 @@ Add these entries to `src/data/tools.json` and `toolsList.json`. Status starts a
 
 Build in this order to avoid bottlenecks (heavy ML models last):
 
-1. **Tool 8** — JSON Diff Viewer (zero dependencies, fastest to ship)
-2. **Tool 14** — Meeting Cost Calculator (zero dependencies, high virality)
-3. **Tool 15** — Working Days Calculator (only JSON data file needed)
-4. **Tool 18** — Net Worth Tracker (Chart.js already in project)
-5. **Tool 19** — Symptom Tracker (jsPDF already in project)
-6. **Tool 5** — Video Screenshot Extractor (Canvas + JSZip, no new deps)
-7. **Tool 4** — Audio EQ & Visualizer (Web Audio API only)
-8. **Tool 9** — OpenAPI Visualizer (js-yaml, small dep)
-9. **Tool 10** — GraphQL Schema Explorer (graphql UMD, ~90 kB)
-10. **Tool 17** — Metadata Stripper (pdf-lib + JSZip already in project)
-11. **Tool 7** — Video Silence Remover (ffmpeg.wasm already in project)
-12. **Tool 13** — Sentiment Heatmap (DistilBERT SST-2 — in whitelist, ~67 MB)
-13. **Tool 20** — Face Blur (BlazeFace — in whitelist)
-14. **Tool 3** — BPM & Key Detector (Essentia.js WASM, new dep)
-15. **Tool 16** — AI Image Upscaler (Real-ESRGAN ONNX ~16 MB — already in public/models/)
-16. **Tool 2** — Noise Remover (DeepFilterNet ONNX ~18 MB)
-17. **Tool 12** — Legal Clause Simplifier (DistilBART ~250 MB, warn user)
-18. **Tool 11** — Offline Translator (opus-mt per language pair ~80 MB each)
-19. **Tool 6** — Video Transcriber (Whisper tiny ~39 MB)
-20. **Tool 1** — Vocal Stem Separator (Demucs-mini ~85 MB — largest, most complex)
+1. **Tool 7** — JSON Diff Viewer (zero dependencies, fastest to ship)
+2. **Tool 13** — Meeting Cost Calculator (zero dependencies, high virality)
+3. **Tool 14** — Working Days Calculator (only JSON data file needed)
+4. **Tool 15** — Net Worth Tracker (Chart.js already in project)
+5. **Tool 16** — Symptom Tracker (jsPDF already in project)
+6. **Tool 4** — Audio EQ & Visualizer (Web Audio API only)
+7. **Tool 8** — OpenAPI Visualizer (js-yaml, small dep)
+8. **Tool 9** — GraphQL Schema Explorer (graphql UMD, ~90 kB)
+9. **Tool 6** — Video Silence Remover (ffmpeg.wasm already in project)
+10. **Tool 12** — Sentiment Heatmap (DistilBERT SST-2 — in whitelist, ~67 MB)
+11. **Tool 17** — Face Blur (BlazeFace — in whitelist)
+12. **Tool 3** — BPM & Key Detector (Essentia.js WASM, new dep)
+13. **Tool 2** — Noise Remover (DeepFilterNet ONNX ~18 MB)
+14. **Tool 11** — Legal Clause Simplifier (DistilBART ~250 MB, warn user)
+15. **Tool 10** — Offline Translator (opus-mt per language pair ~80 MB each)
+16. **Tool 5** — Video Transcriber (Whisper tiny ~39 MB)
+17. **Tool 1** — Vocal Stem Separator (Demucs-mini ~85 MB — largest, most complex)
 
 ---
 

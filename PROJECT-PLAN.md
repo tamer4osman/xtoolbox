@@ -11506,26 +11506,22 @@ All 20 tools validated through the 7-step Tool Idea Generation Process. 6 tools 
 
 | # | Tool | File | Category | Library | Uncommon? | Demand | Feasibility |
 |---|------|------|----------|---------|-----------|--------|-------------|
-| 1 | Color Blindness Simulator | `image/color-blindness-simulator.js` | `image` | Canvas API + daltonize.js | Cat A | Very High | Excellent |
-| 2 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API (free, no auth, CORS) | Cat A | Very High | Excellent |
-| 3 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace + country spec DB | Cat B | Very High | Good |
-| 4 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | Cat A | High | Moderate |
-| 5 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API + manual fallback | Cat B | High | Excellent |
-| 6 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram + regex parser) | Cat B | Very High | Good |
-| 7 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH (both CORS, no auth) | Cat A | High | Excellent |
-| 8 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API (free, no auth, CORS) | Cat A | Medium | Excellent |
-| 9 | Spreadsheet Viewer & Editor (CSV/XLSX) | `productivity/spreadsheet-viewer.js` | `productivity` | SheetJS + custom grid renderer | Cat B | Very High | Good |
-| 10 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API (free, no auth, CORS) | Cat B | High | Excellent |
-| 11 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API (free tier, CORS, no auth) | Cat A | High | Excellent |
-| 12 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org (both CORS, no auth) | Cat A | Very High | Excellent |
-| 13 | LaTeX Equation Editor & Renderer | `dev/latex-equation-editor.js` | `dev` | KaTeX + custom editor | Cat B | Very High | Excellent |
-| 14 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF | Cat B | Very High | Moderate |
-| 15 | Photo Metadata (EXIF) Viewer & Scrubber | `image/exif-scrubber.js` | `image` | exifr + piexifjs | Cat B | Very High | Excellent |
-| 16 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API (free, no auth, CORS) | Cat A | Very High | Excellent |
-| 17 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid | Cat A | High | Good |
-| 18 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO browser port | Cat B | High | Good |
-| 19 | Diff Viewer & Merge Tool (Text & Code) | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI | Cat B | Very High | Excellent |
-| 20 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG rules, pasted HTML only) | Cat B | Very High | Good |
+| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API (free, no auth, CORS) | Cat A | Very High | Excellent |
+| 2 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace + country spec DB | Cat B | Very High | Good |
+| 3 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | Cat A | High | Moderate |
+| 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API + manual fallback | Cat B | High | Excellent |
+| 5 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram + regex parser) | Cat B | Very High | Good |
+| 6 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH (both CORS, no auth) | Cat A | High | Excellent |
+| 7 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API (free, no auth, CORS) | Cat A | Medium | Excellent |
+| 8 | World Holiday Calendar & Planner | `reference/world-holidays.js` | `reference` | Nager.Date API (free, no auth, CORS) | Cat B | High | Excellent |
+| 9 | Link Preview Generator | `dev/link-preview-generator.js` | `dev` | Microlink API (free tier, CORS, no auth) | Cat A | High | Excellent |
+| 10 | Domain Intelligence | `dev/domain-intelligence.js` | `dev` | Cloudflare DoH + RDAP.org (both CORS, no auth) | Cat A | Very High | Excellent |
+| 11 | Wireframe & Mockup Sketcher | `productivity/wireframe-sketcher.js` | `productivity` | Canvas API + SVG + jsPDF | Cat B | Very High | Moderate |
+| 12 | Currency Exchange Calculator | `finance/currency-exchange.js` | `finance` | ExchangeRate-API (free, no auth, CORS) | Cat A | Very High | Excellent |
+| 13 | Pixel Art & Sprite Sheet Editor | `image/pixel-art-editor.js` | `image` | Canvas API + custom pixel grid | Cat A | High | Good |
+| 14 | SVG Icon Editor & Optimizer | `css/svg-icon-editor.js` | `css` | Custom SVG parser + SVGO browser port | Cat B | High | Good |
+| 15 | Diff Viewer & Merge Tool (Text & Code) | `dev/diff-merge.js` | `dev` | diff npm + custom merge UI | Cat B | Very High | Excellent |
+| 16 | Accessibility Audit Visualizer | `dev/a11y-audit.js` | `dev` | Pure JS (DOM analysis + WCAG rules, pasted HTML only) | Cat B | Very High | Good |
 
 ### Category Impact
 
