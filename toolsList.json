@@ -2923,6 +2923,23 @@
     ]
   },
   {
+    "id": "passport-photo-maker",
+    "name": "Passport / ID Photo Maker",
+    "category": "image",
+    "description": "Create passport, visa, and ID photos with automatic face detection and background removal.",
+    "icon": "📸",
+    "href": "/tools/passport-photo-maker",
+    "status": "done",
+    "keywords": [
+      "passport",
+      "photo",
+      "id",
+      "visa",
+      "biometrics",
+      "face"
+    ]
+  },
+  {
     "id": "wireframe-sketcher",
     "name": "Wireframe & Mockup Sketcher",
     "category": "productivity",
