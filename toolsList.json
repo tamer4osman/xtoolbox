@@ -2333,14 +2333,31 @@
     "icon": "♿",
     "href": "/tools/wcag-contrast-checker",
     "status": "done",
-    "keywords": [
+"keywords": [
       "wcag",
       "contrast",
       "accessibility",
       "color",
       "a11y",
       "aa",
-      "aaa"
+      "aaa",
+      "contrast checker"
+    ]
+  },
+  {
+    "id": "a11y-audit",
+    "name": "Accessibility Audit Visualizer",
+    "category": "dev",
+    "description": "Analyze web pages for accessibility issues. Check WCAG compliance, ARIA labels, color contrast, and more.",
+    "icon": "♿",
+    "href": "/tools/a11y-audit",
+    "status": "done",
+    "keywords": [
+      "accessibility",
+      "a11y",
+      "wcag",
+      "audit",
+      "accessibility checker"
     ]
   },
   {

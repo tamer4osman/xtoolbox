@@ -2310,9 +2310,26 @@
       "color",
       "a11y",
       "aa",
-      "aaa"
+      "aaa",
+      "contrast checker"
     ],
     "status": "done"
+  },
+  {
+    "id": "a11y-audit",
+    "name": "Accessibility Audit Visualizer",
+    "category": "dev",
+    "description": "Analyze web pages for accessibility issues. Check WCAG compliance, ARIA labels, color contrast, and more.",
+    "icon": "♿",
+    "href": "/tools/a11y-audit",
+    "keywords": [
+      "accessibility",
+      "a11y",
+      "wcag",
+      "audit",
+      "accessibility checker"
+    ],
+"status": "done"
   },
   {
     "id": "css-sprite-generator",
