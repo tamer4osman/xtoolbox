@@ -90,7 +90,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 | Phase | Status | Tasks Done | Tasks Total |
 |-------|--------|-----------|-------------|
-| **Overall** | **In Progress** | **498** | **520** |
+| **Overall** | **In Progress** | **499** | **520** |
 | Phase 1: Foundation | ✅ | 62 | 62 |
 | Phase 2: PDF Tools | ✅ | 28 | 28 |
 | Phase 3: Image Tools | ✅ | 31 | 31 |

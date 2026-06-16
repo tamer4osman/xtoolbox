@@ -2271,6 +2271,22 @@
     "status": "done"
   },
   {
+    "id": "svg-icon-editor",
+    "name": "SVG Icon Editor",
+    "category": "css",
+    "description": "Upload, view, edit attributes, and optimize SVG icons",
+    "icon": "🎨",
+    "href": "/tools/svg-icon-editor",
+    "keywords": [
+      "svg",
+      "icon",
+      "editor",
+      "optimize",
+      "vector"
+    ],
+    "status": "done"
+  },
+  {
     "id": "wcag-contrast-checker",
     "name": "WCAG Color Contrast Checker",
     "category": "css",
