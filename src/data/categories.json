@@ -2,7 +2,7 @@
   { "id": "image", "name": "Image Tools", "icon": "🖼️", "description": "Compress, resize, convert, and edit images", "toolCount": 36 },
   { "id": "pdf", "name": "PDF Tools", "icon": "📄", "description": "Merge, split, compress, and edit PDF files", "toolCount": 33 },
   { "id": "text", "name": "Text & Content", "icon": "📝", "description": "Format converters, word counter, text tools", "toolCount": 31 },
-  { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder", "toolCount": 29 },
+  { "id": "dev", "name": "Developer Tools", "icon": "🖥️", "description": "JSON validator, regex tester, cron builder, DNS speed test", "toolCount": 30 },
   { "id": "css", "name": "CSS & Web Design", "icon": "🎨", "description": "Gradient, shadow, grid generators", "toolCount": 19 },
   { "id": "video", "name": "Video Tools", "icon": "🎬", "description": "Compress, trim, convert, and edit videos", "toolCount": 16 },
   { "id": "business", "name": "Business", "icon": "💼", "description": "ROI, profit margin, churn rate calculators", "toolCount": 14 },

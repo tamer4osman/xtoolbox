@@ -2923,6 +2923,23 @@
     ]
   },
   {
+    "id": "dns-speed-test",
+    "name": "DNS Speed Test",
+    "category": "dev",
+    "description": "Test DNS resolution speed against Cloudflare and Google DoH providers.",
+    "icon": "⚡",
+    "href": "/tools/dns-speed-test",
+    "status": "done",
+    "keywords": [
+      "dns",
+      "speed",
+      "doh",
+      "cloudflare",
+      "google",
+      "network"
+    ]
+  },
+  {
     "id": "food-nutrition-scanner",
     "name": "Food Nutrition Scanner",
     "category": "reference",
