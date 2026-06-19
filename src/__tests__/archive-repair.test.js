@@ -44,7 +44,7 @@ function buildLocalFileHeader(overrides = {}) {
   dv.setUint16(28, cfg.extraFieldLength, true);
 
   view.set(nameBytes, 30);
-  view.set(cfg.data, 30 + nameBytes.length);
+  view.set(cfg.data, 30 + nameBytes.length + cfg.extraFieldLength);
 
   return buf;
 }
