@@ -94,11 +94,11 @@ function inflateRaw(data) {
 
     reader.read().then(function process({ done, value }) {
       if (done) {
-        writer.close();
+        writer.close().catch(reject);
       } else {
-        writer.write(value).then(() => reader.read().then(process));
+        writer.write(value).then(() => reader.read().then(process)).catch(reject);
       }
-    });
+    }).catch(reject);
 
     reader2.read().then(function process({ done, value }) {
       if (done) {
