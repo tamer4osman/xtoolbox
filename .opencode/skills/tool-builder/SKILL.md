@@ -7,13 +7,35 @@ description: Use ONLY when the user asks to build, create, scaffold, or add a ne
 
 End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 10-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
 
+## Before any creation or update
+
+**ALWAYS use web search first** to find best practices:
+- Search for "[tool type] implementation best practices JavaScript browser"
+- Search for "[tool type] open source library JavaScript"
+- Search for "best [tool type] library for web"
+- Check existing tools in the project for similar patterns
+
+Document findings in your response to the user before proceeding.
+
 ## When to use
 
 - User says "build / add / create / scaffold a tool"
 - User names a specific tool from `memory/tool-building-progress.md` (Phase 25 planned list)
 - User asks to "fill a gap" or "implement a missing tool"
 
-If the user just wants to fix or modify an existing tool, do not use this skill — edit in place.
+## Modifying an existing tool
+
+For fixes, updates, or enhancements to an existing tool, follow Steps 1-8:
+1. Edit the tool file
+2. (Skip unit test if no new logic)
+3. (Skip Playwright test if trivial)
+4. Verify build
+5. Verify unit tests
+6. Run Chrome DevTools checks (including Lighthouse a11y) — same as new tools
+7. Run Fallow
+8. Present for user approval
+
+Skip docs/count propagation only when the tool is already in the registry and the change doesn't add a new tool.
 
 ## Step 0 — Research & Confirm (BLOCKING)
 
@@ -134,13 +156,14 @@ Before asking the user, smoke-test the tool yourself with the Chrome DevTools MC
 npm run dev
 ```
 
-Then verify all of the following:
+Then verify all of the following in order:
 
-- **Navigate** to `http://localhost:3000/#/tools/<tool-id>`.
-- **Snapshot** the page — confirm the UI renders (tool header, primary controls visible) with no broken layouts.
-- **Console** — `list_console_messages` must show 0 errors. Warnings about pre-existing a11y issues on other tools are fine; a fresh error from your new tool is not.
-- **Network** — `list_network_requests` must show 0 4xx/5xx. The new tool's `.js` module must return 200, and every helper it imports (`../../components/...`, `../../utils/...`) must resolve. If a 4xx appears, the Vite module cache is likely stale: stop the dev server, `rm -rf node_modules/.vite`, restart, and re-test.
-- **Interaction** — click the primary action button and verify the expected output/UI change happens. If the tool is purely input-driven (e.g. paste XML and click Format), simulate that input and assert the result appears.
+1. **Navigate** — Go to `http://localhost:3000/#/tools/tool-id`
+2. **Snapshot** — Confirm UI renders (tool header, primary controls visible) with no broken layouts
+3. **Console** — `list_console_messages` must show 0 errors. Warnings about pre-existing a11y issues on other tools are fine; a fresh error from your new tool is not
+4. **Network** — `list_network_requests` must show 0 4xx/5xx. The new tool's `.js` module must return 200, and every helper it imports must resolve. If a 4xx appears, clear Vite cache: stop server, `rm -rf node_modules/.vite`, restart, re-test
+5. **Lighthouse** — Run `lighthouse_audit` with a11y. Score must be >= 90. Fix any critical issues found (missing labels, low contrast, heading order). SEO/best-practice scores don't need to pass
+6. **Interaction** — Click the primary action button and verify expected output. For input-driven tools, simulate input and assert result appears
 
 If any check fails, fix the code and re-run from Step 1. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
 
