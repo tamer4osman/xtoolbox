@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('Archive Repair & Recovery loads and has correct UI', async ({ page }) => {
-  await page.goto('http://localhost:3000/#/tools/archive-repair');
+  await page.goto('/#/tools/archive-repair');
 
   await page.waitForSelector('.tool-container', { timeout: 5000 });
 
