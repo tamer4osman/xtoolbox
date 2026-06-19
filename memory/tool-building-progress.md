@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 280 built, 20 planned = 300 total
+## Current Status: 281 built, 19 planned = 300 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -84,7 +84,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 | 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API ✅ |
 | 2 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API ✅ |
 | 3 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM |
-| 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API |
+| 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API ✅ |
 | 5 | Regex Visualizer & Debugger | `dev/regex-visualizer.js` | `dev` | Pure JS (railroad-diagram) — enhance existing `regex-tester` |
 | 6 | DNS Speed Test | `dev/dns-speed-test.js` | `dev` | Cloudflare DoH + Google DoH ✅ |
 | 7 | Earthquake Monitor | `reference/earthquake-monitor.js` | `reference` | USGS Earthquake API ✅ |

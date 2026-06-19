@@ -2685,6 +2685,16 @@
     "keywords": ["dns", "speed", "doh", "cloudflare", "google", "network"]
   },
   {
+    "id": "screen-ruler",
+    "name": "Screen Ruler & Color Picker",
+    "category": "dev",
+    "description": "Measure pixel distances and pick colors anywhere on screen with an interactive overlay ruler.",
+    "icon": "📏",
+    "href": "/tools/screen-ruler",
+    "status": "done",
+    "keywords": ["ruler", "measure", "pixel", "color", "picker", "screen", "overlay"]
+  },
+  {
     "id": "earthquake-monitor",
     "name": "Earthquake Monitor",
     "category": "reference",

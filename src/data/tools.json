@@ -2681,6 +2681,16 @@
     "status": "done"
   },
   {
+    "id": "screen-ruler",
+    "name": "Screen Ruler & Color Picker",
+    "category": "dev",
+    "description": "Measure pixel distances and pick colors anywhere on screen with an interactive overlay ruler.",
+    "icon": "📏",
+    "href": "/tools/screen-ruler",
+    "keywords": ["ruler", "measure", "pixel", "color", "picker", "screen", "overlay"],
+    "status": "done"
+  },
+  {
     "id": "earthquake-monitor",
     "name": "Earthquake Monitor",
     "category": "reference",
