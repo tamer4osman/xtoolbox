@@ -31,11 +31,11 @@ export function parseLocalFileHeader(view, offset) {
   const lastModTime = view[offset + 10] | (view[offset + 11] << 8);
   const lastModDate = view[offset + 12] | (view[offset + 13] << 8);
   const crc32 = view[offset + 14] | (view[offset + 15] << 8) |
-                (view[offset + 16] << 16) | (view[offset + 17] << 24);
+                (view[offset + 16] << 16) | ((view[offset + 17] << 24) >>> 0);
   const compressedSize = view[offset + 18] | (view[offset + 19] << 8) |
-                         (view[offset + 20] << 16) | (view[offset + 21] << 24);
+                         (view[offset + 20] << 16) | ((view[offset + 21] << 24) >>> 0);
   const uncompressedSize = view[offset + 22] | (view[offset + 23] << 8) |
-                           (view[offset + 24] << 16) | (view[offset + 25] << 24);
+                           (view[offset + 24] << 16) | ((view[offset + 25] << 24) >>> 0);
   const fileNameLength = view[offset + 26] | (view[offset + 27] << 8);
   const extraFieldLength = view[offset + 28] | (view[offset + 29] << 8);
 
@@ -78,7 +78,7 @@ export function formatZipDate(time, date) {
   const minutes = (time >> 5) & 0x3f;
   const hours = (time >> 11) & 0x1f;
   const day = (date & 0x1f) || 1;
-  const month = ((date >> 5) & 0x1f) + 1;
+  const month = ((date >> 5) & 0x0f) || 1;
   const year = ((date >> 9) & 0x7f) + 1980;
   return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')} ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }

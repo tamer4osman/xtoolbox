@@ -144,6 +144,13 @@ describe('formatZipDate', () => {
     const result = formatZipDate(0, 0);
     expect(result).toBe('1980-01-01 00:00:00');
   });
+
+  it('parses March 15 1985 correctly (month=3, not 20)', () => {
+    // DOS date: year=1985 (5 from (1985-1980)=5), month=3, day=15
+    // date = (5 << 9) | (3 << 5) | 15 = 0x0A6F
+    const result = formatZipDate(0, 0x0A6F);
+    expect(result).toContain('1985-03-15');
+  });
 });
 
 describe('getCompressionMethodName', () => {
