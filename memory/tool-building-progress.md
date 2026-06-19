@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 262 built, 43 planned = 305 total
+## Current Status: 272 built, 20 planned = 292 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -38,6 +38,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [ ] Privacy Policy Generator (`privacy-policy-generator`)
 
 ### Productivity (6 planned)
+- [x] Archive Repair & Recovery (`archive-repair`)
 - [ ] Archive Extractor (`archive-extractor`)
 - [ ] Pomodoro Timer (`pomodoro-timer`)
 - [ ] Habit Tracker (`habit-tracker`)

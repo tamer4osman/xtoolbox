@@ -8,7 +8,7 @@
   { "id": "business", "name": "Business", "icon": "💼", "description": "ROI, profit margin, churn rate calculators", "toolCount": 15 },
   { "id": "audio", "name": "Audio Tools", "icon": "🔊", "description": "Trim, convert, merge, and edit audio files", "toolCount": 11 },
   { "id": "health", "name": "Health & Personal", "icon": "❤️", "description": "BMI, calorie, ideal weight calculators", "toolCount": 11 },
-  { "id": "productivity", "name": "Productivity", "icon": "⏱️", "description": "Stopwatch, countdown timer, drawing pad", "toolCount": 11 },
+  { "id": "productivity", "name": "Productivity", "icon": "⏱️", "description": "Stopwatch, countdown timer, drawing pad", "toolCount": 12 },
   { "id": "math", "name": "Math & Converters", "icon": "🔢", "description": "Calculators, unit converters, graph plotter", "toolCount": 10 },
   { "id": "finance", "name": "Finance", "icon": "💰", "description": "Loan, mortgage, SIP, currency, and tax calculators", "toolCount": 11 },
   { "id": "encoding", "name": "Encoding & Hashing", "icon": "🔐", "description": "UUID, hash, Base64, JWT decoder", "toolCount": 9 },

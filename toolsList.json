@@ -1882,6 +1882,24 @@
     "status": "done"
   },
   {
+    "id": "archive-repair",
+    "name": "Archive Repair & Recovery",
+    "category": "productivity",
+    "description": "Repair corrupted ZIP archives and recover readable files from damaged or incomplete ZIP archives.",
+    "icon": "🔧",
+    "href": "/tools/archive-repair",
+    "status": "done",
+    "keywords": [
+      "zip",
+      "repair",
+      "recover",
+      "corrupted",
+      "archive",
+      "fix",
+      "broken"
+    ]
+  },
+  {
     "id": "ascii-art",
     "name": "ASCII Art Generator",
     "category": "text",
