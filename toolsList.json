@@ -2655,6 +2655,86 @@
     ]
   },
   {
+    "id": "food-nutrition-scanner",
+    "name": "Food Nutrition Scanner",
+    "category": "reference",
+    "description": "Scan food barcodes or search products to view detailed nutrition facts from Open Food Facts.",
+    "icon": "🍎",
+    "href": "/tools/food-nutrition-scanner",
+    "status": "done",
+    "keywords": ["nutrition", "food", "barcode", "calories", "health"]
+  },
+  {
+    "id": "passport-photo-maker",
+    "name": "Passport / ID Photo Maker",
+    "category": "image",
+    "description": "Create professional passport photos with face guide frame, zoom controls, and background color options.",
+    "icon": "📸",
+    "href": "/tools/passport-photo-maker",
+    "status": "done",
+    "keywords": ["passport", "photo", "id", "visa", "biometrics", "photo booth"]
+  },
+  {
+    "id": "dns-speed-test",
+    "name": "DNS Speed Test",
+    "category": "dev",
+    "description": "Test DNS resolution speed against Cloudflare and Google DoH providers.",
+    "icon": "⚡",
+    "href": "/tools/dns-speed-test",
+    "status": "done",
+    "keywords": ["dns", "speed", "doh", "cloudflare", "google", "network"]
+  },
+  {
+    "id": "earthquake-monitor",
+    "name": "Earthquake Monitor",
+    "category": "reference",
+    "description": "Track recent earthquakes worldwide with magnitude, location, and depth data from USGS.",
+    "icon": "🌍",
+    "href": "/tools/earthquake-monitor",
+    "status": "done",
+    "keywords": ["earthquake", "seismic", "usgs", "magnitude", "tremor"]
+  },
+  {
+    "id": "wireframe-sketcher",
+    "name": "Wireframe & Mockup Sketcher",
+    "category": "productivity",
+    "description": "Quick wireframe and mockup sketcher with drag-and-drop shapes, text, and freehand drawing.",
+    "icon": "✏️",
+    "href": "/tools/wireframe-sketcher",
+    "status": "done",
+    "keywords": ["wireframe", "mockup", "sketch", "draw", "canvas", "prototype"]
+  },
+  {
+    "id": "currency-converter",
+    "name": "Currency Exchange Calculator",
+    "category": "finance",
+    "description": "Convert between currencies using live exchange rates with historical charts.",
+    "icon": "💱",
+    "href": "/tools/currency-converter",
+    "status": "done",
+    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"]
+  },
+  {
+    "id": "pixel-art-editor",
+    "name": "Pixel Art & Sprite Sheet Editor",
+    "category": "image",
+    "description": "Create pixel art and sprite sheets with customizable grids, color palettes, and export options.",
+    "icon": "🎨",
+    "href": "/tools/pixel-art-editor",
+    "status": "done",
+    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"]
+  },
+  {
+    "id": "svg-icon-editor",
+    "name": "SVG Icon Editor",
+    "category": "css",
+    "description": "Upload, view, edit attributes, and optimize SVG icons",
+    "icon": "🎨",
+    "href": "/tools/svg-icon-editor",
+    "status": "done",
+    "keywords": ["svg", "icon", "editor", "optimize", "vector"]
+  },
+  {
     "id": "invoice-generator",
     "name": "Invoice Generator",
     "category": "business",
