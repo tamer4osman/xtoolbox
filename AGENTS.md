@@ -125,6 +125,27 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 - **Discord links:** Wrap multiple links in `<>` to suppress embeds: `<https://example.com>`
 - **WhatsApp:** No headers — use **bold** or CAPS for emphasis
 
+## 🔧 Model Switching Strategy
+
+**Default model:** `opencode-zen/minimax-m3-free` (MiniMax M3 Free) — works reliably with all MCP tools including Chrome DevTools.
+
+**When to use MiMo V2.5:**
+- General coding tasks (reasoning, code generation, refactoring)
+- Tasks that don't require Chrome DevTools MCP
+- When you need stronger reasoning capabilities
+
+**When to use MiniMax M3 Free:**
+- Chrome DevTools MCP testing (step 7 in tool-building workflow)
+- Any task requiring multi-round MCP tool calling
+- Tasks involving image/screenshot processing via MCP
+
+**Why:** MiMo V2.5's API has limitations that break Chrome DevTools MCP:
+- Only supports single-round tool calling (Chrome DevTools needs multiple rounds)
+- Rejects list-type tool message content (screenshots return as lists)
+- Has strict schema validation that rejects `anyOf`/`nullable` patterns
+
+**How to switch:** Use `/model` command in OpenCode to switch between models mid-session.
+
 ## 💓 Heartbeats - Be Proactive
 
 When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
@@ -525,6 +546,12 @@ When building a new tool, ALWAYS follow this exact sequence:
    - `list_network_requests` — confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
    - Click the primary action button and verify the expected output/UI change happens
    - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
+   
+   **⚠️ MiMo V2.5 Limitation:** Chrome DevTools MCP fails silently with MiMo V2.5 due to API restrictions (single-round tool calling, rejects list-type content). If tool calls fail:
+   - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`) for this step
+   - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
+   - MiniMax handles multi-round tool calling and image content correctly
+   - This is a Xiaomi API limitation, not an OpenCode or project issue
 8. **User testing** — Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
 9. **Update docs** — Do NOT skip any of these:
    - `toolsList.json` — Add tool entry, set status to "done"

@@ -6,6 +6,7 @@
 - **Tool Registry**: `src/data/tools.json` is the primary registry used by the app, while `toolsList.json` is kept in sync for external tracking.
 - **Standardization**: All tool files must use `.js` extension, export a `toolConfig`, and a `render` function.
 - **Deduplication**: Tools are deduplicated by ID and by (Name, Category) pairs to ensure a clean UI.
+- **Chrome DevTools MCP Compatibility**: MiMo V2.5 fails with Chrome DevTools MCP due to Xiaomi API limitations (single-round tool calling, rejects list-type content). Use MiniMax M3 Free for Chrome DevTools testing. This is documented in AGENTS.md under "Model Switching Strategy".
 
 ## Recent Achievements (2026-05-04)
 
