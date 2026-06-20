@@ -7,7 +7,7 @@ test('pdf-annotator loads and shows UI', async ({ page }) => {
   await expect(page.locator('#download-anno-btn')).toBeVisible();
 });
 
-test('pdf-annotator has annotation toolbar after upload', async ({ page }) => {
+test('pdf-annotator has file input element', async ({ page }) => {
   await page.goto('/#/tools/pdf-annotator');
   const fileInput = page.locator('.file-upload-input');
   await expect(fileInput).toBeAttached();

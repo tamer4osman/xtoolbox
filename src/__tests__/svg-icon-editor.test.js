@@ -5,13 +5,13 @@ describe('svg-icon-editor', () => {
   it('optimizes SVG with comments removed', () => {
     const svg = '<!-- comment --><svg xmlns="http://www.w3.org/2000/svg"></svg>';
     const result = optimizeSvg(svg, { removeComments: true });
-    expect(result).not.toContain('<!-- comment -->');
+    expect(result.optimized).not.toContain('<!-- comment -->');
   });
 
   it('optimizes SVG with metadata removed', () => {
     const svg = '<svg xmlns="http://www.w3.org/2000/svg"><metadata></metadata></svg>';
     const result = optimizeSvg(svg, { removeMetadata: true });
-    expect(result).not.toContain('<metadata>');
+    expect(result.optimized).not.toContain('<metadata>');
   });
 
   it('optimizes SVG with precision rounding', () => {

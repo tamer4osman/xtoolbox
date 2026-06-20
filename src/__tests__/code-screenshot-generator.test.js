@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toolConfig } from '../src/tools/dev/code-screenshot-generator.js';
+import { toolConfig } from '../tools/dev/code-screenshot-generator.js';
 
 describe('code-screenshot-generator', () => {
   it('exports toolConfig with correct properties', () => {

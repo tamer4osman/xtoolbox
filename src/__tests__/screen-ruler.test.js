@@ -98,15 +98,15 @@ describe('drawRulerTicks', () => {
     expect(strokes.length).toBeGreaterThan(0);
   });
 
-  it('draws fewer ticks for cm unit', () => {
-    const ctxH = createMockCtx();
-    drawRulerTicks(ctxH, 500, 28, 0, 'cm', 1, true);
-    const strokesH = ctxH.calls.filter(c => c[0] === 'stroke');
+  it('draws more ticks for smaller units like cm', () => {
+    const ctxPx = createMockCtx();
+    drawRulerTicks(ctxPx, 500, 28, 0, 'px', 1, true);
+    const strokesPx = ctxPx.calls.filter(c => c[0] === 'stroke');
 
     const ctxCm = createMockCtx();
     drawRulerTicks(ctxCm, 500, 28, 0, 'cm', 1, true);
     const strokesCm = ctxCm.calls.filter(c => c[0] === 'stroke');
 
-    expect(strokesH.length).toBe(strokesCm.length);
+    expect(strokesCm.length).toBeGreaterThan(strokesPx.length);
   });
 });
