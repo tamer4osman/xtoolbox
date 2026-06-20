@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**284 free online tools (+16 planned). 100% client-side processing — your files never leave your device.**
+**285 free online tools (+15 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 

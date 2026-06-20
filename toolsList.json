@@ -2874,7 +2874,7 @@
     "description": "Calculate optimal hourly/daily/project rates based on income, expenses, and billable hours.",
     "icon": "💵",
     "href": "/tools/freelancer-rate-calculator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "freelancer",
       "rate",

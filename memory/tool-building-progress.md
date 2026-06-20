@@ -33,7 +33,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] Invoice Generator (`invoice-generator`)
 - [x] Certificate Generator (`certificate-generator`)
 - [x] NDA Generator (`nda-generator`)
-- [ ] Freelancer Rate Calculator (`freelancer-rate-calculator`)
+- [x] Freelancer Rate Calculator (`freelancer-rate-calculator`)
 - [ ] Freelancer Contract Generator (`freelancer-contract-generator`)
 - [ ] Privacy Policy Generator (`privacy-policy-generator`)
 
