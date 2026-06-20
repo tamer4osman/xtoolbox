@@ -2820,7 +2820,7 @@
     "name": "Certificate Generator",
     "category": "business",
     "description": "Generate customized certificates from templates with recipient name, date, and custom text.",
-    "icon": "📜",
+    "icon": "🏆",
     "href": "/tools/certificate-generator",
     "keywords": [
       "certificate",
@@ -2829,7 +2829,7 @@
       "template",
       "pdf"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "nda-generator",

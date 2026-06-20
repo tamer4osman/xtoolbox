@@ -31,7 +31,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 
 ### Business (6 planned)
 - [x] Invoice Generator (`invoice-generator`)
-- [ ] Certificate Generator (`certificate-generator`)
+- [x] Certificate Generator (`certificate-generator`)
 - [ ] NDA Generator (`nda-generator`)
 - [ ] Freelancer Rate Calculator (`freelancer-rate-calculator`)
 - [ ] Freelancer Contract Generator (`freelancer-contract-generator`)

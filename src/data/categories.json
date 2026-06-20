@@ -46,7 +46,7 @@
     "name": "Business",
     "icon": "💼",
     "description": "ROI, profit margin, churn rate calculators",
-    "toolCount": 14
+    "toolCount": 15
   },
   {
     "id": "audio",
