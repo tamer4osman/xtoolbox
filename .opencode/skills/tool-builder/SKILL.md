@@ -1,15 +1,30 @@
 ---
 name: tool-builder
-description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 10-step tool-building convention from AGENTS.md, including file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
+description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 11-step tool-building convention from AGENTS.md, including duplicate check, file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
 ---
 
 # Tool Builder
 
-End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 10-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
+End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 11-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
 
 ## Before any creation or update
 
-**ALWAYS use web search first** to find best practices:
+### ⛔ Duplicate Check (BLOCKING — do this FIRST)
+
+Before writing ANY code, verify the tool doesn't already exist (even under a different name):
+
+1. **Search `src/data/tools.json`** — by name, category, and keywords for functional overlaps
+2. **Search `src/tools/` directory** — grep for related terms (e.g. for "compress" check all compress tools)
+3. **Check `toolsList.json`** — for registered tools
+4. **Decision:**
+   - **Same function, same name** → STOP. Tool already exists.
+   - **Same function, different name** → STOP. Tell user, suggest extending/renaming the existing tool instead.
+   - **Partial overlap** → Note the overlap, propose how to differentiate, get user confirmation before proceeding.
+   - **No overlap** → Proceed to research step.
+
+### Research & Best Practices
+
+**ALWAYS use web search** to find best practices:
 - Search for "[tool type] implementation best practices JavaScript browser"
 - Search for "[tool type] open source library JavaScript"
 - Search for "best [tool type] library for web"
@@ -39,7 +54,7 @@ Skip docs/count propagation only when the tool is already in the registry and th
 
 ## Step 0 — Research & Confirm (BLOCKING)
 
-Before any work:
+After passing the duplicate check, before any work:
 
 1. **Web Search** — Research the best approach for this tool type:
    - Search for "how to implement [tool name] in JavaScript browser"

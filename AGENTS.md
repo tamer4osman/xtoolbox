@@ -521,6 +521,12 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 When building a new tool, ALWAYS follow this exact sequence:
 
+0. **Duplicate check** — Before writing ANY code, verify the tool doesn't already exist (even under a different name):
+   - Search `src/data/tools.json` by name, category, and keywords for functional overlaps
+   - Search `src/tools/` directory for similar functionality (grep for related terms)
+   - Check `toolsList.json` for registered tools
+   - If a tool with the same or very similar function exists: **STOP** — tell the user, suggest extending the existing tool instead
+   - If partial overlap exists: note it, propose how to differentiate, get user confirmation before proceeding
 1. **Create the tool** — Implementation file in `src/tools/<category>/<tool>.js`
 2. **Write unit tests** — `src/__tests__/<tool>.test.js`
 3. **Write Playwright test** — `tests/<tool>.spec.js`
