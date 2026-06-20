@@ -1,5 +1,6 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { downloadBlob } from '../../utils/file.js';
+import { escapeHtml } from '../../utils/escape-html.js';
 
 export const toolConfig = {
   id: 'invoice-generator',
@@ -12,14 +13,13 @@ export const toolConfig = {
   maxSizeMB: 10
 };
 
-let state = {
-  items: [{ desc: '', qty: 1, price: 0 }],
-  subtotal: 0,
-  tax: 0,
-  total: 0
-};
-
 export function render(container) {
+  let state = {
+    items: [{ desc: '', qty: 1, price: 0 }],
+    subtotal: 0,
+    tax: 0,
+    total: 0
+  };
   container.innerHTML = `
     <div class="tool-container">
       <h1>${toolConfig.name}</h1>
@@ -98,7 +98,7 @@ export function render(container) {
     const tbody = $('#itemsBody');
     tbody.innerHTML = state.items.map((item, i) => `
       <tr>
-        <td><input type="text" value="${item.desc}" data-idx="${i}" class="item-desc" placeholder="Description" /></td>
+        <td><input type="text" value="${escapeHtml(item.desc)}" data-idx="${i}" class="item-desc" placeholder="Description" /></td>
         <td><input type="number" value="${item.qty}" data-idx="${i}" class="item-qty" min="1" /></td>
         <td><input type="number" value="${item.price}" data-idx="${i}" class="item-price" min="0" step="0.01" /></td>
         <td>$${(item.qty * item.price).toFixed(2)}</td>
@@ -113,24 +113,24 @@ export function render(container) {
   function bindItemListeners() {
     $$('.item-desc').forEach(input => {
       input.addEventListener('input', (e) => {
-        state.items[e.target.dataset.idx].desc = e.target.value;
+        state.items[Number(e.target.dataset.idx)].desc = e.target.value;
       });
     });
     $$('.item-qty').forEach(input => {
       input.addEventListener('input', (e) => {
-        state.items[e.target.dataset.idx].qty = parseFloat(e.target.value) || 0;
+        state.items[Number(e.target.dataset.idx)].qty = parseFloat(e.target.value) || 0;
         renderItems();
       });
     });
     $$('.item-price').forEach(input => {
       input.addEventListener('input', (e) => {
-        state.items[e.target.dataset.idx].price = parseFloat(e.target.value) || 0;
+        state.items[Number(e.target.dataset.idx)].price = parseFloat(e.target.value) || 0;
         renderItems();
       });
     });
     $$('.btn-remove').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        state.items.splice(e.target.dataset.idx, 1);
+        state.items.splice(Number(e.target.dataset.idx), 1);
         if (state.items.length === 0) state.items.push({ desc: '', qty: 1, price: 0 });
         renderItems();
       });

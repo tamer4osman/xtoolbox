@@ -41,6 +41,9 @@ const NUTRIENT_LEVELS = {
   salt: { label: 'Salt', high: 'high', low: 'low' }
 };
 
+let _cameraStream = null;
+let _scanInterval = null;
+
 export function parseNutriments(product) {
   const n = product.nutriments || {};
   return NUTRIENTS.map(item => ({
@@ -292,7 +295,12 @@ export function render(container) {
 
   const status = container.querySelector('#fn-status');
   const result = container.querySelector('#fn-result');
-  const history = JSON.parse(localStorage.getItem('fn-history') || '[]');
+  let history = [];
+  try {
+    history = JSON.parse(localStorage.getItem('fn-history') || '[]');
+  } catch {
+    history = [];
+  }
 
   function setStatus(msg, type) {
     status.textContent = msg;
@@ -375,9 +383,7 @@ export function render(container) {
     if (e.key === 'Enter') searchProducts(e.target.value);
   });
 
-  let cameraStream = null;
   let barcodeDetector = null;
-  let scanInterval = null;
 
   const cameraSection = container.querySelector('#camera-section');
   const cameraPreview = container.querySelector('#camera-preview');
@@ -396,12 +402,12 @@ export function render(container) {
       return;
     }
     try {
-      cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-      cameraVideo.srcObject = cameraStream;
+      _cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      cameraVideo.srcObject = _cameraStream;
       cameraPreview.style.display = '';
       cameraSection.querySelector('#camera-btn').style.display = 'none';
       setStatus('Point camera at a barcode...', 'loading');
-      scanInterval = setInterval(async () => {
+      _scanInterval = setInterval(async () => {
         if (!barcodeDetector || !cameraVideo.videoWidth) return;
         try {
           const barcodes = await barcodeDetector.detect(cameraVideo);
@@ -419,8 +425,8 @@ export function render(container) {
   });
 
   function stopCamera() {
-    if (scanInterval) { clearInterval(scanInterval); scanInterval = null; }
-    if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+    if (_scanInterval) { clearInterval(_scanInterval); _scanInterval = null; }
+    if (_cameraStream) { _cameraStream.getTracks().forEach(t => t.stop()); _cameraStream = null; }
     cameraPreview.style.display = 'none';
     cameraSection.querySelector('#camera-btn').style.display = '';
   }
@@ -433,4 +439,9 @@ export function render(container) {
       btn.addEventListener('click', () => lookupBarcode(btn.dataset.barcode));
     });
   }
+}
+
+export function destroy() {
+  if (_scanInterval) { clearInterval(_scanInterval); _scanInterval = null; }
+  if (_cameraStream) { _cameraStream.getTracks().forEach(t => t.stop()); _cameraStream = null; }
 }

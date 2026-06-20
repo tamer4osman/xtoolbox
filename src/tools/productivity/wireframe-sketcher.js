@@ -50,7 +50,7 @@ export function render(container) {
       </div>
       <canvas id="ws-canvas" class="ws-canvas"></canvas>
       <div class="ws-help">
-        Click to add shapes • Drag to move • Resize via corners • Double-click to delete
+        Click to add shapes • Drag to move • Double-click to delete
       </div>
     </div>
   `;
@@ -84,7 +84,6 @@ export function render(container) {
   let elements = [];
   let selected = null;
   let dragging = false;
-  let resizing = false;
   let dragStart = { x: 0, y: 0 };
 
   function draw() {
@@ -160,6 +159,21 @@ export function render(container) {
       for (let i = 0; i < 4; i++) {
         ctx.fillRect(el.x + 10 + i * 40, el.y + 15, 30, 3);
       }
+    } else if (el.type === 'image') {
+      ctx.strokeRect(el.x, el.y, el.w, el.h);
+      ctx.beginPath();
+      ctx.moveTo(el.x, el.y + el.h);
+      ctx.lineTo(el.x + el.w * 0.3, el.y + el.h * 0.6);
+      ctx.lineTo(el.x + el.w * 0.5, el.y + el.h * 0.8);
+      ctx.lineTo(el.x + el.w, el.y + el.h * 0.4);
+      ctx.lineTo(el.x + el.w, el.y);
+      ctx.strokeStyle = el.color;
+      ctx.stroke();
+      const cx = el.x + el.w * 0.7;
+      const cy = el.y + el.h * 0.3;
+      ctx.beginPath();
+      ctx.arc(cx, cy, Math.min(el.w, el.h) * 0.08, 0, Math.PI * 2);
+      ctx.stroke();
     }
   }
 
@@ -184,7 +198,7 @@ export function render(container) {
       selected = { type: currentShape, x: x - 50, y: y - 30, w: 100, h: 60, color: currentColor, text: currentShape === 'button' ? 'Button' : '' };
       elements.push(selected);
       dragging = true;
-      dragStart = { x: 0, y: 0 };
+      dragStart = { x: 50, y: 30 };
     }
     draw();
   });

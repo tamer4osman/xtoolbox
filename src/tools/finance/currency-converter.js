@@ -99,7 +99,7 @@ export function render(container) {
   const swapBtn = container.querySelector('#cec-swap-btn');
   const resultEl = container.querySelector('.cec-result-value');
   const rateEl = container.querySelector('.cec-result-rate');
-  const updatedEl = document.querySelector('#cec-updated');
+  const updatedEl = container.querySelector('#cec-updated');
   const conversionsEl = container.querySelector('#cec-conversions');
 
   MAJOR_CURRENCIES.forEach(c => {

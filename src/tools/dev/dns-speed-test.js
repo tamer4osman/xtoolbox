@@ -36,7 +36,7 @@ export async function testDnsProvider(provider, domain, signal) {
   const data = await res.json();
   const elapsed = performance.now() - start;
 
-  const answers = data.Answer || data.Answer || [];
+  const answers = data.Answer || [];
   const ips = answers.filter(a => a.type === 1).map(a => a.data);
 
   return { provider: provider.name, domain, time: Math.round(elapsed), ips, status: 'ok' };

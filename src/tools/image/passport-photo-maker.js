@@ -213,14 +213,16 @@ export function render(container) {
     const file = e.target.files[0];
     if (!file) return;
     const img = new Image();
+    const url = URL.createObjectURL(file);
     img.onload = () => {
+      URL.revokeObjectURL(url);
       sourceImage = img;
       zoom = 1;
       offsetX = 0;
       offsetY = 0;
       updateCanvas();
     };
-    img.src = URL.createObjectURL(file);
+    img.src = url;
   });
 
   processBtn.addEventListener('click', () => {
@@ -245,11 +247,13 @@ export function render(container) {
 
     const previewW = canvas.width;
     const previewH = canvas.height;
+    const previewScale = zoom * Math.min(previewW / sourceImage.width, previewH / sourceImage.height);
     const scale = zoom * Math.min(s.width / sourceImage.width, s.height / sourceImage.height);
+    const scaleRatio = scale / previewScale;
     const dw = sourceImage.width * scale;
     const dh = sourceImage.height * scale;
-    const dx = (s.width - dw) / 2 + (offsetX * s.width / previewW);
-    const dy = (s.height - dh) / 2 + (offsetY * s.height / previewH);
+    const dx = (s.width - dw) / 2 + (offsetX * scaleRatio);
+    const dy = (s.height - dh) / 2 + (offsetY * scaleRatio);
 
     octx.drawImage(sourceImage, dx, dy, dw, dh);
 

@@ -123,13 +123,15 @@ export function explainRegex(pattern) {
         parts.push(tok.value === '^' ? 'the start of the string' : 'the end of the string');
         break;
       case 'group-start':
-        groupNum++;
         if (tok.groupType === 'noncapture') parts.push('a non-capturing group');
         else if (tok.groupType === 'lookahead') parts.push('a lookahead for');
         else if (tok.groupType === 'neglookahead') parts.push('a negative lookahead for');
         else if (tok.groupType === 'lookbehind') parts.push('a lookbehind for');
         else if (tok.groupType === 'neglookbehind') parts.push('a negative lookbehind for');
-        else parts.push('capturing group #' + groupNum);
+        else {
+          groupNum++;
+          parts.push('capturing group #' + groupNum);
+        }
         break;
       case 'group-end':
         break;
@@ -327,7 +329,7 @@ function buildRailroadSVG(tokens) {
         if (item.label) {
           svg += '<text x="' + (x + 8) + '" y="' + (y - NODE_H / 2 - 10) + '" font-size="9" fill="#6366f1">' + item.label + '</text>';
         }
-        renderItems(item.children, svg, x + 10, y);
+        svg = renderItems(item.children, svg, x + 10, y);
         x += boxW + H_GAP;
       } else if (item.kind === 'branch') {
         const branchCount = item.branches.length;
@@ -342,12 +344,13 @@ function buildRailroadSVG(tokens) {
         const splitY = y;
         svg += '<circle cx="' + splitX + '" cy="' + splitY + '" r="4" fill="#ef4444"/>';
         for (let b = 0; b < branchCount; b++) {
+          const branch = item.branches[b];
           const branchY = splitY - totalH / 2 + b * branchSpacing;
           svg += '<line x1="' + splitX + '" y1="' + splitY + '" x2="' + (splitX + H_GAP) + '" y2="' + branchY + '" stroke="#9ca3af" stroke-width="1.5"/>';
           if (branch.length > 0) {
-            renderItems(branch, svg, splitX + H_GAP, branchY);
+            svg = renderItems(branch, svg, splitX + H_GAP, branchY);
           }
-          const branchEndX = splitX + H_GAP + measureItems(branch);
+          const branchEndX = splitX + H_GAP + measureItems(item.branches[b]);
           svg += '<line x1="' + branchEndX + '" y1="' + branchY + '" x2="' + (splitX + maxBranchW + H_GAP * 2) + '" y2="' + splitY + '" stroke="#9ca3af" stroke-width="1.5"/>';
         }
         x += maxBranchW + H_GAP * 3;

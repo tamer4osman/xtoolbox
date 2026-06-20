@@ -72,8 +72,8 @@ export function render(container) {
   function renderChanges() {
     if (!currentDiff) return;
     diffChanges.innerHTML = '';
-    let idx = 0;
-    for (const d of currentDiff) {
+    for (let diffIdx = 0; diffIdx < currentDiff.length; diffIdx++) {
+      const d = currentDiff[diffIdx];
       if (d.type === 'unchanged') continue;
       const row = document.createElement('div');
       row.style.cssText = 'display:flex;align-items:center;gap:var(--space-2);padding:var(--space-1);border-radius:var(--radius-sm);margin-bottom:var(--space-1);';
@@ -82,7 +82,7 @@ export function render(container) {
         removed: 'background:rgba(244,67,54,0.15);border-left:3px solid #f44336;'
       };
       row.style.cssText += typeStyles[d.type];
-      const isAccepted = acceptedChanges.has(idx);
+      const isAccepted = acceptedChanges.has(diffIdx);
       const prefix = d.type === 'added' ? '+ ' : '- ';
       const lineNum = document.createElement('span');
       lineNum.style.cssText = 'font-size:var(--text-xs);color:var(--color-text-muted);min-width:30px;';
@@ -100,12 +100,12 @@ export function render(container) {
         btn.textContent = 'Rejected';
       }
       btn.addEventListener('click', () => {
-        if (acceptedChanges.has(idx)) {
-          acceptedChanges.delete(idx);
+        if (acceptedChanges.has(diffIdx)) {
+          acceptedChanges.delete(diffIdx);
           btn.style.background = '#757575';
           btn.textContent = 'Rejected';
         } else {
-          acceptedChanges.add(idx);
+          acceptedChanges.add(diffIdx);
           btn.style.background = '#4caf50';
           btn.textContent = 'Accepted';
         }
@@ -115,7 +115,6 @@ export function render(container) {
       row.appendChild(lineContent);
       row.appendChild(btn);
       diffChanges.appendChild(row);
-      idx++;
     }
     if (diffChanges.children.length === 0) {
       diffChanges.innerHTML = '<div style="text-align:center;color:var(--color-text-muted);padding:var(--space-4);">No differences found</div>';

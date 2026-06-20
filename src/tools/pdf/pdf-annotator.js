@@ -111,6 +111,7 @@ let _isDrawing = false;
 let _drawStart = null;
 let _freehandPoints = [];
 let _textInputActive = false;
+let _selectedAnnotationIndex = -1;
 let _keydownHandler = null;
 
 export function render(container) {
@@ -122,6 +123,7 @@ export function render(container) {
   _drawStart = null;
   _freehandPoints = [];
   _textInputActive = false;
+  _selectedAnnotationIndex = -1;
 
   _browser = createPdfPageBrowser({
     container,
@@ -148,6 +150,7 @@ export function render(container) {
       _isDrawing = false;
       _drawStart = null;
       _freehandPoints = [];
+      _selectedAnnotationIndex = -1;
     },
 
     onAction: async (api) => {
@@ -304,11 +307,40 @@ export function render(container) {
     wrapper.addEventListener('mousedown', (e) => handleMouseDown(e, overlayCanvas));
     wrapper.addEventListener('mousemove', (e) => handleMouseMove(e, overlayCanvas));
     wrapper.addEventListener('mouseup', (e) => handleMouseUp(e, overlayCanvas));
-    wrapper.addEventListener('mouseleave', () => { if (_isDrawing && _activeTool === 'freehand') finishFreehand(overlayCanvas); });
+    wrapper.addEventListener('mouseleave', () => {
+      if (_isDrawing) {
+        if (_activeTool === 'freehand') {
+          finishFreehand(overlayCanvas);
+        } else {
+          _isDrawing = false;
+          _drawStart = null;
+          renderPage(_currentPageIndex);
+        }
+      }
+    });
   }
 
   function handleMouseDown(e, canvas) {
-    if (_activeTool === 'select') return;
+    if (_activeTool === 'select') {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const x = (e.clientX - rect.left) * scaleX;
+      const y = (e.clientY - rect.top) * scaleY;
+      const pageAnnotations = _annotations[_currentPageIndex] || [];
+      _selectedAnnotationIndex = -1;
+      for (let i = pageAnnotations.length - 1; i >= 0; i--) {
+        if (hitTestAnnotation(pageAnnotations[i], x, y)) {
+          _selectedAnnotationIndex = i;
+          break;
+        }
+      }
+      drawAnnotations(canvas, pageAnnotations);
+      if (_selectedAnnotationIndex >= 0) {
+        drawSelectionHighlight(canvas, pageAnnotations[_selectedAnnotationIndex]);
+      }
+      return;
+    }
     if (_activeTool === 'text') { placeTextInput(e, canvas); return; }
     if (_activeTool === 'stamp') { placeStamp(e, canvas); return; }
 
@@ -480,8 +512,9 @@ export function render(container) {
   _keydownHandler = (e) => {
     if ((e.key === 'Delete' || e.key === 'Backspace') && _activeTool === 'select' && !_textInputActive) {
       const pageAnnotations = _annotations[_currentPageIndex];
-      if (pageAnnotations && pageAnnotations.length > 0) {
-        pageAnnotations.pop();
+      if (pageAnnotations && _selectedAnnotationIndex >= 0 && _selectedAnnotationIndex < pageAnnotations.length) {
+        pageAnnotations.splice(_selectedAnnotationIndex, 1);
+        _selectedAnnotationIndex = -1;
         renderPage(_currentPageIndex);
       }
     }
@@ -596,6 +629,67 @@ function drawArrow(ctx, x1, y1, x2, y2, color, width) {
   ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI / 6), y2 - headLen * Math.sin(angle + Math.PI / 6));
   ctx.closePath();
   ctx.fill();
+}
+
+function hitTestAnnotation(ann, x, y) {
+  const margin = 8;
+  switch (ann.type) {
+    case 'highlight':
+    case 'rectangle':
+      return x >= ann.x - margin && x <= ann.x + ann.w + margin && y >= ann.y - margin && y <= ann.y + ann.h + margin;
+    case 'underline':
+      return x >= ann.x - margin && x <= ann.x + ann.w + margin && Math.abs(y - ann.y) <= margin + 4;
+    case 'arrow': {
+      const dx = ann.x2 - ann.x1, dy = ann.y2 - ann.y1;
+      const len = Math.sqrt(dx * dx + dy * dy);
+      if (len === 0) return Math.abs(x - ann.x1) <= margin && Math.abs(y - ann.y1) <= margin;
+      const t = Math.max(0, Math.min(1, ((x - ann.x1) * dx + (y - ann.y1) * dy) / (len * len)));
+      const px = ann.x1 + t * dx, py = ann.y1 + t * dy;
+      return Math.sqrt((x - px) ** 2 + (y - py) ** 2) <= margin + 4;
+    }
+    case 'freehand':
+      if (!ann.points) return false;
+      return ann.points.some(p => Math.sqrt((x - p.x) ** 2 + (y - p.y) ** 2) <= margin + 4);
+    case 'text':
+      return x >= ann.x - margin && x <= ann.x + 200 && y >= ann.y - 20 && y <= ann.y + margin;
+    case 'stamp':
+      return Math.abs(x - ann.x) <= 60 && Math.abs(y - ann.y) <= 20;
+    default:
+      return false;
+  }
+}
+
+function drawSelectionHighlight(canvas, ann) {
+  const ctx = canvas.getContext('2d');
+  ctx.save();
+  ctx.strokeStyle = '#3b82f6';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 3]);
+  switch (ann.type) {
+    case 'highlight':
+    case 'rectangle':
+      ctx.strokeRect(ann.x - 4, ann.y - 4, ann.w + 8, ann.h + 8);
+      break;
+    case 'underline':
+      ctx.strokeRect(ann.x - 4, ann.y - 8, ann.w + 8, 16);
+      break;
+    case 'arrow':
+      ctx.strokeRect(Math.min(ann.x1, ann.x2) - 8, Math.min(ann.y1, ann.y2) - 8, Math.abs(ann.x2 - ann.x1) + 16, Math.abs(ann.y2 - ann.y1) + 16);
+      break;
+    case 'freehand':
+      if (ann.points && ann.points.length > 0) {
+        const xs = ann.points.map(p => p.x), ys = ann.points.map(p => p.y);
+        ctx.strokeRect(Math.min(...xs) - 8, Math.min(...ys) - 8, Math.max(...xs) - Math.min(...xs) + 16, Math.max(...ys) - Math.min(...ys) + 16);
+      }
+      break;
+    case 'text':
+      ctx.strokeRect(ann.x - 4, ann.y - 20, 200, 28);
+      break;
+    case 'stamp':
+      ctx.strokeRect(ann.x - 64, ann.y - 20, 128, 40);
+      break;
+  }
+  ctx.restore();
 }
 
 function drawFreehandPreview(canvas, points, color, width) {
@@ -735,6 +829,7 @@ export function destroy() {
   _drawStart = null;
   _freehandPoints = [];
   _textInputActive = false;
+  _selectedAnnotationIndex = -1;
   if (_keydownHandler) {
     document.removeEventListener('keydown', _keydownHandler);
     _keydownHandler = null;

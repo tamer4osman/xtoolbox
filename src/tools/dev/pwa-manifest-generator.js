@@ -107,9 +107,10 @@ export function render(container) {
       return;
     }
 
+    const iconSizes = ['192x192', '512x512', '180x180', '144x144', '96x96'];
     const icons = iconsInput.value.trim().split('\n').filter(u => u.trim()).map((url, i) => ({
       src: url.trim(),
-      sizes: i === 0 ? '192x192 512x512' : `${192 * (i + 1)}x${192 * (i + 1)}`,
+      sizes: iconSizes[i] || '192x192',
       type: 'image/png',
       purpose: 'any maskable'
     }));

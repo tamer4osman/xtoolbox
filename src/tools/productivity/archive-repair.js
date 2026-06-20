@@ -30,6 +30,9 @@ async function tryNormalLoad(arrayBuffer) {
   const files = [];
   zip.forEach((path, entry) => {
     if (!entry.dir) {
+      // NOTE: entry._data is a private JSZip internal property.
+      // Required to extract compression metadata for the repair report.
+      // Monitor JSZip releases for breaking changes to this API.
       files.push({
         path,
         compressedSize: entry._data ? entry._data.compressedSize || 0 : 0,
@@ -83,39 +86,45 @@ async function recoverFromRawBytes(arrayBuffer) {
   return { recoveredFiles, skippedFiles, totalHeaders: headers.length };
 }
 
-function inflateRaw(data) {
-  return new Promise((resolve, reject) => {
-    const blob = new Blob([data]);
-    const reader = blob.stream().getReader();
-    const ds = new DecompressionStream('deflate-raw');
-    const writer = ds.writable.getWriter();
-    const reader2 = ds.readable.getReader();
-    const chunks = [];
+async function inflateRaw(data) {
+  const blob = new Blob([data]);
+  const ds = new DecompressionStream('deflate-raw');
 
-    reader.read().then(function process({ done, value }) {
-      if (done) {
-        writer.close().catch(reject);
-      } else {
-        writer.write(value).then(() => reader.read().then(process)).catch(reject);
-      }
-    }).catch(reject);
+  const writer = ds.writable.getWriter();
+  const reader = blob.stream().getReader();
 
-    reader2.read().then(function process({ done, value }) {
-      if (done) {
-        const totalLength = chunks.reduce((acc, c) => acc + c.length, 0);
-        const result = new Uint8Array(totalLength);
-        let offset = 0;
-        for (const chunk of chunks) {
-          result.set(chunk, offset);
-          offset += chunk.length;
-        }
-        resolve(result);
-      } else {
-        chunks.push(value);
-        reader2.read().then(process);
-      }
-    }).catch(reject);
-  });
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      await writer.write(value);
+    }
+    await writer.close();
+  } catch (err) {
+    await writer.abort(err);
+    throw err;
+  }
+
+  const chunks = [];
+  const outputReader = ds.readable.getReader();
+  try {
+    while (true) {
+      const { done, value } = await outputReader.read();
+      if (done) break;
+      chunks.push(value);
+    }
+  } finally {
+    outputReader.releaseLock();
+  }
+
+  const totalLength = chunks.reduce((acc, c) => acc + c.length, 0);
+  const result = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return result;
 }
 
 async function buildRepairedZip(recoveredFiles) {

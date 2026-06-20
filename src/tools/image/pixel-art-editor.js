@@ -69,12 +69,12 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const sizeSelect = document.getElementById('pa-size');
-  const colorsDiv = document.getElementById('pa-colors');
-  const colorPicker = document.getElementById('pa-color');
-  const clearBtn = document.getElementById('pa-clear');
-  const downloadBtn = document.getElementById('pa-download');
-  const canvas = document.getElementById('pa-canvas');
+  const sizeSelect = container.querySelector('#pa-size');
+  const colorsDiv = container.querySelector('#pa-colors');
+  const colorPicker = container.querySelector('#pa-color');
+  const clearBtn = container.querySelector('#pa-clear');
+  const downloadBtn = container.querySelector('#pa-download');
+  const canvas = container.querySelector('#pa-canvas');
   const ctx = canvas.getContext('2d');
 
   let currentPreset = PRESETS[2];
@@ -95,7 +95,7 @@ export function render(container) {
     sw.style.background = c;
     sw.dataset.color = c;
     sw.addEventListener('click', () => {
-      document.querySelectorAll('.pa-color-swatch').forEach(s => s.classList.remove('active'));
+      colorsDiv.querySelectorAll('.pa-color-swatch').forEach(s => s.classList.remove('active'));
       sw.classList.add('active');
       currentColor = c;
       colorPicker.value = c;
@@ -105,7 +105,7 @@ export function render(container) {
 
   colorPicker.addEventListener('input', e => {
     currentColor = e.target.value;
-    document.querySelectorAll('.pa-color-swatch').forEach(s => s.classList.remove('active'));
+    colorsDiv.querySelectorAll('.pa-color-swatch').forEach(s => s.classList.remove('active'));
   });
 
   function drawCanvas() {
@@ -181,6 +181,8 @@ export function render(container) {
     exportCanvas.width = currentPreset.w;
     exportCanvas.height = currentPreset.h;
     const ectx = exportCanvas.getContext('2d');
+    ectx.fillStyle = '#ffffff';
+    ectx.fillRect(0, 0, currentPreset.w, currentPreset.h);
     for (let y = 0; y < currentPreset.h; y++) {
       for (let x = 0; x < currentPreset.w; x++) {
         if (pixelData[x + ',' + y]) {

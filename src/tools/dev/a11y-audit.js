@@ -166,7 +166,8 @@ function runAudit(html, url) {
     }
   });
 
-  const skipLink = body.querySelector('a[href^="#"]');
+  const skipLink = body.querySelector('a[href="#main"], a[href="#content"], a.skip-link, a.skip-to-main') ||
+    Array.from(body.querySelectorAll('a[href^="#"]')).find(a => a.textContent?.toLowerCase().includes('skip'));
   const hasMain = body.querySelector('main, [role="main"]');
   if (!skipLink && !hasMain) {
     results.warnings.push({ check: 'skip-link', msg: 'Consider adding skip navigation link' });
@@ -195,6 +196,12 @@ function runAudit(html, url) {
   return results;
 }
 
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 function renderReport(results) {
   let html = `<div class="a11y-report">`;
 
@@ -203,10 +210,10 @@ function renderReport(results) {
     results.failed.forEach(f => {
       const check = wcagChecks.find(c => c.id === f.check);
       html += `<div class="a11y-item a11y-item-failed">
-        <span class="a11y-severity">${check?.impact || 'moderate'}</span>
-        <strong>${check?.title || f.check}</strong>
-        <p>${f.msg}</p>
-        <small>WCAG ${check?.wcag || '?'}</small>
+        <span class="a11y-severity">${escapeHtml(check?.impact || 'moderate')}</span>
+        <strong>${escapeHtml(check?.title || f.check)}</strong>
+        <p>${escapeHtml(f.msg)}</p>
+        <small>WCAG ${escapeHtml(check?.wcag || '?')}</small>
       </div>`;
     });
     html += `</div>`;
@@ -218,8 +225,8 @@ function renderReport(results) {
       const check = wcagChecks.find(c => c.id === w.check);
       html += `<div class="a11y-item a11y-item-warning">
         <span class="a11y-severity">low</span>
-        <strong>${check?.title || w.check}</strong>
-        <p>${w.msg}</p>
+        <strong>${escapeHtml(check?.title || w.check)}</strong>
+        <p>${escapeHtml(w.msg)}</p>
       </div>`;
     });
     html += `</div>`;
@@ -228,7 +235,7 @@ function renderReport(results) {
   if (results.passed.length > 0) {
     html += `<div class="a11y-passed"><h3>Passed (${results.passed.length})</h3>`;
     results.passed.forEach(p => {
-      html += `<div class="a11y-item a11y-item-passed">✓ ${p.msg || p.check}</div>`;
+      html += `<div class="a11y-item a11y-item-passed">✓ ${escapeHtml(p.msg || p.check)}</div>`;
     });
     html += `</div>`;
   }
@@ -273,6 +280,16 @@ export function render(container) {
   urlBtn.addEventListener('click', async () => {
     const url = urlInput.value.trim();
     if (!url) return;
+    try {
+      const parsed = new URL(url);
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        alert('Only HTTP/HTTPS URLs are supported');
+        return;
+      }
+    } catch {
+      alert('Invalid URL format');
+      return;
+    }
     urlBtn.disabled = true;
     urlBtn.textContent = 'Fetching...';
     try {

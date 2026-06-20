@@ -179,19 +179,29 @@ export function render(container) {
 
   function updateSvg() {
     if (!originalSvg) return;
-    let svg = originalSvg;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(originalSvg, 'image/svg+xml');
+    const svgEl = doc.documentElement;
 
-    svg = svg.replace(/<svg/, `<svg width="${sizeSlider.value}" height="${sizeSlider.value}"`);
+    if (svgEl.tagName !== 'svg') {
+      console.error('Invalid SVG');
+      return;
+    }
+
+    svgEl.setAttribute('width', sizeSlider.value);
+    svgEl.setAttribute('height', sizeSlider.value);
 
     if (fillColor.value && fillColor.value !== '#000000') {
-      svg = svg.replace(/fill="[^"]*"/g, '').replace(/fill=""/, '');
-      svg = svg.replace(/<svg/, `<svg fill="${fillColor.value}"`);
+      svgEl.setAttribute('fill', fillColor.value);
     }
 
     if (strokeWidthSlider.value > 0) {
-      svg = svg.replace(/stroke="[^"]*"/g, '').replace(/stroke=""/, '');
-      svg = svg.replace(/<svg/, `<svg stroke="${strokeColor.value}" stroke-width="${strokeWidthSlider.value}"`);
+      svgEl.setAttribute('stroke', strokeColor.value);
+      svgEl.setAttribute('stroke-width', strokeWidthSlider.value);
     }
+
+    const serializer = new XMLSerializer();
+    let svg = serializer.serializeToString(svgEl);
 
     const opts = {
       removeComments: optRemoveComments.checked,
@@ -199,12 +209,17 @@ export function render(container) {
       removeEmptyGroups: optRemoveEmptyGroups.checked,
       precision: parseInt(optPrecision.value)
     };
-    currentSvg = optimizeSvg(svg, opts);
+    try {
+      currentSvg = optimizeSvg(svg, opts);
+    } catch (err) {
+      console.error('SVG optimization failed:', err);
+      currentSvg = svg;
+    }
     svgPreview.innerHTML = currentSvg;
-    const svgEl = svgPreview.querySelector('svg');
-    if (svgEl) {
-      svgEl.style.width = '100%';
-      svgEl.style.height = '100%';
+    const previewSvg = svgPreview.querySelector('svg');
+    if (previewSvg) {
+      previewSvg.style.width = '100%';
+      previewSvg.style.height = '100%';
     }
   }
 
