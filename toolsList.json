@@ -2891,7 +2891,7 @@
     "description": "Generate freelance service contracts with scope, payment terms, deliverables, and IP ownership.",
     "icon": "📝",
     "href": "/tools/freelancer-contract-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "freelancer",
       "contract",

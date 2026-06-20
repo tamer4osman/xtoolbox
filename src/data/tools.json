@@ -2865,21 +2865,20 @@
     "status": "done"
   },
   {
-    "id": "freelancer-contract-generator",
+"id": "freelancer-contract-generator",
     "name": "Freelancer Contract Generator",
     "category": "business",
     "description": "Generate freelance service contracts with scope, payment terms, deliverables, and IP ownership.",
     "icon": "📝",
     "href": "/tools/freelancer-contract-generator",
     "keywords": [
-      "freelancer",
+      "freelance",
       "contract",
       "agreement",
-      "scope",
-      "payment",
+      "service",
       "legal"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "privacy-policy-generator",

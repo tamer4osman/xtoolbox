@@ -34,7 +34,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] Certificate Generator (`certificate-generator`)
 - [x] NDA Generator (`nda-generator`)
 - [x] Freelancer Rate Calculator (`freelancer-rate-calculator`)
-- [ ] Freelancer Contract Generator (`freelancer-contract-generator`)
+- [x] Freelancer Contract Generator (`freelancer-contract-generator`)
 - [ ] Privacy Policy Generator (`privacy-policy-generator`)
 
 ### Productivity (6 planned)
