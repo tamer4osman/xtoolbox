@@ -2858,7 +2858,7 @@
     "description": "Generate Non-Disclosure Agreements customized for unilateral/mutual situations.",
     "icon": "📜",
     "href": "/tools/nda-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "nda",
       "non-disclosure",
