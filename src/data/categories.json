@@ -67,7 +67,7 @@
     "name": "Productivity",
     "icon": "⏱️",
     "description": "Stopwatch, countdown timer, drawing pad",
-    "toolCount": 15
+    "toolCount": 16
   },
   {
     "id": "math",

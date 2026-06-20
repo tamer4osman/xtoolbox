@@ -2922,10 +2922,10 @@
     "id": "archive-extractor",
     "name": "Archive Extractor",
     "category": "productivity",
-    "description": "Extract files from ZIP, RAR, 7Z, TAR, GZ, and BZ2 archives directly in the browser.",
+    "description": "Extract files from ZIP and TAR archives directly in the browser.",
     "icon": "📦",
     "href": "/tools/archive-extractor",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "archive",
       "extract",

@@ -39,7 +39,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 
 ### Productivity (6 planned)
 - [x] Archive Repair & Recovery (`archive-repair`)
-- [ ] Archive Extractor (`archive-extractor`)
+- [x] Archive Extractor (`archive-extractor`)
 - [ ] Pomodoro Timer (`pomodoro-timer`)
 - [ ] Habit Tracker (`habit-tracker`)
 - [ ] Resume Builder (`resume-builder`)
