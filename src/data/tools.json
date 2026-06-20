@@ -168,7 +168,13 @@
     "description": "Create professional PDF invoices with customizable fields.",
     "icon": "📄",
     "href": "/tools/invoice-generator",
-    "keywords": ["invoice", "pdf", "bill", "收取", "receipt"],
+    "keywords": [
+      "invoice",
+      "pdf",
+      "bill",
+      "收取",
+      "receipt"
+    ],
     "status": "done"
   },
   {
@@ -1420,7 +1426,12 @@
     "description": "Compare two texts side-by-side and merge changes with accept/reject controls.",
     "icon": "🔀",
     "href": "/tools/diff-merge",
-    "keywords": ["diff", "merge", "compare", "changes"],
+    "keywords": [
+      "diff",
+      "merge",
+      "compare",
+      "changes"
+    ],
     "status": "done"
   },
   {
@@ -2357,7 +2368,7 @@
       "audit",
       "accessibility checker"
     ],
-"status": "done"
+    "status": "done"
   },
   {
     "id": "css-sprite-generator",
@@ -2657,7 +2668,13 @@
     "description": "Scan food barcodes or search products to view detailed nutrition facts from Open Food Facts.",
     "icon": "🍎",
     "href": "/tools/food-nutrition-scanner",
-    "keywords": ["nutrition", "food", "barcode", "calories", "health"],
+    "keywords": [
+      "nutrition",
+      "food",
+      "barcode",
+      "calories",
+      "health"
+    ],
     "status": "done"
   },
   {
@@ -2667,7 +2684,14 @@
     "description": "Create professional passport photos with face guide frame, zoom controls, and background color options.",
     "icon": "📸",
     "href": "/tools/passport-photo-maker",
-    "keywords": ["passport", "photo", "id", "visa", "biometrics", "photo booth"],
+    "keywords": [
+      "passport",
+      "photo",
+      "id",
+      "visa",
+      "biometrics",
+      "photo booth"
+    ],
     "status": "done"
   },
   {
@@ -2677,7 +2701,14 @@
     "description": "Test DNS resolution speed against Cloudflare and Google DoH providers.",
     "icon": "⚡",
     "href": "/tools/dns-speed-test",
-    "keywords": ["dns", "speed", "doh", "cloudflare", "google", "network"],
+    "keywords": [
+      "dns",
+      "speed",
+      "doh",
+      "cloudflare",
+      "google",
+      "network"
+    ],
     "status": "done"
   },
   {
@@ -2687,7 +2718,15 @@
     "description": "Measure pixel distances and pick colors anywhere on screen with an interactive overlay ruler.",
     "icon": "📏",
     "href": "/tools/screen-ruler",
-    "keywords": ["ruler", "measure", "pixel", "color", "picker", "screen", "overlay"],
+    "keywords": [
+      "ruler",
+      "measure",
+      "pixel",
+      "color",
+      "picker",
+      "screen",
+      "overlay"
+    ],
     "status": "done"
   },
   {
@@ -2697,7 +2736,13 @@
     "description": "Track recent earthquakes worldwide with magnitude, location, and depth data from USGS.",
     "icon": "🌍",
     "href": "/tools/earthquake-monitor",
-    "keywords": ["earthquake", "seismic", "usgs", "magnitude", "tremor"],
+    "keywords": [
+      "earthquake",
+      "seismic",
+      "usgs",
+      "magnitude",
+      "tremor"
+    ],
     "status": "done"
   },
   {
@@ -2707,7 +2752,14 @@
     "description": "Quick wireframe and mockup sketcher with drag-and-drop shapes, text, and freehand drawing.",
     "icon": "✏️",
     "href": "/tools/wireframe-sketcher",
-    "keywords": ["wireframe", "mockup", "sketch", "draw", "canvas", "prototype"],
+    "keywords": [
+      "wireframe",
+      "mockup",
+      "sketch",
+      "draw",
+      "canvas",
+      "prototype"
+    ],
     "status": "done"
   },
   {
@@ -2717,7 +2769,16 @@
     "description": "Convert between currencies using live exchange rates with historical charts.",
     "icon": "💱",
     "href": "/tools/currency-converter",
-    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"],
+    "keywords": [
+      "currency",
+      "exchange",
+      "converter",
+      "money",
+      "forex",
+      "usd",
+      "eur",
+      "gbp"
+    ],
     "status": "done"
   },
   {
@@ -2727,7 +2788,15 @@
     "description": "Create pixel art and sprite sheets with customizable grids, color palettes, and export options.",
     "icon": "🎨",
     "href": "/tools/pixel-art-editor",
-    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"],
+    "keywords": [
+      "pixel",
+      "art",
+      "sprite",
+      "8-bit",
+      "retro",
+      "game",
+      "editor"
+    ],
     "status": "done"
   },
   {
@@ -2737,25 +2806,14 @@
     "description": "Upload, view, edit attributes, and optimize SVG icons",
     "icon": "🎨",
     "href": "/tools/svg-icon-editor",
-    "keywords": ["svg", "icon", "editor", "optimize", "vector"],
-    "status": "done"
-  },
-  {
-    "id": "invoice-generator",
-    "name": "Invoice Generator",
-    "category": "business",
-    "description": "Create professional invoices with line items, taxes, discounts, and payment terms. Export as PDF.",
-    "icon": "🧾",
-    "href": "/tools/invoice-generator",
     "keywords": [
-      "invoice",
-      "generator",
-      "business",
-      "freelance",
-      "pdf",
-      "billing"
+      "svg",
+      "icon",
+      "editor",
+      "optimize",
+      "vector"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "certificate-generator",
@@ -3085,7 +3143,15 @@
     "description": "Create pixel art and sprite sheets with customizable grids, color palettes, and export options.",
     "icon": "🎨",
     "href": "/tools/pixel-art-editor",
-    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"],
+    "keywords": [
+      "pixel",
+      "art",
+      "sprite",
+      "8-bit",
+      "retro",
+      "game",
+      "editor"
+    ],
     "status": "done"
   },
   {
@@ -3095,7 +3161,16 @@
     "description": "Convert between currencies using live exchange rates with historical charts.",
     "icon": "💱",
     "href": "/tools/currency-converter",
-    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"],
+    "keywords": [
+      "currency",
+      "exchange",
+      "converter",
+      "money",
+      "forex",
+      "usd",
+      "eur",
+      "gbp"
+    ],
     "status": "done"
   },
   {

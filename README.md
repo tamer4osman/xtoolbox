@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**300+ free online tools. 100% client-side processing — your files never leave your device.**
+**281 free online tools (+19 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -51,33 +51,33 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 319 (251 built, 68 planned).
+**Total tools:** 300 (281 built, 19 planned).
 
 ## Categories
 
 | Category | Built | Planned | Total | Key Libraries | Status |
 |----------|-------|---------|-------|---------------|--------|
-| PDF | 32 | +1 | **33** | pdf-lib, PDF.js, jsPDF | 32/33 |
-| Image | 34 | +4 | **38** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 34/38 |
-| Video | 15 | +4 | **19** | ffmpeg.wasm | 15/19 |
-| Audio | 10 | +5 | **15** | Web Audio API, lamejs, Wavesurfer.js | 10/15 |
+| PDF | 33 | — | **33** | pdf-lib, PDF.js, jsPDF | ✅ |
+| Image | 40 | +2 | **42** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 40/42 |
+| Video | 16 | +1 | **17** | ffmpeg.wasm | 16/17 |
+| Audio | 11 | +1 | **12** | Web Audio API, lamejs, Wavesurfer.js | 11/12 |
 | OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
-| Privacy & Security | 6 | +1 | **7** | Web Crypto API | 6/7 |
+| Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
 | Weather | 4 | — | **4** | wttr.in, Open-Meteo | ✅ |
-| Reference | 5 | — | **5** | Free Dictionary API, Open Library | ✅ |
-| Finance | 9 | +2 | **11** | Chart.js | 9/11 |
+| Reference | 9 | — | **9** | Free Dictionary API, Open Library | ✅ |
+| Finance | 12 | +1 | **13** | Chart.js | 12/13 |
 | Math | 10 | — | **10** | math.js | ✅ |
-| Health | 11 | +1 | **12** | Custom JS | 11/12 |
-| Text & Content | 30 | +4 | **34** | marked, turndown, js-yaml, SheetJS | 30/34 |
-| Encoding & Hashing | 8 | +1 | **9** | Web Crypto API | 8/9 |
+| Health | 11 | — | **11** | Custom JS | ✅ |
+| Text & Content | 32 | +1 | **33** | marked, turndown, js-yaml, SheetJS | 32/33 |
+| Encoding & Hashing | 9 | +1 | **10** | Web Crypto API | 9/10 |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 17 | +2 | **19** | Custom JS | 17/19 |
-| Developer | 23 | +8 | **31** | Custom JS | 23/31 |
+| CSS & Web Design | 21 | — | **21** | Custom JS | ✅ |
+| Developer | 33 | — | **33** | Custom JS | ✅ |
 | Fun & Games | 5 | — | **5** | Custom JS | ✅ |
-| Business | 8 | +6 | **14** | Custom JS | 8/14 |
-| SEO | 7 | +1 | **8** | Custom JS | 7/8 |
-| Productivity | 5 | +8 | **13** | Custom JS | 5/13 |
+| Business | 15 | +6 | **21** | Custom JS | 15/21 |
+| SEO | 8 | +1 | **9** | Custom JS | 8/9 |
+| Productivity | 14 | +6 | **20** | Custom JS | 14/20 |
 
 ## Phase 21 Tools (Market Expansion — Complete)
 

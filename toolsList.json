@@ -1354,7 +1354,12 @@
     "icon": "🔀",
     "href": "/tools/diff-merge",
     "status": "done",
-    "keywords": ["diff", "merge", "compare", "changes"]
+    "keywords": [
+      "diff",
+      "merge",
+      "compare",
+      "changes"
+    ]
   },
   {
     "id": "text-similarity",
@@ -1624,7 +1629,12 @@
     "description": "Convert PDF to e-book format for e-readers.",
     "icon": "📚",
     "href": "/tools/pdf-to-epub",
-    "keywords": ["pdf to epub", "convert pdf epub", "pdf converter", "ebook converter"],
+    "keywords": [
+      "pdf to epub",
+      "convert pdf epub",
+      "pdf converter",
+      "ebook converter"
+    ],
     "status": "done"
   },
   {
@@ -1634,7 +1644,11 @@
     "description": "Remove specific pages from a PDF with visual selector.",
     "icon": "📄",
     "href": "/tools/delete-pdf-pages",
-    "keywords": ["delete pdf pages", "remove pdf pages", "remove pages from pdf"],
+    "keywords": [
+      "delete pdf pages",
+      "remove pdf pages",
+      "remove pages from pdf"
+    ],
     "status": "done"
   },
   {
@@ -1644,7 +1658,11 @@
     "description": "Convert .pptx presentations to PDF files.",
     "icon": "📊",
     "href": "/tools/pptx-to-pdf",
-    "keywords": ["pptx to pdf", "powerpoint to pdf", "convert pptx pdf"],
+    "keywords": [
+      "pptx to pdf",
+      "powerpoint to pdf",
+      "convert pptx pdf"
+    ],
     "status": "done"
   },
   {
@@ -2059,7 +2077,12 @@
     "description": "Convert JPG images to PDF documents.",
     "icon": "🖼️",
     "href": "/tools/jpg-to-pdf",
-    "keywords": ["jpg to pdf", "jpeg to pdf", "image to pdf", "photo to pdf"],
+    "keywords": [
+      "jpg to pdf",
+      "jpeg to pdf",
+      "image to pdf",
+      "photo to pdf"
+    ],
     "status": "done"
   },
   {
@@ -2069,7 +2092,11 @@
     "description": "Convert PNG images to PDF documents.",
     "icon": "🖼️",
     "href": "/tools/png-to-pdf",
-    "keywords": ["png to pdf", "image to pdf", "photo to pdf"],
+    "keywords": [
+      "png to pdf",
+      "image to pdf",
+      "photo to pdf"
+    ],
     "status": "done"
   },
   {
@@ -2360,7 +2387,7 @@
     "icon": "♿",
     "href": "/tools/wcag-contrast-checker",
     "status": "done",
-"keywords": [
+    "keywords": [
       "wcag",
       "contrast",
       "accessibility",
@@ -2662,7 +2689,13 @@
     "icon": "🍎",
     "href": "/tools/food-nutrition-scanner",
     "status": "done",
-    "keywords": ["nutrition", "food", "barcode", "calories", "health"]
+    "keywords": [
+      "nutrition",
+      "food",
+      "barcode",
+      "calories",
+      "health"
+    ]
   },
   {
     "id": "passport-photo-maker",
@@ -2672,7 +2705,14 @@
     "icon": "📸",
     "href": "/tools/passport-photo-maker",
     "status": "done",
-    "keywords": ["passport", "photo", "id", "visa", "biometrics", "photo booth"]
+    "keywords": [
+      "passport",
+      "photo",
+      "id",
+      "visa",
+      "biometrics",
+      "photo booth"
+    ]
   },
   {
     "id": "dns-speed-test",
@@ -2682,7 +2722,14 @@
     "icon": "⚡",
     "href": "/tools/dns-speed-test",
     "status": "done",
-    "keywords": ["dns", "speed", "doh", "cloudflare", "google", "network"]
+    "keywords": [
+      "dns",
+      "speed",
+      "doh",
+      "cloudflare",
+      "google",
+      "network"
+    ]
   },
   {
     "id": "screen-ruler",
@@ -2692,7 +2739,15 @@
     "icon": "📏",
     "href": "/tools/screen-ruler",
     "status": "done",
-    "keywords": ["ruler", "measure", "pixel", "color", "picker", "screen", "overlay"]
+    "keywords": [
+      "ruler",
+      "measure",
+      "pixel",
+      "color",
+      "picker",
+      "screen",
+      "overlay"
+    ]
   },
   {
     "id": "earthquake-monitor",
@@ -2702,7 +2757,13 @@
     "icon": "🌍",
     "href": "/tools/earthquake-monitor",
     "status": "done",
-    "keywords": ["earthquake", "seismic", "usgs", "magnitude", "tremor"]
+    "keywords": [
+      "earthquake",
+      "seismic",
+      "usgs",
+      "magnitude",
+      "tremor"
+    ]
   },
   {
     "id": "wireframe-sketcher",
@@ -2712,7 +2773,14 @@
     "icon": "✏️",
     "href": "/tools/wireframe-sketcher",
     "status": "done",
-    "keywords": ["wireframe", "mockup", "sketch", "draw", "canvas", "prototype"]
+    "keywords": [
+      "wireframe",
+      "mockup",
+      "sketch",
+      "draw",
+      "canvas",
+      "prototype"
+    ]
   },
   {
     "id": "currency-converter",
@@ -2722,7 +2790,16 @@
     "icon": "💱",
     "href": "/tools/currency-converter",
     "status": "done",
-    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"]
+    "keywords": [
+      "currency",
+      "exchange",
+      "converter",
+      "money",
+      "forex",
+      "usd",
+      "eur",
+      "gbp"
+    ]
   },
   {
     "id": "pixel-art-editor",
@@ -2732,7 +2809,15 @@
     "icon": "🎨",
     "href": "/tools/pixel-art-editor",
     "status": "done",
-    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"]
+    "keywords": [
+      "pixel",
+      "art",
+      "sprite",
+      "8-bit",
+      "retro",
+      "game",
+      "editor"
+    ]
   },
   {
     "id": "svg-icon-editor",
@@ -2742,23 +2827,12 @@
     "icon": "🎨",
     "href": "/tools/svg-icon-editor",
     "status": "done",
-    "keywords": ["svg", "icon", "editor", "optimize", "vector"]
-  },
-  {
-    "id": "invoice-generator",
-    "name": "Invoice Generator",
-    "category": "business",
-    "description": "Create professional invoices with line items, taxes, discounts, and payment terms. Export as PDF.",
-    "icon": "🧾",
-    "href": "/tools/invoice-generator",
-    "status": "planned",
     "keywords": [
-      "invoice",
-      "generator",
-      "business",
-      "freelance",
-      "pdf",
-      "billing"
+      "svg",
+      "icon",
+      "editor",
+      "optimize",
+      "vector"
     ]
   },
   {
@@ -3090,7 +3164,15 @@
     "icon": "🎨",
     "href": "/tools/pixel-art-editor",
     "status": "done",
-    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"]
+    "keywords": [
+      "pixel",
+      "art",
+      "sprite",
+      "8-bit",
+      "retro",
+      "game",
+      "editor"
+    ]
   },
   {
     "id": "currency-converter",
@@ -3100,7 +3182,16 @@
     "icon": "💱",
     "href": "/tools/currency-converter",
     "status": "done",
-    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"]
+    "keywords": [
+      "currency",
+      "exchange",
+      "converter",
+      "money",
+      "forex",
+      "usd",
+      "eur",
+      "gbp"
+    ]
   },
   {
     "id": "passport-photo-maker",
