@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 289 built, 11 planned = 300 total
+## Current Status: 290 built, 10 planned = 300 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -42,7 +42,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] Archive Extractor (`archive-extractor`)
 - [ ] Pomodoro Timer (`pomodoro-timer`)
 - [x] Habit Tracker (`habit-tracker`)
-- [ ] Resume Builder (`resume-builder`)
+- [x] Resume Builder (`resume-builder`)
 - [ ] Email Signature Generator (`email-signature-generator`)
 - [ ] 3D Model Viewer (`3d-model-viewer`)
 

@@ -2898,6 +2898,22 @@
     "status": "done"
   },
   {
+    "id": "resume-builder",
+    "name": "Resume Builder",
+    "category": "business",
+    "description": "Build professional resumes with live preview and PDF export.",
+    "icon": "📋",
+    "href": "/tools/resume-builder",
+    "keywords": [
+      "resume",
+      "cv",
+      "career",
+      "job",
+      "pdf"
+    ],
+    "status": "done"
+  },
+  {
     "id": "archive-extractor",
     "name": "Archive Extractor",
     "category": "productivity",
