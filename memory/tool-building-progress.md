@@ -35,7 +35,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] NDA Generator (`nda-generator`)
 - [x] Freelancer Rate Calculator (`freelancer-rate-calculator`)
 - [x] Freelancer Contract Generator (`freelancer-contract-generator`)
-- [ ] Privacy Policy Generator (`privacy-policy-generator`)
+- [x] Privacy Policy Generator (`privacy-policy-generator`)
 
 ### Productivity (6 planned)
 - [x] Archive Repair & Recovery (`archive-repair`)

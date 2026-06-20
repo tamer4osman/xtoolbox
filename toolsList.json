@@ -2902,13 +2902,13 @@
     ]
   },
   {
-    "id": "privacy-policy-generator",
+"id": "privacy-policy-generator",
     "name": "Privacy Policy Generator",
     "category": "business",
-    "description": "Generate privacy policy documents for websites and apps with GDPR/CCPA compliance.",
+    "description": "Generate privacy policies customized for GDPR, CCPA, and similar regulations.",
     "icon": "🔒",
     "href": "/tools/privacy-policy-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "privacy",
       "policy",
