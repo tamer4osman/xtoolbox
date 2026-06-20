@@ -196,6 +196,42 @@ npx fallow health src/tools/<category>/<tool-id>.js
 
 If either check fails, fix the code and re-run Step 7. Do not proceed to Step 8 until both pass clean.
 
+## Step 7.5 — Oxlint + Oxfmt (BLOCKING)
+
+Fast Rust-based linting and formatting (replaces ESLint + Prettier). Scope to new tool only:
+
+```bash
+npx oxlint src/tools/<category>/<tool-id>.js
+npx oxfmt --write src/tools/<category>/<tool-id>.js
+```
+
+- **Oxlint** — 0 lint errors (warnings are OK)
+- **Oxfmt** — File formatted
+
+If either fails, fix and re-run. Do not proceed until both pass.
+
+## Step 7.5 — (Optional) MSW for external APIs
+
+If the tool calls external APIs (crypto-prices, currency-converter, weather, etc.), add MSW mocks:
+
+```bash
+npx msw init public/ --worker
+```
+
+Create `src/mocks/handlers.js`:
+
+```js
+import { http, HttpResponse } from 'msw';
+
+export const handlers = [
+  http.get('https://api.example.com/endpoint', () => {
+    return HttpResponse.json({ /* mock response */ });
+  })
+];
+```
+
+Why: Tests don't depend on live APIs, can test error states, work offline.
+
 ## Step 8 — User testing gate (BLOCKING)
 
 Tell the user:
@@ -251,7 +287,7 @@ Add <tool-name> tool (<category>)
 
 ## Red lines
 
-- Do not commit before Step 8 (user) approval. Step 6 is your own self-test; Step 7 is Fallow static analysis; only the user's explicit approval clears the gate to Steps 9-11.
+- Do not commit before Step 8 (user) approval. Steps 6-7.5 are automated checks; only the user's explicit approval clears the gate to Steps 9-11.
 - Do not edit `package.json` to add a dependency without asking — many Phase 25 tools can be built with browser built-ins only (see the AGENTS.md / README convention).
 - Do not add a tool to `src/data/tools.json` without also adding it to `toolsList.json` and vice versa.
 - Do not add comments to the tool source (AGENTS.md: "DO NOT ADD ANY COMMENTS unless asked").

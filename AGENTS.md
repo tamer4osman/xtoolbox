@@ -545,21 +545,42 @@ When building a new tool, ALWAYS follow this exact sequence:
    - Duplication stays ≤8%
    - No new CRAP >200 functions
    **If fails:** Fix issues before proceeding (extract unused code, deduplicate, refactor complex functions)
-7. **Self-test with Chrome DevTools** — Smoke-test the tool yourself before asking the user. Start dev server (`npm run dev`) if it is not running, then use the Chrome DevTools MCP to:
-   - Navigate to `http://localhost:3000/#/tools/<tool-id>`
-   - Take a snapshot — confirm the UI renders without broken layouts
-   - `list_console_messages` — confirm 0 errors (warnings about pre-existing a11y issues on other tools are fine)
-   - `list_network_requests` — confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
-   - Click the primary action button and verify the expected output/UI change happens
-   - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
-   
-   **⚠️ MiMo V2.5 Limitation:** Chrome DevTools MCP fails silently with MiMo V2.5 due to API restrictions (single-round tool calling, rejects list-type content). If tool calls fail:
-   - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`) for this step
-   - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
-   - MiniMax handles multi-round tool calling and image content correctly
-   - This is a Xiaomi API limitation, not an OpenCode or project issue
-8. **User testing** — Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
-9. **Update docs** — Do NOT skip any of these:
+
+7. **Run Oxlint + Oxfmt** — Fast Rust-based linting and formatting (replaces ESLint + Prettier):
+
+   ```bash
+   npx oxlint src/tools/<category>/<tool-id>.js
+   npx oxfmt --write src/tools/<category>/<tool-id>.js
+   ```
+
+   **Pass criteria:**
+   - 0 lint errors (warnings are OK)
+   - File formatted
+**If fails:** Fix issues before proceeding
+
+7.5. **(Optional) MSW for external APIs** — If tool calls external APIs, add MSW mocks:
+
+   ```bash
+   npx msw init public/ --worker
+   ```
+
+   Create `src/mocks/handlers.js` for reliable tests.
+
+ 8. **Self-test with Chrome DevTools** — Smoke-test the tool yourself before asking the user. Start dev server (`npm run dev`) if it is not running, then use the Chrome DevTools MCP to:
+    - Navigate to `http://localhost:3000/#/tools/<tool-id>`
+    - Take a snapshot — confirm the UI renders without broken layouts
+    - `list_console_messages` — confirm 0 errors (warnings about pre-existing a11y issues on other tools are fine)
+    - `list_network_requests` — confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
+    - Click the primary action button and verify the expected output/UI change happens
+    - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
+    
+    **⚠️ MiMo V2.5 Limitation:** Chrome DevTools MCP fails silently with MiMo V2.5 due to API restrictions (single-round tool calling, rejects list-type content). If tool calls fail:
+    - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`) for this step
+    - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
+    - MiniMax handles multi-round tool calling and image content correctly
+    - This is a Xiaomi API limitation, not an OpenCode or project issue
+ 9. **User testing** — Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
+10. **Update docs** — Do NOT skip any of these:
    - `toolsList.json` — Add tool entry, set status to "done"
    - `src/data/tools.json` — Add tool entry, set status to "done"
    - `README.md` — Update tool count, add phase status
