@@ -143,7 +143,7 @@ export function render(container) {
     }
   }
 
-  canvas.addEventListener('mousedown', e => {
+  function setPixelFromEvent(e) {
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor((e.clientX - rect.left) / rect.width * currentPreset.w);
     const y = Math.floor((e.clientY - rect.top) / rect.height * currentPreset.h);
@@ -151,18 +151,12 @@ export function render(container) {
       pixelData[x + ',' + y] = currentColor;
       drawCanvas();
     }
-  });
+  }
+
+  canvas.addEventListener('mousedown', setPixelFromEvent);
 
   canvas.addEventListener('mousemove', e => {
-    if (e.buttons === 1) {
-      const rect = canvas.getBoundingClientRect();
-      const x = Math.floor((e.clientX - rect.left) / rect.width * currentPreset.w);
-      const y = Math.floor((e.clientY - rect.top) / rect.height * currentPreset.h);
-      if (x >= 0 && x < currentPreset.w && y >= 0 && y < currentPreset.h) {
-        pixelData[x + ',' + y] = currentColor;
-        drawCanvas();
-      }
-    }
+    if (e.buttons === 1) setPixelFromEvent(e);
   });
 
   sizeSelect.addEventListener('change', () => {

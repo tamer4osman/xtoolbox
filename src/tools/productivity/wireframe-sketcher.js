@@ -185,10 +185,13 @@ export function render(container) {
     return null;
   }
 
-  canvas.addEventListener('mousedown', e => {
+  function getCoords(e) {
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  canvas.addEventListener('mousedown', e => {
+    const { x, y } = getCoords(e);
     const el = hitTest(x, y);
     if (el) {
       selected = el;
@@ -205,9 +208,9 @@ export function render(container) {
 
   canvas.addEventListener('mousemove', e => {
     if (dragging && selected) {
-      const rect = canvas.getBoundingClientRect();
-      selected.x = e.clientX - rect.left - dragStart.x;
-      selected.y = e.clientY - rect.top - dragStart.y;
+      const { x, y } = getCoords(e);
+      selected.x = x - dragStart.x;
+      selected.y = y - dragStart.y;
       draw();
     }
   });
@@ -216,9 +219,7 @@ export function render(container) {
   canvas.addEventListener('mouseleave', () => { dragging = false; });
 
   canvas.addEventListener('dblclick', e => {
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const { x, y } = getCoords(e);
     const el = hitTest(x, y);
     if (el) {
       elements = elements.filter(item => item !== el);
