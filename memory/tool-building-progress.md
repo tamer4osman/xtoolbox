@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 281 built, 19 planned = 300 total
+## Current Status: 282 built, 18 planned = 300 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -103,11 +103,12 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ## Phase 27: 20 High-Demand Tools (Planned)
 
 > Source: User demand + market gap analysis + competitor benchmarking
-> Status: 🟡 In progress. 1/15 built. (2 removed: duplicates of `upscale-image`, `remove-metadata`)
+> Status: 🟡 In progress. 2/16 built. (2 removed: duplicates of `upscale-image`, `remove-metadata`)
 
 | # | Tool | File | Category | Library |
 |---|------|------|----------|---------|
 | 1 | Vocal / Stem Separator | `audio/stem-separator.js` | `audio` | ONNX Runtime + demucs-mini |
+| - | **Pomodoro Timer** (`pomodoro-timer.js`) | `productivity` | ✅ Built (Phase 27) |
 | 2 | Noise / Hiss Remover | `audio/noise-remover.js` | `audio` | ONNX Runtime + DeepFilterNet |
 | 3 | BPM & Key Detector | `audio/bpm-key-detector.js` | `audio` | Essentia.js WASM |
 | 4 | Audio EQ & Visualizer | `audio/audio-equalizer.js` | `audio` | Web Audio API + lamejs |

@@ -2943,7 +2943,7 @@
     "description": "Focus timer with customizable work/break intervals, task list, and session history.",
     "icon": "🍅",
     "href": "/tools/pomodoro-timer",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "pomodoro",
       "timer",
