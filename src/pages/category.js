@@ -1,6 +1,6 @@
 import { $ } from '../utils/dom-query.js';
 import { updatePageMeta } from '../utils/seo.js';
-import { createToolCard } from '../components/card.js';
+import { renderCategoryCards } from '../components/card.js';
 import toolsData from '../data/tools.json';
 import categoriesData from '../data/categories.json';
 
@@ -28,19 +28,7 @@ export function renderCategory(categoryId) {
         <h1>${category.name}</h1>
         <p>${category.description}</p>
       </div>
-      <div class="tools-grid" id="category-tools"></div>
+      <div class="tools-grid" id="category-tools">${renderCategoryCards(tools)}</div>
     </div>
   `;
-
-  const grid = main.querySelector('#category-tools');
-  tools.forEach(tool => {
-    const card = createToolCard({
-      title: tool.name,
-      description: tool.description,
-      icon: tool.icon,
-      href: tool.href,
-      category: tool.category
-    });
-    grid.appendChild(card);
-  });
 }

@@ -1,6 +1,7 @@
 /**
  * Main entry point
  * Initializes the app: styles, router, navbar, footer
+ * Page renderers are lazy-loaded on demand for fast SPA navigation.
  */
 
 // ===== Import Styles =====
@@ -8,21 +9,12 @@ import './styles/global.css';
 import './styles/components.css';
 import './styles/utilities.css';
 
-// ===== Import Core Modules =====
-import { initRouter, on, setNotFound } from './router.js';
+// ===== Import Core Modules (always needed) =====
+import { initRouter, on, setCleanup, setNotFound } from './router.js';
 import { renderNavbar, initNavbar } from './components/navbar.js';
 import { renderFooter } from './components/footer.js';
 import { initTooltips } from './components/tooltip.js';
 import { $ } from './utils/dom-query.js';
-
-// ===== Import Page Renderers =====
-import { renderHome } from './pages/home.js';
-import { renderCategory } from './pages/category.js';
-import { renderTool } from './pages/tool.js';
-import { renderAbout } from './pages/about.js';
-import { renderPrivacy } from './pages/privacy.js';
-import { renderTerms } from './pages/terms.js';
-import { renderNotFound } from './pages/not-found.js';
 
 // ===== Initialize App =====
 function initApp() {
@@ -37,16 +29,43 @@ function initApp() {
   initNavbar();
   initTooltips();
 
-  // 3. Register routes
-  on('/', () => renderHome());
-  on('/category/:id', (params) => renderCategory(params.id));
-  on('/tools/:id', (params) => renderTool(params.id));
-  on('/about', () => renderAbout());
-  on('/privacy', () => renderPrivacy());
-  on('/terms', () => renderTerms());
+  // 3. Register routes — lazy load page renderers for fast initial bundle
+  on('/', async () => {
+    const { renderHome } = await import('./pages/home.js');
+    renderHome();
+  });
+
+  on('/category/:id', async (params) => {
+    const { renderCategory } = await import('./pages/category.js');
+    renderCategory(params.id);
+  });
+
+  on('/tools/:id', async (params) => {
+    const { renderTool, cleanupToolResources } = await import('./pages/tool.js');
+    setCleanup(cleanupToolResources);
+    await renderTool(params.id);
+  });
+
+  on('/about', async () => {
+    const { renderAbout } = await import('./pages/about.js');
+    renderAbout();
+  });
+
+  on('/privacy', async () => {
+    const { renderPrivacy } = await import('./pages/privacy.js');
+    renderPrivacy();
+  });
+
+  on('/terms', async () => {
+    const { renderTerms } = await import('./pages/terms.js');
+    renderTerms();
+  });
 
   // 4. Set 404 handler
-  setNotFound(() => renderNotFound());
+  setNotFound(async () => {
+    const { renderNotFound } = await import('./pages/not-found.js');
+    renderNotFound();
+  });
 
   // 5. Initialize router
   initRouter();

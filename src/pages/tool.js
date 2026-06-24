@@ -8,14 +8,13 @@ const toolCache = {};
 let cleanupFn = null;
 
 export async function renderTool(toolId) {
-  // Cleanup previous tool before loading new one
   await cleanupCurrentTool();
   const main = $('#main-content');
   if (!main) {
     console.error('Main content not found');
     return;
   }
-  
+
   const toolMeta = toolsData.find(t => t.id === toolId);
 
   if (!toolMeta) {
@@ -57,7 +56,6 @@ export async function renderTool(toolId) {
   `;
 
   try {
-    await new Promise(r => setTimeout(r, 50));
     const toolModule = await loadToolModule(toolMeta.category, toolId);
     const toolPage = main.querySelector('.tool-page');
     const loadingEl = toolPage?.querySelector('.tool-loading');
@@ -73,48 +71,48 @@ export async function renderTool(toolId) {
       renderFn(toolContainer);
       const internalHeaders = toolContainer.querySelectorAll('h1, h2, .tool-header');
       internalHeaders.forEach(h => h.remove());
-
-      const adSection = document.createElement('div');
-      adSection.className = 'tool-ad-section';
-      adSection.appendChild(createAdSlot({ slot: 'TOOL_BODY_SLOT' }));
-      toolPage?.appendChild(adSection);
     } else {
       console.error('No render function found in module:', toolModule);
     }
 
-    // How to Use section
-    if (toolMeta.steps) {
-      const section = document.createElement('section');
-      section.className = 'how-to-section';
-      section.innerHTML = `<h2>How to Use</h2><ol class="how-to-steps">${toolMeta.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
-      toolPage?.appendChild(section);
-    }
+    // Defer non-critical content (below-the-fold: ads, FAQ, related tools)
+    queueMicrotask(() => {
+      const adSection = document.createElement('div');
+      adSection.className = 'tool-ad-section';
+      adSection.appendChild(createAdSlot({ slot: 'TOOL_BODY_SLOT' }));
+      toolPage?.appendChild(adSection);
 
-    // FAQ section
-    if (toolMeta.faqs) {
-      const section = document.createElement('section');
-      section.className = 'faq-section';
-      section.innerHTML = `<h2>Frequently Asked Questions</h2><div class="faq-list">${toolMeta.faqs.map(faq => `<details class="faq-item"><summary>${faq.question}</summary><p>${faq.answer}</p></details>`).join('')}</div>`;
-      toolPage?.appendChild(section);
+      if (toolMeta.steps) {
+        const section = document.createElement('section');
+        section.className = 'how-to-section';
+        section.innerHTML = `<h2>How to Use</h2><ol class="how-to-steps">${toolMeta.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
+        toolPage?.appendChild(section);
+      }
 
-      addStructuredData({
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": toolMeta.faqs.map(faq => ({
-          "@type": "Question", "name": faq.question,
-          "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
-        }))
-      });
-    }
+      if (toolMeta.faqs) {
+        const section = document.createElement('section');
+        section.className = 'faq-section';
+        section.innerHTML = `<h2>Frequently Asked Questions</h2><div class="faq-list">${toolMeta.faqs.map(faq => `<details class="faq-item"><summary>${faq.question}</summary><p>${faq.answer}</p></details>`).join('')}</div>`;
+        toolPage?.appendChild(section);
 
-    // Related tools
-    const related = toolsData.filter(t => t.category === toolMeta.category && t.id !== toolId).slice(0, 6);
-    if (related.length > 0) {
-      const section = document.createElement('section');
-      section.className = 'related-tools';
-      section.innerHTML = `<h2>Related Tools</h2><div class="tools-grid">${related.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${t.icon}</span><h3>${t.name}</h3><p>${t.description}</p></a>`).join('')}</div>`;
-      toolPage?.appendChild(section);
-    }
+        addStructuredData({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": toolMeta.faqs.map(faq => ({
+            "@type": "Question", "name": faq.question,
+            "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
+          }))
+        });
+      }
+
+      const related = toolsData.filter(t => t.category === toolMeta.category && t.id !== toolId).slice(0, 6);
+      if (related.length > 0) {
+        const section = document.createElement('section');
+        section.className = 'related-tools';
+        section.innerHTML = `<h2>Related Tools</h2><div class="tools-grid">${related.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${t.icon}</span><h3>${t.name}</h3><p>${t.description}</p></a>`).join('')}</div>`;
+        toolPage?.appendChild(section);
+      }
+    });
   } catch (error) {
     console.error('Error loading tool module:', error);
     const toolPage = main.querySelector('.tool-page');

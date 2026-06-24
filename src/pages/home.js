@@ -2,7 +2,6 @@ import { $ } from '../utils/dom-query.js';
 import { debounce } from '../utils/debounce.js';
 import { navigate } from '../router.js';
 import { updatePageMeta } from '../utils/seo.js';
-import { createToolCard } from '../components/card.js';
 import toolsData from '../data/tools.json';
 import categoriesData from '../data/categories.json';
 
@@ -77,35 +76,21 @@ export function renderHome() {
     </div>
   `;
 
-  // Render popular tools
+  // Render popular tools and categories as HTML
   const popularGrid = main.querySelector('#popular-tools');
-  popular.forEach(tool => {
-    const card = createToolCard({
-      title: tool.name,
-      description: tool.description,
-      icon: tool.icon,
-      href: tool.href,
-      category: tool.category
-    });
-    popularGrid.appendChild(card);
-  });
+  popularGrid.innerHTML = popular.map(tool => toCardHtml({
+    title: tool.name, description: tool.description, icon: tool.icon,
+    href: tool.href, category: tool.category
+  })).join('');
 
-  // Render categories
   const catGrid = main.querySelector('#categories-grid');
-  categoriesData.forEach(cat => {
-    const card = createToolCard({
-      title: cat.name,
-      description: cat.description,
-      icon: cat.icon,
-      href: `/category/${cat.id}`,
-      category: `${cat.toolCount} tools`
-    });
-    catGrid.appendChild(card);
-  });
+  catGrid.innerHTML = categoriesData.map(cat => toCardHtml({
+    title: cat.name, description: cat.description, icon: cat.icon,
+    href: `/category/${cat.id}`, category: `${cat.toolCount} tools`
+  })).join('');
 
-  // Search functionality
+  // Search functionality (hero only — navbar search handles itself)
   initSearch();
-  initAllSearchInputs();
 }
 
 function initSearch() {
@@ -270,4 +255,14 @@ function highlightMatch(text, query) {
   if (!query) return text;
   const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
   return text.replace(regex, '<mark>$1</mark>');
+}
+
+function toCardHtml({ title, description, icon, href, category }) {
+  const linkHref = href.startsWith('/') ? `#${href}` : href;
+  return `<a href="${linkHref}" class="tool-card" data-nav-link="${href}">
+    <span class="tool-card-icon">${icon}</span>
+    <h3 class="tool-card-title">${title}</h3>
+    <p class="tool-card-desc">${description}</p>
+    ${category ? `<span class="tool-card-category">${category}</span>` : ''}
+  </a>`;
 }

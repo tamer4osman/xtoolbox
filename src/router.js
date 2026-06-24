@@ -52,18 +52,30 @@ async function handleRouteChange() {
     await cleanupToolResources();
   }
 
+  let cleanup = currentCleanup;
+  currentCleanup = null;
+  if (cleanup) {
+    try { await cleanup(); } catch (e) { console.error('Route cleanup error:', e); }
+  }
+
   const matched = matchRoute(path);
 
   if (matched) {
     currentRoute = path;
-    matched.handler(matched.params);
+    await matched.handler(matched.params);
   } else if (notFoundHandler) {
-    notFoundHandler();
+    await notFoundHandler();
   }
 
   window.scrollTo(0, 0);
   updateActiveLinks(path);
 }
+
+export function setCleanup(fn) {
+  currentCleanup = fn;
+}
+
+let currentCleanup = null;
 
 function updateActiveLinks(currentPath) {
   document.querySelectorAll('[data-nav-link]').forEach(link => {

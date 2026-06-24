@@ -1,5 +1,3 @@
-import { initAllSearchInputs } from '../pages/home.js';
-
 /**
  * Render the navigation bar
  */
@@ -80,6 +78,8 @@ export function initNavbar() {
     });
   }
 
-  // Initialize search inputs
-  setTimeout(() => initAllSearchInputs(), 100);
+  // Initialize search inputs (lazy import — breaks static dep on home.js)
+  setTimeout(() => {
+    import('../pages/home.js').then(m => m.initAllSearchInputs());
+  }, 100);
 }
