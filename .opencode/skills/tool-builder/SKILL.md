@@ -47,6 +47,7 @@ For fixes, updates, or enhancements to an existing tool, follow Steps 1-8:
 4. Verify build
 5. Verify unit tests
 6. Run Chrome DevTools checks (including Lighthouse a11y) — same as new tools
+6.5. Run SPA performance regression check — same as new tools
 7. Run Fallow
 8. Present for user approval
 
@@ -181,6 +182,24 @@ Then verify all of the following in order:
 6. **Interaction** — Click the primary action button and verify expected output. For input-driven tools, simulate input and assert result appears
 
 If any check fails, fix the code and re-run from Step 1. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
+
+## Step 6.5 — SPA performance regression check (BLOCKING)
+
+Verify that adding the new tool doesn't regress SPA navigation performance. Run the automated Playwright-based performance check with the dev server running:
+
+```bash
+node scripts/measure-spa-performance.mjs
+```
+
+This script navigates through all 8 page templates (home, category×2, tool×2, about, privacy, terms) **twice** — cold (module fetch) first, then warm (cached). The warm pass must finish under **50ms** for every route.
+
+**If it fails:**
+- Check if your tool's module is pulling excessive static imports into its chunk
+- Check if the tool's render function does synchronous DOM work that blocks the main thread
+- Move non-critical content (ads, related tools, FAQ) behind `queueMicrotask` or lazy rendering
+- Verify no `import` of large JSON data (tools.json is ~50 kB — use dynamic import if your tool needs it)
+
+**If a previous run already passed and only your tool was added:** Focus on whether the tool page itself renders fast. The other page template times should be unchanged. If a non-tool page (e.g. home, about) regressed, you may have pulled new deps into a shared chunk.
 
 ## Step 7 — Fallow static analysis (BLOCKING)
 
