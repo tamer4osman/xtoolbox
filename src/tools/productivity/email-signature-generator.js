@@ -52,8 +52,6 @@ function buildSignatureHtml(state) {
   const titleSize = Math.round(fs * 0.95);
   const smallSize = Math.round(fs * 0.82);
 
-  const rows = [];
-
   const photoHtml = state.photoDataUrl && state.showPhoto
     ? `<td style="padding:0 16px 0 0;vertical-align:top;width:72px;"><img src="${state.photoDataUrl}" alt="" style="display:block;width:72px;height:72px;border-radius:${state.photoShape === 'round' ? '50%' : '8px'};object-fit:cover;"></td>`
     : '';
@@ -66,18 +64,18 @@ function buildSignatureHtml(state) {
     ? `<div style="font-size:${nameSize}px;font-weight:700;color:${state.textColor};line-height:1.3;margin:0;">${escapeHtml(state.name)}</div>`
     : '';
 
-  const titleCompany = [state.title, state.company].filter(Boolean).join(' &middot; ');
-  const titleHtml = titleCompany
-    ? `<div style="font-size:${titleSize}px;color:${state.textColor};line-height:1.4;margin:2px 0 0 0;">${escapeHtml(titleCompany)}</div>`
+  const titleCompany = [state.title, state.company].filter(Boolean);
+  const titleHtml = titleCompany.length
+    ? `<div style="font-size:${titleSize}px;color:${state.textColor};line-height:1.4;margin:2px 0 0 0;">${titleCompany.map(escapeHtml).join(' &middot; ')}</div>`
     : '';
 
   const contactItems = [];
   if (state.email) {
     const mailHref = state.email.includes('@') ? 'mailto:' + state.email : state.email;
-    contactItems.push(`<a href="${mailHref}" style="color:${state.linkColor};text-decoration:none;font-size:${smallSize}px;">${escapeHtml(state.email)}</a>`);
+    contactItems.push(`<a href="${escapeAttribute(mailHref)}" style="color:${escapeAttribute(state.linkColor)};text-decoration:none;font-size:${smallSize}px;">${escapeHtml(state.email)}</a>`);
   }
-  if (state.phone) contactItems.push(`<span style="color:${state.textColor};font-size:${smallSize}px;">${escapeHtml(state.phone)}</span>`);
-  if (state.website) contactItems.push(`<a href="${normalizeUrl(state.website)}" target="_blank" style="color:${state.linkColor};text-decoration:none;font-size:${smallSize}px;">${escapeHtml(state.website)}</a>`);
+  if (state.phone) contactItems.push(`<span style="color:${escapeAttribute(state.textColor)};font-size:${smallSize}px;">${escapeHtml(state.phone)}</span>`);
+  if (state.website) contactItems.push(`<a href="${escapeAttribute(normalizeUrl(state.website))}" target="_blank" rel="noopener noreferrer" style="color:${escapeAttribute(state.linkColor)};text-decoration:none;font-size:${smallSize}px;">${escapeHtml(state.website)}</a>`);
 
   const socialLinks = [];
   const socialEntries = [
@@ -88,7 +86,7 @@ function buildSignatureHtml(state) {
   ];
   for (const s of socialEntries) {
     if (s.url && SOCIAL_ICONS[s.key]) {
-      socialLinks.push(`<a href="${normalizeUrl(s.url)}" target="_blank" style="display:inline-block;margin:0 4px;color:${state.textColor};text-decoration:none;">${SOCIAL_ICONS[s.key]}</a>`);
+      socialLinks.push(`<a href="${escapeAttribute(normalizeUrl(s.url))}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin:0 4px;color:${escapeAttribute(s.textColor || state.textColor)};text-decoration:none;">${SOCIAL_ICONS[s.key]}</a>`);
     }
   }
 
@@ -103,7 +101,7 @@ function buildSignatureHtml(state) {
     ? `<div style="margin-top:4px;font-size:${smallSize}px;color:${state.textColor};">${escapeHtml(state.address)}</div>`
     : '';
   const bannerHtml = state.bannerDataUrl && state.showBanner
-    ? `<div style="margin-top:10px;"><a href="${normalizeUrl(state.website || '#')}" target="_blank"><img src="${state.bannerDataUrl}" alt="" style="display:block;max-width:500px;max-height:120px;border:0;"></a></div>`
+    ? `<div style="margin-top:10px;"><a href="${escapeAttribute(normalizeUrl(state.website || '#'))}" target="_blank" rel="noopener noreferrer"><img src="${state.bannerDataUrl}" alt="" style="display:block;max-width:500px;max-height:120px;border:0;"></a></div>`
     : '';
 
   const bodyRows = [];
@@ -136,6 +134,15 @@ function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+function escapeAttribute(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function normalizeUrl(str) {
@@ -342,32 +349,32 @@ export function render(container) {
   const photoInput = container.querySelector('#sig-photo-input');
   photoInput.addEventListener('change', async () => {
     const url = await readFileAsDataUrl(photoInput.files[0]);
-    if (url) { state.photoDataUrl = url; state.showPhoto = true; updatePreview(); }
+    if (url) { state.photoDataUrl = url; state.showPhoto = true; saveState(state); render(container); return; }
     photoInput.value = '';
   });
 
   const logoInput = container.querySelector('#sig-logo-input');
   logoInput.addEventListener('change', async () => {
     const url = await readFileAsDataUrl(logoInput.files[0]);
-    if (url) { state.logoDataUrl = url; state.showLogo = true; updatePreview(); }
+    if (url) { state.logoDataUrl = url; state.showLogo = true; saveState(state); render(container); return; }
     logoInput.value = '';
   });
 
   const bannerInput = container.querySelector('#sig-banner-input');
   bannerInput.addEventListener('change', async () => {
     const url = await readFileAsDataUrl(bannerInput.files[0]);
-    if (url) { state.bannerDataUrl = url; state.showBanner = true; updatePreview(); }
+    if (url) { state.bannerDataUrl = url; state.showBanner = true; saveState(state); render(container); return; }
     bannerInput.value = '';
   });
 
   const photoRemove = container.querySelector('#sig-photo-remove');
-  if (photoRemove) photoRemove.addEventListener('click', () => { state.photoDataUrl = null; state.showPhoto = false; updatePreview(); });
+  if (photoRemove) photoRemove.addEventListener('click', () => { state.photoDataUrl = null; state.showPhoto = false; saveState(state); render(container); });
 
   const logoRemove = container.querySelector('#sig-logo-remove');
-  if (logoRemove) logoRemove.addEventListener('click', () => { state.logoDataUrl = null; state.showLogo = false; updatePreview(); });
+  if (logoRemove) logoRemove.addEventListener('click', () => { state.logoDataUrl = null; state.showLogo = false; saveState(state); render(container); });
 
   const bannerRemove = container.querySelector('#sig-banner-remove');
-  if (bannerRemove) bannerRemove.addEventListener('click', () => { state.bannerDataUrl = null; state.showBanner = false; updatePreview(); });
+  if (bannerRemove) bannerRemove.addEventListener('click', () => { state.bannerDataUrl = null; state.showBanner = false; saveState(state); render(container); });
 
   container.querySelector('#sig-copy').addEventListener('click', async () => {
     const html = buildSignatureHtml(state);
@@ -423,17 +430,17 @@ export function render(container) {
 
 function inputField(id, label, value, type) {
   return `<label style="font-size:var(--text-xs);color:var(--color-text-secondary);display:flex;flex-direction:column;gap:var(--space-1);">
-    ${label}
-    <input id="${id}" type="${type}" class="input" value="${escapeHtml(value || '')}" placeholder="${label}">
+    ${escapeHtml(label)}
+    <input id="${escapeAttribute(id)}" type="${escapeAttribute(type)}" class="input" value="${escapeAttribute(value || '')}" placeholder="${escapeAttribute(label)}">
   </label>`;
 }
 
 function colorInput(id, label, value) {
   return `<label style="font-size:var(--text-xs);color:var(--color-text-secondary);display:flex;flex-direction:column;gap:var(--space-1);">
-    ${label}
+    ${escapeHtml(label)}
     <div style="display:flex;align-items:center;gap:var(--space-1);">
-      <input id="${id}" type="color" value="${value}" style="width:36px;height:32px;padding:2px;border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;background:none;">
-      <span id="${id}-val" style="font-size:11px;font-family:monospace;color:var(--color-text-secondary);">${value}</span>
+      <input id="${escapeAttribute(id)}" type="color" value="${escapeAttribute(value)}" style="width:36px;height:32px;padding:2px;border:1px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;background:none;">
+      <span id="${escapeAttribute(id)}-val" style="font-size:11px;font-family:monospace;color:var(--color-text-secondary);">${escapeHtml(value)}</span>
     </div>
   </label>`;
 }
