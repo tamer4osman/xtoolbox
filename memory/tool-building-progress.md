@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 294 built, 7 planned = 301 total
+## Current Status: 295 built, 6 planned = 301 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -60,8 +60,8 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ### Audio (1 planned)
 - [ ] Sound Effect Generator (`sound-effect-generator`)
 
-### Finance (1 planned)
-- [ ] Debt Payoff Visualizer (`debt-payoff-visualizer`)
+### Finance (0 planned)
+- [x] Debt Payoff Visualizer (`debt-payoff-visualizer`)
 
 ### Encoding (1 planned)
 - [x] HMAC Generator & Verifier (`hmac-generator`)

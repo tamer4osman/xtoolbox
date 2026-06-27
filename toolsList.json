@@ -3128,7 +3128,7 @@
     "description": "Visualize debt payoff strategies (snowball vs avalanche) with timeline and interest charts.",
     "icon": "📉",
     "href": "/tools/debt-payoff-visualizer",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "debt",
       "payoff",

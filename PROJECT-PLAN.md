@@ -11473,7 +11473,7 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 |---|------|------|---------|-------------------|-----------------|
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | very-high | Marketers need to preview before publishing |
 
-**Total Phase 25:** 39 tools planned (11 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter, NGINX Config Generator, Docker Compose Generator, Environment Variable Editor, LLM Token Counter, Citation & Bibliography Generator — 28 remaining).
+**Total Phase 25:** 39 tools planned (12 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter, NGINX Config Generator, Docker Compose Generator, Environment Variable Editor, LLM Token Counter, Citation & Bibliography Generator, Debt Payoff Visualizer — 27 remaining).
 
 **After Phase 25:** 284 tools total (255 built + 29 planned), across 21 categories.
 
