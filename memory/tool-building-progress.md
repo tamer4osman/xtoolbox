@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 295 built, 6 planned = 301 total
+## Current Status: 296 built, 5 planned = 301 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -69,8 +69,8 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 ### Reference (1 planned)
 - [x] World Clock & Time Zone Converter (`world-clock`)
 
-### SEO (1 planned)
-- [ ] Social Media Post Previewer (`social-media-post-previewer`)
+### SEO (0 planned)
+- [x] Social Media Post Previewer (`social-media-post-previewer`)
 
 ---
 

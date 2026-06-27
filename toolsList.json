@@ -3299,7 +3299,7 @@
     "description": "Preview how content will look when shared on X, Facebook, LinkedIn, and Instagram.",
     "icon": "👁️",
     "href": "/tools/social-media-post-previewer",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "social",
       "media",
