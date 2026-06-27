@@ -3096,7 +3096,7 @@
       "gmail",
       "outlook"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "debt-payoff-visualizer",
@@ -3302,6 +3302,6 @@
       "stl",
       "webgl"
     ],
-    "status": "planned"
+    "status": "done"
   }
 ]

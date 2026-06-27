@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**290 free online tools (+10 planned). 100% client-side processing — your files never leave your device.**
+**292 free online tools (+8 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -188,7 +188,7 @@ toolbox/
 │   │   ├── visualization/        ← 4 visualization tools
 │   │   ├── css/                  ← 17 CSS tools (19 total, 2 planned)
 │   │   ├── dev/                  ← 22 developer tools (28 total, 6 planned)
-│   │   ├── productivity/         ← 5 productivity tools (11 total, 6 planned)
+│   │   ├── productivity/         ← 6 productivity tools (11 total, 5 planned)
 │   │   ├── fun/                  ← 5 fun tools
 │   │   ├── business/             ← 8 business tools (14 total, 6 planned)
 │   │   └── seo/                  ← 7 SEO tools (8 total, 1 planned)

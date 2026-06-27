@@ -1,15 +1,34 @@
 ---
 name: tool-builder
-description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 11-step tool-building convention from AGENTS.md, including duplicate check, file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
+description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 14-step tool-building convention from AGENTS.md, including duplicate check, webfetch research, file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
 ---
 
 # Tool Builder
 
-End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 11-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
+End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 14-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
 
-## Before any creation or update
+## When to use
 
-### ⛔ Duplicate Check (BLOCKING — do this FIRST)
+- User says "build / add / create / scaffold a tool"
+- User names a specific tool from `memory/tool-building-progress.md` (Phase 25 planned list)
+- User asks to "fill a gap" or "implement a missing tool"
+
+## Modifying an existing tool
+
+For fixes, updates, or enhancements to an existing tool, follow Steps 3-11:
+1. Edit the tool file
+2. (Skip unit test if no new logic)
+3. (Skip Playwright test if trivial)
+4. Verify build
+5. Verify unit tests
+6. Run Chrome DevTools checks (including Lighthouse a11y) — same as new tools
+7. Run SPA performance regression check — same as new tools
+8. Run Fallow
+9. Present for user approval
+
+Skip docs/count propagation only when the tool is already in the registry and the change doesn't add a new tool.
+
+## Step 0 — Duplicate Check (BLOCKING — do this FIRST)
 
 Before writing ANY code, verify the tool doesn't already exist (even under a different name):
 
@@ -20,40 +39,9 @@ Before writing ANY code, verify the tool doesn't already exist (even under a dif
    - **Same function, same name** → STOP. Tool already exists.
    - **Same function, different name** → STOP. Tell user, suggest extending/renaming the existing tool instead.
    - **Partial overlap** → Note the overlap, propose how to differentiate, get user confirmation before proceeding.
-   - **No overlap** → Proceed to research step.
+   - **No overlap** → Proceed to Step 1.
 
-### Research & Best Practices
-
-**ALWAYS use web search** to find best practices:
-- Search for "[tool type] implementation best practices JavaScript browser"
-- Search for "[tool type] open source library JavaScript"
-- Search for "best [tool type] library for web"
-- Check existing tools in the project for similar patterns
-
-Document findings in your response to the user before proceeding.
-
-## When to use
-
-- User says "build / add / create / scaffold a tool"
-- User names a specific tool from `memory/tool-building-progress.md` (Phase 25 planned list)
-- User asks to "fill a gap" or "implement a missing tool"
-
-## Modifying an existing tool
-
-For fixes, updates, or enhancements to an existing tool, follow Steps 1-8:
-1. Edit the tool file
-2. (Skip unit test if no new logic)
-3. (Skip Playwright test if trivial)
-4. Verify build
-5. Verify unit tests
-6. Run Chrome DevTools checks (including Lighthouse a11y) — same as new tools
-6.5. Run SPA performance regression check — same as new tools
-7. Run Fallow
-8. Present for user approval
-
-Skip docs/count propagation only when the tool is already in the registry and the change doesn't add a new tool.
-
-## Step 0 — Research & Confirm (BLOCKING)
+## Step 1 — Research & Confirm (BLOCKING)
 
 After passing the duplicate check, before any work:
 
@@ -74,9 +62,26 @@ After passing the duplicate check, before any work:
    - "Libraries needed: [none / package name]"
    - "Potential issues: [any concerns]"
    
-   Wait for user confirmation before proceeding to Step 1.
+   Wait for user confirmation before proceeding to Step 2.
 
-## Step 1 — Create the tool file
+## Step 2 — Webfetch Best Practices (BLOCKING)
+
+Use `webfetch` to pull authoritative documentation for the chosen approach. This step ensures the implementation follows official patterns, not guesswork.
+
+**What to fetch:**
+- Official library docs (e.g. Three.js manual, pdf-lib GitHub README, ffmpeg.wasm usage guide)
+- Tutorials from authoritative sources (e.g. threejs.org/manual, developer.mozilla.org)
+- Open-source reference implementations on GitHub
+
+**How to structure the search:**
+1. Identify the primary library/API chosen in Step 1
+2. Fetch its official "getting started" or "loading" documentation page
+3. Fetch 1-2 example implementations if available
+4. Note any gotchas, anti-patterns, or browser compatibility issues
+
+**Output:** Document findings in your response. These become the implementation reference for Step 3. If the fetched docs reveal a better approach than Step 1 decided, re-confirm with the user before proceeding.
+
+## Step 3 — Create the tool file
 
 Path: `src/tools/<category>/<tool-id>.js`
 
@@ -114,7 +119,7 @@ Conventions to mimic from existing tools:
 - For PDF tools, use local worker assets via Vite `?url` (see `src/tools/pdf/pdf-utils.js` for the pattern).
 - Import styles from `../../styles/components.css` only if a needed class is missing there — otherwise rely on the shared system.
 
-## Step 2 — Unit test
+## Step 4 — Unit test
 
 Path: `src/__tests__/<tool-id>.test.js`
 
@@ -133,7 +138,7 @@ describe('tool-id', () => {
 
 If the tool is heavily DOM-bound, export the pure helpers and test those. Keep tests fast and offline.
 
-## Step 3 — Playwright test
+## Step 5 — Playwright test
 
 Path: `tests/<tool-id>.spec.js`
 
@@ -148,7 +153,7 @@ test('tool-id loads and runs', async ({ page }) => {
 
 Add deeper interaction only if the tool has a non-trivial happy path.
 
-## Step 4 — Verify build
+## Step 6 — Verify build
 
 ```bash
 npm run build
@@ -156,7 +161,7 @@ npm run build
 
 Must exit 0. If it fails, fix the tool file before proceeding. Common causes: bad import path, missing export, syntax error, missing dependency in `package.json`.
 
-## Step 5 — Verify unit tests
+## Step 7 — Verify unit tests
 
 ```bash
 npm run test:unit
@@ -164,7 +169,7 @@ npm run test:unit
 
 All tests must pass. The Playwright suite (`npm run test`) is **not** required here — that runs in CI.
 
-## Step 6 — Self-test with Chrome DevTools (BLOCKING)
+## Step 8 — Self-test with Chrome DevTools (BLOCKING)
 
 Before asking the user, smoke-test the tool yourself with the Chrome DevTools MCP. Start the dev server if it is not already running:
 
@@ -181,9 +186,9 @@ Then verify all of the following in order:
 5. **Lighthouse** — Run `lighthouse_audit` with a11y. Score must be >= 90. Fix any critical issues found (missing labels, low contrast, heading order). SEO/best-practice scores don't need to pass
 6. **Interaction** — Click the primary action button and verify expected output. For input-driven tools, simulate input and assert result appears
 
-If any check fails, fix the code and re-run from Step 1. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
+If any check fails, fix the code and re-run from Step 3. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
 
-## Step 6.5 — SPA performance regression check (BLOCKING)
+## Step 8.5 — SPA performance regression check (BLOCKING)
 
 Verify that adding the new tool doesn't regress SPA navigation performance. Run the automated Playwright-based performance check with the dev server running:
 
@@ -201,7 +206,7 @@ This script navigates through all 8 page templates (home, category×2, tool×2, 
 
 **If a previous run already passed and only your tool was added:** Focus on whether the tool page itself renders fast. The other page template times should be unchanged. If a non-tool page (e.g. home, about) regressed, you may have pulled new deps into a shared chunk.
 
-## Step 7 — Fallow static analysis (BLOCKING)
+## Step 9 — Fallow static analysis (BLOCKING)
 
 Run Fallow against the new tool's file to catch dead code and complexity issues before the user sees it:
 
@@ -213,9 +218,9 @@ npx fallow health src/tools/<category>/<tool-id>.js
 - **Dead code** — Fallow must report 0 unused exports in the new tool file. Every exported symbol (`toolConfig`, `render`, and any helper functions) must be consumed by the module graph. If Fallow flags something, either remove it or add a re-export/barrel.
 - **Health** — Fallow must not report any file with complexity above the project threshold. If the tool file triggers a warning, refactor to reduce branching.
 
-If either check fails, fix the code and re-run Step 7. Do not proceed to Step 8 until both pass clean.
+If either check fails, fix the code and re-run Step 9. Do not proceed to Step 10 until both pass clean.
 
-## Step 7.5 — Oxlint + Oxfmt (BLOCKING)
+## Step 9.5 — Oxlint + Oxfmt (BLOCKING)
 
 Fast Rust-based linting and formatting (replaces ESLint + Prettier). Scope to new tool only:
 
@@ -229,7 +234,7 @@ npx oxfmt --write src/tools/<category>/<tool-id>.js
 
 If either fails, fix and re-run. Do not proceed until both pass.
 
-## Step 7.5 — (Optional) MSW for external APIs
+## Step 10 — (Optional) MSW for external APIs
 
 If the tool calls external APIs (crypto-prices, currency-converter, weather, etc.), add MSW mocks:
 
@@ -251,7 +256,7 @@ export const handlers = [
 
 Why: Tests don't depend on live APIs, can test error states, work offline.
 
-## Step 8 — User testing gate (BLOCKING)
+## Step 11 — User testing gate (BLOCKING)
 
 Tell the user:
 
@@ -261,9 +266,9 @@ Tell the user:
 > 2. …
 > 3. …
 
-Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 9 if the user has not approved.
+Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 12 if the user has not approved.
 
-## Step 9 — Update docs (all required, all in one pass)
+## Step 12 — Update docs (all required, all in one pass)
 
 | File | Change |
 |------|--------|
@@ -273,7 +278,7 @@ Be specific about what to try — call out the primary controls, any edge cases,
 | `PROJECT-PLAN.md` | Bump the "Tasks Done" total by 1. If the phase finished, mark it ✅. |
 | `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool. |
 
-## Step 10 — Update main-page counts (all required)
+## Step 13 — Update main-page counts (all required)
 
 These MUST reflect the new total — the tool count appears in 4 user-facing files and must agree:
 
@@ -289,7 +294,7 @@ rg -n "(\\d+)\\+?\\s*(free\\s*)?(online\\s*)?tools" README.md src/pages/home.js 
 
 Every number should be the same.
 
-## Step 11 — Commit (only after user approval)
+## Step 14 — Commit (only after user approval)
 
 Stage only the files you touched. Write a descriptive commit message:
 
@@ -306,7 +311,7 @@ Add <tool-name> tool (<category>)
 
 ## Red lines
 
-- Do not commit before Step 8 (user) approval. Steps 6-7.5 are automated checks; only the user's explicit approval clears the gate to Steps 9-11.
+- Do not commit before Step 11 (user) approval. Steps 8-10 are automated checks; only the user's explicit approval clears the gate to Steps 12-14.
 - Do not edit `package.json` to add a dependency without asking — many Phase 25 tools can be built with browser built-ins only (see the AGENTS.md / README convention).
 - Do not add a tool to `src/data/tools.json` without also adding it to `toolsList.json` and vice versa.
 - Do not add comments to the tool source (AGENTS.md: "DO NOT ADD ANY COMMENTS unless asked").
