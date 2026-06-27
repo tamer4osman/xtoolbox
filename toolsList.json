@@ -3094,7 +3094,7 @@
     "description": "Generate retro game sound effects using the Web Audio API. Export as WAV.",
     "icon": "🎮",
     "href": "/tools/sound-effect-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "sound",
       "effect",

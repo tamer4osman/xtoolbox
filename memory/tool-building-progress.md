@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 296 built, 5 planned = 301 total
+## Current Status: 297 built, 4 planned = 301 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -57,8 +57,8 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [x] Citation & Bibliography Generator (`citation-generator`)
 - [x] Markdown Table Generator (`markdown-table-generator`)
 
-### Audio (1 planned)
-- [ ] Sound Effect Generator (`sound-effect-generator`)
+### Audio (0 planned)
+- [x] Sound Effect Generator (`sound-effect-generator`)
 
 ### Finance (0 planned)
 - [x] Debt Payoff Visualizer (`debt-payoff-visualizer`)
