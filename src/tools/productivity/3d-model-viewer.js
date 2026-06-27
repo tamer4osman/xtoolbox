@@ -35,6 +35,10 @@ let GLTFLoader = null;
 let OBJLoader = null;
 let STLLoader = null;
 let OrbitControls = null;
+let activeRafId = null;
+let activeRenderer = null;
+let activeControls = null;
+let activeResizeHandler = null;
 
 const CDN = "https://esm.sh/three@0.170.0";
 
@@ -102,11 +106,12 @@ function loadModel(scene, buffer, ext, onLoad, onProgress, onError) {
       url,
       (gltf) => {
         const root = gltf.scene;
+        const anims = gltf.animations || [];
         scene.add(root);
         onLoad({
           scene: root,
-          animations: gltf.animations || [],
-          mixer: gltf.animations.length > 0 ? new THREE.AnimationMixer(root) : null,
+          animations: anims,
+          mixer: anims.length > 0 ? new THREE.AnimationMixer(root) : null,
         });
         URL.revokeObjectURL(url);
       },
@@ -214,6 +219,7 @@ export function render(container) {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
+    activeRenderer = renderer;
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x1a1a2e);
@@ -229,6 +235,7 @@ export function render(container) {
     controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
+    activeControls = controls;
 
     scene.add(createGrid(THREE));
     createLights(THREE, scene);
@@ -236,7 +243,8 @@ export function render(container) {
     clock = new THREE.Clock();
     animate();
 
-    window.addEventListener("resize", onResize);
+    activeResizeHandler = onResize;
+    window.addEventListener("resize", activeResizeHandler);
   }
 
   function onResize() {
@@ -249,7 +257,7 @@ export function render(container) {
   }
 
   function animate() {
-    requestAnimationFrame(animate);
+    activeRafId = requestAnimationFrame(animate);
     if (controls) controls.update();
     if (mixer && animPlaying) mixer.update(clock.getDelta());
     if (renderer && scene && camera) renderer.render(scene, camera);
@@ -275,51 +283,66 @@ export function render(container) {
   }
 
   async function handleFile(file) {
-    if (!renderer) await init();
-    placeholder.style.display = "none";
-    canvas.style.display = "block";
-    onResize();
-    clearModel();
-    modelInfo.textContent = "Loading " + file.name + "...";
+    try {
+      if (!renderer) await init();
+      placeholder.style.display = "none";
+      canvas.style.display = "block";
+      onResize();
+      clearModel();
+      modelInfo.textContent = "Loading " + file.name + "...";
 
-    const ext = getExt(file.name);
-    const buffer = await file.arrayBuffer();
+      if (file.size > toolConfig.maxSizeMB * 1024 * 1024) {
+        modelInfo.textContent = "File too large (max " + toolConfig.maxSizeMB + " MB)";
+        return;
+      }
 
-    loadModel(
-      scene,
-      buffer,
-      ext,
-      (result) => {
-        currentModel = result.scene;
-        animations = result.animations;
-        mixer = result.mixer;
-        fitCameraToObject(camera, currentModel, controls);
-        controls.update();
+      const ext = getExt(file.name);
+      if (!["gltf", "glb", "obj", "stl"].includes(ext)) {
+        modelInfo.textContent = "Unsupported format: " + ext;
+        return;
+      }
 
-        const info = [];
-        let verts = 0;
-        currentModel.traverse((child) => {
-          if (child.geometry) {
-            const pos = child.geometry.getAttribute("position");
-            if (pos) verts += pos.count;
+      const buffer = await file.arrayBuffer();
+
+      loadModel(
+        scene,
+        buffer,
+        ext,
+        (result) => {
+          currentModel = result.scene;
+          animations = result.animations;
+          mixer = result.mixer;
+          fitCameraToObject(camera, currentModel, controls);
+          controls.update();
+
+          const info = [];
+          let verts = 0;
+          currentModel.traverse((child) => {
+            if (child.geometry) {
+              const pos = child.geometry.getAttribute("position");
+              if (pos) verts += pos.count;
+            }
+          });
+          if (verts > 0) info.push(verts.toLocaleString() + " vertices");
+          if (animations.length > 0) {
+            info.push(animations.length + " animation" + (animations.length > 1 ? "s" : ""));
+            animControls.style.display = "flex";
+            animSelect.innerHTML = animations
+              .map((a, i) => `<option value="${i}">${a.name || "Animation " + (i + 1)}</option>`)
+              .join("");
           }
-        });
-        if (verts > 0) info.push(verts.toLocaleString() + " vertices");
-        if (animations.length > 0) {
-          info.push(animations.length + " animation" + (animations.length > 1 ? "s" : ""));
-          animControls.style.display = "flex";
-          animSelect.innerHTML = animations
-            .map((a, i) => `<option value="${i}">${a.name || "Animation " + (i + 1)}</option>`)
-            .join("");
-        }
-        modelInfo.textContent = info.join(" · ") || file.name;
-      },
-      null,
-      (err) => {
-        modelInfo.textContent = "Error loading model";
-        console.error("Model load error:", err);
-      },
-    );
+          modelInfo.textContent = info.join(" · ") || file.name;
+        },
+        null,
+        (err) => {
+          modelInfo.textContent = "Error loading model";
+          console.error("Model load error:", err);
+        },
+      );
+    } catch (err) {
+      modelInfo.textContent = "Error: " + (err.message || "Failed to load file");
+      console.error("handleFile error:", err);
+    }
   }
 
   dropZone.addEventListener("click", (e) => {
@@ -401,6 +424,22 @@ export function render(container) {
 }
 
 export function destroy() {
+  if (activeRafId != null) {
+    cancelAnimationFrame(activeRafId);
+    activeRafId = null;
+  }
+  if (activeResizeHandler) {
+    window.removeEventListener("resize", activeResizeHandler);
+    activeResizeHandler = null;
+  }
+  if (activeControls) {
+    activeControls.dispose();
+    activeControls = null;
+  }
+  if (activeRenderer) {
+    activeRenderer.dispose();
+    activeRenderer = null;
+  }
   THREE = null;
   GLTFLoader = null;
   OBJLoader = null;
