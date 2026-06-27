@@ -58,6 +58,8 @@ const ALL_ROUTES = [
   '#/',
   '#/tools/image',
   '#/tools/jpg-to-webp',
+  '#/category/productivity',
+  '#/category/developer',
   '#/about',
   '#/privacy',
   '#/terms',
@@ -87,11 +89,21 @@ async function main() {
 
   // Instrument hashchange for SPA navigation timing
   await page.evaluate(() => {
+    window.__spaDone = null;
     window.addEventListener('hashchange', () => {
       performance.mark('spa-start');
-      requestAnimationFrame(() => {
-        performance.mark('spa-end');
-        performance.measure('spa-nav', 'spa-start', 'spa-end');
+      window.__spaDone = new Promise((resolve) => {
+        const check = () => {
+          const main = document.querySelector('#main-content');
+          if (main && main.children.length > 0) {
+            performance.mark('spa-end');
+            performance.measure('spa-nav', 'spa-start', 'spa-end');
+            resolve();
+          } else {
+            requestAnimationFrame(check);
+          }
+        };
+        requestAnimationFrame(check);
       });
     });
   });
@@ -101,7 +113,8 @@ async function main() {
   // Cold load (warmup)
   for (const route of ALL_ROUTES) {
     await page.evaluate((hash) => { location.hash = hash; }, route);
-    await page.waitForTimeout(400);
+    await page.waitForFunction(() => window.__spaDone, { timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(100);
   }
   await page.evaluate(() => performance.clearMeasures());
 
@@ -109,7 +122,8 @@ async function main() {
   for (let iter = 1; iter <= ITERATIONS; iter++) {
     for (const route of ALL_ROUTES) {
       await page.evaluate((hash) => { location.hash = hash; }, route);
-      await page.waitForTimeout(400);
+      await page.waitForFunction(() => window.__spaDone, { timeout: 5000 }).catch(() => {});
+      await page.waitForTimeout(100);
     }
 
     const measures = await page.evaluate(() =>
