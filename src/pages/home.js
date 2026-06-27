@@ -130,10 +130,7 @@ function initSearch() {
 }
 
 export function initAllSearchInputs() {
-  // Hero search (already initialized in initSearch, but re-run for safety)
-  const heroInput = document.getElementById('search-input');
-  const heroResults = document.getElementById('search-results');
-  if (heroInput && heroResults) initSearchInput(heroInput, heroResults);
+  // Hero search is initialized by initSearch() in renderHome() — skip it here.
 
   // Navbar search
   const navbarInput = document.getElementById('navbar-search-input');

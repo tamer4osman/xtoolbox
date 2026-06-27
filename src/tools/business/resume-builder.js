@@ -28,7 +28,7 @@ function loadState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed && parsed.personal) return parsed;
+      if (parsed && parsed.personal) return { ...defaultState(), ...parsed };
     }
   } catch {}
   return defaultState();

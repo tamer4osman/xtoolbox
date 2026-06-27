@@ -28,6 +28,6 @@ test('resume-builder template switch works', async ({ page }) => {
 test('resume-builder add experience entry', async ({ page }) => {
   await page.goto('/#/tools/resume-builder');
   await page.click('#rb-add-experience');
-  const entries = page.locator('.rb-entry');
+  const entries = page.locator('#rb-experience-list .rb-entry');
   await expect(entries).toHaveCount(2);
 });

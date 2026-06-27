@@ -77,6 +77,7 @@ export async function renderTool(toolId) {
 
     // Defer non-critical content (below-the-fold: ads, FAQ, related tools)
     queueMicrotask(() => {
+      if (!toolPage?.isConnected) return;
       const adSection = document.createElement('div');
       adSection.className = 'tool-ad-section';
       adSection.appendChild(createAdSlot({ slot: 'TOOL_BODY_SLOT' }));
