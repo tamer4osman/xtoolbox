@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 291 built, 10 planned = 301 total
+## Current Status: 292 built, 9 planned = 301 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -64,7 +64,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [ ] Debt Payoff Visualizer (`debt-payoff-visualizer`)
 
 ### Encoding (1 planned)
-- [ ] HMAC Generator & Verifier (`hmac-generator`)
+- [x] HMAC Generator & Verifier (`hmac-generator`)
 
 ### Reference (1 planned)
 - [x] World Clock & Time Zone Converter (`world-clock`)

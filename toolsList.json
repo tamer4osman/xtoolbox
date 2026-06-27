@@ -2902,7 +2902,7 @@
     ]
   },
   {
-"id": "privacy-policy-generator",
+    "id": "privacy-policy-generator",
     "name": "Privacy Policy Generator",
     "category": "business",
     "description": "Generate privacy policies customized for GDPR, CCPA, and similar regulations.",
@@ -3145,7 +3145,7 @@
     "description": "Generate and verify HMAC signatures using SHA-1, SHA-256, SHA-384, SHA-512 algorithms.",
     "icon": "🔐",
     "href": "/tools/hmac-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "hmac",
       "signature",
