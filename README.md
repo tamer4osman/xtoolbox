@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**292 free online tools (+8 planned). 100% client-side processing — your files never leave your device.**
+**291 free online tools (+10 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-27 phases complete. Phases 1–25 complete. Phase 26 complete! Phase 27 in progress (2/16).
+27 phases complete. Phases 1–26 complete. Phase 27 in progress (Finance Expansion).
 
 | Phase | Status |
 |-------|--------|
@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 300 (281 built, 19 planned).
+**Total tools:** 301 (291 built, 10 planned).
 
 ## Categories
 

@@ -90,7 +90,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 | Phase | Status | Tasks Done | Tasks Total |
 |-------|--------|-----------|-------------|
-| **Overall** | **Complete** | **520** | **520** |
+| **Overall** | **Complete** | **291** | **291** |
 | Phase 1: Foundation | ✅ | 62 | 62 |
 | Phase 2: PDF Tools | ✅ | 28 | 28 |
 | Phase 3: Image Tools | ✅ | 31 | 31 |
@@ -111,16 +111,10 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 | Phase 18: Developer Tools | ✅ | 7 | 7 |
 | Phase 19: SEO & Content | ✅ | 5 | 5 |
 | Phase 20: Monetization & Launch | ✅ | 22 | 22 |
-| Phase 21: Market Expansion | ✅ | 33 | 33 |
-| Phase 22: Format Converters | ✅ | 15 | 15 |
-| Phase 23: Gap Fill II | ✅ | 27 | 27 |
-| Phase 24: Privacy & Utility Expansion | ✅ | 18 | 18 |
-| Phase 25: Most Wanted (Planned) | ✅ | 39 | 39 |
-| Phase 26: Uncommon High-Demand Tools | ✅ | 16 | 16 |
-| Phase 27: 20 High-Demand Tools | 🟡 | 3 | 20 |
-| **Total** | | **511** | **520** |
+| **Total (Original)** | | **291** | **291** |
 
-**Status:** 292 professional tools built. 8 tools planned across Phase 27 = 8 tools remaining. Total: 300 tools.
+> **Tool count:** 291 tools built, 10 planned = 301 total (see `tools.json`).
+> **Expansion phases:** See Expansion Progress table (Phases 21-44) below.
 
 ---
 
