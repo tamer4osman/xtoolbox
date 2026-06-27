@@ -3024,10 +3024,10 @@
     "id": "exif-editor",
     "name": "EXIF Data Editor",
     "category": "image",
-    "description": "Batch edit EXIF metadata (dates, GPS, camera info, copyright) in JPEG and TIFF images.",
-    "icon": "📷",
+    "description": "View and edit EXIF metadata in JPEG images: camera, date, GPS, and more.",
+    "icon": "🏷️",
     "href": "/tools/exif-editor",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "exif",
       "metadata",

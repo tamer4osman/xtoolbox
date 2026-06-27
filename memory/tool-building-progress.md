@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 292 built, 9 planned = 301 total
+## Current Status: 293 built, 8 planned = 301 total
 
 ## Phase 25: Most Wanted Tools (Planned)
 
@@ -50,7 +50,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 - [ ] Screen Recorder (`screen-recorder`)
 
 ### Image (2 planned)
-- [ ] EXIF Data Editor (`exif-editor`)
+- [x] EXIF Data Editor (`exif-editor`)
 - [ ] Open Graph Image Generator (`og-image-generator`)
 
 ### Text (2 planned)
