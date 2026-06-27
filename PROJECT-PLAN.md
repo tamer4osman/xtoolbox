@@ -11473,9 +11473,9 @@ npm install docx xlsx pptxgenjs jspdf-autotable jszip heic2any svgo potrace epub
 |---|------|------|---------|-------------------|-----------------|
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | very-high | Marketers need to preview before publishing |
 
-**Total Phase 25:** 39 tools planned (10 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter, NGINX Config Generator, Docker Compose Generator, Environment Variable Editor, LLM Token Counter — 29 remaining).
+**Total Phase 25:** 39 tools planned (11 built ✅: SVG Optimizer & Minifier, WCAG Color Contrast Checker, Chmod Calculator, Gitignore Generator, Markdown Table Generator, World Clock & Time Zone Converter, NGINX Config Generator, Docker Compose Generator, Environment Variable Editor, LLM Token Counter, Citation & Bibliography Generator — 28 remaining).
 
-**After Phase 25:** 283 tools total (254 built + 29 planned), across 21 categories.
+**After Phase 25:** 284 tools total (255 built + 29 planned), across 21 categories.
 
 ---
 
@@ -11540,4 +11540,4 @@ All 20 tools validated through the 7-step Tool Idea Generation Process. 6 tools 
 | Domain Intelligence | Cloudflare DoH + RDAP.org | DNS-only mode (DoH) if RDAP unavailable |
 | Currency Exchange | ExchangeRate-API | Fawazahmed0 Currency API via jsDelivr CDN |
 
-**Total tools after Phase 26:** 299 (250 built + 29 Phase 25 planned + 20 Phase 26)
+**Total tools after Phase 26:** 301 (252 built + 29 Phase 25 planned + 20 Phase 26)

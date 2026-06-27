@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**293 free online tools (+8 planned). 100% client-side processing — your files never leave your device.**
+**294 free online tools (+7 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -318,7 +318,7 @@ MIT
 
 ---
 
-## Phase 25 Tools (Most Wanted — 🟡 10/39 built, 29 remaining)
+## Phase 25 Tools (Most Wanted — 🟡 11/39 built, 28 remaining)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 

@@ -3061,7 +3061,7 @@
     "description": "Generate formatted citations in APA, MLA, Chicago, Harvard, and IEEE styles.",
     "icon": "📚",
     "href": "/tools/citation-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "citation",
       "bibliography",
