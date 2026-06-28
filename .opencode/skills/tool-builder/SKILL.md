@@ -279,7 +279,7 @@ Be specific about what to try — call out the primary controls, any edge cases,
 | `toolsList.json` | Add or update the entry. Set `"status": "done"`. |
 | `src/data/tools.json` | Add the tool object. `id`, `name`, `category`, `description`, `icon`, `keywords`, `accept`, `maxSizeMB`, `status: "done"`. |
 | `README.md` | Increment total tool count. Add a row to the matching category table if a new tool. Update the Phase section only if the phase gains its first completion or finishes. |
-| `PROJECT-PLAN.md` | Bump the "Tasks Done" total by 1. If the phase finished, mark it ✅. |
+| `PROJECT-PLAN.md` | Remove the tool's spec section (#### heading through next #### or ---) and remove it from the "Planned Tools" list. |
 | `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool. |
 
 ## Step 16 — Update main-page counts (all required)
