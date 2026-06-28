@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**298 free online tools (+3 planned). 100% client-side processing — your files never leave your device.**
+**291 free online tools (+54 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 301 (293 built, 8 planned).
+**Total tools:** 345 (291 built, 54 planned).
 
 ## Categories
 
@@ -194,7 +194,7 @@ toolbox/
 │   │   └── seo/                  ← 7 SEO tools (8 total, 1 planned)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 299 tool definitions (250 built, 49 planned)
+│   │   ├── tools.json            ← 345 tool definitions (291 built, 54 planned)
 │   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │

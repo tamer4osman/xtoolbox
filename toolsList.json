@@ -2820,22 +2820,6 @@
     ]
   },
   {
-    "id": "svg-icon-editor",
-    "name": "SVG Icon Editor",
-    "category": "css",
-    "description": "Upload, view, edit attributes, and optimize SVG icons",
-    "icon": "🎨",
-    "href": "/tools/svg-icon-editor",
-    "status": "done",
-    "keywords": [
-      "svg",
-      "icon",
-      "editor",
-      "optimize",
-      "vector"
-    ]
-  },
-  {
     "id": "certificate-generator",
     "name": "Certificate Generator",
     "category": "business",
@@ -2976,7 +2960,7 @@
     "description": "GitHub-style contribution graph for daily habits with streak tracking and heatmaps.",
     "icon": "📅",
     "href": "/tools/habit-tracker",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "habit",
       "tracker",
@@ -2984,23 +2968,6 @@
       "heatmap",
       "productivity",
       "goals"
-    ]
-  },
-  {
-    "id": "resume-builder",
-    "name": "Resume Builder",
-    "category": "productivity",
-    "description": "Build professional resumes with section-based editor and ATS-friendly templates. Export as PDF.",
-    "icon": "📄",
-    "href": "/tools/resume-builder",
-    "status": "planned",
-    "keywords": [
-      "resume",
-      "cv",
-      "builder",
-      "job",
-      "template",
-      "pdf"
     ]
   },
   {
@@ -3173,126 +3140,6 @@
     ]
   },
   {
-    "id": "pixel-art-editor",
-    "name": "Pixel Art & Sprite Sheet Editor",
-    "category": "image",
-    "description": "Create pixel art and sprite sheets with customizable grids, color palettes, and export options.",
-    "icon": "🎨",
-    "href": "/tools/pixel-art-editor",
-    "status": "done",
-    "keywords": [
-      "pixel",
-      "art",
-      "sprite",
-      "8-bit",
-      "retro",
-      "game",
-      "editor"
-    ]
-  },
-  {
-    "id": "currency-converter",
-    "name": "Currency Exchange Calculator",
-    "category": "finance",
-    "description": "Convert between currencies using live exchange rates with historical charts.",
-    "icon": "💱",
-    "href": "/tools/currency-converter",
-    "status": "done",
-    "keywords": [
-      "currency",
-      "exchange",
-      "converter",
-      "money",
-      "forex",
-      "usd",
-      "eur",
-      "gbp"
-    ]
-  },
-  {
-    "id": "passport-photo-maker",
-    "name": "Passport / ID Photo Maker",
-    "category": "image",
-    "description": "Create passport, visa, and ID photos with automatic face detection and background removal.",
-    "icon": "📸",
-    "href": "/tools/passport-photo-maker",
-    "status": "done",
-    "keywords": [
-      "passport",
-      "photo",
-      "id",
-      "visa",
-      "biometrics",
-      "face"
-    ]
-  },
-  {
-    "id": "wireframe-sketcher",
-    "name": "Wireframe & Mockup Sketcher",
-    "category": "productivity",
-    "description": "Quick wireframe and mockup sketcher with drag-and-drop shapes, text, and freehand drawing.",
-    "icon": "✏️",
-    "href": "/tools/wireframe-sketcher",
-    "status": "done",
-    "keywords": [
-      "wireframe",
-      "mockup",
-      "sketch",
-      "draw",
-      "canvas",
-      "prototype"
-    ]
-  },
-  {
-    "id": "earthquake-monitor",
-    "name": "Earthquake Monitor",
-    "category": "reference",
-    "description": "Track recent earthquakes worldwide with magnitude, location, and depth data from USGS.",
-    "icon": "🌍",
-    "href": "/tools/earthquake-monitor",
-    "status": "done",
-    "keywords": [
-      "earthquake",
-      "seismic",
-      "usgs",
-      "magnitude",
-      "tremor"
-    ]
-  },
-  {
-    "id": "dns-speed-test",
-    "name": "DNS Speed Test",
-    "category": "dev",
-    "description": "Test DNS resolution speed against Cloudflare and Google DoH providers.",
-    "icon": "⚡",
-    "href": "/tools/dns-speed-test",
-    "status": "done",
-    "keywords": [
-      "dns",
-      "speed",
-      "doh",
-      "cloudflare",
-      "google",
-      "network"
-    ]
-  },
-  {
-    "id": "food-nutrition-scanner",
-    "name": "Food Nutrition Scanner",
-    "category": "reference",
-    "description": "Scan food barcodes or search products to view detailed nutrition facts from Open Food Facts.",
-    "icon": "🍎",
-    "href": "/tools/food-nutrition-scanner",
-    "status": "done",
-    "keywords": [
-      "nutrition",
-      "food",
-      "barcode",
-      "calories",
-      "health"
-    ]
-  },
-  {
     "id": "social-media-post-previewer",
     "name": "Social Media Post Previewer",
     "category": "seo",
@@ -3325,6 +3172,859 @@
       "obj",
       "stl",
       "webgl"
+    ]
+  },
+  {
+    "id": "stem-separator",
+    "name": "Vocal / Stem Separator",
+    "category": "audio",
+    "description": "Split audio into vocals, drums, bass, and other stems using ONNX demucs model.",
+    "icon": "🎵",
+    "href": "/tools/stem-separator",
+    "status": "planned",
+    "keywords": [
+      "vocal",
+      "stems",
+      "separator",
+      "demucs",
+      "audio",
+      "isolation"
+    ]
+  },
+  {
+    "id": "noise-remover",
+    "name": "Noise / Hiss Remover",
+    "category": "audio",
+    "description": "Remove background noise, hiss, and hum from audio recordings using DeepFilterNet.",
+    "icon": "🔇",
+    "href": "/tools/noise-remover",
+    "status": "planned",
+    "keywords": [
+      "noise",
+      "remove",
+      "hiss",
+      "audio",
+      "clean",
+      "denoise"
+    ]
+  },
+  {
+    "id": "bpm-key-detector",
+    "name": "BPM & Key Detector",
+    "category": "audio",
+    "description": "Detect tempo (BPM) and musical key of any audio file using Essentia.js WASM.",
+    "icon": "🥁",
+    "href": "/tools/bpm-key-detector",
+    "status": "planned",
+    "keywords": [
+      "bpm",
+      "key",
+      "tempo",
+      "detect",
+      "music",
+      "audio"
+    ]
+  },
+  {
+    "id": "audio-equalizer",
+    "name": "Audio EQ & Visualizer",
+    "category": "audio",
+    "description": "10-band parametric EQ with real-time frequency spectrum visualizer.",
+    "icon": "🎛️",
+    "href": "/tools/audio-equalizer",
+    "status": "planned",
+    "keywords": [
+      "equalizer",
+      "eq",
+      "audio",
+      "spectrum",
+      "frequency",
+      "bands"
+    ]
+  },
+  {
+    "id": "video-transcriber",
+    "name": "Local Video Transcriber",
+    "category": "video",
+    "description": "Transcribe video/audio to text locally using Whisper tiny model.",
+    "icon": "📝",
+    "href": "/tools/video-transcriber",
+    "status": "planned",
+    "keywords": [
+      "transcribe",
+      "video",
+      "whisper",
+      "speech",
+      "text",
+      "audio"
+    ]
+  },
+  {
+    "id": "silence-remover",
+    "name": "Video Silence Remover",
+    "category": "video",
+    "description": "Automatically detect and cut silent sections from video using ffmpeg.wasm.",
+    "icon": "✂️",
+    "href": "/tools/silence-remover",
+    "status": "planned",
+    "keywords": [
+      "silence",
+      "remove",
+      "video",
+      "trim",
+      "auto",
+      "cut"
+    ]
+  },
+  {
+    "id": "openapi-visualizer",
+    "name": "OpenAPI / Swagger Visualizer",
+    "category": "dev",
+    "description": "Visualize OpenAPI 3.x specs as interactive endpoint trees.",
+    "icon": "🗺️",
+    "href": "/tools/openapi-visualizer",
+    "status": "planned",
+    "keywords": [
+      "openapi",
+      "swagger",
+      "api",
+      "visualize",
+      "yaml",
+      "rest"
+    ]
+  },
+  {
+    "id": "graphql-schema-explorer",
+    "name": "GraphQL Schema Explorer",
+    "category": "dev",
+    "description": "Browse GraphQL SDL schemas as collapsible type trees.",
+    "icon": "🔬",
+    "href": "/tools/graphql-schema-explorer",
+    "status": "planned",
+    "keywords": [
+      "graphql",
+      "schema",
+      "explore",
+      "types",
+      "sdl",
+      "api"
+    ]
+  },
+  {
+    "id": "offline-translator",
+    "name": "Offline Text Translator",
+    "category": "text",
+    "description": "Translate text between 50+ languages offline using Transformers.js.",
+    "icon": "🌐",
+    "href": "/tools/offline-translator",
+    "status": "planned",
+    "keywords": [
+      "translate",
+      "offline",
+      "language",
+      "text",
+      "nllb",
+      "transformers"
+    ]
+  },
+  {
+    "id": "legal-clause-simplifier",
+    "name": "Legal Clause Simplifier",
+    "category": "text",
+    "description": "Simplify legal text into plain English using DistilBART summarization.",
+    "icon": "⚖️",
+    "href": "/tools/legal-clause-simplifier",
+    "status": "planned",
+    "keywords": [
+      "legal",
+      "simplify",
+      "clause",
+      "text",
+      "summarize",
+      "plain english"
+    ]
+  },
+  {
+    "id": "sentiment-heatmap",
+    "name": "Text Sentiment Heatmap",
+    "category": "text",
+    "description": "Visualize sentence-by-sentence sentiment as a color heatmap using DistilBERT.",
+    "icon": "🗺️",
+    "href": "/tools/sentiment-heatmap",
+    "status": "planned",
+    "keywords": [
+      "sentiment",
+      "heatmap",
+      "text",
+      "analyze",
+      "positive",
+      "negative"
+    ]
+  },
+  {
+    "id": "meeting-cost-calculator",
+    "name": "Meeting Cost Calculator",
+    "category": "productivity",
+    "description": "Calculate real-time meeting cost based on participant salaries.",
+    "icon": "💰",
+    "href": "/tools/meeting-cost-calculator",
+    "status": "planned",
+    "keywords": [
+      "meeting",
+      "cost",
+      "calculator",
+      "salary",
+      "time",
+      "money"
+    ]
+  },
+  {
+    "id": "working-days-calculator",
+    "name": "Working Days Calculator",
+    "category": "productivity",
+    "description": "Calculate business days between dates excluding holidays for 50+ countries.",
+    "icon": "📅",
+    "href": "/tools/working-days-calculator",
+    "status": "planned",
+    "keywords": [
+      "working",
+      "days",
+      "calculator",
+      "business",
+      "holidays",
+      "dates"
+    ]
+  },
+  {
+    "id": "net-worth-tracker",
+    "name": "Net Worth Tracker",
+    "category": "finance",
+    "description": "Private net worth tracker with assets, liabilities, and charts. Data stays local.",
+    "icon": "📊",
+    "href": "/tools/net-worth-tracker",
+    "status": "planned",
+    "keywords": [
+      "net",
+      "worth",
+      "tracker",
+      "assets",
+      "liabilities",
+      "finance"
+    ]
+  },
+  {
+    "id": "face-blur",
+    "name": "Face Blur / Anonymizer",
+    "category": "image",
+    "description": "Auto-detect and blur/pixelate faces in images using BlazeFace ONNX model.",
+    "icon": "🕵️",
+    "href": "/tools/face-blur",
+    "status": "planned",
+    "keywords": [
+      "face",
+      "blur",
+      "anonymize",
+      "privacy",
+      "detect",
+      "pixelate"
+    ]
+  },
+  {
+    "id": "symptom-tracker",
+    "name": "Symptom Onset Tracker",
+    "category": "health",
+    "description": "Log symptoms with onset, severity, and notes. Export printable PDF for doctors.",
+    "icon": "🩺",
+    "href": "/tools/symptom-tracker",
+    "status": "planned",
+    "keywords": [
+      "symptom",
+      "tracker",
+      "health",
+      "medical",
+      "doctor",
+      "log"
+    ]
+  },
+  {
+    "id": "image-flip",
+    "name": "Image Flipper",
+    "category": "image",
+    "description": "Flip images horizontally or vertically with preview.",
+    "icon": "🪞",
+    "href": "/tools/image-flip",
+    "status": "planned",
+    "keywords": [
+      "flip",
+      "image",
+      "mirror",
+      "horizontal",
+      "vertical"
+    ]
+  },
+  {
+    "id": "image-rotate",
+    "name": "Image Rotator",
+    "category": "image",
+    "description": "Rotate images by any angle with crop or extend options.",
+    "icon": "🔄",
+    "href": "/tools/image-rotate",
+    "status": "planned",
+    "keywords": [
+      "rotate",
+      "image",
+      "angle",
+      "turn"
+    ]
+  },
+  {
+    "id": "image-grayscale",
+    "name": "Grayscale Converter",
+    "category": "image",
+    "description": "Convert color images to grayscale with intensity control.",
+    "icon": "⬛",
+    "href": "/tools/image-grayscale",
+    "status": "planned",
+    "keywords": [
+      "grayscale",
+      "black",
+      "white",
+      "convert",
+      "image"
+    ]
+  },
+  {
+    "id": "image-sepia",
+    "name": "Sepia Filter",
+    "category": "image",
+    "description": "Apply vintage sepia tone filter to photos.",
+    "icon": "🟤",
+    "href": "/tools/image-sepia",
+    "status": "planned",
+    "keywords": [
+      "sepia",
+      "vintage",
+      "filter",
+      "photo",
+      "tone"
+    ]
+  },
+  {
+    "id": "image-blur",
+    "name": "Image Blur",
+    "category": "image",
+    "description": "Apply Gaussian, box, or motion blur with adjustable radius.",
+    "icon": "🌫️",
+    "href": "/tools/image-blur",
+    "status": "planned",
+    "keywords": [
+      "blur",
+      "gaussian",
+      "soften",
+      "image"
+    ]
+  },
+  {
+    "id": "image-sharpen",
+    "name": "Image Sharpener",
+    "category": "image",
+    "description": "Sharpen image details using unsharp mask technique.",
+    "icon": "🔪",
+    "href": "/tools/image-sharpen",
+    "status": "planned",
+    "keywords": [
+      "sharpen",
+      "detail",
+      "clarity",
+      "image"
+    ]
+  },
+  {
+    "id": "image-watermark",
+    "name": "Watermark Overlay",
+    "category": "image",
+    "description": "Add text or image watermarks with opacity and position control.",
+    "icon": "💧",
+    "href": "/tools/image-watermark",
+    "status": "planned",
+    "keywords": [
+      "watermark",
+      "overlay",
+      "protect",
+      "image"
+    ]
+  },
+  {
+    "id": "image-compare",
+    "name": "Image Comparison",
+    "category": "image",
+    "description": "Side-by-side and overlay comparison of two images.",
+    "icon": "🔍",
+    "href": "/tools/image-compare",
+    "status": "planned",
+    "keywords": [
+      "compare",
+      "diff",
+      "side",
+      "image"
+    ]
+  },
+  {
+    "id": "image-meme",
+    "name": "Meme Generator",
+    "category": "image",
+    "description": "Create memes with top/bottom text, custom fonts, and templates.",
+    "icon": "😂",
+    "href": "/tools/image-meme",
+    "status": "planned",
+    "keywords": [
+      "meme",
+      "funny",
+      "text",
+      "image",
+      "generator"
+    ]
+  },
+  {
+    "id": "video-crop",
+    "name": "Video Cropper",
+    "category": "video",
+    "description": "Crop video frames to remove unwanted areas.",
+    "icon": "✂️",
+    "href": "/tools/video-crop",
+    "status": "planned",
+    "keywords": [
+      "crop",
+      "video",
+      "trim",
+      "frame"
+    ]
+  },
+  {
+    "id": "video-rotate",
+    "name": "Video Rotator",
+    "category": "video",
+    "description": "Rotate or flip video by 90/180/270 degrees.",
+    "icon": "🔃",
+    "href": "/tools/video-rotate",
+    "status": "planned",
+    "keywords": [
+      "rotate",
+      "flip",
+      "video",
+      "degrees"
+    ]
+  },
+  {
+    "id": "video-speed-ctrl",
+    "name": "Video Speed Controller",
+    "category": "video",
+    "description": "Speed up or slow down video with audio pitch preservation.",
+    "icon": "⏩",
+    "href": "/tools/video-speed-ctrl",
+    "status": "planned",
+    "keywords": [
+      "speed",
+      "slow",
+      "fast",
+      "video",
+      "playback"
+    ]
+  },
+  {
+    "id": "video-volume",
+    "name": "Video Volume Adjuster",
+    "category": "video",
+    "description": "Adjust or mute audio track volume in video files.",
+    "icon": "🔊",
+    "href": "/tools/video-volume",
+    "status": "planned",
+    "keywords": [
+      "volume",
+      "audio",
+      "video",
+      "mute",
+      "loud"
+    ]
+  },
+  {
+    "id": "video-reverse",
+    "name": "Video Reverser",
+    "category": "video",
+    "description": "Reverse video playback direction with audio.",
+    "icon": "⏪",
+    "href": "/tools/video-reverse",
+    "status": "planned",
+    "keywords": [
+      "reverse",
+      "backward",
+      "video",
+      "rewind"
+    ]
+  },
+  {
+    "id": "video-metadata-editor",
+    "name": "Video Metadata Editor",
+    "category": "video",
+    "description": "Edit video metadata tags including title, author, and dates.",
+    "icon": "🏷️",
+    "href": "/tools/video-metadata-editor",
+    "status": "planned",
+    "keywords": [
+      "metadata",
+      "tags",
+      "video",
+      "edit",
+      "info"
+    ]
+  },
+  {
+    "id": "audio-normalize",
+    "name": "Audio Normalizer",
+    "category": "audio",
+    "description": "Normalize audio volume to consistent levels across files.",
+    "icon": "📊",
+    "href": "/tools/audio-normalize",
+    "status": "planned",
+    "keywords": [
+      "normalize",
+      "volume",
+      "level",
+      "audio"
+    ]
+  },
+  {
+    "id": "audio-pitch",
+    "name": "Pitch Shifter",
+    "category": "audio",
+    "description": "Shift audio pitch up or down without changing speed.",
+    "icon": "🎼",
+    "href": "/tools/audio-pitch",
+    "status": "planned",
+    "keywords": [
+      "pitch",
+      "shift",
+      "tone",
+      "audio",
+      "semitone"
+    ]
+  },
+  {
+    "id": "audio-wav-mp3",
+    "name": "WAV to MP3 Converter",
+    "category": "audio",
+    "description": "Convert WAV audio files to MP3 with quality settings.",
+    "icon": "🎵",
+    "href": "/tools/audio-wav-mp3",
+    "status": "planned",
+    "keywords": [
+      "wav",
+      "mp3",
+      "convert",
+      "audio"
+    ]
+  },
+  {
+    "id": "audio-mp3-wav",
+    "name": "MP3 to WAV Converter",
+    "category": "audio",
+    "description": "Convert MP3 audio files to lossless WAV format.",
+    "icon": "🎶",
+    "href": "/tools/audio-mp3-wav",
+    "status": "planned",
+    "keywords": [
+      "mp3",
+      "wav",
+      "convert",
+      "audio",
+      "lossless"
+    ]
+  },
+  {
+    "id": "js-playground",
+    "name": "JavaScript Playground",
+    "category": "dev",
+    "description": "Interactive JavaScript editor with live output console.",
+    "icon": "⚡",
+    "href": "/tools/js-playground",
+    "status": "planned",
+    "keywords": [
+      "javascript",
+      "playground",
+      "editor",
+      "live",
+      "code"
+    ]
+  },
+  {
+    "id": "html-playground",
+    "name": "HTML Playground",
+    "category": "dev",
+    "description": "Live HTML/CSS/JS editor with instant preview.",
+    "icon": "🌐",
+    "href": "/tools/html-playground",
+    "status": "planned",
+    "keywords": [
+      "html",
+      "playground",
+      "editor",
+      "live",
+      "preview"
+    ]
+  },
+  {
+    "id": "json-schema-validator",
+    "name": "JSON Schema Validator",
+    "category": "dev",
+    "description": "Validate JSON data against JSON Schema Draft 2020-12.",
+    "icon": "✅",
+    "href": "/tools/json-schema-validator",
+    "status": "planned",
+    "keywords": [
+      "json",
+      "schema",
+      "validate",
+      "draft"
+    ]
+  },
+  {
+    "id": "env-parser",
+    "name": "Environment File Parser",
+    "category": "dev",
+    "description": "Parse, view, and validate .env files with syntax checking.",
+    "icon": "🔧",
+    "href": "/tools/env-parser",
+    "status": "planned",
+    "keywords": [
+      "env",
+      "parse",
+      "dotenv",
+      "environment",
+      "config"
+    ]
+  },
+  {
+    "id": "timezone-converter",
+    "name": "Timezone Converter",
+    "category": "dev",
+    "description": "Convert times between world timezones with DST handling.",
+    "icon": "🌍",
+    "href": "/tools/timezone-converter",
+    "status": "planned",
+    "keywords": [
+      "timezone",
+      "convert",
+      "world",
+      "clock",
+      "utc"
+    ]
+  },
+  {
+    "id": "regex-visualizer",
+    "name": "Regex Visualizer",
+    "category": "dev",
+    "description": "Visualize regex patterns as flow diagrams with match highlighting.",
+    "icon": "👁️",
+    "href": "/tools/regex-visualizer",
+    "status": "planned",
+    "keywords": [
+      "regex",
+      "visualize",
+      "pattern",
+      "diagram",
+      "match"
+    ]
+  },
+  {
+    "id": "salary-calc",
+    "name": "Multi-Country Salary Calculator",
+    "category": "finance",
+    "description": "Calculate take-home pay across 30+ countries with tax rules.",
+    "icon": "💰",
+    "href": "/tools/salary-calc",
+    "status": "planned",
+    "keywords": [
+      "salary",
+      "tax",
+      "income",
+      "calculator",
+      "country"
+    ]
+  },
+  {
+    "id": "savings-calc",
+    "name": "Savings Calculator",
+    "category": "finance",
+    "description": "Calculate compound interest and savings growth over time.",
+    "icon": "🏦",
+    "href": "/tools/savings-calc",
+    "status": "planned",
+    "keywords": [
+      "savings",
+      "interest",
+      "compound",
+      "grow",
+      "money"
+    ]
+  },
+  {
+    "id": "retirement-planner",
+    "name": "Retirement Planner",
+    "category": "finance",
+    "description": "Project retirement savings and withdrawal sustainability.",
+    "icon": "🏖️",
+    "href": "/tools/retirement-planner",
+    "status": "planned",
+    "keywords": [
+      "retirement",
+      "plan",
+      "savings",
+      "withdrawal",
+      "future"
+    ]
+  },
+  {
+    "id": "equation-solver",
+    "name": "Equation Solver",
+    "category": "math",
+    "description": "Solve algebraic equations step by step.",
+    "icon": "📐",
+    "href": "/tools/equation-solver",
+    "status": "planned",
+    "keywords": [
+      "equation",
+      "solve",
+      "algebra",
+      "math",
+      "formula"
+    ]
+  },
+  {
+    "id": "matrix-calc",
+    "name": "Matrix Calculator",
+    "category": "math",
+    "description": "Perform matrix operations: add, multiply, determinant, inverse.",
+    "icon": "🔢",
+    "href": "/tools/matrix-calc",
+    "status": "planned",
+    "keywords": [
+      "matrix",
+      "calculator",
+      "multiply",
+      "determinant",
+      "inverse"
+    ]
+  },
+  {
+    "id": "stats-calc",
+    "name": "Statistics Calculator",
+    "category": "math",
+    "description": "Calculate mean, median, mode, std dev, and more.",
+    "icon": "📈",
+    "href": "/tools/stats-calc",
+    "status": "planned",
+    "keywords": [
+      "statistics",
+      "mean",
+      "median",
+      "mode",
+      "average"
+    ]
+  },
+  {
+    "id": "decision-matrix",
+    "name": "Decision Matrix Maker",
+    "category": "productivity",
+    "description": "Create weighted decision matrices to compare options objectively.",
+    "icon": "⚖️",
+    "href": "/tools/decision-matrix",
+    "status": "planned",
+    "keywords": [
+      "decision",
+      "matrix",
+      "weight",
+      "compare",
+      "choose"
+    ]
+  },
+  {
+    "id": "qr-business-card",
+    "name": "QR Business Card",
+    "category": "qr",
+    "description": "Generate vCard QR codes for contact sharing.",
+    "icon": "📇",
+    "href": "/tools/qr-business-card",
+    "status": "planned",
+    "keywords": [
+      "qr",
+      "vcard",
+      "business",
+      "card",
+      "contact"
+    ]
+  },
+  {
+    "id": "qr-wifi",
+    "name": "WiFi QR Generator",
+    "category": "qr",
+    "description": "Generate QR codes for WiFi network credentials.",
+    "icon": "📶",
+    "href": "/tools/qr-wifi",
+    "status": "planned",
+    "keywords": [
+      "qr",
+      "wifi",
+      "network",
+      "share",
+      "password"
+    ]
+  },
+  {
+    "id": "world-holidays",
+    "name": "World Holidays Calendar",
+    "category": "reference",
+    "description": "Browse public holidays for 50+ countries by year.",
+    "icon": "📅",
+    "href": "/tools/world-holidays",
+    "status": "planned",
+    "keywords": [
+      "holidays",
+      "world",
+      "calendar",
+      "country",
+      "public"
+    ]
+  },
+  {
+    "id": "link-preview",
+    "name": "Link Preview Generator",
+    "category": "reference",
+    "description": "Generate Open Graph preview images for any URL.",
+    "icon": "🔗",
+    "href": "/tools/link-preview",
+    "status": "planned",
+    "keywords": [
+      "link",
+      "preview",
+      "og",
+      "social",
+      "share"
+    ]
+  },
+  {
+    "id": "name-generator",
+    "name": "Name Generator",
+    "category": "fun",
+    "description": "Generate random names by culture, gender, or style.",
+    "icon": "🎲",
+    "href": "/tools/name-generator",
+    "status": "planned",
+    "keywords": [
+      "name",
+      "random",
+      "generate",
+      "baby",
+      "character"
     ]
   }
 ]

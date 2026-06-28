@@ -8,7 +8,7 @@
 
 ## Context
 
-Building "ToolBox" — a free online tools website with 279 tools, 100% client-side processing. Using this project to level up from junior to mid-level: learning software architecture, design patterns, testing, and clean code practices.
+Building "ToolBox" — a free online tools website with 291 tools, 100% client-side processing. Using this project to level up from junior to mid-level: learning software architecture, design patterns, testing, and clean code practices.
 
 ## What They Value
 

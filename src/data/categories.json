@@ -4,7 +4,7 @@
     "name": "Image Tools",
     "icon": "🖼️",
     "description": "Compress, resize, convert, and edit images",
-    "toolCount": 40
+    "toolCount": 48
   },
   {
     "id": "pdf",
@@ -18,28 +18,28 @@
     "name": "Text & Content",
     "icon": "📝",
     "description": "Format converters, word counter, text tools",
-    "toolCount": 32
+    "toolCount": 35
   },
   {
     "id": "dev",
     "name": "Developer Tools",
     "icon": "🖥️",
     "description": "JSON validator, regex tester, cron builder, DNS speed test",
-    "toolCount": 33
+    "toolCount": 40
   },
   {
     "id": "css",
     "name": "CSS & Web Design",
     "icon": "🎨",
     "description": "Gradient, shadow, grid generators",
-    "toolCount": 21
+    "toolCount": 20
   },
   {
     "id": "video",
     "name": "Video Tools",
     "icon": "🎬",
     "description": "Compress, trim, convert, and edit videos",
-    "toolCount": 16
+    "toolCount": 24
   },
   {
     "id": "business",
@@ -53,35 +53,35 @@
     "name": "Audio Tools",
     "icon": "🔊",
     "description": "Trim, convert, merge, and edit audio files",
-    "toolCount": 11
+    "toolCount": 19
   },
   {
     "id": "health",
     "name": "Health & Personal",
     "icon": "❤️",
     "description": "BMI, calorie, ideal weight calculators",
-    "toolCount": 11
+    "toolCount": 12
   },
   {
     "id": "productivity",
     "name": "Productivity",
     "icon": "⏱️",
     "description": "Stopwatch, countdown timer, drawing pad",
-    "toolCount": 14
+    "toolCount": 15
   },
   {
     "id": "math",
     "name": "Math & Converters",
     "icon": "🔢",
     "description": "Calculators, unit converters, graph plotter",
-    "toolCount": 10
+    "toolCount": 13
   },
   {
     "id": "finance",
     "name": "Finance",
     "icon": "💰",
     "description": "Loan, mortgage, SIP, currency, and tax calculators",
-    "toolCount": 12
+    "toolCount": 15
   },
   {
     "id": "encoding",
@@ -109,7 +109,7 @@
     "name": "Fun & Games",
     "icon": "🎮",
     "description": "Coin flip, dice roller, typing speed test",
-    "toolCount": 5
+    "toolCount": 6
   },
   {
     "id": "reference",
@@ -130,7 +130,7 @@
     "name": "QR & Barcode",
     "icon": "📱",
     "description": "Generate and scan QR codes and barcodes",
-    "toolCount": 4
+    "toolCount": 6
   },
   {
     "id": "visualization",
