@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**297 free online tools (+4 planned). 100% client-side processing — your files never leave your device.**
+**298 free online tools (+3 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -172,7 +172,7 @@ toolbox/
 │   │
 │   ├── tools/                    ← Tool implementations
 │   │   ├── pdf/                  ← 32 PDF tools (33 total, 1 planned)
-│   │   ├── image/                ← 34 image tools (36 total, 2 planned)
+│   │   ├── image/                ← 35 image tools (40 total, 1 planned)
 │   │   ├── video/                ← 15 video tools (16 total, 1 planned)
 │   │   ├── audio/                ← 10 audio tools (11 total, 1 planned)
 │   │   ├── ocr/                  ← 4 OCR tools

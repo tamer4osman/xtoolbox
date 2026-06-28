@@ -51,7 +51,7 @@ Source: `mostWantedTools.json` — Added 2026-06-03
 
 ### Image (2 planned)
 - [x] EXIF Data Editor (`exif-editor`)
-- [ ] Open Graph Image Generator (`og-image-generator`)
+- [x] Open Graph Image Generator (`og-image-generator`)
 
 ### Text (1 planned)
 - [x] Citation & Bibliography Generator (`citation-generator`)

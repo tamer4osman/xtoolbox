@@ -3044,7 +3044,7 @@
     "description": "Create social media preview images with text overlays, gradients, and backgrounds.",
     "icon": "🖼️",
     "href": "/tools/og-image-generator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "og",
       "open-graph",
