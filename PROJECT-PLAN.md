@@ -89,7 +89,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 ## Current Status
 
-**Total tools:** 345 (291 built, 54 planned)
+**Total tools:** 345 (292 built, 53 planned)
 
 ### Categories (with actual tool counts)
 
@@ -101,7 +101,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 | PDF | 33 |
 | Video | 24 |
 | CSS | 20 |
-| Audio | 19 |
+| Audio | 20 |
 | Business | 15 |
 | Finance | 15 |
 | Productivity | 15 |
@@ -121,8 +121,8 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
-**Phase 27 — AI/ML Tools (17 planned):**
-- stem-separator, noise-remover, bpm-key-detector, audio-equalizer
+**Phase 27 — AI/ML Tools (16 planned, 3 done):**
+- noise-remover, bpm-key-detector, audio-equalizer
 - video-transcriber, silence-remover, screen-recorder
 - openapi-visualizer, graphql-schema-explorer
 - offline-translator, legal-clause-simplifier, sentiment-heatmap
@@ -153,24 +153,6 @@ Detailed specs for upcoming tools with UI layouts, implementation notes, and lib
 
 > **Libraries:** Transformers.js, ONNX Runtime Web, ffmpeg.wasm, Essentia.js
 > **Pattern:** Input file → WASM/ONNX processing → output file
-
-#### stem-separator
-
-- **File:** `src/tools/audio/stem-separator.js`
-- **Category:** audio
-- **Purpose:** Separate vocals, drums, bass, and other instruments from audio
-- **Library:** MDX-Net models via ONNX Runtime Web
-- **UI:**
-  1. File upload (drag & drop, accept `.mp3,.wav,.flac,.ogg`)
-  2. Stem selector checkboxes: Vocals, Drums, Bass, Other
-  3. "Separate" button with progress indicator
-  4. Preview: play individual stems
-  5. Download: individual files or ZIP bundle
-- **Implementation notes:**
-  - Load pre-trained MDX-Net ONNX model (~50MB)
-  - Process in Web Audio API context
-  - Use Web Workers for heavy DSP
-  - Output each stem as WAV
 
 #### noise-remover
 

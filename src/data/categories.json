@@ -53,7 +53,7 @@
     "name": "Audio Tools",
     "icon": "🔊",
     "description": "Trim, convert, merge, and edit audio files",
-    "toolCount": 19
+    "toolCount": 20
   },
   {
     "id": "health",

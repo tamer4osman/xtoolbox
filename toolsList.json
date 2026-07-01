@@ -3181,7 +3181,7 @@
     "description": "Split audio into vocals, drums, bass, and other stems using ONNX demucs model.",
     "icon": "🎵",
     "href": "/tools/stem-separator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "vocal",
       "stems",

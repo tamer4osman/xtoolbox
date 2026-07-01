@@ -1,7 +1,7 @@
 {
   "name": "toolbox",
   "version": "1.0.0",
-  "description": "291 free online tools. 100% client-side processing.",
+  "description": "292 free online tools. 100% client-side processing.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -48,7 +48,8 @@
     "pdfjs-dist": "^5.7.284",
     "qrcode": "^1.5.4",
     "tesseract.js": "^7.0.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "onnxruntime-web": "^1.21.0"
   },
   "main": "playwright.config.js",
   "directories": {

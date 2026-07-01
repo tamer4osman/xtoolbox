@@ -1,14 +1,14 @@
 # Tool Building Progress
 
-## Current Status: 291 built, 54 planned = 345 total
+## Current Status: 292 built, 53 planned = 345 total
 
-### Phase 27 — High-Demand Tools (17 planned, 2 built)
+### Phase 27 — High-Demand Tools (16 planned, 3 built)
 
 | Tool | Category | Status |
 |------|----------|--------|
 | Pomodoro Timer | productivity | ✅ Done |
 | JSON Diff Viewer | dev | ✅ Done |
-| Vocal / Stem Separator | audio | Planned |
+| Vocal / Stem Separator | audio | ✅ Done |
 | Noise / Hiss Remover | audio | Planned |
 | BPM & Key Detector | audio | Planned |
 | Audio EQ & Visualizer | audio | Planned |

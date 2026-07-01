@@ -1,6 +1,6 @@
 # 🛠️ ToolBox — Free Online Tools
 
-**291 free online tools (+54 planned). 100% client-side processing — your files never leave your device.**
+**292 free online tools (+53 planned). 100% client-side processing — your files never leave your device.**
 
 ## Quick Start
 
@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
 
-**Total tools:** 345 (291 built, 54 planned).
+**Total tools:** 345 (292 built, 53 planned).
 
 ## Categories
 
@@ -60,7 +60,7 @@ npm run test       # → Playwright tests
 | PDF | 33 | — | **33** | pdf-lib, PDF.js, jsPDF | ✅ |
 | Image | 40 | +2 | **42** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 40/42 |
 | Video | 16 | +1 | **17** | ffmpeg.wasm | 16/17 |
-| Audio | 11 | +1 | **12** | Web Audio API, lamejs, Wavesurfer.js | 11/12 |
+| Audio | 11 | +1 | **13** | Web Audio API, lamejs, Wavesurfer.js, ONNX Runtime Web | 12/13 |
 | OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
 | Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
@@ -194,7 +194,7 @@ toolbox/
 │   │   └── seo/                  ← 7 SEO tools (8 total, 1 planned)
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 345 tool definitions (291 built, 54 planned)
+│   │   ├── tools.json            ← 345 tool definitions (292 built, 53 planned)
 │   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │
