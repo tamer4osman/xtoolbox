@@ -40,24 +40,27 @@ function audioBufferToFloatArrays(buffer) {
 
 function encodeWavFloat(left, right, sampleRate) {
   const length = left.length;
-  const buffer = new ArrayBuffer(44 + length * 4);
+  const channels = 2;
+  const bytesPerSample = 4;
+  const dataSize = length * channels * bytesPerSample;
+  const buffer = new ArrayBuffer(44 + dataSize);
   const view = new DataView(buffer);
   const writeStr = (off, str) => {
     for (let i = 0; i < str.length; i++) view.setUint8(off + i, str.charCodeAt(i));
   };
   writeStr(0, "RIFF");
-  view.setUint32(4, 36 + length * 4, true);
+  view.setUint32(4, 36 + dataSize, true);
   writeStr(8, "WAVE");
   writeStr(12, "fmt ");
   view.setUint32(16, 16, true);
   view.setUint16(20, 3, true);
-  view.setUint16(22, 2, true);
+  view.setUint16(22, channels, true);
   view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * 2 * 2, true);
-  view.setUint16(32, 2 * 2, true);
+  view.setUint32(28, sampleRate * channels * bytesPerSample, true);
+  view.setUint16(32, channels * bytesPerSample, true);
   view.setUint16(34, 32, true);
   writeStr(36, "data");
-  view.setUint32(40, length * 4, true);
+  view.setUint32(40, dataSize, true);
   let offset = 44;
   for (let i = 0; i < length; i++) {
     view.setFloat32(offset, left[i], true);
@@ -324,8 +327,12 @@ export function render(container) {
   }
 
   async function handleFile(file) {
+    if (file.size > toolConfig.maxSizeMB * 1024 * 1024) {
+      showToast({ message: `File is too large. Max ${toolConfig.maxSizeMB} MB.`, type: "error" });
+      return;
+    }
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
     try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
       const arrayBuffer = await file.arrayBuffer();
       const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
       if (audioBuffer.sampleRate !== SAMPLE_RATE || audioBuffer.numberOfChannels < 2) {
@@ -340,6 +347,8 @@ export function render(container) {
       separateBtn.disabled = false;
     } catch {
       showToast({ message: "Could not decode audio file", type: "error" });
+    } finally {
+      ctx.close();
     }
   }
 

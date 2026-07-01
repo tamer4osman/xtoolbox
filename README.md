@@ -60,7 +60,7 @@ npm run test       # → Playwright tests
 | PDF | 33 | — | **33** | pdf-lib, PDF.js, jsPDF | ✅ |
 | Image | 40 | +2 | **42** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 40/42 |
 | Video | 16 | +1 | **17** | ffmpeg.wasm | 16/17 |
-| Audio | 11 | +1 | **13** | Web Audio API, lamejs, Wavesurfer.js, ONNX Runtime Web | 12/13 |
+| Audio | 12 | +1 | **13** | Web Audio API, lamejs, Wavesurfer.js, ONNX Runtime Web | 12/13 |
 | OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
 | Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |

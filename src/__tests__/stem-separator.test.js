@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { toolConfig, makeTransitionWindow } from '../tools/audio/stem-separator.js';
+import { toolConfig, makeTransitionWindow, render } from '../tools/audio/stem-separator.js';
 
 describe('stem-separator', () => {
   it('has correct tool config', () => {
@@ -9,8 +9,8 @@ describe('stem-separator', () => {
     expect(toolConfig.keywords).toContain('vocal');
   });
 
-  it('has a render function', () => {
-    expect(typeof toolConfig).toBe('object');
+  it('exports a render function', () => {
+    expect(typeof render).toBe('function');
   });
 
   describe('makeTransitionWindow', () => {
