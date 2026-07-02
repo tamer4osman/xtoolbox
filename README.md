@@ -1,6 +1,6 @@
-# 🛠️ ToolBox — Free Online Tools
+# 🛠️ ToolBox: Free Online Tools
 
-**292 free online tools (+53 planned). 100% client-side processing — your files never leave your device.**
+**292 free online tools (+53 planned). 100% client-side processing: your files never leave your device.**
 
 ## Quick Start
 
@@ -14,10 +14,10 @@ npm run test       # → Playwright tests
 
 ## Stack
 
-- **Vite** — blazing fast build tool
-- **Vanilla JS** — no framework overhead
-- **WebAssembly** — ffmpeg.wasm, ONNX Runtime, Tesseract.js, pdf-lib
-- **Client-side** — zero server processing
+- **Vite**: fast build tool
+- **Vanilla JS**: no framework overhead
+- **WebAssembly**: ffmpeg.wasm, ONNX Runtime, Tesseract.js, pdf-lib
+- **Client-side**: zero server processing
 
 ## Build Progress
 
@@ -201,11 +201,9 @@ toolbox/
 │   └── sw.js                     ← Service worker
 ```
 
-## Phase 22 Tools (Gap Fill I — Complete, 6 tools)
+## Phase 22 Tools (Gap Fill I: Complete, 6 tools)
 
----
-
-## Phase 23 Tools (Gap Fill II — Complete, 14 tools)
+## Phase 23 Tools (Gap Fill II: Complete, 14 tools)
 
 | # | Tool | File | Category | Confirmed absent because… |
 | --- | ------ | ------ | ---------- | -------------------------- |
@@ -226,9 +224,7 @@ toolbox/
 
 **No new dependencies.** All 14 tools use only browser built-ins: `URL` API, `Date`, Canvas API, vanilla JS.
 
----
-
-## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Complete, 18 done)
+## Phase 24 Tools (Client-Side Privacy & Utility Expansion: Complete, 18 done)
 
 | # | Tool | File | Category | Confirmed absent because… |
 | --- | ------ | ------ | ---------- | -------------------------- |
@@ -257,8 +253,6 @@ toolbox/
 | --- | --- | --- |
 | OG Mock Visualizer | Add social platform preview mock (X, Facebook, LinkedIn) | `seo/og-generator.js` |
 | VCard (.vcf) Generator | Add .vcf file download output option | `qr/qr-generator.js` (vCard QR mode) |
-
----
 
 ## Tool Criteria
 
@@ -306,8 +300,6 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 | **publicapis.io** | 1,000+ | Searchable, category-filtered | publicapis.io |
 | **Apipheny Free API List** | 90+ | Code examples in JS/Python | apipheny.io/free-api |
 
----
-
 ## Deploy
 
 Designed for Cloudflare Pages (free tier). Push to GitHub, connect repo, deploy.
@@ -316,9 +308,7 @@ Designed for Cloudflare Pages (free tier). Push to GitHub, connect repo, deploy.
 
 MIT
 
----
-
-## Phase 25 Tools (Most Wanted — 🟡 14/39 built, 25 remaining)
+## Phase 25 Tools (Most Wanted: 🟡 14/39 built, 25 remaining)
 
 Source: `mostWantedTools.json` — Tools most requested by users across Reddit, HN, X, and dev communities.
 
@@ -373,7 +363,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 | 25 | Pomodoro Timer | `productivity/pomodoro-timer.js` | Web Notifications + localStorage | 100K+ monthly searches |
 | 26 | Habit Tracker | `productivity/habit-tracker.js` | Pure JS + localStorage + Canvas | Massive Reddit demand |
 | 27 | Resume Builder | `productivity/resume-builder.js` | jsPDF + pure JS | 150K+ monthly searches |
-| 28 | Email Signature Generator | `productivity/email-signature-generator.js` | HTML/CSS template builder | Huge SEO potential, dead simple |
+| 28 | Email Signature Generator | `productivity/email-signature-generator.js` | HTML/CSS template builder | Huge SEO potential, one-time setup |
 | 29 | 3D Model Viewer | `productivity/3d-model-viewer.js` | Three.js + WebGL | Opens entirely new category |
 
 ### 🎬 Video (+1)
@@ -428,9 +418,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 
 > Note: Tool #39 (social-media-post-previewer) is included in the 39 total planned tools. See categories.json for authoritative counts.
 
----
-
-## Phase 26 Tools (Uncommon High-Demand Tools — 🟢 16/16 complete!)
+## Phase 26 Tools (Uncommon High-Demand Tools: 🟢 16/16 complete!)
 
 Source: System 2 analytical framework + adversarial audit + API discovery (public-apis/public-apis + Mixed Analytics List). All 20 tools validated through the 7-step Tool Idea Generation Process.
 

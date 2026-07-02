@@ -7,11 +7,9 @@
 > **Hosting:** Cloudflare Pages (free tier)
 > **Cost:** ~$10/year (domain only)
 
----
-
 ## Tool Criteria
 
-All tools must follow the **100% client-side** philosophy — no server backend, no accounts, no API keys.
+All tools must follow the **100% client-side** philosophy: no server backend, no accounts, no API keys.
 
 ### ✅ Good fit
 
@@ -81,11 +79,9 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
    - Generative AI / LLMs / Chatbots (out of scope)
    - Niche industrial use cases (too narrow for general audience)
 
-5. **Technical check** — API returns JSON, supports CORS, no binary streams
-6. **Demand check** — Estimate user demand (search volume, community requests)
-7. **Build** — Create tool following the tool-building workflow in AGENTS.md
-
----
+5. **Technical check**: API returns JSON, supports CORS, no binary streams
+6. **Demand check**: Estimate user demand (search volume, community requests)
+7. **Build**: Create tool following the tool-building workflow in AGENTS.md
 
 ## Current Status
 
@@ -141,13 +137,9 @@ See `src/data/tools.json` for the full list. Key planned tools:
 - Reference: world-holidays, link-preview
 - Fun: name-generator
 
----
-
 ## Planned Tool Specs
 
 Detailed specs for upcoming tools with UI layouts, implementation notes, and library choices.
-
----
 
 ### Phase 27: AI/ML Tools
 
@@ -477,8 +469,6 @@ Detailed specs for upcoming tools with UI layouts, implementation notes, and lib
   - jsPDF generates formatted PDF with embedded charts
   - Support recurring symptom patterns
   - Optional color-coding by body system (digestive, neurological, etc.)
-
----
 
 ### Phase 28: Legacy Catch-Up Tools
 
@@ -1272,8 +1262,6 @@ All use ffmpeg.wasm for processing.
   - Name meanings sourced from public domain etymology data
   - Shuffle algorithm for random selection (Fisher-Yates)
   - Allow filtering by first letter or name length
-
----
 
 ## Dependencies for Planned Tools
 
