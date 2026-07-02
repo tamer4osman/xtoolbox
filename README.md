@@ -24,7 +24,7 @@ npm run test       # → Playwright tests
 27 phases complete. Phases 1–26 complete. Phase 27 in progress (Finance Expansion).
 
 | Phase | Status |
-|-------|--------|
+| ------- | -------- |
 | Phase 1: Foundation | ✅ Done (60+ tools) |
 | Phase 2: PDF Tools | ✅ Done (28 tools) |
 | Phase 3: Image Tools | ✅ Done (31 tools) |
@@ -56,7 +56,7 @@ npm run test       # → Playwright tests
 ## Categories
 
 | Category | Built | Planned | Total | Key Libraries | Status |
-|----------|-------|---------|-------|---------------|--------|
+| ---------- | ------- | --------- | ------- | --------------- | -------- |
 | PDF | 33 | — | **33** | pdf-lib, PDF.js, jsPDF | ✅ |
 | Image | 40 | +2 | **42** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 40/42 |
 | Video | 16 | +1 | **17** | ffmpeg.wasm | 16/17 |
@@ -84,7 +84,7 @@ npm run test       # → Playwright tests
 ### 📄 PDF Tools (+9)
 
 | Tool | Description | Library |
-|------|-------------|---------|
+| ------ | ------------- | --------- |
 | PDF to Word | Convert PDF to editable .docx | pdfjs-dist + docx |
 | PDF to Excel | Extract tables from PDF to .xlsx | pdfjs-dist + SheetJS |
 | PDF to PowerPoint | Convert PDF pages to .pptx slides | pdfjs-dist + pptxgenjs |
@@ -98,7 +98,7 @@ npm run test       # → Playwright tests
 ### 🖼️ Image Tools (+15)
 
 | Tool | Description | Library |
-|------|-------------|---------|
+| ------ | ------------- | --------- |
 | HEIC to JPG | Convert iPhone HEIC photos to JPG | heic2any |
 | PNG to JPG | Convert PNG to JPG with quality control | Canvas API |
 | JPG to PNG | Convert JPG to lossless PNG | Canvas API |
@@ -118,7 +118,7 @@ npm run test       # → Playwright tests
 ### 🎬 Video Tools (+5)
 
 | Tool | Description | Library |
-|------|-------------|---------|
+| ------ | ------------- | --------- |
 | GIF to MP4 | Convert animated GIF to MP4 (smaller) | ffmpeg.wasm ✅ |
 | WEBM to MP4 | Convert WEBM to MP4 format | ffmpeg.wasm ✅ |
 | MOV to MP4 | Convert iPhone MOV to MP4 | ffmpeg.wasm ✅ |
@@ -128,14 +128,14 @@ npm run test       # → Playwright tests
 ### 📝 Text & File Tools (+3)
 
 | Tool | Description | Library |
-|------|-------------|---------|
+| ------ | ------------- | --------- |
 | Excel to XML | Convert .xlsx spreadsheets to XML | SheetJS + DOMParser ✅ |
 | XML to Excel | Convert XML files to .xlsx | DOMParser + SheetJS ✅ |
 | CSV Splitter | Split large CSV by row count | Papa Parse + JSZip ✅ |
 
 ## Project Structure
 
-```
+```text
 toolbox/
 ├── index.html                    ← Entry point
 ├── vite.config.js                ← Build config
@@ -208,7 +208,7 @@ toolbox/
 ## Phase 23 Tools (Gap Fill II — Complete, 14 tools)
 
 | # | Tool | File | Category | Confirmed absent because… |
-|---|------|------|----------|--------------------------|
+| --- | ------ | ------ | ---------- | -------------------------- |
 | 1 | Stopwatch with Lap Timer | `productivity/stopwatch.js` | `productivity` | `presentation-timer` counts down; `pomodoro-timer` is cyclic. No start/pause/lap/reset stopwatch |
 | 2 | Number to Words | `text/number-to-words.js` | `text` | 13 math tools and 20+ text tools — none converts numerals to written English ("1234" → "one thousand...") |
 | 3 | IP Subnet / CIDR Calculator | `dev/subnet-calculator.js` | `dev` | `my-ip.js` shows your IP only. No subnet/network/broadcast/host-range calculator anywhere |
@@ -231,7 +231,7 @@ toolbox/
 ## Phase 24 Tools (Client-Side Privacy & Utility Expansion — Complete, 18 done)
 
 | # | Tool | File | Category | Confirmed absent because… |
-|---|------|------|----------|--------------------------|
+| --- | ------ | ------ | ---------- | -------------------------- |
 | 1 | PDF Visual Redactor | `pdf/pdf-secure-redact.js` | `pdf` | Draws black rectangles to visually hide sensitive text. Note: this is visual redaction only, not destructive. ✅ |
 | 2 | Page Textbook Splitter | `pdf/textbook-splitter.js` | `pdf` | Splits dual landscape-scanned pages mathematically down the center into separate consecutive portrait pages. ✅ |
 | 3 | CSS Glassmorphism Studio | `css/glassmorphism-generator.js` | `css` | Interactive studio for generating cross-browser glassmorphism styling with Safari fallbacks. ✅ |
@@ -254,7 +254,7 @@ toolbox/
 ### 🧩 Phase 24 Enhancements (to existing tools)
 
 | Tool | Enhancement | Existing tool |
-|------|-------------|---------------|
+| --- | --- | --- |
 | OG Mock Visualizer | Add social platform preview mock (X, Facebook, LinkedIn) | `seo/og-generator.js` |
 | VCard (.vcf) Generator | Add .vcf file download output option | `qr/qr-generator.js` (vCard QR mode) |
 
@@ -267,7 +267,7 @@ All tools must follow the **100% client-side** philosophy — no server backend,
 ### ✅ Good fit
 
 | Category | Details |
-|----------|---------|
+| ---------- | --------- |
 | **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API |
 | **WASM modules** | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink |
 | **Processing model** | Input → process → output pipeline |
@@ -278,7 +278,7 @@ All tools must follow the **100% client-side** philosophy — no server backend,
 ### ❌ Bad fit
 
 | Restriction | Reason |
-|-------------|--------|
+| ------------- | -------- |
 | Requires server backend | Violates 100% client-side principle |
 | Requires authentication/accounts | Adds friction, breaks privacy promise |
 | Real-time multiplayer/collaboration | Needs server infrastructure |
@@ -292,7 +292,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 #### Primary Directories (GitHub)
 
 | Source | Stars | Focus | Link |
-|--------|-------|-------|------|
+| -------- | ------- | ------- | ------ |
 | **public-apis/public-apis** | ⭐ 441k | 1,400+ free APIs, categorized, with auth info | github.com/public-apis/public-apis |
 | **public-api-lists/public-api-lists** | ⭐ 14.7k | 48 categories, searchable, community-maintained | github.com/public-api-lists/public-api-lists |
 | **marcelscruz/public-apis** | ⭐ 9.1k | Collaborative list, actively maintained | github.com/marcelscruz/public-apis |
@@ -300,7 +300,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 #### Curated Web Directories (No-Auth Filtered)
 
 | Source | # APIs | Features | Link |
-|--------|--------|----------|------|
+| -------- | -------- | ---------- | ------ |
 | **Mixed Analytics List** | 224 | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
 | **FreePublicAPIs.com** | 598 | Tested daily, health scores | freepublicapis.com |
 | **publicapis.io** | 1,000+ | Searchable, category-filtered | publicapis.io |
@@ -325,7 +325,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 ### 🎨 CSS & Web Design (+4)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 1 | ~~SVG Optimizer & Minifier~~ ✅ | `css/svg-optimizer.js` | SVGO browser port / custom parser | SVGOMG is hugely popular; zero client-side coverage — shipped |
 | 2 | ~~WCAG Color Contrast Checker~~ ✅ | `css/wcag-contrast-checker.js` | Pure JS (relative luminance) | EU Accessibility Act 2025 driving demand — shipped |
 | 3 | CSS Sprite Sheet Generator | `css/css-sprite-generator.js` | Canvas API + CSS generation | Active demand from r/gamedev |
@@ -334,7 +334,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 ### 🖥️ Developer Tools (+12)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 5 | ~~Docker Compose Generator~~ ✅ | `dev/docker-compose-generator.js` | Pure JS YAML emitter | DevOps essential, compose.ajnart.dev popular — shipped |
 | 6 | ~~NGINX Config Generator~~ ✅ | `dev/nginx-config-generator.js` | Pure JS form-to-config | 6k+ GitHub stars on nginxconfig.io — shipped |
 | 7 | ~~Gitignore Generator~~ ✅ | `dev/gitignore-generator.js` | Bundled JSON templates | gitignore.io is one of most-used dev tools — shipped |
@@ -351,13 +351,13 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 ### 📄 PDF (+1)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 17 | PDF Annotator | `pdf/pdf-annotator.js` | PDF.js + pdf-lib + Canvas | #1 PDF request on Reddit |
 
 ### 💼 Business (+6)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 18 | Invoice Generator | `business/invoice-generator.js` | jsPDF + pdf-lib | 200K+ monthly searches |
 | 19 | Certificate Generator | `business/certificate-generator.js` | Canvas + jsPDF + Papa Parse | Most tools paywalled |
 | 20 | NDA Generator | `business/nda-generator.js` | jsPDF + template engine | Currently $200-500 by lawyers |
@@ -368,7 +368,7 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 ### ⏱️ Productivity (+6)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 24 | Archive Extractor | `productivity/archive-extractor.js` | fflate + libarchive.js | Every competitor has this, ToolBox has ZERO |
 | 25 | Pomodoro Timer | `productivity/pomodoro-timer.js` | Web Notifications + localStorage | 100K+ monthly searches |
 | 26 | Habit Tracker | `productivity/habit-tracker.js` | Pure JS + localStorage + Canvas | Massive Reddit demand |
@@ -379,51 +379,51 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 ### 🎬 Video (+1)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 30 | Screen Recorder | `video/screen-recorder.js` | getDisplayMedia() + MediaRecorder | 123apps key differentiator |
 
 ### 🖼️ Image (+2)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 31 | EXIF Data Editor | `image/exif-editor.js` | piexifjs / exifr | Only desktop ExifTool exists |
 | 32 | Open Graph Image Generator | `image/og-image-generator.js` | Canvas API + html2canvas | Canva is overkill for OG images |
 
 ### 📝 Text (+2)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 33 | Citation & Bibliography Generator | `text/citation-generator.js` | Pure JS string formatting | EasyBib now aggressive paywalls |
 | 34 | Markdown Table Generator | `text/markdown-table-generator.js` | Pure JS string formatting | Creating MD tables by hand is tedious |
 
 ### 🔊 Audio (+1)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 35 | Sound Effect Generator | `audio/sound-effect-generator.js` | Web Audio API + WAV encoding | r/gamedev frequently needs SFX |
 
 ### 💰 Finance (+1)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 36 | Debt Payoff Visualizer | `finance/debt-payoff-visualizer.js` | Chart.js + pure JS | No good free visual tool exists |
 
 ### 🔐 Encoding (+1)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 37 | HMAC Generator & Verifier | `encoding/hmac-generator.js` | Web Crypto API | API developers need HMAC tools |
 
 ### 📚 Reference (+1)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 38 | World Clock & Time Zone Converter | `reference/world-clock.js` | Intl.DateTimeFormat API | Remote workers constantly need this |
 
 ### 🔍 SEO (+1)
 
 | # | Tool | File | Library | Why |
-|---|------|------|---------|-----|
+| --- | ------ | ------ | --------- | ----- |
 | 39 | Social Media Post Previewer | `seo/social-media-post-previewer.js` | Pure JS + CSS mockups | Marketers need to preview before publishing |
 
 > Note: Tool #39 (social-media-post-previewer) is included in the 39 total planned tools. See categories.json for authoritative counts.
@@ -435,8 +435,8 @@ Source: `mostWantedTools.json` — Tools most requested by users across Reddit, 
 Source: System 2 analytical framework + adversarial audit + API discovery (public-apis/public-apis + Mixed Analytics List). All 20 tools validated through the 7-step Tool Idea Generation Process.
 
 | # | Tool | File | Category | Library | Demand |
-|---|------|------|----------|---------|--------|
-| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API | Very High | ✅ |
+| --- | ------ | ------ | ---------- | --------- | -------- |
+| 1 | Food Nutrition Scanner | `reference/food-nutrition-scanner.js` | `reference` | Open Food Facts API | Very High |
 | 2 | Passport / ID Photo Maker | `image/passport-photo-maker.js` | `image` | Canvas API + BlazeFace | Very High |
 | 3 | Corrupted ZIP / Archive Repair | `productivity/archive-repair.js` | `productivity` | fflate + libarchive.js WASM | High |
 | 4 | Screen Ruler & Color Picker Overlay | `dev/screen-ruler.js` | `dev` | Canvas API + EyeDropper API | High |
