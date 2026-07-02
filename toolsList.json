@@ -3227,19 +3227,20 @@
   },
   {
     "id": "audio-equalizer",
-    "name": "Audio EQ & Visualizer",
+    "name": "Audio Equalizer",
     "category": "audio",
-    "description": "10-band parametric EQ with real-time frequency spectrum visualizer.",
+    "description": "Adjust frequency bands and visualize the spectrum of any audio file.",
     "icon": "🎛️",
     "href": "/tools/audio-equalizer",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "equalizer",
       "eq",
       "audio",
       "spectrum",
       "frequency",
-      "bands"
+      "bass",
+      "treble"
     ]
   },
   {
