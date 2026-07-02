@@ -3191,7 +3191,7 @@
     "id": "bpm-key-detector",
     "name": "BPM & Key Detector",
     "category": "audio",
-    "description": "Detect tempo (BPM) and musical key of any audio file using Essentia.js WASM.",
+    "description": "Detect tempo (BPM) and musical key of any audio file.",
     "icon": "🥁",
     "href": "/tools/bpm-key-detector",
     "keywords": [
@@ -3202,7 +3202,7 @@
       "music",
       "audio"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {

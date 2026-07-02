@@ -1,8 +1,8 @@
 # Tool Building Progress
 
-## Current Status: 293 built, 52 planned = 345 total
+## Current Status: 294 built, 51 planned = 345 total
 
-### Phase 27 — High-Demand Tools (16 planned, 4 built)
+### Phase 27 — High-Demand Tools (16 planned, 5 built)
 
 | Tool | Category | Status |
 |------|----------|--------|
@@ -10,7 +10,7 @@
 | JSON Diff Viewer | dev | ✅ Done |
 | Vocal / Stem Separator | audio | ✅ Done |
 | Noise / Hiss Remover | audio | Done |
-| BPM & Key Detector | audio | Planned |
+| BPM & Key Detector | audio | Done |
 | Audio EQ & Visualizer | audio | Planned |
 | Local Video Transcriber | video | Planned |
 | Video Silence Remover | video | Planned |
