@@ -3173,7 +3173,7 @@
     "id": "noise-remover",
     "name": "Noise / Hiss Remover",
     "category": "audio",
-    "description": "Remove background noise, hiss, and hum from audio recordings using DeepFilterNet.",
+    "description": "Remove background noise, hiss, and hum from audio recordings using spectral gating.",
     "icon": "🔇",
     "href": "/tools/noise-remover",
     "keywords": [
@@ -3184,7 +3184,7 @@
       "clean",
       "denoise"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
