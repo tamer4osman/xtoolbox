@@ -1,19 +1,31 @@
-import { showToast } from '../../components/toast.js';
+import { showToast } from "../../components/toast.js";
 
 export const toolConfig = {
-  id: 'meeting-cost-calculator',
-  name: 'Meeting Cost Calculator',
-  category: 'productivity',
-  description: 'Calculate real-time meeting cost based on participant salaries.',
-  icon: '💰',
+  id: "meeting-cost-calculator",
+  name: "Meeting Cost Calculator",
+  category: "productivity",
+  description: "Calculate real-time meeting cost based on participant salaries.",
+  icon: "💰",
   accept: null,
   maxSizeMB: 0,
-  keywords: ['meeting', 'cost', 'calculator', 'salary', 'time', 'money'],
-  steps: ['Add participants with salaries', 'Start timer when meeting begins', 'View running cost in real-time'],
+  keywords: ["meeting", "cost", "calculator", "salary", "time", "money"],
+  steps: [
+    "Add participants with salaries",
+    "Start timer when meeting begins",
+    "View running cost in real-time",
+  ],
   faqs: [
-    { question: 'How is cost calculated?', answer: 'Annual salary divided by working hours, multiplied by meeting duration and number of participants.' },
-    { question: 'Are benefits included?', answer: 'No. For a more realistic cost, multiply the result by 1.3-1.5 to account for benefits and overhead.' }
-  ]
+    {
+      question: "How is cost calculated?",
+      answer:
+        "Annual salary divided by working hours, multiplied by meeting duration and number of participants.",
+    },
+    {
+      question: "Are benefits included?",
+      answer:
+        "No. For a more realistic cost, multiply the result by 1.3-1.5 to account for benefits and overhead.",
+    },
+  ],
 };
 
 export function calculateHourlyRate(annualSalary, hoursPerWeek = 40, weeksPerYear = 50) {
@@ -25,7 +37,11 @@ export function calculateMeetingCost(hourlyRate, durationMinutes, participants) 
 }
 
 export function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(amount);
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  }).format(amount);
 }
 
 export function formatDuration(seconds) {
@@ -71,28 +87,32 @@ export function render(container) {
     </div>
   `;
 
-  const nameInput = container.querySelector('#name-input');
-  const salaryInput = container.querySelector('#salary-input');
-  const addBtn = container.querySelector('#add-btn');
-  const participantsList = container.querySelector('#participants-list');
-  const startBtn = container.querySelector('#start-btn');
-  const resetBtn = container.querySelector('#reset-btn');
-  const timerDisplay = container.querySelector('#timer-display');
-  const timerValue = container.querySelector('#timer-value');
-  const costDisplay = container.querySelector('#cost-display');
-  const costDetails = container.querySelector('#cost-details');
+  const nameInput = container.querySelector("#name-input");
+  const salaryInput = container.querySelector("#salary-input");
+  const addBtn = container.querySelector("#add-btn");
+  const participantsList = container.querySelector("#participants-list");
+  const startBtn = container.querySelector("#start-btn");
+  const resetBtn = container.querySelector("#reset-btn");
+  const timerDisplay = container.querySelector("#timer-display");
+  const timerValue = container.querySelector("#timer-value");
+  const costDisplay = container.querySelector("#cost-display");
+  const costDetails = container.querySelector("#cost-details");
 
   function renderParticipants() {
-    participantsList.innerHTML = participants.map((p, i) => `
+    participantsList.innerHTML = participants
+      .map(
+        (p, i) => `
       <div style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);margin-bottom:var(--space-1);">
         <span style="flex:1;font-weight:600;">${p.name}</span>
         <span style="color:var(--color-text-muted);">${formatCurrency(p.salary)}/yr</span>
         <button class="btn btn-secondary btn-sm remove-participant" data-index="${i}">Remove</button>
       </div>
-    `).join('');
+    `,
+      )
+      .join("");
 
-    participantsList.querySelectorAll('.remove-participant').forEach(btn => {
-      btn.addEventListener('click', () => {
+    participantsList.querySelectorAll(".remove-participant").forEach((btn) => {
+      btn.addEventListener("click", () => {
         participants.splice(parseInt(btn.dataset.index), 1);
         renderParticipants();
       });
@@ -105,38 +125,38 @@ export function render(container) {
     const cost = totalHourly * (elapsedSeconds / 3600);
     timerValue.textContent = formatDuration(elapsedSeconds);
     costDisplay.textContent = formatCurrency(cost);
-    costDetails.textContent = `${participants.length} participant${participants.length > 1 ? 's' : ''} | ${formatCurrency(totalHourly)}/hr combined`;
+    costDetails.textContent = `${participants.length} participant${participants.length > 1 ? "s" : ""} | ${formatCurrency(totalHourly)}/hr combined`;
   }
 
-  addBtn.addEventListener('click', () => {
+  addBtn.addEventListener("click", () => {
     const name = nameInput.value.trim();
     const salary = parseFloat(salaryInput.value);
     if (!name || !salary || salary <= 0) {
-      showToast({ message: 'Enter valid name and salary.', type: 'error' });
+      showToast({ message: "Enter valid name and salary.", type: "error" });
       return;
     }
     participants.push({ name, salary });
-    nameInput.value = '';
-    salaryInput.value = '';
+    nameInput.value = "";
+    salaryInput.value = "";
     renderParticipants();
-    showToast({ message: `${name} added.`, type: 'success' });
+    showToast({ message: `${name} added.`, type: "success" });
   });
 
-  startBtn.addEventListener('click', () => {
+  startBtn.addEventListener("click", () => {
     if (participants.length === 0) {
-      showToast({ message: 'Add at least one participant.', type: 'error' });
+      showToast({ message: "Add at least one participant.", type: "error" });
       return;
     }
     if (isRunning) {
       clearInterval(timerInterval);
       isRunning = false;
-      startBtn.textContent = 'Resume';
-      startBtn.classList.remove('btn-danger');
-      startBtn.classList.add('btn-primary');
+      startBtn.textContent = "Resume";
+      startBtn.classList.remove("btn-danger");
+      startBtn.classList.add("btn-primary");
     } else {
       isRunning = true;
-      startBtn.textContent = 'Pause';
-      timerDisplay.style.display = 'block';
+      startBtn.textContent = "Pause";
+      timerDisplay.style.display = "block";
       timerInterval = setInterval(() => {
         elapsedSeconds++;
         updateCost();
@@ -144,15 +164,15 @@ export function render(container) {
     }
   });
 
-  resetBtn.addEventListener('click', () => {
+  resetBtn.addEventListener("click", () => {
     clearInterval(timerInterval);
     isRunning = false;
     elapsedSeconds = 0;
-    timerValue.textContent = '00:00:00';
-    costDisplay.textContent = '$0.00';
-    costDetails.textContent = '';
-    timerDisplay.style.display = 'none';
-    startBtn.textContent = 'Start Meeting';
+    timerValue.textContent = "00:00:00";
+    costDisplay.textContent = "$0.00";
+    costDetails.textContent = "";
+    timerDisplay.style.display = "none";
+    startBtn.textContent = "Start Meeting";
   });
 }
 

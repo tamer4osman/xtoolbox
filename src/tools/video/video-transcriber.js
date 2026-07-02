@@ -1,25 +1,34 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { loadAudioFile } from './audio-utils.js';
-import { downloadBlob } from '../../utils/file.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'video-transcriber',
-  name: 'Local Video Transcriber',
-  category: 'video',
-  description: 'Transcribe video/audio to text locally using browser speech recognition.',
-  icon: '📝',
-  accept: 'audio/*,video/*',
+  id: "video-transcriber",
+  name: "Local Video Transcriber",
+  category: "video",
+  description: "Transcribe video/audio to text locally using browser speech recognition.",
+  icon: "📝",
+  accept: "audio/*,video/*",
   maxSizeMB: 100,
-  keywords: ['transcribe', 'video', 'whisper', 'speech', 'text', 'audio'],
-  steps: ['Upload a video or audio file', 'Wait for transcription to complete', 'Copy or download the transcript'],
+  keywords: ["transcribe", "video", "whisper", "speech", "text", "audio"],
+  steps: [
+    "Upload a video or audio file",
+    "Wait for transcription to complete",
+    "Copy or download the transcript",
+  ],
   faqs: [
-    { question: 'Is my audio sent to a server?', answer: 'No. Transcription happens entirely in your browser using the Web Speech API.' },
-    { question: 'What languages are supported?', answer: 'Depends on your browser. Chrome supports 100+ languages for speech recognition.' }
-  ]
+    {
+      question: "Is my audio sent to a server?",
+      answer: "No. Transcription happens entirely in your browser using the Web Speech API.",
+    },
+    {
+      question: "What languages are supported?",
+      answer: "Depends on your browser. Chrome supports 100+ languages for speech recognition.",
+    },
+  ],
 };
 
-export function createSpeechRecognizer(lang = 'en-US') {
+export function createSpeechRecognizer(lang = "en-US") {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) return null;
   const recognizer = new SpeechRecognition();
@@ -30,23 +39,22 @@ export function createSpeechRecognizer(lang = 'en-US') {
 }
 
 export function formatTranscript(segments) {
-  return segments.map((s, i) => `[${formatTime(s.start)}] ${s.text}`).join('\n');
+  return segments.map((s) => `[${formatTime(s.start)}] ${s.text}`).join("\n");
 }
 
 export function formatTime(seconds) {
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
-  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
 }
 
 export function render(container) {
-  let audioBuffer = null;
   let audioElement = null;
   let recognizer = null;
   let segments = [];
 
   const upload = createFileUpload({
-    accept: 'audio/*,video/*',
+    accept: "audio/*,video/*",
     multiple: false,
     maxSizeMB: 100,
     onFilesSelected: async (files) => {
@@ -55,15 +63,15 @@ export function render(container) {
         const file = files[0];
         audioElement = new Audio();
         audioElement.src = URL.createObjectURL(file);
-        audioElement.crossOrigin = 'anonymous';
-        optionsArea.style.display = 'block';
-        transcriptArea.style.display = 'none';
+        audioElement.crossOrigin = "anonymous";
+        optionsArea.style.display = "block";
+        transcriptArea.style.display = "none";
         transcribeBtn.disabled = false;
-        showToast({ message: 'Media loaded. Click Transcribe.', type: 'success' });
+        showToast({ message: "Media loaded. Click Transcribe.", type: "success" });
       } catch {
-        showToast({ message: 'Failed to load media file.', type: 'error' });
+        showToast({ message: "Failed to load media file.", type: "error" });
       }
-    }
+    },
   });
 
   container.innerHTML = `
@@ -100,33 +108,33 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const transcriptArea = container.querySelector('#transcript-area');
-  const transcribeBtn = container.querySelector('#transcribe-btn');
-  const langSelect = container.querySelector('#lang-select');
-  const transcriptText = container.querySelector('#transcript-text');
-  const copyBtn = container.querySelector('#copy-btn');
-  const downloadBtn = container.querySelector('#download-btn');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const transcriptArea = container.querySelector("#transcript-area");
+  const transcribeBtn = container.querySelector("#transcribe-btn");
+  const langSelect = container.querySelector("#lang-select");
+  const transcriptText = container.querySelector("#transcript-text");
+  const copyBtn = container.querySelector("#copy-btn");
+  const downloadBtn = container.querySelector("#download-btn");
 
-  transcribeBtn.addEventListener('click', () => {
+  transcribeBtn.addEventListener("click", () => {
     if (!audioElement) return;
     recognizer = createSpeechRecognizer(langSelect.value);
     if (!recognizer) {
-      showToast({ message: 'Speech recognition not supported in this browser.', type: 'error' });
+      showToast({ message: "Speech recognition not supported in this browser.", type: "error" });
       return;
     }
     segments = [];
     transcribeBtn.disabled = true;
-    transcribeBtn.textContent = 'Transcribing...';
-    transcriptArea.style.display = 'block';
+    transcribeBtn.textContent = "Transcribing...";
+    transcriptArea.style.display = "block";
 
     recognizer.onresult = (event) => {
       for (let i = event.resultIndex; i < event.results.length; i++) {
         if (event.results[i].isFinal) {
           segments.push({
             text: event.results[i][0].transcript,
-            start: segments.length * 3
+            start: segments.length * 3,
           });
         }
       }
@@ -135,28 +143,31 @@ export function render(container) {
 
     recognizer.onend = () => {
       transcribeBtn.disabled = false;
-      transcribeBtn.textContent = 'Transcribe Again';
-      showToast({ message: `Transcription complete: ${segments.length} segments.`, type: 'success' });
+      transcribeBtn.textContent = "Transcribe Again";
+      showToast({
+        message: `Transcription complete: ${segments.length} segments.`,
+        type: "success",
+      });
     };
 
     recognizer.onerror = (event) => {
       transcribeBtn.disabled = false;
-      transcribeBtn.textContent = 'Transcribe';
-      showToast({ message: `Recognition error: ${event.error}`, type: 'error' });
+      transcribeBtn.textContent = "Transcribe";
+      showToast({ message: `Recognition error: ${event.error}`, type: "error" });
     };
 
     audioElement.play();
     recognizer.start();
   });
 
-  copyBtn.addEventListener('click', () => {
+  copyBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(transcriptText.value);
-    showToast({ message: 'Transcript copied to clipboard.', type: 'success' });
+    showToast({ message: "Transcript copied to clipboard.", type: "success" });
   });
 
-  downloadBtn.addEventListener('click', () => {
-    const blob = new Blob([transcriptText.value], { type: 'text/plain' });
-    downloadBlob(blob, 'transcript.txt');
+  downloadBtn.addEventListener("click", () => {
+    const blob = new Blob([transcriptText.value], { type: "text/plain" });
+    downloadBlob(blob, "transcript.txt");
   });
 }
 
