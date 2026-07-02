@@ -2962,7 +2962,7 @@
       "webm",
       "browser"
     ],
-    "status": "planned"
+    "status": "done"
   },
   {
     "id": "exif-editor",
@@ -3239,7 +3239,7 @@
       "text",
       "audio"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3257,7 +3257,7 @@
       "auto",
       "cut"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3275,7 +3275,7 @@
       "yaml",
       "rest"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3293,7 +3293,7 @@
       "sdl",
       "api"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3311,7 +3311,7 @@
       "nllb",
       "transformers"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3329,7 +3329,7 @@
       "summarize",
       "plain english"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3347,7 +3347,7 @@
       "positive",
       "negative"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3365,7 +3365,7 @@
       "time",
       "money"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3383,7 +3383,7 @@
       "holidays",
       "dates"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3401,7 +3401,7 @@
       "liabilities",
       "finance"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3419,7 +3419,7 @@
       "detect",
       "pixelate"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {
@@ -3437,7 +3437,7 @@
       "doctor",
       "log"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 27
   },
   {

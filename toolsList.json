@@ -2977,7 +2977,7 @@
     "description": "Record browser tab or screen using Screen Capture API. Export as WebM video.",
     "icon": "🖥️",
     "href": "/tools/screen-recorder",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "screen",
       "record",
@@ -3250,7 +3250,7 @@
     "description": "Transcribe video/audio to text locally using Whisper tiny model.",
     "icon": "📝",
     "href": "/tools/video-transcriber",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "transcribe",
       "video",
@@ -3267,7 +3267,7 @@
     "description": "Automatically detect and cut silent sections from video using ffmpeg.wasm.",
     "icon": "✂️",
     "href": "/tools/silence-remover",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "silence",
       "remove",
@@ -3284,7 +3284,7 @@
     "description": "Visualize OpenAPI 3.x specs as interactive endpoint trees.",
     "icon": "🗺️",
     "href": "/tools/openapi-visualizer",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "openapi",
       "swagger",
@@ -3301,7 +3301,7 @@
     "description": "Browse GraphQL SDL schemas as collapsible type trees.",
     "icon": "🔬",
     "href": "/tools/graphql-schema-explorer",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "graphql",
       "schema",
@@ -3318,7 +3318,7 @@
     "description": "Translate text between 50+ languages offline using Transformers.js.",
     "icon": "🌐",
     "href": "/tools/offline-translator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "translate",
       "offline",
@@ -3335,7 +3335,7 @@
     "description": "Simplify legal text into plain English using DistilBART summarization.",
     "icon": "⚖️",
     "href": "/tools/legal-clause-simplifier",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "legal",
       "simplify",
@@ -3352,7 +3352,7 @@
     "description": "Visualize sentence-by-sentence sentiment as a color heatmap using DistilBERT.",
     "icon": "🗺️",
     "href": "/tools/sentiment-heatmap",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "sentiment",
       "heatmap",
@@ -3369,7 +3369,7 @@
     "description": "Calculate real-time meeting cost based on participant salaries.",
     "icon": "💰",
     "href": "/tools/meeting-cost-calculator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "meeting",
       "cost",
@@ -3386,7 +3386,7 @@
     "description": "Calculate business days between dates excluding holidays for 50+ countries.",
     "icon": "📅",
     "href": "/tools/working-days-calculator",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "working",
       "days",
@@ -3403,7 +3403,7 @@
     "description": "Private net worth tracker with assets, liabilities, and charts. Data stays local.",
     "icon": "📊",
     "href": "/tools/net-worth-tracker",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "net",
       "worth",
@@ -3420,7 +3420,7 @@
     "description": "Auto-detect and blur/pixelate faces in images using BlazeFace ONNX model.",
     "icon": "🕵️",
     "href": "/tools/face-blur",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "face",
       "blur",
@@ -3437,7 +3437,7 @@
     "description": "Log symptoms with onset, severity, and notes. Export printable PDF for doctors.",
     "icon": "🩺",
     "href": "/tools/symptom-tracker",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "symptom",
       "tracker",
