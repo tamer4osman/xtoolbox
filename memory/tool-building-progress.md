@@ -1,56 +1,22 @@
 # Tool Building Progress
 
-## Current Status: 308 built, 37 planned = 345 total
+## Current Status: 308 built, 24 planned = 332 total
 
-### Phase 27 — High-Demand Tools (16 planned, 6 built)
+### Phase 28 — Legacy Tool Catch-Up (24 planned, 0 built)
 
-| Tool | Category | Status |
-|------|----------|--------|
-| Pomodoro Timer | productivity | ✅ Done |
-| JSON Diff Viewer | dev | ✅ Done |
-| Vocal / Stem Separator | audio | ✅ Done |
-| Noise / Hiss Remover | audio | Done |
-| BPM & Key Detector | audio | Done |
-| Audio EQ & Visualizer | audio | Done |
-| Local Video Transcriber | video | Planned |
-| Video Silence Remover | video | Planned |
-| OpenAPI / Swagger Visualizer | dev | Planned |
-| GraphQL Schema Explorer | dev | Planned |
-| Offline Text Translator | text | Planned |
-| Legal Clause Simplifier | text | Planned |
-| Text Sentiment Heatmap | text | Planned |
-| Meeting Cost Calculator | productivity | Planned |
-| Working Days Calculator | productivity | Planned |
-| Net Worth Tracker | finance | Planned |
-| Symptom Onset Tracker | health | Planned |
-| Face Blur / Anonymizer | image | Planned |
-| Screen Recorder | video | Planned |
-
-### Phase 28 — Legacy Tool Catch-Up (37 planned)
-
-> Migrated from old phases (PROJECT-PLAN) — tools that were planned but never built or registered.
+> 13 tools removed — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
 
 | Tool | Category | Status |
 |------|----------|--------|
-| Image Flipper | image | Planned |
-| Image Rotator | image | Planned |
-| Grayscale Converter | image | Planned |
-| Sepia Filter | image | Planned |
 | Image Blur | image | Planned |
-| Image Sharpener | image | Planned |
-| Watermark Overlay | image | Planned |
 | Image Comparison | image | Planned |
 | Meme Generator | image | Planned |
 | Video Cropper | video | Planned |
 | Video Rotator | video | Planned |
-| Video Speed Controller | video | Planned |
 | Video Volume Adjuster | video | Planned |
 | Video Reverser | video | Planned |
 | Video Metadata Editor | video | Planned |
-| Audio Normalizer | audio | Planned |
-| Pitch Shifter | audio | Planned |
-| WAV to MP3 Converter | audio | Planned |
-| MP3 to WAV Converter | audio | Planned |
+| Audio Pitch Shifter | audio | Planned |
 | JavaScript Playground | dev | Planned |
 | HTML Playground | dev | Planned |
 | JSON Schema Validator | dev | Planned |
@@ -64,15 +30,15 @@
 | Matrix Calculator | math | Planned |
 | Statistics Calculator | math | Planned |
 | Decision Matrix Maker | productivity | Planned |
-| QR Business Card | qr | Planned |
-| WiFi QR Generator | qr | Planned |
-| World Holidays Calendar | reference | Planned |
 | Link Preview Generator | reference | Planned |
 | Name Generator | fun | Planned |
 
 ---
 
 ## Completed Phases
+
+### Phase 27: High-Demand Tools (19 tools) ✅
+Pomodoro Timer, JSON Diff Viewer, Vocal / Stem Separator, Noise / Hiss Remover, BPM & Key Detector, Audio EQ & Visualizer, Video Transcriber, Video Silence Remover, OpenAPI Visualizer, GraphQL Schema Explorer, Offline Text Translator, Legal Clause Simplifier, Text Sentiment Heatmap, Meeting Cost Calculator, Working Days Calculator, Net Worth Tracker, Face Blur / Anonymizer, Symptom Onset Tracker, Screen Recorder
 
 ### Phase 26: Uncommon High-Demand Tools (16 tools) ✅
 Food Nutrition Scanner, Passport / ID Photo Maker, Archive Repair, Screen Ruler, Regex Visualizer, DNS Speed Test, Earthquake Monitor, World Holidays, Link Preview Generator, Domain Intelligence, Wireframe Sketcher, Currency Converter, Pixel Art Editor, SVG Icon Editor, Diff Viewer, Accessibility Audit Visualizer

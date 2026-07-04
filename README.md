@@ -1,6 +1,6 @@
 # 🛠️ ToolBox: Free Online Tools
 
-**308 free online tools (+37 planned). 100% client-side processing: your files never leave your device.**
+**308 free online tools (+24 planned). 100% client-side processing: your files never leave your device.**
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ npm run test       # → Playwright tests
 
 ## Build Progress
 
-27 phases complete. Phases 1–26 complete. Phase 27 in progress (Finance Expansion).
+27 phases complete. Phase 28 in progress (Legacy Catch-Up).
 
 | Phase | Status |
 | ------- | -------- |
@@ -50,34 +50,38 @@ npm run test       # → Playwright tests
 | Phase 23: Gap Fill I | ✅ Done (6 tools) |
 | Phase 23: Gap Fill II | ✅ Done (14 tools) |
 | Phase 24: Client-Side Privacy & Utility Expansion | ✅ Done (18 tools) |
+| Phase 25: Most Wanted Tools | ✅ Done (23 tools) |
+| Phase 26: Uncommon High-Demand Tools | ✅ Done (16 tools) |
+| Phase 27: High-Demand Tools | ✅ Done (19 tools) |
+| Phase 28: Legacy Catch-Up | 🟡 In Progress (0/24) |
 
-**Total tools:** 345 (292 built, 53 planned).
+**Total tools:** 332 (308 built, 24 planned).
 
 ## Categories
 
 | Category | Built | Planned | Total | Key Libraries | Status |
 | ---------- | ------- | --------- | ------- | --------------- | -------- |
+| Image | 39 | +3 | **42** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 39/42 |
+| Developer | 34 | +6 | **40** | Custom JS | 34/40 |
+| Text & Content | 35 | — | **35** | marked, turndown, js-yaml, SheetJS | ✅ |
 | PDF | 33 | — | **33** | pdf-lib, PDF.js, jsPDF | ✅ |
-| Image | 40 | +2 | **42** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 40/42 |
-| Video | 16 | +1 | **17** | ffmpeg.wasm | 16/17 |
-| Audio | 12 | +1 | **13** | Web Audio API, lamejs, Wavesurfer.js, ONNX Runtime Web | 12/13 |
-| OCR | 4 | — | **4** | Tesseract.js | ✅ |
-| QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
+| Video | 18 | +5 | **23** | ffmpeg.wasm | 18/23 |
+| CSS & Web Design | 20 | — | **20** | Custom JS | ✅ |
+| Audio | 15 | +1 | **16** | Web Audio API, lamejs, Wavesurfer.js, ONNX Runtime Web | 15/16 |
+| Business | 15 | — | **15** | Custom JS | ✅ |
+| Finance | 12 | +3 | **15** | Chart.js | 12/15 |
+| Productivity | 14 | +1 | **15** | Custom JS | 14/15 |
+| Math | 10 | +3 | **13** | math.js | 10/13 |
+| Health | 12 | — | **12** | Custom JS | ✅ |
+| Encoding & Hashing | 9 | — | **9** | Web Crypto API | ✅ |
+| Reference | 7 | +1 | **8** | Free Dictionary API, Open Library | 7/8 |
+| SEO | 8 | — | **8** | Custom JS | ✅ |
+| Fun & Games | 5 | +1 | **6** | Custom JS | 5/6 |
 | Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
-| Weather | 4 | — | **4** | wttr.in, Open-Meteo | ✅ |
-| Reference | 9 | — | **9** | Free Dictionary API, Open Library | ✅ |
-| Finance | 12 | +1 | **13** | Chart.js | 12/13 |
-| Math | 10 | — | **10** | math.js | ✅ |
-| Health | 11 | — | **11** | Custom JS | ✅ |
-| Text & Content | 32 | +1 | **33** | marked, turndown, js-yaml, SheetJS | 32/33 |
-| Encoding & Hashing | 9 | +1 | **10** | Web Crypto API | 9/10 |
+| QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
+| OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
-| CSS & Web Design | 21 | — | **21** | Custom JS | ✅ |
-| Developer | 33 | — | **33** | Custom JS | ✅ |
-| Fun & Games | 5 | — | **5** | Custom JS | ✅ |
-| Business | 15 | +6 | **21** | Custom JS | 15/21 |
-| SEO | 8 | +1 | **9** | Custom JS | 8/9 |
-| Productivity | 14 | +6 | **20** | Custom JS | 14/20 |
+| Weather | 4 | — | **4** | wttr.in, Open-Meteo | ✅ |
 
 ## Phase 21 Tools (Market Expansion — Complete)
 

@@ -85,63 +85,53 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 ## Current Status
 
-**Total tools:** 345 (292 built, 53 planned)
+**Total tools:** 332 (308 built, 24 planned)
 
 ### Categories (with actual tool counts)
 
 | Category | Tools |
 |----------|-------|
-| Image | 48 |
+| Image | 42 |
 | Dev | 40 |
 | Text | 35 |
 | PDF | 33 |
-| Video | 24 |
-| CSS | 20 |
-| Audio | 20 |
-| Business | 15 |
+| Video | 23 |
+| Audio | 16 |
 | Finance | 15 |
+| Business | 15 |
+| CSS | 20 |
 | Productivity | 15 |
 | Math | 13 |
 | Health | 12 |
 | Encoding | 9 |
-| Reference | 9 |
+| Reference | 8 |
 | SEO | 8 |
 | Fun | 6 |
 | Privacy | 6 |
-| QR | 6 |
+| QR | 4 |
 | OCR | 4 |
 | Visualization | 4 |
 | Weather | 4 |
 
-### Planned Tools (54)
+### Planned Tools (24)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
-**Phase 27 — AI/ML Tools (16 planned, 3 done):**
-- noise-remover, bpm-key-detector, audio-equalizer
-- video-transcriber, silence-remover, screen-recorder
-- openapi-visualizer, graphql-schema-explorer
-- offline-translator, legal-clause-simplifier, sentiment-heatmap
-- meeting-cost-calculator, working-days-calculator
-- net-worth-tracker, face-blur, symptom-tracker
-
-**Phase 28 — Legacy Catch-Up (37 planned):**
-- Image basics: image-flip, image-rotate, image-grayscale, image-sepia, image-blur, image-sharpen, image-watermark, image-compare, image-meme
-- Video basics: video-crop, video-rotate, video-speed-ctrl, video-volume, video-reverse, video-metadata-editor
-- Audio basics: audio-normalize, audio-pitch, audio-wav-mp3, audio-mp3-wav
+**Phase 28 — Legacy Catch-Up (24 planned):**
+- Image basics: image-blur, image-compare, image-meme
+- Video basics: video-crop, video-rotate, video-volume, video-reverse, video-metadata-editor
 - Dev playgrounds: js-playground, html-playground, json-schema-validator, env-parser, timezone-converter, regex-visualizer
 - Finance: salary-calc, savings-calc, retirement-planner
 - Math: equation-solver, matrix-calc, stats-calc
 - Productivity: decision-matrix
-- QR: qr-business-card, qr-wifi
-- Reference: world-holidays, link-preview
+- Reference: link-preview
 - Fun: name-generator
 
 ## Planned Tool Specs
 
 Detailed specs for upcoming tools with UI layouts, implementation notes, and library choices.
 
-### Phase 27: AI/ML Tools
+### Phase 27: AI/ML Tools ✅ COMPLETE
 
 > **Libraries:** Transformers.js, ONNX Runtime Web, ffmpeg.wasm, Essentia.js
 > **Pattern:** Input file → WASM/ONNX processing → output file

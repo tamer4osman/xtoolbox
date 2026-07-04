@@ -3448,69 +3448,6 @@
     ]
   },
   {
-    "id": "image-flip",
-    "name": "Image Flipper",
-    "category": "image",
-    "description": "Flip images horizontally or vertically with preview.",
-    "icon": "🪞",
-    "href": "/tools/image-flip",
-    "status": "planned",
-    "keywords": [
-      "flip",
-      "image",
-      "mirror",
-      "horizontal",
-      "vertical"
-    ]
-  },
-  {
-    "id": "image-rotate",
-    "name": "Image Rotator",
-    "category": "image",
-    "description": "Rotate images by any angle with crop or extend options.",
-    "icon": "🔄",
-    "href": "/tools/image-rotate",
-    "status": "planned",
-    "keywords": [
-      "rotate",
-      "image",
-      "angle",
-      "turn"
-    ]
-  },
-  {
-    "id": "image-grayscale",
-    "name": "Grayscale Converter",
-    "category": "image",
-    "description": "Convert color images to grayscale with intensity control.",
-    "icon": "⬛",
-    "href": "/tools/image-grayscale",
-    "status": "planned",
-    "keywords": [
-      "grayscale",
-      "black",
-      "white",
-      "convert",
-      "image"
-    ]
-  },
-  {
-    "id": "image-sepia",
-    "name": "Sepia Filter",
-    "category": "image",
-    "description": "Apply vintage sepia tone filter to photos.",
-    "icon": "🟤",
-    "href": "/tools/image-sepia",
-    "status": "planned",
-    "keywords": [
-      "sepia",
-      "vintage",
-      "filter",
-      "photo",
-      "tone"
-    ]
-  },
-  {
     "id": "image-blur",
     "name": "Image Blur",
     "category": "image",
@@ -3522,36 +3459,6 @@
       "blur",
       "gaussian",
       "soften",
-      "image"
-    ]
-  },
-  {
-    "id": "image-sharpen",
-    "name": "Image Sharpener",
-    "category": "image",
-    "description": "Sharpen image details using unsharp mask technique.",
-    "icon": "🔪",
-    "href": "/tools/image-sharpen",
-    "status": "planned",
-    "keywords": [
-      "sharpen",
-      "detail",
-      "clarity",
-      "image"
-    ]
-  },
-  {
-    "id": "image-watermark",
-    "name": "Watermark Overlay",
-    "category": "image",
-    "description": "Add text or image watermarks with opacity and position control.",
-    "icon": "💧",
-    "href": "/tools/image-watermark",
-    "status": "planned",
-    "keywords": [
-      "watermark",
-      "overlay",
-      "protect",
       "image"
     ]
   },
@@ -3617,22 +3524,6 @@
     ]
   },
   {
-    "id": "video-speed-ctrl",
-    "name": "Video Speed Controller",
-    "category": "video",
-    "description": "Speed up or slow down video with audio pitch preservation.",
-    "icon": "⏩",
-    "href": "/tools/video-speed-ctrl",
-    "status": "planned",
-    "keywords": [
-      "speed",
-      "slow",
-      "fast",
-      "video",
-      "playback"
-    ]
-  },
-  {
     "id": "video-volume",
     "name": "Video Volume Adjuster",
     "category": "video",
@@ -3680,21 +3571,6 @@
     ]
   },
   {
-    "id": "audio-normalize",
-    "name": "Audio Normalizer",
-    "category": "audio",
-    "description": "Normalize audio volume to consistent levels across files.",
-    "icon": "📊",
-    "href": "/tools/audio-normalize",
-    "status": "planned",
-    "keywords": [
-      "normalize",
-      "volume",
-      "level",
-      "audio"
-    ]
-  },
-  {
     "id": "audio-pitch",
     "name": "Pitch Shifter",
     "category": "audio",
@@ -3708,37 +3584,6 @@
       "tone",
       "audio",
       "semitone"
-    ]
-  },
-  {
-    "id": "audio-wav-mp3",
-    "name": "WAV to MP3 Converter",
-    "category": "audio",
-    "description": "Convert WAV audio files to MP3 with quality settings.",
-    "icon": "🎵",
-    "href": "/tools/audio-wav-mp3",
-    "status": "planned",
-    "keywords": [
-      "wav",
-      "mp3",
-      "convert",
-      "audio"
-    ]
-  },
-  {
-    "id": "audio-mp3-wav",
-    "name": "MP3 to WAV Converter",
-    "category": "audio",
-    "description": "Convert MP3 audio files to lossless WAV format.",
-    "icon": "🎶",
-    "href": "/tools/audio-mp3-wav",
-    "status": "planned",
-    "keywords": [
-      "mp3",
-      "wav",
-      "convert",
-      "audio",
-      "lossless"
     ]
   },
   {
@@ -3946,54 +3791,6 @@
       "weight",
       "compare",
       "choose"
-    ]
-  },
-  {
-    "id": "qr-business-card",
-    "name": "QR Business Card",
-    "category": "qr",
-    "description": "Generate vCard QR codes for contact sharing.",
-    "icon": "📇",
-    "href": "/tools/qr-business-card",
-    "status": "planned",
-    "keywords": [
-      "qr",
-      "vcard",
-      "business",
-      "card",
-      "contact"
-    ]
-  },
-  {
-    "id": "qr-wifi",
-    "name": "WiFi QR Generator",
-    "category": "qr",
-    "description": "Generate QR codes for WiFi network credentials.",
-    "icon": "📶",
-    "href": "/tools/qr-wifi",
-    "status": "planned",
-    "keywords": [
-      "qr",
-      "wifi",
-      "network",
-      "share",
-      "password"
-    ]
-  },
-  {
-    "id": "world-holidays",
-    "name": "World Holidays Calendar",
-    "category": "reference",
-    "description": "Browse public holidays for 50+ countries by year.",
-    "icon": "📅",
-    "href": "/tools/world-holidays",
-    "status": "planned",
-    "keywords": [
-      "holidays",
-      "world",
-      "calendar",
-      "country",
-      "public"
     ]
   },
   {

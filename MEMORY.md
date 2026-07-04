@@ -8,6 +8,12 @@
 - **Deduplication**: Tools are deduplicated by ID and by (Name, Category) pairs to ensure a clean UI.
 - **Chrome DevTools MCP Compatibility**: MiMo V2.5 fails with Chrome DevTools MCP due to Xiaomi API limitations (single-round tool calling, rejects list-type content). Use MiniMax M3 Free for Chrome DevTools testing. This is documented in AGENTS.md under "Model Switching Strategy".
 
+## Recent Achievements (2026-07-04)
+
+- Phase 27 complete: all 19 High-Demand Tools built and registered (308 total).
+- Remaining: Phase 28 — Legacy Catch-Up (37 planned tools).
+- Updated README.md, PROJECT-PLAN.md, and tool-building-progress.md to reflect current status.
+
 ## Recent Achievements (2026-05-04)
 
 - Standardized and registered 24 previously hidden tools, bringing the total count to 178.
