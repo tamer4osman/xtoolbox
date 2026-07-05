@@ -37,9 +37,9 @@
   },
   {
     "id": "normalize-audio",
-    "name": "Volume Normalizer",
+    "name": "Audio Normalizer",
     "category": "audio",
-    "description": "Equalize volume levels across an audio file.",
+    "description": "Normalize audio volume using peak normalization or EBU R128 LUFS loudness standards.",
     "icon": "📊",
     "href": "/tools/normalize-audio",
     "status": "done"
@@ -3838,6 +3838,210 @@
       "generate",
       "baby",
       "character"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "browser-fingerprint-checker",
+    "name": "Browser Fingerprint Checker",
+    "category": "privacy",
+    "description": "See what a website can learn about your browser without cookies.",
+    "icon": "🔍",
+    "href": "/tools/browser-fingerprint-checker",
+    "keywords": [
+      "fingerprint",
+      "browser",
+      "privacy",
+      "tracking",
+      "canvas"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "expense-splitter",
+    "name": "Expense Splitter",
+    "category": "finance",
+    "description": "Split bills and expenses fairly among groups of people.",
+    "icon": "💸",
+    "href": "/tools/expense-splitter",
+    "keywords": [
+      "expense",
+      "split",
+      "bill",
+      "group",
+      "share"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "mind-map-maker",
+    "name": "Mind Map Maker",
+    "category": "productivity",
+    "description": "Create visual mind maps with drag-and-drop nodes.",
+    "icon": "🧠",
+    "href": "/tools/mind-map-maker",
+    "keywords": [
+      "mind",
+      "map",
+      "brainstorm",
+      "visual",
+      "organize"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "kanban-board",
+    "name": "Kanban Board",
+    "category": "productivity",
+    "description": "Drag-and-drop kanban board for task management.",
+    "icon": "📋",
+    "href": "/tools/kanban-board",
+    "keywords": [
+      "kanban",
+      "board",
+      "task",
+      "drag",
+      "project"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "timesheet-tracker",
+    "name": "Timesheet Tracker",
+    "category": "productivity",
+    "description": "Track work hours with clock-in/out and weekly summaries.",
+    "icon": "⏱️",
+    "href": "/tools/timesheet-tracker",
+    "keywords": [
+      "timesheet",
+      "hours",
+      "tracker",
+      "clock",
+      "work"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "password-breach-checker",
+    "name": "Password Breach Checker",
+    "category": "privacy",
+    "description": "Check if a password has appeared in known data breaches.",
+    "icon": "🔐",
+    "href": "/tools/password-breach-checker",
+    "keywords": [
+      "password",
+      "breach",
+      "hibp",
+      "security",
+      "leak"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "chroma-key-composer",
+    "name": "Chroma Key Composer",
+    "category": "video",
+    "description": "Replace green or blue screen backgrounds in videos.",
+    "icon": "🎬",
+    "href": "/tools/chroma-key-composer",
+    "keywords": [
+      "chroma",
+      "key",
+      "green",
+      "screen",
+      "composite"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "video-scene-cut-detector",
+    "name": "Video Scene Cut Detector",
+    "category": "video",
+    "description": "Detect scene changes and generate chapter markers.",
+    "icon": "✂️",
+    "href": "/tools/video-scene-cut-detector",
+    "keywords": [
+      "scene",
+      "cut",
+      "detect",
+      "chapter",
+      "marker"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "video-stabilizer",
+    "name": "Video Stabilizer",
+    "category": "video",
+    "description": "Reduce camera shake and stabilize shaky video footage.",
+    "icon": "🎥",
+    "href": "/tools/video-stabilizer",
+    "keywords": [
+      "video",
+      "stabilize",
+      "shake",
+      "smooth",
+      "steady"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "panorama-stitcher",
+    "name": "Panorama Stitcher",
+    "category": "image",
+    "description": "Stitch multiple photos into a panoramic image.",
+    "icon": "🏔️",
+    "href": "/tools/panorama-stitcher",
+    "keywords": [
+      "panorama",
+      "stitch",
+      "photo",
+      "merge",
+      "wide"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "resume-job-matcher",
+    "name": "Resume Job Matcher",
+    "category": "business",
+    "description": "Match your resume against job descriptions for fit score.",
+    "icon": "📄",
+    "href": "/tools/resume-job-matcher",
+    "keywords": [
+      "resume",
+      "job",
+      "match",
+      "ats",
+      "career"
+    ],
+    "status": "planned",
+    "phase": 28
+  },
+  {
+    "id": "audio-to-midi-converter",
+    "name": "Audio to MIDI Converter",
+    "category": "audio",
+    "description": "Convert audio recordings to MIDI note data.",
+    "icon": "🎹",
+    "href": "/tools/audio-to-midi-converter",
+    "keywords": [
+      "audio",
+      "midi",
+      "convert",
+      "transcribe",
+      "music"
     ],
     "status": "planned",
     "phase": 28

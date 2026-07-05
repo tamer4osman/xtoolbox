@@ -3,8 +3,8 @@
     "id": "image",
     "name": "Image Tools",
     "icon": "🖼️",
-    "description": "Compress, resize, convert, and edit images",
-    "toolCount": 48
+    "description": "Resize, convert, compress, and enhance images",
+    "toolCount": 43
   },
   {
     "id": "pdf",
@@ -38,22 +38,22 @@
     "id": "video",
     "name": "Video Tools",
     "icon": "🎬",
-    "description": "Compress, trim, convert, and edit videos",
-    "toolCount": 24
+    "description": "Trim, convert, compress, and edit videos",
+    "toolCount": 26
   },
   {
     "id": "business",
     "name": "Business",
     "icon": "💼",
     "description": "ROI, profit margin, churn rate calculators",
-    "toolCount": 15
+    "toolCount": 16
   },
   {
     "id": "audio",
     "name": "Audio Tools",
     "icon": "🔊",
     "description": "Trim, convert, merge, and edit audio files",
-    "toolCount": 19
+    "toolCount": 17
   },
   {
     "id": "health",
@@ -67,7 +67,7 @@
     "name": "Productivity",
     "icon": "⏱️",
     "description": "Stopwatch, countdown timer, drawing pad",
-    "toolCount": 15
+    "toolCount": 18
   },
   {
     "id": "math",
@@ -81,7 +81,7 @@
     "name": "Finance",
     "icon": "💰",
     "description": "Loan, mortgage, SIP, currency, and tax calculators",
-    "toolCount": 15
+    "toolCount": 16
   },
   {
     "id": "encoding",
@@ -102,7 +102,7 @@
     "name": "Privacy & Security",
     "icon": "🔒",
     "description": "Encrypt files, generate passwords, remove metadata",
-    "toolCount": 6
+    "toolCount": 8
   },
   {
     "id": "fun",
@@ -113,10 +113,10 @@
   },
   {
     "id": "reference",
-    "name": "Reference",
+    "name": "Reference & Lookup",
     "icon": "📚",
-    "description": "Dictionary, thesaurus, book lookup, holidays, food nutrition, earthquakes",
-    "toolCount": 9
+    "description": "Dictionary, thesaurus, ISBN, and lookup tools",
+    "toolCount": 8
   },
   {
     "id": "ocr",
@@ -130,7 +130,7 @@
     "name": "QR & Barcode",
     "icon": "📱",
     "description": "Generate and scan QR codes and barcodes",
-    "toolCount": 6
+    "toolCount": 4
   },
   {
     "id": "visualization",
