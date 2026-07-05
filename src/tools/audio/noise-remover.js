@@ -90,8 +90,9 @@ export function autoDetectNoiseFrames(magnitudes) {
   return Math.max(4, Math.min(count, magnitudes.length >> 1));
 }
 
-export function spectralSubtraction(magnitudes, phases, noiseProfile, alpha, beta) {
+export function spectralSubtraction(magnitudes, phases, noiseProfile, alpha, beta, yieldFn) {
   const result = [];
+  const CHUNK = 50;
   for (let f = 0; f < magnitudes.length; f++) {
     const mag = new Float32Array(magnitudes[f].length);
     for (let j = 0; j < mag.length; j++) {
@@ -101,13 +102,15 @@ export function spectralSubtraction(magnitudes, phases, noiseProfile, alpha, bet
       mag[j] = Math.sqrt(clean);
     }
     result.push(mag);
+    if (yieldFn && f % CHUNK === CHUNK - 1) yieldFn();
   }
   return result;
 }
 
-export function wienerFilter(magnitudes, noiseProfile, alpha) {
+export function wienerFilter(magnitudes, noiseProfile, alpha, yieldFn) {
   const result = [];
   let prevGain = new Float32Array(magnitudes[0].length).fill(1);
+  const CHUNK = 50;
   for (let f = 0; f < magnitudes.length; f++) {
     const mag = new Float32Array(magnitudes[f].length);
     for (let j = 0; j < mag.length; j++) {
@@ -120,17 +123,19 @@ export function wienerFilter(magnitudes, noiseProfile, alpha) {
       mag[j] = magnitudes[f][j] * smoothGain;
     }
     result.push(mag);
+    if (yieldFn && f % CHUNK === CHUNK - 1) yieldFn();
   }
   return result;
 }
 
-export function stft(signal) {
+export function stft(signal, yieldFn) {
   const window = hannWindow(FRAME_SIZE);
   const nFrames = Math.max(1, Math.floor((signal.length - FRAME_SIZE) / HOP_SIZE) + 1);
   const mags = [],
     phases = [];
   const re = new Float32Array(FRAME_SIZE);
   const im = new Float32Array(FRAME_SIZE);
+  const CHUNK = 50;
   for (let f = 0; f < nFrames; f++) {
     const start = f * HOP_SIZE;
     re.fill(0);
@@ -143,16 +148,18 @@ export function stft(signal) {
     const ph = new Float32Array(FRAME_SIZE >> 1);
     for (let i = 0; i < ph.length; i++) ph[i] = Math.atan2(im[i], re[i]);
     phases.push(ph);
+    if (yieldFn && f % CHUNK === CHUNK - 1) yieldFn();
   }
   return { mags, phases, nFrames };
 }
 
-export function istft(mags, phases, outputLength) {
+export function istft(mags, phases, outputLength, yieldFn) {
   const window = hannWindow(FRAME_SIZE);
   const output = new Float32Array(outputLength);
   const windowSum = new Float32Array(outputLength);
   const re = new Float32Array(FRAME_SIZE);
   const im = new Float32Array(FRAME_SIZE);
+  const CHUNK = 50;
   for (let f = 0; f < mags.length; f++) {
     re.fill(0);
     im.fill(0);
@@ -171,6 +178,7 @@ export function istft(mags, phases, outputLength) {
       output[start + i] += re[i] * window[i];
       windowSum[start + i] += window[i] * window[i];
     }
+    if (yieldFn && f % CHUNK === CHUNK - 1) yieldFn();
   }
   for (let i = 0; i < outputLength; i++) {
     if (windowSum[i] > 1e-8) output[i] /= windowSum[i];
@@ -293,9 +301,25 @@ export const toolConfig = {
   ],
 };
 
+function yieldToEventLoop() {
+  return new Promise((resolve) => {
+    if (typeof requestIdleCallback !== "undefined") {
+      requestIdleCallback(resolve, { timeout: 20 });
+    } else {
+      setTimeout(resolve, 0);
+    }
+  });
+}
+
 export function render(container) {
   let currentBuffer = null;
   let processing = false;
+  const objectURLs = [];
+
+  destroyFn = () => {
+    for (const url of objectURLs) URL.revokeObjectURL(url);
+    objectURLs.length = 0;
+  };
 
   container.innerHTML = `
     <div class="tool-layout">
@@ -440,7 +464,7 @@ export function render(container) {
       setProgress("Running FFT analysis...", 0.1);
       await new Promise((r) => setTimeout(r, 10));
 
-      const { mags, phases } = stft(signal);
+      const { mags, phases } = stft(signal, yieldToEventLoop);
       setProgress("Estimating noise profile...", 0.3);
       await new Promise((r) => setTimeout(r, 10));
 
@@ -461,20 +485,32 @@ export function render(container) {
       const beta = 0.01 + (1 - str) * 0.1;
 
       setProgress("Applying noise reduction...", 0.5);
-      await new Promise((r) => setTimeout(r, 10));
+      await yieldToEventLoop();
 
       let cleanedMags;
       const method = methodSelect.value;
       if (method === "wiener" || (method === "auto" && str > 0.5)) {
-        cleanedMags = wienerFilter(mags, noiseProfile, 0.98);
+        cleanedMags = wienerFilter(mags, noiseProfile, 0.98, yieldToEventLoop);
       } else {
-        cleanedMags = spectralSubtraction(mags, phases, noiseProfile, alpha, beta);
+        cleanedMags = spectralSubtraction(
+          mags,
+          phases,
+          noiseProfile,
+          alpha,
+          beta,
+          yieldToEventLoop,
+        );
       }
 
       setProgress("Reconstructing audio...", 0.8);
-      await new Promise((r) => setTimeout(r, 10));
+      await yieldToEventLoop();
 
-      const cleaned = istft(cleanedMags, phases.slice(0, cleanedMags.length), signal.length);
+      const cleaned = istft(
+        cleanedMags,
+        phases.slice(0, cleanedMags.length),
+        signal.length,
+        yieldToEventLoop,
+      );
       const outBlob = encodeWav(cleaned, sampleRate);
       const origBlob = encodeWav(signal, sampleRate);
 
@@ -519,8 +555,14 @@ export function render(container) {
       drawWaveform(canBefore, signal, "#6c757d");
       drawWaveform(canAfter, cleaned, "#0d6efd");
 
-      resultsArea.querySelector("#audio-before").src = URL.createObjectURL(origBlob);
-      resultsArea.querySelector("#audio-after").src = URL.createObjectURL(outBlob);
+      for (const url of objectURLs) URL.revokeObjectURL(url);
+      objectURLs.length = 0;
+
+      const beforeURL = URL.createObjectURL(origBlob);
+      const afterURL = URL.createObjectURL(outBlob);
+      objectURLs.push(beforeURL, afterURL);
+      resultsArea.querySelector("#audio-before").src = beforeURL;
+      resultsArea.querySelector("#audio-after").src = afterURL;
       resultsArea.querySelector("#download-btn").addEventListener("click", () => {
         downloadBlob(outBlob, "cleaned-audio.wav");
       });
@@ -564,4 +606,8 @@ export function computeMetrics(original, processed) {
   return { snrGain: snrOut - snrIn, nrr: Math.abs(nrr), speechPreserved };
 }
 
-export function destroy() {}
+let destroyFn = null;
+
+export function destroy() {
+  if (typeof destroyFn === "function") destroyFn();
+}
