@@ -66,6 +66,56 @@ type User {
       const types = parseSDL(sdl);
       expect(types[0].fields[0].deprecated).toBe(true);
     });
+
+    it('does not parse directive args as field args', () => {
+      const sdl = `type User {
+  oldName: String @deprecated(reason: "Use newName")
+  name: String!
+}`;
+      const types = parseSDL(sdl);
+      expect(types[0].fields[0].args).toEqual([]);
+      expect(types[0].fields[0].type).toBe('String');
+      expect(types[0].fields[0].deprecated).toBe(true);
+      expect(types[0].fields[1].name).toBe('name');
+      expect(types[0].fields[1].type).toBe('String');
+    });
+
+    it('parses union types without braces', () => {
+      const sdl = `union SearchResult = Book | Author
+
+type Book {
+  id: ID!
+  title: String!
+}
+
+type Author {
+  id: ID!
+  name: String!
+}`;
+      const types = parseSDL(sdl);
+      expect(types).toHaveLength(3);
+      expect(types[0].kind).toBe('union');
+      expect(types[0].name).toBe('SearchResult');
+      expect(types[0].fields).toEqual([]);
+      expect(types[1].name).toBe('Book');
+      expect(types[2].name).toBe('Author');
+    });
+
+    it('preserves union between type declarations', () => {
+      const sdl = `type Query {
+  search: SearchResult
+}
+union SearchResult = Book | Author
+type Book {
+  id: ID!
+}`;
+      const types = parseSDL(sdl);
+      expect(types).toHaveLength(3);
+      expect(types[0].name).toBe('Query');
+      expect(types[1].kind).toBe('union');
+      expect(types[1].name).toBe('SearchResult');
+      expect(types[2].name).toBe('Book');
+    });
   });
 
   describe('buildTypeMap', () => {

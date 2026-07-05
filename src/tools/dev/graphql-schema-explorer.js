@@ -39,8 +39,14 @@ export function parseSDL(sdl) {
 
     const typeMatch = trimmed.match(/^(type|interface|enum|input|union)\s+(\w+)/);
     if (typeMatch && braceDepth === 0) {
+      if (currentType) types.push(currentType);
       currentType = { kind: typeMatch[1], name: typeMatch[2], fields: [] };
-      if (trimmed.includes("{")) braceDepth = 1;
+      if (trimmed.includes("{")) {
+        braceDepth = 1;
+      } else {
+        types.push(currentType);
+        currentType = null;
+      }
       continue;
     }
 
@@ -51,17 +57,16 @@ export function parseSDL(sdl) {
         braceDepth = 0;
         continue;
       }
-      const fieldMatch = trimmed.match(/^(\w+)(?:\([^)]*\))?\s*:\s*(.+)/);
+      const fieldMatch = trimmed.match(/^(\w+)(?:\(([^)]*)\))?\s*:\s*(.+)/);
       if (fieldMatch) {
         const args = [];
-        const argsMatch = trimmed.match(/\(([^)]+)\)/);
-        if (argsMatch) {
-          argsMatch[1].split(",").forEach((a) => {
+        if (fieldMatch[2]) {
+          fieldMatch[2].split(",").forEach((a) => {
             const [n, t] = a.split(":").map((s) => s.trim());
             if (n && t) args.push({ name: n, type: t });
           });
         }
-        const fieldType = fieldMatch[2].replace(/[!,]/g, "").trim();
+        const fieldType = fieldMatch[3].replace(/@\w+(\([^)]*\))?\s*/g, "").replace(/[!,]/g, "").trim();
         currentType.fields.push({
           name: fieldMatch[1],
           type: fieldType,
@@ -137,6 +142,21 @@ export function render(container) {
       showToast({ message: `Parsed ${types.length} types.`, type: "success" });
     } catch {
       showToast({ message: "Failed to parse SDL.", type: "error" });
+    }
+  });
+
+  treeArea.addEventListener("click", (e) => {
+    const link = e.target.closest(".type-link");
+    if (!link) return;
+    const targetName = link.dataset.type;
+    const cards = treeArea.querySelectorAll("details");
+    for (const card of cards) {
+      const summary = card.querySelector("summary");
+      if (summary && summary.textContent.includes(targetName)) {
+        card.open = true;
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        break;
+      }
     }
   });
 
