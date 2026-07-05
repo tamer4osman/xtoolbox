@@ -33,10 +33,12 @@ describe('offline-translator', () => {
       expect(LANGUAGES.length).toBeGreaterThanOrEqual(10);
     });
 
-    it('each language has code and name', () => {
+    it('each language has code, name, and nllb FLORES-200 code', () => {
       LANGUAGES.forEach((l) => {
         expect(typeof l.code).toBe('string');
         expect(typeof l.name).toBe('string');
+        expect(typeof l.nllb).toBe('string');
+        expect(l.nllb).toMatch(/^[a-z]{3}_[A-Z][a-z]+$/);
       });
     });
   });

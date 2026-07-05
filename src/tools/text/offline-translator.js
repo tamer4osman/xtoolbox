@@ -28,26 +28,26 @@ export const toolConfig = {
 };
 
 export const LANGUAGES = [
-  { code: "en", name: "English" },
-  { code: "es", name: "Spanish" },
-  { code: "fr", name: "French" },
-  { code: "de", name: "German" },
-  { code: "it", name: "Italian" },
-  { code: "pt", name: "Portuguese" },
-  { code: "zh", name: "Chinese" },
-  { code: "ja", name: "Japanese" },
-  { code: "ko", name: "Korean" },
-  { code: "ar", name: "Arabic" },
-  { code: "ru", name: "Russian" },
-  { code: "hi", name: "Hindi" },
-  { code: "bn", name: "Bengali" },
-  { code: "pa", name: "Punjabi" },
-  { code: "tr", name: "Turkish" },
-  { code: "vi", name: "Vietnamese" },
-  { code: "th", name: "Thai" },
-  { code: "nl", name: "Dutch" },
-  { code: "pl", name: "Polish" },
-  { code: "sv", name: "Swedish" },
+  { code: "en", name: "English", nllb: "eng_Latn" },
+  { code: "es", name: "Spanish", nllb: "spa_Latn" },
+  { code: "fr", name: "French", nllb: "fra_Latn" },
+  { code: "de", name: "German", nllb: "deu_Latn" },
+  { code: "it", name: "Italian", nllb: "ita_Latn" },
+  { code: "pt", name: "Portuguese", nllb: "por_Latn" },
+  { code: "zh", name: "Chinese", nllb: "zho_Hans" },
+  { code: "ja", name: "Japanese", nllb: "jpn_Jpan" },
+  { code: "ko", name: "Korean", nllb: "kor_Hang" },
+  { code: "ar", name: "Arabic", nllb: "arb_Arab" },
+  { code: "ru", name: "Russian", nllb: "rus_Cyrl" },
+  { code: "hi", name: "Hindi", nllb: "hin_Deva" },
+  { code: "bn", name: "Bengali", nllb: "ben_Beng" },
+  { code: "pa", name: "Punjabi", nllb: "pan_Guru" },
+  { code: "tr", name: "Turkish", nllb: "tur_Latn" },
+  { code: "vi", name: "Vietnamese", nllb: "vie_Latn" },
+  { code: "th", name: "Thai", nllb: "tha_Thai" },
+  { code: "nl", name: "Dutch", nllb: "nld_Latn" },
+  { code: "pl", name: "Polish", nllb: "pol_Latn" },
+  { code: "sv", name: "Swedish", nllb: "swe_Latn" },
 ];
 
 export function estimateTokenCount(text) {
@@ -113,7 +113,6 @@ export function render(container) {
 
     translateBtn.disabled = true;
     translateBtn.textContent = "Loading model...";
-    loading = true;
 
     try {
       const { pipeline } =
@@ -130,9 +129,14 @@ export function render(container) {
       }
 
       translateBtn.textContent = "Translating...";
+      const srcNllb = LANGUAGES.find((l) => l.code === srcLang.value)?.nllb;
+      const tgtNllb = LANGUAGES.find((l) => l.code === tgtLang.value)?.nllb;
+      if (!srcNllb || !tgtNllb) {
+        throw new Error("Unsupported language pair");
+      }
       const result = await translator(text, {
-        tgt_lang: tgtLang.value,
-        src_lang: srcLang.value,
+        tgt_lang: tgtNllb,
+        src_lang: srcNllb,
       });
       tgtText.value = result[0]?.translation_text || "";
       showToast({ message: "Translation complete.", type: "success" });
