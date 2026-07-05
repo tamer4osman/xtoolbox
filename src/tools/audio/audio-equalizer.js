@@ -53,9 +53,10 @@ export function drawSpectrum(analyser, canvas) {
   const ctx = canvas.getContext('2d');
   const bufferLength = analyser.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);
+  let rafId;
 
   function draw() {
-    requestAnimationFrame(draw);
+    rafId = requestAnimationFrame(draw);
     analyser.getByteFrequencyData(dataArray);
 
     const w = canvas.width;
@@ -80,6 +81,7 @@ export function drawSpectrum(analyser, canvas) {
     }
   }
   draw();
+  return () => cancelAnimationFrame(rafId);
 }
 
 export function drawEQCurve(filters, canvas, sampleRate) {
@@ -127,13 +129,15 @@ export function drawEQCurve(filters, canvas, sampleRate) {
   ctx.setLineDash([]);
 }
 
+let audioContext = null;
+let audioBuffer = null;
+let sourceNode = null;
+let filters = [];
+let analyser = null;
+let isPlaying = false;
+let cancelRaf = null;
+
 export function render(container) {
-  let audioContext = null;
-  let audioBuffer = null;
-  let sourceNode = null;
-  let filters = [];
-  let analyser = null;
-  let isPlaying = false;
 
   const upload = createFileUpload({
     accept: 'audio/*',
@@ -143,7 +147,14 @@ export function render(container) {
       if (files.length === 0) return;
       if (isPlaying) stopAudio();
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      audioBuffer = await loadAudioFile(files[0]);
+      try {
+        audioBuffer = await loadAudioFile(files[0]);
+      } catch (err) {
+        audioContext.close();
+        audioContext = null;
+        showToast({ message: 'Failed to load audio file.', type: 'error' });
+        return;
+      }
       filters = createEQBands(audioContext, 10);
       analyser = audioContext.createAnalyser();
       analyser.fftSize = 1024;
@@ -151,6 +162,7 @@ export function render(container) {
       resetBtn.disabled = false;
       spectrumCanvas.style.display = 'block';
       eqCurveCanvas.style.display = 'block';
+      optionsArea.style.display = 'block';
       drawEQCurve(filters, eqCurveCanvas, audioContext.sampleRate);
       showToast({ message: 'Audio loaded. Click Play to hear the EQ effect.', type: 'success' });
     }
@@ -191,6 +203,7 @@ export function render(container) {
   const sliders = container.querySelectorAll('.eq-slider');
 
   function stopAudio() {
+    if (cancelRaf) { cancelRaf(); cancelRaf = null; }
     if (sourceNode) { try { sourceNode.stop(); } catch {} sourceNode = null; }
     isPlaying = false;
     playBtn.textContent = 'Play';
@@ -207,10 +220,11 @@ export function render(container) {
     sourceNode.start(0);
     isPlaying = true;
     playBtn.textContent = 'Stop';
-    drawSpectrum(analyser, spectrumCanvas);
+    cancelRaf = drawSpectrum(analyser, spectrumCanvas);
   });
 
   resetBtn.addEventListener('click', () => {
+    if (!audioContext) return;
     resetAllBands(filters);
     sliders.forEach(s => { s.value = 0; });
     EQ_LABELS.forEach((_, i) => { container.querySelector(`#gain-${i}`).textContent = '0dB'; });
@@ -219,6 +233,7 @@ export function render(container) {
 
   sliders.forEach(slider => {
     slider.addEventListener('input', () => {
+      if (!audioContext) return;
       const band = parseInt(slider.dataset.band);
       const gain = parseFloat(slider.value);
       setBandGain(filters, band, gain);
@@ -226,8 +241,11 @@ export function render(container) {
       drawEQCurve(filters, eqCurveCanvas, audioContext.sampleRate);
     });
   });
-
-  optionsArea.style.display = 'block';
 }
 
-export function destroy() {}
+export function destroy() {
+  if (cancelRaf) { cancelRaf(); cancelRaf = null; }
+  if (sourceNode) { try { sourceNode.stop(); } catch {} sourceNode = null; }
+  if (audioContext) { audioContext.close(); audioContext = null; }
+  isPlaying = false;
+}
