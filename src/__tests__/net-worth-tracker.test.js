@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateNetWorth, formatCurrency, generateId, ASSET_TYPES, LIABILITY_TYPES } from '../tools/finance/net-worth-tracker.js';
+import { calculateNetWorth, formatCurrency, generateId, escapeHtml, validateEntries, ASSET_TYPES, LIABILITY_TYPES } from '../tools/finance/net-worth-tracker.js';
 
 describe('net-worth-tracker', () => {
   describe('calculateNetWorth', () => {
@@ -70,6 +70,62 @@ describe('net-worth-tracker', () => {
 
     it('generates non-empty string', () => {
       expect(generateId().length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('escapeHtml', () => {
+    it('escapes ampersands', () => {
+      expect(escapeHtml('a&b')).toBe('a&amp;b');
+    });
+
+    it('escapes angle brackets', () => {
+      expect(escapeHtml('<script>')).toBe('&lt;script&gt;');
+    });
+
+    it('escapes quotes', () => {
+      expect(escapeHtml('"hello\'')).toBe('&quot;hello&#39;');
+    });
+
+    it('returns non-string inputs as strings', () => {
+      expect(escapeHtml(123)).toBe('123');
+    });
+
+    it('returns empty string for empty input', () => {
+      expect(escapeHtml('')).toBe('');
+    });
+  });
+
+  describe('validateEntries', () => {
+    it('accepts valid asset entries', () => {
+      expect(validateEntries([{ type: 'asset', name: 'Savings', amount: 5000 }])).toBe(true);
+    });
+
+    it('accepts valid liability entries', () => {
+      expect(validateEntries([{ type: 'liability', name: 'Mortgage', amount: 200000 }])).toBe(true);
+    });
+
+    it('accepts empty array', () => {
+      expect(validateEntries([])).toBe(true);
+    });
+
+    it('rejects non-array input', () => {
+      expect(validateEntries('not an array')).toBe(false);
+    });
+
+    it('rejects entries with missing type', () => {
+      expect(validateEntries([{ name: 'Savings', amount: 5000 }])).toBe(false);
+    });
+
+    it('rejects entries with invalid type', () => {
+      expect(validateEntries([{ type: 'invalid', name: 'Savings', amount: 5000 }])).toBe(false);
+    });
+
+    it('rejects entries with non-string name', () => {
+      expect(validateEntries([{ type: 'asset', name: 123, amount: 5000 }])).toBe(false);
+    });
+
+    it('rejects entries with non-number amount', () => {
+      expect(validateEntries([{ type: 'asset', name: 'Savings', amount: '5000' }])).toBe(false);
     });
   });
 

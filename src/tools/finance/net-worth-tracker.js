@@ -4,7 +4,7 @@ export const toolConfig = {
   id: "net-worth-tracker",
   name: "Net Worth Tracker",
   category: "finance",
-  description: "Private net worth tracker with assets, liabilities, and charts. Data stays local.",
+  description: "Private net worth tracker with assets and liabilities. Data stays local.",
   icon: "📊",
   accept: null,
   maxSizeMB: 0,
@@ -12,7 +12,7 @@ export const toolConfig = {
   steps: [
     "Add assets (bank, investments, property)",
     "Add liabilities (loans, credit cards)",
-    "View net worth chart over time",
+    "Track your net worth in real time",
   ],
   faqs: [
     {
@@ -65,6 +65,29 @@ export function formatCurrency(amount) {
   }).format(amount);
 }
 
+export function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[c]);
+}
+
+export function validateEntries(data) {
+  return (
+    Array.isArray(data) &&
+    data.every(
+      (it) =>
+        it &&
+        (it.type === "asset" || it.type === "liability") &&
+        typeof it.name === "string" &&
+        typeof it.amount === "number"
+    )
+  );
+}
+
 export function loadData() {
   try {
     return JSON.parse(localStorage.getItem("networth_entries") || "[]");
@@ -74,7 +97,11 @@ export function loadData() {
 }
 
 export function saveData(entries) {
-  localStorage.setItem("networth_entries", JSON.stringify(entries));
+  try {
+    localStorage.setItem("networth_entries", JSON.stringify(entries));
+  } catch (err) {
+    console.error("Failed to save net worth data:", err);
+  }
 }
 
 export function render(container) {
@@ -158,9 +185,9 @@ export function render(container) {
               (e) => `
         <div style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);margin-bottom:var(--space-1);">
           <span style="width:8px;height:8px;border-radius:50%;background:${e.type === "asset" ? "#22c55e" : "#ef4444"};"></span>
-          <span style="flex:1;font-weight:500;">${e.name}</span>
+          <span style="flex:1;font-weight:500;">${escapeHtml(e.name)}</span>
           <span style="color:${e.type === "asset" ? "#22c55e" : "#ef4444"};">${e.type === "asset" ? "+" : "-"}${formatCurrency(e.amount)}</span>
-          <button class="btn btn-secondary btn-sm remove-entry" data-id="${e.id}">Remove</button>
+          <button class="btn btn-secondary btn-sm remove-entry" data-id="${escapeHtml(e.id)}">Remove</button>
         </div>
       `,
             )
@@ -213,13 +240,21 @@ export function render(container) {
     if (!file) return;
     try {
       const text = await file.text();
-      entries = JSON.parse(text);
+      const parsed = JSON.parse(text);
+      if (!validateEntries(parsed)) {
+        throw new Error("Invalid data shape");
+      }
+      if (entries.length > 0 && !confirm("This will replace all existing entries. Continue?")) {
+        return;
+      }
+      entries = parsed.map((it) => ({ ...it, id: it.id || generateId() }));
       saveData(entries);
       renderEntries();
       showToast({ message: "Data imported.", type: "success" });
     } catch {
       showToast({ message: "Invalid JSON file.", type: "error" });
     }
+    importFile.value = "";
   });
 
   renderEntries();
