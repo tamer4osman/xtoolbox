@@ -43,6 +43,12 @@ export function splitSentences(text) {
   return text.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
 }
 
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 export function render(container) {
   container.innerHTML = `
     <div class="tool-layout">
@@ -104,7 +110,7 @@ export function render(container) {
                 <span style="font-weight:600;">Sentence ${i + 1}</span>
                 <span>${getSentimentLabel(scores[i])} (${scores[i].toFixed(3)})</span>
               </div>
-              ${s}
+              ${escapeHtml(s)}
             </div>
           `;
           })
