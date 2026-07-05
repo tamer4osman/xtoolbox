@@ -59,6 +59,10 @@ export function render(container) {
   let elapsedSeconds = 0;
   let isRunning = false;
 
+  destroyFn = () => {
+    clearInterval(timerInterval);
+  };
+
   container.innerHTML = `
     <div class="tool-layout">
       <div class="form-row" style="margin-bottom:var(--space-3);">
@@ -176,4 +180,8 @@ export function render(container) {
   });
 }
 
-export function destroy() {}
+let destroyFn = null;
+
+export function destroy() {
+  if (typeof destroyFn === "function") destroyFn();
+}
