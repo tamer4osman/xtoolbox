@@ -5,7 +5,7 @@ export const toolConfig = {
   id: "symptom-tracker",
   name: "Symptom Onset Tracker",
   category: "health",
-  description: "Log symptoms with onset, severity, and notes. Export printable PDF for doctors.",
+  description: "Log symptoms with onset, severity, and notes. Export a printable summary for doctors.",
   icon: "🩺",
   accept: null,
   maxSizeMB: 0,
@@ -13,7 +13,7 @@ export const toolConfig = {
   steps: [
     "Log symptoms with date, severity, and notes",
     "View timeline of symptoms",
-    "Export printable summary for your doctor",
+    "Export a text summary for your doctor",
   ],
   faqs: [
     {
@@ -50,6 +50,22 @@ export const SEVERITY_LEVELS = [
   { value: 3, label: "Severe", color: "#ef4444" },
   { value: 4, label: "Very Severe", color: "#991b1b" },
 ];
+
+export function toLocalDatetimeInput(date) {
+  const offset = date.getTimezoneOffset();
+  const local = new Date(date.getTime() - offset * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
+export function escapeHtml(str) {
+  return String(str ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[c]);
+}
 
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
@@ -127,7 +143,7 @@ export function render(container) {
   const exportPdfBtn = container.querySelector("#export-pdf-btn");
   const clearAllBtn = container.querySelector("#clear-all-btn");
 
-  onsetDate.value = new Date().toISOString().slice(0, 16);
+  onsetDate.value = toLocalDatetimeInput(new Date());
 
   function renderSymptoms() {
     const sorted = [...entries].sort((a, b) => new Date(b.onset) - new Date(a.onset));
@@ -141,16 +157,16 @@ export function render(container) {
           <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-2);border-left:4px solid ${sev.color};">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;">
               <div>
-                <span style="font-weight:700;">${e.name}</span>
-                <span style="color:var(--color-text-muted);font-size:var(--text-sm);"> (${e.bodyPart})</span>
+                <span style="font-weight:700;">${escapeHtml(e.name)}</span>
+                <span style="color:var(--color-text-muted);font-size:var(--text-sm);"> (${escapeHtml(e.bodyPart)})</span>
               </div>
-              <button class="btn btn-secondary btn-sm remove-symptom" data-id="${e.id}">Remove</button>
+              <button class="btn btn-secondary btn-sm remove-symptom" data-id="${escapeHtml(e.id)}">Remove</button>
             </div>
             <div style="display:flex;gap:var(--space-2);margin-top:var(--space-1);font-size:var(--text-sm);">
               <span style="padding:2px 8px;background:${sev.color};color:white;border-radius:var(--radius-sm);">${sev.label}</span>
               <span style="color:var(--color-text-muted);">${formatDate(e.onset)}</span>
             </div>
-            ${e.notes ? `<div style="margin-top:var(--space-2);font-size:var(--text-sm);color:var(--color-text-muted);">${e.notes}</div>` : ""}
+            ${e.notes ? `<div style="margin-top:var(--space-2);font-size:var(--text-sm);color:var(--color-text-muted);">${escapeHtml(e.notes)}</div>` : ""}
           </div>
         `;
             })
