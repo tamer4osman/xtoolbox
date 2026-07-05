@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 308 built, 36 planned = 344 total
+## Current Status: 309 built, 35 planned = 344 total
 
 ### Phase 28 — Legacy Tool Catch-Up (36 planned, 0 built)
 
@@ -11,7 +11,7 @@
 
 | Tool | Category | Status |
 |------|----------|--------|
-| Image Blur | image | Planned |
+| Image Blur | image | ✅ Done |
 | Image Comparison | image | Planned |
 | Meme Generator | image | Planned |
 | Panorama Stitcher | image | Planned |

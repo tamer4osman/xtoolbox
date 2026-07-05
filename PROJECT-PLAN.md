@@ -546,24 +546,6 @@ All follow the scaffold using `image-tool-factory.js`.
   - Strength slider linearly interpolates between original and sepia pixels
   - Can optionally apply slight vignette for vintage effect
 
-#### image-blur
-
-- **File:** `src/tools/image/image-blur.js`
-- **Category:** image
-- **Purpose:** Apply Gaussian or box blur with adjustable radius
-- **Library:** Canvas API (image-tool-factory) + optional Web Worker
-- **UI:**
-  1. Upload area (drag & drop, accept `image/*`)
-  2. Blur type: Gaussian / Box (radio)
-  3. Radius slider (1-20px)
-  4. Live preview with before/after overlay
-  5. Download button
-- **Implementation notes:**
-  - Box blur: simple averaging kernel of size `radius x radius`
-  - Gaussian blur: build 1D Gaussian kernel, apply separable two-pass (horizontal then vertical)
-  - For large radii, use Web Worker to avoid blocking UI
-  - Canvas `ctx.filter = 'blur(Npx)'` as quick fallback for preview
-
 #### image-sharpen
 
 - **File:** `src/tools/image/image-sharpen.js`

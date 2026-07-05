@@ -3454,7 +3454,7 @@
     "description": "Apply Gaussian, box, or motion blur with adjustable radius.",
     "icon": "🌫️",
     "href": "/tools/image-blur",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "blur",
       "gaussian",
