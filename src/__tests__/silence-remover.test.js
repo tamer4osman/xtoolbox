@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseSilenceEvents, buildTrimSegments, buildSelectFilter } from '../tools/video/silence-remover.js';
+import { parseSilenceEvents, buildTrimSegments, buildSelectFilter, buildAudioSelectFilter } from '../tools/video/silence-remover.js';
 
 describe('silence-remover', () => {
   describe('parseSilenceEvents', () => {
@@ -123,6 +123,29 @@ describe('silence-remover', () => {
         { start: 5, end: 10 },
       ]);
       expect(filter).toBe("select='between(t,0.000,2.000)+between(t,5.000,10.000)',setpts=N/FRAME_RATE/TB");
+    });
+  });
+
+  describe('buildAudioSelectFilter', () => {
+    it('returns null for null segments', () => {
+      expect(buildAudioSelectFilter(null)).toBeNull();
+    });
+
+    it('returns null for empty segments', () => {
+      expect(buildAudioSelectFilter([])).toBeNull();
+    });
+
+    it('builds an aselect expression for one segment', () => {
+      const filter = buildAudioSelectFilter([{ start: 0, end: 3 }]);
+      expect(filter).toBe("aselect='between(t,0.000,3.000)',asetpts=N/SR/TB");
+    });
+
+    it('builds an aselect expression for multiple segments', () => {
+      const filter = buildAudioSelectFilter([
+        { start: 0, end: 2 },
+        { start: 5, end: 10 },
+      ]);
+      expect(filter).toBe("aselect='between(t,0.000,2.000)+between(t,5.000,10.000)',asetpts=N/SR/TB");
     });
   });
 });

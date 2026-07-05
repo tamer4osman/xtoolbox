@@ -84,6 +84,13 @@ function buildSelectFilter(segments) {
   return `select='${exprs.join("+")}',setpts=N/FRAME_RATE/TB`;
 }
 
+function buildAudioSelectFilter(segments) {
+  if (!segments || segments.length === 0) return null;
+
+  const exprs = segments.map((s) => `between(t,${s.start.toFixed(3)},${s.end.toFixed(3)})`);
+  return `aselect='${exprs.join("+")}',asetpts=N/SR/TB`;
+}
+
 export const render = createVideoTool({
   maxSizeMB: 500,
   processingText: "Detecting silence & trimming...",
@@ -120,29 +127,28 @@ export const render = createVideoTool({
     const minSilence = parseFloat(tctx.getValue("min-silence")) || 1;
     const duration = videoInfo.duration || 0;
 
-    const ext = inputName.split(".").pop();
-    const outputName = `trimmed.${ext}`;
+    const outputName = "trimmed.mp4";
 
     tctx.query("#silence-results").style.display = "block";
     tctx.query("#silence-results").textContent = "Step 1/2: Detecting silent sections...";
 
-    const logFile = "silence_log.txt";
-    await ffmpeg.exec([
-      "-i",
-      inputName,
-      "-af",
-      `silencedetect=noise=${noiseThreshold}dB:d=${minSilence}`,
-      "-f",
-      "null",
-      "-",
-    ]);
-
     let logOutput = "";
+    const logHandler = ({ message }) => {
+      logOutput += message + "\n";
+    };
+    ffmpeg.on("log", logHandler);
     try {
-      const logData = await ffmpeg.readFile(logFile);
-      logOutput = new TextDecoder().decode(logData);
-    } catch {
-      logOutput = "";
+      await ffmpeg.exec([
+        "-i",
+        inputName,
+        "-af",
+        `silencedetect=noise=${noiseThreshold}dB:d=${minSilence}`,
+        "-f",
+        "null",
+        "-",
+      ]);
+    } finally {
+      ffmpeg.off("log", logHandler);
     }
 
     const silenceEvents = parseSilenceEvents(logOutput);
@@ -180,6 +186,7 @@ export const render = createVideoTool({
     tctx.query("#silence-results").innerHTML += "<br><strong>Step 2/2: Trimming video...</strong>";
 
     const selectExpr = buildSelectFilter(segments);
+    const audioSelectExpr = buildAudioSelectFilter(segments);
 
     if (selectExpr) {
       await ffmpeg.exec([
@@ -188,7 +195,7 @@ export const render = createVideoTool({
         "-vf",
         selectExpr,
         "-af",
-        "anull",
+        audioSelectExpr,
         "-c:v",
         "libx264",
         "-c:a",
@@ -201,11 +208,10 @@ export const render = createVideoTool({
       await ffmpeg.exec(["-i", inputName, "-c", "copy", outputName]);
     }
 
-    const mimeType = ext === "webm" ? "video/webm" : "video/mp4";
-    const blob = await readFFmpegFile(ffmpeg, outputName, mimeType);
+    const blob = await readFFmpegFile(ffmpeg, outputName, "video/mp4");
 
     const newTime = segments.reduce((sum, s) => sum + (s.end - s.start), 0);
-    downloadBlob(blob, `silence-removed.${ext}`);
+    downloadBlob(blob, "silence-removed.mp4");
 
     tctx.query("#silence-results").innerHTML +=
       `<br><strong>Done!</strong> Saved ~${formatTime(totalSilent)}. Output: ${formatTime(newTime)}`;
@@ -217,4 +223,4 @@ export const render = createVideoTool({
 
 export function destroy() {}
 
-export { parseSilenceEvents, buildTrimSegments, buildSelectFilter };
+export { parseSilenceEvents, buildTrimSegments, buildSelectFilter, buildAudioSelectFilter };
