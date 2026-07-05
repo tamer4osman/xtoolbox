@@ -1,5 +1,3 @@
-import { downloadBlob } from '../../utils/file.js';
-
 const audioContext = () => new (window.AudioContext || window.webkitAudioContext)();
 
 /**
@@ -43,10 +41,10 @@ export function audioBufferToWav(buffer) {
   const view = new DataView(arrayBuffer);
 
   // WAV header
-  writeString(view, 0, 'RIFF');
+  writeString(view, 0, "RIFF");
   view.setUint32(4, 36 + dataSize, true);
-  writeString(view, 8, 'WAVE');
-  writeString(view, 12, 'fmt ');
+  writeString(view, 8, "WAVE");
+  writeString(view, 12, "fmt ");
   view.setUint32(16, 16, true);
   view.setUint16(20, format, true);
   view.setUint16(22, numChannels, true);
@@ -54,7 +52,7 @@ export function audioBufferToWav(buffer) {
   view.setUint32(28, sampleRate * blockAlign, true);
   view.setUint16(32, blockAlign, true);
   view.setUint16(34, bitDepth, true);
-  writeString(view, 36, 'data');
+  writeString(view, 36, "data");
   view.setUint32(40, dataSize, true);
 
   // Interleave channels
@@ -66,12 +64,12 @@ export function audioBufferToWav(buffer) {
     for (let ch = 0; ch < numChannels; ch++) {
       let sample = channels[ch][i];
       sample = Math.max(-1, Math.min(1, sample));
-      view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+      view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7fff, true);
       offset += 2;
     }
   }
 
-  return new Blob([arrayBuffer], { type: 'audio/wav' });
+  return new Blob([arrayBuffer], { type: "audio/wav" });
 }
 
 function writeString(view, offset, string) {
@@ -115,14 +113,15 @@ export function sliceAudioBuffer(buffer, startTime, endTime) {
 export function concatAudioBuffers(buffers) {
   const ctx = audioContext();
   const sampleRate = buffers[0].sampleRate;
-  const numChannels = Math.max(...buffers.map(b => b.numberOfChannels));
+  const numChannels = Math.max(...buffers.map((b) => b.numberOfChannels));
   const totalLength = buffers.reduce((sum, b) => sum + b.length, 0);
 
   const result = ctx.createBuffer(numChannels, totalLength, sampleRate);
   let offset = 0;
   for (const buffer of buffers) {
     for (let ch = 0; ch < numChannels; ch++) {
-      const source = ch < buffer.numberOfChannels ? buffer.getChannelData(ch) : buffer.getChannelData(0);
+      const source =
+        ch < buffer.numberOfChannels ? buffer.getChannelData(ch) : buffer.getChannelData(0);
       result.getChannelData(ch).set(source, offset);
     }
     offset += buffer.length;
@@ -192,9 +191,10 @@ export function changeSpeed(buffer, speed) {
       const srcIdx = i * speed;
       const idx = Math.floor(srcIdx);
       const frac = srcIdx - idx;
-      dest[i] = idx + 1 < source.length
-        ? source[idx] * (1 - frac) + source[idx + 1] * frac
-        : (source[idx] || 0);
+      dest[i] =
+        idx + 1 < source.length
+          ? source[idx] * (1 - frac) + source[idx + 1] * frac
+          : source[idx] || 0;
     }
   }
   return newBuffer;
@@ -206,14 +206,144 @@ export function changeSpeed(buffer, speed) {
 export function formatAudioTime(seconds) {
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
-  return `${m}:${String(s).padStart(2, '0')}`;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+/**
+ * Apply a biquad filter to channel data (returns new Float32Array)
+ */
+function applyBiquad(input, sr, { type, freq, gain, Q }) {
+  const out = new Float32Array(input.length);
+  const A = type === "high_shelf" ? Math.pow(10, gain / 40) : 1;
+  const w0 = (2 * Math.PI * freq) / sr;
+  const alpha = Math.sin(w0) / (2 * Q);
+  let b0, b1, b2, a0, a1, a2;
+
+  if (type === "high_pass") {
+    b0 = (1 + Math.cos(w0)) / 2;
+    b1 = -(1 + Math.cos(w0));
+    b2 = (1 + Math.cos(w0)) / 2;
+    a0 = 1 + alpha;
+    a1 = -2 * Math.cos(w0);
+    a2 = 1 - alpha;
+  } else {
+    const sqrtA = 2 * Math.sqrt(A) * alpha;
+    const cosW = Math.cos(w0);
+    b0 = A * (A + 1 + (A - 1) * cosW + sqrtA);
+    b1 = -2 * A * (A - 1 + (A + 1) * cosW);
+    b2 = A * (A + 1 + (A - 1) * cosW - sqrtA);
+    a0 = A + 1 - (A - 1) * cosW + sqrtA;
+    a1 = 2 * (A - 1 - (A + 1) * cosW);
+    a2 = A + 1 - (A - 1) * cosW - sqrtA;
+  }
+
+  let x1 = 0,
+    x2 = 0,
+    y1 = 0,
+    y2 = 0;
+  for (let i = 0; i < input.length; i++) {
+    const x = input[i];
+    const y = (b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2) / a0;
+    out[i] = y;
+    x2 = x1;
+    x1 = x;
+    y2 = y1;
+    y1 = y;
+  }
+  return out;
+}
+
+/**
+ * Apply K-weighting filter (ITU-R BS.1770) to channel data
+ */
+function kWeight(channelData, sampleRate) {
+  const stage1 = applyBiquad(channelData, sampleRate, {
+    type: "high_pass",
+    freq: 1681.974450955533,
+    Q: 0.7071752369554196,
+  });
+  return applyBiquad(stage1, sampleRate, {
+    type: "high_shelf",
+    freq: 3813.547087602444,
+    Q: 0.5,
+    gain: 3.999843853973347,
+  });
+}
+
+/**
+ * Compute mean square of a channel block
+ */
+function meanSquare(block) {
+  let sum = 0;
+  for (let i = 0; i < block.length; i++) sum += block[i] * block[i];
+  return sum / block.length;
+}
+
+/**
+ * Measure integrated loudness in LUFS per ITU-R BS.1770-4
+ * Returns { integratedLoudness,loudnessRange }
+ */
+export function measureLoudness(buffer) {
+  const sampleRate = buffer.sampleRate;
+  const numChannels = buffer.numberOfChannels;
+  const blockSize = Math.round(sampleRate * 0.4); // 400ms
+  const hopSize = Math.round(sampleRate * 0.1); // 100ms (75% overlap)
+
+  // Channel weights: L=R=1.0, C=1.0, Ls=Rs=1.41 (ITU surround)
+  const weights = [1.0, 1.0, 1.0, 1.41, 1.41];
+
+  // Apply K-weighting to each channel
+  const weighted = [];
+  for (let ch = 0; ch < numChannels; ch++) {
+    weighted.push(kWeight(buffer.getChannelData(ch), sampleRate));
+  }
+
+  // Compute block-level loudness for each block
+  const blocks = [];
+  for (let offset = 0; offset + blockSize <= weighted[0].length; offset += hopSize) {
+    let blockLoudness = 0;
+    for (let ch = 0; ch < numChannels; ch++) {
+      const block = weighted[ch].subarray(offset, offset + blockSize);
+      blockLoudness += weights[ch] * meanSquare(block);
+    }
+    blocks.push(blockLoudness);
+  }
+
+  if (blocks.length === 0) return { integratedLoudness: -Infinity, loudnessRange: 0 };
+
+  // Absolute gate: -70 LUFS
+  const absGate = Math.pow(10, (-70 + 0.691) / 10);
+  const aboveAbs = blocks.filter((b) => b > absGate);
+
+  if (aboveAbs.length === 0) return { integratedLoudness: -Infinity, loudnessRange: 0 };
+
+  // Relative gate threshold
+  const avgAboveAbs = aboveAbs.reduce((a, b) => a + b, 0) / aboveAbs.length;
+  const relativeThresh = avgAboveAbs * Math.pow(10, -10 + 0.691);
+
+  // Apply relative gate
+  const aboveRelative = aboveAbs.filter((b) => b > relativeThresh);
+
+  if (aboveRelative.length === 0) return { integratedLoudness: -Infinity, loudnessRange: 0 };
+
+  // Integrated loudness
+  const avg = aboveRelative.reduce((a, b) => a + b, 0) / aboveRelative.length;
+  const integratedLoudness = -0.691 + 10 * Math.log10(avg);
+
+  // Loudness range (simplified: difference between 10th and 95th percentile of gated blocks)
+  const sorted = [...aboveRelative].sort((a, b) => a - b);
+  const p10 = sorted[Math.floor(sorted.length * 0.1)] || sorted[0];
+  const p95 = sorted[Math.floor(sorted.length * 0.95)] || sorted[sorted.length - 1];
+  const loudnessRange = 10 * Math.log10(p95 / Math.max(p10, 1e-20));
+
+  return { integratedLoudness, loudnessRange };
 }
 
 /**
  * Draw simple waveform on canvas
  */
-export function drawWaveform(buffer, canvas, color = '#2563EB') {
-  const ctx = canvas.getContext('2d');
+export function drawWaveform(buffer, canvas, color = "#2563EB") {
+  const ctx = canvas.getContext("2d");
   const data = buffer.getChannelData(0);
   const step = Math.ceil(data.length / canvas.width);
   const amp = canvas.height / 2;
@@ -222,7 +352,8 @@ export function drawWaveform(buffer, canvas, color = '#2563EB') {
   ctx.fillStyle = color;
   ctx.beginPath();
   for (let i = 0; i < canvas.width; i++) {
-    let min = 1, max = -1;
+    let min = 1,
+      max = -1;
     for (let j = 0; j < step; j++) {
       const datum = data[i * step + j] || 0;
       if (datum < min) min = datum;

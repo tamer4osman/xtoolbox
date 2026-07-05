@@ -680,6 +680,25 @@
 .stat-label { display: block; font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-1); }
 .stat-value { display: block; font-size: var(--text-xl); font-weight: 700; color: var(--color-text); }
 
+/* ===== Audio Normalizer ===== */
+.na-mode-row { margin-bottom: var(--space-4); }
+.na-mode-label { display: block; font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2); }
+.na-mode-toggle { display: flex; gap: 2px; background: var(--color-surface); border-radius: var(--radius-md); padding: 3px; border: 1px solid var(--color-border); }
+.na-mode-btn { flex: 1; padding: var(--space-2) var(--space-3); border: none; border-radius: var(--radius-sm); background: transparent; font-size: var(--text-sm); font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s; color: var(--color-text-secondary); }
+.na-mode-btn.active { background: var(--color-primary); color: white; }
+.na-mode-btn:hover:not(.active) { background: var(--color-border); }
+.na-preset-row { display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: start; margin-bottom: var(--space-4); }
+.na-preset-btn { display: flex; flex-direction: column; align-items: center; padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); cursor: pointer; transition: border-color 0.15s, background 0.15s; min-width: 90px; }
+.na-preset-btn:hover { border-color: var(--color-primary); }
+.na-preset-btn.active { border-color: var(--color-primary); background: var(--color-primary-light, #EEF2FF); }
+.na-preset-label { font-size: var(--text-sm); font-weight: 600; }
+.na-preset-value { font-size: var(--text-xs); color: var(--color-text-muted); }
+.na-custom-preset { display: flex; flex-direction: column; }
+.na-input { width: 80px; padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: var(--text-sm); text-align: center; }
+.na-lufs-info { background: var(--color-surface); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-4); font-size: var(--text-sm); }
+.na-info-row { display: flex; justify-content: space-between; padding: var(--space-1) 0; }
+.na-info-row span:last-child { font-weight: 600; font-family: var(--font-mono); }
+
 /* ===== Password Strength ===== */
 .strength-meter { height: 6px; background: var(--color-border); border-radius: var(--radius-full); overflow: hidden; margin: var(--space-2) 0; }
 .strength-bar { height: 100%; border-radius: var(--radius-full); transition: width 0.3s; }
