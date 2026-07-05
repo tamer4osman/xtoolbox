@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   pearsonCorrelation,
   detectBPM,
+  detectOnsets,
   detectKey,
   formatBPM,
   formatKey
@@ -20,10 +21,28 @@ describe('bpm-key-detector', () => {
       expect(pearsonCorrelation(a, b)).toBeCloseTo(-1.0, 5);
     });
 
-    it('returns 0 for uncorrelated arrays', () => {
+    it('returns -1 for perfectly anti-correlated arrays', () => {
       const a = [1, 0, 1, 0, 1];
       const b = [0, 1, 0, 1, 0];
       expect(pearsonCorrelation(a, b)).toBeCloseTo(-1.0, 5);
+    });
+
+    it('returns ~0 for genuinely uncorrelated arrays', () => {
+      const a = [1, 2, 3, 4, 5];
+      const b = [2, 2, 2, 2, 2];
+      expect(pearsonCorrelation(a, b)).toBe(0);
+    });
+  });
+
+  describe('detectOnsets', () => {
+    it('returns empty for short audio (fewer samples than window)', () => {
+      const shortSamples = new Float32Array(1024);
+      expect(detectOnsets(shortSamples, 44100)).toEqual([]);
+    });
+
+    it('returns empty for very short audio', () => {
+      const tinySamples = new Float32Array(100);
+      expect(detectOnsets(tinySamples, 44100)).toEqual([]);
     });
   });
 

@@ -51,7 +51,7 @@ export function computeAutocorrelation(samples, maxLag) {
 
 export function detectOnsets(samples, sampleRate, hopSize = 1024) {
   const windowSize = 2048;
-  const numFrames = Math.floor((samples.length - windowSize) / hopSize);
+  const numFrames = Math.max(0, Math.floor((samples.length - windowSize) / hopSize));
   const energy = new Float32Array(numFrames);
   for (let i = 0; i < numFrames; i++) {
     let sum = 0;
