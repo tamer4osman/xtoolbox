@@ -6,20 +6,27 @@ export const toolConfig = {
   id: "video-transcriber",
   name: "Local Video Transcriber",
   category: "video",
-  description: "Transcribe video/audio to text locally using browser speech recognition.",
+  description:
+    "Transcribe video/audio to text using browser speech recognition. Plays the audio and captures speech via microphone.",
   icon: "📝",
   accept: "audio/*,video/*",
   maxSizeMB: 100,
   keywords: ["transcribe", "video", "whisper", "speech", "text", "audio"],
   steps: [
     "Upload a video or audio file",
-    "Wait for transcription to complete",
+    "Click Transcribe (audio plays, mic captures speech)",
     "Copy or download the transcript",
   ],
   faqs: [
     {
+      question: "How does transcription work?",
+      answer:
+        "The tool plays your audio file and uses the Web Speech API to capture speech from your microphone. For best results, use headphones to avoid echo, or be in a quiet environment.",
+    },
+    {
       question: "Is my audio sent to a server?",
-      answer: "No. Transcription happens entirely in your browser using the Web Speech API.",
+      answer:
+        "No. Speech recognition uses your browser's built-in engine. Audio plays locally through your speakers.",
     },
     {
       question: "What languages are supported?",
@@ -52,6 +59,14 @@ export function render(container) {
   let audioElement = null;
   let recognizer = null;
   let segments = [];
+  let objectURL = null;
+
+  destroyFn = () => {
+    if (objectURL) URL.revokeObjectURL(objectURL);
+    if (recognizer) {
+      try { recognizer.abort(); } catch {}
+    }
+  };
 
   const upload = createFileUpload({
     accept: "audio/*,video/*",
@@ -61,8 +76,10 @@ export function render(container) {
       if (files.length === 0) return;
       try {
         const file = files[0];
+        if (objectURL) URL.revokeObjectURL(objectURL);
         audioElement = new Audio();
-        audioElement.src = URL.createObjectURL(file);
+        objectURL = URL.createObjectURL(file);
+        audioElement.src = objectURL;
         audioElement.crossOrigin = "anonymous";
         optionsArea.style.display = "block";
         transcriptArea.style.display = "none";
@@ -134,7 +151,7 @@ export function render(container) {
         if (event.results[i].isFinal) {
           segments.push({
             text: event.results[i][0].transcript,
-            start: segments.length * 3,
+            start: audioElement ? audioElement.currentTime : segments.length * 3,
           });
         }
       }
@@ -171,4 +188,8 @@ export function render(container) {
   });
 }
 
-export function destroy() {}
+let destroyFn = null;
+
+export function destroy() {
+  if (typeof destroyFn === "function") destroyFn();
+}

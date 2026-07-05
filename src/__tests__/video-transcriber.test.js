@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('../components/file-upload.js', () => ({ createFileUpload: vi.fn() }));
 vi.mock('../components/toast.js', () => ({ showToast: vi.fn() }));
-vi.mock('../tools/video/audio-utils.js', () => ({ loadAudioFile: vi.fn() }));
 vi.mock('../utils/file.js', () => ({ downloadBlob: vi.fn() }));
 
 import { formatTime, formatTranscript, createSpeechRecognizer } from '../tools/video/video-transcriber.js';
