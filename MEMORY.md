@@ -11,7 +11,9 @@
 ## Recent Achievements (2026-07-04)
 
 - Phase 27 complete: all 19 High-Demand Tools built and registered (308 total).
-- Remaining: Phase 28 — Legacy Catch-Up (37 planned tools).
+- Remaining: Phase 28 — Legacy Catch-Up (36 planned tools).
+- Reviewed PHASE-28-INSTRUCTIONS.md (20 tools): 7 duplicates skipped, 1 merged into existing tool (podcast-loudness-normalizer → normalize-audio), 12 new planned tools added.
+- Upgraded normalize-audio to "Audio Normalizer" with EBU R128 LUFS loudness normalization mode.
 - Updated README.md, PROJECT-PLAN.md, and tool-building-progress.md to reflect current status.
 
 ## Recent Achievements (2026-05-04)

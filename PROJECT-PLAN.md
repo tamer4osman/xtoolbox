@@ -85,45 +85,48 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 ## Current Status
 
-**Total tools:** 332 (308 built, 24 planned)
+**Total tools:** 344 (308 built, 36 planned)
 
 ### Categories (with actual tool counts)
 
 | Category | Tools |
 |----------|-------|
-| Image | 42 |
+| Image | 43 |
 | Dev | 40 |
 | Text | 35 |
 | PDF | 33 |
-| Video | 23 |
-| Audio | 16 |
-| Finance | 15 |
-| Business | 15 |
+| Video | 26 |
+| Audio | 17 |
+| Finance | 16 |
+| Business | 16 |
 | CSS | 20 |
-| Productivity | 15 |
+| Productivity | 18 |
 | Math | 13 |
 | Health | 12 |
 | Encoding | 9 |
 | Reference | 8 |
 | SEO | 8 |
 | Fun | 6 |
-| Privacy | 6 |
+| Privacy | 8 |
 | QR | 4 |
 | OCR | 4 |
 | Visualization | 4 |
 | Weather | 4 |
 
-### Planned Tools (24)
+### Planned Tools (36)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
-**Phase 28 — Legacy Catch-Up (24 planned):**
-- Image basics: image-blur, image-compare, image-meme
-- Video basics: video-crop, video-rotate, video-volume, video-reverse, video-metadata-editor
+**Phase 28 — Legacy Catch-Up (24 original + 12 new from instructions review):**
+- Image basics: image-blur, image-compare, image-meme, panorama-stitcher
+- Video basics: video-crop, video-rotate, video-volume, video-reverse, video-metadata-editor, chroma-key-composer, video-scene-cut-detector, video-stabilizer
+- Audio: audio-pitch, audio-to-midi-converter
 - Dev playgrounds: js-playground, html-playground, json-schema-validator, env-parser, timezone-converter, regex-visualizer
-- Finance: salary-calc, savings-calc, retirement-planner
+- Finance: salary-calc, savings-calc, retirement-planner, expense-splitter
 - Math: equation-solver, matrix-calc, stats-calc
-- Productivity: decision-matrix
+- Productivity: decision-matrix, mind-map-maker, kanban-board, timesheet-tracker
+- Privacy: browser-fingerprint-checker, password-breach-checker
+- Business: resume-job-matcher
 - Reference: link-preview
 - Fun: name-generator
 
@@ -1253,6 +1256,233 @@ All use ffmpeg.wasm for processing.
   - Shuffle algorithm for random selection (Fisher-Yates)
   - Allow filtering by first letter or name length
 
+### New Planned Tools (from Phase 28 Instructions Review)
+
+#### browser-fingerprint-checker
+
+- **File:** `src/tools/privacy/browser-fingerprint-checker.js`
+- **Category:** privacy
+- **Purpose:** See what a website could learn about your browser without cookies
+- **Library:** Pure browser APIs (zero network requests)
+- **UI:**
+  1. Run Fingerprint Check button
+  2. Fingerprint hash display (SHA-256 truncated)
+  3. Results table: userAgent, language, platform, screen resolution, WebGL vendor/renderer, canvas hash, fonts detected, etc.
+  4. Privacy notice: "Zero network requests. All checks run entirely in this tab."
+- **Implementation notes:**
+  - Canvas fingerprint: draw text/shapes, toDataURL, hash result
+  - WebGL: getExtension('WEBGL_debug_renderer_info') for vendor/renderer
+  - Font detection: measure span offsetWidth against base font families
+  - SHA-256 hash via crypto.subtle.digest
+  - CRITICAL: No fetch(), XMLHttpRequest, WebSocket, or sendBeacon calls allowed
+
+#### expense-splitter
+
+- **File:** `src/tools/finance/expense-splitter.js`
+- **Category:** finance
+- **Purpose:** Split group bills and calculate minimum transactions to settle debts
+- **Library:** Pure JS + localStorage
+- **UI:**
+  1. Add person chips
+  2. Add expense form: description, amount, paid by (select), split among (checkboxes)
+  3. Balance display: green (owed money) / red (owes money)
+  4. Settle-up list from debt simplification algorithm
+  5. Delete buttons on persons and expenses
+  6. Privacy notice: all data stored locally only
+- **Implementation notes:**
+  - localStorage key: 'exs_v1'
+  - Debt simplification: greedy matching of creditors/debtors for minimum transactions
+  - Threshold of $0.01 to avoid floating-point noise
+  - Confirm dialog before deleting a person (removes from all expenses)
+
+#### mind-map-maker
+
+- **File:** `src/tools/productivity/mind-map-maker.js`
+- **Category:** productivity
+- **Purpose:** Freeform SVG mind map editor with drag-and-drop nodes
+- **Library:** SVG + pure JS + localStorage
+- **UI:**
+  1. SVG canvas with draggable nodes
+  2. Toolbar: add child node, delete selected, color swatches
+  3. Double-click to rename node
+  4. Export PNG / Export SVG buttons
+  5. Clear all button
+- **Implementation notes:**
+  - localStorage key: 'mmm_v1'
+  - Data model: nodes array with id, x, y, text, color, parentId
+  - Pointer events for drag: pointerdown, pointermove, pointerup
+  - Export PNG: render SVG to canvas via Image + canvas.drawImage()
+  - Export SVG: XMLSerializer.serializeToString(svg)
+
+#### kanban-board
+
+- **File:** `src/tools/productivity/kanban-board.js`
+- **Category:** productivity
+- **Purpose:** Drag-and-drop kanban board with no account required
+- **Library:** HTML5 Drag and Drop API + localStorage
+- **UI:**
+  1. Board with columns (To Do, In Progress, Done default)
+  2. Draggable cards with text and optional colored labels
+  3. + Add card input per column
+  4. + Add column button
+  5. Edit card text on click, delete with ✕
+  6. Clear board button
+- **Implementation notes:**
+  - localStorage key: 'kb_v1'
+  - Data model: columns array + cards object
+  - HTML5 drag events: dragstart, dragover, dragleave, drop
+  - Save after every drag/add/edit/delete
+
+#### timesheet-tracker
+
+- **File:** `src/tools/productivity/timesheet-tracker.js`
+- **Category:** productivity
+- **Purpose:** Clock in/out hours tracker with PDF/CSV export
+- **Library:** jsPDF + jsPDF-AutoTable (already installed)
+- **UI:**
+  1. Project name + Notes inputs + Clock In button
+  2. Live running timer (HH:MM:SS) while clocked in
+  3. Clock Out button
+  4. Table of entries: project, clock in, clock out, duration, notes, delete
+  5. Weekly summary card (Monday-start week)
+  6. Export PDF / Export CSV buttons
+- **Implementation notes:**
+  - localStorage key: 'tst_v1'
+  - setInterval(1000) for live timer display
+  - durationHours = (clockOut - clockIn) / 3600000
+  - jsPDF + AutoTable for PDF export
+
+#### password-breach-checker
+
+- **File:** `src/tools/privacy/password-breach-checker.js`
+- **Category:** privacy
+- **Purpose:** Check if a password has appeared in known data breaches (k-anonymity)
+- **Library:** Web Crypto API + fetch() to HIBP Range API (no key needed)
+- **UI:**
+  1. Password input with show/hide toggle
+  2. Check button
+  3. Result: breach count or "not found" message
+  4. Privacy notice: "Only the first 5 characters of your SHA-1 hash are sent"
+- **Implementation notes:**
+  - k-anonymity: SHA-1 hash password, send only first 5 hex chars to HIBP Range API
+  - CRITICAL: Full hash must NEVER leave the browser
+  - API: fetch('https://api.pwnedpasswords.com/range/{prefix}')
+  - Parse response lines: "SUFFIX:COUNT"
+  - Safety check: grep file for any line sending fullHash to fetch()
+
+#### chroma-key-composer
+
+- **File:** `src/tools/video/chroma-key-composer.js`
+- **Category:** video
+- **Purpose:** Green/blue screen background compositing using Canvas and MediaRecorder
+- **Library:** Canvas API + <video>, zero new deps
+- **UI:**
+  1. Two drop zones: foreground video (green/blue screen) + background image/video
+  2. Key color picker (default #00FF00)
+  3. Threshold slider (0-200, default 80)
+  4. Edge softness slider (0-100, default 30)
+  5. Live preview canvas at reduced resolution
+  6. Render Full Video button → real-time recording via MediaRecorder
+- **Implementation notes:**
+  - applyChromaKey: Euclidean distance in RGB, threshold + edge softness feathering
+  - Pipeline: draw bg → draw fg to offscreen → apply chroma key → composite
+  - MediaRecorder on outputCanvas.captureStream(30)
+  - Real-time rendering (video plays through once during recording)
+  - Output: WebM blob download
+
+#### video-scene-cut-detector
+
+- **File:** `src/tools/video/video-scene-cut-detector.js`
+- **Category:** video
+- **Purpose:** Automatic scene detection and YouTube chapter marker export
+- **Library:** ffmpeg.wasm (already installed)
+- **UI:**
+  1. Video drop zone
+  2. Sensitivity slider (0.1-0.9, default 0.4)
+  3. Detect Scenes button with progress spinner
+  4. Results list with timestamps, thumbnails, editable chapter labels
+  5. Export: Copy YouTube chapters (clipboard), Download .txt
+- **Implementation notes:**
+  - ffmpeg filter: select='gt(scene,{sensitivity})',showinfo
+  - Parse pts_time from ffmpeg log output
+  - YouTube chapter format requires first entry at 00:00
+  - Thumbnail preview via video seek + canvas capture
+
+#### video-stabilizer
+
+- **File:** `src/tools/video/video-stabilizer.js`
+- **Category:** video
+- **Purpose:** Two-pass video stabilization using ffmpeg vidstab filters
+- **Library:** ffmpeg.wasm (already installed)
+- **UI:**
+  1. Video drop zone
+  2. Shakiness slider (1-10, default 5)
+  3. Smoothing slider (1-30, default 10)
+  4. Stabilize button with "Pass 1/2" and "Pass 2/2" progress
+  5. Before/after video player toggle
+  6. Download MP4 button
+- **Implementation notes:**
+  - Pass 1: vidstabdetect → writes transforms.trf
+  - Pass 2: vidstabtransform + unsharp → output stabilized.mp4
+  - CRITICAL: Verify ffmpeg.wasm core includes libvidstab before shipping
+  - If vidstab not available, mark tool as "blocked" in tools.json
+
+#### panorama-stitcher
+
+- **File:** `src/tools/image/panorama-stitcher.js`
+- **Category:** image
+- **Purpose:** Multi-photo panorama stitching using OpenCV.js
+- **Library:** OpenCV.js (CDN script tag, ~10MB)
+- **UI:**
+  1. Multi-file drop zone (2-10 images)
+  2. Thumbnail preview strip with drag-to-reorder
+  3. Stitch Panorama button with loading/stitching states
+  4. Result panorama with download button
+  5. Error message for failed stitching
+- **Implementation notes:**
+  - OpenCV.js loaded via CDN script tag
+  - cv.Stitcher for automatic panorama stitching
+  - CRITICAL: All cv.Mat/MatVector/Stitcher objects must have .delete() called
+  - Memory management: explicit cleanup in error paths
+  - Status check: status !== cv.Stitcher_OK
+
+#### resume-job-matcher
+
+- **File:** `src/tools/business/resume-job-matcher.js`
+- **Category:** business
+- **Purpose:** Semantic + keyword matcher between resume and job description
+- **Library:** @xenova/transformers (already installed, all-MiniLM-L6-v2)
+- **UI:**
+  1. Two textareas: resume text, job description
+  2. Analyze Match button with progress states
+  3. Combined score display (semantic 70% + keyword 30%)
+  4. Missing keywords list as chips
+  5. Disclaimer: heuristic guide, not ATS guarantee
+- **Implementation notes:**
+  - Embedding via pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2')
+  - Cosine similarity for semantic score
+  - Keyword extraction: lowercase, strip punctuation, remove stopwords, count frequency
+  - findMissingKeywords: job keywords not in resume, sorted by frequency
+  - Combined score = semantic × 0.7 + keywordCoverage × 0.3
+
+#### audio-to-midi-converter
+
+- **File:** `src/tools/audio/audio-to-midi-converter.js`
+- **Category:** audio
+- **Purpose:** Audio-to-MIDI transcription using Basic Pitch ONNX model
+- **Library:** onnxruntime-web (already installed), Basic Pitch ONNX model (~2MB)
+- **UI:**
+  1. Audio drop zone with "single instrument works best" note
+  2. Convert to MIDI button with progress bar
+  3. Piano-roll canvas visualization of detected notes
+  4. Download MIDI button
+- **Implementation notes:**
+  - Model: Basic Pitch ONNX from @spotify/basic-pitch or converted
+  - Path A (recommended): Use @spotify/basic-pitch npm API directly
+  - Path B (fallback): Defer if npm package unavailable (CQT preprocessing is complex)
+  - MIDI writer: single-track Type 0, 480 ticks/beat, variable-length encoding
+  - CRITICAL: Do not ship fabricated inference logic — mark as "blocked" if no working model
+
 ## Dependencies for Planned Tools
 
 ```bash
@@ -1267,9 +1497,12 @@ npm install monaco-editor ajv mathjs katex
 | katex | MIT | 250KB | LaTeX rendering |
 
 Additional dependencies (already installed or needed per tool):
-- `transformers.js` — AI/ML inference in browser
-- `onnxruntime-web` — ONNX model execution
-- `ffmpeg.wasm` — Video/audio processing
+- `transformers.js` — AI/ML inference in browser (resume-job-matcher, text-similarity-checker)
+- `onnxruntime-web` — ONNX model execution (audio-to-midi-converter)
+- `ffmpeg.wasm` — Video/audio processing (video-scene-cut-detector, video-stabilizer)
+- `jspdf` + `jspdf-autotable` — PDF export (timesheet-tracker, loan-amortization-calculator)
+- `opencv.js` — Image stitching via CDN (panorama-stitcher)
+- `@spotify/basic-pitch` — Audio transcription ONNX model (audio-to-midi-converter)
 - `lamejs` — MP3 encoding
 - `mammoth` — DOCX to HTML
 - `xlsx` — Excel read/write

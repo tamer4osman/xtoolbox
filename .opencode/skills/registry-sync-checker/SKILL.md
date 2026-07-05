@@ -130,7 +130,7 @@ Expected output: `total: N catSum: N missing-files: 0 category-mismatches: []`.
 - **New category added** — tools present but `categories.json` not extended, so sum is wrong.
 - **Tool renamed** — `tools.json` updated, `toolsList.json` forgotten.
 - **Tool file moved to a different category** — `tools.json` category updated, `categories.json` totals not rebalanced.
-- **Phase count in README says 280 but actual is 243 + 37 planned = 280** — when one of the planned tools ships, the "planned" line must move to "built" and the total stays the same.
+- **Phase count in README says 332 but actual is 308 + 24 planned = 332** — when one of the planned tools ships, the "planned" line must move to "built" and the total stays the same.
 
 ## Red lines
 

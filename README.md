@@ -1,6 +1,6 @@
 # 🛠️ ToolBox: Free Online Tools
 
-**308 free online tools (+24 planned). 100% client-side processing: your files never leave your device.**
+**308 free online tools (+36 planned). 100% client-side processing: your files never leave your device.**
 
 ## Quick Start
 
@@ -53,31 +53,31 @@ npm run test       # → Playwright tests
 | Phase 25: Most Wanted Tools | ✅ Done (23 tools) |
 | Phase 26: Uncommon High-Demand Tools | ✅ Done (16 tools) |
 | Phase 27: High-Demand Tools | ✅ Done (19 tools) |
-| Phase 28: Legacy Catch-Up | 🟡 In Progress (0/24) |
+| Phase 28: Legacy Catch-Up | 🟡 In Progress (0/37) |
 
-**Total tools:** 332 (308 built, 24 planned).
+**Total tools:** 344 (308 built, 36 planned).
 
 ## Categories
 
 | Category | Built | Planned | Total | Key Libraries | Status |
 | ---------- | ------- | --------- | ------- | --------------- | -------- |
-| Image | 39 | +3 | **42** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 39/42 |
+| Image | 39 | +4 | **43** | Canvas API, Cropper.js, Pica, ONNX, potrace.js, heic2any | 39/43 |
 | Developer | 34 | +6 | **40** | Custom JS | 34/40 |
 | Text & Content | 35 | — | **35** | marked, turndown, js-yaml, SheetJS | ✅ |
 | PDF | 33 | — | **33** | pdf-lib, PDF.js, jsPDF | ✅ |
-| Video | 18 | +5 | **23** | ffmpeg.wasm | 18/23 |
+| Video | 18 | +8 | **26** | ffmpeg.wasm | 18/26 |
 | CSS & Web Design | 20 | — | **20** | Custom JS | ✅ |
-| Audio | 15 | +1 | **16** | Web Audio API, lamejs, Wavesurfer.js, ONNX Runtime Web | 15/16 |
-| Business | 15 | — | **15** | Custom JS | ✅ |
-| Finance | 12 | +3 | **15** | Chart.js | 12/15 |
-| Productivity | 14 | +1 | **15** | Custom JS | 14/15 |
+| Audio | 15 | +2 | **17** | Web Audio API, lamejs, Wavesurfer.js, ONNX Runtime Web | 15/17 |
+| Business | 15 | +1 | **16** | Custom JS | 15/16 |
+| Finance | 12 | +4 | **16** | Chart.js | 12/16 |
+| Productivity | 14 | +4 | **18** | Custom JS | 14/18 |
 | Math | 10 | +3 | **13** | math.js | 10/13 |
 | Health | 12 | — | **12** | Custom JS | ✅ |
 | Encoding & Hashing | 9 | — | **9** | Web Crypto API | ✅ |
 | Reference | 7 | +1 | **8** | Free Dictionary API, Open Library | 7/8 |
 | SEO | 8 | — | **8** | Custom JS | ✅ |
 | Fun & Games | 5 | +1 | **6** | Custom JS | 5/6 |
-| Privacy & Security | 6 | — | **6** | Web Crypto API | ✅ |
+| Privacy & Security | 6 | +2 | **8** | Web Crypto API | 6/8 |
 | QR & Barcode | 4 | — | **4** | qrcode, JsBarcode | ✅ |
 | OCR | 4 | — | **4** | Tesseract.js | ✅ |
 | Visualization | 4 | — | **4** | Chart.js, Papa Parse | ✅ |
@@ -175,30 +175,30 @@ toolbox/
 │   │   ├── about.js / privacy.js / terms.js / not-found.js
 │   │
 │   ├── tools/                    ← Tool implementations
-│   │   ├── pdf/                  ← 32 PDF tools (33 total, 1 planned)
-│   │   ├── image/                ← 35 image tools (40 total, 1 planned)
-│   │   ├── video/                ← 15 video tools (16 total, 1 planned)
-│   │   ├── audio/                ← 10 audio tools (11 total, 1 planned)
+│   │   ├── pdf/                  ← 33 PDF tools
+│   │   ├── image/                ← 39 image tools (+3 planned)
+│   │   ├── video/                ← 18 video tools (+5 planned)
+│   │   ├── audio/                ← 15 audio tools (+1 planned)
 │   │   ├── ocr/                  ← 4 OCR tools
 │   │   ├── qr/                   ← 4 QR tools
 │   │   ├── privacy/              ← 6 privacy tools
 │   │   ├── weather/              ← 4 weather tools
-│   │   ├── reference/            ← 5 reference tools
-│   │   ├── finance/              ← 9 finance tools (10 total, 1 planned)
-│   │   ├── math/                 ← 10 math tools
-│   │   ├── health/               ← 11 health tools
-│   │   ├── text/                 ← 30 text tools (31 total, 1 planned)
-│   │   ├── encoding/             ← 8 encoding tools (9 total, 1 planned)
+│   │   ├── reference/            ← 7 reference tools (+1 planned)
+│   │   ├── finance/              ← 12 finance tools (+3 planned)
+│   │   ├── math/                 ← 10 math tools (+3 planned)
+│   │   ├── health/               ← 12 health tools
+│   │   ├── text/                 ← 35 text tools
+│   │   ├── encoding/             ← 9 encoding tools
 │   │   ├── visualization/        ← 4 visualization tools
-│   │   ├── css/                  ← 17 CSS tools (19 total, 2 planned)
-│   │   ├── dev/                  ← 22 developer tools (28 total, 6 planned)
-│   │   ├── productivity/         ← 6 productivity tools (11 total, 5 planned)
-│   │   ├── fun/                  ← 5 fun tools
-│   │   ├── business/             ← 8 business tools (14 total, 6 planned)
-│   │   └── seo/                  ← 7 SEO tools (8 total, 1 planned)
+│   │   ├── css/                  ← 20 CSS tools
+│   │   ├── dev/                  ← 34 developer tools (+6 planned)
+│   │   ├── productivity/         ← 14 productivity tools (+1 planned)
+│   │   ├── fun/                  ← 5 fun tools (+1 planned)
+│   │   ├── business/             ← 15 business tools
+│   │   └── seo/                  ← 8 SEO tools
 │   │
 │   ├── data/                     ← Static data
-│   │   ├── tools.json            ← 345 tool definitions (292 built, 53 planned)
+│   │   ├── tools.json            ← 332 tool definitions (308 built, 24 planned)
 │   │   ├── categories.json       ← 21 categories
 │   │   └── countries.json        ← 50 countries
 │   │

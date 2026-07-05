@@ -1,22 +1,30 @@
 # Tool Building Progress
 
-## Current Status: 308 built, 24 planned = 332 total
+## Current Status: 308 built, 36 planned = 344 total
 
-### Phase 28 — Legacy Tool Catch-Up (24 planned, 0 built)
+### Phase 28 — Legacy Tool Catch-Up (36 planned, 0 built)
 
-> 13 tools removed — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
+> 13 tools removed from original list — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
+> 7 tools from PHASE-28-INSTRUCTIONS.md skipped — duplicates of existing tools (color-blindness, font-pairing, text-to-speech, currency-converter, text-similarity, loan-calculator, audio-pitch).
+> podcast-loudness-normalizer merged into existing normalize-audio (now "Audio Normalizer" with EBU R128 LUFS mode).
+> 13 new tools added from PHASE-28-INSTRUCTIONS.md review, minus 1 merged = 12 net new.
 
 | Tool | Category | Status |
 |------|----------|--------|
 | Image Blur | image | Planned |
 | Image Comparison | image | Planned |
 | Meme Generator | image | Planned |
+| Panorama Stitcher | image | Planned |
 | Video Cropper | video | Planned |
 | Video Rotator | video | Planned |
 | Video Volume Adjuster | video | Planned |
 | Video Reverser | video | Planned |
 | Video Metadata Editor | video | Planned |
+| Chroma Key Composer | video | Planned |
+| Video Scene Cut Detector | video | Planned |
+| Video Stabilizer | video | Planned |
 | Audio Pitch Shifter | audio | Planned |
+| Audio to MIDI Converter | audio | Planned |
 | JavaScript Playground | dev | Planned |
 | HTML Playground | dev | Planned |
 | JSON Schema Validator | dev | Planned |
@@ -26,10 +34,17 @@
 | Multi-Country Salary Calculator | finance | Planned |
 | Savings Calculator | finance | Planned |
 | Retirement Planner | finance | Planned |
+| Expense Splitter | finance | Planned |
 | Equation Solver | math | Planned |
 | Matrix Calculator | math | Planned |
 | Statistics Calculator | math | Planned |
 | Decision Matrix Maker | productivity | Planned |
+| Mind Map Maker | productivity | Planned |
+| Kanban Board | productivity | Planned |
+| Timesheet Tracker | productivity | Planned |
+| Browser Fingerprint Checker | privacy | Planned |
+| Password Breach Checker | privacy | Planned |
+| Resume Job Matcher | business | Planned |
 | Link Preview Generator | reference | Planned |
 | Name Generator | fun | Planned |
 
