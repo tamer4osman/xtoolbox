@@ -182,13 +182,13 @@ export const COUNTRIES = [
 ];
 
 export function isWeekend(date) {
-  const day = date.getDay();
+  const day = date.getUTCDay();
   return day === 0 || day === 6;
 }
 
 export function isHoliday(date, countryCode) {
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
   const mmdd = `${month}-${day}`;
   return (HOLIDAYS[countryCode] || []).includes(mmdd);
 }
@@ -196,13 +196,13 @@ export function isHoliday(date, countryCode) {
 export function countWorkingDays(startDate, endDate, countryCode = "US") {
   let count = 0;
   const current = new Date(startDate);
-  current.setHours(0, 0, 0, 0);
+  current.setUTCHours(0, 0, 0, 0);
   const end = new Date(endDate);
-  end.setHours(0, 0, 0, 0);
+  end.setUTCHours(0, 0, 0, 0);
 
   while (current <= end) {
     if (!isWeekend(current) && !isHoliday(current, countryCode)) count++;
-    current.setDate(current.getDate() + 1);
+    current.setUTCDate(current.getUTCDate() + 1);
   }
   return count;
 }
@@ -213,11 +213,11 @@ export function render(container) {
       <div class="form-row">
         <div class="form-group" style="flex:1;">
           <label for="start-date">Start Date</label>
-          <input type="date" id="start-date" class="text-input" value="${new Date().toISOString().split("T")[0]}">
+          <input type="date" id="start-date" class="text-input" value="${new Date().toISOString().slice(0, 10)}">
         </div>
         <div class="form-group" style="flex:1;">
           <label for="end-date">End Date</label>
-          <input type="date" id="end-date" class="text-input" value="${new Date(Date.now() + 30 * 86400000).toISOString().split("T")[0]}">
+          <input type="date" id="end-date" class="text-input" value="${new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10)}">
         </div>
         <div class="form-group" style="flex:1;">
           <label for="country-select">Country</label>
@@ -259,11 +259,13 @@ export function render(container) {
     const days = countWorkingDays(start, end, countryCode);
     const totalDays = Math.ceil((end - start) / 86400000) + 1;
     const weekends = totalDays - days;
-    const holidays = (HOLIDAYS[countryCode] || []).filter((h) => {
-      const [m, d] = h.split("-").map(Number);
-      const hDate = new Date(start.getFullYear(), m - 1, d);
-      return hDate >= start && hDate <= end && !isWeekend(hDate);
-    }).length;
+    let holidays = 0;
+    for (const [m, d] of (HOLIDAYS[countryCode] || []).map((h) => h.split("-").map(Number))) {
+      for (let year = start.getUTCFullYear(); year <= end.getUTCFullYear(); year++) {
+        const hDate = new Date(Date.UTC(year, m - 1, d));
+        if (hDate >= start && hDate <= end && !isWeekend(hDate)) holidays++;
+      }
+    }
 
     workingDays.textContent = days;
     details.textContent = `${totalDays} calendar days | ${weekends} weekend days | ${holidays} public holidays`;

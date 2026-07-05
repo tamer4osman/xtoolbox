@@ -77,6 +77,13 @@ describe('working-days-calculator', () => {
       // Mon=Holiday, Tue-Fri=4 working days
       expect(countWorkingDays(start, end, 'US')).toBe(4);
     });
+
+    it('counts holidays across year boundary', () => {
+      const start = new Date('2024-12-30'); // Monday
+      const end = new Date('2025-01-03'); // Friday
+      // Dec 30 Mon, Dec 31 Tue, Jan 1 Wed (holiday), Jan 2 Thu, Jan 3 Fri
+      expect(countWorkingDays(start, end, 'US')).toBe(4);
+    });
   });
 
   describe('HOLIDAYS', () => {
