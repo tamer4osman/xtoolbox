@@ -35,16 +35,17 @@ export function formatDuration(ms) {
   const h = Math.floor(m / 60);
   const sec = s % 60;
   const min = m % 60;
-  return `${h > 0 ? h + ":" : ""}${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+  return `${h.toString().padStart(2, "0")}:${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
 }
 
-export function render(container) {
-  let mediaRecorder = null;
-  let chunks = [];
-  let stream = null;
-  let startTime = 0;
-  let timerInterval = null;
+let mediaRecorder = null;
+let chunks = [];
+let stream = null;
+let startTime = 0;
+let timerInterval = null;
+let previewObjectURL = null;
 
+export function render(container) {
   container.innerHTML = `
     <div class="tool-layout">
       <div style="padding:var(--space-4);background:var(--color-bg-secondary);border-radius:var(--radius-md);text-align:center;margin-bottom:var(--space-3);">
@@ -82,7 +83,11 @@ export function render(container) {
       });
 
       chunks = [];
-      mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+      const preferredType = "video/webm;codecs=vp9";
+      const mimeType = MediaRecorder.isTypeSupported(preferredType)
+        ? preferredType
+        : "video/webm";
+      mediaRecorder = new MediaRecorder(stream, { mimeType });
 
       mediaRecorder.ondataavailable = (e) => {
         if (e.data.size > 0) chunks.push(e.data);
@@ -91,8 +96,9 @@ export function render(container) {
 
       mediaRecorder.onstop = () => {
         recordedBlob = new Blob(chunks, { type: "video/webm" });
-        const url = URL.createObjectURL(recordedBlob);
-        previewVideo.src = url;
+        if (previewObjectURL) URL.revokeObjectURL(previewObjectURL);
+        previewObjectURL = URL.createObjectURL(recordedBlob);
+        previewVideo.src = previewObjectURL;
         previewArea.style.display = "block";
         recStatus.textContent = "Recording Complete";
         clearInterval(timerInterval);
@@ -116,6 +122,9 @@ export function render(container) {
 
       showToast({ message: "Recording started.", type: "success" });
     } catch (err) {
+      if (stream) {
+        stream.getTracks().forEach((t) => t.stop());
+      }
       showToast({ message: `Screen capture failed: ${err.message}`, type: "error" });
     }
   });
@@ -138,4 +147,13 @@ export function render(container) {
   });
 }
 
-export function destroy() {}
+export function destroy() {
+  if (mediaRecorder && mediaRecorder.state === "recording") {
+    mediaRecorder.stop();
+  }
+  if (stream) {
+    stream.getTracks().forEach((t) => t.stop());
+  }
+  clearInterval(timerInterval);
+  if (previewObjectURL) URL.revokeObjectURL(previewObjectURL);
+}
