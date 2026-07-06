@@ -1,6 +1,12 @@
 import { createVideoTool } from "./video-tool-factory.js";
 import { downloadVideoOutput } from "./video-utils.js";
 
+export function normalizeCrop(crop, videoWidth, videoHeight) {
+  const cw = Math.max(16, crop.w % 2 === 0 ? crop.w : crop.w - 1);
+  const ch = Math.max(16, crop.h % 2 === 0 ? crop.h : crop.h - 1);
+  return { x: crop.x, y: crop.y, w: Math.min(cw, videoWidth), h: Math.min(ch, videoHeight) };
+}
+
 function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
   const ctx = canvas.getContext("2d");
   const scale = Math.min(640 / videoWidth, 400 / videoHeight, 1);
@@ -337,8 +343,7 @@ export const render = createVideoTool({
       ? selector.getCrop()
       : { x: 0, y: 0, w: videoInfo.width, h: videoInfo.height };
 
-    const cw = crop.w % 2 === 0 ? crop.w : crop.w - 1;
-    const ch = crop.h % 2 === 0 ? crop.h : crop.h - 1;
+    const { w: cw, h: ch } = normalizeCrop(crop, videoInfo.width, videoInfo.height);
 
     const ext = inputName.split(".").pop();
     const outputName = `cropped.${ext}`;
