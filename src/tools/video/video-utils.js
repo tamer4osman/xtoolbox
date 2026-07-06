@@ -1,4 +1,4 @@
-import { formatFileSize } from "../../utils/file.js";
+import { formatFileSize, downloadBlob } from "../../utils/file.js";
 
 let ffmpegInstance = null;
 let ffmpegLoading = false;
@@ -104,10 +104,12 @@ export async function readFFmpegFile(ffmpeg, filename, mimeType) {
  */
 export async function downloadVideoOutput(ffmpeg, outputName, downloadName, ext) {
   const mimeType = ext === "webm" ? "video/webm" : "video/mp4";
-  const blob = await readFFmpegFile(ffmpeg, outputName, mimeType);
-  const { downloadBlob } = await import("../../utils/file.js");
-  downloadBlob(blob, downloadName);
-  await ffmpeg.deleteFile(outputName);
+  try {
+    const blob = await readFFmpegFile(ffmpeg, outputName, mimeType);
+    downloadBlob(blob, downloadName);
+  } finally {
+    await ffmpeg.deleteFile(outputName);
+  }
 }
 
 /**
