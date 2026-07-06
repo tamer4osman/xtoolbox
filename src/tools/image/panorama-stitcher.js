@@ -14,7 +14,7 @@ export const toolConfig = {
   keywords: ["panorama", "stitch", "photo", "merge", "wide", "landscape"],
   steps: [
     "Upload 2-10 overlapping photos",
-    "Reorder by dragging thumbnails",
+    "Reorder by dragging or using arrow buttons",
     "Stitch into panorama",
     "Download result",
   ],
@@ -136,6 +136,18 @@ export function stitchPanorama(images, overlaps, blendMode = "gradient") {
   return canvas;
 }
 
+function swapItems(arr, from, to) {
+  const item = arr.splice(from, 1)[0];
+  arr.splice(to, 0, item);
+}
+
+const objectUrls = [];
+
+function cleanupUrls() {
+  for (const url of objectUrls) URL.revokeObjectURL(url);
+  objectUrls.length = 0;
+}
+
 export function render(container) {
   let images = [];
   let overlaps = [];
@@ -147,14 +159,17 @@ export function render(container) {
     maxSizeMB: 50,
     maxFiles: 10,
     onFilesSelected: async (files) => {
+      cleanupUrls();
       images = [];
       for (const f of files) {
+        const url = URL.createObjectURL(f);
+        objectUrls.push(url);
         const img = await loadImageFromFile(f);
         images.push(img);
       }
       overlaps = [];
       for (let i = 1; i < images.length; i++) {
-        overlaps.push(Math.round(images[i - 1].naturalWidth * 0.3));
+        overlaps.push(detectOverlap(images[i - 1], images[i]));
       }
       countInfo.textContent = `${images.length} photos loaded`;
       optionsArea.style.display = images.length >= 2 ? "block" : "none";
@@ -169,7 +184,7 @@ export function render(container) {
       <div class="tool-options" id="pano-options" style="display:none;">
         <div style="font-size:var(--text-sm);color:var(--color-text-secondary);margin-bottom:var(--space-4);" id="pano-count-info">-</div>
         <div class="form-group">
-          <label>Photo Order (drag to reorder)</label>
+          <label>Photo Order (drag or use arrow buttons)</label>
           <div id="pano-thumbnails" style="display:flex;gap:8px;flex-wrap:wrap;min-height:60px;border:1px dashed var(--color-border);border-radius:var(--radius-md);padding:8px;"></div>
         </div>
         <div class="form-group">
@@ -199,6 +214,18 @@ export function render(container) {
   const stitchBtn = container.querySelector("#pano-stitch-btn");
   const processing = container.querySelector("#pano-processing");
 
+  function moveImage(from, to) {
+    if (from < 0 || from >= images.length || to < 0 || to >= images.length) return;
+    swapItems(images, from, to);
+    if (overlaps.length > 0) {
+      const ovFrom = Math.min(from, overlaps.length - 1);
+      const ovTo = Math.min(to, overlaps.length);
+      const ovItem = overlaps.splice(ovFrom, 1)[0] || 0;
+      overlaps.splice(ovTo, 0, ovItem);
+    }
+    renderThumbnails();
+  }
+
   function renderThumbnails() {
     const strip = container.querySelector("#pano-thumbnails");
     strip.innerHTML = "";
@@ -206,8 +233,10 @@ export function render(container) {
       const thumb = document.createElement("div");
       thumb.draggable = true;
       thumb.dataset.index = i;
+      thumb.setAttribute("role", "listitem");
+      thumb.setAttribute("aria-label", `Photo ${i + 1} of ${images.length}`);
       thumb.style.cssText =
-        "position:relative;cursor:grab;border:2px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;flex-shrink:0;";
+        "position:relative;cursor:grab;border:2px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;flex-shrink:0;display:flex;flex-direction:column;";
       const canvas = document.createElement("canvas");
       const maxDim = 80;
       const scale = Math.min(maxDim / img.naturalWidth, maxDim / img.naturalHeight, 1);
@@ -219,8 +248,33 @@ export function render(container) {
       label.textContent = i + 1;
       label.style.cssText =
         "position:absolute;top:2px;left:4px;font-size:11px;background:rgba(0,0,0,0.6);color:#fff;border-radius:3px;padding:1px 4px;";
+      const btns = document.createElement("div");
+      btns.style.cssText = "display:flex;justify-content:center;gap:2px;padding:2px;background:var(--color-surface);";
+      const upBtn = document.createElement("button");
+      upBtn.className = "btn btn-sm";
+      upBtn.textContent = "\u25C0";
+      upBtn.title = "Move left";
+      upBtn.setAttribute("aria-label", `Move photo ${i + 1} left`);
+      upBtn.disabled = i === 0;
+      upBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        moveImage(i, i - 1);
+      });
+      const downBtn = document.createElement("button");
+      downBtn.className = "btn btn-sm";
+      downBtn.textContent = "\u25B6";
+      downBtn.title = "Move right";
+      downBtn.setAttribute("aria-label", `Move photo ${i + 1} right`);
+      downBtn.disabled = i === images.length - 1;
+      downBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        moveImage(i, i + 1);
+      });
+      btns.appendChild(upBtn);
+      btns.appendChild(downBtn);
       thumb.appendChild(canvas);
       thumb.appendChild(label);
+      thumb.appendChild(btns);
       thumb.addEventListener("dragstart", (e) => {
         e.dataTransfer.setData("text/plain", i);
         thumb.style.opacity = "0.4";
@@ -239,17 +293,7 @@ export function render(container) {
         e.preventDefault();
         thumb.style.borderColor = "var(--color-border)";
         const from = parseInt(e.dataTransfer.getData("text/plain"));
-        const to = i;
-        if (from !== to) {
-          const item = images.splice(from, 1)[0];
-          images.splice(to, 0, item);
-          if (overlaps.length > 0) {
-            const ovIdx = Math.min(from, overlaps.length - 1);
-            const ovItem = overlaps.splice(ovIdx, 1)[0] || Math.round(item.naturalWidth * 0.3);
-            overlaps.splice(Math.min(to, overlaps.length), 0, ovItem);
-          }
-          renderThumbnails();
-        }
+        if (from !== i) moveImage(from, i);
       });
       strip.appendChild(thumb);
     });
@@ -295,4 +339,6 @@ export function render(container) {
   });
 }
 
-export function destroy() {}
+export function destroy() {
+  cleanupUrls();
+}
