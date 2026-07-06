@@ -3460,16 +3460,17 @@
     "id": "image-compare",
     "name": "Image Comparison",
     "category": "image",
-    "description": "Side-by-side and overlay comparison of two images.",
+    "description": "Compare two images side-by-side with a swipe slider and overlay diff view.",
     "icon": "🔍",
     "href": "/tools/image-compare",
     "keywords": [
       "compare",
       "diff",
-      "side",
-      "image"
+      "side by side",
+      "overlay",
+      "image comparison"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 28
   },
   {
