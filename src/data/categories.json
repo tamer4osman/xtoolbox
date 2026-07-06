@@ -4,7 +4,7 @@
     "name": "Image Tools",
     "icon": "🖼️",
     "description": "Resize, convert, compress, and enhance images",
-    "toolCount": 43
+    "toolCount": 42
   },
   {
     "id": "pdf",
@@ -25,7 +25,7 @@
     "name": "Developer Tools",
     "icon": "🖥️",
     "description": "JSON validator, regex tester, cron builder, DNS speed test",
-    "toolCount": 40
+    "toolCount": 34
   },
   {
     "id": "css",
@@ -39,21 +39,21 @@
     "name": "Video Tools",
     "icon": "🎬",
     "description": "Trim, convert, compress, and edit videos",
-    "toolCount": 26
+    "toolCount": 18
   },
   {
     "id": "business",
     "name": "Business",
     "icon": "💼",
     "description": "ROI, profit margin, churn rate calculators",
-    "toolCount": 16
+    "toolCount": 15
   },
   {
     "id": "audio",
     "name": "Audio Tools",
     "icon": "🔊",
     "description": "Trim, convert, merge, and edit audio files",
-    "toolCount": 17
+    "toolCount": 15
   },
   {
     "id": "health",
@@ -67,21 +67,21 @@
     "name": "Productivity",
     "icon": "⏱️",
     "description": "Stopwatch, countdown timer, drawing pad",
-    "toolCount": 18
+    "toolCount": 14
   },
   {
     "id": "math",
     "name": "Math & Converters",
     "icon": "🔢",
     "description": "Calculators, unit converters, graph plotter",
-    "toolCount": 13
+    "toolCount": 10
   },
   {
     "id": "finance",
     "name": "Finance",
     "icon": "💰",
     "description": "Loan, mortgage, SIP, currency, and tax calculators",
-    "toolCount": 16
+    "toolCount": 12
   },
   {
     "id": "encoding",
@@ -102,21 +102,21 @@
     "name": "Privacy & Security",
     "icon": "🔒",
     "description": "Encrypt files, generate passwords, remove metadata",
-    "toolCount": 8
+    "toolCount": 6
   },
   {
     "id": "fun",
     "name": "Fun & Games",
     "icon": "🎮",
     "description": "Coin flip, dice roller, typing speed test",
-    "toolCount": 6
+    "toolCount": 5
   },
   {
     "id": "reference",
     "name": "Reference & Lookup",
     "icon": "📚",
     "description": "Dictionary, thesaurus, ISBN, and lookup tools",
-    "toolCount": 8
+    "toolCount": 7
   },
   {
     "id": "ocr",
