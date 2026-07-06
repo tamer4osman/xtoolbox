@@ -21,10 +21,12 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
   }
 
   function clampCrop(c) {
+    c.w = Math.max(16, c.w);
+    c.h = Math.max(16, c.h);
     c.x = Math.max(0, Math.min(c.x, videoWidth - c.w));
     c.y = Math.max(0, Math.min(c.y, videoHeight - c.h));
-    c.w = Math.max(16, Math.min(c.w, videoWidth - c.x));
-    c.h = Math.max(16, Math.min(c.h, videoHeight - c.y));
+    c.w = Math.min(c.w, videoWidth - c.x);
+    c.h = Math.min(c.h, videoHeight - c.y);
     return c;
   }
 
@@ -124,7 +126,7 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
     }
   });
 
-  window.addEventListener("mousemove", (e) => {
+  function handleMouseMove(e) {
     if (!dragHandle) {
       const h = getHandle(e.clientX, e.clientY);
       canvas.style.cursor = h ? (h.type === "move" ? "move" : "nwse-resize") : "default";
@@ -162,12 +164,15 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
 
     onChange(crop);
     draw();
-  });
+  }
 
-  window.addEventListener("mouseup", () => {
+  function handleMouseUp() {
     dragHandle = null;
     canvas.style.cursor = "default";
-  });
+  }
+
+  window.addEventListener("mousemove", handleMouseMove);
+  window.addEventListener("mouseup", handleMouseUp);
 
   draw();
 
@@ -194,6 +199,10 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
       clampCrop(crop);
       onChange(crop);
       draw();
+    },
+    dispose: () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     },
   };
 }
@@ -292,6 +301,7 @@ export const render = createVideoTool({
         },
       });
 
+      if (tctx.container._selector) tctx.container._selector.dispose();
       tctx.container._selector = selector;
     };
 
@@ -347,4 +357,6 @@ export const render = createVideoTool({
   },
 });
 
-export function destroy() {}
+export function destroy(container) {
+  container?._selector?.dispose?.();
+}
