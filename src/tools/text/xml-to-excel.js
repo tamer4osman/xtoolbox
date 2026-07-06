@@ -1,4 +1,4 @@
-import * as XLSX from 'xlsx';
+import writeExcelFile from 'write-excel-file/browser';
 import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
 import { downloadBlob, formatFileSize } from '../../utils/file.js';
@@ -36,8 +36,14 @@ export function parseXmlToRows(xmlText) {
 }
 
 export function rowsToSheet(rows, headers) {
-  const ws = XLSX.utils.json_to_sheet(rows, { header: headers });
-  return ws;
+  const headerRow = headers.map(h => ({ type: String, value: h }));
+  const dataRows = rows.map(row =>
+    headers.map(h => {
+      const val = row[h] ?? '';
+      return { type: String, value: String(val) };
+    })
+  );
+  return [headerRow, ...dataRows];
 }
 
 export const toolConfig = {
@@ -111,7 +117,7 @@ export function render(container) {
   const previewTable = container.querySelector('#preview-table');
   const downloadBtn = container.querySelector('#download-btn');
   let currentResult = null;
-  let wbOut = null;
+  let excelBlob = null;
 
   convertBtn.addEventListener('click', () => {
     if (!currentResult) return;
@@ -120,11 +126,12 @@ export function render(container) {
     convertBtn.style.display = 'none';
     results.style.display = 'none';
 
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
-        const ws = rowsToSheet(currentResult.rows, currentResult.headers);
-        wbOut = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wbOut, ws, 'Data');
+        const sheetData = rowsToSheet(currentResult.rows, currentResult.headers);
+        excelBlob = await writeExcelFile(sheetData, {
+          columns: currentResult.headers.map(h => ({ header: h }))
+        }).toBlob();
 
         const headers = currentResult.headers;
         const data = currentResult.rows;
@@ -159,9 +166,8 @@ export function render(container) {
   });
 
   downloadBtn.addEventListener('click', () => {
-    if (!wbOut) return;
-    const wbout = XLSX.write(wbOut, { bookType: 'xlsx', type: 'array' });
-    downloadBlob(new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), currentFile.name.replace(/\.xml$/i, '.xlsx'));
+    if (!excelBlob) return;
+    downloadBlob(excelBlob, currentFile.name.replace(/\.xml$/i, '.xlsx'));
   });
 }
 

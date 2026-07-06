@@ -1,4 +1,5 @@
-import * as XLSX from 'xlsx';
+import { readSheet } from 'read-excel-file/browser';
+import writeExcelFile from 'write-excel-file/browser';
 import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
 import { downloadBlob } from '../../utils/file.js';
@@ -21,9 +22,10 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let workbook = null;
+  let sheets = null;
   let currentFile = null;
   let editedData = {};
+  let activeSheetIdx = 0;
 
   const upload = createFileUpload({
     accept: '.xlsx,.xls,.csv',
@@ -73,11 +75,13 @@ export function render(container) {
     processing.style.display = 'flex';
     excelContainer.style.display = 'none';
     toolbar.style.display = 'none';
-    
+
     try {
       const data = await file.arrayBuffer();
-      workbook = XLSX.read(data, { type: 'array' });
-      renderSheet(workbook.SheetNames[0]);
+      sheets = await readSheet(data);
+      activeSheetIdx = 0;
+      editedData = {};
+      renderSheet(0);
       toolbar.style.display = 'flex';
       showToast({ message: 'Spreadsheet loaded!', type: 'success' });
     } catch (err) {
@@ -88,33 +92,34 @@ export function render(container) {
     }
   }
 
-  function renderSheet(sheetName) {
-    const sheet = workbook.Sheets[sheetName];
-    const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-    
-    if (json.length === 0) {
+  function renderSheet(idx) {
+    activeSheetIdx = idx;
+    const sheet = sheets[idx];
+    const data = sheet.data;
+
+    if (data.length === 0) {
       excelContainer.innerHTML = '<p style="padding:var(--space-4);color:var(--color-text-secondary);">Empty spreadsheet</p>';
       excelContainer.style.display = 'block';
       return;
     }
 
-    const maxCols = Math.max(...json.map(row => row.length));
-    const headers = json[0] || [];
-    const rows = json.slice(1);
-    
+    const maxCols = Math.max(...data.map(row => row.length));
+    const headers = data[0] || [];
+    const rows = data.slice(1);
+
     let html = '<div class="sheet-tabs">';
-    workbook.SheetNames.forEach(name => {
-      html += `<button class="sheet-tab ${name === sheetName ? 'active' : ''}" data-sheet="${name}">${name}</button>`;
+    sheets.forEach((s, i) => {
+      html += `<button class="sheet-tab ${i === idx ? 'active' : ''}" data-idx="${i}">${s.sheet}</button>`;
     });
     html += '</div>';
-    
+
     html += '<table class="excel-table" contenteditable>';
     html += '<thead><tr>';
     headers.forEach((header, i) => {
       html += `<th contenteditable="true" data-row="-1" data-col="${i}">${header ?? ''}</th>`;
     });
     html += '</tr></thead><tbody>';
-    
+
     rows.forEach((row, rowIdx) => {
       html += '<tr>';
       for (let i = 0; i < maxCols; i++) {
@@ -123,60 +128,70 @@ export function render(container) {
       html += '</tr>';
     });
     html += '</tbody></table>';
-    
+
     excelContainer.innerHTML = html;
     excelContainer.style.display = 'block';
-    
+
     excelContainer.querySelectorAll('.sheet-tab').forEach(tab => {
-      tab.addEventListener('click', () => renderSheet(tab.dataset.sheet));
+      tab.addEventListener('click', () => renderSheet(parseInt(tab.dataset.idx)));
     });
-    
+
     excelContainer.querySelectorAll('td, th').forEach(cell => {
       cell.addEventListener('blur', () => {
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
-        if (!editedData[row]) editedData[row] = {};
-        editedData[row][col] = cell.textContent;
+        const key = `${activeSheetIdx}:${row}:${col}`;
+        editedData[key] = cell.textContent;
       });
     });
   }
 
   exportCsv.addEventListener('click', () => {
-    if (!workbook) return;
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const csv = XLSX.utils.sheet_to_csv(sheet);
+    if (!sheets) return;
+    const sheet = sheets[activeSheetIdx];
+    const data = sheet.data;
+    const csv = data.map(row =>
+      row.map(cell => {
+        const str = String(cell ?? '');
+        return str.includes(',') || str.includes('"') || str.includes('\n')
+          ? `"${str.replace(/"/g, '""')}"`
+          : str;
+      }).join(',')
+    ).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const filename = currentFile.name.replace(/\.[^.]+$/, '.csv');
     downloadBlob(blob, filename);
     showToast({ message: 'Exported as CSV!', type: 'success' });
   });
 
-  exportXlsx.addEventListener('click', () => {
-    if (!workbook) return;
-    const newWb = XLSX.utils.book_new();
-    const sheetName = workbook.SheetNames[0];
-    let sheet = workbook.Sheets[sheetName];
-    
-    if (Object.keys(editedData).length > 0) {
-      const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-      Object.entries(editedData).forEach(([rowIdx, cells]) => {
-        const r = parseInt(rowIdx) + 1;
-        Object.entries(cells).forEach(([colIdx, value]) => {
-          const c = parseInt(colIdx);
-          if (json[r] === undefined) json[r] = [];
-          json[r][c] = value;
-        });
-      });
-      sheet = XLSX.utils.aoa_to_sheet(json);
+  exportXlsx.addEventListener('click', async () => {
+    if (!sheets) return;
+    const sheet = sheets[activeSheetIdx];
+    let data = sheet.data.map(row => [...row]);
+
+    Object.entries(editedData).forEach(([key, value]) => {
+      const [sheetIdx, rowIdx, colIdx] = key.split(':').map(Number);
+      if (sheetIdx === activeSheetIdx && rowIdx >= 0) {
+        const r = rowIdx + 1;
+        if (data[r] === undefined) data[r] = [];
+        data[r][colIdx] = value;
+      }
+    });
+
+    const sheetData = data.map(row =>
+      row.map(cell => ({ type: String, value: cell != null ? String(cell) : '' }))
+    );
+
+    try {
+      const blob = await writeExcelFile(sheetData, {
+        columns: (data[0] || []).map(h => ({ header: String(h ?? '') }))
+      }).toBlob();
+      const filename = currentFile.name.replace(/\.[^.]+$/, '_edited.xlsx');
+      downloadBlob(blob, filename);
+      showToast({ message: 'Exported as XLSX!', type: 'success' });
+    } catch (err) {
+      showToast({ message: 'Export error: ' + err.message, type: 'error' });
     }
-    
-    XLSX.utils.book_append_sheet(newWb, sheet, sheetName);
-    const wbout = XLSX.write(newWb, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const filename = currentFile.name.replace(/\.[^.]+$/, '_edited.xlsx');
-    downloadBlob(blob, filename);
-    showToast({ message: 'Exported as XLSX!', type: 'success' });
   });
 
   clearData.addEventListener('click', () => {

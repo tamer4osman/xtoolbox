@@ -1,17 +1,19 @@
 import { describe, it, expect } from 'vitest';
-import * as XLSX from 'xlsx';
 import { convertSheetToXml } from '../tools/text/excel-to-xml.js';
 
-function makeSheet(rows) {
-  const ws = XLSX.utils.json_to_sheet(rows);
-  return ws;
+function makeRows(objects) {
+  if (objects.length === 0) return [];
+  const headers = Object.keys(objects[0]);
+  const headerRow = headers.map(h => h);
+  const dataRows = objects.map(obj => headers.map(h => obj[h] != null ? obj[h] : ''));
+  return [headerRow, ...dataRows];
 }
 
 describe('excel-to-xml', () => {
   describe('convertSheetToXml', () => {
     it('converts a simple sheet to XML', () => {
-      const sheet = makeSheet([{ name: 'Alice', age: 30 }, { name: 'Bob', age: 25 }]);
-      const xml = convertSheetToXml(sheet);
+      const rows = makeRows([{ name: 'Alice', age: 30 }, { name: 'Bob', age: 25 }]);
+      const xml = convertSheetToXml(rows);
       expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
       expect(xml).toContain('<root>');
       expect(xml).toContain('</root>');
@@ -21,13 +23,12 @@ describe('excel-to-xml', () => {
     });
 
     it('returns <root/> for empty sheet', () => {
-      const sheet = XLSX.utils.aoa_to_sheet([]);
-      expect(convertSheetToXml(sheet)).toBe('<root/>');
+      expect(convertSheetToXml([])).toBe('<root/>');
     });
 
     it('escapes XML special characters', () => {
-      const sheet = makeSheet([{ note: 'a < b & c > d' }]);
-      const xml = convertSheetToXml(sheet);
+      const rows = makeRows([{ note: 'a < b & c > d' }]);
+      const xml = convertSheetToXml(rows);
       expect(xml).toContain('&lt;');
       expect(xml).toContain('&amp;');
       expect(xml).toContain('&gt;');
@@ -35,8 +36,8 @@ describe('excel-to-xml', () => {
     });
 
     it('sanitizes header names for XML tags', () => {
-      const sheet = makeSheet([{ 'full-name': 'Alice', 'age.yrs': 30 }]);
-      const xml = convertSheetToXml(sheet);
+      const rows = makeRows([{ 'full-name': 'Alice', 'age.yrs': 30 }]);
+      const xml = convertSheetToXml(rows);
       expect(xml).toContain('<full-name>');
       expect(xml).toContain('<age_yrs>');
     });

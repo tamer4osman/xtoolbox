@@ -1,18 +1,18 @@
-import * as XLSX from 'xlsx';
+import { readSheet } from 'read-excel-file/browser';
 import { createFileUpload } from '../../components/file-upload.js';
 import { showToast } from '../../components/toast.js';
 import { downloadBlob, formatFileSize } from '../../utils/file.js';
 
-export function convertSheetToXml(sheet) {
-  const data = XLSX.utils.sheet_to_json(sheet, { defval: '' });
-  if (data.length === 0) return '<root/>';
-  const headers = Object.keys(data[0]);
+export function convertSheetToXml(rows) {
+  if (rows.length === 0) return '<root/>';
+  const headers = rows[0].map(h => h != null ? String(h) : '');
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<root>\n';
-  for (const row of data) {
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
     xml += '  <row>\n';
-    for (const h of headers) {
-      const val = row[h] != null ? String(row[h]).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;') : '';
-      const key = h.replace(/[^a-zA-Z0-9_-]/g, '_');
+    for (let j = 0; j < headers.length; j++) {
+      const val = row[j] != null ? String(row[j]).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;') : '';
+      const key = headers[j].replace(/[^a-zA-Z0-9_-]/g, '_');
       xml += `    <${key}>${val}</${key}>\n`;
     }
     xml += '  </row>\n';
@@ -38,7 +38,7 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let workbook = null;
+  let sheets = null;
   let currentFile = null;
 
   const upload = createFileUpload({
@@ -51,14 +51,14 @@ export function render(container) {
       fileInfo.textContent = `${currentFile.name} — ${formatFileSize(currentFile.size)}`;
 
       const data = await currentFile.arrayBuffer();
-      workbook = XLSX.read(data, { type: 'array' });
+      sheets = await readSheet(data);
 
       const sheetSelect = container.querySelector('#sheet-select');
-      sheetSelect.innerHTML = workbook.SheetNames.map(n => `<option value="${n}">${n}</option>`).join('');
-      sheetSelect.style.display = workbook.SheetNames.length > 1 ? 'block' : 'none';
-      sheetLabel.style.display = workbook.SheetNames.length > 1 ? 'block' : 'none';
+      sheetSelect.innerHTML = sheets.map((s, i) => `<option value="${i}">${s.sheet}</option>`).join('');
+      sheetSelect.style.display = sheets.length > 1 ? 'block' : 'none';
+      sheetLabel.style.display = sheets.length > 1 ? 'block' : 'none';
 
-      sheetInfo.textContent = `${workbook.SheetNames.length} sheet(s) found`;
+      sheetInfo.textContent = `${sheets.length} sheet(s) found`;
       optionsArea.style.display = 'block';
     }
   });
@@ -104,9 +104,9 @@ export function render(container) {
   let xmlOutput = '';
 
   convertBtn.addEventListener('click', () => {
-    if (!workbook) return;
-    const sheetName = container.querySelector('#sheet-select')?.value || workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
+    if (!sheets) return;
+    const sheetIdx = parseInt(container.querySelector('#sheet-select')?.value || '0');
+    const rows = sheets[sheetIdx].data;
 
     processing.style.display = 'block';
     convertBtn.style.display = 'none';
@@ -114,7 +114,7 @@ export function render(container) {
 
     setTimeout(() => {
       try {
-        xmlOutput = convertSheetToXml(sheet);
+        xmlOutput = convertSheetToXml(rows);
         const lines = xmlOutput.split('\n');
         xmlPreview.textContent = lines.slice(0, 50).join('\n') + (lines.length > 50 ? '\n...' : '');
         results.style.display = 'block';

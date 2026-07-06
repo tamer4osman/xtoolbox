@@ -28,23 +28,23 @@ export function render(container) {
     buttonText: 'Convert to PDF',
     processingMessage: 'Converting Excel to PDF...',
     async onConvert({ file }) {
-      const xlsx = await import('xlsx');
+      const { readSheet } = await import('read-excel-file/browser');
       const buffer = await file.arrayBuffer();
-      const workbook = xlsx.read(buffer, { type: 'array' });
+      const sheets = await readSheet(buffer);
 
       const pdfDoc = await PDFDocument.create();
       const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
       const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-      for (const sheetName of workbook.SheetNames) {
-        const sheet = workbook.Sheets[sheetName];
-        const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
+      for (const sheet of sheets) {
+        const data = sheet.data;
         if (data.length === 0) continue;
 
         const page = pdfDoc.addPage();
         const { width, height } = page.getSize();
         const margin = 40;
-        const cellWidth = (width - margin * 2) / Math.max(...data.map(r => r.length));
+        const maxCols = Math.max(...data.map(r => r.length));
+        const cellWidth = (width - margin * 2) / maxCols;
         const rowHeight = 20;
 
         let y = height - margin;

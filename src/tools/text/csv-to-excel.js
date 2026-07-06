@@ -1,4 +1,5 @@
-import * as XLSX from 'xlsx';
+import Papa from 'papaparse';
+import writeExcelFile from 'write-excel-file/browser';
 import { downloadBlob } from '../../utils/file.js';
 import { showToast } from '../../components/toast.js';
 import { createSingleFileTool } from '../../utils/single-file-tool.js';
@@ -29,15 +30,18 @@ export function render(container) {
     processingMessage: 'Converting CSV to Excel...',
     async onConvert({ file }) {
       const text = await file.text();
-      const wb = XLSX.read(text, { type: 'string' });
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const json = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      const parsed = Papa.parse(text, { header: false, skipEmptyLines: true });
+      const rows = parsed.data;
 
-      const newWb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(newWb, XLSX.utils.aoa_to_sheet(json), 'Data');
+      const sheetData = rows.map(row =>
+        row.map(cell => ({ type: String, value: cell != null ? String(cell) : '' }))
+      );
 
-      const wbout = XLSX.write(newWb, { bookType: 'xlsx', type: 'array' });
-      downloadBlob(new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), file.name.replace(/\.csv$/i, '.xlsx'));
+      const blob = await writeExcelFile(sheetData, {
+        columns: (rows[0] || []).map((_, i) => ({ header: `Column ${i + 1}` }))
+      }).toBlob();
+
+      downloadBlob(blob, file.name.replace(/\.csv$/i, '.xlsx'));
       showToast({ message: 'CSV converted to Excel!', type: 'success' });
     }
   });
