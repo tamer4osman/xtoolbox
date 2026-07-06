@@ -1,4 +1,4 @@
-import { formatFileSize } from '../../utils/file.js';
+import { formatFileSize } from "../../utils/file.js";
 
 let ffmpegInstance = null;
 let ffmpegLoading = false;
@@ -10,24 +10,24 @@ export async function loadFFmpeg(onProgress) {
   if (ffmpegInstance) return ffmpegInstance;
   if (ffmpegLoading) {
     // Wait for existing load
-    while (ffmpegLoading) await new Promise(r => setTimeout(r, 100));
+    while (ffmpegLoading) await new Promise((r) => setTimeout(r, 100));
     return ffmpegInstance;
   }
 
   ffmpegLoading = true;
   try {
-    const { FFmpeg } = await import('@ffmpeg/ffmpeg');
-    const { toBlobURL } = await import('@ffmpeg/util');
+    const { FFmpeg } = await import("@ffmpeg/ffmpeg");
+    const { toBlobURL } = await import("@ffmpeg/util");
 
     const ffmpeg = new FFmpeg();
-    ffmpeg.on('progress', ({ progress }) => {
+    ffmpeg.on("progress", ({ progress }) => {
       if (onProgress) onProgress(Math.round(progress * 100));
     });
 
-    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+    const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
     await ffmpeg.load({
-      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
     });
 
     ffmpegInstance = ffmpeg;
@@ -42,8 +42,8 @@ export async function loadFFmpeg(onProgress) {
  */
 export async function getVideoInfo(file) {
   return new Promise((resolve) => {
-    const video = document.createElement('video');
-    video.preload = 'metadata';
+    const video = document.createElement("video");
+    video.preload = "metadata";
     video.onloadedmetadata = () => {
       resolve({
         duration: video.duration,
@@ -52,12 +52,20 @@ export async function getVideoInfo(file) {
         size: file.size,
         sizeFormatted: formatFileSize(file.size),
         type: file.type,
-        name: file.name
+        name: file.name,
       });
       URL.revokeObjectURL(video.src);
     };
     video.onerror = () => {
-      resolve({ duration: 0, width: 0, height: 0, size: file.size, sizeFormatted: formatFileSize(file.size), type: file.type, name: file.name });
+      resolve({
+        duration: 0,
+        width: 0,
+        height: 0,
+        size: file.size,
+        sizeFormatted: formatFileSize(file.size),
+        type: file.type,
+        name: file.name,
+      });
     };
     video.src = URL.createObjectURL(file);
   });
@@ -70,15 +78,15 @@ export function formatTime(seconds) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = Math.floor(seconds % 60);
-  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-  return `${m}:${String(s).padStart(2, '0')}`;
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  return `${m}:${String(s).padStart(2, "0")}`;
 }
 
 /**
  * Write file to FFmpeg virtual filesystem
  */
 export async function writeUploadedFile(ffmpeg, file, filename) {
-  const { fetchFile } = await import('@ffmpeg/util');
+  const { fetchFile } = await import("@ffmpeg/util");
   const data = await fetchFile(file);
   await ffmpeg.writeFile(filename, data);
 }
@@ -92,15 +100,26 @@ export async function readFFmpegFile(ffmpeg, filename, mimeType) {
 }
 
 /**
+ * Read FFmpeg output, download it, and clean up
+ */
+export async function downloadVideoOutput(ffmpeg, outputName, downloadName, ext) {
+  const mimeType = ext === "webm" ? "video/webm" : "video/mp4";
+  const blob = await readFFmpegFile(ffmpeg, outputName, mimeType);
+  const { downloadBlob } = await import("../../utils/file.js");
+  downloadBlob(blob, downloadName);
+  await ffmpeg.deleteFile(outputName);
+}
+
+/**
  * Create a video preview element
  */
 export function createVideoPreview(file) {
-  const container = document.createElement('div');
-  container.style.cssText = 'text-align:center;margin:var(--space-4) 0;';
+  const container = document.createElement("div");
+  container.style.cssText = "text-align:center;margin:var(--space-4) 0;";
 
-  const video = document.createElement('video');
+  const video = document.createElement("video");
   video.controls = true;
-  video.style.cssText = 'max-width:100%;max-height:400px;border-radius:var(--radius-md);';
+  video.style.cssText = "max-width:100%;max-height:400px;border-radius:var(--radius-md);";
   video.src = URL.createObjectURL(file);
 
   container.appendChild(video);

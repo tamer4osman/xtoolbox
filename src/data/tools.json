@@ -3494,7 +3494,7 @@
     "id": "video-crop",
     "name": "Video Cropper",
     "category": "video",
-    "description": "Crop video frames to remove unwanted areas.",
+    "description": "Crop video frames to remove unwanted areas by selecting a visual region.",
     "icon": "✂️",
     "href": "/tools/video-crop",
     "keywords": [
@@ -3503,7 +3503,7 @@
       "trim",
       "frame"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 28
   },
   {
