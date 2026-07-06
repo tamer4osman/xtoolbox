@@ -118,19 +118,23 @@ export function stitchPanorama(images, overlaps, blendMode = "gradient") {
     for (let i = 1; i < n; i++) {
       const overlap = overlaps[i - 1] || 0;
       if (overlap <= 0) continue;
-      const seamX = positions[i].x + overlap;
       const blendWidth = Math.min(overlap, 50);
-      const leftX = seamX - blendWidth;
-      const rightX = seamX + blendWidth;
-      const grad = ctx.createLinearGradient(leftX, 0, rightX, 0);
-      grad.addColorStop(0, "rgba(0,0,0,1)");
-      grad.addColorStop(0.5, "rgba(0,0,0,0)");
+      const imgW = images[i].naturalWidth;
+      const imgX = positions[i].x;
+      const maskCanvas = document.createElement("canvas");
+      maskCanvas.width = imgW;
+      maskCanvas.height = maxH;
+      const maskCtx = maskCanvas.getContext("2d");
+      const grad = maskCtx.createLinearGradient(0, 0, blendWidth * 2, 0);
+      grad.addColorStop(0, "rgba(0,0,0,0)");
       grad.addColorStop(1, "rgba(0,0,0,1)");
-      ctx.globalCompositeOperation = "destination-out";
-      ctx.fillStyle = grad;
-      ctx.fillRect(leftX, 0, blendWidth * 2, maxH);
-      ctx.globalCompositeOperation = "source-over";
-      ctx.drawImage(images[i], positions[i].x, 0);
+      maskCtx.fillStyle = "rgba(0,0,0,1)";
+      maskCtx.fillRect(blendWidth * 2, 0, imgW - blendWidth * 2, maxH);
+      maskCtx.fillStyle = grad;
+      maskCtx.fillRect(0, 0, blendWidth * 2, maxH);
+      maskCtx.globalCompositeOperation = "source-in";
+      maskCtx.drawImage(images[i], 0, 0);
+      ctx.drawImage(maskCanvas, imgX, 0);
     }
   }
   return canvas;
@@ -217,11 +221,9 @@ export function render(container) {
   function moveImage(from, to) {
     if (from < 0 || from >= images.length || to < 0 || to >= images.length) return;
     swapItems(images, from, to);
-    if (overlaps.length > 0) {
-      const ovFrom = Math.min(from, overlaps.length - 1);
-      const ovTo = Math.min(to, overlaps.length);
-      const ovItem = overlaps.splice(ovFrom, 1)[0] || 0;
-      overlaps.splice(ovTo, 0, ovItem);
+    overlaps = [];
+    for (let i = 1; i < images.length; i++) {
+      overlaps.push(detectOverlap(images[i - 1], images[i]));
     }
     renderThumbnails();
   }
