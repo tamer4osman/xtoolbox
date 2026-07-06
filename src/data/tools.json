@@ -4000,7 +4000,7 @@
     "id": "panorama-stitcher",
     "name": "Panorama Stitcher",
     "category": "image",
-    "description": "Stitch multiple photos into a panoramic image.",
+    "description": "Stitch multiple photos into a panoramic image with automatic overlap detection.",
     "icon": "🏔️",
     "href": "/tools/panorama-stitcher",
     "keywords": [
@@ -4010,7 +4010,7 @@
       "merge",
       "wide"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 28
   },
   {

@@ -3974,10 +3974,10 @@
     "id": "panorama-stitcher",
     "name": "Panorama Stitcher",
     "category": "image",
-    "description": "Stitch multiple photos into a panoramic image.",
+    "description": "Stitch multiple photos into a panoramic image with automatic overlap detection.",
     "icon": "🏔️",
     "href": "/tools/panorama-stitcher",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "panorama",
       "stitch",

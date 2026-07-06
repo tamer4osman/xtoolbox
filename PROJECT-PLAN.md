@@ -118,7 +118,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 See `src/data/tools.json` for the full list. Key planned tools:
 
 **Phase 28 — Legacy Catch-Up (24 original + 12 new from instructions review):**
-- Image basics: image-blur, image-compare, image-meme, panorama-stitcher
+- Image basics: image-blur, image-compare, image-meme
 - Video basics: video-crop, video-rotate, video-volume, video-reverse, video-metadata-editor, chroma-key-composer, video-scene-cut-detector, video-stabilizer
 - Audio: audio-pitch, audio-to-midi-converter
 - Dev playgrounds: js-playground, html-playground, json-schema-validator, env-parser, timezone-converter, regex-visualizer
@@ -1409,25 +1409,6 @@ All use ffmpeg.wasm for processing.
   - CRITICAL: Verify ffmpeg.wasm core includes libvidstab before shipping
   - If vidstab not available, mark tool as "blocked" in tools.json
 
-#### panorama-stitcher
-
-- **File:** `src/tools/image/panorama-stitcher.js`
-- **Category:** image
-- **Purpose:** Multi-photo panorama stitching using OpenCV.js
-- **Library:** OpenCV.js (CDN script tag, ~10MB)
-- **UI:**
-  1. Multi-file drop zone (2-10 images)
-  2. Thumbnail preview strip with drag-to-reorder
-  3. Stitch Panorama button with loading/stitching states
-  4. Result panorama with download button
-  5. Error message for failed stitching
-- **Implementation notes:**
-  - OpenCV.js loaded via CDN script tag
-  - cv.Stitcher for automatic panorama stitching
-  - CRITICAL: All cv.Mat/MatVector/Stitcher objects must have .delete() called
-  - Memory management: explicit cleanup in error paths
-  - Status check: status !== cv.Stitcher_OK
-
 #### resume-job-matcher
 
 - **File:** `src/tools/business/resume-job-matcher.js`
@@ -1483,7 +1464,6 @@ Additional dependencies (already installed or needed per tool):
 - `onnxruntime-web` — ONNX model execution (audio-to-midi-converter)
 - `ffmpeg.wasm` — Video/audio processing (video-scene-cut-detector, video-stabilizer)
 - `jspdf` + `jspdf-autotable` — PDF export (timesheet-tracker, loan-amortization-calculator)
-- `opencv.js` — Image stitching via CDN (panorama-stitcher)
 - `@spotify/basic-pitch` — Audio transcription ONNX model (audio-to-midi-converter)
 - `lamejs` — MP3 encoding
 - `mammoth` — DOCX to HTML
