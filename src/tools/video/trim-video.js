@@ -22,9 +22,9 @@ export const toolConfig = {
   faqs: [
     {
       question: "Does trimming re-encode the video?",
-      answer: "We use stream copy (-c copy) for fast, lossless trimming when possible.",
-    },
-  ],
+      answer: "We use stream copy (-c copy) for fast, lossless trimming when possible."
+    }
+  ]
 };
 
 export const render = createVideoTool({
@@ -60,7 +60,7 @@ export const render = createVideoTool({
     await ffmpeg.exec(args);
 
     await downloadVideoOutput(ffmpeg, outputName, `trimmed.${ext}`, ext);
-  },
+  }
 });
 
 export function destroy() {}

@@ -1,19 +1,29 @@
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { audioBufferToWav, reverseAudioBuffer, drawWaveform, formatAudioTime } from './audio-utils.js';
-import { createAudioTool } from './audio-tool-factory.js';
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
+import {
+  audioBufferToWav,
+  reverseAudioBuffer,
+  drawWaveform,
+  formatAudioTime
+} from "./audio-utils.js";
+import { createAudioTool } from "./audio-tool-factory.js";
 
 export const toolConfig = {
-  id: 'reverse-audio',
-  name: 'Audio Reverser',
-  category: 'audio',
-  description: 'Play an audio file backwards.',
-  icon: '⏪',
-  accept: 'audio/*',
+  id: "reverse-audio",
+  name: "Audio Reverser",
+  category: "audio",
+  description: "Play an audio file backwards.",
+  icon: "⏪",
+  accept: "audio/*",
   maxSizeMB: 100,
-  keywords: ['reverse audio', 'play backwards', 'audio reverser'],
-  steps: ['Upload an audio file', 'Click "Reverse"', 'Preview or download'],
-  faqs: [{ question: 'Why would I reverse audio?', answer: 'For creative effects, hidden messages, or music production.' }]
+  keywords: ["reverse audio", "play backwards", "audio reverser"],
+  steps: ["Upload an audio file", 'Click "Reverse"', "Preview or download"],
+  faqs: [
+    {
+      question: "Why would I reverse audio?",
+      answer: "For creative effects, hidden messages, or music production."
+    }
+  ]
 };
 
 export function render(container) {
@@ -36,15 +46,15 @@ export function render(container) {
     <button class="btn btn-primary btn-lg" id="reverse-btn" style="width:100%;">⏪ Reverse & Download</button>
   `;
 
-  const durationInfo = optionsArea.querySelector('#duration-info');
-  const waveformCanvas = optionsArea.querySelector('#waveform');
-  const reverseBtn = optionsArea.querySelector('#reverse-btn');
+  const durationInfo = optionsArea.querySelector("#duration-info");
+  const waveformCanvas = optionsArea.querySelector("#waveform");
+  const reverseBtn = optionsArea.querySelector("#reverse-btn");
 
-  reverseBtn.addEventListener('click', () => {
+  reverseBtn.addEventListener("click", () => {
     const buf = getAudioBuffer();
     if (!buf) return;
-    downloadBlob(audioBufferToWav(reverseAudioBuffer(buf)), 'reversed.wav');
-    showToast({ message: 'Audio reversed!', type: 'success' });
+    downloadBlob(audioBufferToWav(reverseAudioBuffer(buf)), "reversed.wav");
+    showToast({ message: "Audio reversed!", type: "success" });
   });
 }
 

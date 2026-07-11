@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'tip-calculator',
-  name: 'Tip Calculator',
-  category: 'finance',
-  description: 'Calculate tip amount and split the bill between people.',
-  icon: '💳',
-  status: 'done'
+  id: "tip-calculator",
+  name: "Tip Calculator",
+  category: "finance",
+  description: "Calculate tip amount and split the bill between people.",
+  icon: "💳",
+  status: "done"
 };
 
 export function render(container) {
@@ -57,7 +57,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -78,26 +78,26 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  container.querySelectorAll('.tip-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      container.querySelector('#tip-percent').value = btn.dataset.tip;
+  container.querySelectorAll(".tip-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".tip-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      container.querySelector("#tip-percent").value = btn.dataset.tip;
     });
   });
 
-  container.querySelector('#calc-btn').addEventListener('click', () => {
-    const bill = parseFloat(container.querySelector('#bill').value) || 0;
-    const tipPercent = parseFloat(container.querySelector('#tip-percent').value) || 0;
-    const people = parseInt(container.querySelector('#people').value) || 1;
-    
-    const tip = bill * tipPercent / 100;
+  container.querySelector("#calc-btn").addEventListener("click", () => {
+    const bill = parseFloat(container.querySelector("#bill").value) || 0;
+    const tipPercent = parseFloat(container.querySelector("#tip-percent").value) || 0;
+    const people = parseInt(container.querySelector("#people").value) || 1;
+
+    const tip = (bill * tipPercent) / 100;
     const total = bill + tip;
     const perPerson = total / people;
-    
-    document.getElementById('tip-amount').textContent = '$' + tip.toFixed(2);
-    document.getElementById('total-bill').textContent = '$' + total.toFixed(2);
-    document.getElementById('per-person').textContent = '$' + perPerson.toFixed(2);
-    container.querySelector('#result').classList.remove('hidden');
+
+    document.getElementById("tip-amount").textContent = "$" + tip.toFixed(2);
+    document.getElementById("total-bill").textContent = "$" + total.toFixed(2);
+    document.getElementById("per-person").textContent = "$" + perPerson.toFixed(2);
+    container.querySelector("#result").classList.remove("hidden");
   });
 }

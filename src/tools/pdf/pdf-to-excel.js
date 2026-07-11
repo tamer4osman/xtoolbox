@@ -1,43 +1,53 @@
-import * as pdfjsLib from 'pdfjs-dist';
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
-import { createPdfConverter } from './pdf-converter-factory.js';
-import { parseCSV } from '../../utils/csv.js';
+import * as pdfjsLib from "pdfjs-dist";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+import { createPdfConverter } from "./pdf-converter-factory.js";
+import { parseCSV } from "../../utils/csv.js";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 export const toolConfig = {
-  id: 'pdf-to-excel',
-  name: 'PDF to Excel',
-  category: 'pdf',
-  description: 'Extract tables from PDF and convert to editable Excel spreadsheets.',
-  icon: '📊',
-  accept: '.pdf',
+  id: "pdf-to-excel",
+  name: "PDF to Excel",
+  category: "pdf",
+  description: "Extract tables from PDF and convert to editable Excel spreadsheets.",
+  icon: "📊",
+  accept: ".pdf",
   maxSizeMB: 50,
-  keywords: ['pdf to excel', 'pdf to xlsx', 'convert pdf to excel', 'extract tables from pdf'],
-  steps: ['Upload a PDF file', 'Click "Convert to Excel"', 'Download the .xlsx file'],
+  keywords: ["pdf to excel", "pdf to xlsx", "convert pdf to excel", "extract tables from pdf"],
+  steps: ["Upload a PDF file", 'Click "Convert to Excel"', "Download the .xlsx file"],
   faqs: [
-    { question: 'What formats supported?', answer: 'We support PDF files up to 50MB.' },
-    { question: 'Are tables extracted?', answer: 'Yes, tables are extracted as Excel rows and columns.' },
-    { question: 'Are scanned PDFs supported?', answer: 'Only PDFs with selectable text. Scanned images need OCR first.' }
+    { question: "What formats supported?", answer: "We support PDF files up to 50MB." },
+    {
+      question: "Are tables extracted?",
+      answer: "Yes, tables are extracted as Excel rows and columns."
+    },
+    {
+      question: "Are scanned PDFs supported?",
+      answer: "Only PDFs with selectable text. Scanned images need OCR first."
+    }
   ]
 };
 
 function generateXLSX(content) {
-  const BOM = '\uFEFF';
+  const BOM = "\uFEFF";
   const rows = parseCSV(content);
 
   if (rows.length === 0) {
-    return BOM + 'No tables found in PDF';
+    return BOM + "No tables found in PDF";
   }
 
-  const xlsxContent = rows.map(row =>
-    row.map(cell => {
-      if (cell.includes(',') || cell.includes('"') || cell.includes('\n')) {
-        return `"${cell.replace(/"/g, '""')}"`;
-      }
-      return cell;
-    }).join(',')
-  ).join('\n');
+  const xlsxContent = rows
+    .map(row =>
+      row
+        .map(cell => {
+          if (cell.includes(",") || cell.includes('"') || cell.includes("\n")) {
+            return `"${cell.replace(/"/g, '""')}"`;
+          }
+          return cell;
+        })
+        .join(",")
+    )
+    .join("\n");
 
   return BOM + xlsxContent;
 }
@@ -45,14 +55,14 @@ function generateXLSX(content) {
 export function render(container) {
   createPdfConverter({
     container,
-    toolId: 'pdf-to-excel',
-    accept: '.pdf',
+    toolId: "pdf-to-excel",
+    accept: ".pdf",
     maxSizeMB: 50,
-    convertButtonText: 'Convert to Excel',
-    progressMessage: 'Extracting tables from PDF...',
-    successMessage: 'PDF converted to Excel!',
-    outputExt: 'xlsx',
-    outputMime: 'text/csv;charset=utf-8',
+    convertButtonText: "Convert to Excel",
+    progressMessage: "Extracting tables from PDF...",
+    successMessage: "PDF converted to Excel!",
+    outputExt: "xlsx",
+    outputMime: "text/csv;charset=utf-8",
     convert: async (file, onProgress) => {
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -67,16 +77,16 @@ export function render(container) {
         const pageText = textContent.items
           .map(item => item.str)
           .filter(text => text.trim().length > 0)
-          .join('\n');
+          .join("\n");
 
         const tableMatch = pageText.match(/[\d,\.]+[\s\n]+[\d,\.]+[\s\n]+[\d,\.]+/g);
         if (tableMatch) {
           allTables.push(`\n--- Page ${i} ---\n`);
-          allTables.push(tableMatch.join('\n'));
+          allTables.push(tableMatch.join("\n"));
         }
       }
 
-      return new Blob([generateXLSX(allTables.join('\n'))], { type: 'text/csv;charset=utf-8' });
+      return new Blob([generateXLSX(allTables.join("\n"))], { type: "text/csv;charset=utf-8" });
     }
   });
 }

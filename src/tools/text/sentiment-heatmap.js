@@ -14,13 +14,13 @@ export const toolConfig = {
     {
       question: "What do the colors mean?",
       answer:
-        "Green indicates positive sentiment, red indicates negative, and yellow/white is neutral.",
+        "Green indicates positive sentiment, red indicates negative, and yellow/white is neutral."
     },
     {
       question: "What types of text work best?",
-      answer: "Reviews, feedback, opinions, and any text with emotional content.",
-    },
-  ],
+      answer: "Reviews, feedback, opinions, and any text with emotional content."
+    }
+  ]
 };
 
 export function getSentimentColor(score) {
@@ -40,7 +40,7 @@ export function getSentimentLabel(score) {
 }
 
 export function splitSentences(text) {
-  return text.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
+  return text.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0);
 }
 
 function escapeHtml(str) {
@@ -82,12 +82,12 @@ export function render(container) {
 
       const classifier = await pipeline(
         "sentiment-analysis",
-        "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+        "Xenova/distilbert-base-uncased-finetuned-sst-2-english"
       );
       const sentences = splitSentences(text);
       const results = await classifier(sentences);
 
-      const scores = results.map((r) => (r.label === "POSITIVE" ? r.score : -r.score));
+      const scores = results.map(r => (r.label === "POSITIVE" ? r.score : -r.score));
       const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
 
       heatmapArea.innerHTML = `

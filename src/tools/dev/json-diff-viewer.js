@@ -1,14 +1,14 @@
-import { escapeHtml } from '../../utils/escape-html.js';
-import { downloadBlob } from '../../utils/file.js';
+import { escapeHtml } from "../../utils/escape-html.js";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'json-diff-viewer',
-  name: 'JSON Diff Viewer',
-  category: 'dev',
-  description: 'Compare two JSON objects side-by-side and see added, removed, and changed values.',
-  icon: '🔀',
-  keywords: ['json diff', 'json compare', 'json diff viewer', 'json merge', 'json patch'],
-  accept: '.json',
+  id: "json-diff-viewer",
+  name: "JSON Diff Viewer",
+  category: "dev",
+  description: "Compare two JSON objects side-by-side and see added, removed, and changed values.",
+  icon: "🔀",
+  keywords: ["json diff", "json compare", "json diff viewer", "json merge", "json patch"],
+  accept: ".json",
   maxSizeMB: 5
 };
 
@@ -18,17 +18,17 @@ export function deepDiff(a, b, path = []) {
   if (a === b) return changes;
 
   if (a === null || a === undefined || b === null || b === undefined || typeof a !== typeof b) {
-    changes.push({ type: 'changed', path, oldValue: a, newValue: b });
+    changes.push({ type: "changed", path, oldValue: a, newValue: b });
     return changes;
   }
 
-  if (typeof a !== 'object') {
-    if (a !== b) changes.push({ type: 'changed', path, oldValue: a, newValue: b });
+  if (typeof a !== "object") {
+    if (a !== b) changes.push({ type: "changed", path, oldValue: a, newValue: b });
     return changes;
   }
 
   if (Array.isArray(a) !== Array.isArray(b)) {
-    changes.push({ type: 'changed', path, oldValue: a, newValue: b });
+    changes.push({ type: "changed", path, oldValue: a, newValue: b });
     return changes;
   }
 
@@ -39,9 +39,9 @@ export function deepDiff(a, b, path = []) {
   for (const key of allKeys) {
     const childPath = [...path, key];
     if (!(key in a)) {
-      changes.push({ type: 'added', path: childPath, newValue: b[key] });
+      changes.push({ type: "added", path: childPath, newValue: b[key] });
     } else if (!(key in b)) {
-      changes.push({ type: 'removed', path: childPath, oldValue: a[key] });
+      changes.push({ type: "removed", path: childPath, oldValue: a[key] });
     } else {
       changes.push(...deepDiff(a[key], b[key], childPath));
     }
@@ -51,36 +51,38 @@ export function deepDiff(a, b, path = []) {
 }
 
 export function pathToString(path) {
-  return path.map((p, i) => {
-    if (/^\d+$/.test(p)) return `[${p}]`;
-    if (i === 0) return p;
-    return /^\d+$/.test(p) ? `[${p}]` : `.${p}`;
-  }).join('');
+  return path
+    .map((p, i) => {
+      if (/^\d+$/.test(p)) return `[${p}]`;
+      if (i === 0) return p;
+      return /^\d+$/.test(p) ? `[${p}]` : `.${p}`;
+    })
+    .join("");
 }
 
 function formatValue(v, indent) {
-  if (v === null) return 'null';
-  if (v === undefined) return 'undefined';
-  if (typeof v === 'string') return `"${v}"`;
-  if (typeof v === 'object') return JSON.stringify(v, null, indent);
+  if (v === null) return "null";
+  if (v === undefined) return "undefined";
+  if (typeof v === "string") return `"${v}"`;
+  if (typeof v === "object") return JSON.stringify(v, null, indent);
   return String(v);
 }
 
 export function buildPatch(changes) {
   return changes.map(c => {
-    const path = '/' + c.path.join('/');
-    if (c.type === 'added') return { op: 'add', path, value: c.newValue };
-    if (c.type === 'removed') return { op: 'remove', path };
-    return { op: 'replace', path, value: c.newValue };
+    const path = "/" + c.path.join("/");
+    if (c.type === "added") return { op: "add", path, value: c.newValue };
+    if (c.type === "removed") return { op: "remove", path };
+    return { op: "replace", path, value: c.newValue };
   });
 }
 
 function renderJsonSide(obj, diffs, side) {
   if (obj === null || obj === undefined) return '<span class="jdv-empty">null</span>';
-  const lines = JSON.stringify(obj, null, 2).split('\n');
+  const lines = JSON.stringify(obj, null, 2).split("\n");
   const pathMap = new Map();
   for (const d of diffs) {
-    if (d.type === (side === 'a' ? 'removed' : 'added') || d.type === 'changed') {
+    if (d.type === (side === "a" ? "removed" : "added") || d.type === "changed") {
       pathMap.set(pathToString(d.path), d.type);
     }
   }
@@ -92,32 +94,32 @@ function renderJsonSide(obj, diffs, side) {
     const depthChange = line.length - line.trimStart().length;
     depth = depthChange / 2;
 
-    let className = '';
+    let className = "";
     for (const [p, type] of pathMap) {
       const segments = p.split(/[.[\]]+/).filter(Boolean);
       const key = segments[segments.length - 1];
       if (trimmed.startsWith(`"${key}"`)) {
-        if (type === 'added' && side === 'b') className = 'jdv-added';
-        else if (type === 'removed' && side === 'a') className = 'jdv-removed';
-        else if (type === 'changed') className = 'jdv-changed';
+        if (type === "added" && side === "b") className = "jdv-added";
+        else if (type === "removed" && side === "a") className = "jdv-removed";
+        else if (type === "changed") className = "jdv-changed";
         break;
       }
     }
 
     result.push(`<span class="${className}">${escapeHtml(line)}</span>`);
   }
-  return result.join('\n');
+  return result.join("\n");
 }
 
 function renderSummary(changes) {
-  const added = changes.filter(c => c.type === 'added').length;
-  const removed = changes.filter(c => c.type === 'removed').length;
-  const changed = changes.filter(c => c.type === 'changed').length;
+  const added = changes.filter(c => c.type === "added").length;
+  const removed = changes.filter(c => c.type === "removed").length;
+  const changed = changes.filter(c => c.type === "changed").length;
   const parts = [];
   if (changed) parts.push(`${changed} changed`);
   if (added) parts.push(`${added} added`);
   if (removed) parts.push(`${removed} removed`);
-  return parts.length ? parts.join(' · ') : 'No differences found';
+  return parts.length ? parts.join(" · ") : "No differences found";
 }
 
 export function render(container) {
@@ -155,7 +157,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .jdv-container { max-width: 1200px; margin: 0 auto; }
     .jdv-container h2 { text-align: center; margin-bottom: var(--space-6); }
@@ -191,92 +193,94 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const leftInput = container.querySelector('#jdv-left');
-  const rightInput = container.querySelector('#jdv-right');
-  const outputA = container.querySelector('#jdv-output-a');
-  const outputB = container.querySelector('#jdv-output-b');
-  const summary = container.querySelector('#jdv-summary');
-  const exportDiv = container.querySelector('#jdv-export');
+  const leftInput = container.querySelector("#jdv-left");
+  const rightInput = container.querySelector("#jdv-right");
+  const outputA = container.querySelector("#jdv-output-a");
+  const outputB = container.querySelector("#jdv-output-b");
+  const summary = container.querySelector("#jdv-summary");
+  const exportDiv = container.querySelector("#jdv-export");
   let currentPatch = [];
 
   function readFileAsJson(file, textarea) {
     const reader = new FileReader();
-    reader.onload = (e) => { textarea.value = e.target.result; };
+    reader.onload = e => {
+      textarea.value = e.target.result;
+    };
     reader.readAsText(file);
   }
 
-  container.querySelector('#jdv-upload-a').addEventListener('click', () => {
-    container.querySelector('#jdv-file-a').click();
+  container.querySelector("#jdv-upload-a").addEventListener("click", () => {
+    container.querySelector("#jdv-file-a").click();
   });
-  container.querySelector('#jdv-file-b').addEventListener('click', () => {
-    container.querySelector('#jdv-file-b').click();
+  container.querySelector("#jdv-file-b").addEventListener("click", () => {
+    container.querySelector("#jdv-file-b").click();
   });
-  container.querySelector('#jdv-file-a').addEventListener('change', (e) => {
+  container.querySelector("#jdv-file-a").addEventListener("change", e => {
     if (e.target.files[0]) readFileAsJson(e.target.files[0], leftInput);
   });
-  container.querySelector('#jdv-file-b').addEventListener('change', (e) => {
+  container.querySelector("#jdv-file-b").addEventListener("change", e => {
     if (e.target.files[0]) readFileAsJson(e.target.files[0], rightInput);
   });
 
-  container.querySelector('#jdv-compare').addEventListener('click', () => {
+  container.querySelector("#jdv-compare").addEventListener("click", () => {
     let objA, objB;
     try {
       objA = JSON.parse(leftInput.value);
     } catch {
-      summary.className = 'jdv-summary has-changes';
-      summary.textContent = 'JSON A is invalid';
+      summary.className = "jdv-summary has-changes";
+      summary.textContent = "JSON A is invalid";
       outputA.innerHTML = '<span class="jdv-removed">Invalid JSON</span>';
-      outputB.innerHTML = '';
-      exportDiv.style.display = 'none';
+      outputB.innerHTML = "";
+      exportDiv.style.display = "none";
       return;
     }
     try {
       objB = JSON.parse(rightInput.value);
     } catch {
-      summary.className = 'jdv-summary has-changes';
-      summary.textContent = 'JSON B is invalid';
-      outputA.innerHTML = '';
+      summary.className = "jdv-summary has-changes";
+      summary.textContent = "JSON B is invalid";
+      outputA.innerHTML = "";
       outputB.innerHTML = '<span class="jdv-removed">Invalid JSON</span>';
-      exportDiv.style.display = 'none';
+      exportDiv.style.display = "none";
       return;
     }
 
     const changes = deepDiff(objA, objB);
     currentPatch = buildPatch(changes);
 
-    summary.className = changes.length ? 'jdv-summary has-changes' : 'jdv-summary no-changes';
+    summary.className = changes.length ? "jdv-summary has-changes" : "jdv-summary no-changes";
     summary.textContent = renderSummary(changes);
 
-    outputA.innerHTML = renderJsonSide(objA, changes, 'a');
-    outputB.innerHTML = renderJsonSide(objB, changes, 'b');
+    outputA.innerHTML = renderJsonSide(objA, changes, "a");
+    outputB.innerHTML = renderJsonSide(objB, changes, "b");
 
-    exportDiv.style.display = changes.length ? 'flex' : 'none';
+    exportDiv.style.display = changes.length ? "flex" : "none";
   });
 
-  container.querySelector('#jdv-swap').addEventListener('click', () => {
+  container.querySelector("#jdv-swap").addEventListener("click", () => {
     const tmp = leftInput.value;
     leftInput.value = rightInput.value;
     rightInput.value = tmp;
   });
 
-  container.querySelector('#jdv-clear').addEventListener('click', () => {
-    leftInput.value = '';
-    rightInput.value = '';
-    outputA.innerHTML = '';
-    outputB.innerHTML = '';
-    summary.className = 'jdv-summary';
-    summary.textContent = '';
-    exportDiv.style.display = 'none';
+  container.querySelector("#jdv-clear").addEventListener("click", () => {
+    leftInput.value = "";
+    rightInput.value = "";
+    outputA.innerHTML = "";
+    outputB.innerHTML = "";
+    summary.className = "jdv-summary";
+    summary.textContent = "";
+    exportDiv.style.display = "none";
     currentPatch = [];
   });
 
-  container.querySelector('#jdv-copy-patch').addEventListener('click', () => {
+  container.querySelector("#jdv-copy-patch").addEventListener("click", () => {
     const patchStr = JSON.stringify(currentPatch, null, 2);
     navigator.clipboard.writeText(patchStr).catch(() => {});
   });
 
-  container.querySelector('#jdv-download-patch').addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify(currentPatch, null, 2)], { type: 'application/json' });
-    downloadBlob(blob, 'json-patch.json');
+  container.querySelector("#jdv-download-patch").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(currentPatch, null, 2)], { type: "application/json" });
+    downloadBlob(blob, "json-patch.json");
   });
 }

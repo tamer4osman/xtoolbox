@@ -1,12 +1,19 @@
-import { initHealthForm, calcDueDate, daysBetween, weeksBetween, formatDateLong, formatDateShort } from './health-calculator-factory.js';
+import {
+  initHealthForm,
+  calcDueDate,
+  daysBetween,
+  weeksBetween,
+  formatDateLong,
+  formatDateShort
+} from "./health-calculator-factory.js";
 
 export const toolConfig = {
-  id: 'due-date-calculator',
-  name: 'Pregnancy Due Date Calculator',
-  category: 'health',
-  description: 'Estimate due date from last period with weekly milestones.',
-  icon: '👶',
-  status: 'done'
+  id: "due-date-calculator",
+  name: "Pregnancy Due Date Calculator",
+  category: "health",
+  description: "Estimate due date from last period with weekly milestones.",
+  icon: "👶",
+  status: "done"
 };
 
 const RESULT_STYLES = `
@@ -26,7 +33,7 @@ const RESULT_STYLES = `
 
 export function render(container) {
   initHealthForm(container, {
-    buttonText: 'Calculate Due Date',
+    buttonText: "Calculate Due Date",
     calculate(lastPeriod, cycle) {
       const dueDate = calcDueDate(lastPeriod, cycle);
       const now = new Date();
@@ -74,7 +81,7 @@ export function render(container) {
     }
   });
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = RESULT_STYLES;
   container.appendChild(style);
 }

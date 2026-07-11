@@ -1,10 +1,10 @@
 const CARD_COLORS = {
-  emerald: ['#10b981', '#059669'],
-  red: ['#ef4444', '#dc2626'],
-  purple: ['#8b5cf6', '#7c3aed'],
-  blue: ['#3b82f6', '#2563eb'],
-  orange: ['#f59e0b', '#d97706'],
-  cyan: ['#06b6d4', '#0891b2']
+  emerald: ["#10b981", "#059669"],
+  red: ["#ef4444", "#dc2626"],
+  purple: ["#8b5cf6", "#7c3aed"],
+  blue: ["#3b82f6", "#2563eb"],
+  orange: ["#f59e0b", "#d97706"],
+  cyan: ["#06b6d4", "#0891b2"]
 };
 
 export function createFinanceCalculator({
@@ -13,12 +13,12 @@ export function createFinanceCalculator({
   icon,
   title,
   description,
-  formHTML = '',
+  formHTML = "",
   calculate,
-  cardColor = 'emerald',
-  resultValueSize = '2.5rem'
+  cardColor = "emerald",
+  resultValueSize = "2.5rem"
 }) {
-  if (!calculate) throw new Error('createFinanceCalculator: calculate function is required');
+  if (!calculate) throw new Error("createFinanceCalculator: calculate function is required");
 
   const [c1, c2] = CARD_COLORS[cardColor] || CARD_COLORS.emerald;
 
@@ -46,7 +46,7 @@ export function createFinanceCalculator({
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -77,7 +77,7 @@ export function createFinanceCalculator({
 
   function collectValues() {
     const vals = {};
-    form.querySelectorAll('input, select').forEach(el => {
+    form.querySelectorAll("input, select").forEach(el => {
       if (el.id) vals[el.id] = el.value;
     });
     return vals;
@@ -85,21 +85,25 @@ export function createFinanceCalculator({
 
   function run() {
     const out = calculate(collectValues());
-    primaryLabel.textContent = out.primary?.label || '';
-    primaryValue.textContent = out.primary?.value || '';
-    itemsGrid.innerHTML = (out.items || []).map(item => `
+    primaryLabel.textContent = out.primary?.label || "";
+    primaryValue.textContent = out.primary?.value || "";
+    itemsGrid.innerHTML = (out.items || [])
+      .map(
+        item => `
       <div class="result-item">
         <div class="result-label">${item.label}</div>
         <div class="result-value">${item.value}</div>
       </div>
-    `).join('');
-    extrasArea.innerHTML = out.extras || '';
-    result.classList.remove('hidden');
+    `
+      )
+      .join("");
+    extrasArea.innerHTML = out.extras || "";
+    result.classList.remove("hidden");
   }
 
-  calcBtn.addEventListener('click', run);
-  form.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
+  calcBtn.addEventListener("click", run);
+  form.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
       e.preventDefault();
       run();
     }

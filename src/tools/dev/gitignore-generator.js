@@ -1,41 +1,61 @@
-import { showToast } from '../../components/toast.js';
-import { copyToClipboard } from '../../utils/clipboard.js';
-import { downloadBlob } from '../../utils/file.js';
-import { escapeHtml } from '../../utils/escape-html.js';
+import { showToast } from "../../components/toast.js";
+import { copyToClipboard } from "../../utils/clipboard.js";
+import { downloadBlob } from "../../utils/file.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'gitignore-generator',
-  name: 'Gitignore Generator',
-  category: 'dev',
-  description: 'Generate .gitignore files by selecting languages, frameworks, build tools, IDEs, and operating systems. Includes ready-made presets and custom-line support.',
-  icon: '🙈',
+  id: "gitignore-generator",
+  name: "Gitignore Generator",
+  category: "dev",
+  description:
+    "Generate .gitignore files by selecting languages, frameworks, build tools, IDEs, and operating systems. Includes ready-made presets and custom-line support.",
+  icon: "🙈",
   accept: null,
   maxSizeMB: null,
-  keywords: ['gitignore', 'git', 'ignore', 'template', 'project', 'preset', 'repository'],
+  keywords: ["gitignore", "git", "ignore", "template", "project", "preset", "repository"],
   steps: [
-    'Pick a preset (Web, Python, Java, Mobile, C++) or browse categories',
-    'Toggle individual templates on or off from the categorized grid',
-    'Optionally type custom lines to append (project-specific paths, etc.)',
-    'Copy the result to your clipboard or download a .gitignore file'
+    "Pick a preset (Web, Python, Java, Mobile, C++) or browse categories",
+    "Toggle individual templates on or off from the categorized grid",
+    "Optionally type custom lines to append (project-specific paths, etc.)",
+    "Copy the result to your clipboard or download a .gitignore file"
   ],
   faqs: [
-    { question: 'What is a .gitignore file?', answer: 'A .gitignore file tells Git which files and folders to ignore in a project. It prevents build artifacts, dependencies, secrets, and OS-generated files from being committed.' },
-    { question: 'Where do I put the .gitignore file?', answer: 'Place it in the root of your repository. Git applies its rules recursively to every folder below it.' },
-    { question: 'Can I save my own combinations?', answer: 'Yes. Use the "Save current" input to store your selection as a named preset in your browser. It will be available the next time you open this tool.' },
-    { question: 'Are the templates from gitignore.io?', answer: 'No. This tool ships a curated set of bundled templates written for common project types. They cover most everyday needs without a network request.' }
+    {
+      question: "What is a .gitignore file?",
+      answer:
+        "A .gitignore file tells Git which files and folders to ignore in a project. It prevents build artifacts, dependencies, secrets, and OS-generated files from being committed."
+    },
+    {
+      question: "Where do I put the .gitignore file?",
+      answer:
+        "Place it in the root of your repository. Git applies its rules recursively to every folder below it."
+    },
+    {
+      question: "Can I save my own combinations?",
+      answer:
+        'Yes. Use the "Save current" input to store your selection as a named preset in your browser. It will be available the next time you open this tool.'
+    },
+    {
+      question: "Are the templates from gitignore.io?",
+      answer:
+        "No. This tool ships a curated set of bundled templates written for common project types. They cover most everyday needs without a network request."
+    }
   ]
 };
 
 export const CATEGORIES = [
-  { id: 'languages', name: 'Languages', icon: '💻' },
-  { id: 'frameworks', name: 'Frameworks', icon: '🧩' },
-  { id: 'build', name: 'Build & Tooling', icon: '🛠️' },
-  { id: 'ide', name: 'IDEs & Editors', icon: '📝' },
-  { id: 'os', name: 'Operating Systems', icon: '🖥️' }
+  { id: "languages", name: "Languages", icon: "💻" },
+  { id: "frameworks", name: "Frameworks", icon: "🧩" },
+  { id: "build", name: "Build & Tooling", icon: "🛠️" },
+  { id: "ide", name: "IDEs & Editors", icon: "📝" },
+  { id: "os", name: "Operating Systems", icon: "🖥️" }
 ];
 
 export const TEMPLATES = {
-  node: { name: 'Node', category: 'languages', content: `# Node
+  node: {
+    name: "Node",
+    category: "languages",
+    content: `# Node
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -45,8 +65,12 @@ pnpm-debug.log*
 .yarn-integrity
 coverage/
 .nyc_output
-` },
-  python: { name: 'Python', category: 'languages', content: `# Python
+`
+  },
+  python: {
+    name: "Python",
+    category: "languages",
+    content: `# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -69,8 +93,12 @@ env/
 ENV/
 .mypy_cache/
 .ruff_cache/
-` },
-  java: { name: 'Java', category: 'languages', content: `# Java
+`
+  },
+  java: {
+    name: "Java",
+    category: "languages",
+    content: `# Java
 *.class
 *.log
 hs_err_pid*
@@ -86,8 +114,12 @@ target/
 *.tar.gz
 .jar
 *.hprof
-` },
-  go: { name: 'Go', category: 'languages', content: `# Go
+`
+  },
+  go: {
+    name: "Go",
+    category: "languages",
+    content: `# Go
 # Binaries
 *.exe
 *.exe~
@@ -110,8 +142,12 @@ vendor/
 # Coverage profile
 *.cover
 coverage.txt
-` },
-  rust: { name: 'Rust', category: 'languages', content: `# Rust
+`
+  },
+  rust: {
+    name: "Rust",
+    category: "languages",
+    content: `# Rust
 /target/
 /Cargo.lock
 
@@ -120,8 +156,12 @@ coverage.txt
 
 # MSVC
 *.pdb
-` },
-  c: { name: 'C', category: 'languages', content: `# C
+`
+  },
+  c: {
+    name: "C",
+    category: "languages",
+    content: `# C
 # Prerequisites
 *.d
 
@@ -155,8 +195,12 @@ coverage.txt
 *.exe
 *.out
 *.app
-` },
-  cpp: { name: 'C++', category: 'languages', content: `# C++
+`
+  },
+  cpp: {
+    name: "C++",
+    category: "languages",
+    content: `# C++
 # Prerequisites
 *.d
 
@@ -189,8 +233,12 @@ coverage.txt
 *.exe
 *.out
 *.app
-` },
-  csharp: { name: 'C#', category: 'languages', content: `# C#
+`
+  },
+  csharp: {
+    name: "C#",
+    category: "languages",
+    content: `# C#
 # Build results
 [Dd]ebug/
 [Rr]elease/
@@ -213,8 +261,12 @@ project.fragment.lock.json
 artifacts/
 **/AppPackages/
 **/BundleArtifacts/
-` },
-  ruby: { name: 'Ruby', category: 'languages', content: `# Ruby
+`
+  },
+  ruby: {
+    name: "Ruby",
+    category: "languages",
+    content: `# Ruby
 *.gem
 *.rbc
 /.config
@@ -233,8 +285,12 @@ vendor/bundle/
 
 # RubyGems
 .ruby-gem-cache
-` },
-  php: { name: 'PHP', category: 'languages', content: `# PHP
+`
+  },
+  php: {
+    name: "PHP",
+    category: "languages",
+    content: `# PHP
 /vendor/
 /node_modules/
 /composer.phar
@@ -254,8 +310,12 @@ vendor/bundle/
 # OS
 .DS_Store
 Thumbs.db
-` },
-  swift: { name: 'Swift', category: 'languages', content: `# Swift
+`
+  },
+  swift: {
+    name: "Swift",
+    category: "languages",
+    content: `# Swift
 # Xcode
 build/
 DerivedData/
@@ -273,8 +333,12 @@ xcuserdata/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-` },
-  kotlin: { name: 'Kotlin', category: 'languages', content: `# Kotlin
+`
+  },
+  kotlin: {
+    name: "Kotlin",
+    category: "languages",
+    content: `# Kotlin
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -290,8 +354,12 @@ out/
 
 # OS
 .DS_Store
-` },
-  scala: { name: 'Scala', category: 'languages', content: `# Scala
+`
+  },
+  scala: {
+    name: "Scala",
+    category: "languages",
+    content: `# Scala
 *.class
 *.log
 target/
@@ -301,8 +369,12 @@ build/
 .metals/
 project/target/
 project/project/
-` },
-  perl: { name: 'Perl', category: 'languages', content: `# Perl
+`
+  },
+  perl: {
+    name: "Perl",
+    category: "languages",
+    content: `# Perl
 !Makefile
 Makefile
 blib/
@@ -333,8 +405,12 @@ pm_to_blib
 %w
 %wim
 .idea/
-` },
-  r: { name: 'R', category: 'languages', content: `# R
+`
+  },
+  r: {
+    name: "R",
+    category: "languages",
+    content: `# R
 # History
 .Rapp.history
 .Rhistory
@@ -357,16 +433,24 @@ pm_to_blib
 *.tsv
 *.rds
 *.rda
-` },
-  lua: { name: 'Lua', category: 'languages', content: `# Lua
+`
+  },
+  lua: {
+    name: "Lua",
+    category: "languages",
+    content: `# Lua
 *.luac
 *.rock
 .luarocks/
 luacov.luac
 luacov.report.out
 luacov.stats.out
-` },
-  elixir: { name: 'Elixir', category: 'languages', content: `# Elixir
+`
+  },
+  elixir: {
+    name: "Elixir",
+    category: "languages",
+    content: `# Elixir
 /_build/
 /cover/
 /deps/
@@ -377,8 +461,12 @@ erl_crash.dump
 *.beam
 /config/*.secret.exs
 .elixir_ls/
-` },
-  haskell: { name: 'Haskell', category: 'languages', content: `# Haskell
+`
+  },
+  haskell: {
+    name: "Haskell",
+    category: "languages",
+    content: `# Haskell
 dist/
 dist-newstyle/
 .stack-work/
@@ -390,8 +478,12 @@ cabal.sandbox.config
 *.dyn_o
 .ghc.environment.*
 .hpc/
-` },
-  dart: { name: 'Dart / Flutter', category: 'languages', content: `# Dart / Flutter
+`
+  },
+  dart: {
+    name: "Dart / Flutter",
+    category: "languages",
+    content: `# Dart / Flutter
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -403,8 +495,12 @@ build/
 **/GeneratedPluginRegistrant.*
 .idea/
 *.iml
-` },
-  typescript: { name: 'TypeScript', category: 'languages', content: `# TypeScript
+`
+  },
+  typescript: {
+    name: "TypeScript",
+    category: "languages",
+    content: `# TypeScript
 *.tsbuildinfo
 *.js
 *.js.map
@@ -419,8 +515,12 @@ node_modules/
 dist/
 build/
 out/
-` },
-  javascript: { name: 'JavaScript', category: 'languages', content: `# JavaScript
+`
+  },
+  javascript: {
+    name: "JavaScript",
+    category: "languages",
+    content: `# JavaScript
 node_modules/
 *.log
 npm-debug.log*
@@ -432,40 +532,68 @@ yarn-error.log*
 dist/
 build/
 coverage/
-` },
-  html: { name: 'HTML', category: 'languages', content: `# HTML
+`
+  },
+  html: {
+    name: "HTML",
+    category: "languages",
+    content: `# HTML
 *.html.tmp
 node_modules/
 dist/
 build/
 .DS_Store
-` },
-  css: { name: 'CSS', category: 'languages', content: `# CSS
+`
+  },
+  css: {
+    name: "CSS",
+    category: "languages",
+    content: `# CSS
 *.css.map
 *.min.css
 !*.min.css
 node_modules/
 .sass-cache/
 .csslintcache
-` },
-  scss: { name: 'SCSS', category: 'languages', content: `# SCSS
+`
+  },
+  scss: {
+    name: "SCSS",
+    category: "languages",
+    content: `# SCSS
 .sass-cache/
 *.css.map
 *.scss.map
-` },
-  sass: { name: 'Sass', category: 'languages', content: `# Sass
+`
+  },
+  sass: {
+    name: "Sass",
+    category: "languages",
+    content: `# Sass
 .sass-cache/
 *.css.map
-` },
-  less: { name: 'Less', category: 'languages', content: `# Less
+`
+  },
+  less: {
+    name: "Less",
+    category: "languages",
+    content: `# Less
 *.less.cache
 node_modules/
-` },
-  graphql: { name: 'GraphQL', category: 'languages', content: `# GraphQL
+`
+  },
+  graphql: {
+    name: "GraphQL",
+    category: "languages",
+    content: `# GraphQL
 .graphql/
 **/__generated__/
-` },
-  solidity: { name: 'Solidity', category: 'languages', content: `# Solidity
+`
+  },
+  solidity: {
+    name: "Solidity",
+    category: "languages",
+    content: `# Solidity
 node_modules/
 .artifacts/
 .cache/
@@ -474,8 +602,12 @@ build/
 coverage/
 coverage.json
 openzeppelin/
-` },
-  ocaml: { name: 'OCaml', category: 'languages', content: `# OCaml
+`
+  },
+  ocaml: {
+    name: "OCaml",
+    category: "languages",
+    content: `# OCaml
 _build/
 *.cm[ai]
 *.cmxa
@@ -483,32 +615,52 @@ _build/
 *.cma
 *.o
 *.obj
-` },
-  erlang: { name: 'Erlang', category: 'languages', content: `# Erlang
+`
+  },
+  erlang: {
+    name: "Erlang",
+    category: "languages",
+    content: `# Erlang
 *.beam
 *.o
 *.so
 ebin/
 deps/
 .rel
-` },
-  zig: { name: 'Zig', category: 'languages', content: `# Zig
+`
+  },
+  zig: {
+    name: "Zig",
+    category: "languages",
+    content: `# Zig
 .zig-cache/
 zig-out/
-` },
-  nim: { name: 'Nim', category: 'languages', content: `# Nim
+`
+  },
+  nim: {
+    name: "Nim",
+    category: "languages",
+    content: `# Nim
 nimcache/
 nimblecache/
 *.pdb
-` },
-  julia: { name: 'Julia', category: 'languages', content: `# Julia
+`
+  },
+  julia: {
+    name: "Julia",
+    category: "languages",
+    content: `# Julia
 *.jl.cov
 *.jl.*.cov
 *.jl.mem
 Manifest.toml
-` },
+`
+  },
 
-  react: { name: 'React', category: 'frameworks', content: `# React
+  react: {
+    name: "React",
+    category: "frameworks",
+    content: `# React
 /build
 /coverage
 /.next
@@ -520,8 +672,12 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
-` },
-  vue: { name: 'Vue', category: 'frameworks', content: `# Vue
+`
+  },
+  vue: {
+    name: "Vue",
+    category: "frameworks",
+    content: `# Vue
 .DS_Store
 node_modules/
 /dist
@@ -543,8 +699,12 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-` },
-  angular: { name: 'Angular', category: 'frameworks', content: `# Angular
+`
+  },
+  angular: {
+    name: "Angular",
+    category: "frameworks",
+    content: `# Angular
 /angular
 /.angular
 /node_modules
@@ -575,8 +735,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-` },
-  svelte: { name: 'Svelte', category: 'frameworks', content: `# Svelte
+`
+  },
+  svelte: {
+    name: "Svelte",
+    category: "frameworks",
+    content: `# Svelte
 node_modules/
 /build
 /.svelte-kit
@@ -586,8 +750,12 @@ node_modules/
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-` },
-  next: { name: 'Next.js', category: 'frameworks', content: `# Next.js
+`
+  },
+  next: {
+    name: "Next.js",
+    category: "frameworks",
+    content: `# Next.js
 /.next/
 /out/
 /build
@@ -600,8 +768,12 @@ yarn-error.log*
 .vercel
 *.tsbuildinfo
 next-env.d.ts
-` },
-  nuxt: { name: 'Nuxt', category: 'frameworks', content: `# Nuxt
+`
+  },
+  nuxt: {
+    name: "Nuxt",
+    category: "frameworks",
+    content: `# Nuxt
 .nuxt
 .output
 .nitro
@@ -624,8 +796,12 @@ logs
 .env
 .env.*
 !.env.example
-` },
-  remix: { name: 'Remix', category: 'frameworks', content: `# Remix
+`
+  },
+  remix: {
+    name: "Remix",
+    category: "frameworks",
+    content: `# Remix
 .cache/
 /build/
 /public/build
@@ -640,15 +816,23 @@ pnpm-lock.yaml
 # IDE
 .idea/
 .vscode/
-` },
-  gatsby: { name: 'Gatsby', category: 'frameworks', content: `# Gatsby
+`
+  },
+  gatsby: {
+    name: "Gatsby",
+    category: "frameworks",
+    content: `# Gatsby
 .cache/
 public
 node_modules/
 .env*
 !.env.example
-` },
-  astro: { name: 'Astro', category: 'frameworks', content: `# Astro
+`
+  },
+  astro: {
+    name: "Astro",
+    category: "frameworks",
+    content: `# Astro
 dist/
 .astro/
 node_modules/
@@ -658,8 +842,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-` },
-  laravel: { name: 'Laravel', category: 'frameworks', content: `# Laravel
+`
+  },
+  laravel: {
+    name: "Laravel",
+    category: "frameworks",
+    content: `# Laravel
 /node_modules
 /public/hot
 /public/storage
@@ -677,8 +865,12 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-` },
-  django: { name: 'Django', category: 'frameworks', content: `# Django
+`
+  },
+  django: {
+    name: "Django",
+    category: "frameworks",
+    content: `# Django
 *.log
 *.pot
 *.pyc
@@ -692,8 +884,12 @@ staticfiles/
 .env
 .venv/
 venv/
-` },
-  rails: { name: 'Rails', category: 'frameworks', content: `# Rails
+`
+  },
+  rails: {
+    name: "Rails",
+    category: "frameworks",
+    content: `# Rails
 *.rbc
 *.sassc
 /.config
@@ -719,8 +915,12 @@ tmp/*
 # Local config
 .env*
 !.env.example
-` },
-  spring: { name: 'Spring', category: 'frameworks', content: `# Spring
+`
+  },
+  spring: {
+    name: "Spring",
+    category: "frameworks",
+    content: `# Spring
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -741,8 +941,12 @@ target/
 # OS
 .DS_Store
 Thumbs.db
-` },
-  flask: { name: 'Flask', category: 'frameworks', content: `# Flask
+`
+  },
+  flask: {
+    name: "Flask",
+    category: "frameworks",
+    content: `# Flask
 instance/
 *.pyc
 __pycache__/
@@ -754,8 +958,12 @@ ENV/
 htmlcov/
 .pytest_cache/
 .mypy_cache/
-` },
-  express: { name: 'Express', category: 'frameworks', content: `# Express
+`
+  },
+  express: {
+    name: "Express",
+    category: "frameworks",
+    content: `# Express
 node_modules/
 *.log
 .env
@@ -763,8 +971,12 @@ node_modules/
 .DS_Store
 coverage/
 dist/
-` },
-  fastapi: { name: 'FastAPI', category: 'frameworks', content: `# FastAPI
+`
+  },
+  fastapi: {
+    name: "FastAPI",
+    category: "frameworks",
+    content: `# FastAPI
 __pycache__/
 *.py[cod]
 *$py.class
@@ -781,8 +993,12 @@ htmlcov/
 dist/
 build/
 *.egg-info/
-` },
-  nest: { name: 'NestJS', category: 'frameworks', content: `# NestJS
+`
+  },
+  nest: {
+    name: "NestJS",
+    category: "frameworks",
+    content: `# NestJS
 node_modules/
 dist/
 coverage/
@@ -791,8 +1007,12 @@ coverage/
 .env.local
 *.log
 .DS_Store
-` },
-  symfony: { name: 'Symfony', category: 'frameworks', content: `# Symfony
+`
+  },
+  symfony: {
+    name: "Symfony",
+    category: "frameworks",
+    content: `# Symfony
 /var/
 /vendor/
 /node_modules/
@@ -806,8 +1026,12 @@ coverage/
 # IDE
 .idea/
 .vscode/
-` },
-  flutter: { name: 'Flutter', category: 'frameworks', content: `# Flutter
+`
+  },
+  flutter: {
+    name: "Flutter",
+    category: "frameworks",
+    content: `# Flutter
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -823,8 +1047,12 @@ ios/Pods/
 ios/.symlinks/
 ios/Flutter/Flutter.framework
 ios/Flutter/Flutter.podspec
-` },
-  'react-native': { name: 'React Native', category: 'frameworks', content: `# React Native
+`
+  },
+  "react-native": {
+    name: "React Native",
+    category: "frameworks",
+    content: `# React Native
 /ios/Pods/
 /android/.gradle
 /android/app/build/
@@ -836,8 +1064,12 @@ ios/Flutter/Flutter.podspec
 **/.cxx/
 node_modules/
 /.metro-cache/
-` },
-  electron: { name: 'Electron', category: 'frameworks', content: `# Electron
+`
+  },
+  electron: {
+    name: "Electron",
+    category: "frameworks",
+    content: `# Electron
 node_modules/
 dist/
 out/
@@ -848,8 +1080,12 @@ release/
 .env.local
 .vscode/
 .idea/
-` },
-  tauri: { name: 'Tauri', category: 'frameworks', content: `# Tauri
+`
+  },
+  tauri: {
+    name: "Tauri",
+    category: "frameworks",
+    content: `# Tauri
 # Generated by Cargo
 /target/
 **/target/
@@ -862,8 +1098,12 @@ node_modules/
 
 # Logs
 *.log
-` },
-  unity: { name: 'Unity', category: 'frameworks', content: `# Unity
+`
+  },
+  unity: {
+    name: "Unity",
+    category: "frameworks",
+    content: `# Unity
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -884,8 +1124,12 @@ node_modules/
 
 # Visual Studio cache directory
 .vs/
-` },
-  godot: { name: 'Godot', category: 'frameworks', content: `# Godot
+`
+  },
+  godot: {
+    name: "Godot",
+    category: "frameworks",
+    content: `# Godot
 .import/
 export.cfg
 export_presets.cfg
@@ -899,8 +1143,12 @@ data_*/
 
 # Godot-specific ignores
 .godot/
-` },
-  dotnet: { name: '.NET', category: 'frameworks', content: `# .NET
+`
+  },
+  dotnet: {
+    name: ".NET",
+    category: "frameworks",
+    content: `# .NET
 bin/
 obj/
 out/
@@ -914,8 +1162,12 @@ packages/
 project.lock.json
 project.fragment.lock.json
 artifacts/
-` },
-  phoenix: { name: 'Phoenix', category: 'frameworks', content: `# Phoenix
+`
+  },
+  phoenix: {
+    name: "Phoenix",
+    category: "frameworks",
+    content: `# Phoenix
 /_build/
 /cover/
 /deps/
@@ -931,41 +1183,65 @@ erl_crash.dump
 /assets/node_modules/
 /priv/static/assets/
 /priv/static/cache_manifest.json
-` },
+`
+  },
 
-  npm: { name: 'npm', category: 'build', content: `# npm
+  npm: {
+    name: "npm",
+    category: "build",
+    content: `# npm
 node_modules/
 npm-debug.log*
 .npm
 .npmrc
 package-lock.json.bak
-` },
-  yarn: { name: 'Yarn', category: 'build', content: `# Yarn
+`
+  },
+  yarn: {
+    name: "Yarn",
+    category: "build",
+    content: `# Yarn
 .yarn-integrity
 .yarn/cache
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
 node_modules/
-` },
-  pnpm: { name: 'pnpm', category: 'build', content: `# pnpm
+`
+  },
+  pnpm: {
+    name: "pnpm",
+    category: "build",
+    content: `# pnpm
 node_modules/
 .pnpm-store/
 .pnpm-debug.log*
-` },
-  bun: { name: 'Bun', category: 'build', content: `# Bun
+`
+  },
+  bun: {
+    name: "Bun",
+    category: "build",
+    content: `# Bun
 node_modules/
 bun.lockb
 bun.lock
-` },
-  webpack: { name: 'Webpack', category: 'build', content: `# Webpack
+`
+  },
+  webpack: {
+    name: "Webpack",
+    category: "build",
+    content: `# Webpack
 /node_modules/
 /dist/
 /build/
 .cache/
 webpack.stats.json
-` },
-  vite: { name: 'Vite', category: 'build', content: `# Vite
+`
+  },
+  vite: {
+    name: "Vite",
+    category: "build",
+    content: `# Vite
 node_modules/
 dist/
 dist-ssr/
@@ -976,19 +1252,31 @@ dist-ssr/
 .vscode/*
 !.vscode/extensions.json
 .idea/
-` },
-  parcel: { name: 'Parcel', category: 'build', content: `# Parcel
+`
+  },
+  parcel: {
+    name: "Parcel",
+    category: "build",
+    content: `# Parcel
 .parcel-cache/
 dist/
 build/
-` },
-  turbo: { name: 'Turborepo', category: 'build', content: `# Turborepo
+`
+  },
+  turbo: {
+    name: "Turborepo",
+    category: "build",
+    content: `# Turborepo
 .turbo/
 node_modules/
 dist/
 build/
-` },
-  gradle: { name: 'Gradle', category: 'build', content: `# Gradle
+`
+  },
+  gradle: {
+    name: "Gradle",
+    category: "build",
+    content: `# Gradle
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -998,8 +1286,12 @@ build/
 # IDE
 .idea/
 *.iml
-` },
-  maven: { name: 'Maven', category: 'build', content: `# Maven
+`
+  },
+  maven: {
+    name: "Maven",
+    category: "build",
+    content: `# Maven
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -1010,15 +1302,23 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
-` },
-  cargo: { name: 'Cargo (Rust)', category: 'build', content: `# Cargo
+`
+  },
+  cargo: {
+    name: "Cargo (Rust)",
+    category: "build",
+    content: `# Cargo
 /target/
 Cargo.lock
 
 # These are backup files
 *.rs.bk
-` },
-  cmake: { name: 'CMake', category: 'build', content: `# CMake
+`
+  },
+  cmake: {
+    name: "CMake",
+    category: "build",
+    content: `# CMake
 CMakeCache.txt
 CMakeFiles/
 CMakeScripts/
@@ -1032,8 +1332,12 @@ _deps/
 
 # External projects
 build/
-` },
-  make: { name: 'Make', category: 'build', content: `# Make
+`
+  },
+  make: {
+    name: "Make",
+    category: "build",
+    content: `# Make
 *.o
 *.obj
 *.exe
@@ -1045,30 +1349,46 @@ build/
 # Make-specific
 *.d
 *.dep
-` },
-  bazel: { name: 'Bazel', category: 'build', content: `# Bazel
+`
+  },
+  bazel: {
+    name: "Bazel",
+    category: "build",
+    content: `# Bazel
 /bazel-*
 /bazel-out
 /bazel-bin
 /bazel-testlogs
 /bazel-server
-` },
-  esbuild: { name: 'esbuild', category: 'build', content: `# esbuild
+`
+  },
+  esbuild: {
+    name: "esbuild",
+    category: "build",
+    content: `# esbuild
 node_modules/
 dist/
 build/
 *.esbuild.cache
-` },
+`
+  },
 
-  vscode: { name: 'VS Code', category: 'ide', content: `# VS Code
+  vscode: {
+    name: "VS Code",
+    category: "ide",
+    content: `# VS Code
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
-` },
-  intellij: { name: 'IntelliJ IDEA', category: 'ide', content: `# IntelliJ IDEA
+`
+  },
+  intellij: {
+    name: "IntelliJ IDEA",
+    category: "ide",
+    content: `# IntelliJ IDEA
 .idea/
 *.iws
 *.iml
@@ -1077,8 +1397,12 @@ out/
 !/.idea/misc.xml
 !/.idea/codeStyles
 !/.idea/inspectionProfiles
-` },
-  eclipse: { name: 'Eclipse', category: 'ide', content: `# Eclipse
+`
+  },
+  eclipse: {
+    name: "Eclipse",
+    category: "ide",
+    content: `# Eclipse
 .metadata
 bin/
 tmp/
@@ -1090,8 +1414,12 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-` },
-  vim: { name: 'Vim', category: 'ide', content: `# Vim
+`
+  },
+  vim: {
+    name: "Vim",
+    category: "ide",
+    content: `# Vim
 *.sw[a-p]
 .*.sw[a-p]
 *~
@@ -1103,21 +1431,37 @@ local.properties
 # Temporary
 .netrwhist
 *~
-` },
-  sublime: { name: 'Sublime Text', category: 'ide', content: `# Sublime Text
+`
+  },
+  sublime: {
+    name: "Sublime Text",
+    category: "ide",
+    content: `# Sublime Text
 *.sublime-project
 *.sublime-workspace
-` },
-  atom: { name: 'Atom', category: 'ide', content: `# Atom
+`
+  },
+  atom: {
+    name: "Atom",
+    category: "ide",
+    content: `# Atom
 .atom/
-` },
-  jetbrains: { name: 'JetBrains (All)', category: 'ide', content: `# JetBrains IDEs (IntelliJ, PyCharm, WebStorm, etc.)
+`
+  },
+  jetbrains: {
+    name: "JetBrains (All)",
+    category: "ide",
+    content: `# JetBrains IDEs (IntelliJ, PyCharm, WebStorm, etc.)
 .idea/
 *.iml
 *.ipr
 *.iws
-` },
-  xcode: { name: 'Xcode', category: 'ide', content: `# Xcode
+`
+  },
+  xcode: {
+    name: "Xcode",
+    category: "ide",
+    content: `# Xcode
 build/
 DerivedData/
 *.xcodeproj/
@@ -1126,8 +1470,12 @@ DerivedData/
 xcuserdata/
 *.xcuserstate
 *.moved-aside
-` },
-  'android-studio': { name: 'Android Studio', category: 'ide', content: `# Android Studio
+`
+  },
+  "android-studio": {
+    name: "Android Studio",
+    category: "ide",
+    content: `# Android Studio
 .gradle/
 local.properties
 .idea/
@@ -1137,27 +1485,43 @@ build/
 captures/
 .externalNativeBuild/
 .cxx/
-` },
-  netbeans: { name: 'NetBeans', category: 'ide', content: `# NetBeans
+`
+  },
+  netbeans: {
+    name: "NetBeans",
+    category: "ide",
+    content: `# NetBeans
 nbproject/private/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-` },
-  pycharm: { name: 'PyCharm', category: 'ide', content: `# PyCharm
+`
+  },
+  pycharm: {
+    name: "PyCharm",
+    category: "ide",
+    content: `# PyCharm
 .idea/
 *.iml
 *.iws
 /out/
-` },
-  jupyter: { name: 'Jupyter', category: 'ide', content: `# Jupyter
+`
+  },
+  jupyter: {
+    name: "Jupyter",
+    category: "ide",
+    content: `# Jupyter
 .ipynb_checkpoints/
 profile_default/
 ipython_config.py
-` },
+`
+  },
 
-  windows: { name: 'Windows', category: 'os', content: `# Windows
+  windows: {
+    name: "Windows",
+    category: "os",
+    content: `# Windows
 Thumbs.db
 Thumbs.db:encryptable
 ehthumbs.db
@@ -1166,8 +1530,12 @@ ehthumbs_vista.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 *.lnk
-` },
-  macos: { name: 'macOS', category: 'os', content: `# macOS
+`
+  },
+  macos: {
+    name: "macOS",
+    category: "os",
+    content: `# macOS
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -1180,8 +1548,12 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
-` },
-  linux: { name: 'Linux', category: 'os', content: `# Linux
+`
+  },
+  linux: {
+    name: "Linux",
+    category: "os",
+    content: `# Linux
 *~
 .fuse_hidden*
 .Trash-*
@@ -1192,8 +1564,12 @@ Icon
 
 # Thumbnails
 .~lock.*
-` },
-  'ds-store': { name: '.DS_Store (Cross-platform)', category: 'os', content: `# .DS_Store
+`
+  },
+  "ds-store": {
+    name: ".DS_Store (Cross-platform)",
+    category: "os",
+    content: `# .DS_Store
 .DS_Store
 .DS_Store?
 ._*
@@ -1201,52 +1577,116 @@ Icon
 .Trashes
 ehthumbs.db
 Thumbs.db
-` },
-  'thumbs-db': { name: 'Thumbs.db (Cross-platform)', category: 'os', content: `# Thumbs.db
+`
+  },
+  "thumbs-db": {
+    name: "Thumbs.db (Cross-platform)",
+    category: "os",
+    content: `# Thumbs.db
 Thumbs.db
 Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
-` }
+`
+  }
 };
 
 export const PRESETS = [
   {
-    name: 'Web (Node + React)',
-    keys: ['node', 'javascript', 'react', 'npm', 'vite', 'webpack', 'vscode', 'macos', 'windows', 'linux', 'ds-store']
+    name: "Web (Node + React)",
+    keys: [
+      "node",
+      "javascript",
+      "react",
+      "npm",
+      "vite",
+      "webpack",
+      "vscode",
+      "macos",
+      "windows",
+      "linux",
+      "ds-store"
+    ]
   },
   {
-    name: 'Python (Data / Web)',
-    keys: ['python', 'flask', 'fastapi', 'django', 'pycharm', 'vscode', 'jupyter', 'macos', 'windows', 'linux', 'ds-store']
+    name: "Python (Data / Web)",
+    keys: [
+      "python",
+      "flask",
+      "fastapi",
+      "django",
+      "pycharm",
+      "vscode",
+      "jupyter",
+      "macos",
+      "windows",
+      "linux",
+      "ds-store"
+    ]
   },
   {
-    name: 'Java / JVM',
-    keys: ['java', 'kotlin', 'scala', 'gradle', 'maven', 'intellij', 'eclipse', 'vscode', 'macos', 'windows', 'ds-store']
+    name: "Java / JVM",
+    keys: [
+      "java",
+      "kotlin",
+      "scala",
+      "gradle",
+      "maven",
+      "intellij",
+      "eclipse",
+      "vscode",
+      "macos",
+      "windows",
+      "ds-store"
+    ]
   },
   {
-    name: 'Mobile (iOS + Android)',
-    keys: ['swift', 'kotlin', 'flutter', 'react-native', 'xcode', 'android-studio', 'vscode', 'macos', 'windows', 'ds-store']
+    name: "Mobile (iOS + Android)",
+    keys: [
+      "swift",
+      "kotlin",
+      "flutter",
+      "react-native",
+      "xcode",
+      "android-studio",
+      "vscode",
+      "macos",
+      "windows",
+      "ds-store"
+    ]
   },
   {
-    name: 'C++ / Systems',
-    keys: ['c', 'cpp', 'cmake', 'make', 'cargo', 'vscode', 'intellij', 'macos', 'windows', 'linux', 'ds-store']
+    name: "C++ / Systems",
+    keys: [
+      "c",
+      "cpp",
+      "cmake",
+      "make",
+      "cargo",
+      "vscode",
+      "intellij",
+      "macos",
+      "windows",
+      "linux",
+      "ds-store"
+    ]
   }
 ];
 
 export function buildGitignore(selectedKeys, customLines, templates = TEMPLATES) {
-  const date = new Date().toISOString().split('T')[0];
+  const date = new Date().toISOString().split("T")[0];
   let out = `# Generated by ToolBox Gitignore Generator\n# ${date}\n\n`;
 
   const validKeys = (selectedKeys || []).filter(k => templates[k]);
   if (validKeys.length === 0 && !(customLines && customLines.trim())) {
-    return '';
+    return "";
   }
 
   validKeys.forEach((key, idx) => {
     const t = templates[key];
     out += t.content.trimEnd();
     if (idx < validKeys.length - 1 || (customLines && customLines.trim())) {
-      out += '\n\n';
+      out += "\n\n";
     }
   });
 
@@ -1257,7 +1697,7 @@ export function buildGitignore(selectedKeys, customLines, templates = TEMPLATES)
   return out;
 }
 
-const GITIGNORE_USER_PRESETS_KEY = 'gitignore-generator:user-presets';
+const GITIGNORE_USER_PRESETS_KEY = "gitignore-generator:user-presets";
 
 export function loadUserPresets() {
   try {
@@ -1272,19 +1712,23 @@ export function saveUserPresets(list) {
   try {
     localStorage.setItem(GITIGNORE_USER_PRESETS_KEY, JSON.stringify(list));
   } catch {
-    showToast({ message: 'Could not save preset (storage unavailable)', type: 'error' });
+    showToast({ message: "Could not save preset (storage unavailable)", type: "error" });
   }
 }
 
 function renderPresetDropdown(presetEl) {
   const user = loadUserPresets();
   let html = '<option value="">— select a preset —</option><optgroup label="Built-in">';
-  PRESETS.forEach((p, i) => { html += `<option value="builtin:${i}">${escapeHtml(p.name)}</option>`; });
-  html += '</optgroup>';
+  PRESETS.forEach((p, i) => {
+    html += `<option value="builtin:${i}">${escapeHtml(p.name)}</option>`;
+  });
+  html += "</optgroup>";
   if (user.length) {
     html += '<optgroup label="My presets">';
-    user.forEach((p, i) => { html += `<option value="user:${i}">${escapeHtml(p.name)} (delete)</option>`; });
-    html += '</optgroup>';
+    user.forEach((p, i) => {
+      html += `<option value="user:${i}">${escapeHtml(p.name)} (delete)</option>`;
+    });
+    html += "</optgroup>";
   }
   presetEl.innerHTML = html;
 }
@@ -1296,15 +1740,19 @@ function renderCategorySection(cat, selected, collapsed) {
     <div class="gig-cat" data-cat="${cat.id}" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-3);">
       <button class="gig-cat-toggle" data-cat="${cat.id}" type="button" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:var(--space-3) var(--space-4);background:transparent;border:none;cursor:pointer;font-size:var(--text-base);font-weight:600;color:var(--color-text);">
         <span>${cat.icon} ${cat.name} <span style="color:var(--color-text-muted);font-weight:400;font-size:var(--text-sm);">(${items.length})</span></span>
-        <span class="gig-cat-arrow" style="transition:transform 0.2s;${isCollapsed ? '' : 'transform:rotate(90deg);'}">▸</span>
+        <span class="gig-cat-arrow" style="transition:transform 0.2s;${isCollapsed ? "" : "transform:rotate(90deg);"}">▸</span>
       </button>
-      <div class="gig-cat-body" data-cat="${cat.id}" style="display:${isCollapsed ? 'none' : 'grid'};grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-2);padding:0 var(--space-4) var(--space-4);">
-        ${items.map(([key, t]) => `
+      <div class="gig-cat-body" data-cat="${cat.id}" style="display:${isCollapsed ? "none" : "grid"};grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-2);padding:0 var(--space-4) var(--space-4);">
+        ${items
+          .map(
+            ([key, t]) => `
           <label class="gig-tpl" data-key="${key}" data-name="${t.name.toLowerCase()}" style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;font-size:var(--text-sm);user-select:none;background:var(--color-bg);">
-            <input type="checkbox" class="gig-tpl-cb" data-key="${key}" ${selected.has(key) ? 'checked' : ''} style="width:16px;height:16px;cursor:pointer;accent-color:var(--color-primary);">
+            <input type="checkbox" class="gig-tpl-cb" data-key="${key}" ${selected.has(key) ? "checked" : ""} style="width:16px;height:16px;cursor:pointer;accent-color:var(--color-primary);">
             <span>${escapeHtml(t.name)}</span>
           </label>
-        `).join('')}
+        `
+          )
+          .join("")}
       </div>
     </div>
   `;
@@ -1312,97 +1760,169 @@ function renderCategorySection(cat, selected, collapsed) {
 
 function renderChips(selected, chipsEl, countEl) {
   if (selected.size === 0) {
-    chipsEl.innerHTML = '<span style="color:var(--color-text-muted);font-size:var(--text-sm);">No templates selected yet. Pick a preset or toggle one below.</span>';
+    chipsEl.innerHTML =
+      '<span style="color:var(--color-text-muted);font-size:var(--text-sm);">No templates selected yet. Pick a preset or toggle one below.</span>';
   } else {
-    chipsEl.innerHTML = Array.from(selected).map(key => {
-      const t = TEMPLATES[key];
-      return t ? `<span class="gig-chip" data-key="${key}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-primary);color:white;border-radius:var(--radius-md);font-size:var(--text-sm);cursor:pointer;" title="Click to remove">${escapeHtml(t.name)} <span style="opacity:0.8;">×</span></span>` : '';
-    }).join('');
+    chipsEl.innerHTML = Array.from(selected)
+      .map(key => {
+        const t = TEMPLATES[key];
+        return t
+          ? `<span class="gig-chip" data-key="${key}" style="display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);background:var(--color-primary);color:white;border-radius:var(--radius-md);font-size:var(--text-sm);cursor:pointer;" title="Click to remove">${escapeHtml(t.name)} <span style="opacity:0.8;">×</span></span>`
+          : "";
+      })
+      .join("");
   }
   countEl.textContent = selected.size;
 }
 
 function bindGitignoreEvents(ctx) {
-  const { container, state, searchEl, chipsEl, categoriesEl, customEl, outputEl, presetEl, presetNameEl, saveBtn, clearBtn, copyBtn, downloadBtn, countEl, renderAll, syncCheckboxes, showToast, copyToClipboard, downloadBlob } = ctx;
+  const {
+    container,
+    state,
+    searchEl,
+    chipsEl,
+    categoriesEl,
+    customEl,
+    outputEl,
+    presetEl,
+    presetNameEl,
+    saveBtn,
+    clearBtn,
+    copyBtn,
+    downloadBtn,
+    countEl,
+    renderAll,
+    syncCheckboxes,
+    showToast,
+    copyToClipboard,
+    downloadBlob
+  } = ctx;
 
-  presetEl.addEventListener('change', () => {
+  presetEl.addEventListener("change", () => {
     const v = presetEl.value;
     if (!v) return;
-    if (v.startsWith('builtin:')) {
+    if (v.startsWith("builtin:")) {
       const p = PRESETS[parseInt(v.slice(8), 10)];
-      if (p) { state.selected = new Set(p.keys.filter(k => TEMPLATES[k])); renderAll(); showToast({ message: `Applied preset: ${p.name}`, type: 'success' }); }
-    } else if (v.startsWith('user:')) {
+      if (p) {
+        state.selected = new Set(p.keys.filter(k => TEMPLATES[k]));
+        renderAll();
+        showToast({ message: `Applied preset: ${p.name}`, type: "success" });
+      }
+    } else if (v.startsWith("user:")) {
       const user = loadUserPresets();
       const p = user[parseInt(v.slice(5), 10)];
-      if (p) { state.selected = new Set(p.keys.filter(k => TEMPLATES[k])); renderAll(); showToast({ message: `Loaded preset: ${p.name}`, type: 'success' }); }
-      if (confirm(`Delete user preset "${p?.name || ''}"?`)) {
-        user.splice(parseInt(v.slice(5), 10), 1); saveUserPresets(user); renderPresetDropdown(presetEl);
-        showToast({ message: 'Preset deleted', type: 'success' });
-      } else { renderPresetDropdown(presetEl); }
+      if (p) {
+        state.selected = new Set(p.keys.filter(k => TEMPLATES[k]));
+        renderAll();
+        showToast({ message: `Loaded preset: ${p.name}`, type: "success" });
+      }
+      if (confirm(`Delete user preset "${p?.name || ""}"?`)) {
+        user.splice(parseInt(v.slice(5), 10), 1);
+        saveUserPresets(user);
+        renderPresetDropdown(presetEl);
+        showToast({ message: "Preset deleted", type: "success" });
+      } else {
+        renderPresetDropdown(presetEl);
+      }
     }
   });
 
-  saveBtn.addEventListener('click', () => {
+  saveBtn.addEventListener("click", () => {
     const name = presetNameEl.value.trim();
-    if (!name) { showToast({ message: 'Enter a name for the preset', type: 'error' }); return; }
-    if (state.selected.size === 0) { showToast({ message: 'Select at least one template first', type: 'error' }); return; }
+    if (!name) {
+      showToast({ message: "Enter a name for the preset", type: "error" });
+      return;
+    }
+    if (state.selected.size === 0) {
+      showToast({ message: "Select at least one template first", type: "error" });
+      return;
+    }
     const user = loadUserPresets();
-    if (user.some(p => p.name.toLowerCase() === name.toLowerCase())) { showToast({ message: 'A preset with that name already exists', type: 'error' }); return; }
-    user.push({ name, keys: Array.from(state.selected) }); saveUserPresets(user); renderPresetDropdown(presetEl); presetNameEl.value = '';
-    showToast({ message: `Saved preset "${name}"`, type: 'success' });
+    if (user.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+      showToast({ message: "A preset with that name already exists", type: "error" });
+      return;
+    }
+    user.push({ name, keys: Array.from(state.selected) });
+    saveUserPresets(user);
+    renderPresetDropdown(presetEl);
+    presetNameEl.value = "";
+    showToast({ message: `Saved preset "${name}"`, type: "success" });
   });
 
-  clearBtn.addEventListener('click', () => { state.selected.clear(); renderAll(); });
-  searchEl.addEventListener('input', () => {
+  clearBtn.addEventListener("click", () => {
+    state.selected.clear();
+    renderAll();
+  });
+  searchEl.addEventListener("input", () => {
     const q = searchEl.value.trim().toLowerCase();
-    container.querySelectorAll('.gig-tpl').forEach(el => { el.style.display = (q === '' || el.dataset.name.includes(q)) ? '' : 'none'; });
-    container.querySelectorAll('.gig-cat').forEach(catEl => {
-      catEl.style.display = Array.from(catEl.querySelectorAll('.gig-tpl')).some(el => el.style.display !== 'none') ? '' : 'none';
+    container.querySelectorAll(".gig-tpl").forEach(el => {
+      el.style.display = q === "" || el.dataset.name.includes(q) ? "" : "none";
+    });
+    container.querySelectorAll(".gig-cat").forEach(catEl => {
+      catEl.style.display = Array.from(catEl.querySelectorAll(".gig-tpl")).some(
+        el => el.style.display !== "none"
+      )
+        ? ""
+        : "none";
     });
   });
-  customEl.addEventListener('input', () => { state.custom = customEl.value; ctx.renderOutput(); });
+  customEl.addEventListener("input", () => {
+    state.custom = customEl.value;
+    ctx.renderOutput();
+  });
 
-  categoriesEl.addEventListener('change', e => {
-    const cb = e.target.closest('.gig-tpl-cb');
+  categoriesEl.addEventListener("change", e => {
+    const cb = e.target.closest(".gig-tpl-cb");
     if (!cb) return;
-    if (cb.checked) state.selected.add(cb.dataset.key); else state.selected.delete(cb.dataset.key);
+    if (cb.checked) state.selected.add(cb.dataset.key);
+    else state.selected.delete(cb.dataset.key);
     renderAll();
   });
 
-  categoriesEl.addEventListener('click', e => {
-    const toggle = e.target.closest('.gig-cat-toggle');
+  categoriesEl.addEventListener("click", e => {
+    const toggle = e.target.closest(".gig-cat-toggle");
     if (!toggle) return;
     const catId = toggle.dataset.cat;
     state.collapsed[catId] = !state.collapsed[catId];
     const body = container.querySelector(`.gig-cat-body[data-cat="${catId}"]`);
-    const arrow = toggle.querySelector('.gig-cat-arrow');
-    body.style.display = state.collapsed[catId] ? 'none' : 'grid';
-    arrow.style.transform = state.collapsed[catId] ? '' : 'rotate(90deg)';
+    const arrow = toggle.querySelector(".gig-cat-arrow");
+    body.style.display = state.collapsed[catId] ? "none" : "grid";
+    arrow.style.transform = state.collapsed[catId] ? "" : "rotate(90deg)";
   });
 
-  chipsEl.addEventListener('click', e => {
-    const chip = e.target.closest('.gig-chip');
+  chipsEl.addEventListener("click", e => {
+    const chip = e.target.closest(".gig-chip");
     if (!chip) return;
-    state.selected.delete(chip.dataset.key); renderAll();
+    state.selected.delete(chip.dataset.key);
+    renderAll();
   });
 
-  copyBtn.addEventListener('click', async () => {
+  copyBtn.addEventListener("click", async () => {
     const text = outputEl.textContent;
-    if (!text || text.startsWith('Select templates')) { showToast({ message: 'Nothing to copy yet', type: 'error' }); return; }
+    if (!text || text.startsWith("Select templates")) {
+      showToast({ message: "Nothing to copy yet", type: "error" });
+      return;
+    }
     const ok = await copyToClipboard(text);
-    showToast({ message: ok ? 'Copied .gitignore to clipboard' : 'Copy failed', type: ok ? 'success' : 'error' });
+    showToast({
+      message: ok ? "Copied .gitignore to clipboard" : "Copy failed",
+      type: ok ? "success" : "error"
+    });
   });
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     const text = outputEl.textContent;
-    if (!text || text.startsWith('Select templates')) { showToast({ message: 'Nothing to download yet', type: 'error' }); return; }
-    downloadBlob(new Blob([text], { type: 'text/plain' }), '.gitignore');
-    showToast({ message: 'Downloaded .gitignore', type: 'success' });
+    if (!text || text.startsWith("Select templates")) {
+      showToast({ message: "Nothing to download yet", type: "error" });
+      return;
+    }
+    downloadBlob(new Blob([text], { type: "text/plain" }), ".gitignore");
+    showToast({ message: "Downloaded .gitignore", type: "success" });
   });
 }
 
 export function render(container) {
-  const state = { selected: new Set(), custom: '', collapsed: {} };
+  const state = { selected: new Set(), custom: "", collapsed: {} };
 
   container.innerHTML = `
     <div class="tool-layout">
@@ -1431,24 +1951,53 @@ export function render(container) {
   `;
 
   const q = id => container.querySelector(`#${id}`);
-  const els = { searchEl: q('gig-search'), chipsEl: q('gig-chips'), countEl: q('gig-count'), categoriesEl: q('gig-categories'), customEl: q('gig-custom'), outputEl: q('gig-output'), presetEl: q('gig-preset'), presetNameEl: q('gig-preset-name'), saveBtn: q('gig-save-preset'), clearBtn: q('gig-clear'), copyBtn: q('gig-copy'), downloadBtn: q('gig-download') };
+  const els = {
+    searchEl: q("gig-search"),
+    chipsEl: q("gig-chips"),
+    countEl: q("gig-count"),
+    categoriesEl: q("gig-categories"),
+    customEl: q("gig-custom"),
+    outputEl: q("gig-output"),
+    presetEl: q("gig-preset"),
+    presetNameEl: q("gig-preset-name"),
+    saveBtn: q("gig-save-preset"),
+    clearBtn: q("gig-clear"),
+    copyBtn: q("gig-copy"),
+    downloadBtn: q("gig-download")
+  };
 
   function renderOutput() {
-    els.outputEl.textContent = buildGitignore(Array.from(state.selected), state.custom) || 'Select templates above (or type custom lines) to build your .gitignore.';
+    els.outputEl.textContent =
+      buildGitignore(Array.from(state.selected), state.custom) ||
+      "Select templates above (or type custom lines) to build your .gitignore.";
   }
 
   function syncCheckboxes() {
-    container.querySelectorAll('.gig-tpl-cb').forEach(cb => { cb.checked = state.selected.has(cb.dataset.key); });
+    container.querySelectorAll(".gig-tpl-cb").forEach(cb => {
+      cb.checked = state.selected.has(cb.dataset.key);
+    });
   }
 
   function renderAll() {
     renderChips(state.selected, els.chipsEl, els.countEl);
-    els.categoriesEl.innerHTML = CATEGORIES.map(cat => renderCategorySection(cat, state.selected, state.collapsed)).join('');
+    els.categoriesEl.innerHTML = CATEGORIES.map(cat =>
+      renderCategorySection(cat, state.selected, state.collapsed)
+    ).join("");
     syncCheckboxes();
     renderOutput();
   }
 
-  bindGitignoreEvents({ container, state, ...els, renderAll, syncCheckboxes, renderOutput, showToast, copyToClipboard, downloadBlob });
+  bindGitignoreEvents({
+    container,
+    state,
+    ...els,
+    renderAll,
+    syncCheckboxes,
+    renderOutput,
+    showToast,
+    copyToClipboard,
+    downloadBlob
+  });
 
   renderPresetDropdown(els.presetEl);
   renderAll();

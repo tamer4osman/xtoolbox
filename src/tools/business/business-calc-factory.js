@@ -11,20 +11,20 @@ export function initBusinessCalc(container, { title, inputs, resultHTML, calc })
   container.innerHTML = `
     <div class="biz-container">
       <h2>${title}</h2>
-      ${inputs.map(i => `<input type="number" id="${i.id}" placeholder="${i.placeholder}" value="${i.value}">`).join('')}
+      ${inputs.map(i => `<input type="number" id="${i.id}" placeholder="${i.placeholder}" value="${i.value}">`).join("")}
       <div class="biz-result">${resultHTML}</div>
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = CALC_STYLES;
   container.appendChild(style);
 
   function update() {
-    const get = (id) => parseFloat(container.querySelector(`#${id}`).value) || 0;
-    calc({ get, el: (id) => container.querySelector(`#${id}`) });
+    const get = id => parseFloat(container.querySelector(`#${id}`).value) || 0;
+    calc({ get, el: id => container.querySelector(`#${id}`) });
   }
 
-  container.querySelectorAll('input').forEach(i => i.addEventListener('input', update));
+  container.querySelectorAll("input").forEach(i => i.addEventListener("input", update));
   update();
 }

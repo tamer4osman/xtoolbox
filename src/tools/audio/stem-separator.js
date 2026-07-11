@@ -36,8 +36,6 @@ function audioBufferToFloatArrays(buffer) {
   return [buffer.getChannelData(0), buffer.getChannelData(1)];
 }
 
-
-
 function encodeWavFloat(left, right, sampleRate) {
   const length = left.length;
   const channels = 2;
@@ -112,7 +110,7 @@ async function loadModel(ort, onProgress) {
   const buffer = await blob.arrayBuffer();
   return ort.InferenceSession.create(buffer, {
     executionProviders: ["wasm"],
-    graphOptimizationLevel: "all",
+    graphOptimizationLevel: "all"
   });
 }
 
@@ -129,15 +127,13 @@ async function separateChunks(ort, session, left, right, onProgress) {
     const end = Math.min(start + SEGMENT_SAMPLES, total);
     const clen = end - start;
     chunkBuf.fill(0);
-    chunkBuf
-      .subarray(0, clen)
-      .set(left.subarray(start, end));
+    chunkBuf.subarray(0, clen).set(left.subarray(start, end));
     chunkBuf
       .subarray(1 * SEGMENT_SAMPLES, 1 * SEGMENT_SAMPLES + clen)
       .set(right.subarray(start, end));
 
     const result = await session.run({
-      mix: new ort.Tensor("float32", chunkBuf, [1, 2, SEGMENT_SAMPLES]),
+      mix: new ort.Tensor("float32", chunkBuf, [1, 2, SEGMENT_SAMPLES])
     });
     const stems = result.stems.data;
     const rowLen = 2 * SEGMENT_SAMPLES;
@@ -179,24 +175,24 @@ export const toolConfig = {
     "Upload an audio file",
     'Click "Separate Stems"',
     "Wait for AI processing",
-    "Download individual stems",
+    "Download individual stems"
   ],
   faqs: [
     {
       question: "How does it work?",
       answer:
-        "It uses Meta's Demucs AI model converted to ONNX format. The model runs entirely in your browser — no data leaves your device.",
+        "It uses Meta's Demucs AI model converted to ONNX format. The model runs entirely in your browser — no data leaves your device."
     },
     {
       question: "How long does it take?",
       answer:
-        "Processing time depends on your device. With WebGPU it's ~1-3x realtime. With WASM it's slower but works on any browser.",
+        "Processing time depends on your device. With WebGPU it's ~1-3x realtime. With WASM it's slower but works on any browser."
     },
     {
       question: "What audio formats are supported?",
-      answer: "Any format your browser can decode: MP3, WAV, FLAC, OGG, M4A, etc.",
-    },
-  ],
+      answer: "Any format your browser can decode: MP3, WAV, FLAC, OGG, M4A, etc."
+    }
+  ]
 };
 
 export function render(container) {
@@ -249,13 +245,13 @@ export function render(container) {
             <button class="btn btn-sm btn-primary download-btn" data-stem="${i}">Download</button>
             <audio class="stem-audio" data-stem="${i}" style="display:none;" controls></audio>
           </div>
-        `,
+        `
         ).join("")}
       </div>
       <button class="btn btn-primary btn-lg" id="download-all-btn" style="width:100%;">Download All as ZIP</button>
     `;
 
-    resultsArea.querySelectorAll(".play-btn").forEach((btn) => {
+    resultsArea.querySelectorAll(".play-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const i = +btn.dataset.stem;
         const audio = resultsArea.querySelector(`audio[data-stem="${i}"]`);
@@ -270,7 +266,7 @@ export function render(container) {
       });
     });
 
-    resultsArea.querySelectorAll(".download-btn").forEach((btn) => {
+    resultsArea.querySelectorAll(".download-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const i = +btn.dataset.stem;
         const blob = encodeWavFloat(...normalizeStem(stems[i][0], stems[i][1]), SAMPLE_RATE);
@@ -308,14 +304,14 @@ export function render(container) {
     uploadArea.appendChild(dropZone);
 
     dropZone.addEventListener("click", () => input.click());
-    dropZone.addEventListener("dragover", (e) => {
+    dropZone.addEventListener("dragover", e => {
       e.preventDefault();
       dropZone.style.borderColor = "var(--color-primary)";
     });
     dropZone.addEventListener("dragleave", () => {
       dropZone.style.borderColor = "var(--color-border)";
     });
-    dropZone.addEventListener("drop", async (e) => {
+    dropZone.addEventListener("drop", async e => {
       e.preventDefault();
       dropZone.style.borderColor = "var(--color-border)";
       const file = e.dataTransfer.files[0];
@@ -362,17 +358,17 @@ export function render(container) {
 
     try {
       const ort = await loadORT();
-      const session = await loadModel(ort, (pct) =>
-        setProgress(`Loading AI model (${Math.round(pct * 100)}%)...`, pct),
+      const session = await loadModel(ort, pct =>
+        setProgress(`Loading AI model (${Math.round(pct * 100)}%)...`, pct)
       );
 
       setProgress("Processing audio...", 0.95);
       const [left, right] = audioBufferToFloatArrays(currentBuffer);
       const leftPadded = new Float32Array(
-        Math.ceil(left.length / STRIDE) * STRIDE + SEGMENT_SAMPLES,
+        Math.ceil(left.length / STRIDE) * STRIDE + SEGMENT_SAMPLES
       );
       const rightPadded = new Float32Array(
-        Math.ceil(right.length / STRIDE) * STRIDE + SEGMENT_SAMPLES,
+        Math.ceil(right.length / STRIDE) * STRIDE + SEGMENT_SAMPLES
       );
       leftPadded.set(left);
       rightPadded.set(right);

@@ -1,27 +1,30 @@
 export const toolConfig = {
-  id: 'log-anonymizer',
-  name: 'Log File Sensitive Data Masker',
-  category: 'dev',
-  description: 'Anonymize sensitive data (IPs, emails, tokens, keys) in server logs using secure client-side regex.',
-  icon: '🕵️',
-  accept: '.log,.txt',
+  id: "log-anonymizer",
+  name: "Log File Sensitive Data Masker",
+  category: "dev",
+  description:
+    "Anonymize sensitive data (IPs, emails, tokens, keys) in server logs using secure client-side regex.",
+  icon: "🕵️",
+  accept: ".log,.txt",
   maxSizeMB: 10,
-  keywords: ['log', 'anonymize', 'mask', 'sanitize', 'server', 'security'],
-  status: 'done',
+  keywords: ["log", "anonymize", "mask", "sanitize", "server", "security"],
+  status: "done",
   steps: [
-    'Paste or upload your server log text',
-    'Select which data types to mask (IPs, emails, tokens, etc.)',
+    "Paste or upload your server log text",
+    "Select which data types to mask (IPs, emails, tokens, etc.)",
     'Click "Anonymize" to process the log',
-    'Copy or download the sanitized output'
+    "Copy or download the sanitized output"
   ],
   faqs: [
     {
-      question: 'What types of sensitive data can this tool mask?',
-      answer: 'It can mask IP addresses (IPv4/IPv6), email addresses, API keys, tokens, database connection strings, passwords, and credit card numbers.'
+      question: "What types of sensitive data can this tool mask?",
+      answer:
+        "It can mask IP addresses (IPv4/IPv6), email addresses, API keys, tokens, database connection strings, passwords, and credit card numbers."
     },
     {
-      question: 'Is my log data sent to any server?',
-      answer: 'No, all processing happens entirely in your browser. Your log data never leaves your device.'
+      question: "Is my log data sent to any server?",
+      answer:
+        "No, all processing happens entirely in your browser. Your log data never leaves your device."
     }
   ]
 };
@@ -38,14 +41,14 @@ const patterns = {
 };
 
 const masks = {
-  ipv4: '[IP_V4]',
-  ipv6: '[IP_V6]',
-  email: '[EMAIL]',
-  apiKey: '[API_KEY]',
-  bearerToken: '[BEARER_TOKEN]',
-  dbConnection: '[DB_CONN]',
-  creditCard: '[CREDIT_CARD]',
-  uuid: '[UUID]'
+  ipv4: "[IP_V4]",
+  ipv6: "[IP_V6]",
+  email: "[EMAIL]",
+  apiKey: "[API_KEY]",
+  bearerToken: "[BEARER_TOKEN]",
+  dbConnection: "[DB_CONN]",
+  creditCard: "[CREDIT_CARD]",
+  uuid: "[UUID]"
 };
 
 export function anonymizeLog(text, enabledPatterns = Object.keys(patterns)) {
@@ -114,44 +117,98 @@ const LOG_HTML = `
     </div>`;
 
 const MASK_CHECKBOX_MAP = [
-  { id: 'mask-ipv4', key: 'ipv4' }, { id: 'mask-ipv6', key: 'ipv6' }, { id: 'mask-email', key: 'email' },
-  { id: 'mask-apikey', key: 'apiKey' }, { id: 'mask-bearer', key: 'bearerToken' }, { id: 'mask-db', key: 'dbConnection' },
-  { id: 'mask-credit', key: 'creditCard' }, { id: 'mask-uuid', key: 'uuid' }
+  { id: "mask-ipv4", key: "ipv4" },
+  { id: "mask-ipv6", key: "ipv6" },
+  { id: "mask-email", key: "email" },
+  { id: "mask-apikey", key: "apiKey" },
+  { id: "mask-bearer", key: "bearerToken" },
+  { id: "mask-db", key: "dbConnection" },
+  { id: "mask-credit", key: "creditCard" },
+  { id: "mask-uuid", key: "uuid" }
 ];
 
 function getEnabledPatterns(container) {
   return MASK_CHECKBOX_MAP.filter(c => container.querySelector(`#${c.id}`).checked).map(c => c.key);
 }
 
-function bindLogEvents(container, { logInput, logOutput, stats, copyBtn, downloadBtn, fileUpload }) {
-  fileUpload.addEventListener('change', (e) => {
+function bindLogEvents(
+  container,
+  { logInput, logOutput, stats, copyBtn, downloadBtn, fileUpload }
+) {
+  fileUpload.addEventListener("change", e => {
     const file = e.target.files[0];
-    if (file) { const reader = new FileReader(); reader.onload = (ev) => { logInput.value = ev.target.result; }; reader.readAsText(file); }
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        logInput.value = ev.target.result;
+      };
+      reader.readAsText(file);
+    }
   });
-  container.querySelector('#anonymize-btn').addEventListener('click', () => {
+  container.querySelector("#anonymize-btn").addEventListener("click", () => {
     const text = logInput.value.trim();
-    if (!text) { alert('Please paste or upload a log file first.'); return; }
+    if (!text) {
+      alert("Please paste or upload a log file first.");
+      return;
+    }
     const { result, found } = anonymizeLog(text, getEnabledPatterns(container));
     logOutput.value = result;
     const totalFound = Object.values(found).reduce((a, b) => a + b, 0);
-    if (totalFound > 0) { stats.innerHTML = '<h4>Masked Items:</h4>' + Object.entries(found).map(([key, count]) => `<span class="stat-item">${masks[key]}: ${count}</span>`).join(''); }
-    else { stats.innerHTML = '<span class="stat-item">No sensitive data found</span>'; }
-    stats.classList.add('visible'); copyBtn.disabled = false; downloadBtn.disabled = false;
+    if (totalFound > 0) {
+      stats.innerHTML =
+        "<h4>Masked Items:</h4>" +
+        Object.entries(found)
+          .map(([key, count]) => `<span class="stat-item">${masks[key]}: ${count}</span>`)
+          .join("");
+    } else {
+      stats.innerHTML = '<span class="stat-item">No sensitive data found</span>';
+    }
+    stats.classList.add("visible");
+    copyBtn.disabled = false;
+    downloadBtn.disabled = false;
   });
-  copyBtn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(logOutput.value); copyBtn.textContent = 'Copied!'; setTimeout(() => { copyBtn.textContent = 'Copy to Clipboard'; }, 2000); } catch (err) { console.error('Failed to copy:', err); } });
-  downloadBtn.addEventListener('click', () => { const blob = new Blob([logOutput.value], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'sanitized-log.txt'; a.click(); URL.revokeObjectURL(url); });
-  container.querySelector('#clear-btn').addEventListener('click', () => { logInput.value = ''; logOutput.value = ''; stats.innerHTML = ''; stats.classList.remove('visible'); copyBtn.disabled = true; downloadBtn.disabled = true; fileUpload.value = ''; });
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(logOutput.value);
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => {
+        copyBtn.textContent = "Copy to Clipboard";
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  });
+  downloadBtn.addEventListener("click", () => {
+    const blob = new Blob([logOutput.value], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "sanitized-log.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+  container.querySelector("#clear-btn").addEventListener("click", () => {
+    logInput.value = "";
+    logOutput.value = "";
+    stats.innerHTML = "";
+    stats.classList.remove("visible");
+    copyBtn.disabled = true;
+    downloadBtn.disabled = true;
+    fileUpload.value = "";
+  });
 }
 
 export function render(container) {
   container.innerHTML = LOG_HTML;
-  const style = document.createElement('style'); style.textContent = LOG_CSS; container.appendChild(style);
-  const logInput = container.querySelector('#log-input');
-  const logOutput = container.querySelector('#log-output');
-  const stats = container.querySelector('#stats');
-  const copyBtn = container.querySelector('#copy-btn');
-  const downloadBtn = container.querySelector('#download-btn');
-  const fileUpload = container.querySelector('#file-upload');
+  const style = document.createElement("style");
+  style.textContent = LOG_CSS;
+  container.appendChild(style);
+  const logInput = container.querySelector("#log-input");
+  const logOutput = container.querySelector("#log-output");
+  const stats = container.querySelector("#stats");
+  const copyBtn = container.querySelector("#copy-btn");
+  const downloadBtn = container.querySelector("#download-btn");
+  const fileUpload = container.querySelector("#file-upload");
   bindLogEvents(container, { logInput, logOutput, stats, copyBtn, downloadBtn, fileUpload });
 }
 

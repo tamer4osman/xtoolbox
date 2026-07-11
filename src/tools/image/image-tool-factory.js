@@ -1,7 +1,7 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
-import { downloadBlob } from '../../utils/file.js';
-import { showToast } from '../../components/toast.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { loadImageFromFile, canvasToBlob } from "./image-utils.js";
+import { downloadBlob } from "../../utils/file.js";
+import { showToast } from "../../components/toast.js";
 
 /**
  * Factory for image transform tools (Pattern A: full scaffold).
@@ -23,13 +23,13 @@ import { showToast } from '../../components/toast.js';
 export function createImageTool({
   container,
   toolId,
-  accept = 'image/*',
+  accept = "image/*",
   multiple = false,
   maxSizeMB = 50,
-  optionsHTML = '',
-  optionsCSS = '',
-  processingMessage = 'Processing...',
-  successMessage = 'Done!',
+  optionsHTML = "",
+  optionsCSS = "",
+  processingMessage = "Processing...",
+  successMessage = "Done!",
   getFilename,
   getFormat,
   getQuality,
@@ -59,7 +59,7 @@ export function createImageTool({
   `;
 
   if (optionsCSS) {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = optionsCSS;
     container.appendChild(style);
   }
@@ -73,8 +73,8 @@ export function createImageTool({
     processing: container.querySelector(`#${toolId}-processing`),
     downloadBtn: container.querySelector(`#${toolId}-download-btn`),
     showOptions() {
-      elements.optionsArea.style.display = 'block';
-      elements.previewArea.style.display = 'block';
+      elements.optionsArea.style.display = "block";
+      elements.previewArea.style.display = "block";
     }
   };
 
@@ -82,14 +82,14 @@ export function createImageTool({
     accept,
     multiple,
     maxSizeMB,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (multiple) {
         state.images = [];
         for (const f of files) {
           const img = await loadImageFromFile(f);
           state.images.push(img);
         }
-        elements.countInfo.textContent = `${state.images.length} photo${state.images.length !== 1 ? 's' : ''} loaded`;
+        elements.countInfo.textContent = `${state.images.length} photo${state.images.length !== 1 ? "s" : ""} loaded`;
       } else {
         state.originalImage = await loadImageFromFile(files[0]);
         elements.countInfo.textContent = `${state.originalImage.naturalWidth}×${state.originalImage.naturalHeight}px`;
@@ -101,28 +101,28 @@ export function createImageTool({
   });
   elements.uploadArea.appendChild(upload.element);
 
-  elements.downloadBtn.addEventListener('click', async () => {
-    elements.processing.style.display = 'block';
+  elements.downloadBtn.addEventListener("click", async () => {
+    elements.processing.style.display = "block";
     elements.downloadBtn.disabled = true;
     try {
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       processForDownload({ state, canvas, elements });
       const blob = await canvasToBlob(canvas, getFormat(), getQuality());
       downloadBlob(blob, getFilename());
-      showToast(successMessage, 'success');
+      showToast(successMessage, "success");
     } catch (err) {
-      showToast('Error: ' + err.message, 'error');
+      showToast("Error: " + err.message, "error");
     } finally {
-      elements.processing.style.display = 'none';
+      elements.processing.style.display = "none";
       elements.downloadBtn.disabled = false;
     }
   });
 
-  function bindOptionChange({ rangeId, valueId, formatValue = (v) => v, onChange = null }) {
+  function bindOptionChange({ rangeId, valueId, formatValue = v => v, onChange = null }) {
     const range = container.querySelector(`#${rangeId}`);
     const val = container.querySelector(`#${valueId}`);
     if (!range || !val) return;
-    range.addEventListener('input', () => {
+    range.addEventListener("input", () => {
       val.textContent = formatValue(range.value);
       if (onChange) onChange(range.value);
       renderPreview({ state, container, elements });

@@ -1,15 +1,16 @@
-import { showToast } from '../../components/toast.js';
+import { showToast } from "../../components/toast.js";
 
 export const toolConfig = {
-  id: 'bulk-utm-builder',
-  name: 'Bulk UTM Campaign URL Builder',
-  category: 'seo',
-  description: 'Generate campaign tracking URLs in bulk, manage presets, and export directly to CSV.',
-  icon: '🔗',
-  status: 'done'
+  id: "bulk-utm-builder",
+  name: "Bulk UTM Campaign URL Builder",
+  category: "seo",
+  description:
+    "Generate campaign tracking URLs in bulk, manage presets, and export directly to CSV.",
+  icon: "🔗",
+  status: "done"
 };
 
-const STORAGE_KEY = 'wme-utm-presets';
+const STORAGE_KEY = "wme-utm-presets";
 
 const UTM_CSS = `
   .utm-container { max-width: 900px; margin: 0 auto; }
@@ -78,20 +79,27 @@ const UTM_HTML = `
 
 function loadPresets() {
   try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
     return Array.isArray(parsed) ? parsed : [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 
 function savePresets(presets) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(presets)); return true; } catch { return false; }
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(presets));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function refreshPresetList(selectEl) {
   const presets = loadPresets();
   selectEl.innerHTML = '<option value="">-- Select Preset --</option>';
   presets.forEach((p, i) => {
-    const opt = document.createElement('option');
+    const opt = document.createElement("option");
     opt.value = i;
     opt.textContent = p.name;
     selectEl.appendChild(opt);
@@ -100,44 +108,46 @@ function refreshPresetList(selectEl) {
 
 function buildUrl(base, params) {
   let url = base.trim();
-  const separator = url.includes('?') ? '&' : '?';
+  const separator = url.includes("?") ? "&" : "?";
   const utm = [];
-  if (params.source) utm.push('utm_source=' + encodeURIComponent(params.source));
-  if (params.medium) utm.push('utm_medium=' + encodeURIComponent(params.medium));
-  if (params.campaign) utm.push('utm_campaign=' + encodeURIComponent(params.campaign));
-  if (params.content) utm.push('utm_content=' + encodeURIComponent(params.content));
-  if (params.term) utm.push('utm_term=' + encodeURIComponent(params.term));
+  if (params.source) utm.push("utm_source=" + encodeURIComponent(params.source));
+  if (params.medium) utm.push("utm_medium=" + encodeURIComponent(params.medium));
+  if (params.campaign) utm.push("utm_campaign=" + encodeURIComponent(params.campaign));
+  if (params.content) utm.push("utm_content=" + encodeURIComponent(params.content));
+  if (params.term) utm.push("utm_term=" + encodeURIComponent(params.term));
   if (utm.length === 0) return url;
-  return url + separator + utm.join('&');
+  return url + separator + utm.join("&");
 }
 
 function getParams(container) {
   return {
-    source: container.querySelector('#utm-source').value.trim(),
-    medium: container.querySelector('#utm-medium').value.trim(),
-    campaign: container.querySelector('#utm-campaign').value.trim(),
-    content: container.querySelector('#utm-content').value.trim(),
-    term: container.querySelector('#utm-term').value.trim(),
+    source: container.querySelector("#utm-source").value.trim(),
+    medium: container.querySelector("#utm-medium").value.trim(),
+    campaign: container.querySelector("#utm-campaign").value.trim(),
+    content: container.querySelector("#utm-content").value.trim(),
+    term: container.querySelector("#utm-term").value.trim()
   };
 }
 
 function sanitizeCsvValue(v) {
-  const str = v || '';
+  const str = v || "";
   if (/^[=+\-@\t\r]/.test(str)) return "'" + str;
   return str;
 }
 
 function exportCsv(baseUrls, params, urls) {
-  const header = 'base_url,utm_source,utm_medium,utm_campaign,utm_content,utm_term,full_url';
+  const header = "base_url,utm_source,utm_medium,utm_campaign,utm_content,utm_term,full_url";
   const rows = baseUrls.map((u, i) =>
-    [u, params.source, params.medium, params.campaign, params.content, params.term, urls[i] || ''].map(v => '"' + sanitizeCsvValue(v).replace(/"/g, '""') + '"').join(',')
+    [u, params.source, params.medium, params.campaign, params.content, params.term, urls[i] || ""]
+      .map(v => '"' + sanitizeCsvValue(v).replace(/"/g, '""') + '"')
+      .join(",")
   );
-  const csv = header + '\n' + rows.join('\n');
-  const blob = new Blob([csv], { type: 'text/csv' });
+  const csv = header + "\n" + rows.join("\n");
+  const blob = new Blob([csv], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  a.download = 'utm-urls-' + Date.now() + '.csv';
+  a.download = "utm-urls-" + Date.now() + ".csv";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -147,29 +157,29 @@ function exportCsv(baseUrls, params, urls) {
 export function render(container) {
   container.innerHTML = UTM_HTML;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = UTM_CSS;
   container.appendChild(style);
 
   const q = id => container.querySelector(`#${id}`);
   const els = {
-    urls: q('utm-urls'),
-    source: q('utm-source'),
-    medium: q('utm-medium'),
-    campaign: q('utm-campaign'),
-    content: q('utm-content'),
-    term: q('utm-term'),
-    presetSelect: q('utm-preset-select'),
-    loadBtn: q('utm-load'),
-    saveBtn: q('utm-save'),
-    deleteBtn: q('utm-delete'),
-    generateBtn: q('utm-generate'),
-    copyAllBtn: q('utm-copy-all'),
-    exportCsvBtn: q('utm-export-csv'),
-    clearBtn: q('utm-clear'),
-    results: q('utm-results'),
-    count: q('utm-count'),
-    output: q('utm-output'),
+    urls: q("utm-urls"),
+    source: q("utm-source"),
+    medium: q("utm-medium"),
+    campaign: q("utm-campaign"),
+    content: q("utm-content"),
+    term: q("utm-term"),
+    presetSelect: q("utm-preset-select"),
+    loadBtn: q("utm-load"),
+    saveBtn: q("utm-save"),
+    deleteBtn: q("utm-delete"),
+    generateBtn: q("utm-generate"),
+    copyAllBtn: q("utm-copy-all"),
+    exportCsvBtn: q("utm-export-csv"),
+    clearBtn: q("utm-clear"),
+    results: q("utm-results"),
+    count: q("utm-count"),
+    output: q("utm-output")
   };
 
   let generatedUrls = [];
@@ -178,72 +188,101 @@ export function render(container) {
 
   refreshPresetList(els.presetSelect);
 
-  els.saveBtn.addEventListener('click', () => {
-    const name = prompt('Preset name:');
+  els.saveBtn.addEventListener("click", () => {
+    const name = prompt("Preset name:");
     if (!name) return;
     const presets = loadPresets();
-    presets.push({ name, source: els.source.value, medium: els.medium.value, campaign: els.campaign.value, content: els.content.value, term: els.term.value });
-    if (!savePresets(presets)) { showToast({ message: 'Failed to save preset. Storage may be full or unavailable.', type: 'error' }); return; }
+    presets.push({
+      name,
+      source: els.source.value,
+      medium: els.medium.value,
+      campaign: els.campaign.value,
+      content: els.content.value,
+      term: els.term.value
+    });
+    if (!savePresets(presets)) {
+      showToast({
+        message: "Failed to save preset. Storage may be full or unavailable.",
+        type: "error"
+      });
+      return;
+    }
     refreshPresetList(els.presetSelect);
   });
 
-  els.loadBtn.addEventListener('click', () => {
+  els.loadBtn.addEventListener("click", () => {
     const idx = els.presetSelect.value;
-    if (idx === '') return;
+    if (idx === "") return;
     const p = loadPresets()[parseInt(idx)];
     if (!p) return;
-    els.source.value = p.source || '';
-    els.medium.value = p.medium || '';
-    els.campaign.value = p.campaign || '';
-    els.content.value = p.content || '';
-    els.term.value = p.term || '';
+    els.source.value = p.source || "";
+    els.medium.value = p.medium || "";
+    els.campaign.value = p.campaign || "";
+    els.content.value = p.content || "";
+    els.term.value = p.term || "";
   });
 
-  els.deleteBtn.addEventListener('click', () => {
+  els.deleteBtn.addEventListener("click", () => {
     const idx = els.presetSelect.value;
-    if (idx === '') return;
+    if (idx === "") return;
     const presets = loadPresets();
     presets.splice(parseInt(idx), 1);
-    if (!savePresets(presets)) { showToast({ message: 'Failed to delete preset. Storage may be full or unavailable.', type: 'error' }); return; }
+    if (!savePresets(presets)) {
+      showToast({
+        message: "Failed to delete preset. Storage may be full or unavailable.",
+        type: "error"
+      });
+      return;
+    }
     refreshPresetList(els.presetSelect);
   });
 
-  els.generateBtn.addEventListener('click', () => {
-    const urls = els.urls.value.split('\n').map(u => u.trim()).filter(Boolean);
+  els.generateBtn.addEventListener("click", () => {
+    const urls = els.urls.value
+      .split("\n")
+      .map(u => u.trim())
+      .filter(Boolean);
     if (urls.length === 0) return;
     const params = getParams(container);
     generatedBaseUrls = urls;
     generatedParams = params;
     generatedUrls = urls.map(u => buildUrl(u, params));
-    els.output.textContent = generatedUrls.join('\n');
-    els.count.textContent = generatedUrls.length + ' URLs generated';
-    els.results.style.display = 'block';
+    els.output.textContent = generatedUrls.join("\n");
+    els.count.textContent = generatedUrls.length + " URLs generated";
+    els.results.style.display = "block";
   });
 
-  els.copyAllBtn.addEventListener('click', () => {
+  els.copyAllBtn.addEventListener("click", () => {
     if (generatedUrls.length === 0) return;
-    navigator.clipboard.writeText(generatedUrls.join('\n')).then(() => {
-      els.copyAllBtn.textContent = 'Copied!';
-      setTimeout(() => { els.copyAllBtn.textContent = 'Copy All'; }, 1500);
-    }).catch(() => {
-      els.copyAllBtn.textContent = 'Failed';
-      setTimeout(() => { els.copyAllBtn.textContent = 'Copy All'; }, 1500);
-    });
+    navigator.clipboard
+      .writeText(generatedUrls.join("\n"))
+      .then(() => {
+        els.copyAllBtn.textContent = "Copied!";
+        setTimeout(() => {
+          els.copyAllBtn.textContent = "Copy All";
+        }, 1500);
+      })
+      .catch(() => {
+        els.copyAllBtn.textContent = "Failed";
+        setTimeout(() => {
+          els.copyAllBtn.textContent = "Copy All";
+        }, 1500);
+      });
   });
 
-  els.exportCsvBtn.addEventListener('click', () => {
+  els.exportCsvBtn.addEventListener("click", () => {
     if (generatedUrls.length === 0) return;
     exportCsv(generatedBaseUrls, generatedParams, generatedUrls);
   });
 
-  els.clearBtn.addEventListener('click', () => {
-    els.urls.value = '';
-    els.source.value = '';
-    els.medium.value = '';
-    els.campaign.value = '';
-    els.content.value = '';
-    els.term.value = '';
-    els.results.style.display = 'none';
+  els.clearBtn.addEventListener("click", () => {
+    els.urls.value = "";
+    els.source.value = "";
+    els.medium.value = "";
+    els.campaign.value = "";
+    els.content.value = "";
+    els.term.value = "";
+    els.results.style.display = "none";
     generatedUrls = [];
     generatedBaseUrls = [];
     generatedParams = {};

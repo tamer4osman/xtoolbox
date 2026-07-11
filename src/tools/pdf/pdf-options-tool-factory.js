@@ -1,6 +1,6 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
 
 const STYLES = `
   .tool-options { background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-lg);margin:var(--space-4) 0; }
@@ -10,13 +10,13 @@ const STYLES = `
 export function createPdfOptionsTool({
   container,
   toolId,
-  accept = '.pdf',
+  accept = ".pdf",
   maxSizeMB = 100,
-  optionsHTML = '',
-  actionButtonText = 'Run',
-  processingMessage = 'Working...',
-  outputFilename = 'output.pdf',
-  successMessage = 'Done!',
+  optionsHTML = "",
+  actionButtonText = "Run",
+  processingMessage = "Working...",
+  outputFilename = "output.pdf",
+  successMessage = "Done!",
   validate,
   process
 }) {
@@ -26,9 +26,9 @@ export function createPdfOptionsTool({
     accept,
     multiple: false,
     maxSizeMB,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       currentFile = files[0] || null;
-      optionsArea.style.display = currentFile ? 'block' : 'none';
+      optionsArea.style.display = currentFile ? "block" : "none";
     }
   });
 
@@ -52,37 +52,37 @@ export function createPdfOptionsTool({
   const actionBtn = container.querySelector(`#${toolId}-action-btn`);
   const processing = container.querySelector(`#${toolId}-processing`);
 
-  actionBtn.addEventListener('click', async () => {
+  actionBtn.addEventListener("click", async () => {
     if (!currentFile) return;
 
-    if (typeof validate === 'function') {
+    if (typeof validate === "function") {
       const err = validate(optionsArea);
       if (err) {
-        showToast({ message: err, type: 'warning' });
+        showToast({ message: err, type: "warning" });
         return;
       }
     }
 
-    processing.style.display = 'block';
-    actionBtn.style.display = 'none';
+    processing.style.display = "block";
+    actionBtn.style.display = "none";
 
     try {
-const result = await process(currentFile);
-       let blob = null;
-       let msg = successMessage;
-       if (result instanceof Blob) {
-         blob = result;
-       } else if (result && typeof result === 'object') {
+      const result = await process(currentFile);
+      let blob = null;
+      let msg = successMessage;
+      if (result instanceof Blob) {
+        blob = result;
+      } else if (result && typeof result === "object") {
         if (result.blob) blob = result.blob;
         if (result.successMessage) msg = result.successMessage;
       }
       if (blob) downloadBlob(blob, outputFilename);
-      showToast({ message: msg, type: 'success' });
+      showToast({ message: msg, type: "success" });
     } catch (err) {
-      showToast({ message: 'Error: ' + (err?.message || 'Unknown error'), type: 'error' });
+      showToast({ message: "Error: " + (err?.message || "Unknown error"), type: "error" });
     } finally {
-      processing.style.display = 'none';
-      actionBtn.style.display = 'inline-flex';
+      processing.style.display = "none";
+      actionBtn.style.display = "inline-flex";
     }
   });
 

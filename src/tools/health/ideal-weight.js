@@ -1,16 +1,16 @@
-import { createHealthCalculator } from './health-calculator.js';
+import { createHealthCalculator } from "./health-calculator.js";
 
 export const toolConfig = {
-  id: 'ideal-weight',
-  name: 'Ideal Weight Calculator',
-  category: 'health',
-  description: 'Calculate ideal weight range based on height and gender.',
-  icon: '🎯',
-  status: 'done'
+  id: "ideal-weight",
+  name: "Ideal Weight Calculator",
+  category: "health",
+  description: "Calculate ideal weight range based on height and gender.",
+  icon: "🎯",
+  status: "done"
 };
 
 const HEIGHT_FIELD = {
-  type: 'custom',
+  type: "custom",
   html: `
     <div class="form-group">
       <label>Height (cm or ft/in)</label>
@@ -44,41 +44,46 @@ const RESULT_CSS = `
 export function render(container) {
   createHealthCalculator({
     container,
-    containerClass: 'weight-container',
-    calcButtonLabel: 'Calculate',
+    containerClass: "weight-container",
+    calcButtonLabel: "Calculate",
     extraCSS: RESULT_CSS,
     fields: [
       HEIGHT_FIELD,
-      { id: 'gender', type: 'select', label: 'Gender', options: [
-        { value: 'male', label: 'Male', selected: true },
-        { value: 'female', label: 'Female' }
-      ]}
+      {
+        id: "gender",
+        type: "select",
+        label: "Gender",
+        options: [
+          { value: "male", label: "Male", selected: true },
+          { value: "female", label: "Female" }
+        ]
+      }
     ],
     onCalculate: (container, resultEl) => {
-      const unitEl = container.querySelector('#unit');
+      const unitEl = container.querySelector("#unit");
       const unit = unitEl.value;
-      const gender = container.querySelector('#gender').value;
+      const gender = container.querySelector("#gender").value;
 
       if (!unitEl._toggleWired) {
-        const cmInput = container.querySelector('#height');
-        const ftInput = container.querySelector('#height-feet');
-        const inInput = container.querySelector('#height-inches');
-        unitEl.addEventListener('change', () => {
-          const isMetric = unitEl.value === 'cm';
-          cmInput.style.display = isMetric ? '' : 'none';
-          ftInput.style.display = isMetric ? 'none' : '';
-          inInput.style.display = isMetric ? 'none' : '';
+        const cmInput = container.querySelector("#height");
+        const ftInput = container.querySelector("#height-feet");
+        const inInput = container.querySelector("#height-inches");
+        unitEl.addEventListener("change", () => {
+          const isMetric = unitEl.value === "cm";
+          cmInput.style.display = isMetric ? "" : "none";
+          ftInput.style.display = isMetric ? "none" : "";
+          inInput.style.display = isMetric ? "none" : "";
         });
         unitEl._toggleWired = true;
       }
 
       let h;
-      if (unit === 'ft') {
-        const feet = parseFloat(container.querySelector('#height-feet').value) || 5;
-        const inches = parseFloat(container.querySelector('#height-inches').value) || 0;
+      if (unit === "ft") {
+        const feet = parseFloat(container.querySelector("#height-feet").value) || 5;
+        const inches = parseFloat(container.querySelector("#height-inches").value) || 0;
         h = (feet * 12 + inches) * 2.54;
       } else {
-        h = parseFloat(container.querySelector('#height').value) || 170;
+        h = parseFloat(container.querySelector("#height").value) || 170;
       }
 
       const hM = h / 100;
@@ -87,9 +92,9 @@ export function render(container) {
       const minKg = minBMI * hM * hM;
       const maxKg = maxBMI * hM * hM;
 
-      const base = gender === 'male' ? 52 : 49;
+      const base = gender === "male" ? 52 : 49;
       const inches = h / 2.54 - 60;
-      const calc = (factor) => base + factor * inches;
+      const calc = factor => base + factor * inches;
 
       const weights = {
         robinson: calc(1.9),

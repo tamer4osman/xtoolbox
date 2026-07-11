@@ -2,15 +2,17 @@ export function parseUrl(url) {
   try {
     const u = new URL(url);
     const params = {};
-    u.searchParams.forEach((v, k) => { params[k] = v; });
+    u.searchParams.forEach((v, k) => {
+      params[k] = v;
+    });
     return {
-      protocol: u.protocol.replace(':', ''),
+      protocol: u.protocol.replace(":", ""),
       hostname: u.hostname,
       port: u.port,
       host: u.host,
       pathname: u.pathname,
       search: u.search,
-      hash: u.hash.replace('#', ''),
+      hash: u.hash.replace("#", ""),
       origin: u.origin,
       params,
       valid: true
@@ -21,12 +23,14 @@ export function parseUrl(url) {
 }
 
 export function buildUrl(parts) {
-  let url = `${parts.protocol || 'https'}://${parts.hostname || 'example.com'}`;
+  let url = `${parts.protocol || "https"}://${parts.hostname || "example.com"}`;
   if (parts.port) url += `:${parts.port}`;
-  url += parts.pathname || '/';
+  url += parts.pathname || "/";
   const params = new URLSearchParams();
   if (parts.params) {
-    Object.entries(parts.params).forEach(([k, v]) => { if (v) params.set(k, v); });
+    Object.entries(parts.params).forEach(([k, v]) => {
+      if (v) params.set(k, v);
+    });
   }
   const qs = params.toString();
   if (qs) url += `?${qs}`;
@@ -35,18 +39,37 @@ export function buildUrl(parts) {
 }
 
 export const toolConfig = {
-  id: 'url-parser',
-  name: 'URL Parser & Builder',
-  category: 'dev',
-  description: 'Parse any URL into its components or build a URL from parts. View query parameters as a table.',
-  icon: '🔍',
+  id: "url-parser",
+  name: "URL Parser & Builder",
+  category: "dev",
+  description:
+    "Parse any URL into its components or build a URL from parts. View query parameters as a table.",
+  icon: "🔍",
   accept: null,
   maxSizeMB: null,
-  keywords: ['url parser', 'url builder', 'parse url', 'query parameters', 'url components', 'url encoder'],
-  steps: ['Enter a URL to parse its components', 'Edit components to build a custom URL', 'Copy the result'],
+  keywords: [
+    "url parser",
+    "url builder",
+    "parse url",
+    "query parameters",
+    "url components",
+    "url encoder"
+  ],
+  steps: [
+    "Enter a URL to parse its components",
+    "Edit components to build a custom URL",
+    "Copy the result"
+  ],
   faqs: [
-    { question: 'What URL formats are supported?', answer: 'Any valid URL with scheme (http://, https://, ftp://, etc.).' },
-    { question: 'Can I edit query parameters?', answer: 'Yes. Parse a URL, edit the parameter values in the table, and the built URL updates automatically.' }
+    {
+      question: "What URL formats are supported?",
+      answer: "Any valid URL with scheme (http://, https://, ftp://, etc.)."
+    },
+    {
+      question: "Can I edit query parameters?",
+      answer:
+        "Yes. Parse a URL, edit the parameter values in the table, and the built URL updates automatically."
+    }
   ]
 };
 
@@ -105,52 +128,60 @@ export function render(container) {
     </div>
   `;
 
-  const input = container.querySelector('#up-input');
-  const parseBtn = container.querySelector('#up-parse');
-  const resultDiv = container.querySelector('#up-result');
-  const protocol = container.querySelector('#up-protocol');
-  const host = container.querySelector('#up-host');
-  const port = container.querySelector('#up-port');
-  const path = container.querySelector('#up-path');
-  const hash = container.querySelector('#up-hash');
-  const origin = container.querySelector('#up-origin');
-  const paramsTable = container.querySelector('#up-params-table');
-  const paramCount = container.querySelector('#up-param-count');
-  const built = container.querySelector('#up-built');
-  const copyBtn = container.querySelector('#up-copy');
+  const input = container.querySelector("#up-input");
+  const parseBtn = container.querySelector("#up-parse");
+  const resultDiv = container.querySelector("#up-result");
+  const protocol = container.querySelector("#up-protocol");
+  const host = container.querySelector("#up-host");
+  const port = container.querySelector("#up-port");
+  const path = container.querySelector("#up-path");
+  const hash = container.querySelector("#up-hash");
+  const origin = container.querySelector("#up-origin");
+  const paramsTable = container.querySelector("#up-params-table");
+  const paramCount = container.querySelector("#up-param-count");
+  const built = container.querySelector("#up-built");
+  const copyBtn = container.querySelector("#up-copy");
 
   let currentParts = null;
 
-  function esc(s) { return s || '—'; }
+  function esc(s) {
+    return s || "—";
+  }
 
   function parse() {
     const result = parseUrl(input.value);
     if (!result.valid) {
-      resultDiv.style.display = 'block';
-      resultDiv.innerHTML = '<div style="padding:var(--space-4);color:var(--color-danger);text-align:center;">Invalid URL. Make sure it starts with http:// or https://</div>';
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML =
+        '<div style="padding:var(--space-4);color:var(--color-danger);text-align:center;">Invalid URL. Make sure it starts with http:// or https://</div>';
       return;
     }
 
-    resultDiv.style.display = 'block';
+    resultDiv.style.display = "block";
     protocol.textContent = esc(result.protocol);
     host.textContent = esc(result.hostname);
-    port.textContent = esc(result.port || '(default)');
+    port.textContent = esc(result.port || "(default)");
     path.textContent = esc(result.pathname);
-    hash.textContent = esc(result.hash || '(none)');
+    hash.textContent = esc(result.hash || "(none)");
     origin.textContent = esc(result.origin);
 
     const entries = Object.entries(result.params);
     paramCount.textContent = entries.length;
 
     if (entries.length === 0) {
-      paramsTable.innerHTML = '<div style="color:var(--color-text-muted);font-size:var(--text-sm);">No query parameters</div>';
+      paramsTable.innerHTML =
+        '<div style="color:var(--color-text-muted);font-size:var(--text-sm);">No query parameters</div>';
     } else {
-      paramsTable.innerHTML = entries.map(([k, v], i) => `
+      paramsTable.innerHTML = entries
+        .map(
+          ([k, v], i) => `
         <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-2);">
           <input type="text" class="text-input up-pkey" value="${esc(k)}" placeholder="Key" style="flex:1;font-family:monospace;font-size:var(--text-sm);">
           <input type="text" class="text-input up-pval" value="${esc(v)}" placeholder="Value" style="flex:2;font-family:monospace;font-size:var(--text-sm);">
         </div>
-      `).join('');
+      `
+        )
+        .join("");
     }
 
     currentParts = result;
@@ -159,31 +190,33 @@ export function render(container) {
 
   function rebuild() {
     if (!currentParts) return;
-    const paramInputs = paramsTable.querySelectorAll('.up-pkey, .up-pval');
+    const paramInputs = paramsTable.querySelectorAll(".up-pkey, .up-pval");
     const params = {};
-    const keys = paramsTable.querySelectorAll('.up-pkey');
-    const vals = paramsTable.querySelectorAll('.up-pval');
+    const keys = paramsTable.querySelectorAll(".up-pkey");
+    const vals = paramsTable.querySelectorAll(".up-pval");
     keys.forEach((kEl, i) => {
       const k = kEl.value.trim();
-      const v = vals[i]?.value.trim() || '';
+      const v = vals[i]?.value.trim() || "";
       if (k) params[k] = v;
     });
 
     const parts = {
-      protocol: protocol.textContent === '(default)' ? 'https' : protocol.textContent,
+      protocol: protocol.textContent === "(default)" ? "https" : protocol.textContent,
       hostname: host.textContent,
-      port: port.textContent === '(default)' ? '' : port.textContent,
+      port: port.textContent === "(default)" ? "" : port.textContent,
       pathname: path.textContent,
-      hash: hash.textContent === '(none)' ? '' : hash.textContent,
+      hash: hash.textContent === "(none)" ? "" : hash.textContent,
       params
     };
     built.textContent = buildUrl(parts);
   }
 
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') parse(); });
-  parseBtn.addEventListener('click', parse);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") parse();
+  });
+  parseBtn.addEventListener("click", parse);
 
-  copyBtn.addEventListener('click', () => {
+  copyBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(built.textContent).catch(() => {});
   });
 

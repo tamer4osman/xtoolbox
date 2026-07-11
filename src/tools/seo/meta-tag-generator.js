@@ -1,18 +1,18 @@
-import { createGeneratorTool } from '../../utils/generator-tool.js';
+import { createGeneratorTool } from "../../utils/generator-tool.js";
 
 export const toolConfig = {
-  id: 'meta-tag-generator',
-  name: 'Meta Tag Generator',
-  category: 'seo',
-  description: 'Generate SEO meta tags for your website.',
-  icon: '🏷️',
-  status: 'done'
+  id: "meta-tag-generator",
+  name: "Meta Tag Generator",
+  category: "seo",
+  description: "Generate SEO meta tags for your website.",
+  icon: "🏷️",
+  status: "done"
 };
 
 export function render(container) {
   createGeneratorTool({
     container,
-    title: 'Meta Tag Generator',
+    title: "Meta Tag Generator",
     renderForm: () => `
       <input type="text" id="title" placeholder="Page Title" value="My Page Title">
       <textarea id="desc" placeholder="Meta description...">Welcome to my website</textarea>
@@ -29,28 +29,35 @@ export function render(container) {
       </div>
     `,
     generate(c) {
-      const esc = s => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const title = c.querySelector('#title').value;
-      const desc = c.querySelector('#desc').value;
-      const keywords = c.querySelector('#keywords').value;
-      const canonical = c.querySelector('#canonical').value;
-      const ogTitle = c.querySelector('#ogTitle').value || title;
-      const ogDesc = c.querySelector('#ogDesc').value || desc;
-      const ogImage = c.querySelector('#ogImage').value;
+      const esc = s =>
+        s
+          .replace(/&/g, "&amp;")
+          .replace(/"/g, "&quot;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      const title = c.querySelector("#title").value;
+      const desc = c.querySelector("#desc").value;
+      const keywords = c.querySelector("#keywords").value;
+      const canonical = c.querySelector("#canonical").value;
+      const ogTitle = c.querySelector("#ogTitle").value || title;
+      const ogDesc = c.querySelector("#ogDesc").value || desc;
+      const ogImage = c.querySelector("#ogImage").value;
 
-      let tags = '<title>' + esc(title) + '</title>\n';
+      let tags = "<title>" + esc(title) + "</title>\n";
       if (desc) tags += '<meta name="description" content="' + esc(desc) + '">\n';
       if (keywords) tags += '<meta name="keywords" content="' + esc(keywords) + '">\n';
       if (canonical) tags += '<link rel="canonical" href="' + esc(canonical) + '">\n';
-      tags += '\n<!-- Open Graph -->\n';
+      tags += "\n<!-- Open Graph -->\n";
       tags += '<meta property="og:title" content="' + esc(ogTitle) + '">\n';
       tags += '<meta property="og:description" content="' + esc(ogDesc) + '">\n';
       if (ogImage) tags += '<meta property="og:image" content="' + esc(ogImage) + '">\n';
-      tags += '\n<!-- Robots -->\n';
-      if (c.querySelector('#noindex').checked) tags += '<meta name="robots" content="noindex">\n';
-      if (c.querySelector('#nofollow').checked) tags += '<meta name="robots" content="nofollow">\n';
-      if (c.querySelector('#noarchive').checked) tags += '<meta name="robots" content="noarchive">\n';
-      if (c.querySelector('#nosnippet').checked) tags += '<meta name="robots" content="nosnippet">\n';
+      tags += "\n<!-- Robots -->\n";
+      if (c.querySelector("#noindex").checked) tags += '<meta name="robots" content="noindex">\n';
+      if (c.querySelector("#nofollow").checked) tags += '<meta name="robots" content="nofollow">\n';
+      if (c.querySelector("#noarchive").checked)
+        tags += '<meta name="robots" content="noarchive">\n';
+      if (c.querySelector("#nosnippet").checked)
+        tags += '<meta name="robots" content="nosnippet">\n';
       return tags;
     }
   });

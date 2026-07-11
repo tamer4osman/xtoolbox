@@ -1,17 +1,20 @@
-import { createImageTool } from './create-image-tool.js';
+import { createImageTool } from "./create-image-tool.js";
 
 export const toolConfig = {
-  id: 'rotate-flip-image',
-  name: 'Rotate & Flip Image',
-  category: 'image',
-  description: 'Rotate images 90°, 180°, 270° or flip horizontally/vertically.',
-  icon: '🔄',
-  accept: 'image/*',
+  id: "rotate-flip-image",
+  name: "Rotate & Flip Image",
+  category: "image",
+  description: "Rotate images 90°, 180°, 270° or flip horizontally/vertically.",
+  icon: "🔄",
+  accept: "image/*",
   maxSizeMB: 50,
-  keywords: ['rotate image', 'flip image', 'turn image', 'mirror image'],
-  steps: ['Upload an image', 'Click rotate or flip buttons', 'Preview the result', 'Download'],
+  keywords: ["rotate image", "flip image", "turn image", "mirror image"],
+  steps: ["Upload an image", "Click rotate or flip buttons", "Preview the result", "Download"],
   faqs: [
-    { question: 'Can I combine rotation and flip?', answer: 'Yes. Apply multiple operations before downloading.' }
+    {
+      question: "Can I combine rotation and flip?",
+      answer: "Yes. Apply multiple operations before downloading."
+    }
   ]
 };
 
@@ -23,16 +26,22 @@ function getDimensions(img, maxScale) {
   const isRotated = rotation % 180 !== 0;
   return {
     w: isRotated ? img.naturalHeight : img.naturalWidth,
-    h: isRotated ? img.naturalWidth : img.naturalHeight,
+    h: isRotated ? img.naturalWidth : img.naturalHeight
   };
 }
 
 function drawEffect(ctx, w, h, scale, tctx, img) {
   ctx.save();
   ctx.translate(w / 2, h / 2);
-  ctx.rotate(rotation * Math.PI / 180);
+  ctx.rotate((rotation * Math.PI) / 180);
   ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
-  ctx.drawImage(img, -img.naturalWidth * scale / 2, -img.naturalHeight * scale / 2, img.naturalWidth * scale, img.naturalHeight * scale);
+  ctx.drawImage(
+    img,
+    (-img.naturalWidth * scale) / 2,
+    (-img.naturalHeight * scale) / 2,
+    img.naturalWidth * scale,
+    img.naturalHeight * scale
+  );
   ctx.restore();
 }
 
@@ -49,14 +58,38 @@ export const render = createImageTool({
   `,
   drawEffect,
   getDimensions,
-  onUpload: () => { rotation = 0; flipH = false; flipV = false; },
-  onReady: ({ container, updatePreview }) => {
-    container.querySelector('#rotate-ccw').addEventListener('click', () => { rotation = (rotation - 90 + 360) % 360; updatePreview(); });
-    container.querySelector('#rotate-cw').addEventListener('click', () => { rotation = (rotation + 90) % 360; updatePreview(); });
-    container.querySelector('#rotate-180').addEventListener('click', () => { rotation = (rotation + 180) % 360; updatePreview(); });
-    container.querySelector('#flip-h').addEventListener('click', () => { flipH = !flipH; updatePreview(); });
-    container.querySelector('#flip-v').addEventListener('click', () => { flipV = !flipV; updatePreview(); });
-    container.querySelector('#reset-btn').addEventListener('click', () => { rotation = 0; flipH = false; flipV = false; updatePreview(); });
+  onUpload: () => {
+    rotation = 0;
+    flipH = false;
+    flipV = false;
   },
-  destroy: () => {},
+  onReady: ({ container, updatePreview }) => {
+    container.querySelector("#rotate-ccw").addEventListener("click", () => {
+      rotation = (rotation - 90 + 360) % 360;
+      updatePreview();
+    });
+    container.querySelector("#rotate-cw").addEventListener("click", () => {
+      rotation = (rotation + 90) % 360;
+      updatePreview();
+    });
+    container.querySelector("#rotate-180").addEventListener("click", () => {
+      rotation = (rotation + 180) % 360;
+      updatePreview();
+    });
+    container.querySelector("#flip-h").addEventListener("click", () => {
+      flipH = !flipH;
+      updatePreview();
+    });
+    container.querySelector("#flip-v").addEventListener("click", () => {
+      flipV = !flipV;
+      updatePreview();
+    });
+    container.querySelector("#reset-btn").addEventListener("click", () => {
+      rotation = 0;
+      flipH = false;
+      flipV = false;
+      updatePreview();
+    });
+  },
+  destroy: () => {}
 });

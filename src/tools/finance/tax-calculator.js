@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'tax-calculator',
-  name: 'Tax Estimator',
-  category: 'finance',
-  description: 'Estimate income tax based on income and deductions.',
-  icon: '🧾',
-  status: 'done'
+  id: "tax-calculator",
+  name: "Tax Estimator",
+  category: "finance",
+  description: "Estimate income tax based on income and deductions.",
+  icon: "🧾",
+  status: "done"
 };
 
 export function render(container) {
@@ -63,7 +63,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -93,28 +93,33 @@ export function render(container) {
     { rate: 37, min: 609350, max: Infinity }
   ];
 
-  container.querySelector('#calc-btn').addEventListener('click', () => {
-    const income = parseFloat(container.querySelector('#income').value);
-    const deduction = parseFloat(container.querySelector('#deduction').value);
+  container.querySelector("#calc-btn").addEventListener("click", () => {
+    const income = parseFloat(container.querySelector("#income").value);
+    const deduction = parseFloat(container.querySelector("#deduction").value);
     const taxable = Math.max(0, income - deduction);
-    
+
     let tax = 0;
-    let bracketText = '';
+    let bracketText = "";
     for (const b of brackets) {
       if (taxable > b.min) {
         const taxableInBracket = Math.min(taxable, b.max) - b.min;
-        tax += taxableInBracket * b.rate / 100;
-        bracketText += '<div class="bracket-item"><span>' + b.rate + '% bracket</span><span>$' + taxableInBracket.toLocaleString() + '</span></div>';
+        tax += (taxableInBracket * b.rate) / 100;
+        bracketText +=
+          '<div class="bracket-item"><span>' +
+          b.rate +
+          "% bracket</span><span>$" +
+          taxableInBracket.toLocaleString() +
+          "</span></div>";
       }
     }
-    
-    const effectiveRate = (tax / income * 100) || 0;
-    
-    document.getElementById('taxable').textContent = '$' + taxable.toLocaleString();
-    document.getElementById('tax').textContent = '$' + tax.toFixed(0);
-    document.getElementById('rate').textContent = effectiveRate.toFixed(1) + '%';
-    document.getElementById('take-home').textContent = '$' + (income - tax).toLocaleString();
-    document.getElementById('brackets').innerHTML = bracketText;
-    container.querySelector('#result').classList.remove('hidden');
+
+    const effectiveRate = (tax / income) * 100 || 0;
+
+    document.getElementById("taxable").textContent = "$" + taxable.toLocaleString();
+    document.getElementById("tax").textContent = "$" + tax.toFixed(0);
+    document.getElementById("rate").textContent = effectiveRate.toFixed(1) + "%";
+    document.getElementById("take-home").textContent = "$" + (income - tax).toLocaleString();
+    document.getElementById("brackets").innerHTML = bracketText;
+    container.querySelector("#result").classList.remove("hidden");
   });
 }

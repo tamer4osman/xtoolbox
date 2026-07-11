@@ -13,31 +13,31 @@ export const toolConfig = {
     "Upload an image",
     "Choose blur type and adjust intensity",
     "Preview the result",
-    "Download the blurred image",
+    "Download the blurred image"
   ],
   faqs: [
     {
       question: "What is the difference between Gaussian and box blur?",
       answer:
-        "Gaussian blur produces a smooth, natural-looking blur by weighting nearby pixels more heavily. Box blur averages all pixels equally within the radius, producing a more uniform but less natural effect.",
+        "Gaussian blur produces a smooth, natural-looking blur by weighting nearby pixels more heavily. Box blur averages all pixels equally within the radius, producing a more uniform but less natural effect."
     },
     {
       question: "What is motion blur?",
       answer:
-        "Motion blur simulates the effect of movement during a photo exposure. You can set the angle to control the direction of the blur streak.",
+        "Motion blur simulates the effect of movement during a photo exposure. You can set the angle to control the direction of the blur streak."
     },
     {
       question: "Will this reduce image quality?",
       answer:
-        "Blur inherently reduces sharpness. Higher radius values produce stronger blur. The tool preserves the original image dimensions and format.",
-    },
-  ],
+        "Blur inherently reduces sharpness. Higher radius values produce stronger blur. The tool preserves the original image dimensions and format."
+    }
+  ]
 };
 
 const BLUR_TYPES = [
   { id: "gaussian", name: "Gaussian" },
   { id: "box", name: "Box" },
-  { id: "motion", name: "Motion" },
+  { id: "motion", name: "Motion" }
 ];
 
 function applyGaussianBlur(ctx, w, h, radius) {
@@ -185,13 +185,13 @@ export function render(container) {
       const radius = parseInt(container.querySelector("#radius-range").value) || 5;
       const angle = parseInt(container.querySelector("#angle-range").value) || 0;
       applyBlur(ctx, img.naturalWidth, img.naturalHeight, blurType, radius, angle);
-    },
+    }
   });
 
   function renderTypeButtons() {
     const btns = container.querySelector("#type-buttons");
     btns.innerHTML = "";
-    BLUR_TYPES.forEach((type) => {
+    BLUR_TYPES.forEach(type => {
       const btn = document.createElement("button");
       btn.className = `btn btn-sm ${blurType === type.id ? "btn-primary" : "btn-secondary"}`;
       btn.textContent = type.name;

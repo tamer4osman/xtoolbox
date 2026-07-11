@@ -15,14 +15,14 @@ export const toolConfig = {
   faqs: [
     {
       question: "What is BPM?",
-      answer: "BPM stands for Beats Per Minute, which indicates the tempo of a song.",
+      answer: "BPM stands for Beats Per Minute, which indicates the tempo of a song."
     },
     {
       question: "How accurate is key detection?",
       answer:
-        "Key detection works best on music with clear harmonic content. Results may vary with complex arrangements.",
-    },
-  ],
+        "Key detection works best on music with clear harmonic content. Results may vary with complex arrangements."
+    }
+  ]
 };
 
 const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -178,13 +178,13 @@ export function detectKey(chroma) {
       tonic: shift,
       mode: "major",
       label: NOTE_NAMES[shift],
-      confidence: Math.max(0, corrMajor),
+      confidence: Math.max(0, corrMajor)
     });
     scores.push({
       tonic: shift,
       mode: "minor",
       label: NOTE_NAMES[shift] + "m",
-      confidence: Math.max(0, corrMinor),
+      confidence: Math.max(0, corrMinor)
     });
     if (corrMajor > bestCorr) {
       bestCorr = corrMajor;
@@ -203,7 +203,7 @@ export function detectKey(chroma) {
     mode: bestMode,
     label: NOTE_NAMES[bestKey] + (bestMode === "minor" ? "m" : ""),
     confidence: Math.max(0, bestCorr),
-    scores,
+    scores
   };
 }
 
@@ -241,7 +241,7 @@ export function render(container) {
     accept: "audio/*",
     multiple: false,
     maxSizeMB: 100,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       try {
         audioBuffer = await loadAudioFile(files[0]);
@@ -252,7 +252,7 @@ export function render(container) {
       } catch {
         showToast({ message: "Failed to load audio file.", type: "error" });
       }
-    },
+    }
   });
 
   container.innerHTML = `
@@ -313,7 +313,7 @@ export function render(container) {
               <span>${s.label}</span>
               <span>${(s.confidence * 100).toFixed(1)}%</span>
             </div>
-          `,
+          `
             )
             .join("")}
         `;

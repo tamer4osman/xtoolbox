@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'age-calculator',
-  name: 'Age Calculator',
-  category: 'math',
-  description: 'Calculate exact age in years, months, days. Next birthday and zodiac sign.',
-  icon: '🎂',
-  status: 'done'
+  id: "age-calculator",
+  name: "Age Calculator",
+  category: "math",
+  description: "Calculate exact age in years, months, days. Next birthday and zodiac sign.",
+  icon: "🎂",
+  status: "done"
 };
 
 export function render(container) {
@@ -37,7 +37,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .calc-container { max-width: 400px; margin: 0 auto; }
     .calc-container h2 { text-align: center; margin-bottom: var(--space-6); }
@@ -60,36 +60,66 @@ export function render(container) {
   container.appendChild(style);
 
   const zodiac = [
-    'Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 
-    'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn'
+    "Capricorn",
+    "Aquarius",
+    "Pisces",
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+    "Capricorn"
   ];
-  const zodiacIcons = ['♑', '♒', '♓', '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑'];
+  const zodiacIcons = [
+    "♑",
+    "♒",
+    "♓",
+    "♈",
+    "♉",
+    "♊",
+    "♋",
+    "♌",
+    "♍",
+    "♎",
+    "♏",
+    "♐",
+    "♑"
+  ];
 
-  container.querySelector('#calc-btn').addEventListener('click', () => {
-    const birth = new Date(container.querySelector('#birth-date').value);
+  container.querySelector("#calc-btn").addEventListener("click", () => {
+    const birth = new Date(container.querySelector("#birth-date").value);
     const now = new Date();
-    
+
     let years = now.getFullYear() - birth.getFullYear();
     let months = now.getMonth() - birth.getMonth();
     let days = now.getDate() - birth.getDate();
-    
-    if (days < 0) { months--; days += 30; }
-    if (months < 0) { years--; months += 12; }
-    
+
+    if (days < 0) {
+      months--;
+      days += 30;
+    }
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
     const totalDays = Math.floor((now - birth) / (1000 * 60 * 60 * 24));
     const nextBirthday = new Date(now.getFullYear(), birth.getMonth(), birth.getDate());
     if (nextBirthday < now) nextBirthday.setFullYear(now.getFullYear() + 1);
     const daysToBirthday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));
-    
+
     const birthMonth = birth.getMonth();
     const zodiacIdx = birthMonth + (birth.getDate() > 20 ? 1 : 0);
-    
-    container.querySelector('#years').textContent = years;
-    container.querySelector('#months').textContent = months;
-    container.querySelector('#days').textContent = days;
-    container.querySelector('#birthday-info').textContent = 
-      `Zodiac: ${zodiac[zodiacIdx]} ${zodiacIcons[zodiacIdx]} | Next birthday in ${daysToBirthday} days`;
-    container.querySelector('#result').classList.remove('hidden');
-  });
 
+    container.querySelector("#years").textContent = years;
+    container.querySelector("#months").textContent = months;
+    container.querySelector("#days").textContent = days;
+    container.querySelector("#birthday-info").textContent =
+      `Zodiac: ${zodiac[zodiacIdx]} ${zodiacIcons[zodiacIdx]} | Next birthday in ${daysToBirthday} days`;
+    container.querySelector("#result").classList.remove("hidden");
+  });
 }

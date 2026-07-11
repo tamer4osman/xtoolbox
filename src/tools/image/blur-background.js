@@ -16,31 +16,31 @@ export const toolConfig = {
     "tilt shift",
     "bokeh",
     "pixelate",
-    "region blur",
+    "region blur"
   ],
   steps: [
     "Upload an image",
     "Choose blur mode and type",
     "Adjust intensity and focus area",
-    "Download the result",
+    "Download the result"
   ],
   faqs: [
     {
       question: "What blur types are available?",
       answer:
-        "Gaussian (smooth, natural blur), Box (uniform averaging), and Pixelate (mosaic block effect).",
+        "Gaussian (smooth, natural blur), Box (uniform averaging), and Pixelate (mosaic block effect)."
     },
     {
       question: "What area modes are available?",
       answer:
-        "Full (entire image), Radial (center sharp, edges blurred), Linear (tilt-shift), and Region (draw a rectangle to blur).",
+        "Full (entire image), Radial (center sharp, edges blurred), Linear (tilt-shift), and Region (draw a rectangle to blur)."
     },
     {
       question: "How do I use Region mode?",
       answer:
-        "Select Region mode, then click and drag on the preview to draw a rectangle. Only that area will be blurred.",
-    },
-  ],
+        "Select Region mode, then click and drag on the preview to draw a rectangle. Only that area will be blurred."
+    }
+  ]
 };
 
 const AREA_MODES = [
@@ -48,13 +48,13 @@ const AREA_MODES = [
   { id: "radial", name: "🔘 Radial" },
   { id: "linear-h", name: "↔️ Horizontal" },
   { id: "linear-v", name: "↕️ Vertical" },
-  { id: "region", name: "◻️ Region" },
+  { id: "region", name: "◻️ Region" }
 ];
 
 const BLUR_TYPES = [
   { id: "gaussian", name: "Gaussian" },
   { id: "box", name: "Box" },
-  { id: "pixelate", name: "Pixelate" },
+  { id: "pixelate", name: "Pixelate" }
 ];
 
 function applyGaussianBlur(ctx, w, h, radius) {
@@ -169,7 +169,7 @@ function applyRegionBlur(srcCanvas, w, h, blurType, blurAmount, region) {
     region.x,
     region.y,
     region.w,
-    region.h,
+    region.h
   );
 
   return out;
@@ -211,7 +211,7 @@ function applyLinearBlur(
   blurAmount,
   focusPercent,
   positionPercent,
-  direction,
+  direction
 ) {
   const blurred = createBlurredCanvas(srcCanvas, w, h, blurType, blurAmount);
   const out = document.createElement("canvas");
@@ -318,7 +318,7 @@ export function render(container) {
       const result = processImage(
         state.originalImage,
         600,
-        Math.round((600 * state.originalImage.naturalHeight) / state.originalImage.naturalWidth),
+        Math.round((600 * state.originalImage.naturalHeight) / state.originalImage.naturalWidth)
       );
       canvas.width = result.width;
       canvas.height = result.height;
@@ -332,18 +332,18 @@ export function render(container) {
       const result = processImage(
         state.originalImage,
         state.originalImage.naturalWidth,
-        state.originalImage.naturalHeight,
+        state.originalImage.naturalHeight
       );
       canvas.width = result.width;
       canvas.height = result.height;
       canvas.getContext("2d").drawImage(result, 0, 0);
-    },
+    }
   });
 
   function renderAreaButtons() {
     const btns = container.querySelector("#area-buttons");
     btns.innerHTML = "";
-    AREA_MODES.forEach((mode) => {
+    AREA_MODES.forEach(mode => {
       const btn = document.createElement("button");
       btn.className = `btn btn-sm ${areaMode === mode.id ? "btn-primary" : "btn-secondary"}`;
       btn.textContent = mode.name;
@@ -361,7 +361,7 @@ export function render(container) {
   function renderTypeButtons() {
     const btns = container.querySelector("#type-buttons");
     btns.innerHTML = "";
-    BLUR_TYPES.forEach((type) => {
+    BLUR_TYPES.forEach(type => {
       const btn = document.createElement("button");
       btn.className = `btn btn-sm ${blurType === type.id ? "btn-primary" : "btn-secondary"}`;
       btn.textContent = type.name;
@@ -399,28 +399,28 @@ export function render(container) {
     const rect = canvas.getBoundingClientRect();
     return {
       x: (e.clientX - rect.left) * (canvas.width / rect.width),
-      y: (e.clientY - rect.top) * (canvas.height / rect.height),
+      y: (e.clientY - rect.top) * (canvas.height / rect.height)
     };
   }
 
   function setupRegionDrag() {
     const canvas = container.querySelector("#blur-bg-preview-canvas");
 
-    canvas.addEventListener("mousedown", (e) => {
+    canvas.addEventListener("mousedown", e => {
       if (areaMode !== "region") return;
       dragging = true;
       dragStart = getCanvasCoords(e);
       region = null;
     });
 
-    canvas.addEventListener("mousemove", (e) => {
+    canvas.addEventListener("mousemove", e => {
       if (!dragging || areaMode !== "region") return;
       const cur = getCanvasCoords(e);
       region = {
         x: Math.min(dragStart.x, cur.x),
         y: Math.min(dragStart.y, cur.y),
         w: Math.abs(cur.x - dragStart.x),
-        h: Math.abs(cur.y - dragStart.y),
+        h: Math.abs(cur.y - dragStart.y)
       };
       tool.renderPreview();
     });
@@ -464,7 +464,7 @@ export function render(container) {
         blurAmount,
         focusPercent,
         positionPercent,
-        "h",
+        "h"
       );
     } else if (areaMode === "linear-v") {
       return applyLinearBlur(
@@ -475,7 +475,7 @@ export function render(container) {
         blurAmount,
         focusPercent,
         positionPercent,
-        "v",
+        "v"
       );
     } else if (areaMode === "region" && region) {
       const scaleX = width / temp.width;
@@ -484,7 +484,7 @@ export function render(container) {
         x: region.x * scaleX,
         y: region.y * scaleY,
         w: region.w * scaleX,
-        h: region.h * scaleY,
+        h: region.h * scaleY
       };
       return applyRegionBlur(temp, width, height, blurType, blurAmount, scaledRegion);
     }
@@ -506,10 +506,10 @@ export function render(container) {
   tool.bindOptionChange({
     rangeId: "position-range",
     valueId: "position-val",
-    formatValue: (v) => {
+    formatValue: v => {
       const n = parseInt(v);
       return n < 35 ? "Top/Left" : n > 65 ? "Bottom/Right" : "Center";
-    },
+    }
   });
 }
 

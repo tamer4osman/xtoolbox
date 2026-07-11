@@ -16,16 +16,16 @@ export const toolConfig = {
     "Upload 2-10 overlapping photos",
     "Reorder by dragging or using arrow buttons",
     "Stitch into panorama",
-    "Download result",
+    "Download result"
   ],
   faqs: [
     { question: "How many photos can I stitch?", answer: "Up to 10 photos at once." },
     {
       question: "What kind of photos work best?",
       answer:
-        "Photos with 20-40% overlap between adjacent shots, taken from roughly the same position.",
-    },
-  ],
+        "Photos with 20-40% overlap between adjacent shots, taken from roughly the same position."
+    }
+  ]
 };
 
 const STRIP_WIDTH_RATIO = 0.15;
@@ -94,7 +94,7 @@ export function detectOverlap(imgA, imgB) {
 
 export function stitchPanorama(images, overlaps, blendMode = "gradient") {
   const n = images.length;
-  const maxH = Math.max(...images.map((i) => i.naturalHeight));
+  const maxH = Math.max(...images.map(i => i.naturalHeight));
   let totalW = images[0].naturalWidth;
   for (let i = 1; i < n; i++) {
     totalW += images[i].naturalWidth - (overlaps[i - 1] || 0);
@@ -162,7 +162,7 @@ export function render(container) {
     multiple: true,
     maxSizeMB: 50,
     maxFiles: 10,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       cleanupUrls();
       images = [];
       for (const f of files) {
@@ -179,7 +179,7 @@ export function render(container) {
       optionsArea.style.display = images.length >= 2 ? "block" : "none";
       previewArea.style.display = "none";
       renderThumbnails();
-    },
+    }
   });
 
   container.innerHTML = `
@@ -251,14 +251,15 @@ export function render(container) {
       label.style.cssText =
         "position:absolute;top:2px;left:4px;font-size:11px;background:rgba(0,0,0,0.6);color:#fff;border-radius:3px;padding:1px 4px;";
       const btns = document.createElement("div");
-      btns.style.cssText = "display:flex;justify-content:center;gap:2px;padding:2px;background:var(--color-surface);";
+      btns.style.cssText =
+        "display:flex;justify-content:center;gap:2px;padding:2px;background:var(--color-surface);";
       const upBtn = document.createElement("button");
       upBtn.className = "btn btn-sm";
       upBtn.textContent = "\u25C0";
       upBtn.title = "Move left";
       upBtn.setAttribute("aria-label", `Move photo ${i + 1} left`);
       upBtn.disabled = i === 0;
-      upBtn.addEventListener("click", (e) => {
+      upBtn.addEventListener("click", e => {
         e.stopPropagation();
         moveImage(i, i - 1);
       });
@@ -268,7 +269,7 @@ export function render(container) {
       downBtn.title = "Move right";
       downBtn.setAttribute("aria-label", `Move photo ${i + 1} right`);
       downBtn.disabled = i === images.length - 1;
-      downBtn.addEventListener("click", (e) => {
+      downBtn.addEventListener("click", e => {
         e.stopPropagation();
         moveImage(i, i + 1);
       });
@@ -277,21 +278,21 @@ export function render(container) {
       thumb.appendChild(canvas);
       thumb.appendChild(label);
       thumb.appendChild(btns);
-      thumb.addEventListener("dragstart", (e) => {
+      thumb.addEventListener("dragstart", e => {
         e.dataTransfer.setData("text/plain", i);
         thumb.style.opacity = "0.4";
       });
       thumb.addEventListener("dragend", () => {
         thumb.style.opacity = "1";
       });
-      thumb.addEventListener("dragover", (e) => {
+      thumb.addEventListener("dragover", e => {
         e.preventDefault();
         thumb.style.borderColor = "var(--color-primary)";
       });
       thumb.addEventListener("dragleave", () => {
         thumb.style.borderColor = "var(--color-border)";
       });
-      thumb.addEventListener("drop", (e) => {
+      thumb.addEventListener("drop", e => {
         e.preventDefault();
         thumb.style.borderColor = "var(--color-border)";
         const from = parseInt(e.dataTransfer.getData("text/plain"));

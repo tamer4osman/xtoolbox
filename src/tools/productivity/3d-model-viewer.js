@@ -11,23 +11,23 @@ export const toolConfig = {
     "Drag and drop a 3D model file (GLTF, GLB, OBJ, or STL)",
     "Use mouse to rotate, scroll to zoom, right-click to pan",
     "Toggle wireframe or play animations if available",
-    "Export as PNG screenshot",
+    "Export as PNG screenshot"
   ],
   faqs: [
     {
       question: "Which formats are supported?",
-      answer: "GLTF, GLB (recommended), OBJ, and STL files.",
+      answer: "GLTF, GLB (recommended), OBJ, and STL files."
     },
     {
       question: "Why is my model not visible?",
       answer:
-        "Try scrolling to zoom out — the model may be too large or too small for the default camera position.",
+        "Try scrolling to zoom out — the model may be too large or too small for the default camera position."
     },
     {
       question: "Can I export the model?",
-      answer: "You can export the current view as a PNG screenshot.",
-    },
-  ],
+      answer: "You can export the current view as a PNG screenshot."
+    }
+  ]
 };
 
 let THREE = null;
@@ -104,43 +104,43 @@ function loadModel(scene, buffer, ext, onLoad, onProgress, onError) {
     const loader = new GLTFLoader();
     loader.load(
       url,
-      (gltf) => {
+      gltf => {
         const root = gltf.scene;
         const anims = gltf.animations || [];
         scene.add(root);
         onLoad({
           scene: root,
           animations: anims,
-          mixer: anims.length > 0 ? new THREE.AnimationMixer(root) : null,
+          mixer: anims.length > 0 ? new THREE.AnimationMixer(root) : null
         });
         URL.revokeObjectURL(url);
       },
       onProgress,
-      (err) => {
+      err => {
         URL.revokeObjectURL(url);
         onError(err);
-      },
+      }
     );
   } else if (ext === "obj") {
     const loader = new OBJLoader();
     loader.load(
       url,
-      (obj) => {
+      obj => {
         scene.add(obj);
         onLoad({ scene: obj, animations: [], mixer: null });
         URL.revokeObjectURL(url);
       },
       onProgress,
-      (err) => {
+      err => {
         URL.revokeObjectURL(url);
         onError(err);
-      },
+      }
     );
   } else if (ext === "stl") {
     const loader = new STLLoader();
     loader.load(
       url,
-      (geometry) => {
+      geometry => {
         const material = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.6 });
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
@@ -148,10 +148,10 @@ function loadModel(scene, buffer, ext, onLoad, onProgress, onError) {
         URL.revokeObjectURL(url);
       },
       onProgress,
-      (err) => {
+      err => {
         URL.revokeObjectURL(url);
         onError(err);
-      },
+      }
     );
   } else {
     URL.revokeObjectURL(url);
@@ -228,7 +228,7 @@ export function render(container) {
       45,
       dropZone.clientWidth / dropZone.clientHeight,
       0.01,
-      1000,
+      1000
     );
     camera.position.set(0, 2, 5);
 
@@ -266,10 +266,10 @@ export function render(container) {
   function clearModel() {
     if (currentModel) {
       scene.remove(currentModel);
-      currentModel.traverse((child) => {
+      currentModel.traverse(child => {
         if (child.geometry) child.geometry.dispose();
         if (child.material) {
-          if (Array.isArray(child.material)) child.material.forEach((m) => m.dispose());
+          if (Array.isArray(child.material)) child.material.forEach(m => m.dispose());
           else child.material.dispose();
         }
       });
@@ -308,7 +308,7 @@ export function render(container) {
         scene,
         buffer,
         ext,
-        (result) => {
+        result => {
           currentModel = result.scene;
           animations = result.animations;
           mixer = result.mixer;
@@ -317,7 +317,7 @@ export function render(container) {
 
           const info = [];
           let verts = 0;
-          currentModel.traverse((child) => {
+          currentModel.traverse(child => {
             if (child.geometry) {
               const pos = child.geometry.getAttribute("position");
               if (pos) verts += pos.count;
@@ -334,10 +334,10 @@ export function render(container) {
           modelInfo.textContent = info.join(" · ") || file.name;
         },
         null,
-        (err) => {
+        err => {
           modelInfo.textContent = "Error loading model";
           console.error("Model load error:", err);
-        },
+        }
       );
     } catch (err) {
       modelInfo.textContent = "Error: " + (err.message || "Failed to load file");
@@ -345,22 +345,22 @@ export function render(container) {
     }
   }
 
-  dropZone.addEventListener("click", (e) => {
+  dropZone.addEventListener("click", e => {
     if (e.target === dropZone || e.target.closest("#td-placeholder")) fileInput.click();
   });
 
-  fileInput.addEventListener("change", (e) => {
+  fileInput.addEventListener("change", e => {
     if (e.target.files[0]) handleFile(e.target.files[0]);
   });
 
-  dropZone.addEventListener("dragover", (e) => {
+  dropZone.addEventListener("dragover", e => {
     e.preventDefault();
     dropZone.style.borderColor = "var(--color-primary)";
   });
   dropZone.addEventListener("dragleave", () => {
     dropZone.style.borderColor = "";
   });
-  dropZone.addEventListener("drop", (e) => {
+  dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.style.borderColor = "";
     if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
@@ -370,10 +370,10 @@ export function render(container) {
     wireframe = !wireframe;
     wireframeBtn.textContent = wireframe ? "Solid" : "Wireframe";
     if (currentModel) {
-      currentModel.traverse((child) => {
+      currentModel.traverse(child => {
         if (child.material) {
           if (Array.isArray(child.material))
-            child.material.forEach((m) => {
+            child.material.forEach(m => {
               m.wireframe = wireframe;
             });
           else child.material.wireframe = wireframe;
@@ -394,7 +394,7 @@ export function render(container) {
   screenshotBtn.addEventListener("click", () => {
     if (!renderer) return;
     renderer.render(scene, camera);
-    canvas.toBlob((blob) => {
+    canvas.toBlob(blob => {
       const link = document.createElement("a");
       link.download = "3d-screenshot.png";
       link.href = URL.createObjectURL(blob);

@@ -1,16 +1,16 @@
 /**
  * Create an ad slot element
  */
-export function createAdSlot({ slot, format = 'auto', responsive = true }) {
-  const container = document.createElement('div');
-  container.className = 'ad-slot';
+export function createAdSlot({ slot, format = "auto", responsive = true }) {
+  const container = document.createElement("div");
+  container.className = "ad-slot";
   container.innerHTML = `
     <ins class="adsbygoogle"
       style="display:block"
       data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
       data-ad-slot="${slot}"
       data-ad-format="${format}"
-      data-full-width-responsive="${responsive ? 'yes' : 'no'}"
+      data-full-width-responsive="${responsive ? "yes" : "no"}"
     ></ins>
   `;
 

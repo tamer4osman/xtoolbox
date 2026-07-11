@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'remove-metadata',
-  name: 'Metadata Remover',
-  category: 'privacy',
-  description: 'Remove hidden metadata from various file types.',
-  icon: '🔒',
-  status: 'done'
+  id: "remove-metadata",
+  name: "Metadata Remover",
+  category: "privacy",
+  description: "Remove hidden metadata from various file types.",
+  icon: "🔒",
+  status: "done"
 };
 
 export function render(container) {
@@ -25,7 +25,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -45,25 +45,25 @@ export function render(container) {
   container.appendChild(style);
 
   const files = [];
-  const fileInput = container.querySelector('#file-input');
-  const previewList = container.querySelector('#preview-list');
-  const removeBtn = container.querySelector('#remove-btn');
-  const resultSection = container.querySelector('#result-section');
-  const downloadBtn = container.querySelector('#download-btn');
+  const fileInput = container.querySelector("#file-input");
+  const previewList = container.querySelector("#preview-list");
+  const removeBtn = container.querySelector("#remove-btn");
+  const resultSection = container.querySelector("#result-section");
+  const downloadBtn = container.querySelector("#download-btn");
 
-  container.querySelector('#upload-zone').addEventListener('drop', e => {
+  container.querySelector("#upload-zone").addEventListener("drop", e => {
     e.preventDefault();
     handleFiles(e.dataTransfer.files);
   });
 
-  fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+  fileInput.addEventListener("change", () => handleFiles(fileInput.files));
 
   function handleFiles(newFiles) {
     Array.from(newFiles).forEach(file => {
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith("image/")) {
         files.push(file);
-        const div = document.createElement('div');
-        div.className = 'preview-item';
+        const div = document.createElement("div");
+        div.className = "preview-item";
         div.innerHTML = `<img src="${URL.createObjectURL(file)}" /><span>${file.name}</span>`;
         previewList.appendChild(div);
       }
@@ -72,22 +72,23 @@ export function render(container) {
     removeBtn.textContent = `Remove Metadata from ${files.length} File(s)`;
   }
 
-  removeBtn.addEventListener('click', async () => {
-    resultSection.classList.remove('hidden');
-    container.querySelector('#result-count').textContent = `Processed ${files.length} files. Click Download to save.`;
+  removeBtn.addEventListener("click", async () => {
+    resultSection.classList.remove("hidden");
+    container.querySelector("#result-count").textContent =
+      `Processed ${files.length} files. Click Download to save.`;
   });
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     files.forEach(file => {
       const img = new Image();
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const canvas = document.createElement("canvas");
         canvas.width = img.width;
         canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0);
-        const a = document.createElement('a');
+        canvas.getContext("2d").drawImage(img, 0, 0);
+        const a = document.createElement("a");
         a.href = canvas.toDataURL(file.type);
-        a.download = 'clean_' + file.name;
+        a.download = "clean_" + file.name;
         a.click();
       };
       img.src = URL.createObjectURL(file);

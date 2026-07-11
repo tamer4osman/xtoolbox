@@ -11,23 +11,26 @@ const SHARED_CSS = `
   .hidden { display: none; }
 `;
 
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 function isSafeClassName(name) {
-  return typeof name === 'string' && /^[a-zA-Z][a-zA-Z0-9_-]*$/.test(name);
+  return typeof name === "string" && /^[a-zA-Z][a-zA-Z0-9_-]*$/.test(name);
 }
 
 function renderField(field) {
-  if (field.type === 'custom') return field.html;
-  if (field.type === 'select') {
-    const opts = field.options.map(o =>
-      `<option value="${escapeHtml(o.value)}"${o.selected ? ' selected' : ''}>${escapeHtml(o.label)}</option>`
-    ).join('');
+  if (field.type === "custom") return field.html;
+  if (field.type === "select") {
+    const opts = field.options
+      .map(
+        o =>
+          `<option value="${escapeHtml(o.value)}"${o.selected ? " selected" : ""}>${escapeHtml(o.label)}</option>`
+      )
+      .join("");
     return `<div class="form-group"><label>${escapeHtml(field.label)}</label><select id="${escapeHtml(field.id)}">${opts}</select></div>`;
   }
-  const minAttr = typeof field.min === 'number' ? ` min="${field.min}"` : '';
-  const maxAttr = typeof field.max === 'number' ? ` max="${field.max}"` : '';
-  return `<div class="form-group"><label>${escapeHtml(field.label)}</label><input type="${escapeHtml(field.type || 'number')}" id="${escapeHtml(field.id)}" value="${escapeHtml(String(field.value ?? ''))}"${minAttr}${maxAttr} /></div>`;
+  const minAttr = typeof field.min === "number" ? ` min="${field.min}"` : "";
+  const maxAttr = typeof field.max === "number" ? ` max="${field.max}"` : "";
+  return `<div class="form-group"><label>${escapeHtml(field.label)}</label><input type="${escapeHtml(field.type || "number")}" id="${escapeHtml(field.id)}" value="${escapeHtml(String(field.value ?? ""))}"${minAttr}${maxAttr} /></div>`;
 }
 
 /**
@@ -50,23 +53,25 @@ export function createHealthCalculator({
   container,
   containerClass,
   fields,
-  calcButtonLabel = 'Calculate',
-  extraCSS = '',
+  calcButtonLabel = "Calculate",
+  extraCSS = "",
   onCalculate,
   autoCalc = true
 }) {
   if (!isSafeClassName(containerClass)) {
-    throw new Error(`createHealthCalculator: containerClass "${containerClass}" must match /^[a-zA-Z][a-zA-Z0-9_-]*$/`);
+    throw new Error(
+      `createHealthCalculator: containerClass "${containerClass}" must match /^[a-zA-Z][a-zA-Z0-9_-]*$/`
+    );
   }
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .${containerClass} { max-width: 500px; margin: 0 auto; }
     ${SHARED_CSS}
     ${extraCSS}
   `;
 
-  const formHTML = fields.map(renderField).join('');
+  const formHTML = fields.map(renderField).join("");
 
   container.innerHTML = `
     <div class="${containerClass}">
@@ -79,16 +84,16 @@ export function createHealthCalculator({
   `;
   container.appendChild(style);
 
-  const resultEl = container.querySelector('#hc-result');
+  const resultEl = container.querySelector("#hc-result");
 
   function run() {
     onCalculate(container, resultEl);
-    resultEl.classList.remove('hidden');
+    resultEl.classList.remove("hidden");
   }
 
-  container.querySelector('#hc-calc-btn').addEventListener('click', run);
+  container.querySelector("#hc-calc-btn").addEventListener("click", run);
   if (autoCalc) {
-    container.querySelectorAll('input, select').forEach(el => el.addEventListener('input', run));
+    container.querySelectorAll("input, select").forEach(el => el.addEventListener("input", run));
   }
   run();
 

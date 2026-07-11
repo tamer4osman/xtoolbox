@@ -3,14 +3,14 @@
  */
 
 export function escapeCsvValue(v) {
-  const s = v == null ? '' : String(v);
-  return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s.replace(/"/g, '""')}"` : s;
+  const s = v == null ? "" : String(v);
+  return s.includes(",") || s.includes('"') || s.includes("\n") ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
 export function generateCsvText(headers, rows) {
-  const headerLine = headers.map(escapeCsvValue).join(',');
-  const bodyLines = rows.map(r => headers.map(h => escapeCsvValue(r[h])).join(','));
-  return headerLine + '\n' + bodyLines.join('\n');
+  const headerLine = headers.map(escapeCsvValue).join(",");
+  const bodyLines = rows.map(r => headers.map(h => escapeCsvValue(r[h])).join(","));
+  return headerLine + "\n" + bodyLines.join("\n");
 }
 
 export function splitCsvData(data, rowsPerFile) {

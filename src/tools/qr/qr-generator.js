@@ -1,29 +1,31 @@
-import QRCode from 'qrcode';
-import { CONTENT_BUILDERS, TYPE_FIELDS, buildVcf } from './qr-content-builders.js';
-import { QR_STYLES } from './qr-styles.js';
+import QRCode from "qrcode";
+import { CONTENT_BUILDERS, TYPE_FIELDS, buildVcf } from "./qr-content-builders.js";
+import { QR_STYLES } from "./qr-styles.js";
 
 export const toolConfig = {
-  id: 'qr-generator',
-  name: 'QR Code Generator',
-  category: 'qr',
-  description: 'Generate QR codes from text, URLs, vCard, or WiFi credentials.',
-  icon: '📱',
-  status: 'done',
-  keywords: ['qr code', 'qr generator', 'qrcode', 'vcard', 'wifi qr', 'contact qr'],
+  id: "qr-generator",
+  name: "QR Code Generator",
+  category: "qr",
+  description: "Generate QR codes from text, URLs, vCard, or WiFi credentials.",
+  icon: "📱",
+  status: "done",
+  keywords: ["qr code", "qr generator", "qrcode", "vcard", "wifi qr", "contact qr"],
   steps: [
-    'Select QR code type: text, URL, WiFi, vCard, email, phone, or SMS',
-    'Fill in the details for your selected type',
-    'Customize size, format, error correction, and color',
-    'Click Generate QR Code, then download or copy'
+    "Select QR code type: text, URL, WiFi, vCard, email, phone, or SMS",
+    "Fill in the details for your selected type",
+    "Customize size, format, error correction, and color",
+    "Click Generate QR Code, then download or copy"
   ],
   faqs: [
     {
-      question: 'Can I scan QR codes with this tool?',
-      answer: 'This tool only generates QR codes. Use the QR Code Scanner tool to scan existing QR codes from images.'
+      question: "Can I scan QR codes with this tool?",
+      answer:
+        "This tool only generates QR codes. Use the QR Code Scanner tool to scan existing QR codes from images."
     },
     {
-      question: 'Is the data I enter sent to a server?',
-      answer: 'No. All QR code generation happens entirely in your browser using the qrcode library. Your data never leaves your device.'
+      question: "Is the data I enter sent to a server?",
+      answer:
+        "No. All QR code generation happens entirely in your browser using the qrcode library. Your data never leaves your device."
     }
   ]
 };
@@ -31,65 +33,96 @@ export const toolConfig = {
 let _style = null;
 
 function showTypeFields(container, type) {
-  const allFields = ['content-inputs', 'wifi-fields', 'vcard-fields', 'email-fields', 'phone-fields', 'sms-fields'];
-  allFields.forEach(id => { container.querySelector(`.${id}`).style.display = 'none'; });
+  const allFields = [
+    "content-inputs",
+    "wifi-fields",
+    "vcard-fields",
+    "email-fields",
+    "phone-fields",
+    "sms-fields"
+  ];
+  allFields.forEach(id => {
+    container.querySelector(`.${id}`).style.display = "none";
+  });
   const target = TYPE_FIELDS[type];
-  if (target) container.querySelector(`.${target}`).style.display = 'flex';
-  const vcfBtn = container.querySelector('#download-vcf');
-  if (vcfBtn) vcfBtn.style.display = type === 'vcard' ? '' : 'none';
-  if (type === 'url' || type === 'text') {
-    container.querySelector('#qr-content').placeholder = type === 'url' ? 'https://example.com' : 'Enter text...';
+  if (target) container.querySelector(`.${target}`).style.display = "flex";
+  const vcfBtn = container.querySelector("#download-vcf");
+  if (vcfBtn) vcfBtn.style.display = type === "vcard" ? "" : "none";
+  if (type === "url" || type === "text") {
+    container.querySelector("#qr-content").placeholder =
+      type === "url" ? "https://example.com" : "Enter text...";
   }
 }
 
 async function generateQR(container) {
-  const type = container.querySelector('#qr-type').value;
+  const type = container.querySelector("#qr-type").value;
   const builder = CONTENT_BUILDERS[type];
-  const data = builder ? builder(container) : '';
-  if (!data) { alert('Please enter content to generate QR code'); return; }
+  const data = builder ? builder(container) : "";
+  if (!data) {
+    alert("Please enter content to generate QR code");
+    return;
+  }
 
-  const size = parseInt(container.querySelector('#qr-size').value);
-  const errorLevel = container.querySelector('#qr-error-level').value;
-  const format = container.querySelector('#qr-format').value;
-  const color = container.querySelector('#qr-color').value;
-  const resultSection = container.querySelector('#result-section');
-  const resultSize = container.querySelector('#result-size');
-  const qrCanvas = container.querySelector('#qr-canvas');
-  const downloadPng = container.querySelector('#download-png');
+  const size = parseInt(container.querySelector("#qr-size").value);
+  const errorLevel = container.querySelector("#qr-error-level").value;
+  const format = container.querySelector("#qr-format").value;
+  const color = container.querySelector("#qr-color").value;
+  const resultSection = container.querySelector("#result-section");
+  const resultSize = container.querySelector("#result-size");
+  const qrCanvas = container.querySelector("#qr-canvas");
+  const downloadPng = container.querySelector("#download-png");
 
   try {
-    if (format === 'svg') {
-      const svg = await QRCode.toString(data, { type: 'svg', width: size, errorCorrectionLevel: errorLevel, color: { dark: color, light: '#ffffff' } });
-      const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-      downloadPng.onclick = () => { const a = document.createElement('a'); a.href = url; a.download = 'qrcode.svg'; a.click(); };
-      resultSection.classList.remove('hidden');
-      resultSize.textContent = 'SVG format generated';
-    } else if (format === 'utf8') {
-      const ascii = await QRCode.toString(data, { type: 'terminal', errorCorrectionLevel: errorLevel });
-      const previewContainer = resultSection.querySelector('.preview-container');
-      let pre = resultSection.querySelector('.ascii-preview');
+    if (format === "svg") {
+      const svg = await QRCode.toString(data, {
+        type: "svg",
+        width: size,
+        errorCorrectionLevel: errorLevel,
+        color: { dark: color, light: "#ffffff" }
+      });
+      const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+      downloadPng.onclick = () => {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "qrcode.svg";
+        a.click();
+      };
+      resultSection.classList.remove("hidden");
+      resultSize.textContent = "SVG format generated";
+    } else if (format === "utf8") {
+      const ascii = await QRCode.toString(data, {
+        type: "terminal",
+        errorCorrectionLevel: errorLevel
+      });
+      const previewContainer = resultSection.querySelector(".preview-container");
+      let pre = resultSection.querySelector(".ascii-preview");
       if (!pre) {
-        pre = document.createElement('pre');
-        pre.className = 'ascii-preview';
-        pre.style.cssText = 'background:#1a1a1a;color:#00ff00;padding:20px;border-radius:8px;overflow-x:auto;text-align:left;font-family:monospace;';
+        pre = document.createElement("pre");
+        pre.className = "ascii-preview";
+        pre.style.cssText =
+          "background:#1a1a1a;color:#00ff00;padding:20px;border-radius:8px;overflow-x:auto;text-align:left;font-family:monospace;";
         previewContainer.after(pre);
       }
       pre.textContent = ascii;
-      pre.style.display = 'block';
-      previewContainer.style.display = 'none';
-      resultSection.classList.remove('hidden');
-      resultSize.textContent = 'Terminal/ASCII format';
+      pre.style.display = "block";
+      previewContainer.style.display = "none";
+      resultSection.classList.remove("hidden");
+      resultSize.textContent = "Terminal/ASCII format";
     } else {
-      const previewContainer = resultSection.querySelector('.preview-container');
-      const pre = resultSection.querySelector('.ascii-preview');
-      if (pre) pre.style.display = 'none';
-      previewContainer.style.display = 'inline-block';
-      await QRCode.toCanvas(qrCanvas, data, { width: size, errorCorrectionLevel: errorLevel, color: { dark: color, light: '#ffffff' } });
-      resultSection.classList.remove('hidden');
+      const previewContainer = resultSection.querySelector(".preview-container");
+      const pre = resultSection.querySelector(".ascii-preview");
+      if (pre) pre.style.display = "none";
+      previewContainer.style.display = "inline-block";
+      await QRCode.toCanvas(qrCanvas, data, {
+        width: size,
+        errorCorrectionLevel: errorLevel,
+        color: { dark: color, light: "#ffffff" }
+      });
+      resultSection.classList.remove("hidden");
       resultSize.textContent = `${size} × ${size} pixels`;
     }
   } catch (err) {
-    alert('Error generating QR code: ' + err.message);
+    alert("Error generating QR code: " + err.message);
   }
 }
 
@@ -135,32 +168,34 @@ export function render(container) {
     </div>
   `;
 
-  _style = document.createElement('style');
+  _style = document.createElement("style");
   _style.textContent = QR_STYLES;
   container.appendChild(_style);
 
   // Type switching
-  container.querySelector('#qr-type').addEventListener('change', (e) => {
+  container.querySelector("#qr-type").addEventListener("change", e => {
     showTypeFields(container, e.target.value);
   });
 
   // Generate
-  container.querySelector('#generate-btn').addEventListener('click', () => generateQR(container));
-  container.querySelector('#qr-content').addEventListener('keypress', (e) => { if (e.key === 'Enter') generateQR(container); });
+  container.querySelector("#generate-btn").addEventListener("click", () => generateQR(container));
+  container.querySelector("#qr-content").addEventListener("keypress", e => {
+    if (e.key === "Enter") generateQR(container);
+  });
 
   // Download PNG
-  container.querySelector('#download-png').addEventListener('click', () => {
-    const a = document.createElement('a');
-    a.download = 'qrcode.png';
-    a.href = container.querySelector('#qr-canvas').toDataURL('image/png');
+  container.querySelector("#download-png").addEventListener("click", () => {
+    const a = document.createElement("a");
+    a.download = "qrcode.png";
+    a.href = container.querySelector("#qr-canvas").toDataURL("image/png");
     a.click();
   });
 
   // Download VCF
-  container.querySelector('#download-vcf').addEventListener('click', () => {
+  container.querySelector("#download-vcf").addEventListener("click", () => {
     const { vcf, filename } = buildVcf(container);
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([vcf], { type: 'text/vcard;charset=utf-8' }));
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([vcf], { type: "text/vcard;charset=utf-8" }));
     a.download = filename;
     document.body.appendChild(a);
     a.click();
@@ -169,12 +204,14 @@ export function render(container) {
   });
 
   // Copy to clipboard
-  container.querySelector('#copy-clipboard').addEventListener('click', () => {
-    container.querySelector('#qr-canvas').toBlob(async (blob) => {
+  container.querySelector("#copy-clipboard").addEventListener("click", () => {
+    container.querySelector("#qr-canvas").toBlob(async blob => {
       try {
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        alert('Copied to clipboard!');
-      } catch { alert('Copy failed. Try downloading instead.'); }
+        await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+        alert("Copied to clipboard!");
+      } catch {
+        alert("Copy failed. Try downloading instead.");
+      }
     });
   });
 }

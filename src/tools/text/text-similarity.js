@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'text-similarity',
-  name: 'Text Similarity',
-  category: 'text',
-  description: 'Compare text similarity.',
-  icon: '🔗',
-  status: 'done'
+  id: "text-similarity",
+  name: "Text Similarity",
+  category: "text",
+  description: "Compare text similarity.",
+  icon: "🔗",
+  status: "done"
 };
 
 export function render(container) {
@@ -41,7 +41,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .plag-container { max-width: 700px; margin: 0 auto; }
     .plag-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -59,21 +59,38 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  container.querySelector('#check-btn').addEventListener('click', () => {
-    const t1 = container.querySelector('#text1').value.toLowerCase().split(/\\s+/).filter(w => w);
-    const t2 = container.querySelector('#text2').value.toLowerCase().split(/\\s+/).filter(w => w);
-    const set1 = new Set(t1), set2 = new Set(t2);
+  container.querySelector("#check-btn").addEventListener("click", () => {
+    const t1 = container
+      .querySelector("#text1")
+      .value.toLowerCase()
+      .split(/\\s+/)
+      .filter(w => w);
+    const t2 = container
+      .querySelector("#text2")
+      .value.toLowerCase()
+      .split(/\\s+/)
+      .filter(w => w);
+    const set1 = new Set(t1),
+      set2 = new Set(t2);
     const intersection = [...set1].filter(x => set2.has(x));
     const union = new Set([...t1, ...t2]);
-    const similarity = union.size ? (intersection.length / union.size * 100) : 0;
-    const jaccard = set1.size + set2.size - intersection.length > 0 ? intersection.length / (set1.size + set2.size - intersection.length) * 100 : 0;
-    
-    container.querySelector('#score').textContent = Math.round(jaccard) + '%';
-    container.querySelector('#score-circle').style.background = 'conic-gradient(' + (jaccard > 50 ? '#10b981' : jaccard > 25 ? '#f59e0b' : '#ef4444') + ' ' + jaccard + '%, var(--color-bg) 0)';
-    container.querySelector('#matching').textContent = intersection.length;
-    container.querySelector('#unique1').textContent = set1.size - intersection.length;
-    container.querySelector('#unique2').textContent = set2.size - intersection.length;
-    container.querySelector('.plag-result').classList.add('show');
+    const similarity = union.size ? (intersection.length / union.size) * 100 : 0;
+    const jaccard =
+      set1.size + set2.size - intersection.length > 0
+        ? (intersection.length / (set1.size + set2.size - intersection.length)) * 100
+        : 0;
+
+    container.querySelector("#score").textContent = Math.round(jaccard) + "%";
+    container.querySelector("#score-circle").style.background =
+      "conic-gradient(" +
+      (jaccard > 50 ? "#10b981" : jaccard > 25 ? "#f59e0b" : "#ef4444") +
+      " " +
+      jaccard +
+      "%, var(--color-bg) 0)";
+    container.querySelector("#matching").textContent = intersection.length;
+    container.querySelector("#unique1").textContent = set1.size - intersection.length;
+    container.querySelector("#unique2").textContent = set2.size - intersection.length;
+    container.querySelector(".plag-result").classList.add("show");
   });
 
   return container;

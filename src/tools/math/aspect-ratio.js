@@ -1,7 +1,11 @@
 function gcd(a, b) {
   a = Math.abs(a);
   b = Math.abs(b);
-  while (b) { const t = b; b = a % b; a = t; }
+  while (b) {
+    const t = b;
+    b = a % b;
+    a = t;
+  }
   return a;
 }
 
@@ -11,31 +15,51 @@ function simplifyRatio(w, h) {
 }
 
 export const toolConfig = {
-  id: 'aspect-ratio',
-  name: 'Aspect Ratio Calculator',
-  category: 'math',
-  description: 'Calculate aspect ratios from dimensions, find missing dimensions given a ratio, and see common presets.',
-  icon: '🖼️',
+  id: "aspect-ratio",
+  name: "Aspect Ratio Calculator",
+  category: "math",
+  description:
+    "Calculate aspect ratios from dimensions, find missing dimensions given a ratio, and see common presets.",
+  icon: "🖼️",
   accept: null,
   maxSizeMB: null,
-  keywords: ['aspect ratio', 'ratio calculator', '16:9', '4:3', 'dimensions', 'width height ratio', 'screen ratio'],
-  steps: ['Enter width and height to find the aspect ratio', 'Or pick a common preset and set one dimension', 'See the result simplified and in decimal form'],
+  keywords: [
+    "aspect ratio",
+    "ratio calculator",
+    "16:9",
+    "4:3",
+    "dimensions",
+    "width height ratio",
+    "screen ratio"
+  ],
+  steps: [
+    "Enter width and height to find the aspect ratio",
+    "Or pick a common preset and set one dimension",
+    "See the result simplified and in decimal form"
+  ],
   faqs: [
-    { question: 'What is an aspect ratio?', answer: 'It is the proportional relationship between width and height, expressed as W:H.' },
-    { question: 'What are common aspect ratios?', answer: '16:9 (widescreen), 4:3 (standard), 1:1 (square), 21:9 (ultrawide), 3:2 (photo), 9:16 (portrait).' }
+    {
+      question: "What is an aspect ratio?",
+      answer: "It is the proportional relationship between width and height, expressed as W:H."
+    },
+    {
+      question: "What are common aspect ratios?",
+      answer:
+        "16:9 (widescreen), 4:3 (standard), 1:1 (square), 21:9 (ultrawide), 3:2 (photo), 9:16 (portrait)."
+    }
   ]
 };
 
 const PRESETS = [
-  { label: '16:9 Widescreen', w: 16, h: 9 },
-  { label: '4:3 Standard', w: 4, h: 3 },
-  { label: '1:1 Square', w: 1, h: 1 },
-  { label: '21:9 Ultrawide', w: 21, h: 9 },
-  { label: '3:2 Photo', w: 3, h: 2 },
-  { label: '9:16 Portrait', w: 9, h: 16 },
-  { label: '5:4', w: 5, h: 4 },
-  { label: '16:10', w: 16, h: 10 },
-  { label: '32:9 Super Ultrawide', w: 32, h: 9 }
+  { label: "16:9 Widescreen", w: 16, h: 9 },
+  { label: "4:3 Standard", w: 4, h: 3 },
+  { label: "1:1 Square", w: 1, h: 1 },
+  { label: "21:9 Ultrawide", w: 21, h: 9 },
+  { label: "3:2 Photo", w: 3, h: 2 },
+  { label: "9:16 Portrait", w: 9, h: 16 },
+  { label: "5:4", w: 5, h: 4 },
+  { label: "16:10", w: 16, h: 10 },
+  { label: "32:9 Super Ultrawide", w: 32, h: 9 }
 ];
 
 export function render(container) {
@@ -94,25 +118,25 @@ export function render(container) {
       <div class="form-group">
         <label>Common Presets</label>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--space-2);">
-          ${PRESETS.map(p => `<button class="btn btn-secondary ar-preset" data-w="${p.w}" data-h="${p.h}">${p.label}</button>`).join('')}
+          ${PRESETS.map(p => `<button class="btn btn-secondary ar-preset" data-w="${p.w}" data-h="${p.h}">${p.label}</button>`).join("")}
         </div>
       </div>
     </div>
   `;
 
-  const width = container.querySelector('#ar-width');
-  const height = container.querySelector('#ar-height');
-  const ratioDisplay = container.querySelector('#ar-ratio');
-  const decimalDisplay = container.querySelector('#ar-decimal');
-  const calcBtn = container.querySelector('#ar-calc');
+  const width = container.querySelector("#ar-width");
+  const height = container.querySelector("#ar-height");
+  const ratioDisplay = container.querySelector("#ar-ratio");
+  const decimalDisplay = container.querySelector("#ar-decimal");
+  const calcBtn = container.querySelector("#ar-calc");
 
-  const rw = container.querySelector('#ar-rw');
-  const rh = container.querySelector('#ar-rh');
-  const known = container.querySelector('#ar-known');
-  const knownLabel = container.querySelector('#ar-known-label');
-  const missingLabel = container.querySelector('#ar-missing-label');
-  const missingValue = container.querySelector('#ar-missing-value');
-  const swapBtn = container.querySelector('#ar-swap');
+  const rw = container.querySelector("#ar-rw");
+  const rh = container.querySelector("#ar-rh");
+  const known = container.querySelector("#ar-known");
+  const knownLabel = container.querySelector("#ar-known-label");
+  const missingLabel = container.querySelector("#ar-missing-label");
+  const missingValue = container.querySelector("#ar-missing-value");
+  const swapBtn = container.querySelector("#ar-swap");
   let knownIsWidth = true;
 
   function calculateRatio() {
@@ -141,30 +165,30 @@ export function render(container) {
 
   function updateMissingLabels() {
     if (knownIsWidth) {
-      knownLabel.textContent = 'Width';
-      missingLabel.textContent = 'Height';
+      knownLabel.textContent = "Width";
+      missingLabel.textContent = "Height";
     } else {
-      knownLabel.textContent = 'Height';
-      missingLabel.textContent = 'Width';
+      knownLabel.textContent = "Height";
+      missingLabel.textContent = "Width";
     }
     calculateMissing();
   }
 
-  calcBtn.addEventListener('click', calculateRatio);
-  width.addEventListener('input', calculateRatio);
-  height.addEventListener('input', calculateRatio);
+  calcBtn.addEventListener("click", calculateRatio);
+  width.addEventListener("input", calculateRatio);
+  height.addEventListener("input", calculateRatio);
 
-  rw.addEventListener('input', calculateMissing);
-  rh.addEventListener('input', calculateMissing);
-  known.addEventListener('input', calculateMissing);
+  rw.addEventListener("input", calculateMissing);
+  rh.addEventListener("input", calculateMissing);
+  known.addEventListener("input", calculateMissing);
 
-  swapBtn.addEventListener('click', () => {
+  swapBtn.addEventListener("click", () => {
     knownIsWidth = !knownIsWidth;
     updateMissingLabels();
   });
 
-  container.querySelectorAll('.ar-preset').forEach(btn => {
-    btn.addEventListener('click', () => {
+  container.querySelectorAll(".ar-preset").forEach(btn => {
+    btn.addEventListener("click", () => {
       width.value = btn.dataset.w;
       height.value = btn.dataset.h;
       calculateRatio();

@@ -1,42 +1,47 @@
 export const toolConfig = {
-  id: 'screen-ruler',
-  name: 'Screen Ruler & Color Picker',
-  category: 'dev',
-  description: 'Measure pixel distances and pick colors anywhere on screen with an interactive overlay ruler.',
-  icon: '📏',
-  keywords: ['ruler', 'measure', 'pixel', 'color', 'picker', 'screen', 'overlay'],
-  accept: '',
+  id: "screen-ruler",
+  name: "Screen Ruler & Color Picker",
+  category: "dev",
+  description:
+    "Measure pixel distances and pick colors anywhere on screen with an interactive overlay ruler.",
+  icon: "📏",
+  keywords: ["ruler", "measure", "pixel", "color", "picker", "screen", "overlay"],
+  accept: "",
   maxSizeMB: 0,
-  status: 'done'
+  status: "done"
 };
 
-const UNIT_LABELS = { px: 'px', cm: 'cm', in: 'in', mm: 'mm' };
-const TICK_COLORS = { major: 'rgba(255,255,255,0.9)', minor: 'rgba(255,255,255,0.4)', text: '#fff' };
+const UNIT_LABELS = { px: "px", cm: "cm", in: "in", mm: "mm" };
+const TICK_COLORS = {
+  major: "rgba(255,255,255,0.9)",
+  minor: "rgba(255,255,255,0.4)",
+  text: "#fff"
+};
 
 export function pxToUnit(px, unit, dpr) {
-  if (unit === 'px') return px;
+  if (unit === "px") return px;
   const ppi = 96 * dpr;
-  if (unit === 'in') return px / ppi;
-  if (unit === 'cm') return px / (ppi / 2.54);
-  if (unit === 'mm') return px / (ppi / 25.4);
+  if (unit === "in") return px / ppi;
+  if (unit === "cm") return px / (ppi / 2.54);
+  if (unit === "mm") return px / (ppi / 25.4);
   return px;
 }
 
 export function formatMeasurement(px, unit, dpr) {
   const val = pxToUnit(px, unit, dpr);
-  return unit === 'px' ? `${Math.round(val)}` : val.toFixed(2);
+  return unit === "px" ? `${Math.round(val)}` : val.toFixed(2);
 }
 
 export function hexFromRgb(r, g, b) {
-  return '#' + [r, g, b].map(c => c.toString(16).padStart(2, '0')).join('');
+  return "#" + [r, g, b].map(c => c.toString(16).padStart(2, "0")).join("");
 }
 
 function drawHorizontalRuler(ctx, width, height, scrollX, unit, dpr) {
   const rulerH = 28;
-  ctx.fillStyle = 'rgba(30,30,30,0.92)';
+  ctx.fillStyle = "rgba(30,30,30,0.92)";
   ctx.fillRect(0, 0, width, rulerH);
 
-  const step = unit === 'px' ? 100 : unit === 'mm' ? 10 * (96 * dpr / 25.4) : 50;
+  const step = unit === "px" ? 100 : unit === "mm" ? 10 * ((96 * dpr) / 25.4) : 50;
   const startOffset = scrollX % step;
 
   for (let x = -startOffset; x < width; x += step) {
@@ -52,8 +57,8 @@ function drawHorizontalRuler(ctx, width, height, scrollX, unit, dpr) {
 
     if (isMajor || step > 30) {
       ctx.fillStyle = TICK_COLORS.text;
-      ctx.font = '10px monospace';
-      ctx.textAlign = 'center';
+      ctx.font = "10px monospace";
+      ctx.textAlign = "center";
       ctx.fillText(formatMeasurement(realX, unit, dpr), x, rulerH - 16);
     }
   }
@@ -61,10 +66,10 @@ function drawHorizontalRuler(ctx, width, height, scrollX, unit, dpr) {
 
 function drawVerticalRuler(ctx, width, height, scrollY, unit, dpr) {
   const rulerW = 28;
-  ctx.fillStyle = 'rgba(30,30,30,0.92)';
+  ctx.fillStyle = "rgba(30,30,30,0.92)";
   ctx.fillRect(0, 0, rulerW, height);
 
-  const step = unit === 'px' ? 100 : unit === 'mm' ? 10 * (96 * dpr / 25.4) : 50;
+  const step = unit === "px" ? 100 : unit === "mm" ? 10 * ((96 * dpr) / 25.4) : 50;
   const startOffset = scrollY % step;
 
   for (let y = -startOffset; y < height; y += step) {
@@ -81,10 +86,10 @@ function drawVerticalRuler(ctx, width, height, scrollY, unit, dpr) {
     if (isMajor || step > 30) {
       ctx.save();
       ctx.fillStyle = TICK_COLORS.text;
-      ctx.font = '10px monospace';
+      ctx.font = "10px monospace";
       ctx.translate(12, y);
       ctx.rotate(-Math.PI / 2);
-      ctx.textAlign = 'center';
+      ctx.textAlign = "center";
       ctx.fillText(formatMeasurement(realY, unit, dpr), 0, 0);
       ctx.restore();
     }
@@ -93,7 +98,7 @@ function drawVerticalRuler(ctx, width, height, scrollY, unit, dpr) {
 
 function drawCrosshair(ctx, x, y, width, height) {
   ctx.setLineDash([4, 4]);
-  ctx.strokeStyle = 'rgba(0,200,255,0.7)';
+  ctx.strokeStyle = "rgba(0,200,255,0.7)";
   ctx.lineWidth = 1;
 
   ctx.beginPath();
@@ -115,7 +120,7 @@ function drawMeasurementLine(ctx, x1, y1, x2, y2, unit, dpr) {
   const dist = Math.sqrt(dx * dx + dy * dy);
 
   ctx.setLineDash([]);
-  ctx.strokeStyle = '#ff4081';
+  ctx.strokeStyle = "#ff4081";
   ctx.lineWidth = 2;
 
   ctx.beginPath();
@@ -123,8 +128,11 @@ function drawMeasurementLine(ctx, x1, y1, x2, y2, unit, dpr) {
   ctx.lineTo(x2, y2);
   ctx.stroke();
 
-  [{ cx: x1, cy: y1 }, { cx: x2, cy: y2 }].forEach(({ cx, cy }) => {
-    ctx.fillStyle = '#ff4081';
+  [
+    { cx: x1, cy: y1 },
+    { cx: x2, cy: y2 }
+  ].forEach(({ cx, cy }) => {
+    ctx.fillStyle = "#ff4081";
     ctx.beginPath();
     ctx.arc(cx, cy, 4, 0, Math.PI * 2);
     ctx.fill();
@@ -134,19 +142,19 @@ function drawMeasurementLine(ctx, x1, y1, x2, y2, unit, dpr) {
   const midX = (x1 + x2) / 2;
   const midY = (y1 + y2) / 2;
 
-  ctx.font = 'bold 12px monospace';
+  ctx.font = "bold 12px monospace";
   const textW = ctx.measureText(label).width;
-  ctx.fillStyle = 'rgba(255,64,129,0.9)';
+  ctx.fillStyle = "rgba(255,64,129,0.9)";
   ctx.fillRect(midX - textW / 2 - 6, midY - 20, textW + 12, 22);
-  ctx.fillStyle = '#fff';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
+  ctx.fillStyle = "#fff";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   ctx.fillText(label, midX, midY - 9);
 }
 
 function drawTooltip(ctx, x, y, colorHex, unit, dpr) {
   const text = `(${x}, ${y}) ${colorHex}`;
-  ctx.font = '11px monospace';
+  ctx.font = "11px monospace";
   const textW = ctx.measureText(text).width;
   const tipW = textW + 16;
   const tipH = 24;
@@ -155,37 +163,39 @@ function drawTooltip(ctx, x, y, colorHex, unit, dpr) {
   if (tipX + tipW > ctx.canvas.width) tipX = x - tipW - 8;
   if (tipY < 0) tipY = y + 16;
 
-  ctx.fillStyle = 'rgba(0,0,0,0.85)';
+  ctx.fillStyle = "rgba(0,0,0,0.85)";
   ctx.beginPath();
   ctx.roundRect(tipX, tipY, tipW, tipH, 4);
   ctx.fill();
 
-  ctx.fillStyle = '#fff';
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
+  ctx.fillStyle = "#fff";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
   ctx.fillText(text, tipX + 8, tipY + tipH / 2);
 }
 
 function getPixelColor(canvas, x, y) {
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
   const pixel = ctx.getImageData(x, y, 1, 1).data;
   return { r: pixel[0], g: pixel[1], b: pixel[2] };
 }
 
 async function pickColorFromScreen() {
-  if (typeof EyeDropper !== 'undefined') {
+  if (typeof EyeDropper !== "undefined") {
     try {
       const eyeDropper = new EyeDropper();
       const result = await eyeDropper.open();
       return result.sRGBHex;
-    } catch { return null; }
+    } catch {
+      return null;
+    }
   }
   return null;
 }
 
 function renderToolbar(container) {
-  const toolbar = document.createElement('div');
-  toolbar.className = 'sr-toolbar';
+  const toolbar = document.createElement("div");
+  toolbar.className = "sr-toolbar";
   toolbar.innerHTML = `
     <button id="sr-toggle" class="sr-btn sr-btn-primary">Activate Ruler</button>
     <div id="sr-controls" class="sr-controls" style="display:none">
@@ -213,22 +223,22 @@ function renderToolbar(container) {
 }
 
 function renderOverlay(container) {
-  const overlay = document.createElement('div');
-  overlay.id = 'sr-overlay';
-  overlay.className = 'sr-overlay';
-  overlay.style.display = 'none';
+  const overlay = document.createElement("div");
+  overlay.id = "sr-overlay";
+  overlay.className = "sr-overlay";
+  overlay.style.display = "none";
 
-  const hRuler = document.createElement('canvas');
-  hRuler.id = 'sr-h-ruler';
-  hRuler.className = 'sr-h-ruler';
+  const hRuler = document.createElement("canvas");
+  hRuler.id = "sr-h-ruler";
+  hRuler.className = "sr-h-ruler";
 
-  const vRuler = document.createElement('canvas');
-  vRuler.id = 'sr-v-ruler';
-  vRuler.className = 'sr-v-ruler';
+  const vRuler = document.createElement("canvas");
+  vRuler.id = "sr-v-ruler";
+  vRuler.className = "sr-v-ruler";
 
-  const crosshairCanvas = document.createElement('canvas');
-  crosshairCanvas.id = 'sr-crosshair';
-  crosshairCanvas.className = 'sr-crosshair';
+  const crosshairCanvas = document.createElement("canvas");
+  crosshairCanvas.id = "sr-crosshair";
+  crosshairCanvas.className = "sr-crosshair";
 
   overlay.appendChild(hRuler);
   overlay.appendChild(vRuler);
@@ -262,7 +272,7 @@ function renderStyles() {
 }
 
 export function drawRulerTicks(ctx, length, thickness, scrollPos, unit, dpr, isHorizontal) {
-  const step = unit === 'px' ? 100 : unit === 'mm' ? 10 * (96 * dpr / 25.4) : 50;
+  const step = unit === "px" ? 100 : unit === "mm" ? 10 * ((96 * dpr) / 25.4) : 50;
   const startOffset = scrollPos % step;
 
   for (let i = -startOffset; i < length; i += step) {
@@ -283,15 +293,15 @@ export function drawRulerTicks(ctx, length, thickness, scrollPos, unit, dpr, isH
 
     if (isMajor || step > 30) {
       ctx.fillStyle = TICK_COLORS.text;
-      ctx.font = '10px monospace';
+      ctx.font = "10px monospace";
       if (isHorizontal) {
-        ctx.textAlign = 'center';
+        ctx.textAlign = "center";
         ctx.fillText(formatMeasurement(realPos, unit, dpr), i, thickness - 16);
       } else {
         ctx.save();
         ctx.translate(12, i);
         ctx.rotate(-Math.PI / 2);
-        ctx.textAlign = 'center';
+        ctx.textAlign = "center";
         ctx.fillText(formatMeasurement(realPos, unit, dpr), 0, 0);
         ctx.restore();
       }
@@ -301,27 +311,28 @@ export function drawRulerTicks(ctx, length, thickness, scrollPos, unit, dpr, isH
 
 export function render(container) {
   container.innerHTML = `<style>${renderStyles()}</style><div class="sr-container" id="sr-root"></div>`;
-  const root = container.querySelector('#sr-root');
+  const root = container.querySelector("#sr-root");
 
   renderToolbar(root);
   const { overlay, hRuler, vRuler, crosshairCanvas } = renderOverlay(root);
 
-  const toggleBtn = root.querySelector('#sr-toggle');
-  const controls = root.querySelector('#sr-controls');
-  const unitSelect = root.querySelector('#sr-unit');
-  const posDisplay = root.querySelector('#sr-pos');
-  const distDisplay = root.querySelector('#sr-distance');
-  const colorSwatch = root.querySelector('#sr-color-swatch');
-  const colorHex = root.querySelector('#sr-color-hex');
-  const colorDisplay = root.querySelector('#sr-color-display');
-  const clearBtn = root.querySelector('#sr-clear');
-  const deactivateBtn = root.querySelector('#sr-deactivate');
-  const eyedropperBtn = root.querySelector('#sr-activate-eyedropper');
+  const toggleBtn = root.querySelector("#sr-toggle");
+  const controls = root.querySelector("#sr-controls");
+  const unitSelect = root.querySelector("#sr-unit");
+  const posDisplay = root.querySelector("#sr-pos");
+  const distDisplay = root.querySelector("#sr-distance");
+  const colorSwatch = root.querySelector("#sr-color-swatch");
+  const colorHex = root.querySelector("#sr-color-hex");
+  const colorDisplay = root.querySelector("#sr-color-display");
+  const clearBtn = root.querySelector("#sr-clear");
+  const deactivateBtn = root.querySelector("#sr-deactivate");
+  const eyedropperBtn = root.querySelector("#sr-activate-eyedropper");
 
   let active = false;
-  let unit = 'px';
+  let unit = "px";
   let anchor = null;
-  let mouseX = 0, mouseY = 0;
+  let mouseX = 0,
+    mouseY = 0;
   let dpr = window.devicePixelRatio || 1;
   let lastColor = null;
 
@@ -331,9 +342,9 @@ export function render(container) {
     [hRuler, vRuler, crosshairCanvas].forEach(c => {
       c.width = w * dpr;
       c.height = h * dpr;
-      c.style.width = w + 'px';
-      c.style.height = h + 'px';
-      c.getContext('2d').scale(dpr, dpr);
+      c.style.width = w + "px";
+      c.style.height = h + "px";
+      c.getContext("2d").scale(dpr, dpr);
     });
   }
 
@@ -341,9 +352,9 @@ export function render(container) {
     if (!active) return;
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const hCtx = hRuler.getContext('2d');
-    const vCtx = vRuler.getContext('2d');
-    const cCtx = crosshairCanvas.getContext('2d');
+    const hCtx = hRuler.getContext("2d");
+    const vCtx = vRuler.getContext("2d");
+    const cCtx = crosshairCanvas.getContext("2d");
 
     hCtx.clearRect(0, 0, w, h);
     vCtx.clearRect(0, 0, w, h);
@@ -367,56 +378,56 @@ export function render(container) {
       drawMeasurementLine(cCtx, anchor.x, anchor.y, mouseX, mouseY, unit, dpr);
     }
 
-    drawTooltip(cCtx, mouseX, mouseY, lastColor || '#000000', unit, dpr);
+    drawTooltip(cCtx, mouseX, mouseY, lastColor || "#000000", unit, dpr);
     cCtx.restore();
   }
 
   function activate() {
     active = true;
     resizeCanvases();
-    overlay.style.display = '';
-    controls.style.display = 'flex';
-    toggleBtn.style.display = 'none';
+    overlay.style.display = "";
+    controls.style.display = "flex";
+    toggleBtn.style.display = "none";
     draw();
   }
 
   function deactivate() {
     active = false;
     anchor = null;
-    overlay.style.display = 'none';
-    controls.style.display = 'none';
-    toggleBtn.style.display = '';
-    posDisplay.textContent = 'Move mouse to measure';
-    distDisplay.textContent = '';
-    colorDisplay.style.display = 'none';
+    overlay.style.display = "none";
+    controls.style.display = "none";
+    toggleBtn.style.display = "";
+    posDisplay.textContent = "Move mouse to measure";
+    distDisplay.textContent = "";
+    colorDisplay.style.display = "none";
   }
 
-  toggleBtn.addEventListener('click', activate);
-  deactivateBtn.addEventListener('click', deactivate);
+  toggleBtn.addEventListener("click", activate);
+  deactivateBtn.addEventListener("click", deactivate);
 
-  unitSelect.addEventListener('change', () => {
+  unitSelect.addEventListener("change", () => {
     unit = unitSelect.value;
     draw();
   });
 
-  clearBtn.addEventListener('click', () => {
+  clearBtn.addEventListener("click", () => {
     anchor = null;
     draw();
   });
 
-  eyedropperBtn.addEventListener('click', async () => {
+  eyedropperBtn.addEventListener("click", async () => {
     const hex = await pickColorFromScreen();
     if (hex) {
       lastColor = hex;
       colorSwatch.style.background = hex;
       colorHex.textContent = hex;
-      colorDisplay.style.display = 'flex';
+      colorDisplay.style.display = "flex";
       navigator.clipboard?.writeText(hex);
     }
   });
 
-  crosshairCanvas.style.pointerEvents = 'auto';
-  crosshairCanvas.addEventListener('mousemove', e => {
+  crosshairCanvas.style.pointerEvents = "auto";
+  crosshairCanvas.addEventListener("mousemove", e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     const color = getPixelColor(crosshairCanvas, e.clientX * dpr, e.clientY * dpr);
@@ -431,7 +442,7 @@ export function render(container) {
     draw();
   });
 
-  crosshairCanvas.addEventListener('click', e => {
+  crosshairCanvas.addEventListener("click", e => {
     if (anchor) {
       anchor = null;
     } else {
@@ -440,12 +451,12 @@ export function render(container) {
     draw();
   });
 
-  crosshairCanvas.addEventListener('contextmenu', e => {
+  crosshairCanvas.addEventListener("contextmenu", e => {
     e.preventDefault();
     deactivate();
   });
 
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     if (active) {
       dpr = window.devicePixelRatio || 1;
       resizeCanvases();
@@ -453,9 +464,11 @@ export function render(container) {
     }
   });
 
-  window.addEventListener('scroll', () => { if (active) draw(); });
+  window.addEventListener("scroll", () => {
+    if (active) draw();
+  });
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && active) deactivate();
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && active) deactivate();
   });
 }

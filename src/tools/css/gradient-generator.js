@@ -1,19 +1,19 @@
-import { createCssGenerator } from './css-generator-factory.js';
+import { createCssGenerator } from "./css-generator-factory.js";
 
 export const toolConfig = {
-  id: 'gradient-generator',
-  name: 'CSS Gradient Generator',
-  category: 'css',
-  description: 'Visual editor for linear, radial, and conic CSS gradients.',
-  icon: '🎨',
-  status: 'done'
+  id: "gradient-generator",
+  name: "CSS Gradient Generator",
+  category: "css",
+  description: "Visual editor for linear, radial, and conic CSS gradients.",
+  icon: "🎨",
+  status: "done"
 };
 
 export function render(container) {
   const { fire } = createCssGenerator({
     container,
-    cssClass: 'gradient-gen',
-    maxWidth: '700px',
+    cssClass: "gradient-gen",
+    maxWidth: "700px",
     extraCSS: `
       .gradient-gen .preview { height: 200px; border-radius: var(--radius-xl); margin-bottom: var(--space-4); background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
       .gradient-gen .color-stops { margin-bottom: var(--space-3); }
@@ -44,24 +44,24 @@ export function render(container) {
       const colorEls = controls.querySelectorAll('.color-stop input[type="color"]');
       const colors = Array.from(colorEls).map(el => el.value);
       let gradient;
-      if (type === 'linear') gradient = `linear-gradient(${angle}deg, ${colors.join(', ')})`;
-      else if (type === 'radial') gradient = `radial-gradient(circle, ${colors.join(', ')})`;
-      else gradient = `conic-gradient(from ${angle}deg, ${colors.join(', ')})`;
+      if (type === "linear") gradient = `linear-gradient(${angle}deg, ${colors.join(", ")})`;
+      else if (type === "radial") gradient = `radial-gradient(circle, ${colors.join(", ")})`;
+      else gradient = `conic-gradient(from ${angle}deg, ${colors.join(", ")})`;
       preview.style.background = gradient;
       cssOutput.textContent = `background: ${gradient};`;
-      const angleVal = container.querySelector('#angleVal');
-      if (angleVal) angleVal.textContent = angle + '°';
+      const angleVal = container.querySelector("#angleVal");
+      if (angleVal) angleVal.textContent = angle + "°";
     }
   });
 
-  const controlsEl = container.querySelector('.controls');
-  container.querySelector('#addStopBtn').addEventListener('click', () => {
-    const div = document.createElement('div');
-    div.className = 'color-stop';
+  const controlsEl = container.querySelector(".controls");
+  container.querySelector("#addStopBtn").addEventListener("click", () => {
+    const div = document.createElement("div");
+    div.className = "color-stop";
     div.innerHTML = '<input type="color" value="#ffffff"><input type="text" value="#ffffff">';
-    controlsEl.querySelector('#colorStops').appendChild(div);
-    div.querySelector('input[type="color"]').addEventListener('input', fire);
-    div.querySelector('input[type="text"]').addEventListener('input', fire);
+    controlsEl.querySelector("#colorStops").appendChild(div);
+    div.querySelector('input[type="color"]').addEventListener("input", fire);
+    div.querySelector('input[type="text"]').addEventListener("input", fire);
     fire();
   });
 }

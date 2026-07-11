@@ -5,14 +5,14 @@ import {
   getPeakLevel,
   applyGain,
   drawWaveform,
-  measureLoudness,
+  measureLoudness
 } from "./audio-utils.js";
 import { createAudioTool } from "./audio-tool-factory.js";
 
 const LUFS_PRESETS = [
   { id: "podcast", label: "Podcast", lufs: -16, desc: "Apple Podcasts / Spotify" },
   { id: "streaming", label: "Streaming", lufs: -14, desc: "Spotify / YouTube music" },
-  { id: "broadcast", label: "Broadcast", lufs: -23, desc: "EBU R128 standard" },
+  { id: "broadcast", label: "Broadcast", lufs: -23, desc: "EBU R128 standard" }
 ];
 
 export const toolConfig = {
@@ -31,26 +31,26 @@ export const toolConfig = {
     "lufs",
     "ebu r128",
     "peak",
-    "podcast",
+    "podcast"
   ],
   steps: [
     "Upload an audio file",
     "Choose normalization mode (Peak or Loudness)",
     "For Loudness mode, select a preset or enter custom LUFS target",
-    'Click "Normalize" to download',
+    'Click "Normalize" to download'
   ],
   faqs: [
     {
       question: "What is the difference between Peak and Loudness normalization?",
       answer:
-        "Peak normalization boosts volume so the loudest sample reaches 0 dB — simple but ignores perceived loudness. Loudness normalization (EBU R128) targets perceived loudness in LUFS, ensuring consistent volume across different content — the broadcast standard for podcasts and streaming.",
+        "Peak normalization boosts volume so the loudest sample reaches 0 dB — simple but ignores perceived loudness. Loudness normalization (EBU R128) targets perceived loudness in LUFS, ensuring consistent volume across different content — the broadcast standard for podcasts and streaming."
     },
     {
       question: "Which LUFS target should I use?",
       answer:
-        "Podcast: -16 LUFS (Apple/Spotify standard). Streaming music: -14 LUFS. Broadcast TV/radio: -23 LUFS (EBU R128). When in doubt, -16 LUFS works well for most spoken-word content.",
-    },
-  ],
+        "Podcast: -16 LUFS (Apple/Spotify standard). Streaming music: -14 LUFS. Broadcast TV/radio: -23 LUFS (EBU R128). When in doubt, -16 LUFS works well for most spoken-word content."
+    }
+  ]
 };
 
 export function render(container) {
@@ -59,7 +59,7 @@ export function render(container) {
     onFileLoaded(buf) {
       updatePeakInfo(buf);
       if (modeSelect.value === "loudness") measureAndUpdateLufs(buf);
-    },
+    }
   });
 
   optionsArea.innerHTML = `
@@ -80,12 +80,12 @@ export function render(container) {
     <div id="na-lufs-section" style="display:none;">
       <div class="na-preset-row">
         ${LUFS_PRESETS.map(
-          (p) => `
+          p => `
           <button class="na-preset-btn" data-lufs="${p.lufs}" title="${p.desc}">
             <span class="na-preset-label">${p.label}</span>
             <span class="na-preset-value">${p.lufs} LUFS</span>
           </button>
-        `,
+        `
         ).join("")}
         <div class="na-custom-preset">
           <label class="na-mode-label" style="margin-bottom:4px;">Custom</label>
@@ -141,7 +141,7 @@ export function render(container) {
 
   function setMode(mode) {
     currentMode = mode;
-    modeSelect.querySelectorAll(".na-mode-btn").forEach((btn) => {
+    modeSelect.querySelectorAll(".na-mode-btn").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.mode === mode);
     });
     lufsSection.style.display = mode === "loudness" ? "" : "none";
@@ -155,13 +155,13 @@ export function render(container) {
     if (buf && mode === "loudness") measureAndUpdateLufs(buf);
   }
 
-  modeSelect.querySelectorAll(".na-mode-btn").forEach((btn) => {
+  modeSelect.querySelectorAll(".na-mode-btn").forEach(btn => {
     btn.addEventListener("click", () => setMode(btn.dataset.mode));
   });
 
-  presetBtns.forEach((btn) => {
+  presetBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      presetBtns.forEach((b) => b.classList.remove("active"));
+      presetBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       currentTargetLufs = parseFloat(btn.dataset.lufs);
       customInput.value = currentTargetLufs;
@@ -172,7 +172,7 @@ export function render(container) {
 
   customInput.addEventListener("input", () => {
     currentTargetLufs = parseFloat(customInput.value) || -16;
-    presetBtns.forEach((b) => b.classList.remove("active"));
+    presetBtns.forEach(b => b.classList.remove("active"));
     const buf = getAudioBuffer();
     if (buf) measureAndUpdateLufs(buf);
   });
@@ -201,7 +201,7 @@ export function render(container) {
       downloadBlob(audioBufferToWav(applyGain(buf, gainLinear)), "normalized-lufs.wav");
       showToast({
         message: `Loudness normalized: ${integratedLoudness.toFixed(1)} → ${currentTargetLufs} LUFS (${gainDb >= 0 ? "+" : ""}${gainDb.toFixed(1)} dB)`,
-        type: "success",
+        type: "success"
       });
     }
   });

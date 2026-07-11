@@ -1,41 +1,126 @@
 const PRESETS = {
-  fadeIn: { name: 'Fade In', keyframes: 'from { opacity: 0; } to { opacity: 1; }', props: 'opacity' },
-  fadeOut: { name: 'Fade Out', keyframes: 'from { opacity: 1; } to { opacity: 0; }', props: 'opacity' },
-  slideInLeft: { name: 'Slide In Left', keyframes: 'from { transform: translateX(-100px); opacity: 0; } to { transform: translateX(0); opacity: 1; }', props: 'transform, opacity' },
-  slideInRight: { name: 'Slide In Right', keyframes: 'from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; }', props: 'transform, opacity' },
-  slideInUp: { name: 'Slide In Up', keyframes: 'from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; }', props: 'transform, opacity' },
-  slideInDown: { name: 'Slide In Down', keyframes: 'from { transform: translateY(-100px); opacity: 0; } to { transform: translateY(0); opacity: 1; }', props: 'transform, opacity' },
-  bounce: { name: 'Bounce', keyframes: '0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); }', props: 'transform' },
-  shake: { name: 'Shake', keyframes: '0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); }', props: 'transform' },
-  rotate: { name: 'Rotate', keyframes: 'from { transform: rotate(0deg); } to { transform: rotate(360deg); }', props: 'transform' },
-  pulse: { name: 'Pulse', keyframes: '0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); }', props: 'transform' },
-  wobble: { name: 'Wobble', keyframes: '0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); }', props: 'transform' },
-  flip: { name: 'Flip', keyframes: '0% { transform: perspective(400px) rotateY(0); } 100% { transform: perspective(400px) rotateY(360deg); }', props: 'transform' },
-  zoomIn: { name: 'Zoom In', keyframes: 'from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; }', props: 'transform, opacity' },
-  zoomOut: { name: 'Zoom Out', keyframes: 'from { transform: scale(1); opacity: 1; } to { transform: scale(0); opacity: 0; }', props: 'transform, opacity' },
-  swing: { name: 'Swing', keyframes: '0% { transform: rotate(0deg); } 20% { transform: rotate(15deg); } 40% { transform: rotate(-10deg); } 60% { transform: rotate(5deg); } 80% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); }', props: 'transform' }
+  fadeIn: {
+    name: "Fade In",
+    keyframes: "from { opacity: 0; } to { opacity: 1; }",
+    props: "opacity"
+  },
+  fadeOut: {
+    name: "Fade Out",
+    keyframes: "from { opacity: 1; } to { opacity: 0; }",
+    props: "opacity"
+  },
+  slideInLeft: {
+    name: "Slide In Left",
+    keyframes:
+      "from { transform: translateX(-100px); opacity: 0; } to { transform: translateX(0); opacity: 1; }",
+    props: "transform, opacity"
+  },
+  slideInRight: {
+    name: "Slide In Right",
+    keyframes:
+      "from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; }",
+    props: "transform, opacity"
+  },
+  slideInUp: {
+    name: "Slide In Up",
+    keyframes:
+      "from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; }",
+    props: "transform, opacity"
+  },
+  slideInDown: {
+    name: "Slide In Down",
+    keyframes:
+      "from { transform: translateY(-100px); opacity: 0; } to { transform: translateY(0); opacity: 1; }",
+    props: "transform, opacity"
+  },
+  bounce: {
+    name: "Bounce",
+    keyframes: "0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); }",
+    props: "transform"
+  },
+  shake: {
+    name: "Shake",
+    keyframes:
+      "0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); }",
+    props: "transform"
+  },
+  rotate: {
+    name: "Rotate",
+    keyframes: "from { transform: rotate(0deg); } to { transform: rotate(360deg); }",
+    props: "transform"
+  },
+  pulse: {
+    name: "Pulse",
+    keyframes: "0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); }",
+    props: "transform"
+  },
+  wobble: {
+    name: "Wobble",
+    keyframes:
+      "0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); }",
+    props: "transform"
+  },
+  flip: {
+    name: "Flip",
+    keyframes:
+      "0% { transform: perspective(400px) rotateY(0); } 100% { transform: perspective(400px) rotateY(360deg); }",
+    props: "transform"
+  },
+  zoomIn: {
+    name: "Zoom In",
+    keyframes: "from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; }",
+    props: "transform, opacity"
+  },
+  zoomOut: {
+    name: "Zoom Out",
+    keyframes: "from { transform: scale(1); opacity: 1; } to { transform: scale(0); opacity: 0; }",
+    props: "transform, opacity"
+  },
+  swing: {
+    name: "Swing",
+    keyframes:
+      "0% { transform: rotate(0deg); } 20% { transform: rotate(15deg); } 40% { transform: rotate(-10deg); } 60% { transform: rotate(5deg); } 80% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); }",
+    props: "transform"
+  }
 };
 
-const EASINGS = ['ease', 'ease-in', 'ease-out', 'ease-in-out', 'linear', 'cubic-bezier(0.68, -0.55, 0.27, 1.55)'];
+const EASINGS = [
+  "ease",
+  "ease-in",
+  "ease-out",
+  "ease-in-out",
+  "linear",
+  "cubic-bezier(0.68, -0.55, 0.27, 1.55)"
+];
 
 export function generateCSS(keyframesContent, options) {
-  const name = 'anim-' + Date.now().toString(36);
+  const name = "anim-" + Date.now().toString(36);
   return `@keyframes ${name} {\n${keyframesContent}\n}\n\n.el {\n  animation: ${name} ${options.duration}s ${options.easing} ${options.delay}s ${options.iterations} ${options.direction} ${options.fillMode};\n}`;
 }
 
 export const toolConfig = {
-  id: 'css-animation-generator',
-  name: 'CSS Animation Generator',
-  category: 'css',
-  description: 'Visual builder for CSS @keyframes animations with live preview.',
-  icon: '🎬',
+  id: "css-animation-generator",
+  name: "CSS Animation Generator",
+  category: "css",
+  description: "Visual builder for CSS @keyframes animations with live preview.",
+  icon: "🎬",
   accept: null,
   maxSizeMB: null,
-  keywords: ['css animation', 'keyframes', 'animation generator', 'css effects', 'motion'],
-  steps: ['Choose an animation preset', 'Adjust duration, easing, and other options', 'Copy the generated CSS code'],
+  keywords: ["css animation", "keyframes", "animation generator", "css effects", "motion"],
+  steps: [
+    "Choose an animation preset",
+    "Adjust duration, easing, and other options",
+    "Copy the generated CSS code"
+  ],
   faqs: [
-    { question: 'Can I customize the animation?', answer: 'Yes! Adjust duration, delay, easing, iteration count, direction, and fill mode.' },
-    { question: 'Does the preview work in real time?', answer: 'The preview updates automatically when you change settings.' }
+    {
+      question: "Can I customize the animation?",
+      answer: "Yes! Adjust duration, delay, easing, iteration count, direction, and fill mode."
+    },
+    {
+      question: "Does the preview work in real time?",
+      answer: "The preview updates automatically when you change settings."
+    }
   ]
 };
 
@@ -48,7 +133,9 @@ export function render(container) {
         <div>
           <div class="form-group">
             <label>Animation Preset</label>
-            <select id="cag-preset" class="text-input">${Object.entries(PRESETS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('')}</select>
+            <select id="cag-preset" class="text-input">${Object.entries(PRESETS)
+              .map(([k, v]) => `<option value="${k}">${v.name}</option>`)
+              .join("")}</select>
           </div>
           <div class="form-group">
             <label>Duration (s)</label>
@@ -62,7 +149,7 @@ export function render(container) {
           </div>
           <div class="form-group">
             <label>Easing</label>
-            <select id="cag-easing" class="text-input">${EASINGS.map(e => `<option value="${e}" ${e === 'ease' ? 'selected' : ''}>${e}</option>`).join('')}</select>
+            <select id="cag-easing" class="text-input">${EASINGS.map(e => `<option value="${e}" ${e === "ease" ? "selected" : ""}>${e}</option>`).join("")}</select>
           </div>
           <div class="form-group">
             <label>Iterations</label>
@@ -108,24 +195,24 @@ export function render(container) {
     </div>
   `;
 
-  const preset = container.querySelector('#cag-preset');
-  const duration = container.querySelector('#cag-duration');
-  const delay = container.querySelector('#cag-delay');
-  const easing = container.querySelector('#cag-easing');
-  const iterations = container.querySelector('#cag-iterations');
-  const direction = container.querySelector('#cag-direction');
-  const fill = container.querySelector('#cag-fill');
-  const previewBox = container.querySelector('#cag-preview-box');
-  const cssOutput = container.querySelector('#cag-css');
-  const copyBtn = container.querySelector('#cag-copy');
-  const durationLabel = container.querySelector('#cag-duration-label');
-  const delayLabel = container.querySelector('#cag-delay-label');
+  const preset = container.querySelector("#cag-preset");
+  const duration = container.querySelector("#cag-duration");
+  const delay = container.querySelector("#cag-delay");
+  const easing = container.querySelector("#cag-easing");
+  const iterations = container.querySelector("#cag-iterations");
+  const direction = container.querySelector("#cag-direction");
+  const fill = container.querySelector("#cag-fill");
+  const previewBox = container.querySelector("#cag-preview-box");
+  const cssOutput = container.querySelector("#cag-css");
+  const copyBtn = container.querySelector("#cag-copy");
+  const durationLabel = container.querySelector("#cag-duration-label");
+  const delayLabel = container.querySelector("#cag-delay-label");
 
   function update() {
     const dur = parseFloat(duration.value);
     const del = parseFloat(delay.value);
-    durationLabel.textContent = dur + 's';
-    delayLabel.textContent = del + 's';
+    durationLabel.textContent = dur + "s";
+    delayLabel.textContent = del + "s";
 
     const options = {
       duration: dur,
@@ -140,33 +227,33 @@ export function render(container) {
     const css = generateCSS(keyframesContent, options);
     cssOutput.value = css;
 
-    const animName = css.match(/@keyframes\s+(\S+)/)?.[1] || 'anim';
-    previewBox.style.animation = 'none';
+    const animName = css.match(/@keyframes\s+(\S+)/)?.[1] || "anim";
+    previewBox.style.animation = "none";
     void previewBox.offsetWidth;
     previewBox.style.animation = `${animName} ${options.duration}s ${options.easing} ${options.delay}s ${options.iterations} ${options.direction} ${options.fillMode}`;
 
-    let styleEl = document.getElementById('cag-style');
+    let styleEl = document.getElementById("cag-style");
     if (!styleEl) {
-      styleEl = document.createElement('style');
-      styleEl.id = 'cag-style';
+      styleEl = document.createElement("style");
+      styleEl.id = "cag-style";
       document.head.appendChild(styleEl);
     }
     styleEl.textContent = `@keyframes ${animName} {\n${keyframesContent}\n}`;
   }
 
-  preset.addEventListener('change', () => {
+  preset.addEventListener("change", () => {
     currentKeyframes = PRESETS[preset.value].keyframes;
     update();
   });
 
-  duration.addEventListener('input', update);
-  delay.addEventListener('input', update);
-  easing.addEventListener('change', update);
-  iterations.addEventListener('change', update);
-  direction.addEventListener('change', update);
-  fill.addEventListener('change', update);
+  duration.addEventListener("input", update);
+  delay.addEventListener("input", update);
+  easing.addEventListener("change", update);
+  iterations.addEventListener("change", update);
+  direction.addEventListener("change", update);
+  fill.addEventListener("change", update);
 
-  copyBtn.addEventListener('click', () => {
+  copyBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(cssOutput.value).catch(() => {});
   });
 
@@ -174,6 +261,6 @@ export function render(container) {
 }
 
 export function destroy() {
-  const el = document.getElementById('cag-style');
+  const el = document.getElementById("cag-style");
   if (el) el.remove();
 }

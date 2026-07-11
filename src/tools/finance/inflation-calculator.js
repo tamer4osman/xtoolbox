@@ -1,22 +1,22 @@
-import { createFinanceCalculator } from './finance-calculator-factory.js';
+import { createFinanceCalculator } from "./finance-calculator-factory.js";
 
 export const toolConfig = {
-  id: 'inflation-calculator',
-  name: 'Inflation Calculator',
-  category: 'finance',
-  description: 'Calculate the value of money adjusted for inflation over time.',
-  icon: '📊',
-  status: 'done'
+  id: "inflation-calculator",
+  name: "Inflation Calculator",
+  category: "finance",
+  description: "Calculate the value of money adjusted for inflation over time.",
+  icon: "📊",
+  status: "done"
 };
 
 export function render(container) {
   createFinanceCalculator({
     container,
-    toolId: 'inflation',
+    toolId: "inflation",
     icon: toolConfig.icon,
     title: toolConfig.name,
     description: toolConfig.description,
-    cardColor: 'red',
+    cardColor: "red",
     formHTML: `
       <div class="form-group">
         <label>Current Amount ($)</label>
@@ -40,10 +40,10 @@ export function render(container) {
       const lost = a - future;
       const powerPercent = (1 / factor) * 100;
       return {
-        primary: { label: 'Future Value', value: '$' + future.toFixed(2) },
+        primary: { label: "Future Value", value: "$" + future.toFixed(2) },
         items: [
-          { label: 'Lost Value', value: '$' + lost.toFixed(2) },
-          { label: 'Purchasing Power', value: powerPercent.toFixed(1) + '%' }
+          { label: "Lost Value", value: "$" + lost.toFixed(2) },
+          { label: "Purchasing Power", value: powerPercent.toFixed(1) + "%" }
         ],
         extras: `<div class="buying-power" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-4);text-align:center;"><h3 style="margin-bottom:var(--space-2);">What you could buy</h3><p>In ${y} years, $${a.toLocaleString()} will have the purchasing power of $${future.toFixed(2)} today</p></div>`
       };

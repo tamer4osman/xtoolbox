@@ -1,4 +1,4 @@
-import { it, expect } from 'vitest';
+import { it, expect } from "vitest";
 
 /**
  * Reusable tool exports tests
@@ -9,14 +9,10 @@ import { it, expect } from 'vitest';
  * @param {boolean} [options.requireProcess=false] - Whether process function is required
  */
 export function testToolExports(toolExports, options = {}) {
-  const {
-    requireToolConfig = true,
-    requireRender = false,
-    requireProcess = false
-  } = options;
+  const { requireToolConfig = true, requireRender = false, requireProcess = false } = options;
 
   if (requireToolConfig) {
-    it('exports toolConfig', () => {
+    it("exports toolConfig", () => {
       expect(toolExports.toolConfig).toBeDefined();
       expect(toolExports.toolConfig.id).toBeTruthy();
       expect(toolExports.toolConfig.name).toBeTruthy();
@@ -25,14 +21,14 @@ export function testToolExports(toolExports, options = {}) {
   }
 
   if (requireRender) {
-    it('exports render function', () => {
-      expect(typeof toolExports.render).toBe('function');
+    it("exports render function", () => {
+      expect(typeof toolExports.render).toBe("function");
     });
   }
 
   if (requireProcess) {
-    it('exports process function', () => {
-      expect(typeof toolExports.process).toBe('function');
+    it("exports process function", () => {
+      expect(typeof toolExports.process).toBe("function");
     });
   }
 }
@@ -45,7 +41,7 @@ export function testToolExports(toolExports, options = {}) {
 export function testRequiredFunctions(toolExports, requiredFunctions) {
   requiredFunctions.forEach(funcName => {
     it(`exports ${funcName} function`, () => {
-      expect(typeof toolExports[funcName]).toBe('function');
+      expect(typeof toolExports[funcName]).toBe("function");
     });
   });
 }
@@ -59,7 +55,7 @@ export function testOptionalFunctions(toolExports, optionalFunctions) {
   optionalFunctions.forEach(funcName => {
     it(`exports ${funcName} function if present`, () => {
       if (toolExports[funcName]) {
-        expect(typeof toolExports[funcName]).toBe('function');
+        expect(typeof toolExports[funcName]).toBe("function");
       }
     });
   });
@@ -71,15 +67,15 @@ export function testOptionalFunctions(toolExports, optionalFunctions) {
  * @param {Function} factoryFunction - The factory function to test
  */
 export function testFactoryPattern(toolExports, factoryFunction) {
-  it('exports factory function', () => {
-    expect(typeof factoryFunction).toBe('function');
+  it("exports factory function", () => {
+    expect(typeof factoryFunction).toBe("function");
   });
 
-  it('factory returns object with render and process', () => {
+  it("factory returns object with render and process", () => {
     const result = factoryFunction({});
-    expect(result).toHaveProperty('render');
-    expect(result).toHaveProperty('process');
-    expect(typeof result.render).toBe('function');
-    expect(typeof result.process).toBe('function');
+    expect(result).toHaveProperty("render");
+    expect(result).toHaveProperty("process");
+    expect(typeof result.render).toBe("function");
+    expect(typeof result.process).toBe("function");
   });
 }

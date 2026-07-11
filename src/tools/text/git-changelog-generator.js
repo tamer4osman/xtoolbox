@@ -1,18 +1,18 @@
-import { showToast } from '../../components/toast.js';
-import { copyToClipboard } from '../../utils/clipboard.js';
+import { showToast } from "../../components/toast.js";
+import { copyToClipboard } from "../../utils/clipboard.js";
 
 const COMMIT_TYPES = {
-  feat: { label: '✨ Features', order: 1 },
-  fix: { label: '🐛 Bug Fixes', order: 2 },
-  docs: { label: '📚 Documentation', order: 3 },
-  style: { label: '💄 Styles', order: 4 },
-  refactor: { label: '♻️ Refactoring', order: 5 },
-  perf: { label: '⚡ Performance', order: 6 },
-  test: { label: '✅ Tests', order: 7 },
-  build: { label: '📦 Build', order: 8 },
-  ci: { label: '🔧 CI', order: 9 },
-  chore: { label: '🔨 Chores', order: 10 },
-  revert: { label: '⏪ Reverts', order: 11 }
+  feat: { label: "✨ Features", order: 1 },
+  fix: { label: "🐛 Bug Fixes", order: 2 },
+  docs: { label: "📚 Documentation", order: 3 },
+  style: { label: "💄 Styles", order: 4 },
+  refactor: { label: "♻️ Refactoring", order: 5 },
+  perf: { label: "⚡ Performance", order: 6 },
+  test: { label: "✅ Tests", order: 7 },
+  build: { label: "📦 Build", order: 8 },
+  ci: { label: "🔧 CI", order: 9 },
+  chore: { label: "🔨 Chores", order: 10 },
+  revert: { label: "⏪ Reverts", order: 11 }
 };
 
 const CHANGELOG_CSS = `
@@ -78,7 +78,7 @@ const CHANGELOG_HTML = `
 `;
 
 export function parseConventionalCommits(text) {
-  const lines = text.split('\n').filter(line => line.trim());
+  const lines = text.split("\n").filter(line => line.trim());
   const commits = [];
 
   const commitRegex = /^([a-f0-9]{7,40})\s+(?:(\w+)(?:\(([^)]+)\))?\s*:\s*(.+))$/i;
@@ -128,11 +128,7 @@ export function groupCommitsByType(commits) {
 }
 
 export function generateChangelog(commits, options = {}) {
-  const {
-    includeHash = true,
-    includeScope = true,
-    title = 'Changelog'
-  } = options;
+  const { includeHash = true, includeScope = true, title = "Changelog" } = options;
 
   const grouped = groupCommitsByType(commits);
   const sortedTypes = Object.keys(grouped).sort((a, b) => {
@@ -151,7 +147,7 @@ export function generateChangelog(commits, options = {}) {
     markdown += `## ${label}\n\n`;
 
     for (const commit of typeCommits) {
-      let entry = '- ';
+      let entry = "- ";
       if (includeHash && commit.hash) {
         entry += `**${commit.hash}** `;
       }
@@ -162,7 +158,7 @@ export function generateChangelog(commits, options = {}) {
       markdown += `${entry}\n`;
     }
 
-    markdown += '\n';
+    markdown += "\n";
   }
 
   return markdown.trim();
@@ -173,41 +169,41 @@ export function exportToJson(commits) {
 }
 
 export function exportToCsv(commits) {
-  const headers = ['hash', 'type', 'scope', 'message'];
-  const rows = commits.map(c => [
-    c.hash || '',
-    c.type,
-    c.scope || '',
-    `"${c.message.replace(/"/g, '""')}"`
-  ].join(','));
+  const headers = ["hash", "type", "scope", "message"];
+  const rows = commits.map(c =>
+    [c.hash || "", c.type, c.scope || "", `"${c.message.replace(/"/g, '""')}"`].join(",")
+  );
 
-  return [headers.join(','), ...rows].join('\n');
+  return [headers.join(","), ...rows].join("\n");
 }
 
 export const toolConfig = {
-  id: 'git-changelog-generator',
-  name: 'Conventional Commit Changelog Generator',
-  category: 'text',
-  description: 'Parse conventional git logs and compile beautiful categorized Markdown release changelogs.',
-  icon: '📜',
-  accept: '.txt,.log',
+  id: "git-changelog-generator",
+  name: "Conventional Commit Changelog Generator",
+  category: "text",
+  description:
+    "Parse conventional git logs and compile beautiful categorized Markdown release changelogs.",
+  icon: "📜",
+  accept: ".txt,.log",
   maxSizeMB: 5,
-  keywords: ['git', 'changelog', 'commit', 'release', 'conventional', 'markdown'],
-  status: 'done',
+  keywords: ["git", "changelog", "commit", "release", "conventional", "markdown"],
+  status: "done",
   steps: [
-    'Paste your git log output (conventional commit format)',
-    'Select output format (Markdown, JSON, or CSV)',
+    "Paste your git log output (conventional commit format)",
+    "Select output format (Markdown, JSON, or CSV)",
     'Click "Generate Changelog"',
-    'Copy or download the formatted release notes'
+    "Copy or download the formatted release notes"
   ],
   faqs: [
     {
-      question: 'What commit format does this tool support?',
-      answer: 'It supports Conventional Commits format: type(scope): message. Supported types include feat, fix, docs, style, refactor, perf, test, build, ci, chore, and revert.'
+      question: "What commit format does this tool support?",
+      answer:
+        "It supports Conventional Commits format: type(scope): message. Supported types include feat, fix, docs, style, refactor, perf, test, build, ci, chore, and revert."
     },
     {
-      question: 'Can I customize the changelog output?',
-      answer: 'Yes, you can toggle including commit hashes and scopes, change the title, and choose between Markdown, JSON, or CSV formats.'
+      question: "Can I customize the changelog output?",
+      answer:
+        "Yes, you can toggle including commit hashes and scopes, change the title, and choose between Markdown, JSON, or CSV formats."
     }
   ]
 };
@@ -215,62 +211,70 @@ export const toolConfig = {
 export function render(container) {
   container.innerHTML = CHANGELOG_HTML;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = CHANGELOG_CSS;
   container.appendChild(style);
 
   const q = id => container.querySelector(`#${id}`);
   const els = {
-    gitLogInput: q('git-log-input'),
-    fileUpload: q('file-upload'),
-    titleInput: q('changelog-title'),
-    formatSelect: q('output-format'),
-    includeHash: q('include-hash'),
-    includeScope: q('include-scope'),
-    generateBtn: q('generate-btn'),
-    copyBtn: q('copy-btn'),
-    downloadBtn: q('download-btn'),
-    clearBtn: q('clear-btn'),
-    stats: q('stats'),
-    output: q('output'),
+    gitLogInput: q("git-log-input"),
+    fileUpload: q("file-upload"),
+    titleInput: q("changelog-title"),
+    formatSelect: q("output-format"),
+    includeHash: q("include-hash"),
+    includeScope: q("include-scope"),
+    generateBtn: q("generate-btn"),
+    copyBtn: q("copy-btn"),
+    downloadBtn: q("download-btn"),
+    clearBtn: q("clear-btn"),
+    stats: q("stats"),
+    output: q("output")
   };
 
   let currentCommits = [];
 
-  els.fileUpload.addEventListener('change', e => {
+  els.fileUpload.addEventListener("change", e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = ev => { els.gitLogInput.value = ev.target.result; };
+      reader.onload = ev => {
+        els.gitLogInput.value = ev.target.result;
+      };
       reader.readAsText(file);
     }
   });
 
-  els.generateBtn.addEventListener('click', () => {
+  els.generateBtn.addEventListener("click", () => {
     const text = els.gitLogInput.value.trim();
-    if (!text) { alert('Please paste a git log or upload a file first.'); return; }
+    if (!text) {
+      alert("Please paste a git log or upload a file first.");
+      return;
+    }
 
     currentCommits = parseConventionalCommits(text);
-    if (currentCommits.length === 0) { alert('No conventional commits found. Please check the format.'); return; }
+    if (currentCommits.length === 0) {
+      alert("No conventional commits found. Please check the format.");
+      return;
+    }
 
     const grouped = groupCommitsByType(currentCommits);
     const typeCounts = Object.entries(grouped)
       .map(([type, commits]) => `<span class="stat-item">${type}: ${commits.length}</span>`)
-      .join('');
+      .join("");
     els.stats.innerHTML = `<strong>Found ${currentCommits.length} commits:</strong> ${typeCounts}`;
-    els.stats.classList.add('visible');
+    els.stats.classList.add("visible");
 
     const format = els.formatSelect.value;
     let result;
-    if (format === 'json') {
+    if (format === "json") {
       result = exportToJson(currentCommits);
-    } else if (format === 'csv') {
+    } else if (format === "csv") {
       result = exportToCsv(currentCommits);
     } else {
       result = generateChangelog(currentCommits, {
         includeHash: els.includeHash.checked,
         includeScope: els.includeScope.checked,
-        title: els.titleInput.value || 'Changelog'
+        title: els.titleInput.value || "Changelog"
       });
     }
 
@@ -279,37 +283,40 @@ export function render(container) {
     els.downloadBtn.disabled = false;
   });
 
-  els.copyBtn.addEventListener('click', async () => {
+  els.copyBtn.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(els.output.value);
-      els.copyBtn.textContent = 'Copied!';
-      setTimeout(() => { els.copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
+      els.copyBtn.textContent = "Copied!";
+      setTimeout(() => {
+        els.copyBtn.textContent = "Copy to Clipboard";
+      }, 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   });
 
-  els.downloadBtn.addEventListener('click', () => {
+  els.downloadBtn.addEventListener("click", () => {
     const format = els.formatSelect.value;
-    const ext = format === 'json' ? 'json' : format === 'csv' ? 'csv' : 'md';
-    const mime = format === 'json' ? 'application/json' : format === 'csv' ? 'text/csv' : 'text/markdown';
+    const ext = format === "json" ? "json" : format === "csv" ? "csv" : "md";
+    const mime =
+      format === "json" ? "application/json" : format === "csv" ? "text/csv" : "text/markdown";
     const blob = new Blob([els.output.value], { type: mime });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `changelog.${ext}`;
     a.click();
     URL.revokeObjectURL(url);
   });
 
-  els.clearBtn.addEventListener('click', () => {
-    els.gitLogInput.value = '';
-    els.output.value = '';
-    els.stats.innerHTML = '';
-    els.stats.classList.remove('visible');
+  els.clearBtn.addEventListener("click", () => {
+    els.gitLogInput.value = "";
+    els.output.value = "";
+    els.stats.innerHTML = "";
+    els.stats.classList.remove("visible");
     els.copyBtn.disabled = true;
     els.downloadBtn.disabled = true;
-    els.fileUpload.value = '';
+    els.fileUpload.value = "";
     currentCommits = [];
   });
 }

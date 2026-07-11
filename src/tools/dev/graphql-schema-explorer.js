@@ -13,18 +13,18 @@ export const toolConfig = {
   steps: [
     "Upload or paste a GraphQL SDL schema",
     "Browse types, queries, mutations",
-    "View field details and relationships",
+    "View field details and relationships"
   ],
   faqs: [
     {
       question: "What is SDL?",
-      answer: "Schema Definition Language is the standard way to define GraphQL schemas.",
+      answer: "Schema Definition Language is the standard way to define GraphQL schemas."
     },
     {
       question: "Does it validate schemas?",
-      answer: "No, it parses and displays SDL for browsing only.",
-    },
-  ],
+      answer: "No, it parses and displays SDL for browsing only."
+    }
+  ]
 };
 
 export function parseSDL(sdl) {
@@ -61,17 +61,20 @@ export function parseSDL(sdl) {
       if (fieldMatch) {
         const args = [];
         if (fieldMatch[2]) {
-          fieldMatch[2].split(",").forEach((a) => {
-            const [n, t] = a.split(":").map((s) => s.trim());
+          fieldMatch[2].split(",").forEach(a => {
+            const [n, t] = a.split(":").map(s => s.trim());
             if (n && t) args.push({ name: n, type: t });
           });
         }
-        const fieldType = fieldMatch[3].replace(/@\w+(\([^)]*\))?\s*/g, "").replace(/[!,]/g, "").trim();
+        const fieldType = fieldMatch[3]
+          .replace(/@\w+(\([^)]*\))?\s*/g, "")
+          .replace(/[!,]/g, "")
+          .trim();
         currentType.fields.push({
           name: fieldMatch[1],
           type: fieldType,
           args,
-          deprecated: trimmed.includes("@deprecated"),
+          deprecated: trimmed.includes("@deprecated")
         });
       }
     }
@@ -103,7 +106,7 @@ export function render(container) {
     accept: ".graphql,.gql,.txt",
     multiple: false,
     maxSizeMB: 5,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       try {
         const sdl = await files[0].text();
@@ -113,7 +116,7 @@ export function render(container) {
       } catch {
         showToast({ message: "Failed to parse schema.", type: "error" });
       }
-    },
+    }
   });
 
   container.innerHTML = `
@@ -145,7 +148,7 @@ export function render(container) {
     }
   });
 
-  treeArea.addEventListener("click", (e) => {
+  treeArea.addEventListener("click", e => {
     const link = e.target.closest(".type-link");
     if (!link) return;
     const targetName = link.dataset.type;
@@ -165,17 +168,17 @@ export function render(container) {
     const queryType = typeMap["Query"];
     const mutationType = typeMap["Mutation"];
     const subscriptionType = typeMap["Subscription"];
-    const otherTypes = types.filter((t) => !["Query", "Mutation", "Subscription"].includes(t.name));
+    const otherTypes = types.filter(t => !["Query", "Mutation", "Subscription"].includes(t.name));
 
     function renderTypeCard(type) {
       const fieldsHtml = type.fields
-        .map((f) => {
+        .map(f => {
           const typeBadge = f.deprecated
             ? '<span style="color:var(--color-error);font-size:var(--text-xs);margin-left:4px;">DEPRECATED</span>'
             : "";
           const argsHtml =
             f.args.length > 0
-              ? `<div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">Args: ${f.args.map((a) => `${a.name}: ${a.type}`).join(", ")}</div>`
+              ? `<div style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;">Args: ${f.args.map(a => `${a.name}: ${a.type}`).join(", ")}</div>`
               : "";
           const isRef = typeMap[f.type.replace(/[[\]!]/g, "")];
           const typeLink = isRef
@@ -214,7 +217,7 @@ export function render(container) {
         otherTypes.length > 0
           ? `
         <h3 style="font-weight:600;margin:var(--space-4) 0 var(--space-2);">Other Types</h3>
-        ${otherTypes.map((t) => renderTypeCard(t)).join("")}
+        ${otherTypes.map(t => renderTypeCard(t)).join("")}
       `
           : ""
       }

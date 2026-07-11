@@ -1,13 +1,13 @@
 export function createCssGenerator({
   container,
   cssClass,
-  controlsHTML = '',
+  controlsHTML = "",
   previewHTML = '<div id="preview" class="preview"></div>',
-  extraCSS = '',
+  extraCSS = "",
   onUpdate,
-  maxWidth = '600px'
+  maxWidth = "600px"
 }) {
-  if (!onUpdate) throw new Error('createCssGenerator: onUpdate is required');
+  if (!onUpdate) throw new Error("createCssGenerator: onUpdate is required");
 
   container.innerHTML = `
     <div class="${cssClass}">
@@ -17,7 +17,7 @@ export function createCssGenerator({
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .${cssClass} { max-width: ${maxWidth}; margin: 0 auto; }
     .${cssClass} h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -38,15 +38,17 @@ export function createCssGenerator({
   `;
   container.appendChild(style);
 
-  const preview = container.querySelector('#preview') || container.querySelector('[class*="preview"], .preview, [id*="preview"]');
-  const cssOutput = container.querySelector('#cssOutput');
-  const copyBtn = container.querySelector('#copyBtn');
-  const controls = container.querySelector('.controls');
+  const preview =
+    container.querySelector("#preview") ||
+    container.querySelector('[class*="preview"], .preview, [id*="preview"]');
+  const cssOutput = container.querySelector("#cssOutput");
+  const copyBtn = container.querySelector("#copyBtn");
+  const controls = container.querySelector(".controls");
 
   function readValues() {
     const vals = {};
-    controls.querySelectorAll('input, select, textarea').forEach(el => {
-      if (el.id) vals[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+    controls.querySelectorAll("input, select, textarea").forEach(el => {
+      if (el.id) vals[el.id] = el.type === "checkbox" ? el.checked : el.value;
     });
     return vals;
   }
@@ -55,17 +57,19 @@ export function createCssGenerator({
     onUpdate({ values: readValues(), preview, cssOutput, container, controls });
   }
 
-  controls.querySelectorAll('input, select, textarea').forEach(el => {
-    el.addEventListener('input', fire);
-    el.addEventListener('change', fire);
+  controls.querySelectorAll("input, select, textarea").forEach(el => {
+    el.addEventListener("input", fire);
+    el.addEventListener("change", fire);
   });
 
   let copyResetTimeout;
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(cssOutput.textContent || '');
-    copyBtn.textContent = 'Copied!';
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(cssOutput.textContent || "");
+    copyBtn.textContent = "Copied!";
     clearTimeout(copyResetTimeout);
-    copyResetTimeout = setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+    copyResetTimeout = setTimeout(() => {
+      copyBtn.textContent = "Copy";
+    }, 1500);
   });
 
   fire();

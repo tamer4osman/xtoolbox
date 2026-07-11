@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'font-pairing',
-  name: 'Font Pairing Preview',
-  category: 'css',
-  description: 'Preview Google Fonts pairings for headings and body text.',
-  icon: '🔤',
-  status: 'done'
+  id: "font-pairing",
+  name: "Font Pairing Preview",
+  category: "css",
+  description: "Preview Google Fonts pairings for headings and body text.",
+  icon: "🔤",
+  status: "done"
 };
 
 export function render(container) {
@@ -22,7 +22,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .font-container { max-width: 800px; margin: 0 auto; }
     .font-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -41,37 +41,40 @@ export function render(container) {
   container.appendChild(style);
 
   const presets = [
-    { name: 'Modern', heading: 'Inter', body: 'Inter', h: '700', b: '400' },
-    { name: 'Classic', heading: 'Playfair Display', body: 'Source Serif Pro', h: '700', b: '400' },
-    { name: 'Clean', heading: 'Montserrat', body: 'Open Sans', h: '700', b: '400' },
-    { name: 'Tech', heading: 'Roboto Mono', body: 'Roboto', h: '700', b: '400' },
-    { name: 'Elegant', heading: 'Cormorant Garamond', body: 'Proza Libre', h: '600', b: '400' },
-    { name: 'Bold', heading: 'Oswald', body: 'Lato', h: '700', b: '400' }
+    { name: "Modern", heading: "Inter", body: "Inter", h: "700", b: "400" },
+    { name: "Classic", heading: "Playfair Display", body: "Source Serif Pro", h: "700", b: "400" },
+    { name: "Clean", heading: "Montserrat", body: "Open Sans", h: "700", b: "400" },
+    { name: "Tech", heading: "Roboto Mono", body: "Roboto", h: "700", b: "400" },
+    { name: "Elegant", heading: "Cormorant Garamond", body: "Proza Libre", h: "600", b: "400" },
+    { name: "Bold", heading: "Oswald", body: "Lato", h: "700", b: "400" }
   ];
 
-  container.querySelector('#presets').innerHTML = presets.map((p, i) =>
-    `<button class="preset-btn${i === 0 ? ' active' : ''}" data-heading="${p.heading}" data-body="${p.body}">${p.name}</button>`
-  ).join('');
+  container.querySelector("#presets").innerHTML = presets
+    .map(
+      (p, i) =>
+        `<button class="preset-btn${i === 0 ? " active" : ""}" data-heading="${p.heading}" data-body="${p.body}">${p.name}</button>`
+    )
+    .join("");
 
   function loadFont(heading, body) {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = `https://fonts.googleapis.com/css2?family=${heading.replace(/ /g, '+')}:wght@400;700&family=${body.replace(/ /g, '+')}:wght@400;600&display=swap`;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = `https://fonts.googleapis.com/css2?family=${heading.replace(/ /g, "+")}:wght@400;700&family=${body.replace(/ /g, "+")}:wght@400;600&display=swap`;
     document.head.appendChild(link);
-    const preview = container.querySelector('.preview');
-    preview.querySelector('.heading').style.fontFamily = `'${heading}', sans-serif`;
-    preview.querySelector('.body').style.fontFamily = `'${body}', sans-serif`;
-    container.querySelector('#headingFont').textContent = `font-family: '${heading}', sans-serif;`;
-    container.querySelector('#bodyFont').textContent = `font-family: '${body}', sans-serif;`;
+    const preview = container.querySelector(".preview");
+    preview.querySelector(".heading").style.fontFamily = `'${heading}', sans-serif`;
+    preview.querySelector(".body").style.fontFamily = `'${body}', sans-serif`;
+    container.querySelector("#headingFont").textContent = `font-family: '${heading}', sans-serif;`;
+    container.querySelector("#bodyFont").textContent = `font-family: '${body}', sans-serif;`;
   }
 
-  container.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  container.querySelectorAll(".preset-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
       loadFont(btn.dataset.heading, btn.dataset.body);
     });
   });
 
-  loadFont('Inter', 'Inter');
+  loadFont("Inter", "Inter");
 }

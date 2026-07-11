@@ -1,11 +1,11 @@
 export const toolConfig = {
-  id: 'sql-playground',
-  name: 'SQL Playground',
-  category: 'dev',
-  description: 'Write and execute SQL queries in the browser using SQLite compiled to WASM.',
-  icon: '🗃️',
-  keywords: ['sql', 'sqlite', 'playground', 'query', 'database', 'wasm'],
-  accept: '.sql,.db,.sqlite',
+  id: "sql-playground",
+  name: "SQL Playground",
+  category: "dev",
+  description: "Write and execute SQL queries in the browser using SQLite compiled to WASM.",
+  icon: "🗃️",
+  keywords: ["sql", "sqlite", "playground", "query", "database", "wasm"],
+  accept: ".sql,.db,.sqlite",
   maxSizeMB: 10
 };
 
@@ -16,30 +16,42 @@ let state = {
 };
 
 const sampleTables = [
-  { name: 'users', sql: `CREATE TABLE users (
+  {
+    name: "users",
+    sql: `CREATE TABLE users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   email TEXT UNIQUE,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);` },
-  { name: 'posts', sql: `CREATE TABLE posts (
+);`
+  },
+  {
+    name: "posts",
+    sql: `CREATE TABLE posts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,
   title TEXT NOT NULL,
   body TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id)
-);` }
+);`
+  }
 ];
 
 const sampleData = [
-  { table: 'users', sql: `INSERT INTO users (name, email) VALUES 
+  {
+    table: "users",
+    sql: `INSERT INTO users (name, email) VALUES 
   ('Alice', 'alice@example.com'),
   ('Bob', 'bob@example.com'),
-  ('Charlie', 'charlie@example.com');` },
-  { table: 'posts', sql: `INSERT INTO posts (user_id, title, body) VALUES
+  ('Charlie', 'charlie@example.com');`
+  },
+  {
+    table: "posts",
+    sql: `INSERT INTO posts (user_id, title, body) VALUES
   (1, 'First Post', 'Hello World!'),
-  (2, 'Another Post', 'More content here');` }
+  (2, 'Another Post', 'More content here');`
+  }
 ];
 
 export function render(container) {
@@ -82,8 +94,8 @@ export function render(container) {
 
 async function initSqlJs(container) {
   try {
-    const initSqlJs = document.createElement('script');
-    initSqlJs.src = 'https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.min.js';
+    const initSqlJs = document.createElement("script");
+    initSqlJs.src = "https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.min.js";
     initSqlJs.onload = async () => {
       state.SQL = await initSqlJsPromise();
       state.db = new state.SQL.Database();
@@ -91,49 +103,53 @@ async function initSqlJs(container) {
       updateSchema(container);
     };
     initSqlJs.onerror = () => {
-      container.querySelector('#resultsInfo').textContent = 'Failed to load SQL.js. Please refresh.';
+      container.querySelector("#resultsInfo").textContent =
+        "Failed to load SQL.js. Please refresh.";
     };
     document.head.appendChild(initSqlJs);
   } catch (err) {
-    container.querySelector('#resultsInfo').textContent = 'Error: ' + err.message;
+    container.querySelector("#resultsInfo").textContent = "Error: " + err.message;
   }
 }
 
 function initSqlJsPromise() {
   return new Promise((resolve, reject) => {
     if (window.initSqlJs) {
-      window.initSqlJs({
-        locateFile: file => `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}`
-      }).then(resolve).catch(reject);
+      window
+        .initSqlJs({
+          locateFile: file => `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}`
+        })
+        .then(resolve)
+        .catch(reject);
     } else {
-      reject(new Error('initSqlJs not found'));
+      reject(new Error("initSqlJs not found"));
     }
   });
 }
 
 function bindEvents(container) {
-  const runBtn = container.querySelector('#runBtn');
-  const loadSampleBtn = container.querySelector('#loadSampleBtn');
-  const clearBtn = container.querySelector('#clearBtn');
-  const sqlInput = container.querySelector('#sqlInput');
+  const runBtn = container.querySelector("#runBtn");
+  const loadSampleBtn = container.querySelector("#loadSampleBtn");
+  const clearBtn = container.querySelector("#clearBtn");
+  const sqlInput = container.querySelector("#sqlInput");
 
-  runBtn.addEventListener('click', () => executeQuery(container));
-  loadSampleBtn.addEventListener('click', () => loadSampleData(container));
-  clearBtn.addEventListener('click', () => clearDatabase(container));
+  runBtn.addEventListener("click", () => executeQuery(container));
+  loadSampleBtn.addEventListener("click", () => loadSampleData(container));
+  clearBtn.addEventListener("click", () => clearDatabase(container));
 }
 
 function executeQuery(container) {
   if (!state.db || !state.SQL) return;
 
-  const sql = container.querySelector('#sqlInput').value.trim();
+  const sql = container.querySelector("#sqlInput").value.trim();
   if (!sql) return;
 
-  const resultsWrapper = container.querySelector('#resultsWrapper');
-  const resultsInfo = container.querySelector('#resultsInfo');
+  const resultsWrapper = container.querySelector("#resultsWrapper");
+  const resultsInfo = container.querySelector("#resultsInfo");
 
   try {
     const results = state.db.exec(sql);
-    
+
     if (results.length === 0) {
       const changes = state.db.getRowsModified();
       resultsInfo.textContent = `Query executed. ${changes} row(s) affected.`;
@@ -146,14 +162,14 @@ function executeQuery(container) {
     }
     updateSchema(container);
   } catch (err) {
-    resultsInfo.textContent = 'Error: ' + err.message;
-    resultsWrapper.innerHTML = '<div class="results-error">' + err.message + '</div>';
+    resultsInfo.textContent = "Error: " + err.message;
+    resultsWrapper.innerHTML = '<div class="results-error">' + err.message + "</div>";
   }
 }
 
 function renderResultsTable(container, columns, values) {
-  const wrapper = container.querySelector('#resultsWrapper');
-  
+  const wrapper = container.querySelector("#resultsWrapper");
+
   if (columns.length === 0) {
     wrapper.innerHTML = '<div class="results-placeholder">No results</div>';
     return;
@@ -161,19 +177,19 @@ function renderResultsTable(container, columns, values) {
 
   let html = '<table class="results-table"><thead><tr>';
   columns.forEach(col => {
-    html += '<th>' + col + '</th>';
+    html += "<th>" + col + "</th>";
   });
-  html += '</tr></thead><tbody>';
+  html += "</tr></thead><tbody>";
 
   values.forEach(row => {
-    html += '<tr>';
+    html += "<tr>";
     row.forEach(cell => {
-      html += '<td>' + (cell === null ? 'NULL' : cell) + '</td>';
+      html += "<td>" + (cell === null ? "NULL" : cell) + "</td>";
     });
-    html += '</tr>';
+    html += "</tr>";
   });
 
-  html += '</tbody></table>';
+  html += "</tbody></table>";
   wrapper.innerHTML = html;
 }
 
@@ -190,10 +206,11 @@ function loadSampleData(container) {
     });
 
     updateSchema(container);
-    container.querySelector('#resultsInfo').textContent = 'Sample tables created: users, posts';
-    container.querySelector('#resultsWrapper').innerHTML = '<div class="results-placeholder">Sample data loaded. Try: SELECT * FROM users</div>';
+    container.querySelector("#resultsInfo").textContent = "Sample tables created: users, posts";
+    container.querySelector("#resultsWrapper").innerHTML =
+      '<div class="results-placeholder">Sample data loaded. Try: SELECT * FROM users</div>';
   } catch (err) {
-    container.querySelector('#resultsInfo').textContent = 'Error: ' + err.message;
+    container.querySelector("#resultsInfo").textContent = "Error: " + err.message;
   }
 }
 
@@ -202,41 +219,50 @@ function clearDatabase(container) {
 
   state.db.close();
   state.db = new state.SQL.Database();
-  container.querySelector('#sqlInput').value = 'SELECT * FROM users;';
-  container.querySelector('#resultsWrapper').innerHTML = '<div class="results-placeholder">Database cleared. Run a query.</div>';
-  container.querySelector('#resultsInfo').textContent = 'Database cleared.';
+  container.querySelector("#sqlInput").value = "SELECT * FROM users;";
+  container.querySelector("#resultsWrapper").innerHTML =
+    '<div class="results-placeholder">Database cleared. Run a query.</div>';
+  container.querySelector("#resultsInfo").textContent = "Database cleared.";
   updateSchema(container);
 }
 
 function updateSchema(container) {
   if (!state.db) return;
 
-  const schemaInfo = container.querySelector('#schemaInfo');
-  
+  const schemaInfo = container.querySelector("#schemaInfo");
+
   try {
-    const tables = state.db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';");
-    
+    const tables = state.db.exec(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';"
+    );
+
     if (tables.length === 0 || tables[0].values.length === 0) {
-      schemaInfo.textContent = 'No tables in database';
+      schemaInfo.textContent = "No tables in database";
       return;
     }
 
-    let html = '';
+    let html = "";
     tables[0].values.forEach(row => {
       const tableName = row[0];
-      html += '<div class="schema-table"><strong>' + tableName + '</strong>';
-      
+      html += '<div class="schema-table"><strong>' + tableName + "</strong>";
+
       const columns = state.db.exec("PRAGMA table_info(" + tableName + ");");
       if (columns.length > 0) {
         columns[0].values.forEach(col => {
-          html += '<div class="schema-column">' + col[1] + ' ' + col[2] + (col[5] === 1 ? ' PK' : '') + '</div>';
+          html +=
+            '<div class="schema-column">' +
+            col[1] +
+            " " +
+            col[2] +
+            (col[5] === 1 ? " PK" : "") +
+            "</div>";
         });
       }
-      html += '</div>';
+      html += "</div>";
     });
 
     schemaInfo.innerHTML = html;
   } catch (err) {
-    schemaInfo.textContent = 'Error: ' + err.message;
+    schemaInfo.textContent = "Error: " + err.message;
   }
 }

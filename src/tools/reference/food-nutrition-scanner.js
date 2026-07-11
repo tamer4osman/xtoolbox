@@ -1,44 +1,45 @@
-import { escapeHtml } from '../../utils/escape-html.js';
-import { downloadBlob } from '../../utils/file.js';
+import { escapeHtml } from "../../utils/escape-html.js";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'food-nutrition-scanner',
-  name: 'Food Nutrition Scanner',
-  category: 'reference',
-  description: 'Scan food barcodes or search products to view detailed nutrition facts from Open Food Facts.',
-  icon: '🍎',
-  keywords: ['nutrition', 'food', 'barcode', 'calories', 'health'],
-  accept: '',
+  id: "food-nutrition-scanner",
+  name: "Food Nutrition Scanner",
+  category: "reference",
+  description:
+    "Scan food barcodes or search products to view detailed nutrition facts from Open Food Facts.",
+  icon: "🍎",
+  keywords: ["nutrition", "food", "barcode", "calories", "health"],
+  accept: "",
   maxSizeMB: 0,
-  status: 'done'
+  status: "done"
 };
 
-const API_BASE = 'https://world.openfoodfacts.org';
+const API_BASE = "https://world.openfoodfacts.org";
 const NUTRIENTS = [
-  { key: 'energy-kcal_100g', label: 'Energy', unit: 'kcal', highlight: true },
-  { key: 'proteins_100g', label: 'Protein', unit: 'g', highlight: false },
-  { key: 'carbohydrates_100g', label: 'Carbohydrates', unit: 'g', highlight: false },
-  { key: 'sugars_100g', label: '  Sugars', unit: 'g', indent: true, highlight: true },
-  { key: 'fat_100g', label: 'Fat', unit: 'g', highlight: false },
-  { key: 'saturated-fat_100g', label: '  Saturated Fat', unit: 'g', indent: true, highlight: true },
-  { key: 'fiber_100g', label: 'Fiber', unit: 'g', highlight: false },
-  { key: 'salt_100g', label: 'Salt', unit: 'g', highlight: true },
-  { key: 'sodium_100g', label: 'Sodium', unit: 'g', highlight: false }
+  { key: "energy-kcal_100g", label: "Energy", unit: "kcal", highlight: true },
+  { key: "proteins_100g", label: "Protein", unit: "g", highlight: false },
+  { key: "carbohydrates_100g", label: "Carbohydrates", unit: "g", highlight: false },
+  { key: "sugars_100g", label: "  Sugars", unit: "g", indent: true, highlight: true },
+  { key: "fat_100g", label: "Fat", unit: "g", highlight: false },
+  { key: "saturated-fat_100g", label: "  Saturated Fat", unit: "g", indent: true, highlight: true },
+  { key: "fiber_100g", label: "Fiber", unit: "g", highlight: false },
+  { key: "salt_100g", label: "Salt", unit: "g", highlight: true },
+  { key: "sodium_100g", label: "Sodium", unit: "g", highlight: false }
 ];
 
 const GRADE_COLORS = {
-  a: { bg: '#1a9641', text: '#fff' },
-  b: { bg: '#a6d96a', text: '#333' },
-  c: { bg: '#fdae61', text: '#333' },
-  d: { bg: '#f46d43', text: '#fff' },
-  e: { bg: '#d73027', text: '#fff' }
+  a: { bg: "#1a9641", text: "#fff" },
+  b: { bg: "#a6d96a", text: "#333" },
+  c: { bg: "#fdae61", text: "#333" },
+  d: { bg: "#f46d43", text: "#fff" },
+  e: { bg: "#d73027", text: "#fff" }
 };
 
 const NUTRIENT_LEVELS = {
-  fat: { label: 'Fat', high: 'high', low: 'low' },
-  'saturated-fat': { label: 'Saturated Fat', high: 'high', low: 'low' },
-  sugars: { label: 'Sugars', high: 'high', low: 'low' },
-  salt: { label: 'Salt', high: 'high', low: 'low' }
+  fat: { label: "Fat", high: "high", low: "low" },
+  "saturated-fat": { label: "Saturated Fat", high: "high", low: "low" },
+  sugars: { label: "Sugars", high: "high", low: "low" },
+  salt: { label: "Salt", high: "high", low: "low" }
 };
 
 let _cameraStream = null;
@@ -56,75 +57,84 @@ export function parseNutriments(product) {
 }
 
 export function parseGrade(product) {
-  return (product.nutrition_grades || product.nutriscore_grade || '').toLowerCase();
+  return (product.nutrition_grades || product.nutriscore_grade || "").toLowerCase();
 }
 
 export function parseNutrientLevels(product) {
   const levels = product.nutrient_levels || {};
-  return Object.entries(NUTRIENT_LEVELS).map(([key, meta]) => ({
-    label: meta.label,
-    level: levels[key] || null
-  })).filter(n => n.level);
+  return Object.entries(NUTRIENT_LEVELS)
+    .map(([key, meta]) => ({
+      label: meta.label,
+      level: levels[key] || null
+    }))
+    .filter(n => n.level);
 }
 
 function gradeBadge(grade) {
   const c = GRADE_COLORS[grade];
-  if (!c) return '';
+  if (!c) return "";
   return `<span class="fn-badge" style="background:${c.bg};color:${c.text}">${grade.toUpperCase()}</span>`;
 }
 
 function nutrientLevelBar(level) {
-  if (level === 'high') return '<span class="fn-level fn-level-high">High</span>';
-  if (level === 'low') return '<span class="fn-level fn-level-low">Low</span>';
-  return '';
+  if (level === "high") return '<span class="fn-level fn-level-high">High</span>';
+  if (level === "low") return '<span class="fn-level fn-level-low">Low</span>';
+  return "";
 }
 
 function renderProduct(product) {
-  const name = product.product_name || 'Unknown Product';
-  const brand = product.brands || '';
-  const image = product.image_front_url || product.image_url || '';
+  const name = product.product_name || "Unknown Product";
+  const brand = product.brands || "";
+  const image = product.image_front_url || product.image_url || "";
   const grade = parseGrade(product);
   const nutrients = parseNutriments(product);
   const levels = parseNutrientLevels(product);
-  const ingredients = product.ingredients_text || product.ingredients_text_en || '';
+  const ingredients = product.ingredients_text || product.ingredients_text_en || "";
   const allergens = product.allergens_tags || [];
   const categories = product.categories_tags || [];
-  const quantity = product.quantity || '';
+  const quantity = product.quantity || "";
 
-  const nutrientRows = nutrients.map(n => {
-    const val = n.value != null ? n.value.toFixed(1) : '—';
-    const indent = n.indent ? ' style="padding-left:var(--space-6)"' : '';
-    const hl = n.highlight ? ' fn-highlight' : '';
-    return `<tr${indent}><td class="fn-nut-label${hl}">${n.label}</td><td class="fn-nut-value">${val} ${n.unit}</td></tr>`;
-  }).join('');
+  const nutrientRows = nutrients
+    .map(n => {
+      const val = n.value != null ? n.value.toFixed(1) : "—";
+      const indent = n.indent ? ' style="padding-left:var(--space-6)"' : "";
+      const hl = n.highlight ? " fn-highlight" : "";
+      return `<tr${indent}><td class="fn-nut-label${hl}">${n.label}</td><td class="fn-nut-value">${val} ${n.unit}</td></tr>`;
+    })
+    .join("");
 
-  const levelRows = levels.map(l =>
-    `<div class="fn-level-row"><span>${l.label}</span>${nutrientLevelBar(l.level)}</div>`
-  ).join('');
+  const levelRows = levels
+    .map(l => `<div class="fn-level-row"><span>${l.label}</span>${nutrientLevelBar(l.level)}</div>`)
+    .join("");
 
-  const allergenTags = allergens.map(a => {
-    const name = a.replace(/^en:/, '').replace(/-/g, ' ');
-    return `<span class="fn-tag fn-tag-allergen">${escapeHtml(name)}</span>`;
-  }).join('');
+  const allergenTags = allergens
+    .map(a => {
+      const name = a.replace(/^en:/, "").replace(/-/g, " ");
+      return `<span class="fn-tag fn-tag-allergen">${escapeHtml(name)}</span>`;
+    })
+    .join("");
 
-  const categoryTags = categories.slice(0, 5).map(c => {
-    const name = c.replace(/^[a-z-]+:/, '').replace(/-/g, ' ');
-    return `<span class="fn-tag">${escapeHtml(name)}</span>`;
-  }).join('');
+  const categoryTags = categories
+    .slice(0, 5)
+    .map(c => {
+      const name = c.replace(/^[a-z-]+:/, "").replace(/-/g, " ");
+      return `<span class="fn-tag">${escapeHtml(name)}</span>`;
+    })
+    .join("");
 
   return `
     <div class="fn-product">
       <div class="fn-product-header">
-        ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" class="fn-product-img" />` : ''}
+        ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(name)}" class="fn-product-img" />` : ""}
         <div class="fn-product-info">
           <h2 class="fn-product-name">${escapeHtml(name)}</h2>
-          ${brand ? `<div class="fn-product-brand">${escapeHtml(brand)}</div>` : ''}
-          ${quantity ? `<div class="fn-product-qty">${escapeHtml(quantity)}</div>` : ''}
+          ${brand ? `<div class="fn-product-brand">${escapeHtml(brand)}</div>` : ""}
+          ${quantity ? `<div class="fn-product-qty">${escapeHtml(quantity)}</div>` : ""}
           <div class="fn-grade-row">
             <span class="fn-grade-label">Nutrition Grade:</span>
             ${gradeBadge(grade)}
           </div>
-          ${categoryTags ? `<div class="fn-tags-row">${categoryTags}</div>` : ''}
+          ${categoryTags ? `<div class="fn-tags-row">${categoryTags}</div>` : ""}
         </div>
       </div>
 
@@ -136,26 +146,38 @@ function renderProduct(product) {
         </table>
       </div>
 
-      ${levelRows ? `
+      ${
+        levelRows
+          ? `
         <div class="fn-section">
           <h3>Nutrient Levels</h3>
           <div class="fn-levels">${levelRows}</div>
         </div>
-      ` : ''}
+      `
+          : ""
+      }
 
-      ${allergenTags ? `
+      ${
+        allergenTags
+          ? `
         <div class="fn-section">
           <h3>Allergens</h3>
           <div class="fn-tags-row">${allergenTags}</div>
         </div>
-      ` : ''}
+      `
+          : ""
+      }
 
-      ${ingredients ? `
+      ${
+        ingredients
+          ? `
         <div class="fn-section">
           <h3>Ingredients</h3>
           <p class="fn-ingredients">${escapeHtml(ingredients)}</p>
         </div>
-      ` : ''}
+      `
+          : ""
+      }
     </div>
   `;
 }
@@ -163,32 +185,38 @@ function renderProduct(product) {
 function renderSearchResults(products) {
   if (!products.length) return '<p class="fn-empty">No products found.</p>';
   return `<div class="fn-results-list">
-    ${products.map(p => {
-      const name = p.product_name || 'Unknown';
-      const brand = p.brands || '';
-      const grade = parseGrade(p);
-      const image = p.image_front_small_url || '';
-      return `<button class="fn-result-item" data-barcode="${escapeHtml(p.code || '')}">
+    ${products
+      .map(p => {
+        const name = p.product_name || "Unknown";
+        const brand = p.brands || "";
+        const grade = parseGrade(p);
+        const image = p.image_front_small_url || "";
+        return `<button class="fn-result-item" data-barcode="${escapeHtml(p.code || "")}">
         ${image ? `<img src="${escapeHtml(image)}" alt="" class="fn-result-img" />` : '<div class="fn-result-img fn-result-placeholder"></div>'}
         <div class="fn-result-info">
           <div class="fn-result-name">${escapeHtml(name)}</div>
           <div class="fn-result-brand">${escapeHtml(brand)}</div>
         </div>
-        ${grade ? gradeBadge(grade) : ''}
+        ${grade ? gradeBadge(grade) : ""}
       </button>`;
-    }).join('')}
+      })
+      .join("")}
   </div>`;
 }
 
 function renderHistory(history) {
-  if (!history.length) return '';
+  if (!history.length) return "";
   return `<div class="fn-section">
     <h3>Recent Scans</h3>
     <div class="fn-history">
-      ${history.map(h => `<button class="fn-history-item" data-barcode="${escapeHtml(h.barcode)}">
+      ${history
+        .map(
+          h => `<button class="fn-history-item" data-barcode="${escapeHtml(h.barcode)}">
         <span class="fn-history-name">${escapeHtml(h.name)}</span>
         <span class="fn-history-barcode">${escapeHtml(h.barcode)}</span>
-      </button>`).join('')}
+      </button>`
+        )
+        .join("")}
     </div>
   </div>`;
 }
@@ -227,7 +255,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .fn-container { max-width: 700px; margin: 0 auto; }
     .fn-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
@@ -293,18 +321,18 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const status = container.querySelector('#fn-status');
-  const result = container.querySelector('#fn-result');
+  const status = container.querySelector("#fn-status");
+  const result = container.querySelector("#fn-result");
   let history = [];
   try {
-    history = JSON.parse(localStorage.getItem('fn-history') || '[]');
+    history = JSON.parse(localStorage.getItem("fn-history") || "[]");
   } catch {
     history = [];
   }
 
   function setStatus(msg, type) {
     status.textContent = msg;
-    status.className = 'fn-status' + (type ? ' fn-' + type : '');
+    status.className = "fn-status" + (type ? " fn-" + type : "");
   }
 
   function addToHistory(barcode, name) {
@@ -314,134 +342,168 @@ export function render(container) {
     if (filtered.length > 10) filtered.length = 10;
     history.length = 0;
     history.push(...filtered);
-    try { localStorage.setItem('fn-history', JSON.stringify(history)); } catch {}
+    try {
+      localStorage.setItem("fn-history", JSON.stringify(history));
+    } catch {}
   }
 
   async function lookupBarcode(barcode) {
-    barcode = barcode.replace(/\D/g, '');
-    if (!barcode) { setStatus('Enter a barcode number', 'error'); return; }
-    setStatus('Looking up barcode...', 'loading');
-    result.innerHTML = '';
+    barcode = barcode.replace(/\D/g, "");
+    if (!barcode) {
+      setStatus("Enter a barcode number", "error");
+      return;
+    }
+    setStatus("Looking up barcode...", "loading");
+    result.innerHTML = "";
     try {
-      const res = await fetch(API_BASE + '/api/v2/product/' + barcode + '.json?fields=product_name,brands,image_front_url,image_front_small_url,nutriments,nutrition_grades,nutriscore_grade,nutrient_levels,ingredients_text,ingredients_text_en,allergens_tags,categories_tags,quantity,code');
-      if (!res.ok) throw new Error('API error');
+      const res = await fetch(
+        API_BASE +
+          "/api/v2/product/" +
+          barcode +
+          ".json?fields=product_name,brands,image_front_url,image_front_small_url,nutriments,nutrition_grades,nutriscore_grade,nutrient_levels,ingredients_text,ingredients_text_en,allergens_tags,categories_tags,quantity,code"
+      );
+      if (!res.ok) throw new Error("API error");
       const data = await res.json();
       if (data.status !== 1 || !data.product) {
-        setStatus('Product not found. Try another barcode.', 'error');
+        setStatus("Product not found. Try another barcode.", "error");
         return;
       }
-      setStatus('');
+      setStatus("");
       result.innerHTML = renderProduct(data.product);
-      addToHistory(barcode, data.product.product_name || 'Unknown');
+      addToHistory(barcode, data.product.product_name || "Unknown");
     } catch {
-      setStatus('Failed to fetch product. Check your connection.', 'error');
+      setStatus("Failed to fetch product. Check your connection.", "error");
     }
   }
 
   async function searchProducts(query) {
     query = query.trim();
-    if (!query) { setStatus('Enter a product name', 'error'); return; }
-    setStatus('Searching...', 'loading');
-    result.innerHTML = '';
+    if (!query) {
+      setStatus("Enter a product name", "error");
+      return;
+    }
+    setStatus("Searching...", "loading");
+    result.innerHTML = "";
     try {
-      const res = await fetch(API_BASE + '/cgi/search.pl?search_terms=' + encodeURIComponent(query) + '&search_simple=1&action=process&json=1&page_size=10&fields=code,product_name,brands,image_front_small_url,nutrition_grades');
-      if (!res.ok) throw new Error('API error');
+      const res = await fetch(
+        API_BASE +
+          "/cgi/search.pl?search_terms=" +
+          encodeURIComponent(query) +
+          "&search_simple=1&action=process&json=1&page_size=10&fields=code,product_name,brands,image_front_small_url,nutrition_grades"
+      );
+      if (!res.ok) throw new Error("API error");
       const data = await res.json();
       const products = data.products || [];
-      setStatus('');
+      setStatus("");
       result.innerHTML = renderSearchResults(products);
-      result.querySelectorAll('.fn-result-item').forEach(btn => {
-        btn.addEventListener('click', () => lookupBarcode(btn.dataset.barcode));
+      result.querySelectorAll(".fn-result-item").forEach(btn => {
+        btn.addEventListener("click", () => lookupBarcode(btn.dataset.barcode));
       });
     } catch {
-      setStatus('Search failed. Try again.', 'error');
+      setStatus("Search failed. Try again.", "error");
     }
   }
 
-  container.querySelectorAll('.fn-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      container.querySelectorAll('.fn-tab').forEach(t => t.classList.remove('active'));
-      container.querySelectorAll('.fn-tab-content').forEach(p => p.style.display = 'none');
-      tab.classList.add('active');
-      container.querySelector('[data-panel="' + tab.dataset.tab + '"]').style.display = '';
+  container.querySelectorAll(".fn-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      container.querySelectorAll(".fn-tab").forEach(t => t.classList.remove("active"));
+      container.querySelectorAll(".fn-tab-content").forEach(p => (p.style.display = "none"));
+      tab.classList.add("active");
+      container.querySelector('[data-panel="' + tab.dataset.tab + '"]').style.display = "";
     });
   });
 
-  container.querySelector('#lookup-btn').addEventListener('click', () => {
-    lookupBarcode(container.querySelector('#barcode-input').value);
+  container.querySelector("#lookup-btn").addEventListener("click", () => {
+    lookupBarcode(container.querySelector("#barcode-input").value);
   });
 
-  container.querySelector('#barcode-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') lookupBarcode(e.target.value);
+  container.querySelector("#barcode-input").addEventListener("keydown", e => {
+    if (e.key === "Enter") lookupBarcode(e.target.value);
   });
 
-  container.querySelector('#search-btn').addEventListener('click', () => {
-    searchProducts(container.querySelector('#search-input').value);
+  container.querySelector("#search-btn").addEventListener("click", () => {
+    searchProducts(container.querySelector("#search-input").value);
   });
 
-  container.querySelector('#search-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') searchProducts(e.target.value);
+  container.querySelector("#search-input").addEventListener("keydown", e => {
+    if (e.key === "Enter") searchProducts(e.target.value);
   });
 
   let barcodeDetector = null;
 
-  const cameraSection = container.querySelector('#camera-section');
-  const cameraPreview = container.querySelector('#camera-preview');
-  const cameraVideo = container.querySelector('#camera-video');
-  const cameraCanvas = container.querySelector('#camera-canvas');
+  const cameraSection = container.querySelector("#camera-section");
+  const cameraPreview = container.querySelector("#camera-preview");
+  const cameraVideo = container.querySelector("#camera-video");
+  const cameraCanvas = container.querySelector("#camera-canvas");
 
-  if ('BarcodeDetector' in window) {
-    BarcodeDetector.getSupportedFormats().then(formats => {
-      barcodeDetector = new BarcodeDetector({ formats });
-    }).catch(() => {});
+  if ("BarcodeDetector" in window) {
+    BarcodeDetector.getSupportedFormats()
+      .then(formats => {
+        barcodeDetector = new BarcodeDetector({ formats });
+      })
+      .catch(() => {});
   }
 
-  container.querySelector('#camera-btn').addEventListener('click', async () => {
+  container.querySelector("#camera-btn").addEventListener("click", async () => {
     if (!barcodeDetector) {
-      setStatus('Barcode detection not supported in this browser.', 'error');
+      setStatus("Barcode detection not supported in this browser.", "error");
       return;
     }
     try {
-      _cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      _cameraStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+      });
       cameraVideo.srcObject = _cameraStream;
-      cameraPreview.style.display = '';
-      cameraSection.querySelector('#camera-btn').style.display = 'none';
-      setStatus('Point camera at a barcode...', 'loading');
+      cameraPreview.style.display = "";
+      cameraSection.querySelector("#camera-btn").style.display = "none";
+      setStatus("Point camera at a barcode...", "loading");
       _scanInterval = setInterval(async () => {
         if (!barcodeDetector || !cameraVideo.videoWidth) return;
         try {
           const barcodes = await barcodeDetector.detect(cameraVideo);
           if (barcodes.length > 0) {
             const code = barcodes[0].rawValue;
-            container.querySelector('#barcode-input').value = code;
+            container.querySelector("#barcode-input").value = code;
             stopCamera();
             lookupBarcode(code);
           }
         } catch {}
       }, 500);
     } catch {
-      setStatus('Camera access denied.', 'error');
+      setStatus("Camera access denied.", "error");
     }
   });
 
   function stopCamera() {
-    if (_scanInterval) { clearInterval(_scanInterval); _scanInterval = null; }
-    if (_cameraStream) { _cameraStream.getTracks().forEach(t => t.stop()); _cameraStream = null; }
-    cameraPreview.style.display = 'none';
-    cameraSection.querySelector('#camera-btn').style.display = '';
+    if (_scanInterval) {
+      clearInterval(_scanInterval);
+      _scanInterval = null;
+    }
+    if (_cameraStream) {
+      _cameraStream.getTracks().forEach(t => t.stop());
+      _cameraStream = null;
+    }
+    cameraPreview.style.display = "none";
+    cameraSection.querySelector("#camera-btn").style.display = "";
   }
 
-  container.querySelector('#camera-stop').addEventListener('click', stopCamera);
+  container.querySelector("#camera-stop").addEventListener("click", stopCamera);
 
   if (history.length) {
     result.innerHTML = renderHistory(history);
-    result.querySelectorAll('.fn-history-item').forEach(btn => {
-      btn.addEventListener('click', () => lookupBarcode(btn.dataset.barcode));
+    result.querySelectorAll(".fn-history-item").forEach(btn => {
+      btn.addEventListener("click", () => lookupBarcode(btn.dataset.barcode));
     });
   }
 }
 
 export function destroy() {
-  if (_scanInterval) { clearInterval(_scanInterval); _scanInterval = null; }
-  if (_cameraStream) { _cameraStream.getTracks().forEach(t => t.stop()); _cameraStream = null; }
+  if (_scanInterval) {
+    clearInterval(_scanInterval);
+    _scanInterval = null;
+  }
+  if (_cameraStream) {
+    _cameraStream.getTracks().forEach(t => t.stop());
+    _cameraStream = null;
+  }
 }

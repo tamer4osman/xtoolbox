@@ -14,13 +14,13 @@ export const toolConfig = {
     {
       question: "Is this legal advice?",
       answer:
-        "No. This tool helps simplify language but does not provide legal interpretation or advice.",
+        "No. This tool helps simplify language but does not provide legal interpretation or advice."
     },
     {
       question: "What types of legal text work best?",
-      answer: "Contract clauses, terms of service, privacy policies, and legal notices work best.",
-    },
-  ],
+      answer: "Contract clauses, terms of service, privacy policies, and legal notices work best."
+    }
+  ]
 };
 
 export function estimateReadingTime(text) {
@@ -47,7 +47,7 @@ export function simplifyLegalText(text) {
     arbitration: "dispute resolution outside court",
     jurisdiction: "authority to judge",
     severability: "validity if part is invalid",
-    waiver: "giving up a right",
+    waiver: "giving up a right"
   };
 
   let simplified = text;
@@ -56,7 +56,7 @@ export function simplifyLegalText(text) {
   }
 
   const sentences = simplified.split(/(?<=[.!?])\s+/);
-  const shortSentences = sentences.map((s) => {
+  const shortSentences = sentences.map(s => {
     if (s.length > 80) {
       const parts = s.split(/,\s*/);
       return parts.join(",\n");

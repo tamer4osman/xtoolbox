@@ -1,16 +1,16 @@
-import { createBasicTool } from '../shared/basic-tool-factory.js';
+import { createBasicTool } from "../shared/basic-tool-factory.js";
 
 const { toolConfig, render } = createBasicTool({
   toolConfig: {
-    id: 'jwt-decoder',
-    name: 'JWT Decoder',
-    category: 'encoding',
-    description: 'Decode and inspect JWT tokens.',
-    icon: '🎫',
+    id: "jwt-decoder",
+    name: "JWT Decoder",
+    category: "encoding",
+    description: "Decode and inspect JWT tokens.",
+    icon: "🎫",
     accept: null,
     maxSizeMB: null,
-    keywords: ['jwt decoder', 'jwt parse', 'json web token', 'jwt viewer'],
-    steps: ['Paste JWT', 'See decoded payload']
+    keywords: ["jwt decoder", "jwt parse", "json web token", "jwt viewer"],
+    steps: ["Paste JWT", "See decoded payload"]
   },
   inputHTML: `<textarea id="jwt-input" placeholder="Paste JWT token here..."></textarea>`,
   outputHTML: `<div id="jwt-output" class="jwt-output"></div>`,
@@ -22,20 +22,24 @@ const { toolConfig, render } = createBasicTool({
     .jwt-err { color: var(--color-error); }
   `,
   init(container) {
-    const input = container.querySelector('#jwt-input');
-    const output = container.querySelector('#jwt-output');
+    const input = container.querySelector("#jwt-input");
+    const output = container.querySelector("#jwt-output");
 
     function decodeJWT(jwt) {
-      const parts = jwt.trim().split('.');
+      const parts = jwt.trim().split(".");
       if (parts.length !== 3) {
-        throw new Error('Invalid JWT format. Expected 3 parts separated by dots.');
+        throw new Error("Invalid JWT format. Expected 3 parts separated by dots.");
       }
 
-      const decode = (str) => {
+      const decode = str => {
         try {
-          return JSON.stringify(JSON.parse(atob(str.replace(/-/g, '+').replace(/_/g, '/'))), null, 2);
+          return JSON.stringify(
+            JSON.parse(atob(str.replace(/-/g, "+").replace(/_/g, "/"))),
+            null,
+            2
+          );
         } catch (e) {
-          return atob(str.replace(/-/g, '+').replace(/_/g, '/'));
+          return atob(str.replace(/-/g, "+").replace(/_/g, "/"));
         }
       };
 
@@ -49,7 +53,7 @@ const { toolConfig, render } = createBasicTool({
     function renderJWT() {
       const jwt = input.value.trim();
       if (!jwt) {
-        output.innerHTML = '<p>Enter a JWT token to decode</p>';
+        output.innerHTML = "<p>Enter a JWT token to decode</p>";
         return;
       }
 
@@ -74,7 +78,7 @@ const { toolConfig, render } = createBasicTool({
       }
     }
 
-    input.addEventListener('input', renderJWT);
+    input.addEventListener("input", renderJWT);
     renderJWT();
   }
 });

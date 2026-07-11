@@ -1,49 +1,54 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'dns-speed-test',
-  name: 'DNS Speed Test',
-  category: 'dev',
-  description: 'Test DNS resolution speed against Cloudflare and Google DoH providers.',
-  icon: '⚡',
-  keywords: ['dns', 'speed', 'doh', 'cloudflare', 'google', 'network'],
-  accept: '',
+  id: "dns-speed-test",
+  name: "DNS Speed Test",
+  category: "dev",
+  description: "Test DNS resolution speed against Cloudflare and Google DoH providers.",
+  icon: "⚡",
+  keywords: ["dns", "speed", "doh", "cloudflare", "google", "network"],
+  accept: "",
   maxSizeMB: 0,
-  status: 'done'
+  status: "done"
 };
 
 const PROVIDERS = [
-  { id: 'cloudflare', name: 'Cloudflare', url: 'https://cloudflare-dns.com/dns-query', color: '#f38020' },
-  { id: 'google', name: 'Google', url: 'https://dns.google/resolve', color: '#4285f4' }
+  {
+    id: "cloudflare",
+    name: "Cloudflare",
+    url: "https://cloudflare-dns.com/dns-query",
+    color: "#f38020"
+  },
+  { id: "google", name: "Google", url: "https://dns.google/resolve", color: "#4285f4" }
 ];
 
-const TEST_DOMAINS = ['google.com', 'github.com', 'amazon.com', 'wikipedia.org', 'cloudflare.com'];
+const TEST_DOMAINS = ["google.com", "github.com", "amazon.com", "wikipedia.org", "cloudflare.com"];
 
 export async function testDnsProvider(provider, domain, signal) {
   const start = performance.now();
   let url;
   let headers = {};
 
-  if (provider.id === 'google') {
-    url = provider.url + '?name=' + encodeURIComponent(domain) + '&type=A';
+  if (provider.id === "google") {
+    url = provider.url + "?name=" + encodeURIComponent(domain) + "&type=A";
   } else {
-    url = provider.url + '?name=' + encodeURIComponent(domain) + '&type=A';
-    headers['accept'] = 'application/dns-json';
+    url = provider.url + "?name=" + encodeURIComponent(domain) + "&type=A";
+    headers["accept"] = "application/dns-json";
   }
 
   const res = await fetch(url, { headers, signal });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
+  if (!res.ok) throw new Error("HTTP " + res.status);
   const data = await res.json();
   const elapsed = performance.now() - start;
 
   const answers = data.Answer || [];
   const ips = answers.filter(a => a.type === 1).map(a => a.data);
 
-  return { provider: provider.name, domain, time: Math.round(elapsed), ips, status: 'ok' };
+  return { provider: provider.name, domain, time: Math.round(elapsed), ips, status: "ok" };
 }
 
 export function calcStats(results) {
-  const times = results.filter(r => r.status === 'ok').map(r => r.time);
+  const times = results.filter(r => r.status === "ok").map(r => r.time);
   if (!times.length) return { avg: 0, min: 0, max: 0, count: 0 };
   return {
     avg: Math.round(times.reduce((a, b) => a + b, 0) / times.length),
@@ -59,52 +64,58 @@ function barWidth(time, maxTime) {
 }
 
 function speedRating(ms) {
-  if (ms < 50) return { label: 'Excellent', color: '#16a34a' };
-  if (ms < 100) return { label: 'Good', color: '#65a30d' };
-  if (ms < 200) return { label: 'Fair', color: '#ca8a04' };
-  return { label: 'Slow', color: '#dc2626' };
+  if (ms < 50) return { label: "Excellent", color: "#16a34a" };
+  if (ms < 100) return { label: "Good", color: "#65a30d" };
+  if (ms < 200) return { label: "Fair", color: "#ca8a04" };
+  return { label: "Slow", color: "#dc2626" };
 }
 
 function renderResults(providerResults, testCount) {
-  if (!providerResults.length) return '';
+  if (!providerResults.length) return "";
 
-  const allTimes = providerResults.flatMap(p => p.results.filter(r => r.status === 'ok').map(r => r.time));
+  const allTimes = providerResults.flatMap(p =>
+    p.results.filter(r => r.status === "ok").map(r => r.time)
+  );
   const maxTime = Math.max(...allTimes, 1);
 
   const rows = PROVIDERS.map(p => {
     const data = providerResults.find(r => r.provider === p.name);
-    if (!data) return '';
+    if (!data) return "";
     const stats = calcStats(data.results);
     const rating = speedRating(stats.avg);
-    const bars = data.results.map(r => {
-      const w = barWidth(r.time, maxTime);
-      const ratingColor = speedRating(r.time).color;
-      return `<div class="dns-bar" style="width:${w}%;background:${ratingColor}" title="${r.domain}: ${r.time}ms"></div>`;
-    }).join('');
+    const bars = data.results
+      .map(r => {
+        const w = barWidth(r.time, maxTime);
+        const ratingColor = speedRating(r.time).color;
+        return `<div class="dns-bar" style="width:${w}%;background:${ratingColor}" title="${r.domain}: ${r.time}ms"></div>`;
+      })
+      .join("");
 
     return `
       <div class="dns-provider">
         <div class="dns-provider-header">
           <span class="dns-provider-name" style="color:${p.color}">${escapeHtml(p.name)}</span>
-          <span class="dns-provider-avg">${stats.count > 0 ? stats.avg + 'ms avg' : 'Unavailable'}</span>
+          <span class="dns-provider-avg">${stats.count > 0 ? stats.avg + "ms avg" : "Unavailable"}</span>
           ${stats.count > 0 ? `<span class="dns-provider-badge" style="background:${rating.color}">${rating.label}</span>` : '<span class="dns-provider-badge" style="background:#9ca3af">Failed</span>'}
         </div>
         <div class="dns-stats">
-          <span>${stats.count > 0 ? 'Min: ' + stats.min + 'ms' : ''}</span>
-          <span>${stats.count > 0 ? 'Max: ' + stats.max + 'ms' : ''}</span>
+          <span>${stats.count > 0 ? "Min: " + stats.min + "ms" : ""}</span>
+          <span>${stats.count > 0 ? "Max: " + stats.max + "ms" : ""}</span>
           <span>Tests: ${stats.count}/${testCount}</span>
         </div>
         <div class="dns-bars">${bars}</div>
       </div>
     `;
-  }).join('');
+  }).join("");
 
   const fastest = PROVIDERS.map(p => {
     const data = providerResults.find(r => r.provider === p.name);
     if (!data) return null;
     const stats = calcStats(data.results);
     return stats.count > 0 ? { name: p.name, avg: stats.avg, color: p.color } : null;
-  }).filter(Boolean).sort((a, b) => a.avg - b.avg);
+  })
+    .filter(Boolean)
+    .sort((a, b) => a.avg - b.avg);
 
   if (!fastest.length) {
     return `<div class="dns-results"><div class="dns-winner">⚠️ All DNS providers failed. Check your network connection.</div>${rows}</div>`;
@@ -113,7 +124,7 @@ function renderResults(providerResults, testCount) {
   return `
     <div class="dns-results">
       <div class="dns-winner">
-        🏆 Fastest: <strong style="color:${fastest[0]?.color || '#333'}">${fastest[0]?.name || 'N/A'}</strong>
+        🏆 Fastest: <strong style="color:${fastest[0]?.color || "#333"}">${fastest[0]?.name || "N/A"}</strong>
         at ${fastest[0]?.avg || 0}ms average
       </div>
       ${rows}
@@ -136,7 +147,7 @@ export function render(container) {
         </div>
         <div class="dns-quick-domains">
           <span class="dns-quick-label">Quick test:</span>
-          ${TEST_DOMAINS.map(d => `<button class="dns-quick-btn" data-domain="${d}">${d}</button>`).join('')}
+          ${TEST_DOMAINS.map(d => `<button class="dns-quick-btn" data-domain="${d}">${d}</button>`).join("")}
         </div>
       </div>
       <div id="dns-status" class="dns-status"></div>
@@ -148,7 +159,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .dns-container { max-width: 700px; margin: 0 auto; }
     .dns-input-section { margin-bottom: var(--space-4); }
@@ -183,32 +194,42 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const status = container.querySelector('#dns-status');
-  const progress = container.querySelector('#dns-progress');
-  const progressFill = container.querySelector('#dns-progress-fill');
-  const progressText = container.querySelector('#dns-progress-text');
-  const results = container.querySelector('#dns-results');
-  const startBtn = container.querySelector('#dns-start');
-  const domainInput = container.querySelector('#dns-domain');
-  const countSelect = container.querySelector('#dns-count');
+  const status = container.querySelector("#dns-status");
+  const progress = container.querySelector("#dns-progress");
+  const progressFill = container.querySelector("#dns-progress-fill");
+  const progressText = container.querySelector("#dns-progress-text");
+  const results = container.querySelector("#dns-results");
+  const startBtn = container.querySelector("#dns-start");
+  const domainInput = container.querySelector("#dns-domain");
+  const countSelect = container.querySelector("#dns-count");
   let abortController = null;
 
-  function setStatus(msg) { status.textContent = msg; }
+  function setStatus(msg) {
+    status.textContent = msg;
+  }
 
-  container.querySelectorAll('.dns-quick-btn').forEach(btn => {
-    btn.addEventListener('click', () => { domainInput.value = btn.dataset.domain; });
+  container.querySelectorAll(".dns-quick-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      domainInput.value = btn.dataset.domain;
+    });
   });
 
-  startBtn.addEventListener('click', async () => {
-    const domain = domainInput.value.trim().replace(/^https?:\/\//, '').split('/')[0];
-    if (!domain) { setStatus('Enter a domain to test'); return; }
+  startBtn.addEventListener("click", async () => {
+    const domain = domainInput.value
+      .trim()
+      .replace(/^https?:\/\//, "")
+      .split("/")[0];
+    if (!domain) {
+      setStatus("Enter a domain to test");
+      return;
+    }
     const testCount = parseInt(countSelect.value);
 
     startBtn.disabled = true;
     abortController = new AbortController();
-    results.innerHTML = '';
-    setStatus('Testing DNS resolution...');
-    progress.style.display = '';
+    results.innerHTML = "";
+    setStatus("Testing DNS resolution...");
+    progress.style.display = "";
 
     const providerResults = [];
     const totalTests = PROVIDERS.length * testCount;
@@ -221,24 +242,30 @@ export function render(container) {
           const result = await testDnsProvider(provider, domain, abortController.signal);
           providerData.results.push(result);
         } catch {
-          providerData.results.push({ provider: provider.name, domain, time: 0, ips: [], status: 'error' });
+          providerData.results.push({
+            provider: provider.name,
+            domain,
+            time: 0,
+            ips: [],
+            status: "error"
+          });
         }
         completed++;
         const pct = Math.round((completed / totalTests) * 100);
-        progressFill.style.width = pct + '%';
-        progressText.textContent = pct + '%';
+        progressFill.style.width = pct + "%";
+        progressText.textContent = pct + "%";
         setStatus(`Testing ${provider.name} (${i + 1}/${testCount})...`);
       }
       providerResults.push(providerData);
     }
 
-    progress.style.display = 'none';
-    setStatus('');
+    progress.style.display = "none";
+    setStatus("");
     startBtn.disabled = false;
     results.innerHTML = renderResults(providerResults, testCount);
   });
 
-  domainInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !startBtn.disabled) startBtn.click();
+  domainInput.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !startBtn.disabled) startBtn.click();
   });
 }

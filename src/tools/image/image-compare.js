@@ -4,8 +4,7 @@ export const toolConfig = {
   id: "image-compare",
   name: "Image Comparison",
   category: "image",
-  description:
-    "Compare two images side-by-side with a swipe slider and overlay diff view.",
+  description: "Compare two images side-by-side with a swipe slider and overlay diff view.",
   icon: "🔍",
   accept: "image/*",
   maxSizeMB: 50,
@@ -15,20 +14,19 @@ export const toolConfig = {
     "Upload two images",
     "Choose comparison mode",
     "Swipe or overlay to see differences",
-    "Download the diff view",
+    "Download the diff view"
   ],
   faqs: [
     {
       question: "What comparison modes are available?",
       answer:
-        "Side-by-side shows both images next to each other. Swipe uses a draggable slider to reveal one image over the other. Overlay blends both images with adjustable opacity.",
+        "Side-by-side shows both images next to each other. Swipe uses a draggable slider to reveal one image over the other. Overlay blends both images with adjustable opacity."
     },
     {
       question: "Can I download the comparison?",
-      answer:
-        "Yes — the download captures the current comparison view as a PNG image.",
-    },
-  ],
+      answer: "Yes — the download captures the current comparison view as a PNG image."
+    }
+  ]
 };
 
 function drawScaled(img, canvas, maxW) {
@@ -79,14 +77,10 @@ export function render(container) {
       const maxW = 600;
       const w = Math.max(
         Math.round(Math.min(maxW / img1.naturalWidth, 1) * img1.naturalWidth),
-        Math.round(Math.min(maxW / img2.naturalWidth, 1) * img2.naturalWidth),
+        Math.round(Math.min(maxW / img2.naturalWidth, 1) * img2.naturalWidth)
       );
-      const h1 = Math.round(
-        Math.min(maxW / img1.naturalWidth, 1) * img1.naturalHeight,
-      );
-      const h2 = Math.round(
-        Math.min(maxW / img2.naturalWidth, 1) * img2.naturalHeight,
-      );
+      const h1 = Math.round(Math.min(maxW / img1.naturalWidth, 1) * img1.naturalHeight);
+      const h2 = Math.round(Math.min(maxW / img2.naturalWidth, 1) * img2.naturalHeight);
       const h = Math.max(h1, h2);
 
       canvas.width = mode === "side-by-side" ? w * 2 + 4 : w;
@@ -164,9 +158,7 @@ export function render(container) {
         canvas.height = img1.naturalHeight;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img1, 0, 0);
-        const splitX = Math.round(
-          img1.naturalWidth * (swipePos / 100),
-        );
+        const splitX = Math.round(img1.naturalWidth * (swipePos / 100));
         ctx.save();
         ctx.beginPath();
         ctx.rect(splitX, 0, img1.naturalWidth - splitX, img1.naturalHeight);
@@ -188,19 +180,19 @@ export function render(container) {
         ctx.drawImage(img2, 0, 0);
         ctx.globalAlpha = 1;
       }
-    },
+    }
   });
 
   const MODES = [
     { id: "side-by-side", name: "Side by Side" },
     { id: "swipe", name: "Swipe" },
-    { id: "overlay", name: "Overlay" },
+    { id: "overlay", name: "Overlay" }
   ];
 
   function renderModeButtons() {
     const btns = container.querySelector("#mode-buttons");
     btns.innerHTML = "";
-    MODES.forEach((m) => {
+    MODES.forEach(m => {
       const btn = document.createElement("button");
       btn.className = `btn btn-sm ${mode === m.id ? "btn-primary" : "btn-secondary"}`;
       btn.textContent = m.name;
@@ -215,10 +207,8 @@ export function render(container) {
   }
 
   function updateVisibility() {
-    container.querySelector("#swipe-group").style.display =
-      mode === "swipe" ? "block" : "none";
-    container.querySelector("#overlay-group").style.display =
-      mode === "overlay" ? "block" : "none";
+    container.querySelector("#swipe-group").style.display = mode === "swipe" ? "block" : "none";
+    container.querySelector("#overlay-group").style.display = mode === "overlay" ? "block" : "none";
   }
 
   renderModeButtons();
@@ -227,16 +217,16 @@ export function render(container) {
   tool.bindOptionChange({
     rangeId: "swipe-range",
     valueId: "swipe-val",
-    onChange: (v) => {
+    onChange: v => {
       swipePos = parseInt(v);
-    },
+    }
   });
   tool.bindOptionChange({
     rangeId: "overlay-range",
     valueId: "overlay-val",
-    onChange: (v) => {
+    onChange: v => {
       overlayOpacity = parseInt(v);
-    },
+    }
   });
 }
 

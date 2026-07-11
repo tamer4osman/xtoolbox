@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'csv-visualizer',
-  name: 'CSV Visualizer',
-  category: 'visualization',
-  description: 'Upload a CSV file and instantly generate charts.',
-  icon: '📈',
-  status: 'done'
+  id: "csv-visualizer",
+  name: "CSV Visualizer",
+  category: "visualization",
+  description: "Upload a CSV file and instantly generate charts.",
+  icon: "📈",
+  status: "done"
 };
 
 export function render(container) {
@@ -21,7 +21,7 @@ Bob, 35, Chicago</textarea>
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .csv-container { max-width: 900px; margin: 0 auto; }
     .csv-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -40,28 +40,33 @@ Bob, 35, Chicago</textarea>
   container.appendChild(style);
 
   function parseCSV(text) {
-    const lines = text.trim().split('\n').filter(l => l.trim());
+    const lines = text
+      .trim()
+      .split("\n")
+      .filter(l => l.trim());
     if (!lines.length) return { headers: [], rows: [] };
-    const headers = lines[0].split(',').map(h => h.trim());
-    const rows = lines.slice(1).map(line => line.split(',').map(cell => cell.trim()));
+    const headers = lines[0].split(",").map(h => h.trim());
+    const rows = lines.slice(1).map(line => line.split(",").map(cell => cell.trim()));
     return { headers, rows };
   }
 
   function visualize() {
-    const csv = container.querySelector('#csvInput').value;
+    const csv = container.querySelector("#csvInput").value;
     const { headers, rows } = parseCSV(csv);
-    container.querySelector('#stats').innerHTML = `
+    container.querySelector("#stats").innerHTML = `
       <div class="stat-card"><div class="stat-value">${rows.length}</div><div class="stat-label">Rows</div></div>
       <div class="stat-card"><div class="stat-value">${headers.length}</div><div class="stat-label">Columns</div></div>
       <div class="stat-card"><div class="stat-value">${rows.length * headers.length}</div><div class="stat-label">Cells</div></div>
     `;
-    let html = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
-    html += rows.map(row => '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>').join('');
-    html += '</tbody>';
-    container.querySelector('#csvTable').innerHTML = html;
+    let html = "<thead><tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr></thead><tbody>";
+    html += rows
+      .map(row => "<tr>" + row.map(cell => `<td>${cell}</td>`).join("") + "</tr>")
+      .join("");
+    html += "</tbody>";
+    container.querySelector("#csvTable").innerHTML = html;
   }
 
-  container.querySelector('#visualizeBtn').addEventListener('click', visualize);
-  container.querySelector('#csvInput').addEventListener('input', visualize);
+  container.querySelector("#visualizeBtn").addEventListener("click", visualize);
+  container.querySelector("#csvInput").addEventListener("input", visualize);
   visualize();
 }

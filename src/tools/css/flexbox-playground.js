@@ -1,20 +1,21 @@
-import { createCssGenerator } from './css-generator-factory.js';
+import { createCssGenerator } from "./css-generator-factory.js";
 
 export const toolConfig = {
-  id: 'flexbox-playground',
-  name: 'Flexbox Playground',
-  category: 'css',
-  description: 'Interactive CSS Flexbox tester with live preview and code output.',
-  icon: '📦',
-  status: 'done'
+  id: "flexbox-playground",
+  name: "Flexbox Playground",
+  category: "css",
+  description: "Interactive CSS Flexbox tester with live preview and code output.",
+  icon: "📦",
+  status: "done"
 };
 
 export function render(container) {
   createCssGenerator({
     container,
-    cssClass: 'flex-gen',
-    maxWidth: '800px',
-    previewHTML: '<div class="preview" id="preview"><div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div></div>',
+    cssClass: "flex-gen",
+    maxWidth: "800px",
+    previewHTML:
+      '<div class="preview" id="preview"><div class="item">1</div><div class="item">2</div><div class="item">3</div><div class="item">4</div></div>',
     extraCSS: `
       .flex-gen .preview { display: flex; background: var(--color-surface); padding: var(--space-4); border-radius: var(--radius-xl); min-height: 180px; margin-bottom: var(--space-4); }
       .flex-gen .item { width: 60px; height: 60px; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; border-radius: var(--radius-md); }
@@ -27,12 +28,16 @@ export function render(container) {
       <div class="control-row"><label>Gap</label><input type="range" id="gap" min="0" max="40" value="12"><span id="gapVal">12px</span></div>
     `,
     onUpdate: ({ values, preview, cssOutput, container }) => {
-      const jc = values.jc, ai = values.ai, fd = values.fd, fw = values.fw, gap = values.gap;
+      const jc = values.jc,
+        ai = values.ai,
+        fd = values.fd,
+        fw = values.fw,
+        gap = values.gap;
       preview.style.justifyContent = jc;
       preview.style.alignItems = ai;
       preview.style.flexDirection = fd;
       preview.style.flexWrap = fw;
-      preview.style.gap = gap + 'px';
+      preview.style.gap = gap + "px";
       cssOutput.textContent = `.container {
   display: flex;
   justify-content: ${jc};
@@ -41,8 +46,8 @@ export function render(container) {
   flex-wrap: ${fw};
   gap: ${gap}px;
 }`;
-      const gapVal = container.querySelector('#gapVal');
-      if (gapVal) gapVal.textContent = gap + 'px';
+      const gapVal = container.querySelector("#gapVal");
+      if (gapVal) gapVal.textContent = gap + "px";
     }
   });
 }

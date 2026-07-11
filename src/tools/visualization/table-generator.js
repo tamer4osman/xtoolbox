@@ -1,18 +1,18 @@
-import { createGeneratorTool } from '../../utils/generator-tool.js';
+import { createGeneratorTool } from "../../utils/generator-tool.js";
 
 export const toolConfig = {
-  id: 'table-generator',
-  name: 'Table Generator',
-  category: 'visualization',
-  description: 'Create styled tables and export as image, PDF, or CSV.',
-  icon: '📋',
-  status: 'done'
+  id: "table-generator",
+  name: "Table Generator",
+  category: "visualization",
+  description: "Create styled tables and export as image, PDF, or CSV.",
+  icon: "📋",
+  status: "done"
 };
 
 export function render(container) {
   createGeneratorTool({
     container,
-    title: 'Table Generator',
+    title: "Table Generator",
     renderForm: () => `
       <div><label style="display:block;font-weight:500;margin-bottom:var(--space-2);font-size:var(--text-sm);">Columns (comma separated)</label>
       <input type="text" id="columns" value="Name, Email, Phone"></div>
@@ -26,33 +26,39 @@ export function render(container) {
       .gen-output th { background: var(--color-bg); font-weight: 600; }
     `,
     generate(c) {
-      const cols = c.querySelector('#columns').value.split(',').map(s => s.trim()).filter(s => s);
-      const rows = parseInt(c.querySelector('#rowCount').value) || 5;
-      let html = '<thead><tr>' + cols.map(col => `<th>${col}</th>`).join('') + '</tr></thead><tbody>';
+      const cols = c
+        .querySelector("#columns")
+        .value.split(",")
+        .map(s => s.trim())
+        .filter(s => s);
+      const rows = parseInt(c.querySelector("#rowCount").value) || 5;
+      let html =
+        "<thead><tr>" + cols.map(col => `<th>${col}</th>`).join("") + "</tr></thead><tbody>";
       for (let i = 1; i <= rows; i++) {
-        html += '<tr>' + cols.map(() => `<td>Data ${i}</td>`).join('') + '</tr>';
+        html += "<tr>" + cols.map(() => `<td>Data ${i}</td>`).join("") + "</tr>";
       }
-      return html + '</tbody>';
+      return html + "</tbody>";
     }
   });
 
-  const resultEl = container.querySelector('#gen-result');
-  const previewTable = document.createElement('table');
+  const resultEl = container.querySelector("#gen-result");
+  const previewTable = document.createElement("table");
   resultEl.after(previewTable);
-  resultEl.style.display = 'none';
+  resultEl.style.display = "none";
 
-  const copyHtmlBtn = document.createElement('button');
-  copyHtmlBtn.textContent = 'Copy HTML';
-  copyHtmlBtn.style.cssText = 'flex:1;padding:var(--space-2);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;';
+  const copyHtmlBtn = document.createElement("button");
+  copyHtmlBtn.textContent = "Copy HTML";
+  copyHtmlBtn.style.cssText =
+    "flex:1;padding:var(--space-2);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);cursor:pointer;";
 
-  const copyMdBtn = document.createElement('button');
-  copyMdBtn.textContent = 'Copy Markdown';
+  const copyMdBtn = document.createElement("button");
+  copyMdBtn.textContent = "Copy Markdown";
   copyMdBtn.style.cssText = copyHtmlBtn.style.cssText;
 
-  const actions = document.createElement('div');
-  actions.style.cssText = 'display:flex;gap:var(--space-2);margin-top:var(--space-4);';
+  const actions = document.createElement("div");
+  actions.style.cssText = "display:flex;gap:var(--space-2);margin-top:var(--space-4);";
   actions.append(copyHtmlBtn, copyMdBtn);
-  container.querySelector('.gen-output').after(actions);
+  container.querySelector(".gen-output").after(actions);
 
   function syncPreview() {
     previewTable.innerHTML = resultEl.textContent;
@@ -62,19 +68,26 @@ export function render(container) {
   observer.observe(resultEl, { childList: true, characterData: true, subtree: true });
   syncPreview();
 
-  copyHtmlBtn.addEventListener('click', () => {
+  copyHtmlBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(previewTable.outerHTML);
-    copyHtmlBtn.textContent = 'Copied!';
-    setTimeout(() => { copyHtmlBtn.textContent = 'Copy HTML'; }, 1500);
+    copyHtmlBtn.textContent = "Copied!";
+    setTimeout(() => {
+      copyHtmlBtn.textContent = "Copy HTML";
+    }, 1500);
   });
 
-  copyMdBtn.addEventListener('click', () => {
-    const cols = container.querySelector('#columns').value.split(',').map(s => s.trim());
-    const rows = parseInt(container.querySelector('#rowCount').value) || 5;
-    let md = '| ' + cols.join(' | ') + ' |\n| ' + cols.map(() => '---').join(' | ') + ' |\n';
-    for (let i = 1; i <= rows; i++) md += '| ' + cols.map(() => `Data ${i}`).join(' | ') + ' |\n';
+  copyMdBtn.addEventListener("click", () => {
+    const cols = container
+      .querySelector("#columns")
+      .value.split(",")
+      .map(s => s.trim());
+    const rows = parseInt(container.querySelector("#rowCount").value) || 5;
+    let md = "| " + cols.join(" | ") + " |\n| " + cols.map(() => "---").join(" | ") + " |\n";
+    for (let i = 1; i <= rows; i++) md += "| " + cols.map(() => `Data ${i}`).join(" | ") + " |\n";
     navigator.clipboard.writeText(md);
-    copyMdBtn.textContent = 'Copied!';
-    setTimeout(() => { copyMdBtn.textContent = 'Copy Markdown'; }, 1500);
+    copyMdBtn.textContent = "Copied!";
+    setTimeout(() => {
+      copyMdBtn.textContent = "Copy Markdown";
+    }, 1500);
   });
 }

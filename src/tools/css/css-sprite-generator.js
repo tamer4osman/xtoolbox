@@ -1,13 +1,14 @@
-import { createFileUpload } from '../../components/file-upload.js';
+import { createFileUpload } from "../../components/file-upload.js";
 
 export const toolConfig = {
-  id: 'css-sprite-generator',
-  name: 'CSS Sprite Sheet Generator',
-  category: 'css',
-  description: 'Upload multiple images and generate a CSS sprite sheet with corresponding CSS background-position rules.',
-  icon: '🧩',
-  keywords: ['css', 'sprite', 'spritesheet', 'background', 'image', 'generator'],
-  accept: 'image/*',
+  id: "css-sprite-generator",
+  name: "CSS Sprite Sheet Generator",
+  category: "css",
+  description:
+    "Upload multiple images and generate a CSS sprite sheet with corresponding CSS background-position rules.",
+  icon: "🧩",
+  keywords: ["css", "sprite", "spritesheet", "background", "image", "generator"],
+  accept: "image/*",
   maxSizeMB: 10
 };
 
@@ -15,7 +16,7 @@ let state = {
   images: [],
   gridCols: 4,
   padding: 2,
-  prefix: 'icon-'
+  prefix: "icon-"
 };
 
 export function render(container) {
@@ -66,14 +67,14 @@ export function render(container) {
     </div>
   `;
 
-  const fileUploadContainer = container.querySelector('#fileUploadContainer');
+  const fileUploadContainer = container.querySelector("#fileUploadContainer");
   const fileUpload = createFileUpload({
-    accept: 'image/*',
+    accept: "image/*",
     multiple: true,
     maxSizeMB: 10,
     maxFiles: 50,
-    label: 'Drag & drop images here or click to browse',
-    onFilesSelected: async (files) => {
+    label: "Drag & drop images here or click to browse",
+    onFilesSelected: async files => {
       for (const file of files) {
         const dataUrl = await readFileAsDataURL(file);
         const img = new Image();
@@ -82,7 +83,7 @@ export function render(container) {
           img.src = dataUrl;
         });
         state.images.push({
-          name: file.name.replace(/\.[^/.]+$/, ''),
+          name: file.name.replace(/\.[^/.]+$/, ""),
           dataUrl,
           width: img.width,
           height: img.height,
@@ -108,34 +109,34 @@ function readFileAsDataURL(file) {
 }
 
 function bindEvents(container) {
-  const gridCols = container.querySelector('#gridCols');
-  const padding = container.querySelector('#padding');
-  const prefix = container.querySelector('#prefix');
-  const downloadSprite = container.querySelector('#downloadSprite');
-  const downloadCSS = container.querySelector('#downloadCSS');
-  const copyCSS = container.querySelector('#copyCSS');
+  const gridCols = container.querySelector("#gridCols");
+  const padding = container.querySelector("#padding");
+  const prefix = container.querySelector("#prefix");
+  const downloadSprite = container.querySelector("#downloadSprite");
+  const downloadCSS = container.querySelector("#downloadCSS");
+  const copyCSS = container.querySelector("#copyCSS");
 
-  gridCols.addEventListener('input', e => {
+  gridCols.addEventListener("input", e => {
     state.gridCols = parseInt(e.target.value);
-    container.querySelector('#gridColsVal').textContent = state.gridCols;
+    container.querySelector("#gridColsVal").textContent = state.gridCols;
     renderSprite(container);
   });
-  padding.addEventListener('input', e => {
+  padding.addEventListener("input", e => {
     state.padding = parseInt(e.target.value);
-    container.querySelector('#paddingVal').textContent = state.padding + 'px';
+    container.querySelector("#paddingVal").textContent = state.padding + "px";
     renderSprite(container);
   });
-  prefix.addEventListener('input', e => {
+  prefix.addEventListener("input", e => {
     state.prefix = e.target.value;
     renderCSS(container);
   });
-  downloadSprite.addEventListener('click', () => downloadSpriteImage(container));
-  downloadCSS.addEventListener('click', () => downloadCSSFile(container));
-  copyCSS.addEventListener('click', () => copyCSSCode(container));
+  downloadSprite.addEventListener("click", () => downloadSpriteImage(container));
+  downloadCSS.addEventListener("click", () => downloadCSSFile(container));
+  copyCSS.addEventListener("click", () => copyCSSCode(container));
 }
 
 function renderSprite(container) {
-  const spritePreview = container.querySelector('#spritePreview');
+  const spritePreview = container.querySelector("#spritePreview");
   if (!spritePreview || state.images.length === 0) return;
 
   const cols = state.gridCols;
@@ -146,10 +147,10 @@ function renderSprite(container) {
   const rows = Math.ceil(state.images.length / cols);
   const spriteHeight = rows * maxHeight + (rows + 1) * padding;
 
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = spriteWidth;
   canvas.height = spriteHeight;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
   state.images.forEach((img, i) => {
     const col = i % cols;
@@ -161,16 +162,16 @@ function renderSprite(container) {
     img.spriteY = y;
   });
 
-  spritePreview.innerHTML = '';
+  spritePreview.innerHTML = "";
   spritePreview.appendChild(canvas);
 
   renderCSS(container);
 }
 
 function renderCSS(container) {
-  const cssOutput = container.querySelector('#cssOutput');
+  const cssOutput = container.querySelector("#cssOutput");
   if (!cssOutput || state.images.length === 0) {
-    if (cssOutput) cssOutput.querySelector('code').textContent = '';
+    if (cssOutput) cssOutput.querySelector("code").textContent = "";
     return;
   }
 
@@ -192,33 +193,37 @@ function renderCSS(container) {
     css += `}\n`;
   });
 
-  cssOutput.querySelector('code').textContent = css;
+  cssOutput.querySelector("code").textContent = css;
 
-  const downloadSprite = container.querySelector('#downloadSprite');
-  const downloadCSS = container.querySelector('#downloadCSS');
+  const downloadSprite = container.querySelector("#downloadSprite");
+  const downloadCSS = container.querySelector("#downloadCSS");
   if (downloadSprite) downloadSprite.disabled = false;
   if (downloadCSS) downloadCSS.disabled = false;
 }
 
 function renderImageList(container) {
-  const imageList = container.querySelector('#imageList');
+  const imageList = container.querySelector("#imageList");
   if (!imageList) return;
 
   if (state.images.length === 0) {
-    imageList.innerHTML = '';
+    imageList.innerHTML = "";
     return;
   }
 
-  imageList.innerHTML = state.images.map((img, i) => `
+  imageList.innerHTML = state.images
+    .map(
+      (img, i) => `
     <div class="sprite-image-item">
       <img src="${img.dataUrl}" alt="${img.name}">
       <span>${img.name} (${img.width}x${img.height})</span>
       <button class="remove-btn" data-index="${i}">✕</button>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
 
-  imageList.querySelectorAll('.remove-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
+  imageList.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
       const index = parseInt(e.target.dataset.index);
       state.images.splice(index, 1);
       renderSprite(container);
@@ -228,40 +233,46 @@ function renderImageList(container) {
 }
 
 function downloadSpriteImage(container) {
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   const cols = state.gridCols;
   const padding = state.padding;
   const maxWidth = state.images.reduce((max, img) => Math.max(max, img.width), 0);
   const maxHeight = state.images.reduce((max, img) => Math.max(max, img.height), 0);
   canvas.width = cols * maxWidth + (cols + 1) * padding;
-  canvas.height = Math.ceil(state.images.length / cols) * maxHeight + (Math.ceil(state.images.length / cols) + 1) * padding;
+  canvas.height =
+    Math.ceil(state.images.length / cols) * maxHeight +
+    (Math.ceil(state.images.length / cols) + 1) * padding;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   state.images.forEach((img, i) => {
     const col = i % cols;
     const row = Math.floor(i / cols);
-    ctx.drawImage(img.img, padding + col * (maxWidth + padding), padding + row * (maxHeight + padding));
+    ctx.drawImage(
+      img.img,
+      padding + col * (maxWidth + padding),
+      padding + row * (maxHeight + padding)
+    );
   });
 
   canvas.toBlob(blob => {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'sprite.png';
+    a.download = "sprite.png";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, 'image/png');
+  }, "image/png");
 }
 
 function downloadCSSFile(container) {
-  const css = container.querySelector('#cssOutput code').textContent;
-  const blob = new Blob([css], { type: 'text/css' });
+  const css = container.querySelector("#cssOutput code").textContent;
+  const blob = new Blob([css], { type: "text/css" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  a.download = 'sprite.css';
+  a.download = "sprite.css";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -269,9 +280,9 @@ function downloadCSSFile(container) {
 }
 
 function copyCSSCode(container) {
-  const css = container.querySelector('#cssOutput code').textContent;
+  const css = container.querySelector("#cssOutput code").textContent;
   navigator.clipboard.writeText(css);
-  const btn = container.querySelector('#copyCSS');
-  btn.textContent = 'Copied!';
-  setTimeout(() => btn.textContent = 'Copy CSS', 2000);
+  const btn = container.querySelector("#copyCSS");
+  btn.textContent = "Copied!";
+  setTimeout(() => (btn.textContent = "Copy CSS"), 2000);
 }

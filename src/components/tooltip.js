@@ -4,9 +4,9 @@
  */
 export function initTooltips() {
   // Add tooltip CSS if not already present
-  if (!document.getElementById('tooltip-styles')) {
-    const style = document.createElement('style');
-    style.id = 'tooltip-styles';
+  if (!document.getElementById("tooltip-styles")) {
+    const style = document.createElement("style");
+    style.id = "tooltip-styles";
     style.textContent = `
       [data-tooltip] { position: relative; }
       [data-tooltip]:hover::after {

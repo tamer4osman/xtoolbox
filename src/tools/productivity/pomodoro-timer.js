@@ -1,19 +1,23 @@
-const STORAGE_KEY = 'xtoolbox-pomodoro';
+const STORAGE_KEY = "xtoolbox-pomodoro";
 const MODES = {
-  pomodoro: { label: 'Pomodoro', color: 'var(--color-error)' },
-  shortBreak: { label: 'Short Break', color: 'var(--color-success)' },
-  longBreak: { label: 'Long Break', color: 'var(--color-info)' }
+  pomodoro: { label: "Pomodoro", color: "var(--color-error)" },
+  shortBreak: { label: "Short Break", color: "var(--color-success)" },
+  longBreak: { label: "Long Break", color: "var(--color-info)" }
 };
 
 function loadSettings() {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     return data ? JSON.parse(data) : null;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 function saveSettings(settings) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(settings)); } catch {}
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+  } catch {}
 }
 
 function getDefaultSettings() {
@@ -40,7 +44,7 @@ function playTone(freq, duration) {
     osc.connect(gain);
     gain.connect(ctx.destination);
     osc.frequency.value = freq;
-    osc.type = 'sine';
+    osc.type = "sine";
     gain.gain.setValueAtTime(0.3, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
     osc.start(ctx.currentTime);
@@ -49,19 +53,19 @@ function playTone(freq, duration) {
 }
 
 function notify(title, body) {
-  if (Notification.permission === 'granted') {
-    new Notification(title, { body, icon: '🍅' });
+  if (Notification.permission === "granted") {
+    new Notification(title, { body, icon: "🍅" });
   }
 }
 
 function formatMMSS(totalSeconds) {
   const m = Math.floor(totalSeconds / 60);
   const s = totalSeconds % 60;
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
 function polarToCartesian(cx, cy, r, angleDeg) {
-  const rad = (angleDeg - 90) * Math.PI / 180;
+  const rad = ((angleDeg - 90) * Math.PI) / 180;
   return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
 }
 
@@ -73,19 +77,35 @@ function describeArc(cx, cy, r, startAngle, endAngle) {
 }
 
 export const toolConfig = {
-  id: 'pomodoro-timer',
-  name: 'Pomodoro Timer',
-  category: 'productivity',
-  description: 'Focus timer using the Pomodoro Technique — 25 min work, 5 min break, repeat. Tracks sessions and saves settings.',
-  icon: '🍅',
+  id: "pomodoro-timer",
+  name: "Pomodoro Timer",
+  category: "productivity",
+  description:
+    "Focus timer using the Pomodoro Technique — 25 min work, 5 min break, repeat. Tracks sessions and saves settings.",
+  icon: "🍅",
   accept: null,
   maxSizeMB: null,
-  keywords: ['pomodoro', 'focus', 'timer', 'productivity', 'work', 'break', 'study'],
-  steps: ['Pick a mode (Pomodoro, Short Break, or Long Break)', 'Click Start to begin', 'Take a break when the timer rings', 'After 4 pomodoros, take a long break'],
+  keywords: ["pomodoro", "focus", "timer", "productivity", "work", "break", "study"],
+  steps: [
+    "Pick a mode (Pomodoro, Short Break, or Long Break)",
+    "Click Start to begin",
+    "Take a break when the timer rings",
+    "After 4 pomodoros, take a long break"
+  ],
   faqs: [
-    { question: 'What is the Pomodoro Technique?', answer: 'A time management method: work for 25 minutes, take a 5-minute break, repeat. After 4 sessions, take a 15-30 minute long break.' },
-    { question: 'Does it save my progress?', answer: 'Yes! Your completed sessions and settings are saved in your browser.' },
-    { question: 'Can I customize the durations?', answer: 'Yes! Open Settings to change work, short break, and long break durations.' }
+    {
+      question: "What is the Pomodoro Technique?",
+      answer:
+        "A time management method: work for 25 minutes, take a 5-minute break, repeat. After 4 sessions, take a 15-30 minute long break."
+    },
+    {
+      question: "Does it save my progress?",
+      answer: "Yes! Your completed sessions and settings are saved in your browser."
+    },
+    {
+      question: "Can I customize the durations?",
+      answer: "Yes! Open Settings to change work, short break, and long break durations."
+    }
   ]
 };
 
@@ -97,7 +117,7 @@ export function render(container) {
     settings.lastDate = getToday();
   }
 
-  let currentMode = 'pomodoro';
+  let currentMode = "pomodoro";
   let running = false;
   let remaining = settings.durations.pomodoro * 60;
   let totalSeconds = remaining;
@@ -159,13 +179,13 @@ export function render(container) {
           </div>
           <div style="display:flex;flex-direction:column;gap:var(--space-2);">
             <label style="font-size:var(--text-sm);display:flex;align-items:center;gap:var(--space-2);cursor:pointer;">
-              <input type="checkbox" id="pt-auto-break" ${settings.autoStartBreaks ? 'checked' : ''}> Auto-start breaks
+              <input type="checkbox" id="pt-auto-break" ${settings.autoStartBreaks ? "checked" : ""}> Auto-start breaks
             </label>
             <label style="font-size:var(--text-sm);display:flex;align-items:center;gap:var(--space-2);cursor:pointer;">
-              <input type="checkbox" id="pt-sound" ${settings.sound ? 'checked' : ''}> Play sound
+              <input type="checkbox" id="pt-sound" ${settings.sound ? "checked" : ""}> Play sound
             </label>
             <label style="font-size:var(--text-sm);display:flex;align-items:center;gap:var(--space-2);cursor:pointer;">
-              <input type="checkbox" id="pt-notif" ${settings.notifications ? 'checked' : ''}> Browser notifications
+              <input type="checkbox" id="pt-notif" ${settings.notifications ? "checked" : ""}> Browser notifications
             </label>
           </div>
         </div>
@@ -173,38 +193,38 @@ export function render(container) {
     </div>
   `;
 
-  const timeEl = container.querySelector('#pt-time');
-  const labelEl = container.querySelector('#pt-label');
-  const progressEl = container.querySelector('#pt-progress');
-  const startBtn = container.querySelector('#pt-start');
-  const resetBtn = container.querySelector('#pt-reset');
-  const todayEl = container.querySelector('#pt-today');
-  const dotsEl = container.querySelector('#pt-dots');
-  const modeBtns = container.querySelectorAll('[data-mode]');
-  const settingsToggle = container.querySelector('#pt-settings-toggle');
-  const settingsPanel = container.querySelector('#pt-settings');
-  const durPomodoro = container.querySelector('#pt-dur-pomodoro');
-  const durShort = container.querySelector('#pt-dur-short');
-  const durLong = container.querySelector('#pt-dur-long');
-  const sessionsInput = container.querySelector('#pt-sessions');
-  const autoBreakCheck = container.querySelector('#pt-auto-break');
-  const soundCheck = container.querySelector('#pt-sound');
-  const notifCheck = container.querySelector('#pt-notif');
+  const timeEl = container.querySelector("#pt-time");
+  const labelEl = container.querySelector("#pt-label");
+  const progressEl = container.querySelector("#pt-progress");
+  const startBtn = container.querySelector("#pt-start");
+  const resetBtn = container.querySelector("#pt-reset");
+  const todayEl = container.querySelector("#pt-today");
+  const dotsEl = container.querySelector("#pt-dots");
+  const modeBtns = container.querySelectorAll("[data-mode]");
+  const settingsToggle = container.querySelector("#pt-settings-toggle");
+  const settingsPanel = container.querySelector("#pt-settings");
+  const durPomodoro = container.querySelector("#pt-dur-pomodoro");
+  const durShort = container.querySelector("#pt-dur-short");
+  const durLong = container.querySelector("#pt-dur-long");
+  const sessionsInput = container.querySelector("#pt-sessions");
+  const autoBreakCheck = container.querySelector("#pt-auto-break");
+  const soundCheck = container.querySelector("#pt-sound");
+  const notifCheck = container.querySelector("#pt-notif");
 
   const CIRCUMFERENCE = 2 * Math.PI * 100;
 
   function updateDots() {
-    dotsEl.innerHTML = '';
+    dotsEl.innerHTML = "";
     for (let i = 0; i < settings.sessionsBeforeLong; i++) {
-      const dot = document.createElement('span');
-      dot.style.cssText = `width:10px;height:10px;border-radius:50%;display:inline-block;${i < sessionCount ? 'background:var(--color-error);' : 'background:var(--color-border);'}`;
+      const dot = document.createElement("span");
+      dot.style.cssText = `width:10px;height:10px;border-radius:50%;display:inline-block;${i < sessionCount ? "background:var(--color-error);" : "background:var(--color-border);"}`;
       dotsEl.appendChild(dot);
     }
   }
 
   function updateProgress() {
     const pct = totalSeconds > 0 ? remaining / totalSeconds : 0;
-    progressEl.setAttribute('stroke-dashoffset', String(CIRCUMFERENCE * (1 - pct)));
+    progressEl.setAttribute("stroke-dashoffset", String(CIRCUMFERENCE * (1 - pct)));
   }
 
   function updateDisplay() {
@@ -220,16 +240,20 @@ export function render(container) {
     clearInterval(intervalId);
     intervalId = null;
     lastTick = null;
-    startBtn.textContent = 'Start';
+    startBtn.textContent = "Start";
 
-    const labels = { pomodoro: 'Work Session', shortBreak: 'Short Break', longBreak: 'Long Break' };
+    const labels = { pomodoro: "Work Session", shortBreak: "Short Break", longBreak: "Long Break" };
     labelEl.textContent = labels[mode];
 
-    const colors = { pomodoro: 'var(--color-error)', shortBreak: 'var(--color-success)', longBreak: 'var(--color-info)' };
-    progressEl.setAttribute('stroke', colors[mode]);
+    const colors = {
+      pomodoro: "var(--color-error)",
+      shortBreak: "var(--color-success)",
+      longBreak: "var(--color-info)"
+    };
+    progressEl.setAttribute("stroke", colors[mode]);
 
     modeBtns.forEach(b => {
-      b.className = b.dataset.mode === mode ? 'btn btn-primary btn-sm' : 'btn btn-secondary btn-sm';
+      b.className = b.dataset.mode === mode ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm";
     });
 
     updateDisplay();
@@ -252,7 +276,7 @@ export function render(container) {
       clearInterval(intervalId);
       intervalId = null;
       running = false;
-      startBtn.textContent = 'Start';
+      startBtn.textContent = "Start";
       onTimerComplete();
     }
   }
@@ -264,26 +288,26 @@ export function render(container) {
       setTimeout(() => playTone(880, 0.3), 400);
     }
 
-    if (currentMode === 'pomodoro') {
+    if (currentMode === "pomodoro") {
       sessionCount++;
       settings.completedToday++;
       settings.lastDate = getToday();
       saveSettings(settings);
       todayEl.textContent = settings.completedToday;
       updateDots();
-      notify('Pomodoro complete!', 'Time for a break.');
+      notify("Pomodoro complete!", "Time for a break.");
 
       if (sessionCount >= settings.sessionsBeforeLong) {
         sessionCount = 0;
-        if (settings.autoStartBreaks) applyMode('longBreak');
-        else applyMode('longBreak');
+        if (settings.autoStartBreaks) applyMode("longBreak");
+        else applyMode("longBreak");
       } else {
-        if (settings.autoStartBreaks) applyMode('shortBreak');
-        else applyMode('shortBreak');
+        if (settings.autoStartBreaks) applyMode("shortBreak");
+        else applyMode("shortBreak");
       }
     } else {
-      notify('Break over!', 'Time to focus.');
-      applyMode('pomodoro');
+      notify("Break over!", "Time to focus.");
+      applyMode("pomodoro");
     }
   }
 
@@ -293,12 +317,12 @@ export function render(container) {
       clearInterval(intervalId);
       intervalId = null;
       lastTick = null;
-      startBtn.textContent = 'Resume';
+      startBtn.textContent = "Resume";
     } else {
       running = true;
       lastTick = Date.now();
       intervalId = setInterval(tick, 250);
-      startBtn.textContent = 'Pause';
+      startBtn.textContent = "Pause";
     }
   }
 
@@ -309,7 +333,7 @@ export function render(container) {
     lastTick = null;
     remaining = settings.durations[currentMode] * 60;
     totalSeconds = remaining;
-    startBtn.textContent = 'Start';
+    startBtn.textContent = "Start";
     updateDisplay();
   }
 
@@ -337,27 +361,36 @@ export function render(container) {
     }
   }
 
-  modeBtns.forEach(b => b.addEventListener('click', () => {
-    if (running) { clearInterval(intervalId); running = false; }
-    applyMode(b.dataset.mode);
-  }));
+  modeBtns.forEach(b =>
+    b.addEventListener("click", () => {
+      if (running) {
+        clearInterval(intervalId);
+        running = false;
+      }
+      applyMode(b.dataset.mode);
+    })
+  );
 
-  startBtn.addEventListener('click', startTimer);
-  resetBtn.addEventListener('click', resetTimer);
+  startBtn.addEventListener("click", startTimer);
+  resetBtn.addEventListener("click", resetTimer);
 
-  settingsToggle.addEventListener('click', () => {
-    const visible = settingsPanel.style.display !== 'none';
-    settingsPanel.style.display = visible ? 'none' : 'block';
-    settingsToggle.textContent = visible ? '⚙ Settings' : '✕ Close Settings';
+  settingsToggle.addEventListener("click", () => {
+    const visible = settingsPanel.style.display !== "none";
+    settingsPanel.style.display = visible ? "none" : "block";
+    settingsToggle.textContent = visible ? "⚙ Settings" : "✕ Close Settings";
   });
 
-  [durPomodoro, durShort, durLong, sessionsInput].forEach(el => el.addEventListener('change', applySettings));
-  [autoBreakCheck, soundCheck, notifCheck].forEach(el => el.addEventListener('change', applySettings));
+  [durPomodoro, durShort, durLong, sessionsInput].forEach(el =>
+    el.addEventListener("change", applySettings)
+  );
+  [autoBreakCheck, soundCheck, notifCheck].forEach(el =>
+    el.addEventListener("change", applySettings)
+  );
 
-  if (settings.notifications && 'Notification' in window && Notification.permission === 'default') {
+  if (settings.notifications && "Notification" in window && Notification.permission === "default") {
     Notification.requestPermission();
   }
 
   updateDots();
-  applyMode('pomodoro');
+  applyMode("pomodoro");
 }

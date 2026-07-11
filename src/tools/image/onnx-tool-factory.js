@@ -1,16 +1,16 @@
-import { createFileUpload } from '../../components/file-upload.js';
+import { createFileUpload } from "../../components/file-upload.js";
 
 export function createOnnxTool(config) {
   return {
     toolConfig: config.toolConfig,
     render(container) {
       const upload = createFileUpload({
-        accept: config.accept || 'image/jpeg,image/png',
+        accept: config.accept || "image/jpeg,image/png",
         multiple: false,
         maxSizeMB: config.maxSizeMB || 20,
-        onFilesSelected: async (files) => {
+        onFilesSelected: async files => {
           if (files.length === 0) return;
-          resultArea.style.display = 'block';
+          resultArea.style.display = "block";
           resultArea.innerHTML = `
             <div style="text-align:center;padding:var(--space-8);">
               <div style="font-size:3rem;margin-bottom:var(--space-4);">${config.icon}</div>
@@ -35,8 +35,8 @@ export function createOnnxTool(config) {
         </div>
       `;
 
-      container.querySelector('#upload-area').appendChild(upload.element);
-      const resultArea = container.querySelector('#result-area');
+      container.querySelector("#upload-area").appendChild(upload.element);
+      const resultArea = container.querySelector("#result-area");
     },
     destroy() {}
   };

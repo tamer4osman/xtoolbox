@@ -16,19 +16,19 @@ export function setNotFound(handler) {
 }
 
 export function navigate(path) {
-  window.location.hash = '#' + path;
+  window.location.hash = "#" + path;
 }
 
 /**
  * @public
  */
 export function getCurrentPath() {
-  return window.location.hash.slice(1) || '/';
+  return window.location.hash.slice(1) || "/";
 }
 
 function pathToRegex(path) {
-  const pattern = path.replace(/\//g, '\\/').replace(/:([^/]+)/g, '([^/]+)');
-  return new RegExp('^' + pattern + '$');
+  const pattern = path.replace(/\//g, "\\/").replace(/:([^/]+)/g, "([^/]+)");
+  return new RegExp("^" + pattern + "$");
 }
 
 function matchRoute(path) {
@@ -37,7 +37,9 @@ function matchRoute(path) {
     if (match) {
       const paramNames = (routePath.match(/:([^/]+)/g) || []).map(p => p.slice(1));
       const params = {};
-      paramNames.forEach((name, i) => { params[name] = match[i + 1]; });
+      paramNames.forEach((name, i) => {
+        params[name] = match[i + 1];
+      });
       return { handler: route.handler, params };
     }
   }
@@ -47,15 +49,19 @@ function matchRoute(path) {
 async function handleRouteChange() {
   const path = getCurrentPath();
 
-  if (currentRoute && currentRoute.startsWith('/tools/') && !path.startsWith('/tools/')) {
-    const { cleanupToolResources } = await import('./pages/tool.js');
+  if (currentRoute && currentRoute.startsWith("/tools/") && !path.startsWith("/tools/")) {
+    const { cleanupToolResources } = await import("./pages/tool.js");
     await cleanupToolResources();
   }
 
   let cleanup = currentCleanup;
   currentCleanup = null;
   if (cleanup) {
-    try { await cleanup(); } catch (e) { console.error('Route cleanup error:', e); }
+    try {
+      await cleanup();
+    } catch (e) {
+      console.error("Route cleanup error:", e);
+    }
   }
 
   const matched = matchRoute(path);
@@ -78,19 +84,19 @@ export function setCleanup(fn) {
 let currentCleanup = null;
 
 function updateActiveLinks(currentPath) {
-  document.querySelectorAll('[data-nav-link]').forEach(link => {
-    const href = link.getAttribute('data-nav-link');
-    if (currentPath.startsWith(href) && href !== '/') {
-      link.classList.add('active');
-    } else if (currentPath === '/' && href === '/') {
-      link.classList.add('active');
+  document.querySelectorAll("[data-nav-link]").forEach(link => {
+    const href = link.getAttribute("data-nav-link");
+    if (currentPath.startsWith(href) && href !== "/") {
+      link.classList.add("active");
+    } else if (currentPath === "/" && href === "/") {
+      link.classList.add("active");
     } else {
-      link.classList.remove('active');
+      link.classList.remove("active");
     }
   });
 }
 
 export function initRouter() {
-  window.addEventListener('hashchange', handleRouteChange);
+  window.addEventListener("hashchange", handleRouteChange);
   handleRouteChange();
 }

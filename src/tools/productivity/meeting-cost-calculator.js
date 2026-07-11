@@ -12,20 +12,20 @@ export const toolConfig = {
   steps: [
     "Add participants with salaries",
     "Start timer when meeting begins",
-    "View running cost in real-time",
+    "View running cost in real-time"
   ],
   faqs: [
     {
       question: "How is cost calculated?",
       answer:
-        "Annual salary divided by working hours, multiplied by meeting duration and number of participants.",
+        "Annual salary divided by working hours, multiplied by meeting duration and number of participants."
     },
     {
       question: "Are benefits included?",
       answer:
-        "No. For a more realistic cost, multiply the result by 1.3-1.5 to account for benefits and overhead.",
-    },
-  ],
+        "No. For a more realistic cost, multiply the result by 1.3-1.5 to account for benefits and overhead."
+    }
+  ]
 };
 
 export function calculateHourlyRate(annualSalary, hoursPerWeek = 40, weeksPerYear = 50) {
@@ -40,7 +40,7 @@ export function formatCurrency(amount) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 2
   }).format(amount);
 }
 
@@ -111,11 +111,11 @@ export function render(container) {
         <span style="color:var(--color-text-muted);">${formatCurrency(p.salary)}/yr</span>
         <button class="btn btn-secondary btn-sm remove-participant" data-index="${i}">Remove</button>
       </div>
-    `,
+    `
       )
       .join("");
 
-    participantsList.querySelectorAll(".remove-participant").forEach((btn) => {
+    participantsList.querySelectorAll(".remove-participant").forEach(btn => {
       btn.addEventListener("click", () => {
         participants.splice(parseInt(btn.dataset.index), 1);
         renderParticipants();

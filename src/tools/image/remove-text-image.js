@@ -1,22 +1,36 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
-import { setupPreviewCanvas, attachDragSelection } from './pixel-tool-utils.js';
-import { downloadBlob } from '../../utils/file.js';
-import { showToast } from '../../components/toast.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { loadImageFromFile, canvasToBlob } from "./image-utils.js";
+import { setupPreviewCanvas, attachDragSelection } from "./pixel-tool-utils.js";
+import { downloadBlob } from "../../utils/file.js";
+import { showToast } from "../../components/toast.js";
 
 export const toolConfig = {
-  id: 'remove-text-image',
-  name: 'Remove Text from Image',
-  category: 'image',
-  description: 'Remove unwanted text from images by selecting the area. Uses content-aware fill to blend the background.',
-  icon: '🧹',
-  accept: 'image/*',
+  id: "remove-text-image",
+  name: "Remove Text from Image",
+  category: "image",
+  description:
+    "Remove unwanted text from images by selecting the area. Uses content-aware fill to blend the background.",
+  icon: "🧹",
+  accept: "image/*",
   maxSizeMB: 50,
-  keywords: ['remove text', 'erase text', 'content aware fill', 'inpaint', 'clean image'],
-  steps: ['Upload an image', 'Draw a selection over the text you want to remove', 'Apply the removal', 'Download the cleaned image'],
+  keywords: ["remove text", "erase text", "content aware fill", "inpaint", "clean image"],
+  steps: [
+    "Upload an image",
+    "Draw a selection over the text you want to remove",
+    "Apply the removal",
+    "Download the cleaned image"
+  ],
   faqs: [
-    { question: 'How does text removal work?', answer: 'This tool uses a content-aware fill technique that samples pixels from around the selected area and blends them to fill the gap, making the removal look natural.' },
-    { question: 'Can it remove any text?', answer: 'It works best on simple backgrounds. Complex or textured backgrounds may require multiple smaller selections for best results.' }
+    {
+      question: "How does text removal work?",
+      answer:
+        "This tool uses a content-aware fill technique that samples pixels from around the selected area and blends them to fill the gap, making the removal look natural."
+    },
+    {
+      question: "Can it remove any text?",
+      answer:
+        "It works best on simple backgrounds. Complex or textured backgrounds may require multiple smaller selections for best results."
+    }
   ]
 };
 
@@ -25,16 +39,16 @@ export function render(container) {
   let selection = null;
 
   const upload = createFileUpload({
-    accept: 'image/*',
+    accept: "image/*",
     multiple: false,
     maxSizeMB: 50,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       originalImage = await loadImageFromFile(files[0]);
       selection = null;
       countInfo.textContent = `${originalImage.naturalWidth}×${originalImage.naturalHeight}px`;
-      optionsArea.style.display = 'block';
-      previewArea.style.display = 'block';
-      actionsArea.style.display = 'flex';
+      optionsArea.style.display = "block";
+      previewArea.style.display = "block";
+      actionsArea.style.display = "flex";
       renderPreview();
     }
   });
@@ -62,42 +76,42 @@ export function render(container) {
     </div>
   `;
 
-  const uploadArea = container.querySelector('#upload-area');
-  const optionsArea = container.querySelector('#options-area');
-  const previewArea = container.querySelector('#preview-area');
-  const actionsArea = container.querySelector('#actions-area');
-  const countInfo = container.querySelector('#count-info');
-  const previewCanvas = container.querySelector('#preview-canvas');
-  const downloadBtn = container.querySelector('#download-btn');
-  const clearBtn = container.querySelector('#clear-selection-btn');
-  const applyBtn = container.querySelector('#apply-btn');
+  const uploadArea = container.querySelector("#upload-area");
+  const optionsArea = container.querySelector("#options-area");
+  const previewArea = container.querySelector("#preview-area");
+  const actionsArea = container.querySelector("#actions-area");
+  const countInfo = container.querySelector("#count-info");
+  const previewCanvas = container.querySelector("#preview-canvas");
+  const downloadBtn = container.querySelector("#download-btn");
+  const clearBtn = container.querySelector("#clear-selection-btn");
+  const applyBtn = container.querySelector("#apply-btn");
 
   uploadArea.appendChild(upload.element);
 
-  attachDragSelection(previewCanvas, (sel) => {
+  attachDragSelection(previewCanvas, sel => {
     selection = sel;
     renderPreview();
   });
 
-  clearBtn.addEventListener('click', () => {
+  clearBtn.addEventListener("click", () => {
     selection = null;
     renderPreview();
   });
 
-  applyBtn.addEventListener('click', async () => {
+  applyBtn.addEventListener("click", async () => {
     if (!originalImage || !selection) {
-      showToast('Please select an area first by drawing on the image.', 'warning');
+      showToast("Please select an area first by drawing on the image.", "warning");
       return;
     }
 
     applyBtn.disabled = true;
-    applyBtn.textContent = 'Processing...';
+    applyBtn.textContent = "Processing...";
 
     try {
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = originalImage.naturalWidth;
       canvas.height = originalImage.naturalHeight;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       ctx.drawImage(originalImage, 0, 0);
 
       const scaleX = originalImage.naturalWidth / previewCanvas.width;
@@ -113,25 +127,25 @@ export function render(container) {
       applyContentAwareFill(ctx, canvas.width, canvas.height, sel);
       selection = null;
 
-      const blob = await canvasToBlob(canvas, 'image/png');
-      downloadBlob(blob, 'text-removed.png');
-      showToast('Text removed successfully!', 'success');
+      const blob = await canvasToBlob(canvas, "image/png");
+      downloadBlob(blob, "text-removed.png");
+      showToast("Text removed successfully!", "success");
 
       originalImage = await loadImageFromFile(blob);
       renderPreview();
     } catch (err) {
-      showToast('Failed to remove text: ' + err.message, 'error');
+      showToast("Failed to remove text: " + err.message, "error");
     }
 
     applyBtn.disabled = false;
-    applyBtn.textContent = '🧹 Remove Text';
+    applyBtn.textContent = "🧹 Remove Text";
   });
 
-  downloadBtn.addEventListener('click', async () => {
+  downloadBtn.addEventListener("click", async () => {
     if (!originalImage) return;
-    const blob = await canvasToBlob(previewCanvas, 'image/png');
-    downloadBlob(blob, 'text-removed.png');
-    showToast('Image downloaded!', 'success');
+    const blob = await canvasToBlob(previewCanvas, "image/png");
+    downloadBlob(blob, "text-removed.png");
+    showToast("Image downloaded!", "success");
   });
 
   function renderPreview() {
@@ -139,10 +153,10 @@ export function render(container) {
     setupPreviewCanvas(previewCanvas, originalImage, container);
 
     if (selection && selection.w > 2 && selection.h > 2) {
-      const ctx = previewCanvas.getContext('2d');
-      ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+      const ctx = previewCanvas.getContext("2d");
+      ctx.fillStyle = "rgba(255, 0, 0, 0.2)";
       ctx.fillRect(selection.x, selection.y, selection.w, selection.h);
-      ctx.strokeStyle = '#ef4444';
+      ctx.strokeStyle = "#ef4444";
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 3]);
       ctx.strokeRect(selection.x, selection.y, selection.w, selection.h);
@@ -179,16 +193,25 @@ export function render(container) {
 
         const idx = (y * w + x) * 4;
         result[idx] = Math.round(
-          (data[leftIdx] * wLeft + data[rightIdx] * wRight +
-           data[topIdx] * wTop + data[bottomIdx] * wBottom) / totalW
+          (data[leftIdx] * wLeft +
+            data[rightIdx] * wRight +
+            data[topIdx] * wTop +
+            data[bottomIdx] * wBottom) /
+            totalW
         );
         result[idx + 1] = Math.round(
-          (data[leftIdx + 1] * wLeft + data[rightIdx + 1] * wRight +
-           data[topIdx + 1] * wTop + data[bottomIdx + 1] * wBottom) / totalW
+          (data[leftIdx + 1] * wLeft +
+            data[rightIdx + 1] * wRight +
+            data[topIdx + 1] * wTop +
+            data[bottomIdx + 1] * wBottom) /
+            totalW
         );
         result[idx + 2] = Math.round(
-          (data[leftIdx + 2] * wLeft + data[rightIdx + 2] * wRight +
-           data[topIdx + 2] * wTop + data[bottomIdx + 2] * wBottom) / totalW
+          (data[leftIdx + 2] * wLeft +
+            data[rightIdx + 2] * wRight +
+            data[topIdx + 2] * wTop +
+            data[bottomIdx + 2] * wBottom) /
+            totalW
         );
       }
     }
@@ -202,10 +225,11 @@ export function render(container) {
           for (let c = 0; c < 3; c++) {
             result[cIdx + c] = Math.round(
               (temp[((y - 1) * w + x) * 4 + c] +
-               temp[((y + 1) * w + x) * 4 + c] +
-               temp[(y * w + x - 1) * 4 + c] +
-               temp[(y * w + x + 1) * 4 + c] +
-               temp[cIdx + c] * 4) / 8
+                temp[((y + 1) * w + x) * 4 + c] +
+                temp[(y * w + x - 1) * 4 + c] +
+                temp[(y * w + x + 1) * 4 + c] +
+                temp[cIdx + c] * 4) /
+                8
             );
           }
         }

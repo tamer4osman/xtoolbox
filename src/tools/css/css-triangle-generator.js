@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'css-triangle-generator',
-  name: 'CSS Pure Triangle Code Generator',
-  category: 'css',
-  description: 'Visually construct minimal pure border-based CSS triangles in any direction.',
-  icon: '🔺',
-  status: 'done'
+  id: "css-triangle-generator",
+  name: "CSS Pure Triangle Code Generator",
+  category: "css",
+  description: "Visually construct minimal pure border-based CSS triangles in any direction.",
+  icon: "🔺",
+  status: "done"
 };
 
 export function render(container) {
@@ -51,7 +51,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tri-container { max-width: 600px; margin: 0 auto; }
     .preview-area { display: flex; justify-content: center; align-items: center; min-height: 200px; background: repeating-conic-gradient(#e5e7eb 0% 25%, #fff 0% 50%) 50% / 20px 20px; border-radius: var(--radius-xl); margin-bottom: var(--space-4); }
@@ -73,16 +73,16 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  let dir = 'up';
-  const sizeEl = container.querySelector('#size');
-  const colorEl = container.querySelector('#color');
-  const rotateEl = container.querySelector('#rotate');
-  const sizeVal = container.querySelector('#sizeVal');
-  const colorVal = container.querySelector('#colorVal');
-  const rotateVal = container.querySelector('#rotateVal');
-  const preview = container.querySelector('#preview');
-  const cssOutput = container.querySelector('#cssOutput');
-  const htmlOutput = container.querySelector('#htmlOutput');
+  let dir = "up";
+  const sizeEl = container.querySelector("#size");
+  const colorEl = container.querySelector("#color");
+  const rotateEl = container.querySelector("#rotate");
+  const sizeVal = container.querySelector("#sizeVal");
+  const colorVal = container.querySelector("#colorVal");
+  const rotateVal = container.querySelector("#rotateVal");
+  const preview = container.querySelector("#preview");
+  const cssOutput = container.querySelector("#cssOutput");
+  const htmlOutput = container.querySelector("#htmlOutput");
 
   function hexToRgb(hex) {
     const r = parseInt(hex.slice(1, 3), 16);
@@ -97,76 +97,76 @@ export function render(container) {
     const rotate = parseInt(rotateEl.value);
     const half = Math.round(size / 2);
 
-    sizeVal.textContent = size + 'px';
+    sizeVal.textContent = size + "px";
     colorVal.textContent = color;
-    rotateVal.textContent = rotate + '°';
+    rotateVal.textContent = rotate + "°";
 
-    let borderCSS = '';
-    if (dir === 'up') {
+    let borderCSS = "";
+    if (dir === "up") {
       borderCSS = `width: 0;\n  height: 0;\n  border-left: ${half}px solid transparent;\n  border-right: ${half}px solid transparent;\n  border-bottom: ${size}px solid ${color};`;
-    } else if (dir === 'down') {
+    } else if (dir === "down") {
       borderCSS = `width: 0;\n  height: 0;\n  border-left: ${half}px solid transparent;\n  border-right: ${half}px solid transparent;\n  border-top: ${size}px solid ${color};`;
-    } else if (dir === 'left') {
+    } else if (dir === "left") {
       borderCSS = `width: 0;\n  height: 0;\n  border-top: ${half}px solid transparent;\n  border-bottom: ${half}px solid transparent;\n  border-right: ${size}px solid ${color};`;
-    } else if (dir === 'right') {
+    } else if (dir === "right") {
       borderCSS = `width: 0;\n  height: 0;\n  border-top: ${half}px solid transparent;\n  border-bottom: ${half}px solid transparent;\n  border-left: ${size}px solid ${color};`;
     }
 
-    const transform = rotate ? `\n  transform: rotate(${rotate}deg);` : '';
+    const transform = rotate ? `\n  transform: rotate(${rotate}deg);` : "";
     const fullCSS = `.triangle {\n  ${borderCSS}${transform}\n}`;
 
     cssOutput.textContent = fullCSS;
     htmlOutput.textContent = '<div class="triangle"></div>';
 
     // live preview
-    preview.style.width = '0';
-    preview.style.height = '0';
-    preview.style.border = 'none';
-    preview.style.transform = '';
+    preview.style.width = "0";
+    preview.style.height = "0";
+    preview.style.border = "none";
+    preview.style.transform = "";
 
-    if (dir === 'up') {
-      preview.style.borderLeft = half + 'px solid transparent';
-      preview.style.borderRight = half + 'px solid transparent';
-      preview.style.borderBottom = size + 'px solid ' + color;
-    } else if (dir === 'down') {
-      preview.style.borderLeft = half + 'px solid transparent';
-      preview.style.borderRight = half + 'px solid transparent';
-      preview.style.borderTop = size + 'px solid ' + color;
-    } else if (dir === 'left') {
-      preview.style.borderTop = half + 'px solid transparent';
-      preview.style.borderBottom = half + 'px solid transparent';
-      preview.style.borderRight = size + 'px solid ' + color;
-    } else if (dir === 'right') {
-      preview.style.borderTop = half + 'px solid transparent';
-      preview.style.borderBottom = half + 'px solid transparent';
-      preview.style.borderLeft = size + 'px solid ' + color;
+    if (dir === "up") {
+      preview.style.borderLeft = half + "px solid transparent";
+      preview.style.borderRight = half + "px solid transparent";
+      preview.style.borderBottom = size + "px solid " + color;
+    } else if (dir === "down") {
+      preview.style.borderLeft = half + "px solid transparent";
+      preview.style.borderRight = half + "px solid transparent";
+      preview.style.borderTop = size + "px solid " + color;
+    } else if (dir === "left") {
+      preview.style.borderTop = half + "px solid transparent";
+      preview.style.borderBottom = half + "px solid transparent";
+      preview.style.borderRight = size + "px solid " + color;
+    } else if (dir === "right") {
+      preview.style.borderTop = half + "px solid transparent";
+      preview.style.borderBottom = half + "px solid transparent";
+      preview.style.borderLeft = size + "px solid " + color;
     }
-    if (rotate) preview.style.transform = 'rotate(' + rotate + 'deg)';
+    if (rotate) preview.style.transform = "rotate(" + rotate + "deg)";
   }
 
-  container.querySelectorAll('.dir-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.dir-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  container.querySelectorAll(".dir-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".dir-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
       dir = btn.dataset.dir;
       update();
     });
   });
 
-  sizeEl.addEventListener('input', update);
-  colorEl.addEventListener('input', update);
-  rotateEl.addEventListener('input', update);
+  sizeEl.addEventListener("input", update);
+  colorEl.addEventListener("input", update);
+  rotateEl.addEventListener("input", update);
 
-  container.querySelector('#copyBtn').addEventListener('click', () => {
+  container.querySelector("#copyBtn").addEventListener("click", () => {
     navigator.clipboard.writeText(cssOutput.textContent);
-    container.querySelector('#copyBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyBtn').textContent = 'Copy', 1500);
+    container.querySelector("#copyBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyBtn").textContent = "Copy"), 1500);
   });
 
-  container.querySelector('#copyHtmlBtn').addEventListener('click', () => {
+  container.querySelector("#copyHtmlBtn").addEventListener("click", () => {
     navigator.clipboard.writeText(htmlOutput.textContent);
-    container.querySelector('#copyHtmlBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyHtmlBtn').textContent = 'Copy', 1500);
+    container.querySelector("#copyHtmlBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyHtmlBtn").textContent = "Copy"), 1500);
   });
 
   update();

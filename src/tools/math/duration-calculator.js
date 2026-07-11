@@ -1,22 +1,42 @@
 export const toolConfig = {
-  id: 'duration-calculator',
-  name: 'Time Duration Calculator',
-  category: 'math',
-  description: 'Calculate the exact duration between two dates/times. See results in years, months, weeks, days, hours, minutes, and seconds.',
-  icon: '⏳',
+  id: "duration-calculator",
+  name: "Time Duration Calculator",
+  category: "math",
+  description:
+    "Calculate the exact duration between two dates/times. See results in years, months, weeks, days, hours, minutes, and seconds.",
+  icon: "⏳",
   accept: null,
   maxSizeMB: null,
-  keywords: ['duration calculator', 'time duration', 'date difference', 'time span', 'elapsed time', 'hours between dates'],
-  steps: ['Pick a start date and time', 'Pick an end date and time', 'See the duration broken down in multiple units'],
+  keywords: [
+    "duration calculator",
+    "time duration",
+    "date difference",
+    "time span",
+    "elapsed time",
+    "hours between dates"
+  ],
+  steps: [
+    "Pick a start date and time",
+    "Pick an end date and time",
+    "See the duration broken down in multiple units"
+  ],
   faqs: [
-    { question: 'What is the difference between this and Date Difference?', answer: 'This calculator includes time-of-day precision and shows durations in years, months, weeks, days, hours, minutes, and seconds simultaneously.' },
-    { question: 'Does it account for daylight saving?', answer: 'Calculations are based on UTC timestamps, which gives consistent results regardless of DST changes.' }
+    {
+      question: "What is the difference between this and Date Difference?",
+      answer:
+        "This calculator includes time-of-day precision and shows durations in years, months, weeks, days, hours, minutes, and seconds simultaneously."
+    },
+    {
+      question: "Does it account for daylight saving?",
+      answer:
+        "Calculations are based on UTC timestamps, which gives consistent results regardless of DST changes."
+    }
   ]
 };
 
 export function render(container) {
   const now = new Date();
-  const pad = n => String(n).padStart(2, '0');
+  const pad = n => String(n).padStart(2, "0");
   const nowStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
   const nowTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
@@ -86,43 +106,69 @@ export function render(container) {
     </div>
   `;
 
-  const startDate = container.querySelector('#dc-start-date');
-  const startTime = container.querySelector('#dc-start-time');
-  const endDate = container.querySelector('#dc-end-date');
-  const endTime = container.querySelector('#dc-end-time');
-  const resultsDiv = container.querySelector('#dc-results');
-  const calcBtn = container.querySelector('#dc-calc');
-  const nowBtn = container.querySelector('#dc-now');
+  const startDate = container.querySelector("#dc-start-date");
+  const startTime = container.querySelector("#dc-start-time");
+  const endDate = container.querySelector("#dc-end-date");
+  const endTime = container.querySelector("#dc-end-time");
+  const resultsDiv = container.querySelector("#dc-results");
+  const calcBtn = container.querySelector("#dc-calc");
+  const nowBtn = container.querySelector("#dc-now");
 
   function getMs(v) {
     switch (v) {
-      case 'years': return 365.25 * 24 * 60 * 60 * 1000;
-      case 'months': return 30.4375 * 24 * 60 * 60 * 1000;
-      case 'weeks': return 7 * 24 * 60 * 60 * 1000;
-      case 'days': return 24 * 60 * 60 * 1000;
-      case 'hours': return 60 * 60 * 1000;
-      case 'minutes': return 60 * 1000;
-      case 'seconds': return 1000;
-      default: return 1;
+      case "years":
+        return 365.25 * 24 * 60 * 60 * 1000;
+      case "months":
+        return 30.4375 * 24 * 60 * 60 * 1000;
+      case "weeks":
+        return 7 * 24 * 60 * 60 * 1000;
+      case "days":
+        return 24 * 60 * 60 * 1000;
+      case "hours":
+        return 60 * 60 * 1000;
+      case "minutes":
+        return 60 * 1000;
+      case "seconds":
+        return 1000;
+      default:
+        return 1;
     }
   }
 
   function calculate() {
-    const s = new Date(`${startDate.value}T${startTime.value || '00:00'}`);
-    const e = new Date(`${endDate.value}T${endTime.value || '00:00'}`);
+    const s = new Date(`${startDate.value}T${startTime.value || "00:00"}`);
+    const e = new Date(`${endDate.value}T${endTime.value || "00:00"}`);
     const diff = e - s;
 
     if (diff < 0) {
-      resultsDiv.style.display = 'block';
-      resultsDiv.querySelectorAll('.result-card #dc-years, .result-card #dc-months, .result-card #dc-weeks, .result-card #dc-days, .result-card #dc-hours, .result-card #dc-minutes, .result-card #dc-seconds').forEach(el => {});
-      document.querySelectorAll('#dc-years, #dc-months, #dc-weeks, #dc-days, #dc-hours, #dc-minutes, #dc-seconds').forEach(el => { if (resultsDiv.contains(el)) el.textContent = '—'; });
-      container.querySelector('#dc-breakdown').textContent = 'End must be after start.';
+      resultsDiv.style.display = "block";
+      resultsDiv
+        .querySelectorAll(
+          ".result-card #dc-years, .result-card #dc-months, .result-card #dc-weeks, .result-card #dc-days, .result-card #dc-hours, .result-card #dc-minutes, .result-card #dc-seconds"
+        )
+        .forEach(el => {});
+      document
+        .querySelectorAll(
+          "#dc-years, #dc-months, #dc-weeks, #dc-days, #dc-hours, #dc-minutes, #dc-seconds"
+        )
+        .forEach(el => {
+          if (resultsDiv.contains(el)) el.textContent = "—";
+        });
+      container.querySelector("#dc-breakdown").textContent = "End must be after start.";
       return;
     }
 
     const absMs = Math.abs(diff);
-    const units = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'];
-    const ids = ['dc-years', 'dc-months', 'dc-weeks', 'dc-days', 'dc-hours', 'dc-minutes', 'dc-seconds'];
+    const units = ["years", "months", "weeks", "days", "hours", "minutes", "seconds"];
+    const ids = [
+      "dc-years",
+      "dc-months",
+      "dc-weeks",
+      "dc-days",
+      "dc-hours",
+      "dc-minutes",
+      "dc-seconds"
+    ];
 
     ids.forEach((id, i) => {
       const val = absMs / getMs(units[i]);
@@ -130,17 +176,17 @@ export function render(container) {
       if (el) el.textContent = formatNum(val);
     });
 
-    const totalDays = Math.floor(absMs / getMs('days'));
-    const h = Math.floor((absMs % getMs('days')) / getMs('hours'));
-    const m = Math.floor((absMs % getMs('hours')) / getMs('minutes'));
-    const secs = Math.floor((absMs % getMs('minutes')) / getMs('seconds'));
+    const totalDays = Math.floor(absMs / getMs("days"));
+    const h = Math.floor((absMs % getMs("days")) / getMs("hours"));
+    const m = Math.floor((absMs % getMs("hours")) / getMs("minutes"));
+    const secs = Math.floor((absMs % getMs("minutes")) / getMs("seconds"));
 
     const years = Math.floor(totalDays / 365.25);
     const remDaysAfterYears = totalDays % 365.25;
     const months = Math.floor(remDaysAfterYears / 30.4375);
     const days = Math.floor(remDaysAfterYears % 30.4375);
 
-    let breakdown = '';
+    let breakdown = "";
     if (years > 0) breakdown += `${years}y `;
     if (months > 0) breakdown += `${months}mo `;
     if (days > 0) breakdown += `${days}d `;
@@ -148,9 +194,9 @@ export function render(container) {
       breakdown += `${h}h ${m}m ${secs}s`;
     }
 
-    container.querySelector('#dc-breakdown').textContent = breakdown.trim();
+    container.querySelector("#dc-breakdown").textContent = breakdown.trim();
 
-    resultsDiv.style.display = 'block';
+    resultsDiv.style.display = "block";
   }
 
   function formatNum(n) {
@@ -161,8 +207,8 @@ export function render(container) {
     return n < 1e-6 ? n.toExponential(2) : n.toFixed(6);
   }
 
-  calcBtn.addEventListener('click', calculate);
-  nowBtn.addEventListener('click', () => {
+  calcBtn.addEventListener("click", calculate);
+  nowBtn.addEventListener("click", () => {
     const n = new Date();
     startDate.value = `${n.getFullYear()}-${pad(n.getMonth() + 1)}-${pad(n.getDate())}`;
     startTime.value = `${pad(n.getHours())}:${pad(n.getMinutes())}`;

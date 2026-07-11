@@ -1,8 +1,8 @@
 export function octalToChmod(octal) {
-  if (typeof octal !== 'string') return null;
+  if (typeof octal !== "string") return null;
   const trimmed = octal.trim();
   if (!/^[0-7]{3,4}$/.test(trimmed)) return null;
-  const padded = trimmed.length === 3 ? '0' + trimmed : trimmed;
+  const padded = trimmed.length === 3 ? "0" + trimmed : trimmed;
   const digit = i => parseInt(padded[i], 10);
   return {
     special: { setuid: !!(digit(0) & 4), setgid: !!(digit(0) & 2), sticky: !!(digit(0) & 1) },
@@ -30,25 +30,39 @@ export function chmodToSymbolic(perms) {
   const o = perms.owner || {};
   const g = perms.group || {};
   const ot = perms.other || {};
-  const slot = (x, special, lo, hi) => special ? (x ? lo : hi) : (x ? 'x' : '-');
-  return '-' +
-    (o.r ? 'r' : '-') + (o.w ? 'w' : '-') + slot(o.x, sp.setuid, 's', 'S') +
-    (g.r ? 'r' : '-') + (g.w ? 'w' : '-') + slot(g.x, sp.setgid, 's', 'S') +
-    (ot.r ? 'r' : '-') + (ot.w ? 'w' : '-') + slot(ot.x, sp.sticky, 't', 'T');
+  const slot = (x, special, lo, hi) => (special ? (x ? lo : hi) : x ? "x" : "-");
+  return (
+    "-" +
+    (o.r ? "r" : "-") +
+    (o.w ? "w" : "-") +
+    slot(o.x, sp.setuid, "s", "S") +
+    (g.r ? "r" : "-") +
+    (g.w ? "w" : "-") +
+    slot(g.x, sp.setgid, "s", "S") +
+    (ot.r ? "r" : "-") +
+    (ot.w ? "w" : "-") +
+    slot(ot.x, sp.sticky, "t", "T")
+  );
 }
 
 export function symbolicToChmod(symbolic) {
-  if (typeof symbolic !== 'string') return null;
+  if (typeof symbolic !== "string") return null;
   let s = symbolic.trim();
   if (s.length === 10) s = s.slice(1);
   if (s.length !== 9) return null;
   if (!/^[-rwxsStT]{9}$/.test(s)) return null;
-  const ux = s[2], gx = s[5], ox = s[8];
+  const ux = s[2],
+    gx = s[5],
+    ox = s[8];
   return {
-    owner: { r: s[0] === 'r', w: s[1] === 'w', x: ux === 'x' || ux === 's' },
-    group: { r: s[3] === 'r', w: s[4] === 'w', x: gx === 'x' || gx === 's' },
-    other: { r: s[6] === 'r', w: s[7] === 'w', x: ox === 'x' || ox === 't' },
-    special: { setuid: ux === 's' || ux === 'S', setgid: gx === 's' || gx === 'S', sticky: ox === 't' || ox === 'T' }
+    owner: { r: s[0] === "r", w: s[1] === "w", x: ux === "x" || ux === "s" },
+    group: { r: s[3] === "r", w: s[4] === "w", x: gx === "x" || gx === "s" },
+    other: { r: s[6] === "r", w: s[7] === "w", x: ox === "x" || ox === "t" },
+    special: {
+      setuid: ux === "s" || ux === "S",
+      setgid: gx === "s" || gx === "S",
+      sticky: ox === "t" || ox === "T"
+    }
   };
 }
 
@@ -62,32 +76,56 @@ function emptyPerms() {
 }
 
 export const toolConfig = {
-  id: 'chmod-calculator',
-  name: 'Chmod Calculator',
-  category: 'dev',
-  description: 'Convert Unix file permissions between octal, symbolic, and visual checkbox form. Supports setuid, setgid, and sticky bits.',
-  icon: '🔑',
+  id: "chmod-calculator",
+  name: "Chmod Calculator",
+  category: "dev",
+  description:
+    "Convert Unix file permissions between octal, symbolic, and visual checkbox form. Supports setuid, setgid, and sticky bits.",
+  icon: "🔑",
   accept: null,
   maxSizeMB: null,
-  keywords: ['chmod', 'permissions', 'unix', 'linux', 'octal', 'symbolic', 'setuid', 'setgid', 'sticky', 'file permissions'],
+  keywords: [
+    "chmod",
+    "permissions",
+    "unix",
+    "linux",
+    "octal",
+    "symbolic",
+    "setuid",
+    "setgid",
+    "sticky",
+    "file permissions"
+  ],
   steps: [
-    'Toggle checkboxes for owner, group, and other permissions',
-    'Or type an octal value (e.g. 755) to set permissions',
-    'Copy the chmod command to use in your terminal'
+    "Toggle checkboxes for owner, group, and other permissions",
+    "Or type an octal value (e.g. 755) to set permissions",
+    "Copy the chmod command to use in your terminal"
   ],
   faqs: [
-    { question: 'What does 755 mean?', answer: 'Owner can read, write, execute (7 = 4+2+1). Group and others can read and execute (5 = 4+1). Common for executable files and directories.' },
-    { question: 'What is setuid / setgid / sticky?', answer: 'setuid (4xxx) runs an executable as its owner. setgid (2xxx) runs as the group. Sticky (1xxx) restricts deletion in shared directories like /tmp.' },
-    { question: 'What is the difference between 644 and 755?', answer: '644 (-rw-r--r--) is typical for regular files. 755 (-rwxr-xr-x) adds execute permission, needed for scripts and directories.' }
+    {
+      question: "What does 755 mean?",
+      answer:
+        "Owner can read, write, execute (7 = 4+2+1). Group and others can read and execute (5 = 4+1). Common for executable files and directories."
+    },
+    {
+      question: "What is setuid / setgid / sticky?",
+      answer:
+        "setuid (4xxx) runs an executable as its owner. setgid (2xxx) runs as the group. Sticky (1xxx) restricts deletion in shared directories like /tmp."
+    },
+    {
+      question: "What is the difference between 644 and 755?",
+      answer:
+        "644 (-rw-r--r--) is typical for regular files. 755 (-rwxr-xr-x) adds execute permission, needed for scripts and directories."
+    }
   ]
 };
 
 export function render(container) {
-  const PRESETS = ['644', '755', '600', '700', '777', '444'];
-  const ROLES = ['owner', 'group', 'other'];
-  const BITS = ['r', 'w', 'x'];
-  const ROLE_LABELS = { owner: 'Owner', group: 'Group', other: 'Other' };
-  const BIT_LABELS = { r: 'Read', w: 'Write', x: 'Execute' };
+  const PRESETS = ["644", "755", "600", "700", "777", "444"];
+  const ROLES = ["owner", "group", "other"];
+  const BITS = ["r", "w", "x"];
+  const ROLE_LABELS = { owner: "Owner", group: "Group", other: "Other" };
+  const BIT_LABELS = { r: "Read", w: "Write", x: "Execute" };
   const listeners = [];
 
   container.innerHTML = `
@@ -108,20 +146,24 @@ export function render(container) {
           <thead>
             <tr style="color:var(--color-text-muted);font-size:var(--text-sm);">
               <th style="text-align:left;padding:var(--space-2) var(--space-3);font-weight:500;"></th>
-              ${BITS.map(b => `<th style="text-align:center;padding:var(--space-2) var(--space-3);font-weight:500;">${BIT_LABELS[b]}</th>`).join('')}
+              ${BITS.map(b => `<th style="text-align:center;padding:var(--space-2) var(--space-3);font-weight:500;">${BIT_LABELS[b]}</th>`).join("")}
             </tr>
           </thead>
           <tbody>
-            ${ROLES.map(role => `
+            ${ROLES.map(
+              role => `
               <tr>
                 <td style="padding:var(--space-2) var(--space-3);font-weight:600;">${ROLE_LABELS[role]}</td>
-                ${BITS.map(bit => `
+                ${BITS.map(
+                  bit => `
                   <td style="text-align:center;padding:var(--space-2) var(--space-3);">
                     <input type="checkbox" id="cc-${role}-${bit}" class="cc-bit" data-role="${role}" data-bit="${bit}" style="width:20px;height:20px;cursor:pointer;">
                   </td>
-                `).join('')}
+                `
+                ).join("")}
               </tr>
-            `).join('')}
+            `
+            ).join("")}
           </tbody>
         </table>
       </div>
@@ -146,21 +188,21 @@ export function render(container) {
       <div>
         <div style="font-weight:600;color:var(--color-text-muted);font-size:var(--text-sm);margin-bottom:var(--space-2);">Presets</div>
         <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);">
-          ${PRESETS.map(p => `<button class="btn btn-sm cc-preset" data-octal="${p}" type="button" style="font-family:monospace;min-width:64px;">${p}</button>`).join('')}
+          ${PRESETS.map(p => `<button class="btn btn-sm cc-preset" data-octal="${p}" type="button" style="font-family:monospace;min-width:64px;">${p}</button>`).join("")}
         </div>
       </div>
     </div>
   `;
 
-  const octalInput = container.querySelector('#cc-octal');
-  const symbolicEl = container.querySelector('#cc-symbolic');
-  const commandEl = container.querySelector('#cc-command');
-  const copyBtn = container.querySelector('#cc-copy');
-  const bitChecks = container.querySelectorAll('.cc-bit');
-  const specialChecks = container.querySelectorAll('.cc-special');
-  const presetBtns = container.querySelectorAll('.cc-preset');
+  const octalInput = container.querySelector("#cc-octal");
+  const symbolicEl = container.querySelector("#cc-symbolic");
+  const commandEl = container.querySelector("#cc-command");
+  const copyBtn = container.querySelector("#cc-copy");
+  const bitChecks = container.querySelectorAll(".cc-bit");
+  const specialChecks = container.querySelectorAll(".cc-special");
+  const presetBtns = container.querySelectorAll(".cc-preset");
 
-  const state = { perms: octalToChmod('755'), lastValidOctal: '755', flashTimer: null };
+  const state = { perms: octalToChmod("755"), lastValidOctal: "755", flashTimer: null };
 
   function renderAll() {
     const octal = chmodToOctal(state.perms);
@@ -180,14 +222,16 @@ export function render(container) {
   }
 
   function flashError() {
-    octalInput.style.borderColor = 'var(--color-danger, #EF4444)';
+    octalInput.style.borderColor = "var(--color-danger, #EF4444)";
     if (state.flashTimer) clearTimeout(state.flashTimer);
-    state.flashTimer = setTimeout(() => { octalInput.style.borderColor = ''; }, 1500);
+    state.flashTimer = setTimeout(() => {
+      octalInput.style.borderColor = "";
+    }, 1500);
   }
 
   function commitOctal() {
     const raw = octalInput.value.trim();
-    if (raw === '') {
+    if (raw === "") {
       state.perms = emptyPerms();
       renderAll();
       return;
@@ -222,10 +266,12 @@ export function render(container) {
     }
   }
 
-  function onOctalBlur() { commitOctal(); }
+  function onOctalBlur() {
+    commitOctal();
+  }
 
   function onOctalKeydown(e) {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       commitOctal();
       octalInput.blur();
@@ -235,40 +281,45 @@ export function render(container) {
   function onCopyClick() {
     const text = commandEl.textContent;
     if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        const original = copyBtn.textContent;
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = original; }, 1200);
-      }).catch(() => {});
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          const original = copyBtn.textContent;
+          copyBtn.textContent = "Copied!";
+          setTimeout(() => {
+            copyBtn.textContent = original;
+          }, 1200);
+        })
+        .catch(() => {});
     }
   }
 
   bitChecks.forEach(cb => {
     const handler = () => onBitChange(cb);
-    cb.addEventListener('change', handler);
-    listeners.push({ el: cb, event: 'change', handler });
+    cb.addEventListener("change", handler);
+    listeners.push({ el: cb, event: "change", handler });
   });
 
   specialChecks.forEach(cb => {
     const handler = () => onSpecialChange(cb);
-    cb.addEventListener('change', handler);
-    listeners.push({ el: cb, event: 'change', handler });
+    cb.addEventListener("change", handler);
+    listeners.push({ el: cb, event: "change", handler });
   });
 
   presetBtns.forEach(btn => {
     const handler = () => onPresetClick(btn);
-    btn.addEventListener('click', handler);
-    listeners.push({ el: btn, event: 'click', handler });
+    btn.addEventListener("click", handler);
+    listeners.push({ el: btn, event: "click", handler });
   });
 
-  octalInput.addEventListener('blur', onOctalBlur);
-  listeners.push({ el: octalInput, event: 'blur', handler: onOctalBlur });
+  octalInput.addEventListener("blur", onOctalBlur);
+  listeners.push({ el: octalInput, event: "blur", handler: onOctalBlur });
 
-  octalInput.addEventListener('keydown', onOctalKeydown);
-  listeners.push({ el: octalInput, event: 'keydown', handler: onOctalKeydown });
+  octalInput.addEventListener("keydown", onOctalKeydown);
+  listeners.push({ el: octalInput, event: "keydown", handler: onOctalKeydown });
 
-  copyBtn.addEventListener('click', onCopyClick);
-  listeners.push({ el: copyBtn, event: 'click', handler: onCopyClick });
+  copyBtn.addEventListener("click", onCopyClick);
+  listeners.push({ el: copyBtn, event: "click", handler: onCopyClick });
 
   renderAll();
 

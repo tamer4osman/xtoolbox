@@ -1,28 +1,34 @@
-import { PDFDocument } from 'pdf-lib';
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
+import { PDFDocument } from "pdf-lib";
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
 
 export const toolConfig = {
-  id: 'pdf-password-info',
-  name: 'PDF Password Info',
-  category: 'pdf',
-  description: 'Check if a PDF is encrypted, view protection level and permissions.',
-  icon: '🔐',
-  accept: '.pdf',
+  id: "pdf-password-info",
+  name: "PDF Password Info",
+  category: "pdf",
+  description: "Check if a PDF is encrypted, view protection level and permissions.",
+  icon: "🔐",
+  accept: ".pdf",
   maxSizeMB: 100,
-  keywords: ['pdf password', 'pdf encryption', 'is pdf protected', 'pdf security', 'check pdf password'],
-  steps: ['Upload a PDF file', 'View encryption status', 'See permissions'],
+  keywords: [
+    "pdf password",
+    "pdf encryption",
+    "is pdf protected",
+    "pdf security",
+    "check pdf password"
+  ],
+  steps: ["Upload a PDF file", "View encryption status", "See permissions"],
   faqs: [
-    { question: 'Is my file uploaded?', answer: 'No. All processing happens in your browser.' }
+    { question: "Is my file uploaded?", answer: "No. All processing happens in your browser." }
   ]
 };
 
 export function render(container) {
   const upload = createFileUpload({
-    accept: '.pdf',
+    accept: ".pdf",
     multiple: false,
     maxSizeMB: 100,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       if (files.length > 0) checkPasswordInfo(files[0]);
     }
   });
@@ -56,28 +62,28 @@ export function render(container) {
     </style>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const resultPanel = container.querySelector('#result-panel');
-  const securityStatus = container.querySelector('#security-status');
-  const permissionsPanel = container.querySelector('#permissions-panel');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const resultPanel = container.querySelector("#result-panel");
+  const securityStatus = container.querySelector("#security-status");
+  const permissionsPanel = container.querySelector("#permissions-panel");
 
   async function checkPasswordInfo(file) {
     try {
       const bytes = await file.arrayBuffer();
       const pdfDoc = PDFDocument.load(bytes, { ignoreEncryption: true });
-      
+
       const isEncrypted = pdfDoc.isEncrypted();
       const permissions = pdfDoc.getPermissions ? pdfDoc.getPermissions() : null;
-      
+
       if (isEncrypted) {
-        securityStatus.className = 'security-status protected';
+        securityStatus.className = "security-status protected";
         securityStatus.innerHTML = `
           <div class="security-icon">🔒</div>
           <div class="security-title">Password Protected</div>
           <div class="security-desc">This PDF is encrypted and requires a password to open.</div>
         `;
       } else {
-        securityStatus.className = 'security-status unlocked';
+        securityStatus.className = "security-status unlocked";
         securityStatus.innerHTML = `
           <div class="security-icon">🔓</div>
           <div class="security-title">Not Protected</div>
@@ -85,45 +91,44 @@ export function render(container) {
         `;
       }
 
-      let permsHtml = '<h4>Permissions</h4>';
-      
+      let permsHtml = "<h4>Permissions</h4>";
+
       if (permissions) {
         permsHtml += `
           <div class="permission-item">
             <span class="permission-label">Print</span>
-            <span class="permission-value ${permissions.print ? 'allow' : 'deny'}>${permissions.print ? 'Allowed' : 'Not Allowed'}</span>
+            <span class="permission-value ${permissions.print ? "allow" : "deny"}>${permissions.print ? "Allowed" : "Not Allowed"}</span>
           </div>
           <div class="permission-item">
             <span class="permission-label">Modify</span>
-            <span class="permission-value ${permissions.modify !== false ? 'allow' : 'deny'}>${permissions.modify !== false ? 'Allowed' : 'Not Allowed'}</span>
+            <span class="permission-value ${permissions.modify !== false ? "allow" : "deny"}>${permissions.modify !== false ? "Allowed" : "Not Allowed"}</span>
           </div>
           <div class="permission-item">
             <span class="permission-label">Extract Content</span>
-            <span class="permission-value ${permissions.extract !== false ? 'allow' : 'deny'}>${permissions.extract !== false ? 'Allowed' : 'Not Allowed'}</span>
+            <span class="permission-value ${permissions.extract !== false ? "allow" : "deny"}>${permissions.extract !== false ? "Allowed" : "Not Allowed"}</span>
           </div>
           <div class="permission-item">
             <span class="permission-label">Annotate</span>
-            <span class="permission-value ${permissions.annotate ? 'allow' : 'deny'}>${permissions.annotate ? 'Allowed' : 'Not Allowed'}</span>
+            <span class="permission-value ${permissions.annotate ? "allow" : "deny"}>${permissions.annotate ? "Allowed" : "Not Allowed"}</span>
           </div>
         `;
       } else {
-        permsHtml += '<p>No permission information available.</p>';
+        permsHtml += "<p>No permission information available.</p>";
       }
-      
+
       permissionsPanel.innerHTML = permsHtml;
-      resultPanel.style.display = 'block';
-      
+      resultPanel.style.display = "block";
     } catch (err) {
-      if (err.message.includes('encrypted') || err.message.includes('password')) {
-        securityStatus.className = 'security-status protected';
+      if (err.message.includes("encrypted") || err.message.includes("password")) {
+        securityStatus.className = "security-status protected";
         securityStatus.innerHTML = `
           <div class="security-icon">🔒</div>
           <div class="security-title">Password Protected</div>
           <div class="security-desc">This PDF is encrypted. Enter password to view full info.</div>
         `;
-        resultPanel.style.display = 'block';
+        resultPanel.style.display = "block";
       } else {
-        showToast({ message: 'Error checking PDF: ' + err.message, type: 'error' });
+        showToast({ message: "Error checking PDF: " + err.message, type: "error" });
       }
     }
   }

@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'htaccess-generator',
-  name: 'HTAccess Generator',
-  category: 'dev',
-  description: 'Generate .htaccess rules for redirects, caching, and security.',
-  icon: '⚙️',
-  status: 'done'
+  id: "htaccess-generator",
+  name: "HTAccess Generator",
+  category: "dev",
+  description: "Generate .htaccess rules for redirects, caching, and security.",
+  icon: "⚙️",
+  status: "done"
 };
 
 export function render(container) {
@@ -25,7 +25,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .htaccess-container { max-width: 700px; margin: 0 auto; }
     .htaccess-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -39,36 +39,43 @@ export function render(container) {
   container.appendChild(style);
 
   function generate() {
-    let code = '# HTACCESS\n';
-    if (container.querySelector('#wwwRedirect').checked) {
-      code += '\n# WWW to non-WWW\nRewriteEngine On\nRewriteCond %{HTTP_HOST} ^www\\. [NC]\nRewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]\n';
+    let code = "# HTACCESS\n";
+    if (container.querySelector("#wwwRedirect").checked) {
+      code +=
+        "\n# WWW to non-WWW\nRewriteEngine On\nRewriteCond %{HTTP_HOST} ^www\\. [NC]\nRewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]\n";
     }
-    if (container.querySelector('#httpsRedirect').checked) {
-      code += '\n# HTTP to HTTPS\nRewriteEngine On\nRewriteCond %{HTTPS} off\nRewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]\n';
+    if (container.querySelector("#httpsRedirect").checked) {
+      code +=
+        "\n# HTTP to HTTPS\nRewriteEngine On\nRewriteCond %{HTTPS} off\nRewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]\n";
     }
-    if (container.querySelector('#wwwNonWww').checked) {
-      code += '\n# non-WWW to WWW\nRewriteEngine On\nRewriteCond %{HTTP_HOST} !^www\\. [NC]\nRewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]\n';
+    if (container.querySelector("#wwwNonWww").checked) {
+      code +=
+        "\n# non-WWW to WWW\nRewriteEngine On\nRewriteCond %{HTTP_HOST} !^www\\. [NC]\nRewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]\n";
     }
-    if (container.querySelector('#indexOptions').checked) {
-      code += '\n# Directory Options\nOptions -Indexes +FollowSymLinks\nDirectoryIndex index.html index.htm\n';
+    if (container.querySelector("#indexOptions").checked) {
+      code +=
+        "\n# Directory Options\nOptions -Indexes +FollowSymLinks\nDirectoryIndex index.html index.htm\n";
     }
-    if (container.querySelector('#securityHeaders').checked) {
-      code += '\n# Security Headers\nHeader always set X-Frame-Options "SAMEORIGIN"\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set X-XSS-Protection "1; mode=block"\n';
+    if (container.querySelector("#securityHeaders").checked) {
+      code +=
+        '\n# Security Headers\nHeader always set X-Frame-Options "SAMEORIGIN"\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set X-XSS-Protection "1; mode=block"\n';
     }
-    if (container.querySelector('#gzip').checked) {
-      code += '\n# GZIP Compression\n<IfModule mod_deflate.c>\nAddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript\n</IfModule>\n';
+    if (container.querySelector("#gzip").checked) {
+      code +=
+        "\n# GZIP Compression\n<IfModule mod_deflate.c>\nAddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript\n</IfModule>\n";
     }
-    if (container.querySelector('#cors').checked) {
-      code += '\n# CORS\nHeader set Access-Control-Allow-Origin "*"\nHeader set Access-Control-Allow-Methods "GET, POST, OPTIONS"\n';
+    if (container.querySelector("#cors").checked) {
+      code +=
+        '\n# CORS\nHeader set Access-Control-Allow-Origin "*"\nHeader set Access-Control-Allow-Methods "GET, POST, OPTIONS"\n';
     }
-    container.querySelector('#code').textContent = code || '# Select options above';
+    container.querySelector("#code").textContent = code || "# Select options above";
   }
 
-  container.querySelectorAll('input').forEach(i => i.addEventListener('change', generate));
-  container.querySelector('#copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(container.querySelector('#code').textContent);
-    container.querySelector('#copyBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyBtn').textContent = 'Copy', 1500);
+  container.querySelectorAll("input").forEach(i => i.addEventListener("change", generate));
+  container.querySelector("#copyBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(container.querySelector("#code").textContent);
+    container.querySelector("#copyBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyBtn").textContent = "Copy"), 1500);
   });
   generate();
 }

@@ -1,16 +1,16 @@
-import { createBasicTool } from '../shared/basic-tool-factory.js';
+import { createBasicTool } from "../shared/basic-tool-factory.js";
 
 const { toolConfig, render } = createBasicTool({
   toolConfig: {
-    id: 'hash-generator',
-    name: 'Hash Generator',
-    category: 'encoding',
-    description: 'Generate hash from text using MD5, SHA-1, SHA-256.',
-    icon: '#️⃣',
+    id: "hash-generator",
+    name: "Hash Generator",
+    category: "encoding",
+    description: "Generate hash from text using MD5, SHA-1, SHA-256.",
+    icon: "#️⃣",
     accept: null,
     maxSizeMB: null,
-    keywords: ['hash generator', 'md5', 'sha256', 'sha1', 'crypto hash'],
-    steps: ['Enter text', 'Choose algorithm', 'Get hash']
+    keywords: ["hash generator", "md5", "sha256", "sha1", "crypto hash"],
+    steps: ["Enter text", "Choose algorithm", "Get hash"]
   },
   inputHTML: `
     <textarea id="input" placeholder="Enter text to hash..."></textarea>
@@ -36,50 +36,50 @@ const { toolConfig, render } = createBasicTool({
     #copy-btn { position: absolute; right: var(--space-2); bottom: var(--space-2); }
   `,
   init(container) {
-    const input = container.querySelector('#input');
-    const output = container.querySelector('#output');
-    const copyBtn = container.querySelector('#copy-btn');
-    const algoBtns = container.querySelectorAll('.hash-btn');
-    let currentAlgo = 'sha256';
+    const input = container.querySelector("#input");
+    const output = container.querySelector("#output");
+    const copyBtn = container.querySelector("#copy-btn");
+    const algoBtns = container.querySelectorAll(".hash-btn");
+    let currentAlgo = "sha256";
 
     const hashAsync = async (text, algo) => {
       const encoder = new TextEncoder();
       const data = encoder.encode(text);
       const hashBuffer = await crypto.subtle.digest(algo, data);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
     };
 
     async function generate() {
       const text = input.value;
       if (!text) {
-        output.value = '';
+        output.value = "";
         return;
       }
-      output.value = 'Computing...';
+      output.value = "Computing...";
       try {
         output.value = await hashAsync(text, currentAlgo);
       } catch (e) {
-        output.value = 'Error: ' + e.message;
+        output.value = "Error: " + e.message;
       }
     }
 
     algoBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        algoBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+      btn.addEventListener("click", () => {
+        algoBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
         currentAlgo = btn.dataset.algo;
         generate();
       });
     });
 
-    copyBtn.addEventListener('click', () => {
+    copyBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(output.value);
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => copyBtn.textContent = 'Copy Hash', 1500);
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => (copyBtn.textContent = "Copy Hash"), 1500);
     });
 
-    input.addEventListener('input', generate);
+    input.addEventListener("input", generate);
   }
 });
 

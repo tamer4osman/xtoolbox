@@ -1,13 +1,13 @@
-import { TABS_CSS } from '../shared/tabs-css.js';
-import { wireTabSwitching } from '../shared/tab-switching.js';
+import { TABS_CSS } from "../shared/tabs-css.js";
+import { wireTabSwitching } from "../shared/tab-switching.js";
 
 export const toolConfig = {
-  id: 'steganography',
-  name: 'Steganography',
-  category: 'privacy',
-  description: 'Hide secret text messages inside images.',
-  icon: '🕵️',
-  status: 'done'
+  id: "steganography",
+  name: "Steganography",
+  category: "privacy",
+  description: "Hide secret text messages inside images.",
+  icon: "🕵️",
+  status: "done"
 };
 
 export function render(container) {
@@ -48,7 +48,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -60,65 +60,74 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const encodeBtn = container.querySelector('#encode-btn');
-  const decodeBtn = container.querySelector('#decode-btn');
+  const encodeBtn = container.querySelector("#encode-btn");
+  const decodeBtn = container.querySelector("#decode-btn");
 
   wireTabSwitching(container);
 
-  encodeBtn.addEventListener('click', async () => {
-    const fileInput = container.querySelector('#encode-file');
-    const text = container.querySelector('#secret-text').value;
-    if (!fileInput.files[0] || !text) { alert('Select image and enter message'); return; }
+  encodeBtn.addEventListener("click", async () => {
+    const fileInput = container.querySelector("#encode-file");
+    const text = container.querySelector("#secret-text").value;
+    if (!fileInput.files[0] || !text) {
+      alert("Select image and enter message");
+      return;
+    }
 
     const img = new Image();
     img.onload = () => {
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
       const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const msg = text + '\0';
-      const bits = msg.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join('');
-      
+      const msg = text + "\0";
+      const bits = msg
+        .split("")
+        .map(c => c.charCodeAt(0).toString(2).padStart(8, "0"))
+        .join("");
+
       for (let i = 0; i < bits.length && i < data.data.length; i += 4) {
         data.data[i] = (data.data[i] & 254) | parseInt(bits[i / 4] || 0);
       }
       ctx.putImageData(data, 0, 0);
-      const a = document.createElement('a');
-      a.href = canvas.toDataURL('image/png');
-      a.download = 'stego.png';
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/png");
+      a.download = "stego.png";
       a.click();
     };
     img.src = URL.createObjectURL(fileInput.files[0]);
   });
 
-  decodeBtn.addEventListener('click', async () => {
-    const fileInput = container.querySelector('#decode-file');
-    if (!fileInput.files[0]) { alert('Select image'); return; }
+  decodeBtn.addEventListener("click", async () => {
+    const fileInput = container.querySelector("#decode-file");
+    if (!fileInput.files[0]) {
+      alert("Select image");
+      return;
+    }
 
     const img = new Image();
     img.onload = () => {
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
       const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      let bits = '';
+      let bits = "";
       for (let i = 0; i < data.data.length; i += 4) {
         bits += (data.data[i] & 1).toString();
       }
-      let chars = '';
+      let chars = "";
       for (let i = 0; i < bits.length; i += 8) {
         const byte = bits.slice(i, i + 8);
         if (byte.length < 8) break;
         const char = String.fromCharCode(parseInt(byte, 2));
-        if (char === '\0') break;
+        if (char === "\0") break;
         chars += char;
       }
-      container.querySelector('#decoded-text').textContent = chars || 'No hidden message found';
-      container.querySelector('#decoded-result').classList.remove('hidden');
+      container.querySelector("#decoded-text").textContent = chars || "No hidden message found";
+      container.querySelector("#decoded-result").classList.remove("hidden");
     };
     img.src = URL.createObjectURL(fileInput.files[0]);
   });

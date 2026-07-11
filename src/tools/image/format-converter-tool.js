@@ -1,7 +1,7 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
+import { loadImageFromFile, canvasToBlob } from "./image-utils.js";
 
 /**
  * Factory for canvas-based image format converters.
@@ -38,7 +38,7 @@ export function createFormatConverterTool({
       accept,
       multiple: true,
       maxSizeMB,
-      onFilesSelected: async (selectedFiles) => {
+      onFilesSelected: async selectedFiles => {
         if (selectedFiles.length === 0) return;
 
         files = Array.from(selectedFiles);
@@ -49,28 +49,36 @@ export function createFormatConverterTool({
           images.push(img);
         }
 
-        totalFiles.textContent = files.length + ' ' + sourceFormatName + ' file(s)';
-        totalSize.textContent = (files.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1) + ' KB total';
-        optionsArea.style.display = 'block';
+        totalFiles.textContent = files.length + " " + sourceFormatName + " file(s)";
+        totalSize.textContent =
+          (files.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1) + " KB total";
+        optionsArea.style.display = "block";
       }
     });
 
-    const qualityBlock = qualityDefault !== null ? `
+    const qualityBlock =
+      qualityDefault !== null
+        ? `
         <div class="form-group">
           <label>Quality: <strong id="quality-display">${qualityDefault}</strong>%</label>
           <input type="range" id="quality-slider" min="10" max="100" value="${qualityDefault}" step="5" class="range-slider-input">
-        </div>` : '';
+        </div>`
+        : "";
 
-    const bgColorBlock = fillBackgroundColor ? `
+    const bgColorBlock = fillBackgroundColor
+      ? `
         <div class="form-group">
           <label>Background Color (for transparency)</label>
           <div style="display:flex;align-items:center;gap:var(--space-3);">
             <input type="color" id="bg-color" value="#ffffff" class="color-input" style="width:40px;height:40px;border:none;cursor:pointer;">
             <span id="bg-color-hex">#ffffff</span>
           </div>
-        </div>` : '';
+        </div>`
+      : "";
 
-    const extraStyle = fillBackgroundColor ? '.color-input { border:1px solid var(--color-border);border-radius:var(--radius-sm); }\n        ' : '';
+    const extraStyle = fillBackgroundColor
+      ? ".color-input { border:1px solid var(--color-border);border-radius:var(--radius-sm); }\n        "
+      : "";
 
     container.innerHTML = `
       <div class="tool-layout">
@@ -103,47 +111,53 @@ export function createFormatConverterTool({
       </style>
     `;
 
-    container.querySelector('#upload-area').appendChild(upload.element);
-    const optionsArea = container.querySelector('#options-area');
-    const totalFiles = container.querySelector('#total-files');
-    const totalSize = container.querySelector('#total-size');
-    const qualitySlider = qualityDefault !== null ? container.querySelector('#quality-slider') : null;
-    const qualityDisplay = qualityDefault !== null ? container.querySelector('#quality-display') : null;
-    const bgColor = fillBackgroundColor ? container.querySelector('#bg-color') : null;
-    const bgColorHex = fillBackgroundColor ? container.querySelector('#bg-color-hex') : null;
-    const convertBtn = container.querySelector('#convert-btn');
-    const processing = container.querySelector('#processing');
-    const progressPct = container.querySelector('#progress-pct');
-    const resizeWidth = container.querySelector('#resize-width');
-    const resizeHeight = container.querySelector('#resize-height');
-    const maintainAspect = container.querySelector('#maintain-aspect');
+    container.querySelector("#upload-area").appendChild(upload.element);
+    const optionsArea = container.querySelector("#options-area");
+    const totalFiles = container.querySelector("#total-files");
+    const totalSize = container.querySelector("#total-size");
+    const qualitySlider =
+      qualityDefault !== null ? container.querySelector("#quality-slider") : null;
+    const qualityDisplay =
+      qualityDefault !== null ? container.querySelector("#quality-display") : null;
+    const bgColor = fillBackgroundColor ? container.querySelector("#bg-color") : null;
+    const bgColorHex = fillBackgroundColor ? container.querySelector("#bg-color-hex") : null;
+    const convertBtn = container.querySelector("#convert-btn");
+    const processing = container.querySelector("#processing");
+    const progressPct = container.querySelector("#progress-pct");
+    const resizeWidth = container.querySelector("#resize-width");
+    const resizeHeight = container.querySelector("#resize-height");
+    const maintainAspect = container.querySelector("#maintain-aspect");
 
     if (qualitySlider) {
-      qualitySlider.addEventListener('input', () => { qualityDisplay.textContent = qualitySlider.value; });
+      qualitySlider.addEventListener("input", () => {
+        qualityDisplay.textContent = qualitySlider.value;
+      });
     }
     if (bgColor) {
-      bgColor.addEventListener('input', () => { bgColorHex.textContent = bgColor.value; });
+      bgColor.addEventListener("input", () => {
+        bgColorHex.textContent = bgColor.value;
+      });
     }
 
-    resizeWidth.addEventListener('input', () => {
+    resizeWidth.addEventListener("input", () => {
       if (maintainAspect.checked && images.length > 0 && resizeWidth.value) {
         const ratio = images[0].naturalHeight / images[0].naturalWidth;
         resizeHeight.value = Math.round(resizeWidth.value * ratio);
       }
     });
 
-    resizeHeight.addEventListener('input', () => {
+    resizeHeight.addEventListener("input", () => {
       if (maintainAspect.checked && images.length > 0 && resizeHeight.value) {
         const ratio = images[0].naturalWidth / images[0].naturalHeight;
         resizeWidth.value = Math.round(resizeHeight.value * ratio);
       }
     });
 
-    convertBtn.addEventListener('click', async () => {
+    convertBtn.addEventListener("click", async () => {
       if (images.length === 0) return;
 
-      processing.style.display = 'block';
-      convertBtn.style.display = 'none';
+      processing.style.display = "block";
+      convertBtn.style.display = "none";
 
       const quality = qualitySlider !== null ? parseInt(qualitySlider.value) / 100 : undefined;
       const bgColorValue = bgColor ? bgColor.value : null;
@@ -155,7 +169,7 @@ export function createFormatConverterTool({
           progressPct.textContent = Math.round(((i + 1) / images.length) * 100);
 
           const img = images[i];
-          const canvas = document.createElement('canvas');
+          const canvas = document.createElement("canvas");
 
           const width = targetWidth || img.naturalWidth;
           const height = targetHeight || img.naturalHeight;
@@ -163,7 +177,7 @@ export function createFormatConverterTool({
           canvas.width = width;
           canvas.height = height;
 
-          const ctx = canvas.getContext('2d');
+          const ctx = canvas.getContext("2d");
           if (fillBackgroundColor && bgColorValue) {
             ctx.fillStyle = bgColorValue;
             ctx.fillRect(0, 0, width, height);
@@ -171,16 +185,19 @@ export function createFormatConverterTool({
           ctx.drawImage(img, 0, 0, width, height);
 
           const blob = await canvasToBlob(canvas, targetMime, quality);
-          const fileName = files[i].name.replace(sourceExtRegex, '');
+          const fileName = files[i].name.replace(sourceExtRegex, "");
           downloadBlob(blob, `${fileName}${targetExt}`);
         }
 
-        showToast({ message: `Converted ${images.length} ${sourceFormatName}(s) to ${targetFormatName}!`, type: 'success' });
+        showToast({
+          message: `Converted ${images.length} ${sourceFormatName}(s) to ${targetFormatName}!`,
+          type: "success"
+        });
       } catch (err) {
-        showToast({ message: 'Error: ' + err.message, type: 'error' });
+        showToast({ message: "Error: " + err.message, type: "error" });
       } finally {
-        processing.style.display = 'none';
-        convertBtn.style.display = 'inline-flex';
+        processing.style.display = "none";
+        convertBtn.style.display = "inline-flex";
       }
     });
   };

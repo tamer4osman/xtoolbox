@@ -1,12 +1,13 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'sitemap-visualizer',
-  name: 'Sitemap XML Visualizer',
-  category: 'dev',
-  description: 'Parse and display sitemap.xml files as interactive, collapsible directory tree mind-maps.',
-  icon: '🌳',
-  status: 'done'
+  id: "sitemap-visualizer",
+  name: "Sitemap XML Visualizer",
+  category: "dev",
+  description:
+    "Parse and display sitemap.xml files as interactive, collapsible directory tree mind-maps.",
+  icon: "🌳",
+  status: "done"
 };
 
 const SV_CSS = `
@@ -65,7 +66,7 @@ const DEMO_XML = `<?xml version="1.0" encoding="UTF-8"?>
 </urlset>`;
 
 function renderTree(node, depth) {
-  let html = '';
+  let html = "";
   const keys = Object.keys(node).sort((a, b) => {
     const aUrls = node[a]._urls?.length || 0;
     const bUrls = node[b]._urls?.length || 0;
@@ -74,11 +75,11 @@ function renderTree(node, depth) {
   keys.forEach(key => {
     const child = node[key];
     const urlCount = child._urls?.length || 0;
-    const hasChildren = Object.keys(child).some(k => k !== '_urls');
+    const hasChildren = Object.keys(child).some(k => k !== "_urls");
     const isLeaf = !hasChildren && urlCount <= 1;
-    const toggleClass = isLeaf ? 'leaf' : 'open';
-    const icon = hasChildren ? '📁' : (urlCount > 1 ? '📄' : '🔗');
-    const count = urlCount > 1 ? `<span class="sv-count">(${urlCount} urls)</span>` : '';
+    const toggleClass = isLeaf ? "leaf" : "open";
+    const icon = hasChildren ? "📁" : urlCount > 1 ? "📄" : "🔗";
+    const count = urlCount > 1 ? `<span class="sv-count">(${urlCount} urls)</span>` : "";
 
     html += `<div class="sv-node-row" style="padding-left:${depth * 20}px">`;
     html += `<span class="sv-toggle ${toggleClass}"></span>`;
@@ -97,7 +98,7 @@ function renderTree(node, depth) {
     } else if (urlCount > 1) {
       html += `<div class="sv-url-list" style="display:block;padding-left:${depth * 20 + 20}px">`;
       child._urls.forEach(u => {
-        const m = u.lastmod ? ` — ${u.lastmod}` : '';
+        const m = u.lastmod ? ` — ${u.lastmod}` : "";
         html += `<div class="sv-url-item">${escapeHtml(u.loc)}${m}</div>`;
       });
       html += `</div>`;
@@ -108,27 +109,31 @@ function renderTree(node, depth) {
 
 function parseSitemapXml(xml) {
   const parser = new DOMParser();
-  const doc = parser.parseFromString(xml, 'text/xml');
-  const parseError = doc.querySelector('parsererror');
-  if (parseError) throw new Error('Invalid XML: ' + parseError.textContent.slice(0, 200));
+  const doc = parser.parseFromString(xml, "text/xml");
+  const parseError = doc.querySelector("parsererror");
+  if (parseError) throw new Error("Invalid XML: " + parseError.textContent.slice(0, 200));
 
-  const urls = doc.querySelectorAll('url');
-  if (urls.length === 0) throw new Error('No <url> entries found. Make sure this is a valid sitemap.');
+  const urls = doc.querySelectorAll("url");
+  if (urls.length === 0)
+    throw new Error("No <url> entries found. Make sure this is a valid sitemap.");
 
   const entries = [];
   urls.forEach(url => {
-    const loc = url.querySelector('loc')?.textContent?.trim();
+    const loc = url.querySelector("loc")?.textContent?.trim();
     if (!loc) return;
-    const lastmod = url.querySelector('lastmod')?.textContent?.trim() || '';
-    const changefreq = url.querySelector('changefreq')?.textContent?.trim() || '';
-    const priority = url.querySelector('priority')?.textContent?.trim() || '';
+    const lastmod = url.querySelector("lastmod")?.textContent?.trim() || "";
+    const changefreq = url.querySelector("changefreq")?.textContent?.trim() || "";
+    const priority = url.querySelector("priority")?.textContent?.trim() || "";
     entries.push({ loc, lastmod, changefreq, priority });
   });
 
   const root = {};
   entries.forEach(entry => {
     const url = new URL(entry.loc);
-    const parts = url.hostname.replace(/^www\./, '').split('.').concat(url.pathname.split('/').filter(Boolean));
+    const parts = url.hostname
+      .replace(/^www\./, "")
+      .split(".")
+      .concat(url.pathname.split("/").filter(Boolean));
     let node = root;
     parts.forEach((part, i) => {
       if (!node[part]) node[part] = i === parts.length - 1 ? { _urls: [] } : {};
@@ -144,10 +149,15 @@ function parseSitemapXml(xml) {
 function renderStatsHtml(entries) {
   const priorities = entries.filter(e => e.priority).map(e => parseFloat(e.priority));
   const dates = entries.filter(e => e.lastmod).map(e => new Date(e.lastmod));
-  const freqs = entries.reduce((acc, e) => { if (e.changefreq) acc[e.changefreq] = (acc[e.changefreq] || 0) + 1; return acc; }, {});
-  const mostRecent = dates.length ? new Date(Math.max(...dates)).toLocaleDateString() : 'N/A';
-  const oldest = dates.length ? new Date(Math.min(...dates)).toLocaleDateString() : 'N/A';
-  const avgPriority = priorities.length ? (priorities.reduce((a, b) => a + b, 0) / priorities.length).toFixed(2) : 'N/A';
+  const freqs = entries.reduce((acc, e) => {
+    if (e.changefreq) acc[e.changefreq] = (acc[e.changefreq] || 0) + 1;
+    return acc;
+  }, {});
+  const mostRecent = dates.length ? new Date(Math.max(...dates)).toLocaleDateString() : "N/A";
+  const oldest = dates.length ? new Date(Math.min(...dates)).toLocaleDateString() : "N/A";
+  const avgPriority = priorities.length
+    ? (priorities.reduce((a, b) => a + b, 0) / priorities.length).toFixed(2)
+    : "N/A";
 
   return `
     <div class="sv-stat"><div class="num">${entries.length}</div><div class="label">Total URLs</div></div>
@@ -159,48 +169,55 @@ function renderStatsHtml(entries) {
 }
 
 function bindSitemapEvents(container, els) {
-  container.querySelectorAll('.sv-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      container.querySelectorAll('.sv-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      container.querySelector('#pasteTab').style.display = tab.dataset.tab === 'paste' ? 'block' : 'none';
-      container.querySelector('#uploadTab').style.display = tab.dataset.tab === 'upload' ? 'block' : 'none';
+  container.querySelectorAll(".sv-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      container.querySelectorAll(".sv-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      container.querySelector("#pasteTab").style.display =
+        tab.dataset.tab === "paste" ? "block" : "none";
+      container.querySelector("#uploadTab").style.display =
+        tab.dataset.tab === "upload" ? "block" : "none";
     });
   });
 
-  const dropzone = container.querySelector('#dropzone');
-  const fileInput = container.querySelector('#fileInput');
-  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
-  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-  dropzone.addEventListener('drop', e => {
+  const dropzone = container.querySelector("#dropzone");
+  const fileInput = container.querySelector("#fileInput");
+  dropzone.addEventListener("dragover", e => {
     e.preventDefault();
-    dropzone.classList.remove('dragover');
+    dropzone.classList.add("dragover");
+  });
+  dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
+  dropzone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropzone.classList.remove("dragover");
     const file = e.dataTransfer.files[0];
     if (file) readFile(file);
   });
-  fileInput.addEventListener('change', e => { if (e.target.files[0]) readFile(e.target.files[0]); });
+  fileInput.addEventListener("change", e => {
+    if (e.target.files[0]) readFile(e.target.files[0]);
+  });
 
   function readFile(file) {
     const reader = new FileReader();
     reader.onload = e => {
       els.xmlInput.value = e.target.result;
-      container.querySelectorAll('.sv-tab').forEach(t => t.classList.remove('active'));
-      container.querySelector('.sv-tab[data-tab="paste"]').classList.add('active');
-      container.querySelector('#pasteTab').style.display = 'block';
-      container.querySelector('#uploadTab').style.display = 'none';
+      container.querySelectorAll(".sv-tab").forEach(t => t.classList.remove("active"));
+      container.querySelector('.sv-tab[data-tab="paste"]').classList.add("active");
+      container.querySelector("#pasteTab").style.display = "block";
+      container.querySelector("#uploadTab").style.display = "none";
     };
     reader.readAsText(file);
   }
 
-  container.querySelector('.sv-tab[data-tab="demo"]').addEventListener('click', () => {
+  container.querySelector('.sv-tab[data-tab="demo"]').addEventListener("click", () => {
     els.xmlInput.value = DEMO_XML;
   });
 
-  container.querySelector('#parseBtn').addEventListener('click', () => {
+  container.querySelector("#parseBtn").addEventListener("click", () => {
     const xml = els.xmlInput.value.trim();
     if (!xml) {
-      els.results.style.display = 'block';
-      els.stats.innerHTML = '';
+      els.results.style.display = "block";
+      els.stats.innerHTML = "";
       els.tree.innerHTML = '<div class="sv-error">Please paste sitemap XML or upload a file.</div>';
       return;
     }
@@ -208,32 +225,32 @@ function bindSitemapEvents(container, els) {
       const { entries, root } = parseSitemapXml(xml);
       els.stats.innerHTML = renderStatsHtml(entries);
       els.tree.innerHTML = renderTree(root, 0);
-      els.results.style.display = 'block';
+      els.results.style.display = "block";
 
-      els.tree.querySelectorAll('.sv-node-row').forEach(row => {
-        row.addEventListener('click', () => {
+      els.tree.querySelectorAll(".sv-node-row").forEach(row => {
+        row.addEventListener("click", () => {
           const children = row.nextElementSibling;
-          if (!children || !children.classList.contains('sv-node')) return;
-          const toggle = row.querySelector('.sv-toggle');
-          if (toggle.classList.contains('leaf')) return;
-          const isOpen = children.style.display !== 'none';
-          children.style.display = isOpen ? 'none' : 'block';
-          toggle.classList.toggle('open', !isOpen);
-          toggle.classList.toggle('closed', isOpen);
+          if (!children || !children.classList.contains("sv-node")) return;
+          const toggle = row.querySelector(".sv-toggle");
+          if (toggle.classList.contains("leaf")) return;
+          const isOpen = children.style.display !== "none";
+          children.style.display = isOpen ? "none" : "block";
+          toggle.classList.toggle("open", !isOpen);
+          toggle.classList.toggle("closed", isOpen);
         });
       });
     } catch (e) {
-      els.results.style.display = 'block';
-      els.stats.innerHTML = '';
+      els.results.style.display = "block";
+      els.stats.innerHTML = "";
       els.tree.innerHTML = `<div class="sv-error">${e.message}</div>`;
     }
   });
 
-  container.querySelector('#clearBtn').addEventListener('click', () => {
-    els.xmlInput.value = '';
-    els.results.style.display = 'none';
-    els.stats.innerHTML = '';
-    els.tree.innerHTML = '';
+  container.querySelector("#clearBtn").addEventListener("click", () => {
+    els.xmlInput.value = "";
+    els.results.style.display = "none";
+    els.stats.innerHTML = "";
+    els.tree.innerHTML = "";
   });
 }
 
@@ -267,15 +284,15 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = SV_CSS;
   container.appendChild(style);
 
   const els = {
-    xmlInput: container.querySelector('#xmlInput'),
-    results: container.querySelector('#results'),
-    stats: container.querySelector('#stats'),
-    tree: container.querySelector('#tree'),
+    xmlInput: container.querySelector("#xmlInput"),
+    results: container.querySelector("#results"),
+    stats: container.querySelector("#stats"),
+    tree: container.querySelector("#tree")
   };
 
   bindSitemapEvents(container, els);

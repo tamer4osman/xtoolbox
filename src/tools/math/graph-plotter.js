@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'graph-plotter',
-  name: 'Graph Plotter',
-  category: 'math',
-  description: 'Plot mathematical functions with zoom and pan.',
-  icon: '📈',
-  status: 'done'
+  id: "graph-plotter",
+  name: "Graph Plotter",
+  category: "math",
+  description: "Plot mathematical functions with zoom and pan.",
+  icon: "📈",
+  status: "done"
 };
 
 export function render(container) {
@@ -32,7 +32,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .graph-container { max-width: 700px; margin: 0 auto; }
     .graph-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -48,26 +48,26 @@ export function render(container) {
   container.appendChild(style);
 
   function plot() {
-    const canvas = container.querySelector('#graph-canvas');
-    const ctx = canvas.getContext('2d');
+    const canvas = container.querySelector("#graph-canvas");
+    const ctx = canvas.getContext("2d");
     const width = canvas.width;
     const height = canvas.height;
-    
-    const xMin = parseFloat(container.querySelector('#xmin').value) || -10;
-    const xMax = parseFloat(container.querySelector('#xmax').value) || 10;
+
+    const xMin = parseFloat(container.querySelector("#xmin").value) || -10;
+    const xMax = parseFloat(container.querySelector("#xmax").value) || 10;
     const yMin = -10;
     const yMax = 10;
-    
+
     const xRange = xMax - xMin;
     const yRange = yMax - yMin;
-    
-    const toCanvasX = (x) => ((x - xMin) / xRange) * width;
-    const toCanvasY = (y) => height - ((y - yMin) / yRange) * height;
-    
-    ctx.fillStyle = 'white';
+
+    const toCanvasX = x => ((x - xMin) / xRange) * width;
+    const toCanvasY = y => height - ((y - yMin) / yRange) * height;
+
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, width, height);
-    
-    ctx.strokeStyle = '#e5e7eb';
+
+    ctx.strokeStyle = "#e5e7eb";
     ctx.lineWidth = 1;
     for (let i = Math.ceil(xMin); i <= xMax; i++) {
       ctx.beginPath();
@@ -81,34 +81,36 @@ export function render(container) {
       ctx.lineTo(width, toCanvasY(i));
       ctx.stroke();
     }
-    
-    ctx.strokeStyle = '#2563eb';
+
+    ctx.strokeStyle = "#2563eb";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    
+
     try {
-      const func = new Function('x', 'return ' + container.querySelector('#function').value);
+      const func = new Function("x", "return " + container.querySelector("#function").value);
       let first = true;
-      
+
       for (let px = 0; px < width; px++) {
         const x = xMin + (px / width) * xRange;
         try {
           const y = func(x);
           if (isFinite(y)) {
             const cy = toCanvasY(y);
-            if (first) { ctx.moveTo(px, cy); first = false; }
-            else ctx.lineTo(px, cy);
+            if (first) {
+              ctx.moveTo(px, cy);
+              first = false;
+            } else ctx.lineTo(px, cy);
           }
         } catch (e) {}
       }
       ctx.stroke();
     } catch (e) {
-      ctx.fillStyle = 'red';
-      ctx.font = '14px sans-serif';
-      ctx.fillText('Invalid function', 10, 20);
+      ctx.fillStyle = "red";
+      ctx.font = "14px sans-serif";
+      ctx.fillText("Invalid function", 10, 20);
     }
-    
-    ctx.strokeStyle = '#ef4444';
+
+    ctx.strokeStyle = "#ef4444";
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
     ctx.beginPath();
@@ -120,6 +122,6 @@ export function render(container) {
     ctx.setLineDash([]);
   }
 
-  container.querySelector('#plot-btn').addEventListener('click', plot);
+  container.querySelector("#plot-btn").addEventListener("click", plot);
   plot();
 }

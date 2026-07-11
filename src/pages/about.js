@@ -1,12 +1,13 @@
-import { $ } from '../utils/dom-query.js';
-import { updatePageMeta } from '../utils/seo.js';
+import { $ } from "../utils/dom-query.js";
+import { updatePageMeta } from "../utils/seo.js";
 
 export function renderAbout() {
-  const main = $('#main-content');
+  const main = $("#main-content");
 
   updatePageMeta({
-    title: 'About XToolBox',
-    description: 'Learn about XToolBox — 313 free online tools with complete privacy. All processing happens in your browser.',
+    title: "About XToolBox",
+    description:
+      "Learn about XToolBox — 313 free online tools with complete privacy. All processing happens in your browser.",
     url: `${window.location.origin}/about`
   });
 

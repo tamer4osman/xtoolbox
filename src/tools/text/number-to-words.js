@@ -1,11 +1,32 @@
-const ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-const TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-const SCALES = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion'];
+const ONES = [
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+  "thirteen",
+  "fourteen",
+  "fifteen",
+  "sixteen",
+  "seventeen",
+  "eighteen",
+  "nineteen"
+];
+const TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+const SCALES = ["", "thousand", "million", "billion", "trillion", "quadrillion"];
 
 function convertHundreds(n) {
   const parts = [];
   if (n >= 100) {
-    parts.push(ONES[Math.floor(n / 100)] + ' hundred');
+    parts.push(ONES[Math.floor(n / 100)] + " hundred");
     n %= 100;
   }
   if (n >= 20) {
@@ -16,35 +37,39 @@ function convertHundreds(n) {
   if (n > 0) {
     parts.push(ONES[n]);
   }
-  return parts.join(' ');
+  return parts.join(" ");
 }
 
 export function numberToWords(num) {
-  if (typeof num !== 'number' || isNaN(num)) return '';
-  if (num === 0) return 'zero';
+  if (typeof num !== "number" || isNaN(num)) return "";
+  if (num === 0) return "zero";
 
-  let str = '';
-  let prefix = '';
-  let decimal = '';
+  let str = "";
+  let prefix = "";
+  let decimal = "";
 
   if (num < 0) {
-    prefix = 'negative ';
+    prefix = "negative ";
     num = Math.abs(num);
   }
 
   const decPart = Math.round((num % 1) * 100);
   if (decPart > 0) {
-    decimal = ' point ' + (decPart < 10 ? 'zero ' + ONES[decPart] : ONES[Math.floor(decPart / 10)] + ' ' + ONES[decPart % 10]);
+    decimal =
+      " point " +
+      (decPart < 10
+        ? "zero " + ONES[decPart]
+        : ONES[Math.floor(decPart / 10)] + " " + ONES[decPart % 10]);
   }
   num = Math.floor(num);
-  if (num === 0 && decPart > 0) return 'zero' + decimal;
+  if (num === 0 && decPart > 0) return "zero" + decimal;
 
   let scaleIdx = 0;
   while (num > 0) {
     const chunk = num % 1000;
     if (chunk > 0) {
       const chunkWords = convertHundreds(chunk);
-      str = chunkWords + (SCALES[scaleIdx] ? ' ' + SCALES[scaleIdx] : '') + (str ? ' ' + str : '');
+      str = chunkWords + (SCALES[scaleIdx] ? " " + SCALES[scaleIdx] : "") + (str ? " " + str : "");
     }
     num = Math.floor(num / 1000);
     scaleIdx++;
@@ -54,19 +79,35 @@ export function numberToWords(num) {
 }
 
 export const toolConfig = {
-  id: 'number-to-words',
-  name: 'Number to Words',
-  category: 'text',
-  description: 'Convert numerals to written English words.',
-  icon: '🔢',
+  id: "number-to-words",
+  name: "Number to Words",
+  category: "text",
+  description: "Convert numerals to written English words.",
+  icon: "🔢",
   accept: null,
   maxSizeMB: null,
-  keywords: ['number to words', 'numbers to text', 'spell number', 'english words', 'numeral converter'],
-  steps: ['Enter a number in the input field', 'See the English word representation instantly', 'Copy the result with one click'],
+  keywords: [
+    "number to words",
+    "numbers to text",
+    "spell number",
+    "english words",
+    "numeral converter"
+  ],
+  steps: [
+    "Enter a number in the input field",
+    "See the English word representation instantly",
+    "Copy the result with one click"
+  ],
   faqs: [
-    { question: 'What is the maximum number supported?', answer: 'Up to quadrillions (15+ digits).' },
-    { question: 'Does it support decimals?', answer: 'Yes, it converts up to two decimal places.' },
-    { question: 'Does it handle negative numbers?', answer: 'Yes, negative numbers are prefixed with "negative".' }
+    {
+      question: "What is the maximum number supported?",
+      answer: "Up to quadrillions (15+ digits)."
+    },
+    { question: "Does it support decimals?", answer: "Yes, it converts up to two decimal places." },
+    {
+      question: "Does it handle negative numbers?",
+      answer: 'Yes, negative numbers are prefixed with "negative".'
+    }
   ]
 };
 
@@ -86,27 +127,29 @@ export function render(container) {
     </div>
   `;
 
-  const input = container.querySelector('#n2w-input');
-  const result = container.querySelector('#n2w-result');
-  const convertBtn = container.querySelector('#n2w-convert');
-  const copyBtn = container.querySelector('#n2w-copy');
+  const input = container.querySelector("#n2w-input");
+  const result = container.querySelector("#n2w-result");
+  const convertBtn = container.querySelector("#n2w-convert");
+  const copyBtn = container.querySelector("#n2w-copy");
 
   function convert() {
-    const val = input.value.replace(/,/g, '');
+    const val = input.value.replace(/,/g, "");
     const num = parseFloat(val);
-    if (isNaN(num) || val === '') {
-      result.textContent = 'Please enter a valid number.';
+    if (isNaN(num) || val === "") {
+      result.textContent = "Please enter a valid number.";
       return;
     }
     result.textContent = numberToWords(num);
   }
 
-  convertBtn.addEventListener('click', convert);
-  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') convert(); });
+  convertBtn.addEventListener("click", convert);
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") convert();
+  });
 
-  copyBtn.addEventListener('click', () => {
+  copyBtn.addEventListener("click", () => {
     const text = result.textContent;
-    if (!text || text === 'Please enter a valid number.') return;
+    if (!text || text === "Please enter a valid number.") return;
     navigator.clipboard.writeText(text).catch(() => {});
   });
 

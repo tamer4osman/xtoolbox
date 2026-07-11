@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'text-summarizer',
-  name: 'Text Summarizer',
-  category: 'text',
-  description: 'Summarize long text using extractive method.',
-  icon: '📝',
-  steps: ['Paste or enter text', 'Select summary length', 'Click Summarize']
+  id: "text-summarizer",
+  name: "Text Summarizer",
+  category: "text",
+  description: "Summarize long text using extractive method.",
+  icon: "📝",
+  steps: ["Paste or enter text", "Select summary length", "Click Summarize"]
 };
 
 export function render(container) {
@@ -34,7 +34,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .summarizer-container { max-width: 800px; margin: 0 auto; }
     .summarizer-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -54,24 +54,106 @@ export function render(container) {
   container.appendChild(style);
 
   function summarize() {
-    const text = container.querySelector('#input').value;
-    const length = container.querySelector('#length').value;
-    
+    const text = container.querySelector("#input").value;
+    const length = container.querySelector("#length").value;
+
     if (!text.trim()) {
-      container.querySelector('#summary').textContent = 'Please enter some text to summarize.';
-      container.querySelector('#result').classList.add('show');
+      container.querySelector("#summary").textContent = "Please enter some text to summarize.";
+      container.querySelector("#result").classList.add("show");
       return;
     }
-    
+
     const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
     const wordFreq = {};
     const words = text.toLowerCase().match(/\b\w+\b/g) || [];
-    const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare', 'ought', 'used', 'to', 'of', 'in', 'for', 'on', 'with', 'at', 'by', 'from', 'as', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'between', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 'just', 'also']);
-    
+    const stopWords = new Set([
+      "the",
+      "a",
+      "an",
+      "and",
+      "or",
+      "but",
+      "is",
+      "are",
+      "was",
+      "were",
+      "be",
+      "been",
+      "being",
+      "have",
+      "has",
+      "had",
+      "do",
+      "does",
+      "did",
+      "will",
+      "would",
+      "could",
+      "should",
+      "may",
+      "might",
+      "must",
+      "shall",
+      "can",
+      "need",
+      "dare",
+      "ought",
+      "used",
+      "to",
+      "of",
+      "in",
+      "for",
+      "on",
+      "with",
+      "at",
+      "by",
+      "from",
+      "as",
+      "into",
+      "through",
+      "during",
+      "before",
+      "after",
+      "above",
+      "below",
+      "between",
+      "under",
+      "again",
+      "further",
+      "then",
+      "once",
+      "here",
+      "there",
+      "when",
+      "where",
+      "why",
+      "how",
+      "all",
+      "each",
+      "few",
+      "more",
+      "most",
+      "other",
+      "some",
+      "such",
+      "no",
+      "nor",
+      "not",
+      "only",
+      "own",
+      "same",
+      "so",
+      "than",
+      "too",
+      "very",
+      "just",
+      "also"
+    ]);
+
     words.forEach(w => {
       if (!stopWords.has(w) && w.length > 2) wordFreq[w] = (wordFreq[w] || 0) + 1;
     });
-    
+
     const scored = sentences.map((s, i) => {
       const sWords = s.toLowerCase().match(/\b\w+\b/g) || [];
       let score = sWords.reduce((sum, w) => sum + (wordFreq[w] || 0), 0);
@@ -80,28 +162,35 @@ export function render(container) {
       if (sWords.length > 30) score *= 0.8;
       return { sentence: s.trim(), score };
     });
-    
+
     scored.sort((a, b) => b.score - a.score);
-    
+
     let keep;
     switch (length) {
-      case 'short': keep = Math.ceil(sentences.length * 0.3); break;
-      case 'long': keep = Math.ceil(sentences.length * 0.7); break;
-      default: keep = Math.ceil(sentences.length * 0.5);
+      case "short":
+        keep = Math.ceil(sentences.length * 0.3);
+        break;
+      case "long":
+        keep = Math.ceil(sentences.length * 0.7);
+        break;
+      default:
+        keep = Math.ceil(sentences.length * 0.5);
     }
-    
-    const summary = scored.slice(0, keep).sort((a, b) => 
-      sentences.indexOf(a.sentence) - sentences.indexOf(b.sentence)
-    ).map(s => s.sentence).join(' ');
-    
-    container.querySelector('#stats').textContent = `${summary.split(' ').length} words`;
-    container.querySelector('#summary').textContent = summary;
-    container.querySelector('#result').classList.add('show');
+
+    const summary = scored
+      .slice(0, keep)
+      .sort((a, b) => sentences.indexOf(a.sentence) - sentences.indexOf(b.sentence))
+      .map(s => s.sentence)
+      .join(" ");
+
+    container.querySelector("#stats").textContent = `${summary.split(" ").length} words`;
+    container.querySelector("#summary").textContent = summary;
+    container.querySelector("#result").classList.add("show");
   }
 
-  const btn = container.querySelector('#summarize-btn');
-  btn.addEventListener('click', () => {
-    console.log('Button clicked!');
+  const btn = container.querySelector("#summarize-btn");
+  btn.addEventListener("click", () => {
+    console.log("Button clicked!");
     summarize();
   });
   return container;

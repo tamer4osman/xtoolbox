@@ -1,12 +1,12 @@
-import { showToast } from '../../components/toast.js';
+import { showToast } from "../../components/toast.js";
 
 export const toolConfig = {
-  id: 'case-converter',
-  name: 'Case Converter',
-  category: 'text',
-  description: 'Convert text to different cases.',
-  icon: 'Aa',
-  status: 'done'
+  id: "case-converter",
+  name: "Case Converter",
+  category: "text",
+  description: "Convert text to different cases.",
+  icon: "Aa",
+  status: "done"
 };
 
 export function render() {
@@ -45,33 +45,60 @@ export function render() {
   `;
 }
 
-export function toLowerCase(text) { return text.toLowerCase(); }
-export function toUpperCase(text) { return text.toUpperCase(); }
-export function toTitleCase(text) { return text.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()); }
-export function toSentenceCase(text) { return text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); }
-export function toToggleCase(text) { return text.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join(''); }
-
-export function init() {
-  const input = document.getElementById('input');
-  const output = document.getElementById('output');
-
-  const toLower = () => output.value = input.value.toLowerCase();
-  const toUpper = () => output.value = input.value.toUpperCase();
-  const toTitle = () => output.value = input.value.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
-  const toSentence = () => output.value = input.value.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
-  const toToggle = () => output.value = input.value.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join('');
-
-  document.getElementById('lowerBtn').addEventListener('click', toLower);
-  document.getElementById('upperBtn').addEventListener('click', toUpper);
-  document.getElementById('titleBtn').addEventListener('click', toTitle);
-  document.getElementById('sentenceBtn').addEventListener('click', toSentence);
-  document.getElementById('toggleBtn').addEventListener('click', toToggle);
-
-  document.getElementById('copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(output.value)
-      .then(() => showToast({ message: 'Copied!' }))
-      .catch(() => showToast({ message: 'Failed to copy', type: 'error' }));
-  });
-  document.getElementById('clearBtn').addEventListener('click', () => { input.value = ''; output.value = ''; });
+export function toLowerCase(text) {
+  return text.toLowerCase();
+}
+export function toUpperCase(text) {
+  return text.toUpperCase();
+}
+export function toTitleCase(text) {
+  return text.replace(/\w\S*/g, t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());
+}
+export function toSentenceCase(text) {
+  return text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+}
+export function toToggleCase(text) {
+  return text
+    .split("")
+    .map(c => (c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()))
+    .join("");
 }
 
+export function init() {
+  const input = document.getElementById("input");
+  const output = document.getElementById("output");
+
+  const toLower = () => (output.value = input.value.toLowerCase());
+  const toUpper = () => (output.value = input.value.toUpperCase());
+  const toTitle = () =>
+    (output.value = input.value.replace(
+      /\w\S*/g,
+      t => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase()
+    ));
+  const toSentence = () =>
+    (output.value = input.value
+      .toLowerCase()
+      .replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()));
+  const toToggle = () =>
+    (output.value = input.value
+      .split("")
+      .map(c => (c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()))
+      .join(""));
+
+  document.getElementById("lowerBtn").addEventListener("click", toLower);
+  document.getElementById("upperBtn").addEventListener("click", toUpper);
+  document.getElementById("titleBtn").addEventListener("click", toTitle);
+  document.getElementById("sentenceBtn").addEventListener("click", toSentence);
+  document.getElementById("toggleBtn").addEventListener("click", toToggle);
+
+  document.getElementById("copyBtn").addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(output.value)
+      .then(() => showToast({ message: "Copied!" }))
+      .catch(() => showToast({ message: "Failed to copy", type: "error" }));
+  });
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    input.value = "";
+    output.value = "";
+  });
+}

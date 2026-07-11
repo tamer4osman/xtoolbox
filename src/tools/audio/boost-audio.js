@@ -1,25 +1,33 @@
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { audioBufferToWav, applyGain, drawWaveform, getPeakLevel } from './audio-utils.js';
-import { createAudioTool } from './audio-tool-factory.js';
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
+import { audioBufferToWav, applyGain, drawWaveform, getPeakLevel } from "./audio-utils.js";
+import { createAudioTool } from "./audio-tool-factory.js";
 
 export const toolConfig = {
-  id: 'boost-audio',
-  name: 'Volume Booster',
-  category: 'audio',
-  description: 'Increase or decrease the volume of an audio file.',
-  icon: '🔊',
-  accept: 'audio/*',
+  id: "boost-audio",
+  name: "Volume Booster",
+  category: "audio",
+  description: "Increase or decrease the volume of an audio file.",
+  icon: "🔊",
+  accept: "audio/*",
   maxSizeMB: 100,
-  keywords: ['boost audio', 'increase volume', 'volume booster'],
-  steps: ['Upload an audio file', 'Adjust gain slider', 'Preview waveform', 'Download'],
-  faqs: [{ question: 'Will boosting cause clipping?', answer: 'Values above 100% may cause clipping (distortion). The tool clips to prevent exceeding maximum.' }]
+  keywords: ["boost audio", "increase volume", "volume booster"],
+  steps: ["Upload an audio file", "Adjust gain slider", "Preview waveform", "Download"],
+  faqs: [
+    {
+      question: "Will boosting cause clipping?",
+      answer:
+        "Values above 100% may cause clipping (distortion). The tool clips to prevent exceeding maximum."
+    }
+  ]
 };
 
 export function render(container) {
   const { getAudioBuffer, optionsArea } = createAudioTool({
     container,
-    onFileLoaded() { updatePreview(); }
+    onFileLoaded() {
+      updatePreview();
+    }
   });
 
   optionsArea.innerHTML = `
@@ -33,11 +41,11 @@ export function render(container) {
     <button class="btn btn-primary btn-lg" id="download-btn" style="width:100%;">Apply & Download</button>
   `;
 
-  const waveformCanvas = optionsArea.querySelector('#waveform');
-  const gainSlider = optionsArea.querySelector('#gain-slider');
-  const gainDisplay = optionsArea.querySelector('#gain-display');
-  const peakInfo = optionsArea.querySelector('#peak-info');
-  const downloadBtn = optionsArea.querySelector('#download-btn');
+  const waveformCanvas = optionsArea.querySelector("#waveform");
+  const gainSlider = optionsArea.querySelector("#gain-slider");
+  const gainDisplay = optionsArea.querySelector("#gain-display");
+  const peakInfo = optionsArea.querySelector("#peak-info");
+  const downloadBtn = optionsArea.querySelector("#download-btn");
 
   function updatePreview() {
     const buf = getAudioBuffer();
@@ -47,18 +55,24 @@ export function render(container) {
     const gain = parseInt(gainSlider.value) / 100;
     const boosted = applyGain(buf, gain);
     const peak = getPeakLevel(boosted);
-    drawWaveform(boosted, waveformCanvas, peak > 1 ? '#EF4444' : '#2563EB');
-    peakInfo.textContent = peak > 1 ? `⚠️ Peak: ${(peak * 100).toFixed(0)}% — will clip` : `Peak: ${(peak * 100).toFixed(0)}%`;
+    drawWaveform(boosted, waveformCanvas, peak > 1 ? "#EF4444" : "#2563EB");
+    peakInfo.textContent =
+      peak > 1
+        ? `⚠️ Peak: ${(peak * 100).toFixed(0)}% — will clip`
+        : `Peak: ${(peak * 100).toFixed(0)}%`;
   }
 
-  gainSlider.addEventListener('input', () => { gainDisplay.textContent = gainSlider.value; updatePreview(); });
+  gainSlider.addEventListener("input", () => {
+    gainDisplay.textContent = gainSlider.value;
+    updatePreview();
+  });
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     const buf = getAudioBuffer();
     if (!buf) return;
     const gain = parseInt(gainSlider.value) / 100;
     downloadBlob(audioBufferToWav(applyGain(buf, gain)), `boosted-${gainSlider.value}pct.wav`);
-    showToast({ message: `Volume set to ${gainSlider.value}%!`, type: 'success' });
+    showToast({ message: `Volume set to ${gainSlider.value}%!`, type: "success" });
   });
 }
 

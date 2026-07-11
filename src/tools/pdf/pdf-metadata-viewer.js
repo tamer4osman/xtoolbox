@@ -1,21 +1,24 @@
-import { PDFDocument } from 'pdf-lib';
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
+import { PDFDocument } from "pdf-lib";
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'pdf-metadata-viewer',
-  name: 'PDF Metadata Viewer',
-  category: 'pdf',
-  description: 'View and edit PDF metadata: title, author, creator, creation date, keywords.',
-  icon: 'ℹ️',
-  accept: '.pdf',
+  id: "pdf-metadata-viewer",
+  name: "PDF Metadata Viewer",
+  category: "pdf",
+  description: "View and edit PDF metadata: title, author, creator, creation date, keywords.",
+  icon: "ℹ️",
+  accept: ".pdf",
   maxSizeMB: 100,
-  keywords: ['pdf metadata', 'pdf info', 'pdf properties', 'pdf details', 'view pdf metadata'],
-  steps: ['Upload a PDF file', 'View metadata', 'Edit if needed', 'Download'],
+  keywords: ["pdf metadata", "pdf info", "pdf properties", "pdf details", "view pdf metadata"],
+  steps: ["Upload a PDF file", "View metadata", "Edit if needed", "Download"],
   faqs: [
-    { question: 'Is there a file size limit?', answer: 'You can view metadata for PDFs up to 100MB.' },
-    { question: 'Is my file uploaded?', answer: 'No. All processing happens in your browser.' }
+    {
+      question: "Is there a file size limit?",
+      answer: "You can view metadata for PDFs up to 100MB."
+    },
+    { question: "Is my file uploaded?", answer: "No. All processing happens in your browser." }
   ]
 };
 
@@ -24,10 +27,10 @@ export function render(container) {
   let currentFile = null;
 
   const upload = createFileUpload({
-    accept: '.pdf',
+    accept: ".pdf",
     multiple: false,
     maxSizeMB: 100,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       if (files.length > 0) {
         currentFile = files[0];
         loadMetadata(files[0]);
@@ -90,57 +93,66 @@ export function render(container) {
     </style>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const metadataPanel = container.querySelector('#metadata-panel');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const metadataPanel = container.querySelector("#metadata-panel");
 
   async function loadMetadata(file) {
     try {
       const bytes = await file.arrayBuffer();
       pdfDoc = await PDFDocument.load(bytes);
-      const meta = pdfDoc.getTitle() || '';
-      const author = pdfDoc.getAuthor() || '';
-      const subject = pdfDoc.getSubject() || '';
-      const keywords = pdfDoc.getKeywords() || '';
-      const creator = pdfDoc.getCreator() || '';
-      const producer = pdfDoc.getProducer() || '';
+      const meta = pdfDoc.getTitle() || "";
+      const author = pdfDoc.getAuthor() || "";
+      const subject = pdfDoc.getSubject() || "";
+      const keywords = pdfDoc.getKeywords() || "";
+      const creator = pdfDoc.getCreator() || "";
+      const producer = pdfDoc.getProducer() || "";
       const creationDate = pdfDoc.getCreationDate();
       const modDate = pdfDoc.getModificationDate();
       const pageCount = pdfDoc.getPageCount();
 
-      container.querySelector('#meta-title').value = meta;
-      container.querySelector('#meta-author').value = author;
-      container.querySelector('#meta-subject').value = subject;
-      container.querySelector('#meta-keywords').value = keywords;
-      container.querySelector('#meta-creator').value = creator;
-      container.querySelector('#meta-producer').value = producer;
-      container.querySelector('#meta-creation-date').value = creationDate ? creationDate.toISOString() : 'Not set';
-      container.querySelector('#meta-mod-date').value = modDate ? modDate.toISOString() : 'Not set';
-      container.querySelector('#meta-page-count').value = pageCount;
+      container.querySelector("#meta-title").value = meta;
+      container.querySelector("#meta-author").value = author;
+      container.querySelector("#meta-subject").value = subject;
+      container.querySelector("#meta-keywords").value = keywords;
+      container.querySelector("#meta-creator").value = creator;
+      container.querySelector("#meta-producer").value = producer;
+      container.querySelector("#meta-creation-date").value = creationDate
+        ? creationDate.toISOString()
+        : "Not set";
+      container.querySelector("#meta-mod-date").value = modDate ? modDate.toISOString() : "Not set";
+      container.querySelector("#meta-page-count").value = pageCount;
 
-      metadataPanel.style.display = 'block';
+      metadataPanel.style.display = "block";
     } catch (err) {
-      showToast({ message: 'Error loading PDF: ' + err.message, type: 'error' });
+      showToast({ message: "Error loading PDF: " + err.message, type: "error" });
     }
   }
 
-  container.querySelector('#save-btn').addEventListener('click', async () => {
+  container.querySelector("#save-btn").addEventListener("click", async () => {
     if (!pdfDoc) return;
     try {
-      pdfDoc.setTitle(container.querySelector('#meta-title').value);
-      pdfDoc.setAuthor(container.querySelector('#meta-author').value);
-      pdfDoc.setSubject(container.querySelector('#meta-subject').value);
-      pdfDoc.setKeywords(container.querySelector('#meta-keywords').value.split(',').map(k => k.trim()).filter(k => k));
-      pdfDoc.setCreator(container.querySelector('#meta-creator').value || 'ToolBox');
-      pdfDoc.setProducer('ToolBox PDF Metadata Editor');
+      pdfDoc.setTitle(container.querySelector("#meta-title").value);
+      pdfDoc.setAuthor(container.querySelector("#meta-author").value);
+      pdfDoc.setSubject(container.querySelector("#meta-subject").value);
+      pdfDoc.setKeywords(
+        container
+          .querySelector("#meta-keywords")
+          .value.split(",")
+          .map(k => k.trim())
+          .filter(k => k)
+      );
+      pdfDoc.setCreator(container.querySelector("#meta-creator").value || "ToolBox");
+      pdfDoc.setProducer("ToolBox PDF Metadata Editor");
       pdfDoc.setModificationDate(new Date());
 
       const bytes = await pdfDoc.save();
-      const blob = new Blob([bytes], { type: 'application/pdf' });
-      const filename = currentFile?.name?.replace('.pdf', '-with-metadata.pdf') || 'pdf-with-metadata.pdf';
+      const blob = new Blob([bytes], { type: "application/pdf" });
+      const filename =
+        currentFile?.name?.replace(".pdf", "-with-metadata.pdf") || "pdf-with-metadata.pdf";
       downloadBlob(blob, filename);
-      showToast({ message: 'PDF saved with updated metadata!', type: 'success' });
+      showToast({ message: "PDF saved with updated metadata!", type: "success" });
     } catch (err) {
-      showToast({ message: 'Error saving PDF: ' + err.message, type: 'error' });
+      showToast({ message: "Error saving PDF: " + err.message, type: "error" });
     }
   });
 }

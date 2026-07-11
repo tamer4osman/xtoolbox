@@ -1,17 +1,18 @@
-import { downloadBlob } from '../../utils/file.js';
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'habit-tracker',
-  name: 'Habit Tracker',
-  category: 'productivity',
-  description: 'GitHub-style contribution graph for daily habits with streak tracking and heatmaps.',
-  icon: '📅',
-  keywords: ['habit', 'tracker', 'streak', 'heatmap', 'productivity', 'goals'],
-  accept: '',
+  id: "habit-tracker",
+  name: "Habit Tracker",
+  category: "productivity",
+  description:
+    "GitHub-style contribution graph for daily habits with streak tracking and heatmaps.",
+  icon: "📅",
+  keywords: ["habit", "tracker", "streak", "heatmap", "productivity", "goals"],
+  accept: "",
   maxSizeMB: 10
 };
 
-const STORAGE_KEY = 'habit-tracker-v2';
+const STORAGE_KEY = "habit-tracker-v2";
 
 function loadData() {
   try {
@@ -25,7 +26,7 @@ function saveData(data) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (e) {
-    console.error('Save failed:', e);
+    console.error("Save failed:", e);
   }
 }
 
@@ -54,7 +55,7 @@ const styles = `
 export function render(container) {
   let state = loadData();
 
-  const styleEl = document.createElement('style');
+  const styleEl = document.createElement("style");
   styleEl.textContent = styles;
   container.appendChild(styleEl);
 
@@ -90,59 +91,61 @@ export function render(container) {
     </div>
   `;
 
-  const $ = (id) => container.querySelector(id);
-  const el = (sel) => container.querySelector(sel);
+  const $ = id => container.querySelector(id);
+  const el = sel => container.querySelector(sel);
 
   function renderHabits() {
-    const list = $('#habitsList');
+    const list = $("#habitsList");
     const habitNames = Object.keys(state.habits);
-    
+
     if (habitNames.length === 0) {
       list.innerHTML = '<p class="empty-state">No habits yet. Add your first habit above!</p>';
       return;
     }
 
-    list.innerHTML = habitNames.map(name => {
-      const completions = state.completions[name] || [];
-      const today = new Date().toISOString().split('T')[0];
-      const done = completions.includes(today);
-      const streak = calculateStreak(completions);
+    list.innerHTML = habitNames
+      .map(name => {
+        const completions = state.completions[name] || [];
+        const today = new Date().toISOString().split("T")[0];
+        const done = completions.includes(today);
+        const streak = calculateStreak(completions);
 
-      return `
+        return `
         <div class="habit-card">
           <span class="habit-name">${name}</span>
           <span class="habit-streak">${streak} day streak</span>
-          <button type="button" class="btn-today ${done ? 'completed' : ''}" data-name="${name}">
-            ${done ? '✓ Done' : 'Mark Today'}
+          <button type="button" class="btn-today ${done ? "completed" : ""}" data-name="${name}">
+            ${done ? "✓ Done" : "Mark Today"}
           </button>
           <button type="button" class="btn-delete" data-name="${name}">&times;</button>
         </div>
       `;
-    }).join('');
+      })
+      .join("");
 
-    container.querySelectorAll('.btn-today').forEach(btn => {
-      btn.addEventListener('click', () => toggleHabit(btn.dataset.name));
+    container.querySelectorAll(".btn-today").forEach(btn => {
+      btn.addEventListener("click", () => toggleHabit(btn.dataset.name));
     });
 
-    container.querySelectorAll('.btn-delete').forEach(btn => {
-      btn.addEventListener('click', () => deleteHabit(btn.dataset.name));
+    container.querySelectorAll(".btn-delete").forEach(btn => {
+      btn.addEventListener("click", () => deleteHabit(btn.dataset.name));
     });
   }
 
   function calculateStreak(completions) {
     if (!completions || completions.length === 0) return 0;
-    
+
     const sorted = [...completions].sort();
-    const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    
+    const today = new Date().toISOString().split("T")[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
     if (sorted[sorted.length - 1] !== today && sorted[sorted.length - 1] !== yesterday) return 0;
-    
+
     let streak = 0;
     let checkDate = new Date();
-    
+
     for (let i = 0; i < 365; i++) {
-      const dateStr = checkDate.toISOString().split('T')[0];
+      const dateStr = checkDate.toISOString().split("T")[0];
       if (completions.includes(dateStr)) {
         streak++;
         checkDate.setDate(checkDate.getDate() - 1);
@@ -150,21 +153,21 @@ export function render(container) {
         break;
       }
     }
-    
+
     return streak;
   }
 
   function toggleHabit(name) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     if (!state.completions[name]) state.completions[name] = [];
-    
+
     const idx = state.completions[name].indexOf(today);
     if (idx > -1) {
       state.completions[name].splice(idx, 1);
     } else {
       state.completions[name].push(today);
     }
-    
+
     saveData(state);
     renderHabits();
     renderHeatmap();
@@ -180,12 +183,12 @@ export function render(container) {
   }
 
   function renderHeatmap() {
-    const hm = $('#heatmap');
+    const hm = $("#heatmap");
     const year = new Date().getFullYear();
     const habitCounts = {};
-    
+
     Object.values(state.completions).forEach(dates => {
-      dates.forEach(d => habitCounts[d] = (habitCounts[d] || 0) + 1);
+      dates.forEach(d => (habitCounts[d] = (habitCounts[d] || 0) + 1));
     });
 
     const weeks = [];
@@ -196,41 +199,55 @@ export function render(container) {
     for (let w = 0; w < 53; w++) {
       const days = [];
       for (let d = 0; d < 7; d++) {
-        const dateStr = current.toISOString().split('T')[0];
-        const count = current.getFullYear() === year ? (habitCounts[dateStr] || 0) : 0;
+        const dateStr = current.toISOString().split("T")[0];
+        const count = current.getFullYear() === year ? habitCounts[dateStr] || 0 : 0;
         let level = 0;
         if (count > 0) level = 1;
         if (count >= 2) level = 2;
         if (count >= 3) level = 3;
         if (count >= 4) level = 4;
-        
-        const bg = level === 0 ? '#ebedf0' : level === 1 ? '#9be9a8' : level === 2 ? '#40c463' : level === 3 ? '#30a14e' : '#216e39';
-        days.push(`<div class="h-cell" style="background:${bg};width:11px;height:11px;border-radius:2px;display:inline-block;margin:1px;" title="${dateStr}: ${count} habits"></div>`);
+
+        const bg =
+          level === 0
+            ? "#ebedf0"
+            : level === 1
+              ? "#9be9a8"
+              : level === 2
+                ? "#40c463"
+                : level === 3
+                  ? "#30a14e"
+                  : "#216e39";
+        days.push(
+          `<div class="h-cell" style="background:${bg};width:11px;height:11px;border-radius:2px;display:inline-block;margin:1px;" title="${dateStr}: ${count} habits"></div>`
+        );
         current.setDate(current.getDate() + 1);
       }
-      weeks.push(`<div class="h-week">${days.join('')}</div>`);
+      weeks.push(`<div class="h-week">${days.join("")}</div>`);
     }
 
-    hm.innerHTML = `<div class="h-grid">${weeks.join('')}</div>`;
+    hm.innerHTML = `<div class="h-grid">${weeks.join("")}</div>`;
   }
 
-  el('#addHabit').addEventListener('click', () => {
-    const name = $('#newHabit').value.trim();
+  el("#addHabit").addEventListener("click", () => {
+    const name = $("#newHabit").value.trim();
     if (!name || state.habits[name]) return;
     state.habits[name] = true;
     if (!state.completions[name]) state.completions[name] = [];
     saveData(state);
-    $('#newHabit').value = '';
+    $("#newHabit").value = "";
     renderHabits();
     renderHeatmap();
   });
 
-  el('#exportData').addEventListener('click', () => {
-    downloadBlob(new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' }), 'habits.json');
+  el("#exportData").addEventListener("click", () => {
+    downloadBlob(
+      new Blob([JSON.stringify(state, null, 2)], { type: "application/json" }),
+      "habits.json"
+    );
   });
 
-  el('#clearData').addEventListener('click', () => {
-    if (!confirm('Clear all?')) return;
+  el("#clearData").addEventListener("click", () => {
+    if (!confirm("Clear all?")) return;
     state = { habits: {}, completions: {} };
     saveData(state);
     renderHabits();

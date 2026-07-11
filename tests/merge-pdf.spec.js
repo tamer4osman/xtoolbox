@@ -1,24 +1,24 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('Merge PDF tool loads and has correct UI', async ({ page }) => {
-  await page.goto('http://localhost:3000/#/tools/merge-pdf');
+test("Merge PDF tool loads and has correct UI", async ({ page }) => {
+  await page.goto("http://localhost:3000/#/tools/merge-pdf");
 
-  await page.waitForSelector('.tool-layout', { timeout: 5000 });
+  await page.waitForSelector(".tool-layout", { timeout: 5000 });
 
-  const title = await page.locator('.tool-header h1').textContent();
-  expect(title).toContain('Merge PDF');
+  const title = await page.locator(".tool-header h1").textContent();
+  expect(title).toContain("Merge PDF");
 
-  const uploadArea = await page.locator('#upload-area');
+  const uploadArea = await page.locator("#upload-area");
   await expect(uploadArea).toBeAttached();
 
-  const fileList = await page.locator('#file-list');
+  const fileList = await page.locator("#file-list");
   await expect(fileList).toBeAttached();
 
-  const mergeBtn = await page.locator('#merge-btn');
+  const mergeBtn = await page.locator("#merge-btn");
   await expect(mergeBtn).toBeAttached();
 
-  const processing = await page.locator('#processing');
+  const processing = await page.locator("#processing");
   await expect(processing).toBeAttached();
 
-  console.log('✅ Merge PDF tool loads correctly');
+  console.log("✅ Merge PDF tool loads correctly");
 });

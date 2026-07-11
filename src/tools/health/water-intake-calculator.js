@@ -1,26 +1,26 @@
-import { createHealthCalculator } from './health-calculator.js';
+import { createHealthCalculator } from "./health-calculator.js";
 
 export const toolConfig = {
-  id: 'water-intake-calculator',
-  name: 'Water Intake Calculator',
-  category: 'health',
-  description: 'Calculate daily hydration needs based on weight.',
-  icon: '💧',
-  status: 'done'
+  id: "water-intake-calculator",
+  name: "Water Intake Calculator",
+  category: "health",
+  description: "Calculate daily hydration needs based on weight.",
+  icon: "💧",
+  status: "done"
 };
 
 const ACTIVITY_OPTIONS = [
-  { value: '0.5', label: 'Sedentary (desk job)' },
-  { value: '0.6', label: 'Light (walks)', selected: true },
-  { value: '0.7', label: 'Moderate (exercise 3x/week)' },
-  { value: '0.8', label: 'Active (daily exercise)' },
-  { value: '1.0', label: 'Very Active (athlete)' }
+  { value: "0.5", label: "Sedentary (desk job)" },
+  { value: "0.6", label: "Light (walks)", selected: true },
+  { value: "0.7", label: "Moderate (exercise 3x/week)" },
+  { value: "0.8", label: "Active (daily exercise)" },
+  { value: "1.0", label: "Very Active (athlete)" }
 ];
 
 const CLIMATE_OPTIONS = [
-  { value: '0.9', label: 'Cold/Temperate' },
-  { value: '1', label: 'Moderate', selected: true },
-  { value: '1.1', label: 'Hot/Humid' }
+  { value: "0.9", label: "Cold/Temperate" },
+  { value: "1", label: "Moderate", selected: true },
+  { value: "1.1", label: "Hot/Humid" }
 ];
 
 const RESULT_CSS = `
@@ -42,18 +42,18 @@ const RESULT_CSS = `
 export function render(container) {
   createHealthCalculator({
     container,
-    containerClass: 'water-container',
-    calcButtonLabel: 'Calculate',
+    containerClass: "water-container",
+    calcButtonLabel: "Calculate",
     extraCSS: RESULT_CSS,
     fields: [
-      { id: 'weight', label: 'Weight (kg)', value: 70, min: 30, max: 300 },
-      { id: 'activity', type: 'select', label: 'Activity Level', options: ACTIVITY_OPTIONS },
-      { id: 'climate', type: 'select', label: 'Climate', options: CLIMATE_OPTIONS }
+      { id: "weight", label: "Weight (kg)", value: 70, min: 30, max: 300 },
+      { id: "activity", type: "select", label: "Activity Level", options: ACTIVITY_OPTIONS },
+      { id: "climate", type: "select", label: "Climate", options: CLIMATE_OPTIONS }
     ],
     onCalculate: (container, resultEl) => {
-      const weight = parseFloat(container.querySelector('#weight').value) || 70;
-      const activity = parseFloat(container.querySelector('#activity').value);
-      const climate = parseFloat(container.querySelector('#climate').value);
+      const weight = parseFloat(container.querySelector("#weight").value) || 70;
+      const activity = parseFloat(container.querySelector("#activity").value);
+      const climate = parseFloat(container.querySelector("#climate").value);
 
       const baseWater = weight * 0.033;
       const water = Math.round(baseWater * activity * climate * 10) / 10;
@@ -77,7 +77,7 @@ export function render(container) {
           </div>
           <div class="breakdown-item">
             <div class="breakdown-icon">⏰</div>
-            <div class="breakdown-value">${Math.round(water / 16 * 10) / 10} L</div>
+            <div class="breakdown-value">${Math.round((water / 16) * 10) / 10} L</div>
             <div class="breakdown-label">per hour</div>
           </div>
         </div>

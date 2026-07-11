@@ -1,23 +1,23 @@
-import { createFinanceCalculator } from './finance-calculator-factory.js';
+import { createFinanceCalculator } from "./finance-calculator-factory.js";
 
 export const toolConfig = {
-  id: 'mortgage-calculator',
-  name: 'Mortgage Calculator',
-  category: 'finance',
-  description: 'Calculate monthly mortgage payments and total cost.',
-  icon: '🏠',
-  status: 'done'
+  id: "mortgage-calculator",
+  name: "Mortgage Calculator",
+  category: "finance",
+  description: "Calculate monthly mortgage payments and total cost.",
+  icon: "🏠",
+  status: "done"
 };
 
 export function render(container) {
   createFinanceCalculator({
     container,
-    toolId: 'mortgage',
+    toolId: "mortgage",
     icon: toolConfig.icon,
     title: toolConfig.name,
     description: toolConfig.description,
-    cardColor: 'emerald',
-    resultValueSize: '2rem',
+    cardColor: "emerald",
+    resultValueSize: "2rem",
     formHTML: `
       <div class="form-group">
         <label>Home Price ($)</label>
@@ -47,18 +47,21 @@ export function render(container) {
       const y = parseInt(term);
       const months = y * 12;
       const loan = p - d;
-      const payment = loan * r * Math.pow(1 + r, months) / (Math.pow(1 + r, months) - 1);
+      const payment = (loan * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
       const total = payment * months;
       const interest = total - loan;
       const payoff = new Date();
       payoff.setFullYear(payoff.getFullYear() + y);
       return {
-        primary: { label: 'Monthly Payment', value: '$' + payment.toFixed(0) },
+        primary: { label: "Monthly Payment", value: "$" + payment.toFixed(0) },
         items: [
-          { label: 'Loan Amount', value: '$' + loan.toLocaleString() },
-          { label: 'Total Interest', value: '$' + interest.toLocaleString() },
-          { label: 'Total Cost', value: '$' + (p + interest - d).toLocaleString() },
-          { label: 'Payoff Date', value: payoff.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) }
+          { label: "Loan Amount", value: "$" + loan.toLocaleString() },
+          { label: "Total Interest", value: "$" + interest.toLocaleString() },
+          { label: "Total Cost", value: "$" + (p + interest - d).toLocaleString() },
+          {
+            label: "Payoff Date",
+            value: payoff.toLocaleDateString("en-US", { month: "short", year: "numeric" })
+          }
         ]
       };
     }

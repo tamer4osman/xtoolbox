@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'slug-generator',
-  name: 'URL Slug Generator',
-  category: 'seo',
-  description: 'Convert titles into search-friendly URL slugs.',
-  icon: '🔗',
-  status: 'done'
+  id: "slug-generator",
+  name: "URL Slug Generator",
+  category: "seo",
+  description: "Convert titles into search-friendly URL slugs.",
+  icon: "🔗",
+  status: "done"
 };
 
 export function render(container) {
@@ -25,7 +25,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .slug-container { max-width: 600px; margin: 0 auto; }
     .slug-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -41,28 +41,82 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const stops = ['a','an','the','and','or','but','in','on','at','to','for','of','with','by','is','are','was','were','be','been','being','have','has','had','do','does','did','will','would','could','should','may','might','must','can','this','that','these','those','i','you','he','she','it','we','they','my','your','his','her','its','our','their'];
+  const stops = [
+    "a",
+    "an",
+    "the",
+    "and",
+    "or",
+    "but",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "of",
+    "with",
+    "by",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "being",
+    "have",
+    "has",
+    "had",
+    "do",
+    "does",
+    "did",
+    "will",
+    "would",
+    "could",
+    "should",
+    "may",
+    "might",
+    "must",
+    "can",
+    "this",
+    "that",
+    "these",
+    "those",
+    "i",
+    "you",
+    "he",
+    "she",
+    "it",
+    "we",
+    "they",
+    "my",
+    "your",
+    "his",
+    "her",
+    "its",
+    "our",
+    "their"
+  ];
 
   function generate() {
-    let text = container.querySelector('#input').value;
-    if (container.querySelector('#stops').checked) {
+    let text = container.querySelector("#input").value;
+    if (container.querySelector("#stops").checked) {
       stops.forEach(s => {
-        text = text.replace(new RegExp('\\\\b' + s + '\\\\b', 'gi'), '');
+        text = text.replace(new RegExp("\\\\b" + s + "\\\\b", "gi"), "");
       });
     }
-    text = text.replace(/[^a-zA-Z0-9\\s]/g, '');
+    text = text.replace(/[^a-zA-Z0-9\\s]/g, "");
     text = text.trim();
-    if (container.querySelector('#hyphens').checked) text = text.replace(/\\s+/g, '-');
-    else text = text.replace(/\\s+/g, '_');
-    if (container.querySelector('#lowercase').checked) text = text.toLowerCase();
-    container.querySelector('#slug').textContent = text;
+    if (container.querySelector("#hyphens").checked) text = text.replace(/\\s+/g, "-");
+    else text = text.replace(/\\s+/g, "_");
+    if (container.querySelector("#lowercase").checked) text = text.toLowerCase();
+    container.querySelector("#slug").textContent = text;
   }
 
-  container.querySelectorAll('input').forEach(i => i.addEventListener('input', generate));
-  container.querySelector('#copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(container.querySelector('#slug').textContent);
-    container.querySelector('#copyBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyBtn').textContent = 'Copy', 1500);
+  container.querySelectorAll("input").forEach(i => i.addEventListener("input", generate));
+  container.querySelector("#copyBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(container.querySelector("#slug").textContent);
+    container.querySelector("#copyBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyBtn").textContent = "Copy"), 1500);
   });
   generate();
 }

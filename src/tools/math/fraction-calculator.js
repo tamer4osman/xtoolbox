@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'fraction-calculator',
-  name: 'Fraction Calculator',
-  category: 'math',
-  description: 'Add, subtract, multiply, and divide fractions with steps.',
-  icon: '½',
-  status: 'done'
+  id: "fraction-calculator",
+  name: "Fraction Calculator",
+  category: "math",
+  description: "Add, subtract, multiply, and divide fractions with steps.",
+  icon: "½",
+  status: "done"
 };
 
 export function render(container) {
@@ -41,7 +41,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .calc-container { max-width: 400px; margin: 0 auto; }
     .calc-container h2 { text-align: center; margin-bottom: var(--space-6); }
@@ -60,47 +60,64 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  function gcd(a, b) { return b === 0 ? a : gcd(b, a % b); }
-  
+  function gcd(a, b) {
+    return b === 0 ? a : gcd(b, a % b);
+  }
+
   function simplify(n, d) {
     const g = gcd(Math.abs(n), Math.abs(d));
     return [n / g, d / g];
   }
 
-  container.querySelector('#calc-btn').addEventListener('click', () => {
-    const n1 = parseInt(container.querySelector('#n1').value) || 0;
-    const d1 = parseInt(container.querySelector('#d1').value) || 1;
-    const n2 = parseInt(container.querySelector('#n2').value) || 0;
-    const d2 = parseInt(container.querySelector('#d2').value) || 1;
-    const op = container.querySelector('.op-btn.active').dataset.op;
-    
+  container.querySelector("#calc-btn").addEventListener("click", () => {
+    const n1 = parseInt(container.querySelector("#n1").value) || 0;
+    const d1 = parseInt(container.querySelector("#d1").value) || 1;
+    const n2 = parseInt(container.querySelector("#n2").value) || 0;
+    const d2 = parseInt(container.querySelector("#d2").value) || 1;
+    const op = container.querySelector(".op-btn.active").dataset.op;
+
     let rn, rd;
     switch (op) {
-      case '+': rn = n1 * d2 + n2 * d1; rd = d1 * d2; break;
-      case '-': rn = n1 * d2 - n2 * d1; rd = d1 * d2; break;
-      case '*': rn = n1 * n2; rd = d1 * d2; break;
-      case '/': rn = n1 * d2; rd = d2 === 0 ? 1 : d1 * n2; break;
+      case "+":
+        rn = n1 * d2 + n2 * d1;
+        rd = d1 * d2;
+        break;
+      case "-":
+        rn = n1 * d2 - n2 * d1;
+        rd = d1 * d2;
+        break;
+      case "*":
+        rn = n1 * n2;
+        rd = d1 * d2;
+        break;
+      case "/":
+        rn = n1 * d2;
+        rd = d2 === 0 ? 1 : d1 * n2;
+        break;
     }
-    
+
     if (rd === 0) rd = 1;
     const [simpN, simpD] = simplify(rn, rd);
-    const isNegative = (simpN < 0) !== (simpD < 0);
+    const isNegative = simpN < 0 !== simpD < 0;
     const absN = Math.abs(simpN);
-    
-    container.querySelector('#rn').textContent = Math.abs(simpN);
-    container.querySelector('#rd').textContent = Math.abs(simpD);
-    
+
+    container.querySelector("#rn").textContent = Math.abs(simpN);
+    container.querySelector("#rd").textContent = Math.abs(simpD);
+
     const whole = Math.floor(absN / simpD);
     const fracN = absN % Math.abs(simpD);
-    const sign = isNegative ? '- ' : '';
-    container.querySelector('#mixed').textContent = fracN === 0 ? '' : sign + (isNegative ? '-' : '') + whole + ' ' + fracN + '/' + Math.abs(simpD);
-    container.querySelector('#decimal').textContent = '= ' + (simpN / simpD).toFixed(4);
+    const sign = isNegative ? "- " : "";
+    container.querySelector("#mixed").textContent =
+      fracN === 0
+        ? ""
+        : sign + (isNegative ? "-" : "") + whole + " " + fracN + "/" + Math.abs(simpD);
+    container.querySelector("#decimal").textContent = "= " + (simpN / simpD).toFixed(4);
   });
 
-  container.querySelectorAll('.op-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.op-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  container.querySelectorAll(".op-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".op-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
     });
   });
 }

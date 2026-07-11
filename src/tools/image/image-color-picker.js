@@ -1,20 +1,31 @@
 export const toolConfig = {
-  id: 'image-color-picker',
-  name: 'Image Color Picker',
-  category: 'image',
-  description: 'Pick colors directly from any image.',
-  icon: '🎨',
-  status: 'done'
+  id: "image-color-picker",
+  name: "Image Color Picker",
+  category: "image",
+  description: "Pick colors directly from any image.",
+  icon: "🎨",
+  status: "done"
 };
 
 export function rgbToHex(r, g, b) {
-  return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+  return (
+    "#" +
+    [r, g, b]
+      .map(x => x.toString(16).padStart(2, "0"))
+      .join("")
+      .toUpperCase()
+  );
 }
 
 export function rgbToHsl(r, g, b) {
-  r /= 255; g /= 255; b /= 255;
-  const max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let h, s, l = (max + min) / 2;
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  let h,
+    s,
+    l = (max + min) / 2;
 
   if (max === min) {
     h = s = 0;
@@ -22,9 +33,15 @@ export function rgbToHsl(r, g, b) {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
-      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
-      case g: h = ((b - r) / d + 2) / 6; break;
-      case b: h = ((r - g) / d + 4) / 6; break;
+      case r:
+        h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+        break;
+      case g:
+        h = ((b - r) / d + 2) / 6;
+        break;
+      case b:
+        h = ((r - g) / d + 4) / 6;
+        break;
     }
   }
 
@@ -199,60 +216,60 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = COLOR_PICKER_CSS;
   container.appendChild(style);
 
-  const uploadArea = container.querySelector('#upload-area');
-  const fileInput = container.querySelector('#file-input');
-  const imageContainer = container.querySelector('#image-container');
-  const imageCanvasEl = container.querySelector('#image-canvas');
-  const colorResult = container.querySelector('#color-result');
-  const cursorPreview = container.querySelector('#cursor-preview');
-  const colorPreview = container.querySelector('#color-preview');
+  const uploadArea = container.querySelector("#upload-area");
+  const fileInput = container.querySelector("#file-input");
+  const imageContainer = container.querySelector("#image-container");
+  const imageCanvasEl = container.querySelector("#image-canvas");
+  const colorResult = container.querySelector("#color-result");
+  const cursorPreview = container.querySelector("#cursor-preview");
+  const colorPreview = container.querySelector("#color-preview");
 
-  uploadArea.addEventListener('click', () => fileInput.click());
-  
-  uploadArea.addEventListener('dragover', (e) => {
+  uploadArea.addEventListener("click", () => fileInput.click());
+
+  uploadArea.addEventListener("dragover", e => {
     e.preventDefault();
-    uploadArea.style.borderColor = 'var(--color-primary)';
+    uploadArea.style.borderColor = "var(--color-primary)";
   });
-  
-  uploadArea.addEventListener('dragleave', () => {
-    uploadArea.style.borderColor = 'var(--color-border)';
+
+  uploadArea.addEventListener("dragleave", () => {
+    uploadArea.style.borderColor = "var(--color-border)";
   });
-  
-  uploadArea.addEventListener('drop', (e) => {
+
+  uploadArea.addEventListener("drop", e => {
     e.preventDefault();
-    uploadArea.style.borderColor = 'var(--color-border)';
+    uploadArea.style.borderColor = "var(--color-border)";
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith("image/")) {
       loadImage(file);
     }
   });
 
-  fileInput.addEventListener('change', (e) => {
+  fileInput.addEventListener("change", e => {
     const file = e.target.files[0];
     if (file) loadImage(file);
   });
 
   function loadImage(file) {
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = e => {
       const img = new Image();
       img.onload = () => {
         uploadedImage = img;
-        imageCanvas = imageCanvasEl.getContext('2d');
-        
+        imageCanvas = imageCanvasEl.getContext("2d");
+
         const maxWidth = Math.min(800, window.innerWidth - 48);
         const scale = maxWidth / img.width;
         const width = img.width * scale;
         const height = img.height * scale;
-        
+
         imageCanvasEl.width = width;
         imageCanvasEl.height = height;
         imageCanvas.drawImage(img, 0, 0, width, height);
-        
+
         uploadArea.hidden = true;
         imageContainer.hidden = false;
         colorResult.hidden = false;
@@ -262,64 +279,65 @@ export function render(container) {
     reader.readAsDataURL(file);
   }
 
-  imageCanvasEl.addEventListener('click', (e) => {
+  imageCanvasEl.addEventListener("click", e => {
     if (!imageCanvas) return;
-    
+
     const rect = imageCanvasEl.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const pixel = imageCanvas.getImageData(x, y, 1, 1).data;
     const r = pixel[0];
     const g = pixel[1];
     const b = pixel[2];
-    
+
     const hex = rgbToHex(r, g, b);
     const hsl = rgbToHsl(r, g, b);
-    
-    container.querySelector('#hex-value').textContent = hex;
-    container.querySelector('#rgb-value').textContent = `rgb(${r}, ${g}, ${b})`;
-    container.querySelector('#hsl-value').textContent = hsl;
+
+    container.querySelector("#hex-value").textContent = hex;
+    container.querySelector("#rgb-value").textContent = `rgb(${r}, ${g}, ${b})`;
+    container.querySelector("#hsl-value").textContent = hsl;
     colorPreview.style.backgroundColor = hex;
-    
-    cursorPreview.querySelector('.color-swatch').style.backgroundColor = hex;
-    cursorPreview.querySelector('.color-hex').textContent = hex;
-    cursorPreview.style.left = e.clientX - imageContainer.getBoundingClientRect().left + 'px';
-    cursorPreview.style.top = e.clientY - imageContainer.getBoundingClientRect().top + 'px';
+
+    cursorPreview.querySelector(".color-swatch").style.backgroundColor = hex;
+    cursorPreview.querySelector(".color-hex").textContent = hex;
+    cursorPreview.style.left = e.clientX - imageContainer.getBoundingClientRect().left + "px";
+    cursorPreview.style.top = e.clientY - imageContainer.getBoundingClientRect().top + "px";
     cursorPreview.hidden = false;
   });
 
-  imageCanvasEl.addEventListener('mousemove', (e) => {
+  imageCanvasEl.addEventListener("mousemove", e => {
     if (!imageCanvas) return;
-    
+
     const rect = imageCanvasEl.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     if (x >= 0 && x < imageCanvasEl.width && y >= 0 && y < imageCanvasEl.height) {
       const pixel = imageCanvas.getImageData(x, y, 1, 1).data;
       const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
-      
-      cursorPreview.querySelector('.color-swatch').style.backgroundColor = hex;
-      cursorPreview.querySelector('.color-hex').textContent = hex;
-      cursorPreview.style.left = e.clientX - imageContainer.getBoundingClientRect().left + 'px';
-      cursorPreview.style.top = e.clientY - imageContainer.getBoundingClientRect().top + 'px';
+
+      cursorPreview.querySelector(".color-swatch").style.backgroundColor = hex;
+      cursorPreview.querySelector(".color-hex").textContent = hex;
+      cursorPreview.style.left = e.clientX - imageContainer.getBoundingClientRect().left + "px";
+      cursorPreview.style.top = e.clientY - imageContainer.getBoundingClientRect().top + "px";
       cursorPreview.hidden = false;
     }
   });
 
-  imageCanvasEl.addEventListener('mouseleave', () => {
+  imageCanvasEl.addEventListener("mouseleave", () => {
     cursorPreview.hidden = true;
   });
 
-  container.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+  container.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
       const targetId = btn.dataset.copy;
       const text = container.querySelector(`#${targetId}`).textContent;
       navigator.clipboard.writeText(text);
-      btn.innerHTML = '✓';
+      btn.innerHTML = "✓";
       setTimeout(() => {
-        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        btn.innerHTML =
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
       }, 1500);
     });
   });

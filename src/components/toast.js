@@ -1,17 +1,17 @@
 /**
  * Show a toast notification
  */
-export function showToast({ message, type = 'info', duration = 3000 }) {
-  let container = document.getElementById('toast-container');
+export function showToast({ message, type = "info", duration = 3000 }) {
+  let container = document.getElementById("toast-container");
   if (!container) {
-    container = document.createElement('div');
-    container.id = 'toast-container';
+    container = document.createElement("div");
+    container.id = "toast-container";
     document.body.appendChild(container);
   }
 
-  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+  const icons = { success: "✅", error: "❌", warning: "⚠️", info: "ℹ️" };
 
-  const toast = document.createElement('div');
+  const toast = document.createElement("div");
   toast.className = `toast toast-${type}`;
   toast.innerHTML = `
     <span class="toast-icon">${icons[type] || icons.info}</span>
@@ -20,11 +20,11 @@ export function showToast({ message, type = 'info', duration = 3000 }) {
   `;
 
   container.appendChild(toast);
-  requestAnimationFrame(() => toast.classList.add('toast-visible'));
+  requestAnimationFrame(() => toast.classList.add("toast-visible"));
 
   setTimeout(() => {
-    toast.classList.remove('toast-visible');
-    toast.classList.add('toast-exit');
+    toast.classList.remove("toast-visible");
+    toast.classList.add("toast-exit");
     setTimeout(() => toast.remove(), 300);
   }, duration);
 }

@@ -12,18 +12,18 @@ export const toolConfig = {
   steps: [
     "Add assets (bank, investments, property)",
     "Add liabilities (loans, credit cards)",
-    "Track your net worth in real time",
+    "Track your net worth in real time"
   ],
   faqs: [
     {
       question: "Is my financial data stored anywhere?",
-      answer: "No. All data is stored in your browser. Nothing is sent to any server.",
+      answer: "No. All data is stored in your browser. Nothing is sent to any server."
     },
     {
       question: "Can I export my data?",
-      answer: "Yes. You can export all data as JSON and import it back later.",
-    },
-  ],
+      answer: "Yes. You can export all data as JSON and import it back later."
+    }
+  ]
 };
 
 export const ASSET_TYPES = [
@@ -33,7 +33,7 @@ export const ASSET_TYPES = [
   "Retirement Account",
   "Real Estate",
   "Vehicle",
-  "Other",
+  "Other"
 ];
 export const LIABILITY_TYPES = [
   "Mortgage",
@@ -41,7 +41,7 @@ export const LIABILITY_TYPES = [
   "Student Loan",
   "Credit Card",
   "Personal Loan",
-  "Other",
+  "Other"
 ];
 
 export function generateId() {
@@ -49,9 +49,9 @@ export function generateId() {
 }
 
 export function calculateNetWorth(entries) {
-  const assets = entries.filter((e) => e.type === "asset").reduce((sum, e) => sum + e.amount, 0);
+  const assets = entries.filter(e => e.type === "asset").reduce((sum, e) => sum + e.amount, 0);
   const liabilities = entries
-    .filter((e) => e.type === "liability")
+    .filter(e => e.type === "liability")
     .reduce((sum, e) => sum + e.amount, 0);
   return { assets, liabilities, netWorth: assets - liabilities };
 }
@@ -61,25 +61,29 @@ export function formatCurrency(amount) {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 0
   }).format(amount);
 }
 
 export function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  })[c]);
+  return String(str).replace(
+    /[&<>"']/g,
+    c =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[c]
+  );
 }
 
 export function validateEntries(data) {
   return (
     Array.isArray(data) &&
     data.every(
-      (it) =>
+      it =>
         it &&
         (it.type === "asset" || it.type === "liability") &&
         typeof it.name === "string" &&
@@ -182,20 +186,20 @@ export function render(container) {
         ? '<div style="color:var(--color-text-muted);">No entries yet</div>'
         : entries
             .map(
-              (e) => `
+              e => `
         <div style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-sm);margin-bottom:var(--space-1);">
           <span style="width:8px;height:8px;border-radius:50%;background:${e.type === "asset" ? "#22c55e" : "#ef4444"};"></span>
           <span style="flex:1;font-weight:500;">${escapeHtml(e.name)}</span>
           <span style="color:${e.type === "asset" ? "#22c55e" : "#ef4444"};">${e.type === "asset" ? "+" : "-"}${formatCurrency(e.amount)}</span>
           <button class="btn btn-secondary btn-sm remove-entry" data-id="${escapeHtml(e.id)}">Remove</button>
         </div>
-      `,
+      `
             )
             .join("");
 
-    entriesList.querySelectorAll(".remove-entry").forEach((btn) => {
+    entriesList.querySelectorAll(".remove-entry").forEach(btn => {
       btn.addEventListener("click", () => {
-        entries = entries.filter((e) => e.id !== btn.dataset.id);
+        entries = entries.filter(e => e.id !== btn.dataset.id);
         saveData(entries);
         renderEntries();
       });
@@ -214,7 +218,7 @@ export function render(container) {
       type: entryType.value,
       name,
       amount,
-      date: new Date().toISOString(),
+      date: new Date().toISOString()
     });
     saveData(entries);
     entryName.value = "";
@@ -235,7 +239,7 @@ export function render(container) {
   });
 
   importBtn.addEventListener("click", () => importFile.click());
-  importFile.addEventListener("change", async (e) => {
+  importFile.addEventListener("change", async e => {
     const file = e.target.files[0];
     if (!file) return;
     try {
@@ -247,7 +251,7 @@ export function render(container) {
       if (entries.length > 0 && !confirm("This will replace all existing entries. Continue?")) {
         return;
       }
-      entries = parsed.map((it) => ({ ...it, id: it.id || generateId() }));
+      entries = parsed.map(it => ({ ...it, id: it.id || generateId() }));
       saveData(entries);
       renderEntries();
       showToast({ message: "Data imported.", type: "success" });

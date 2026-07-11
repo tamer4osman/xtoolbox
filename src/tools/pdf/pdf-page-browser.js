@@ -1,6 +1,6 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { renderAllPages } from './pdf-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { renderAllPages } from "./pdf-utils.js";
 
 /**
  * Factory for PDF page-browser tools. Mounts a single-file PDF uploader
@@ -24,7 +24,7 @@ export function createPdfPageBrowser({
   styleCSS,
   actionButtonSelector,
   renderScale = 0.75,
-  initialProcessingMessage = 'Processing PDF...',
+  initialProcessingMessage = "Processing PDF...",
   onPagesLoaded,
   onAction,
   onReset
@@ -43,15 +43,15 @@ export function createPdfPageBrowser({
     </div>
   `;
 
-  const $ = (sel) => container.querySelector(sel);
-  const uploadArea = $('#upload-area');
-  const optionsArea = $('#options-area');
-  const changeFileBtn = $('#change-file-btn');
-  const processing = $('#processing');
-  const processingText = $('#processing-text');
+  const $ = sel => container.querySelector(sel);
+  const uploadArea = $("#upload-area");
+  const optionsArea = $("#options-area");
+  const changeFileBtn = $("#change-file-btn");
+  const processing = $("#processing");
+  const processingText = $("#processing-text");
   const actionBtn = $(actionButtonSelector);
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = styleCSS;
   container.appendChild(style);
 
@@ -59,16 +59,20 @@ export function createPdfPageBrowser({
   let pageCanvases = [];
 
   const api = {
-    get canvases() { return pageCanvases; },
-    get file() { return currentFile; },
+    get canvases() {
+      return pageCanvases;
+    },
+    get file() {
+      return currentFile;
+    },
     showProcessing(msg) {
       processingText.textContent = msg ?? initialProcessingMessage;
-      processing.style.display = 'block';
-      if (actionBtn) actionBtn.style.display = 'none';
+      processing.style.display = "block";
+      if (actionBtn) actionBtn.style.display = "none";
     },
     hideProcessing() {
-      processing.style.display = 'none';
-      if (actionBtn) actionBtn.style.display = 'inline-flex';
+      processing.style.display = "none";
+      if (actionBtn) actionBtn.style.display = "inline-flex";
     },
     setProcessingText(msg) {
       processingText.textContent = msg;
@@ -76,37 +80,37 @@ export function createPdfPageBrowser({
   };
 
   const upload = createFileUpload({
-    accept: '.pdf',
+    accept: ".pdf",
     multiple: false,
     maxSizeMB: 100,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       const file = files[0];
       if (!file) return;
       currentFile = file;
       try {
         const canvases = await renderAllPages(currentFile, renderScale);
         pageCanvases = canvases.filter(c => c instanceof HTMLCanvasElement);
-        optionsArea.style.display = 'block';
-        uploadArea.style.display = 'none';
+        optionsArea.style.display = "block";
+        uploadArea.style.display = "none";
         if (onPagesLoaded) await onPagesLoaded(pageCanvases, api);
       } catch (err) {
-        showToast({ message: 'Failed to load PDF: ' + err.message, type: 'error' });
+        showToast({ message: "Failed to load PDF: " + err.message, type: "error" });
       }
     }
   });
   uploadArea.appendChild(upload.element);
 
-  changeFileBtn.addEventListener('click', () => {
+  changeFileBtn.addEventListener("click", () => {
     upload.clear();
     currentFile = null;
     pageCanvases = [];
-    optionsArea.style.display = 'none';
-    uploadArea.style.display = '';
+    optionsArea.style.display = "none";
+    uploadArea.style.display = "";
     if (onReset) onReset();
   });
 
   if (actionBtn && onAction) {
-    actionBtn.addEventListener('click', async () => {
+    actionBtn.addEventListener("click", async () => {
       if (!currentFile) return;
       await onAction(api);
     });

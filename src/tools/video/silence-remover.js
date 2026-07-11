@@ -16,20 +16,20 @@ export const toolConfig = {
     "Upload a video",
     "Adjust silence threshold",
     'Click "Remove Silence"',
-    "Download trimmed video",
+    "Download trimmed video"
   ],
   faqs: [
     {
       question: "How does silence detection work?",
       answer:
-        "ffmpeg scans audio volume and marks sections below the threshold as silence. Those sections are then removed from the video.",
+        "ffmpeg scans audio volume and marks sections below the threshold as silence. Those sections are then removed from the video."
     },
     {
       question: "What is the default noise threshold?",
       answer:
-        "-30dB. Lower values (e.g. -50dB) detect less silence; higher values (e.g. -20dB) detect more.",
-    },
-  ],
+        "-30dB. Lower values (e.g. -50dB) detect less silence; higher values (e.g. -20dB) detect more."
+    }
+  ]
 };
 
 function parseSilenceEvents(logOutput) {
@@ -80,14 +80,14 @@ function buildTrimSegments(silenceEvents, duration) {
 function buildSelectFilter(segments) {
   if (!segments || segments.length === 0) return null;
 
-  const exprs = segments.map((s) => `between(t,${s.start.toFixed(3)},${s.end.toFixed(3)})`);
+  const exprs = segments.map(s => `between(t,${s.start.toFixed(3)},${s.end.toFixed(3)})`);
   return `select='${exprs.join("+")}',setpts=N/FRAME_RATE/TB`;
 }
 
 function buildAudioSelectFilter(segments) {
   if (!segments || segments.length === 0) return null;
 
-  const exprs = segments.map((s) => `between(t,${s.start.toFixed(3)},${s.end.toFixed(3)})`);
+  const exprs = segments.map(s => `between(t,${s.start.toFixed(3)},${s.end.toFixed(3)})`);
   return `aselect='${exprs.join("+")}',asetpts=N/SR/TB`;
 }
 
@@ -145,7 +145,7 @@ export const render = createVideoTool({
         `silencedetect=noise=${noiseThreshold}dB:d=${minSilence}`,
         "-f",
         "null",
-        "-",
+        "-"
       ]);
     } finally {
       ffmpeg.off("log", logHandler);
@@ -202,7 +202,7 @@ export const render = createVideoTool({
         "aac",
         "-movflags",
         "+faststart",
-        outputName,
+        outputName
       ]);
     } else {
       await ffmpeg.exec(["-i", inputName, "-c", "copy", outputName]);
@@ -218,7 +218,7 @@ export const render = createVideoTool({
     showToast({ message: "Silence removed!", type: "success" });
 
     await ffmpeg.deleteFile(outputName);
-  },
+  }
 });
 
 export function destroy() {}

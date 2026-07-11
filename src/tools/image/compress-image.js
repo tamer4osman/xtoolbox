@@ -1,21 +1,33 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { formatFileSize, downloadBlob } from '../../utils/file.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { formatFileSize, downloadBlob } from "../../utils/file.js";
+import { loadImageFromFile, canvasToBlob } from "./image-utils.js";
 
 export const toolConfig = {
-  id: 'compress-image',
-  name: 'Image Compressor',
-  category: 'image',
-  description: 'Reduce image file size while maintaining quality. Supports JPG, PNG, WebP.',
-  icon: '📦',
-  accept: 'image/jpeg,image/png,image/webp',
+  id: "compress-image",
+  name: "Image Compressor",
+  category: "image",
+  description: "Reduce image file size while maintaining quality. Supports JPG, PNG, WebP.",
+  icon: "📦",
+  accept: "image/jpeg,image/png,image/webp",
   maxSizeMB: 50,
-  keywords: ['compress image', 'reduce image size', 'image optimizer'],
-  steps: ['Upload an image', 'Adjust the quality slider', 'See the size comparison', 'Download the compressed image'],
+  keywords: ["compress image", "reduce image size", "image optimizer"],
+  steps: [
+    "Upload an image",
+    "Adjust the quality slider",
+    "See the size comparison",
+    "Download the compressed image"
+  ],
   faqs: [
-    { question: 'How much can I compress?', answer: 'Typically 30-70% size reduction depending on quality setting and image content.' },
-    { question: 'Does compression reduce quality?', answer: 'At 80% quality the difference is usually invisible while significantly reducing file size.' }
+    {
+      question: "How much can I compress?",
+      answer: "Typically 30-70% size reduction depending on quality setting and image content."
+    },
+    {
+      question: "Does compression reduce quality?",
+      answer:
+        "At 80% quality the difference is usually invisible while significantly reducing file size."
+    }
   ]
 };
 
@@ -24,14 +36,14 @@ export function render(container) {
   let originalImg = null;
 
   const upload = createFileUpload({
-    accept: 'image/jpeg,image/png,image/webp',
+    accept: "image/jpeg,image/png,image/webp",
     multiple: false,
     maxSizeMB: 50,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       originalFile = files[0];
       originalImg = await loadImageFromFile(originalFile);
-      optionsArea.style.display = 'block';
+      optionsArea.style.display = "block";
       originalSizeEl.textContent = formatFileSize(originalFile.size);
       compressImage();
     }
@@ -64,32 +76,32 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const qualitySlider = container.querySelector('#quality-slider');
-  const qualityDisplay = container.querySelector('#quality-display');
-  const originalSizeEl = container.querySelector('#original-size');
-  const compressedSizeEl = container.querySelector('#compressed-size');
-  const reductionEl = container.querySelector('#reduction');
-  const comparisonArea = container.querySelector('#comparison-area');
-  const downloadBtn = container.querySelector('#download-btn');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const qualitySlider = container.querySelector("#quality-slider");
+  const qualityDisplay = container.querySelector("#quality-display");
+  const originalSizeEl = container.querySelector("#original-size");
+  const compressedSizeEl = container.querySelector("#compressed-size");
+  const reductionEl = container.querySelector("#reduction");
+  const comparisonArea = container.querySelector("#comparison-area");
+  const downloadBtn = container.querySelector("#download-btn");
   let compressedBlob = null;
 
-  qualitySlider.addEventListener('input', () => {
+  qualitySlider.addEventListener("input", () => {
     qualityDisplay.textContent = qualitySlider.value;
     compressImage();
   });
-  container.querySelector('#format-select').addEventListener('change', compressImage);
+  container.querySelector("#format-select").addEventListener("change", compressImage);
 
   async function compressImage() {
     if (!originalImg) return;
     const quality = parseInt(qualitySlider.value) / 100;
-    const format = container.querySelector('#format-select').value;
+    const format = container.querySelector("#format-select").value;
 
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = originalImg.naturalWidth;
     canvas.height = originalImg.naturalHeight;
-    canvas.getContext('2d').drawImage(originalImg, 0, 0);
+    canvas.getContext("2d").drawImage(originalImg, 0, 0);
 
     compressedBlob = await canvasToBlob(canvas, format, quality);
     compressedSizeEl.textContent = formatFileSize(compressedBlob.size);
@@ -110,11 +122,14 @@ export function render(container) {
     `;
   }
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     if (compressedBlob) {
-      const ext = container.querySelector('#format-select').value.split('/')[1].replace('jpeg', 'jpg');
+      const ext = container
+        .querySelector("#format-select")
+        .value.split("/")[1]
+        .replace("jpeg", "jpg");
       downloadBlob(compressedBlob, `compressed.${ext}`);
-      showToast({ message: 'Downloaded!', type: 'success' });
+      showToast({ message: "Downloaded!", type: "success" });
     }
   });
 }

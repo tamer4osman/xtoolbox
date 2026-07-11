@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'password-checker',
-  name: 'Password Strength Checker',
-  category: 'privacy',
-  description: 'Check how strong your password is with detailed feedback.',
-  icon: '🛡️',
-  status: 'done'
+  id: "password-checker",
+  name: "Password Strength Checker",
+  category: "privacy",
+  description: "Check how strong your password is with detailed feedback.",
+  icon: "🛡️",
+  status: "done"
 };
 
 export function render(container) {
@@ -25,7 +25,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 500px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -45,38 +45,41 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const password = container.querySelector('#password');
-  const toggleBtn = container.querySelector('#toggle-btn');
-  const strengthBar = container.querySelector('#strength-bar');
-  const strengthText = container.querySelector('#strength-text');
-  const checks = container.querySelector('#checks');
+  const password = container.querySelector("#password");
+  const toggleBtn = container.querySelector("#toggle-btn");
+  const strengthBar = container.querySelector("#strength-bar");
+  const strengthText = container.querySelector("#strength-text");
+  const checks = container.querySelector("#checks");
 
   const checksList = [
-    { test: p => p.length >= 8, label: 'At least 8 characters' },
-    { test: p => /[a-z]/.test(p), label: 'Contains lowercase letter' },
-    { test: p => /[A-Z]/.test(p), label: 'Contains uppercase letter' },
-    { test: p => /[0-9]/.test(p), label: 'Contains number' },
-    { test: p => /[^a-zA-Z0-9]/.test(p), label: 'Contains special character' },
-    { test: p => p.length >= 12, label: 'At least 12 characters (recommended)' }
+    { test: p => p.length >= 8, label: "At least 8 characters" },
+    { test: p => /[a-z]/.test(p), label: "Contains lowercase letter" },
+    { test: p => /[A-Z]/.test(p), label: "Contains uppercase letter" },
+    { test: p => /[0-9]/.test(p), label: "Contains number" },
+    { test: p => /[^a-zA-Z0-9]/.test(p), label: "Contains special character" },
+    { test: p => p.length >= 12, label: "At least 12 characters (recommended)" }
   ];
 
-  toggleBtn.addEventListener('click', () => {
-    password.type = password.type === 'password' ? 'text' : 'password';
+  toggleBtn.addEventListener("click", () => {
+    password.type = password.type === "password" ? "text" : "password";
   });
 
-  password.addEventListener('input', () => {
+  password.addEventListener("input", () => {
     const p = password.value;
     const results = checksList.map(c => ({ ...c, pass: c.test(p) }));
     const passed = results.filter(r => r.pass).length;
     const score = passed / results.length;
 
-    strengthBar.style.width = (score * 100) + '%';
-    strengthBar.style.background = passed < 2 ? '#ef4444' : passed < 4 ? '#f59e0b' : '#10b981';
-    strengthText.textContent = passed < 2 ? 'Weak' : passed < 4 ? 'Medium' : 'Strong';
+    strengthBar.style.width = score * 100 + "%";
+    strengthBar.style.background = passed < 2 ? "#ef4444" : passed < 4 ? "#f59e0b" : "#10b981";
+    strengthText.textContent = passed < 2 ? "Weak" : passed < 4 ? "Medium" : "Strong";
     strengthText.style.color = strengthBar.style.background;
 
-    checks.innerHTML = results.map(r => 
-      `<div class="check-item ${r.pass ? 'strong' : 'weak'}">${r.pass ? '✓' : '✗'} ${r.label}</div>`
-    ).join('');
+    checks.innerHTML = results
+      .map(
+        r =>
+          `<div class="check-item ${r.pass ? "strong" : "weak"}">${r.pass ? "✓" : "✗"} ${r.label}</div>`
+      )
+      .join("");
   });
 }

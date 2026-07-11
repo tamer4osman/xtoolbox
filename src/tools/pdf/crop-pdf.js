@@ -1,27 +1,38 @@
-import { loadPdf } from './pdf-utils.js';
-import { createPdfOptionsTool } from './pdf-options-tool-factory.js';
+import { loadPdf } from "./pdf-utils.js";
+import { createPdfOptionsTool } from "./pdf-options-tool-factory.js";
 
 export const toolConfig = {
-  id: 'crop-pdf',
-  name: 'Crop PDF Pages',
-  category: 'pdf',
-  description: 'Crop margins from PDF pages.',
-  icon: '✂️',
-  accept: '.pdf',
+  id: "crop-pdf",
+  name: "Crop PDF Pages",
+  category: "pdf",
+  description: "Crop margins from PDF pages.",
+  icon: "✂️",
+  accept: ".pdf",
   maxSizeMB: 100,
-  keywords: ['crop pdf', 'trim pdf margins', 'cut pdf'],
-  steps: ['Upload a PDF file', 'Set crop margins (top, right, bottom, left in points)', 'Click "Crop PDF"', 'Download the cropped PDF'],
+  keywords: ["crop pdf", "trim pdf margins", "cut pdf"],
+  steps: [
+    "Upload a PDF file",
+    "Set crop margins (top, right, bottom, left in points)",
+    'Click "Crop PDF"',
+    "Download the cropped PDF"
+  ],
   faqs: [
-    { question: 'What unit are the margins in?', answer: 'Margins are in PDF points (1 point = 1/72 inch). 72 points = 1 inch.' },
-    { question: 'Can I crop individual pages?', answer: 'Currently all pages are cropped with the same margins.' }
+    {
+      question: "What unit are the margins in?",
+      answer: "Margins are in PDF points (1 point = 1/72 inch). 72 points = 1 inch."
+    },
+    {
+      question: "Can I crop individual pages?",
+      answer: "Currently all pages are cropped with the same margins."
+    }
   ]
 };
 
 const FIELDS = [
-  { id: 'crop-top', key: 'top' },
-  { id: 'crop-right', key: 'right' },
-  { id: 'crop-bottom', key: 'bottom' },
-  { id: 'crop-left', key: 'left' }
+  { id: "crop-top", key: "top" },
+  { id: "crop-right", key: "right" },
+  { id: "crop-bottom", key: "bottom" },
+  { id: "crop-left", key: "left" }
 ];
 
 export function render(container) {
@@ -58,17 +69,19 @@ export function render(container) {
 
   const { optionsArea } = createPdfOptionsTool({
     container,
-    toolId: 'crop-pdf',
+    toolId: "crop-pdf",
     optionsHTML,
-    actionButtonText: 'Crop PDF',
-    processingMessage: 'Cropping...',
-    outputFilename: 'cropped.pdf',
-    successMessage: 'Done!',
-    validate: (root) => {
-      const allZero = FIELDS.every(f => (parseFloat(root.querySelector(`#${f.id}`).value) || 0) === 0);
-      return allZero ? 'Set at least one margin to crop' : null;
+    actionButtonText: "Crop PDF",
+    processingMessage: "Cropping...",
+    outputFilename: "cropped.pdf",
+    successMessage: "Done!",
+    validate: root => {
+      const allZero = FIELDS.every(
+        f => (parseFloat(root.querySelector(`#${f.id}`).value) || 0) === 0
+      );
+      return allZero ? "Set at least one margin to crop" : null;
     },
-    process: async (file) => {
+    process: async file => {
       const vals = {};
       for (const f of FIELDS) {
         vals[f.key] = parseFloat(optionsArea.querySelector(`#${f.id}`).value) || 0;
@@ -85,18 +98,18 @@ export function render(container) {
       });
 
       const bytes = await pdfDoc.save();
-      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const blob = new Blob([bytes], { type: "application/pdf" });
       return { blob, successMessage: `Cropped ${pages.length} page(s)!` };
     }
   });
 
-  optionsArea.querySelectorAll('[data-preset]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const [t, r, b, l] = btn.dataset.preset.split(',');
-      optionsArea.querySelector('#crop-top').value = t;
-      optionsArea.querySelector('#crop-right').value = r;
-      optionsArea.querySelector('#crop-bottom').value = b;
-      optionsArea.querySelector('#crop-left').value = l;
+  optionsArea.querySelectorAll("[data-preset]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const [t, r, b, l] = btn.dataset.preset.split(",");
+      optionsArea.querySelector("#crop-top").value = t;
+      optionsArea.querySelector("#crop-right").value = r;
+      optionsArea.querySelector("#crop-bottom").value = b;
+      optionsArea.querySelector("#crop-left").value = l;
     });
   });
 }

@@ -7,5 +7,3 @@ export const CALC_FORM_STYLES = `
   .calc-form .calc-button { width: 100%; padding: var(--space-3); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; }
   .hidden { display: none; }
 `;
-
-

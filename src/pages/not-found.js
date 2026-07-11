@@ -1,7 +1,7 @@
-import { $ } from '../utils/dom-query.js';
+import { $ } from "../utils/dom-query.js";
 
 export function renderNotFound() {
-  const main = $('#main-content');
+  const main = $("#main-content");
   main.innerHTML = `
     <div class="container">
       <div class="error-page">

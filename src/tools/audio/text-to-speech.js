@@ -1,16 +1,27 @@
-import { showToast } from '../../components/toast.js';
+import { showToast } from "../../components/toast.js";
 
 export const toolConfig = {
-  id: 'text-to-speech',
-  name: 'Text to Speech',
-  category: 'audio',
-  description: 'Convert text to spoken audio. Choose voice, rate, and pitch.',
-  icon: '🗣️',
+  id: "text-to-speech",
+  name: "Text to Speech",
+  category: "audio",
+  description: "Convert text to spoken audio. Choose voice, rate, and pitch.",
+  icon: "🗣️",
   accept: null,
   maxSizeMB: null,
-  keywords: ['text to speech', 'tts', 'text reader'],
-  steps: ['Enter your text', 'Choose a voice', 'Adjust rate and pitch', 'Click "Speak" or "Download"'],
-  faqs: [{ question: 'Can I download the audio?', answer: 'Some browsers support recording the speech output. Otherwise, use the browser\'s built-in playback.' }]
+  keywords: ["text to speech", "tts", "text reader"],
+  steps: [
+    "Enter your text",
+    "Choose a voice",
+    "Adjust rate and pitch",
+    'Click "Speak" or "Download"'
+  ],
+  faqs: [
+    {
+      question: "Can I download the audio?",
+      answer:
+        "Some browsers support recording the speech output. Otherwise, use the browser's built-in playback."
+    }
+  ]
 };
 
 export function render(container) {
@@ -18,9 +29,12 @@ export function render(container) {
 
   function loadVoices() {
     voices = speechSynthesis.getVoices();
-    voiceSelect.innerHTML = voices.map((v, i) =>
-      `<option value="${i}">${v.name} (${v.lang})${v.default ? ' — Default' : ''}</option>`
-    ).join('');
+    voiceSelect.innerHTML = voices
+      .map(
+        (v, i) =>
+          `<option value="${i}">${v.name} (${v.lang})${v.default ? " — Default" : ""}</option>`
+      )
+      .join("");
   }
 
   speechSynthesis.onvoiceschanged = loadVoices;
@@ -53,21 +67,28 @@ export function render(container) {
     </div>
   `;
 
-  const textInput = container.querySelector('#text-input');
-  const voiceSelect = container.querySelector('#voice-select');
-  const rateSlider = container.querySelector('#rate-slider');
-  const rateDisplay = container.querySelector('#rate-display');
-  const pitchSlider = container.querySelector('#pitch-slider');
-  const pitchDisplay = container.querySelector('#pitch-display');
-  const speakBtn = container.querySelector('#speak-btn');
-  const stopBtn = container.querySelector('#stop-btn');
+  const textInput = container.querySelector("#text-input");
+  const voiceSelect = container.querySelector("#voice-select");
+  const rateSlider = container.querySelector("#rate-slider");
+  const rateDisplay = container.querySelector("#rate-display");
+  const pitchSlider = container.querySelector("#pitch-slider");
+  const pitchDisplay = container.querySelector("#pitch-display");
+  const speakBtn = container.querySelector("#speak-btn");
+  const stopBtn = container.querySelector("#stop-btn");
 
-  rateSlider.addEventListener('input', () => { rateDisplay.textContent = (parseInt(rateSlider.value) / 100).toFixed(1); });
-  pitchSlider.addEventListener('input', () => { pitchDisplay.textContent = (parseInt(pitchSlider.value) / 100).toFixed(1); });
+  rateSlider.addEventListener("input", () => {
+    rateDisplay.textContent = (parseInt(rateSlider.value) / 100).toFixed(1);
+  });
+  pitchSlider.addEventListener("input", () => {
+    pitchDisplay.textContent = (parseInt(pitchSlider.value) / 100).toFixed(1);
+  });
 
-  speakBtn.addEventListener('click', () => {
+  speakBtn.addEventListener("click", () => {
     const text = textInput.value.trim();
-    if (!text) { showToast({ message: 'Enter some text first', type: 'warning' }); return; }
+    if (!text) {
+      showToast({ message: "Enter some text first", type: "warning" });
+      return;
+    }
 
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
@@ -76,17 +97,25 @@ export function render(container) {
     utterance.rate = parseInt(rateSlider.value) / 100;
     utterance.pitch = parseInt(pitchSlider.value) / 100;
 
-    utterance.onstart = () => { speakBtn.textContent = '🔊 Speaking...'; };
-    utterance.onend = () => { speakBtn.textContent = '🔊 Speak'; };
-    utterance.onerror = () => { speakBtn.textContent = '🔊 Speak'; };
+    utterance.onstart = () => {
+      speakBtn.textContent = "🔊 Speaking...";
+    };
+    utterance.onend = () => {
+      speakBtn.textContent = "🔊 Speak";
+    };
+    utterance.onerror = () => {
+      speakBtn.textContent = "🔊 Speak";
+    };
 
     speechSynthesis.speak(utterance);
   });
 
-  stopBtn.addEventListener('click', () => {
+  stopBtn.addEventListener("click", () => {
     speechSynthesis.cancel();
-    speakBtn.textContent = '🔊 Speak';
+    speakBtn.textContent = "🔊 Speak";
   });
 }
 
-export function destroy() { speechSynthesis.cancel(); }
+export function destroy() {
+  speechSynthesis.cancel();
+}

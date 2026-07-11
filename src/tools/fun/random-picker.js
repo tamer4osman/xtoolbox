@@ -1,13 +1,13 @@
 export const toolConfig = {
-  id: 'random-picker',
-  name: 'Random Picker',
-  category: 'fun',
-  description: 'Pick random names from a list. Great for giveaways.',
-  icon: '🎯',
+  id: "random-picker",
+  name: "Random Picker",
+  category: "fun",
+  description: "Pick random names from a list. Great for giveaways.",
+  icon: "🎯",
   accept: null,
   maxSizeMB: null,
-  keywords: ['random picker', 'random selector', 'name picker', 'raffle'],
-  steps: ['Enter names', 'Pick winner']
+  keywords: ["random picker", "random selector", "name picker", "raffle"],
+  steps: ["Enter names", "Pick winner"]
 };
 
 export function render(container) {
@@ -26,7 +26,7 @@ Eve</textarea>
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .picker-container { max-width: 500px; margin: 0 auto; }
     textarea { width: 100%; min-height: 150px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
@@ -40,27 +40,30 @@ Eve</textarea>
   `;
   container.appendChild(style);
 
-  const namesInput = container.querySelector('#names');
-  const countInput = container.querySelector('#count');
-  const pickBtn = container.querySelector('#pick-btn');
-  const results = container.querySelector('#results');
+  const namesInput = container.querySelector("#names");
+  const countInput = container.querySelector("#count");
+  const pickBtn = container.querySelector("#pick-btn");
+  const results = container.querySelector("#results");
 
   function pick() {
-    const names = namesInput.value.split('\n').map(n => n.trim()).filter(n => n);
-    
+    const names = namesInput.value
+      .split("\n")
+      .map(n => n.trim())
+      .filter(n => n);
+
     if (names.length < 2) {
-      results.innerHTML = '<p>Enter at least 2 names</p>';
+      results.innerHTML = "<p>Enter at least 2 names</p>";
       return;
     }
-    
+
     const count = Math.min(names.length, Math.max(1, parseInt(countInput.value) || 1));
     const shuffled = [...names].sort(() => Math.random() - 0.5);
     const winners = shuffled.slice(0, count);
-    
-    results.innerHTML = winners.map((w, i) => 
-      `<div class="winner">${i + 1}. ${w} 🎉</div>`
-    ).join('');
+
+    results.innerHTML = winners
+      .map((w, i) => `<div class="winner">${i + 1}. ${w} 🎉</div>`)
+      .join("");
   }
 
-  pickBtn.addEventListener('click', pick);
+  pickBtn.addEventListener("click", pick);
 }

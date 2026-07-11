@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'lorem-ipsum',
-  name: 'Lorem Ipsum Generator',
-  category: 'dev',
-  description: 'Generate placeholder text by paragraphs, words, or sentences.',
-  icon: '📝',
-  status: 'done'
+  id: "lorem-ipsum",
+  name: "Lorem Ipsum Generator",
+  category: "dev",
+  description: "Generate placeholder text by paragraphs, words, or sentences.",
+  icon: "📝",
+  status: "done"
 };
 
 export function render(container) {
@@ -30,7 +30,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .lorem-container { max-width: 700px; margin: 0 auto; }
     .lorem-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -45,43 +45,110 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const words = ['lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit', 'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore', 'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud', 'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo', 'consequat', 'duis', 'aute', 'irure', 'in', 'reprehenderit', 'in', 'voluptate', 'velit', 'esse', 'cillum', 'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint', 'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui', 'officia', 'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum'];
+  const words = [
+    "lorem",
+    "ipsum",
+    "dolor",
+    "sit",
+    "amet",
+    "consectetur",
+    "adipiscing",
+    "elit",
+    "sed",
+    "do",
+    "eiusmod",
+    "tempor",
+    "incididunt",
+    "ut",
+    "labore",
+    "et",
+    "dolore",
+    "magna",
+    "aliqua",
+    "enim",
+    "ad",
+    "minim",
+    "veniam",
+    "quis",
+    "nostrud",
+    "exercitation",
+    "ullamco",
+    "laboris",
+    "nisi",
+    "aliquip",
+    "ex",
+    "ea",
+    "commodo",
+    "consequat",
+    "duis",
+    "aute",
+    "irure",
+    "in",
+    "reprehenderit",
+    "in",
+    "voluptate",
+    "velit",
+    "esse",
+    "cillum",
+    "fugiat",
+    "nulla",
+    "pariatur",
+    "excepteur",
+    "sint",
+    "occaecat",
+    "cupidatat",
+    "non",
+    "proident",
+    "sunt",
+    "culpa",
+    "qui",
+    "officia",
+    "deserunt",
+    "mollit",
+    "anim",
+    "id",
+    "est",
+    "laborum"
+  ];
 
   function generate() {
-    const count = parseInt(container.querySelector('#count').value) || 50;
-    const type = container.querySelector('#type').value;
-    let result = '';
-    if (type === 'words') {
-      for (let i = 0; i < count; i++) result += words[Math.floor(Math.random() * words.length)] + ' ';
-    } else if (type === 'sentences') {
+    const count = parseInt(container.querySelector("#count").value) || 50;
+    const type = container.querySelector("#type").value;
+    let result = "";
+    if (type === "words") {
+      for (let i = 0; i < count; i++)
+        result += words[Math.floor(Math.random() * words.length)] + " ";
+    } else if (type === "sentences") {
       const sentenceCount = Math.max(1, Math.floor(count / 8));
       for (let i = 0; i < sentenceCount; i++) {
         const len = Math.floor(Math.random() * 10) + 5;
-        let sentence = '';
-        for (let j = 0; j < len; j++) sentence += words[Math.floor(Math.random() * words.length)] + ' ';
-        result += sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + '. ';
+        let sentence = "";
+        for (let j = 0; j < len; j++)
+          sentence += words[Math.floor(Math.random() * words.length)] + " ";
+        result += sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + ". ";
       }
     } else {
       const paraCount = Math.max(1, Math.floor(count / 5));
       for (let p = 0; p < paraCount; p++) {
-        let para = '';
+        let para = "";
         for (let s = 0; s < 5; s++) {
           const len = Math.floor(Math.random() * 10) + 8;
-          let sentence = '';
-          for (let j = 0; j < len; j++) sentence += words[Math.floor(Math.random() * words.length)] + ' ';
-          para += sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + '. ';
+          let sentence = "";
+          for (let j = 0; j < len; j++)
+            sentence += words[Math.floor(Math.random() * words.length)] + " ";
+          para += sentence.charAt(0).toUpperCase() + sentence.slice(1).trim() + ". ";
         }
-        result += para.trim() + '\n\n';
+        result += para.trim() + "\n\n";
       }
     }
-    container.querySelector('#result').textContent = result.trim();
+    container.querySelector("#result").textContent = result.trim();
   }
 
-  container.querySelector('#generateBtn').addEventListener('click', generate);
-  container.querySelector('#copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(container.querySelector('#result').textContent);
-    container.querySelector('#copyBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyBtn').textContent = 'Copy', 1500);
+  container.querySelector("#generateBtn").addEventListener("click", generate);
+  container.querySelector("#copyBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(container.querySelector("#result").textContent);
+    container.querySelector("#copyBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyBtn").textContent = "Copy"), 1500);
   });
   generate();
 }

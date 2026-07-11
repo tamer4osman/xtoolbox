@@ -1,13 +1,13 @@
 export const toolConfig = {
-  id: 'coin-flip',
-  name: 'Coin Flip',
-  category: 'fun',
-  description: 'Flip a coin. Heads or tails?',
-  icon: '🪙',
+  id: "coin-flip",
+  name: "Coin Flip",
+  category: "fun",
+  description: "Flip a coin. Heads or tails?",
+  icon: "🪙",
   accept: null,
   maxSizeMB: null,
-  keywords: ['coin flip', 'heads tails', 'random coin'],
-  steps: ['Click to flip', 'See result']
+  keywords: ["coin flip", "heads tails", "random coin"],
+  steps: ["Click to flip", "See result"]
 };
 
 export function render(container) {
@@ -19,7 +19,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .coin-container { text-align: center; padding: var(--space-8); }
     .coin { 
@@ -46,20 +46,20 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const coin = container.querySelector('#coin');
-  const flipBtn = container.querySelector('#flip-btn');
-  const result = container.querySelector('#result');
+  const coin = container.querySelector("#coin");
+  const flipBtn = container.querySelector("#flip-btn");
+  const result = container.querySelector("#result");
 
   function flip() {
-    coin.classList.add('flipping');
+    coin.classList.add("flipping");
     const isHeads = Math.random() > 0.5;
-    
+
     setTimeout(() => {
-      coin.classList.remove('flipping');
-      result.textContent = isHeads ? 'Heads! 🪙' : 'Tails! 🪙';
+      coin.classList.remove("flipping");
+      result.textContent = isHeads ? "Heads! 🪙" : "Tails! 🪙";
     }, 1000);
   }
 
-  flipBtn.addEventListener('click', flip);
-  coin.addEventListener('click', flip);
+  flipBtn.addEventListener("click", flip);
+  coin.addEventListener("click", flip);
 }

@@ -5,7 +5,8 @@ export const toolConfig = {
   id: "symptom-tracker",
   name: "Symptom Onset Tracker",
   category: "health",
-  description: "Log symptoms with onset, severity, and notes. Export a printable summary for doctors.",
+  description:
+    "Log symptoms with onset, severity, and notes. Export a printable summary for doctors.",
   icon: "🩺",
   accept: null,
   maxSizeMB: 0,
@@ -13,18 +14,18 @@ export const toolConfig = {
   steps: [
     "Log symptoms with date, severity, and notes",
     "View timeline of symptoms",
-    "Export a text summary for your doctor",
+    "Export a text summary for your doctor"
   ],
   faqs: [
     {
       question: "Is this a medical diagnostic tool?",
-      answer: "No. This is a tracking tool to help you organize information for doctor visits.",
+      answer: "No. This is a tracking tool to help you organize information for doctor visits."
     },
     {
       question: "Is my health data private?",
-      answer: "Yes. All data is stored in your browser and never leaves your device.",
-    },
-  ],
+      answer: "Yes. All data is stored in your browser and never leaves your device."
+    }
+  ]
 };
 
 export const BODY_PARTS = [
@@ -41,14 +42,14 @@ export const BODY_PARTS = [
   "Legs",
   "Feet",
   "Skin",
-  "General",
+  "General"
 ];
 
 export const SEVERITY_LEVELS = [
   { value: 1, label: "Mild", color: "#22c55e" },
   { value: 2, label: "Moderate", color: "#f59e0b" },
   { value: 3, label: "Severe", color: "#ef4444" },
-  { value: 4, label: "Very Severe", color: "#991b1b" },
+  { value: 4, label: "Very Severe", color: "#991b1b" }
 ];
 
 export function toLocalDatetimeInput(date) {
@@ -58,13 +59,17 @@ export function toLocalDatetimeInput(date) {
 }
 
 export function escapeHtml(str) {
-  return String(str ?? "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  })[c]);
+  return String(str ?? "").replace(
+    /[&<>"']/g,
+    c =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[c]
+  );
 }
 
 export function generateId() {
@@ -89,7 +94,7 @@ export function formatDate(dateStr) {
     month: "short",
     day: "numeric",
     hour: "2-digit",
-    minute: "2-digit",
+    minute: "2-digit"
   });
 }
 
@@ -106,13 +111,13 @@ export function render(container) {
         <div class="form-group" style="flex:1;">
           <label for="body-part">Body Part</label>
           <select id="body-part" class="text-input">
-            ${BODY_PARTS.map((p) => `<option value="${p}">${p}</option>`).join("")}
+            ${BODY_PARTS.map(p => `<option value="${p}">${p}</option>`).join("")}
           </select>
         </div>
         <div class="form-group" style="flex:1;">
           <label for="severity">Severity</label>
           <select id="severity" class="text-input">
-            ${SEVERITY_LEVELS.map((s) => `<option value="${s.value}">${s.label}</option>`).join("")}
+            ${SEVERITY_LEVELS.map(s => `<option value="${s.value}">${s.label}</option>`).join("")}
           </select>
         </div>
         <div class="form-group" style="flex:1;">
@@ -151,8 +156,8 @@ export function render(container) {
       sorted.length === 0
         ? '<div style="color:var(--color-text-muted);">No symptoms logged yet</div>'
         : sorted
-            .map((e) => {
-              const sev = SEVERITY_LEVELS.find((s) => s.value === e.severity) || SEVERITY_LEVELS[0];
+            .map(e => {
+              const sev = SEVERITY_LEVELS.find(s => s.value === e.severity) || SEVERITY_LEVELS[0];
               return `
           <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-2);border-left:4px solid ${sev.color};">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;">
@@ -172,9 +177,9 @@ export function render(container) {
             })
             .join("");
 
-    symptomsList.querySelectorAll(".remove-symptom").forEach((btn) => {
+    symptomsList.querySelectorAll(".remove-symptom").forEach(btn => {
       btn.addEventListener("click", () => {
-        entries = entries.filter((e) => e.id !== btn.dataset.id);
+        entries = entries.filter(e => e.id !== btn.dataset.id);
         saveData(entries);
         renderSymptoms();
       });
@@ -193,7 +198,7 @@ export function render(container) {
       bodyPart: bodyPart.value,
       severity: parseInt(severity.value),
       onset: onsetDate.value || new Date().toISOString(),
-      notes: symptomNotes.value.trim(),
+      notes: symptomNotes.value.trim()
     });
     saveData(entries);
     symptomName.value = "";
@@ -209,8 +214,8 @@ export function render(container) {
     }
     const sorted = [...entries].sort((a, b) => new Date(b.onset) - new Date(a.onset));
     const text = sorted
-      .map((e) => {
-        const sev = SEVERITY_LEVELS.find((s) => s.value === e.severity);
+      .map(e => {
+        const sev = SEVERITY_LEVELS.find(s => s.value === e.severity);
         return `[${formatDate(e.onset)}] ${e.name} (${e.bodyPart}) - ${sev?.label}\n${e.notes || "No notes"}`;
       })
       .join("\n\n");

@@ -1,10 +1,11 @@
 export const toolConfig = {
-  id: 'security-headers-generator',
-  name: 'Security Headers Generator',
-  category: 'dev',
-  description: 'Configure Content Security Policy (CSP), HSTS, and generate config rules for Nginx, Apache, or Cloudflare.',
-  icon: '🛡️',
-  status: 'done'
+  id: "security-headers-generator",
+  name: "Security Headers Generator",
+  category: "dev",
+  description:
+    "Configure Content Security Policy (CSP), HSTS, and generate config rules for Nginx, Apache, or Cloudflare.",
+  icon: "🛡️",
+  status: "done"
 };
 
 export function render(container) {
@@ -60,7 +61,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .shg-container { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
     @media (max-width: 768px) { .shg-container { grid-template-columns: 1fr; } }
@@ -85,121 +86,135 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  let fmt = 'nginx';
-  const fmtLabels = { nginx: 'Nginx Configuration', apache: 'Apache .htaccess', cloudflare: 'Cloudflare _headers', raw: 'Raw HTTP Headers' };
+  let fmt = "nginx";
+  const fmtLabels = {
+    nginx: "Nginx Configuration",
+    apache: "Apache .htaccess",
+    cloudflare: "Cloudflare _headers",
+    raw: "Raw HTTP Headers"
+  };
 
-  container.querySelectorAll('.shg-fmt').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.shg-fmt').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  container.querySelectorAll(".shg-fmt").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".shg-fmt").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
       fmt = btn.dataset.fmt;
-      container.querySelector('#shg-fmt-label').textContent = fmtLabels[fmt];
+      container.querySelector("#shg-fmt-label").textContent = fmtLabels[fmt];
       generate();
     });
   });
 
   function getVals() {
     return {
-      csp: container.querySelector('#shg-csp').checked,
-      cspInline: container.querySelector('#shg-csp-inline').checked,
-      cspEval: container.querySelector('#shg-csp-eval').checked,
-      cspSelf: container.querySelector('#shg-csp-self').checked,
-      cspHttps: container.querySelector('#shg-csp-https').checked,
-      cspGa: container.querySelector('#shg-csp-google').checked,
-      cspCf: container.querySelector('#shg-csp-cloudflare').checked,
-      hsts: container.querySelector('#shg-hsts').checked,
-      hstsAge: container.querySelector('#shg-hsts-age').value,
-      hstsSub: container.querySelector('#shg-hsts-sub').checked,
-      hstsPreload: container.querySelector('#shg-hsts-preload').checked,
-      xfo: container.querySelector('#shg-xfo').checked,
-      xcto: container.querySelector('#shg-xcto').checked,
-      referrer: container.querySelector('#shg-referrer').checked,
-      permissions: container.querySelector('#shg-permissions').checked,
-      xxss: container.querySelector('#shg-xxss').checked,
+      csp: container.querySelector("#shg-csp").checked,
+      cspInline: container.querySelector("#shg-csp-inline").checked,
+      cspEval: container.querySelector("#shg-csp-eval").checked,
+      cspSelf: container.querySelector("#shg-csp-self").checked,
+      cspHttps: container.querySelector("#shg-csp-https").checked,
+      cspGa: container.querySelector("#shg-csp-google").checked,
+      cspCf: container.querySelector("#shg-csp-cloudflare").checked,
+      hsts: container.querySelector("#shg-hsts").checked,
+      hstsAge: container.querySelector("#shg-hsts-age").value,
+      hstsSub: container.querySelector("#shg-hsts-sub").checked,
+      hstsPreload: container.querySelector("#shg-hsts-preload").checked,
+      xfo: container.querySelector("#shg-xfo").checked,
+      xcto: container.querySelector("#shg-xcto").checked,
+      referrer: container.querySelector("#shg-referrer").checked,
+      permissions: container.querySelector("#shg-permissions").checked,
+      xxss: container.querySelector("#shg-xxss").checked
     };
   }
 
   function buildCsp(v) {
     const parts = [];
     if (v.cspSelf) parts.push("'self'");
-    if (v.cspHttps) parts.push('https:');
-    if (v.cspGa) parts.push('https://www.google-analytics.com https://www.googletagmanager.com');
-    if (v.cspCf) parts.push('https://challenges.cloudflare.com');
+    if (v.cspHttps) parts.push("https:");
+    if (v.cspGa) parts.push("https://www.google-analytics.com https://www.googletagmanager.com");
+    if (v.cspCf) parts.push("https://challenges.cloudflare.com");
     const scriptSrc = ["'unsafe-inline'"];
     if (!v.cspInline) scriptSrc.shift();
     if (v.cspEval) scriptSrc.push("'unsafe-eval'");
     const directives = [
       "default-src 'self'",
-      "script-src " + (parts.length ? parts.join(' ') + ' ' : '') + scriptSrc.join(' '),
+      "script-src " + (parts.length ? parts.join(" ") + " " : "") + scriptSrc.join(" "),
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: https:",
       "font-src 'self' https://fonts.gstatic.com",
       "connect-src 'self'",
       "frame-ancestors 'none'"
     ];
-    return directives.join('; ');
+    return directives.join("; ");
   }
 
   function buildHeaders(v) {
     const headers = [];
-    if (v.csp) headers.push({ name: 'Content-Security-Policy', value: buildCsp(v) });
+    if (v.csp) headers.push({ name: "Content-Security-Policy", value: buildCsp(v) });
     if (v.hsts) {
-      let val = 'max-age=' + v.hstsAge;
-      if (v.hstsSub) val += '; includeSubDomains';
-      if (v.hstsPreload) val += '; preload';
-      headers.push({ name: 'Strict-Transport-Security', value: val });
+      let val = "max-age=" + v.hstsAge;
+      if (v.hstsSub) val += "; includeSubDomains";
+      if (v.hstsPreload) val += "; preload";
+      headers.push({ name: "Strict-Transport-Security", value: val });
     }
-    if (v.xfo) headers.push({ name: 'X-Frame-Options', value: 'DENY' });
-    if (v.xcto) headers.push({ name: 'X-Content-Type-Options', value: 'nosniff' });
-    if (v.referrer) headers.push({ name: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' });
-    if (v.permissions) headers.push({ name: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' });
-    if (v.xxss) headers.push({ name: 'X-XSS-Protection', value: '0' });
+    if (v.xfo) headers.push({ name: "X-Frame-Options", value: "DENY" });
+    if (v.xcto) headers.push({ name: "X-Content-Type-Options", value: "nosniff" });
+    if (v.referrer)
+      headers.push({ name: "Referrer-Policy", value: "strict-origin-when-cross-origin" });
+    if (v.permissions)
+      headers.push({
+        name: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=(), payment=()"
+      });
+    if (v.xxss) headers.push({ name: "X-XSS-Protection", value: "0" });
     return headers;
   }
 
   function generate() {
     const v = getVals();
     const headers = buildHeaders(v);
-    let output = '';
+    let output = "";
 
-    if (fmt === 'nginx') {
-      output = '# Nginx security headers\n# Add to your server {} or location {} block\n\n';
+    if (fmt === "nginx") {
+      output = "# Nginx security headers\n# Add to your server {} or location {} block\n\n";
       headers.forEach(h => {
-        output += 'add_header ' + h.name + ' "' + h.value + '" always;\n';
+        output += "add_header " + h.name + ' "' + h.value + '" always;\n';
       });
-    } else if (fmt === 'apache') {
-      output = '# Apache .htaccess security headers\n# Add to your .htaccess or Apache config\n\n';
+    } else if (fmt === "apache") {
+      output = "# Apache .htaccess security headers\n# Add to your .htaccess or Apache config\n\n";
       headers.forEach(h => {
-        output += 'Header always set ' + h.name + ' "' + h.value + '"\n';
+        output += "Header always set " + h.name + ' "' + h.value + '"\n';
       });
-    } else if (fmt === 'cloudflare') {
-      output = '# Cloudflare Pages _headers file\n# Place at the root of your public directory\n\n/*\n';
+    } else if (fmt === "cloudflare") {
+      output =
+        "# Cloudflare Pages _headers file\n# Place at the root of your public directory\n\n/*\n";
       headers.forEach(h => {
-        output += '  ' + h.name + ': ' + h.value + '\n';
+        output += "  " + h.name + ": " + h.value + "\n";
       });
     } else {
-      output = '# Raw HTTP response headers\n\n';
+      output = "# Raw HTTP response headers\n\n";
       headers.forEach(h => {
-        output += h.name + ': ' + h.value + '\n';
+        output += h.name + ": " + h.value + "\n";
       });
     }
 
-    container.querySelector('#shg-output').textContent = output || '# No headers selected';
+    container.querySelector("#shg-output").textContent = output || "# No headers selected";
   }
 
   container.querySelectorAll('input[type="checkbox"], select').forEach(el => {
-    el.addEventListener('change', generate);
+    el.addEventListener("change", generate);
   });
 
-  container.querySelector('#shg-copy').addEventListener('click', () => {
-    const text = container.querySelector('#shg-output').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      container.querySelector('#shg-copy').textContent = 'Copied!';
-      setTimeout(() => container.querySelector('#shg-copy').textContent = 'Copy', 1500);
-    }).catch(() => {
-      container.querySelector('#shg-copy').textContent = 'Failed';
-      setTimeout(() => container.querySelector('#shg-copy').textContent = 'Copy', 1500);
-    });
+  container.querySelector("#shg-copy").addEventListener("click", () => {
+    const text = container.querySelector("#shg-output").textContent;
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        container.querySelector("#shg-copy").textContent = "Copied!";
+        setTimeout(() => (container.querySelector("#shg-copy").textContent = "Copy"), 1500);
+      })
+      .catch(() => {
+        container.querySelector("#shg-copy").textContent = "Failed";
+        setTimeout(() => (container.querySelector("#shg-copy").textContent = "Copy"), 1500);
+      });
   });
 
   generate();

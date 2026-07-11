@@ -1,22 +1,33 @@
-import { createLookupTool } from '../shared/lookup-tool-factory.js';
+import { createLookupTool } from "../shared/lookup-tool-factory.js";
 
 function getAQIColor(aqi) {
-  if (aqi <= 50) return { bg: '#10b981', label: 'Good', desc: 'Air quality is satisfactory.' };
-  if (aqi <= 100) return { bg: '#f59e0b', label: 'Moderate', desc: 'Acceptable.' };
-  if (aqi <= 150) return { bg: '#f97316', label: 'Unhealthy for Sensitive', desc: 'Sensitive groups may experience effects.' };
-  if (aqi <= 200) return { bg: '#ef4444', label: 'Unhealthy', desc: 'Everyone may experience effects.' };
-  if (aqi <= 300) return { bg: '#7c3aed', label: 'Very Unhealthy', desc: 'Health warnings of emergency conditions.' };
-  return { bg: '#7f1d1d', label: 'Hazardous', desc: 'Health alert: serious effects.' };
+  if (aqi <= 50) return { bg: "#10b981", label: "Good", desc: "Air quality is satisfactory." };
+  if (aqi <= 100) return { bg: "#f59e0b", label: "Moderate", desc: "Acceptable." };
+  if (aqi <= 150)
+    return {
+      bg: "#f97316",
+      label: "Unhealthy for Sensitive",
+      desc: "Sensitive groups may experience effects."
+    };
+  if (aqi <= 200)
+    return { bg: "#ef4444", label: "Unhealthy", desc: "Everyone may experience effects." };
+  if (aqi <= 300)
+    return {
+      bg: "#7c3aed",
+      label: "Very Unhealthy",
+      desc: "Health warnings of emergency conditions."
+    };
+  return { bg: "#7f1d1d", label: "Hazardous", desc: "Health alert: serious effects." };
 }
 
 const { toolConfig, render } = createLookupTool({
   toolConfig: {
-    id: 'air-quality',
-    name: 'Air Quality Index',
-    category: 'weather',
-    description: 'Check air quality index and pollutant levels for any location.',
-    icon: '🌬️',
-    status: 'done'
+    id: "air-quality",
+    name: "Air Quality Index",
+    category: "weather",
+    description: "Check air quality index and pollutant levels for any location.",
+    icon: "🌬️",
+    status: "done"
   },
   contentHTML: `
     <div class="search-box">
@@ -60,29 +71,31 @@ const { toolConfig, render } = createLookupTool({
     .pollutant-value { font-size: var(--text-lg); font-weight: 700; }
     .location-info { text-align: center; color: var(--color-text-muted); font-size: var(--text-sm); }
   `,
-  errorMessage: 'Could not find AQI for the specified city.',
-  validate: (vals) => !vals['city-input']?.trim() ? 'Enter a city' : null,
+  errorMessage: "Could not find AQI for the specified city.",
+  validate: vals => (!vals["city-input"]?.trim() ? "Enter a city" : null),
   onSearch: async (vals, container) => {
-    const city = vals['city-input'].trim();
-    const res = await fetch('https://api.waqi.info/feed/' + encodeURIComponent(city) + '/?token=demo');
+    const city = vals["city-input"].trim();
+    const res = await fetch(
+      "https://api.waqi.info/feed/" + encodeURIComponent(city) + "/?token=demo"
+    );
     const data = await res.json();
-    if (data.status !== 'ok') throw new Error('City not found');
+    if (data.status !== "ok") throw new Error("City not found");
 
     const aqi = data.data.aqi;
     const color = getAQIColor(aqi);
-    container.querySelector('#aqi-circle').style.background = color.bg;
-    container.querySelector('#aqi-value').textContent = aqi;
-    container.querySelector('#aqi-label').textContent = color.label;
-    container.querySelector('#aqi-desc').textContent = color.desc;
+    container.querySelector("#aqi-circle").style.background = color.bg;
+    container.querySelector("#aqi-value").textContent = aqi;
+    container.querySelector("#aqi-label").textContent = color.label;
+    container.querySelector("#aqi-desc").textContent = color.desc;
 
     const iaqi = data.data.iaqi;
-    container.querySelector('#pm25').textContent = iaqi.pm25?.v || '-';
-    container.querySelector('#pm10').textContent = iaqi.pm10?.v || '-';
-    container.querySelector('#o3').textContent = iaqi.o3?.v || '-';
-    container.querySelector('#no2').textContent = iaqi.no2?.v || '-';
-    container.querySelector('#so2').textContent = iaqi.so2?.v || '-';
-    container.querySelector('#co').textContent = iaqi.co?.v || '-';
-    container.querySelector('#station-name').textContent = data.data.city?.name || city;
+    container.querySelector("#pm25").textContent = iaqi.pm25?.v || "-";
+    container.querySelector("#pm10").textContent = iaqi.pm10?.v || "-";
+    container.querySelector("#o3").textContent = iaqi.o3?.v || "-";
+    container.querySelector("#no2").textContent = iaqi.no2?.v || "-";
+    container.querySelector("#so2").textContent = iaqi.so2?.v || "-";
+    container.querySelector("#co").textContent = iaqi.co?.v || "-";
+    container.querySelector("#station-name").textContent = data.data.city?.name || city;
   }
 });
 

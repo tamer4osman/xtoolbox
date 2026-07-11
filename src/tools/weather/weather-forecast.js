@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'weather-forecast',
-  name: 'Weather Forecast',
-  category: 'weather',
-  description: 'Get current weather and 7-day forecast for any city.',
-  icon: '🌤️',
-  status: 'done'
+  id: "weather-forecast",
+  name: "Weather Forecast",
+  category: "weather",
+  description: "Get current weather and 7-day forecast for any city.",
+  icon: "🌤️",
+  status: "done"
 };
 
 export function render(container) {
@@ -45,7 +45,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 700px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -76,71 +76,81 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const cityInput = container.querySelector('#city-input');
-  const searchBtn = container.querySelector('#search-btn');
-  const loading = container.querySelector('#loading');
-  const weatherDisplay = container.querySelector('#weather-display');
-  const error = container.querySelector('#error');
+  const cityInput = container.querySelector("#city-input");
+  const searchBtn = container.querySelector("#search-btn");
+  const loading = container.querySelector("#loading");
+  const weatherDisplay = container.querySelector("#weather-display");
+  const error = container.querySelector("#error");
 
   async function fetchWeather(city) {
-    loading.classList.remove('hidden');
-    weatherDisplay.classList.add('hidden');
-    error.classList.add('hidden');
+    loading.classList.remove("hidden");
+    weatherDisplay.classList.add("hidden");
+    error.classList.add("hidden");
 
     try {
-      const res = await fetch('https://wttr.in/' + encodeURIComponent(city) + '?format=j1');
-      if (!res.ok) throw new Error('City not found');
+      const res = await fetch("https://wttr.in/" + encodeURIComponent(city) + "?format=j1");
+      if (!res.ok) throw new Error("City not found");
       const data = await res.json();
       displayWeather(data);
     } catch (err) {
       error.textContent = 'Could not find weather for "' + city + '". Please try another city.';
-      error.classList.remove('hidden');
+      error.classList.remove("hidden");
     } finally {
-      loading.classList.add('hidden');
+      loading.classList.add("hidden");
     }
   }
 
   function displayWeather(data) {
     const current = data.current_condition[0];
-    container.querySelector('#temp').textContent = current.temp_C + '°C';
-    container.querySelector('#condition').textContent = current.weatherDesc[0].value;
-    container.querySelector('#humidity').textContent = current.humidity + '%';
-    container.querySelector('#wind').textContent = current.windspeedKmph + ' km/h';
-    container.querySelector('#feels-like').textContent = current.FeelsLikeC + '°C';
-    container.querySelector('#location-name').textContent = data.nearest_area?.[0]?.areaName?.[0]?.value || cityInput.value;
-    container.querySelector('#local-time').textContent = new Date().toLocaleString();
+    container.querySelector("#temp").textContent = current.temp_C + "°C";
+    container.querySelector("#condition").textContent = current.weatherDesc[0].value;
+    container.querySelector("#humidity").textContent = current.humidity + "%";
+    container.querySelector("#wind").textContent = current.windspeedKmph + " km/h";
+    container.querySelector("#feels-like").textContent = current.FeelsLikeC + "°C";
+    container.querySelector("#location-name").textContent =
+      data.nearest_area?.[0]?.areaName?.[0]?.value || cityInput.value;
+    container.querySelector("#local-time").textContent = new Date().toLocaleString();
 
-    const icon = current.weatherCode ? getWeatherIcon(current.weatherCode) : '🌤️';
-    container.querySelector('#weather-icon').textContent = icon;
+    const icon = current.weatherCode ? getWeatherIcon(current.weatherCode) : "🌤️";
+    container.querySelector("#weather-icon").textContent = icon;
 
-    const forecast = container.querySelector('#forecast');
-    forecast.innerHTML = '';
+    const forecast = container.querySelector("#forecast");
+    forecast.innerHTML = "";
     if (data.weather) {
       data.weather.slice(0, 7).forEach(day => {
         const date = new Date(day.date);
-        const div = document.createElement('div');
-        div.className = 'forecast-day';
+        const div = document.createElement("div");
+        div.className = "forecast-day";
         div.innerHTML = `
-          <div class="day">${date.toLocaleDateString('en', { weekday: 'short' })}</div>
+          <div class="day">${date.toLocaleDateString("en", { weekday: "short" })}</div>
           <div class="weather-icon">${getWeatherIcon(day.hourly?.[0]?.weatherCode || 0)}</div>
           <div class="temp">${day.avgtempC}°</div>
         `;
         forecast.appendChild(div);
       });
     }
-    weatherDisplay.classList.remove('hidden');
+    weatherDisplay.classList.remove("hidden");
   }
 
   function getWeatherIcon(code) {
     const icons = {
-      113: '☀️', 116: '⛅', 119: '☁️', 122: '☁️',
-      176: '🌧️', 200: '⛈️', 263: '🌧️', 353: '🌧️',
-      362: '🌧️', 365: '🌧️', 389: '⛈️'
+      113: "☀️",
+      116: "⛅",
+      119: "☁️",
+      122: "☁️",
+      176: "🌧️",
+      200: "⛈️",
+      263: "🌧️",
+      353: "🌧️",
+      362: "🌧️",
+      365: "🌧️",
+      389: "⛈️"
     };
-    return icons[code] || '☁️';
+    return icons[code] || "☁️";
   }
 
-  searchBtn.addEventListener('click', () => fetchWeather(cityInput.value));
-  cityInput.addEventListener('keypress', e => { if (e.key === 'Enter') fetchWeather(cityInput.value); });
-
-  }
+  searchBtn.addEventListener("click", () => fetchWeather(cityInput.value));
+  cityInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") fetchWeather(cityInput.value);
+  });
+}

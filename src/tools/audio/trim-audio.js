@@ -1,19 +1,35 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { loadAudioFile, audioBufferToWav, sliceAudioBuffer, drawWaveform, formatAudioTime } from './audio-utils.js';
-import { downloadBlob } from '../../utils/file.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import {
+  loadAudioFile,
+  audioBufferToWav,
+  sliceAudioBuffer,
+  drawWaveform,
+  formatAudioTime
+} from "./audio-utils.js";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'trim-audio',
-  name: 'Audio Trimmer',
-  category: 'audio',
-  description: 'Cut and trim audio files by setting start and end time.',
-  icon: '✂️',
-  accept: 'audio/*',
+  id: "trim-audio",
+  name: "Audio Trimmer",
+  category: "audio",
+  description: "Cut and trim audio files by setting start and end time.",
+  icon: "✂️",
+  accept: "audio/*",
   maxSizeMB: 100,
-  keywords: ['trim audio', 'cut audio', 'audio trimmer'],
-  steps: ['Upload an audio file', 'Set start and end time', 'Click "Trim"', 'Download trimmed audio'],
-  faqs: [{ question: 'What formats are supported?', answer: 'MP3, WAV, OGG, FLAC, and more — any format your browser supports.' }]
+  keywords: ["trim audio", "cut audio", "audio trimmer"],
+  steps: [
+    "Upload an audio file",
+    "Set start and end time",
+    'Click "Trim"',
+    "Download trimmed audio"
+  ],
+  faqs: [
+    {
+      question: "What formats are supported?",
+      answer: "MP3, WAV, OGG, FLAC, and more — any format your browser supports."
+    }
+  ]
 };
 
 export function render(container) {
@@ -21,10 +37,10 @@ export function render(container) {
   let duration = 0;
 
   const upload = createFileUpload({
-    accept: 'audio/*',
+    accept: "audio/*",
     multiple: false,
     maxSizeMB: 100,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       audioBuffer = await loadAudioFile(files[0]);
       duration = audioBuffer.duration;
@@ -33,7 +49,7 @@ export function render(container) {
       waveformCanvas.width = 600;
       waveformCanvas.height = 100;
       drawWaveform(audioBuffer, waveformCanvas);
-      optionsArea.style.display = 'block';
+      optionsArea.style.display = "block";
     }
   });
 
@@ -51,24 +67,30 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const waveformCanvas = container.querySelector('#waveform');
-  const startTime = container.querySelector('#start-time');
-  const endTime = container.querySelector('#end-time');
-  const endLabel = container.querySelector('#end-label');
-  const trimBtn = container.querySelector('#trim-btn');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const waveformCanvas = container.querySelector("#waveform");
+  const startTime = container.querySelector("#start-time");
+  const endTime = container.querySelector("#end-time");
+  const endLabel = container.querySelector("#end-label");
+  const trimBtn = container.querySelector("#trim-btn");
 
-  trimBtn.addEventListener('click', () => {
+  trimBtn.addEventListener("click", () => {
     if (!audioBuffer) return;
     const start = parseFloat(startTime.value) || 0;
     const end = parseFloat(endTime.value) || duration;
-    if (start >= end) { showToast({ message: 'Start must be before end', type: 'warning' }); return; }
+    if (start >= end) {
+      showToast({ message: "Start must be before end", type: "warning" });
+      return;
+    }
 
     const trimmed = sliceAudioBuffer(audioBuffer, start, end);
     const blob = audioBufferToWav(trimmed);
-    downloadBlob(blob, 'trimmed.wav');
-    showToast({ message: `Trimmed ${formatAudioTime(start)} → ${formatAudioTime(end)}`, type: 'success' });
+    downloadBlob(blob, "trimmed.wav");
+    showToast({
+      message: `Trimmed ${formatAudioTime(start)} → ${formatAudioTime(end)}`,
+      type: "success"
+    });
   });
 }
 

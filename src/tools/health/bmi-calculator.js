@@ -1,16 +1,16 @@
-import { createHealthCalculator } from './health-calculator.js';
+import { createHealthCalculator } from "./health-calculator.js";
 
 export const toolConfig = {
-  id: 'bmi-calculator',
-  name: 'BMI Calculator',
-  category: 'health',
-  description: 'Calculate Body Mass Index with health category and visual gauge.',
-  icon: '⚖️',
-  status: 'done'
+  id: "bmi-calculator",
+  name: "BMI Calculator",
+  category: "health",
+  description: "Calculate Body Mass Index with health category and visual gauge.",
+  icon: "⚖️",
+  status: "done"
 };
 
 const HEIGHT_FIELD = {
-  type: 'custom',
+  type: "custom",
   html: `
     <div class="form-group">
       <label>Height (cm or ft/in)</label>
@@ -28,7 +28,7 @@ const HEIGHT_FIELD = {
 };
 
 const WEIGHT_FIELD = {
-  type: 'custom',
+  type: "custom",
   html: `
     <div class="form-group">
       <label>Weight</label>
@@ -55,10 +55,10 @@ const RESULT_CSS = `
 `;
 
 function classifyBmi(bmi) {
-  if (bmi < 18.5) return ['Underweight', '#3b82f6'];
-  if (bmi < 25) return ['Normal weight', '#10b981'];
-  if (bmi < 30) return ['Overweight', '#f59e0b'];
-  return ['Obese', '#ef4444'];
+  if (bmi < 18.5) return ["Underweight", "#3b82f6"];
+  if (bmi < 25) return ["Normal weight", "#10b981"];
+  if (bmi < 30) return ["Overweight", "#f59e0b"];
+  return ["Obese", "#ef4444"];
 }
 
 export function feetInchesToCm(feet, inches) {
@@ -68,44 +68,44 @@ export function feetInchesToCm(feet, inches) {
 export function render(container) {
   createHealthCalculator({
     container,
-    containerClass: 'bmi-container',
-    calcButtonLabel: 'Calculate BMI',
+    containerClass: "bmi-container",
+    calcButtonLabel: "Calculate BMI",
     extraCSS: CONTAINER_EXTRA + RESULT_CSS,
     fields: [HEIGHT_FIELD, WEIGHT_FIELD],
     onCalculate: (container, resultEl) => {
-      const hUnit = container.querySelector('#height-unit').value;
+      const hUnit = container.querySelector("#height-unit").value;
 
-      const heightUnit = container.querySelector('#height-unit');
+      const heightUnit = container.querySelector("#height-unit");
       if (!heightUnit._toggleWired) {
-        const cmInput = container.querySelector('#height');
-        const ftInput = container.querySelector('#height-feet');
-        const inInput = container.querySelector('#height-inches');
-        heightUnit.addEventListener('change', () => {
-          const isMetric = heightUnit.value === 'cm';
-          cmInput.style.display = isMetric ? '' : 'none';
-          ftInput.style.display = isMetric ? 'none' : '';
-          inInput.style.display = isMetric ? 'none' : '';
+        const cmInput = container.querySelector("#height");
+        const ftInput = container.querySelector("#height-feet");
+        const inInput = container.querySelector("#height-inches");
+        heightUnit.addEventListener("change", () => {
+          const isMetric = heightUnit.value === "cm";
+          cmInput.style.display = isMetric ? "" : "none";
+          ftInput.style.display = isMetric ? "none" : "";
+          inInput.style.display = isMetric ? "none" : "";
         });
         heightUnit._toggleWired = true;
       }
 
       let h;
-      if (hUnit === 'ft') {
-        const feet = parseFloat(container.querySelector('#height-feet').value) || 5;
-        const inches = parseFloat(container.querySelector('#height-inches').value) || 0;
+      if (hUnit === "ft") {
+        const feet = parseFloat(container.querySelector("#height-feet").value) || 5;
+        const inches = parseFloat(container.querySelector("#height-inches").value) || 0;
         h = feetInchesToCm(feet, inches);
       } else {
-        h = parseFloat(container.querySelector('#height').value) || 170;
+        h = parseFloat(container.querySelector("#height").value) || 170;
       }
 
-      let w = parseFloat(container.querySelector('#weight').value) || 70;
-      const wUnit = container.querySelector('#weight-unit').value;
-      if (wUnit === 'lbs') w = w * 0.453592;
+      let w = parseFloat(container.querySelector("#weight").value) || 70;
+      const wUnit = container.querySelector("#weight-unit").value;
+      if (wUnit === "lbs") w = w * 0.453592;
 
-      const bmi = w / ((h / 100) ** 2);
+      const bmi = w / (h / 100) ** 2;
       const bmiRounded = bmi.toFixed(1);
       const [category, color] = classifyBmi(bmi);
-      const percent = Math.min(100, Math.max(0, (bmi - 15) / 20 * 100));
+      const percent = Math.min(100, Math.max(0, ((bmi - 15) / 20) * 100));
 
       resultEl.innerHTML = `
         <div class="bmi-gauge">

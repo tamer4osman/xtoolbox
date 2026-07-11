@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'revenue-forecast',
-  name: 'Revenue Forecaster',
-  category: 'business',
-  description: 'Project future revenue based on growth rates.',
-  icon: '📊',
-  status: 'done'
+  id: "revenue-forecast",
+  name: "Revenue Forecaster",
+  category: "business",
+  description: "Project future revenue based on growth rates.",
+  icon: "📊",
+  status: "done"
 };
 
 export function render(container) {
@@ -19,7 +19,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .forecast-container { max-width: 500px; margin: 0 auto; }
     .forecast-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -31,21 +31,29 @@ export function render(container) {
   container.appendChild(style);
 
   function calc() {
-    let customers = parseFloat(container.querySelector('#customers').value) || 0;
-    const arpu = parseFloat(container.querySelector('#arpu').value) || 0;
-    const growth = parseFloat(container.querySelector('#growth').value) || 0;
-    const months = parseFloat(container.querySelector('#months').value) || 12;
-    let html = '';
+    let customers = parseFloat(container.querySelector("#customers").value) || 0;
+    const arpu = parseFloat(container.querySelector("#arpu").value) || 0;
+    const growth = parseFloat(container.querySelector("#growth").value) || 0;
+    const months = parseFloat(container.querySelector("#months").value) || 12;
+    let html = "";
     let total = 0;
     for (let i = 1; i <= months; i++) {
       const rev = customers * arpu;
       total += rev;
-      html += '<div class="result-row"><span>Month ' + i + '</span><span>$' + rev.toLocaleString() + '</span></div>';
-      customers *= (1 + growth / 100);
+      html +=
+        '<div class="result-row"><span>Month ' +
+        i +
+        "</span><span>$" +
+        rev.toLocaleString() +
+        "</span></div>";
+      customers *= 1 + growth / 100;
     }
-    html += '<div class="result-row"><span>Total</span><span>$' + total.toLocaleString() + '</span></div>';
-    container.querySelector('#results').innerHTML = html;
+    html +=
+      '<div class="result-row"><span>Total</span><span>$' +
+      total.toLocaleString() +
+      "</span></div>";
+    container.querySelector("#results").innerHTML = html;
   }
-  container.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));
+  container.querySelectorAll("input").forEach(i => i.addEventListener("input", calc));
   calc();
 }

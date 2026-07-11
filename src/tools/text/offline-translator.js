@@ -12,19 +12,19 @@ export const toolConfig = {
   steps: [
     "Enter or paste text to translate",
     "Select source and target languages",
-    "Click Translate",
+    "Click Translate"
   ],
   faqs: [
     {
       question: "Is translation really offline?",
-      answer: "Yes. The translation model runs entirely in your browser using WebAssembly.",
+      answer: "Yes. The translation model runs entirely in your browser using WebAssembly."
     },
     {
       question: "How many languages are supported?",
       answer:
-        "50+ languages including English, Spanish, French, German, Chinese, Japanese, Arabic, and more.",
-    },
-  ],
+        "50+ languages including English, Spanish, French, German, Chinese, Japanese, Arabic, and more."
+    }
+  ]
 };
 
 export const LANGUAGES = [
@@ -47,7 +47,7 @@ export const LANGUAGES = [
   { code: "th", name: "Thai", nllb: "tha_Thai" },
   { code: "nl", name: "Dutch", nllb: "nld_Latn" },
   { code: "pl", name: "Polish", nllb: "pol_Latn" },
-  { code: "sv", name: "Swedish", nllb: "swe_Latn" },
+  { code: "sv", name: "Swedish", nllb: "swe_Latn" }
 ];
 
 export function estimateTokenCount(text) {
@@ -63,7 +63,7 @@ export function render(container) {
         <div class="form-group" style="flex:1;">
           <label for="src-lang">From</label>
           <select id="src-lang" class="text-input">
-            ${LANGUAGES.map((l) => `<option value="${l.code}" ${l.code === "en" ? "selected" : ""}>${l.name}</option>`).join("")}
+            ${LANGUAGES.map(l => `<option value="${l.code}" ${l.code === "en" ? "selected" : ""}>${l.name}</option>`).join("")}
           </select>
         </div>
         <div style="display:flex;align-items:flex-end;padding-bottom:var(--space-2);">
@@ -72,7 +72,7 @@ export function render(container) {
         <div class="form-group" style="flex:1;">
           <label for="tgt-lang">To</label>
           <select id="tgt-lang" class="text-input">
-            ${LANGUAGES.map((l) => `<option value="${l.code}" ${l.code === "es" ? "selected" : ""}>${l.name}</option>`).join("")}
+            ${LANGUAGES.map(l => `<option value="${l.code}" ${l.code === "es" ? "selected" : ""}>${l.name}</option>`).join("")}
           </select>
         </div>
       </div>
@@ -120,23 +120,23 @@ export function render(container) {
       if (!translator) {
         translateBtn.textContent = "Translating...";
         translator = await pipeline("translation", "Xenova/nllb-200-distilled-600M", {
-          progress_callback: (progress) => {
+          progress_callback: progress => {
             if (progress.status === "downloading") {
               translateBtn.textContent = `Downloading: ${progress.progress?.toFixed(0) || 0}%`;
             }
-          },
+          }
         });
       }
 
       translateBtn.textContent = "Translating...";
-      const srcNllb = LANGUAGES.find((l) => l.code === srcLang.value)?.nllb;
-      const tgtNllb = LANGUAGES.find((l) => l.code === tgtLang.value)?.nllb;
+      const srcNllb = LANGUAGES.find(l => l.code === srcLang.value)?.nllb;
+      const tgtNllb = LANGUAGES.find(l => l.code === tgtLang.value)?.nllb;
       if (!srcNllb || !tgtNllb) {
         throw new Error("Unsupported language pair");
       }
       const result = await translator(text, {
         tgt_lang: tgtNllb,
-        src_lang: srcNllb,
+        src_lang: srcNllb
       });
       tgtText.value = result[0]?.translation_text || "";
       showToast({ message: "Translation complete.", type: "success" });

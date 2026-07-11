@@ -25,14 +25,14 @@ describe("normalize-audio", () => {
   });
 
   it("has faq explaining peak vs loudness", () => {
-    const faq = toolConfig.faqs.find((f) => f.question.includes("difference"));
+    const faq = toolConfig.faqs.find(f => f.question.includes("difference"));
     expect(faq).toBeDefined();
     expect(faq.answer).toContain("Peak");
     expect(faq.answer).toContain("Loudness");
   });
 
   it("has faq with LUFS target guidance", () => {
-    const faq = toolConfig.faqs.find((f) => f.question.includes("target"));
+    const faq = toolConfig.faqs.find(f => f.question.includes("target"));
     expect(faq).toBeDefined();
     expect(faq.answer).toContain("-16");
     expect(faq.answer).toContain("-14");

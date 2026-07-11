@@ -1,25 +1,25 @@
-import { createHealthCalculator } from './health-calculator.js';
+import { createHealthCalculator } from "./health-calculator.js";
 
 export const toolConfig = {
-  id: 'macros-calculator',
-  name: 'Macros Calculator',
-  category: 'health',
-  description: 'Calculate daily macronutrient requirements.',
-  icon: '🥗',
-  status: 'done'
+  id: "macros-calculator",
+  name: "Macros Calculator",
+  category: "health",
+  description: "Calculate daily macronutrient requirements.",
+  icon: "🥗",
+  status: "done"
 };
 
 const GOAL_OPTIONS = [
-  { value: 'lose', label: 'Lose Weight', selected: true },
-  { value: 'maintain', label: 'Maintain' },
-  { value: 'gain', label: 'Gain Muscle' }
+  { value: "lose", label: "Lose Weight", selected: true },
+  { value: "maintain", label: "Maintain" },
+  { value: "gain", label: "Gain Muscle" }
 ];
 
 const PREFERENCE_OPTIONS = [
-  { value: 'balanced', label: 'Balanced (30P/40C/30F)', selected: true },
-  { value: 'lowcarb', label: 'Low Carb (40P/20C/40F)' },
-  { value: 'highcarb', label: 'High Carb (20P/50C/30F)' },
-  { value: 'highprotein', label: 'High Protein (40P/30C/30F)' }
+  { value: "balanced", label: "Balanced (30P/40C/30F)", selected: true },
+  { value: "lowcarb", label: "Low Carb (40P/20C/40F)" },
+  { value: "highcarb", label: "High Carb (20P/50C/30F)" },
+  { value: "highprotein", label: "High Protein (40P/30C/30F)" }
 ];
 
 const RESULT_CSS = `
@@ -39,42 +39,52 @@ const RESULT_CSS = `
 
 export function getRatios(pref) {
   switch (pref) {
-    case 'lowcarb': return [40, 20, 40];
-    case 'highcarb': return [20, 50, 30];
-    case 'highprotein': return [40, 30, 30];
-    default: return [30, 40, 30];
+    case "lowcarb":
+      return [40, 20, 40];
+    case "highcarb":
+      return [20, 50, 30];
+    case "highprotein":
+      return [40, 30, 30];
+    default:
+      return [30, 40, 30];
   }
 }
 
 export function adjustForGoal(ratios, goal) {
   const adjusted = [...ratios];
-  if (goal === 'lose') { adjusted[0] += 10; adjusted[2] -= 10; }
-  else if (goal === 'gain') { adjusted[0] += 5; adjusted[1] += 10; adjusted[2] -= 15; }
+  if (goal === "lose") {
+    adjusted[0] += 10;
+    adjusted[2] -= 10;
+  } else if (goal === "gain") {
+    adjusted[0] += 5;
+    adjusted[1] += 10;
+    adjusted[2] -= 15;
+  }
   return adjusted;
 }
 
 export function render(container) {
   createHealthCalculator({
     container,
-    containerClass: 'macros-container',
-    calcButtonLabel: 'Calculate Macros',
+    containerClass: "macros-container",
+    calcButtonLabel: "Calculate Macros",
     extraCSS: RESULT_CSS,
     fields: [
-      { id: 'calories', label: 'Daily Calories', value: 2000, min: 500, max: 10000 },
-      { id: 'goal', type: 'select', label: 'Goal', options: GOAL_OPTIONS },
-      { id: 'preference', type: 'select', label: 'Preference', options: PREFERENCE_OPTIONS }
+      { id: "calories", label: "Daily Calories", value: 2000, min: 500, max: 10000 },
+      { id: "goal", type: "select", label: "Goal", options: GOAL_OPTIONS },
+      { id: "preference", type: "select", label: "Preference", options: PREFERENCE_OPTIONS }
     ],
     onCalculate: (container, resultEl) => {
-      const calories = parseInt(container.querySelector('#calories').value) || 2000;
-      const goal = container.querySelector('#goal').value;
-      const pref = container.querySelector('#preference').value;
+      const calories = parseInt(container.querySelector("#calories").value) || 2000;
+      const goal = container.querySelector("#goal").value;
+      const pref = container.querySelector("#preference").value;
 
       const ratios = getRatios(pref);
       const adjusted = adjustForGoal(ratios, goal);
 
-      const protein = Math.round(calories * adjusted[0] / 100 / 4);
-      const carbs = Math.round(calories * adjusted[1] / 100 / 4);
-      const fat = Math.round(calories * adjusted[2] / 100 / 9);
+      const protein = Math.round((calories * adjusted[0]) / 100 / 4);
+      const carbs = Math.round((calories * adjusted[1]) / 100 / 4);
+      const fat = Math.round((calories * adjusted[2]) / 100 / 9);
 
       resultEl.innerHTML = `
         <div class="macros-display">

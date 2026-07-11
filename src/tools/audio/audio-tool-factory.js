@@ -1,17 +1,17 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { loadAudioFile } from './audio-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { loadAudioFile } from "./audio-utils.js";
 
-export function createAudioTool({ container, accept = 'audio/*', maxSizeMB = 100, onFileLoaded }) {
+export function createAudioTool({ container, accept = "audio/*", maxSizeMB = 100, onFileLoaded }) {
   let audioBuffer = null;
 
   const upload = createFileUpload({
     accept,
     multiple: false,
     maxSizeMB,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       audioBuffer = await loadAudioFile(files[0]);
-      optionsArea.style.display = 'block';
+      optionsArea.style.display = "block";
       onFileLoaded(audioBuffer);
     }
   });
@@ -23,8 +23,8 @@ export function createAudioTool({ container, accept = 'audio/*', maxSizeMB = 100
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
 
   return { getAudioBuffer: () => audioBuffer, optionsArea };
 }

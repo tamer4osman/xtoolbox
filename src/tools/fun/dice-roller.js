@@ -1,13 +1,13 @@
 export const toolConfig = {
-  id: 'dice-roller',
-  name: 'Dice Roller',
-  category: 'fun',
-  description: 'Roll dice. Choose 1-6 dice with random results.',
-  icon: '🎲',
+  id: "dice-roller",
+  name: "Dice Roller",
+  category: "fun",
+  description: "Roll dice. Choose 1-6 dice with random results.",
+  icon: "🎲",
   accept: null,
   maxSizeMB: null,
-  keywords: ['dice roller', 'roll dice', 'random dice'],
-  steps: ['Choose number of dice', 'Roll']
+  keywords: ["dice roller", "roll dice", "random dice"],
+  steps: ["Choose number of dice", "Roll"]
 };
 
 export function render(container) {
@@ -21,7 +21,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .dice-container { text-align: center; padding: var(--space-8); }
     .dice-controls { margin-bottom: var(--space-6); }
@@ -41,26 +41,26 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const diceInput = container.querySelector('#dice-count');
-  const rollBtn = container.querySelector('#roll-btn');
-  const results = container.querySelector('#dice-results');
+  const diceInput = container.querySelector("#dice-count");
+  const rollBtn = container.querySelector("#roll-btn");
+  const results = container.querySelector("#dice-results");
 
   function roll() {
     const inputVal = parseInt(diceInput.value) || 2;
     const count = Math.min(6, Math.max(1, inputVal));
     diceInput.value = count;
-    
-    results.innerHTML = '';
-    
+
+    results.innerHTML = "";
+
     for (let i = 0; i < count; i++) {
-      const die = document.createElement('div');
-      die.className = 'die';
+      const die = document.createElement("div");
+      die.className = "die";
       die.textContent = Math.ceil(Math.random() * 6);
-      die.classList.add('rolling');
+      die.classList.add("rolling");
       results.appendChild(die);
     }
   }
 
-  rollBtn.addEventListener('click', roll);
+  rollBtn.addEventListener("click", roll);
   roll();
 }

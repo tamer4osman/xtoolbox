@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'json-viewer',
-  name: 'JSON Viewer',
-  category: 'visualization',
-  description: 'View JSON data as a collapsible tree with syntax highlighting.',
-  icon: '🌳',
-  status: 'done'
+  id: "json-viewer",
+  name: "JSON Viewer",
+  category: "visualization",
+  description: "View JSON data as a collapsible tree with syntax highlighting.",
+  icon: "🌳",
+  status: "done"
 };
 
 export function render(container) {
@@ -23,7 +23,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .json-container { max-width: 900px; margin: 0 auto; }
     .json-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -43,7 +43,8 @@ export function render(container) {
   container.appendChild(style);
 
   function colorize(json) {
-    return json.replace(/"([^"]+)":/g, '<span class="key">"$1"</span>:')
+    return json
+      .replace(/"([^"]+)":/g, '<span class="key">"$1"</span>:')
       .replace(/: "([^"]+)"/g, ': <span class="string">"$1"</span>')
       .replace(/: (\d+\.?\d*)/g, ': <span class="number">$1</span>')
       .replace(/: (true|false)/g, ': <span class="boolean">$1</span>')
@@ -52,36 +53,38 @@ export function render(container) {
 
   function render() {
     try {
-      const text = container.querySelector('#jsonInput').value;
+      const text = container.querySelector("#jsonInput").value;
       const parsed = JSON.parse(text);
-      container.querySelector('#output').innerHTML = '<pre>' + colorize(JSON.stringify(parsed, null, 2)) + '</pre>';
+      container.querySelector("#output").innerHTML =
+        "<pre>" + colorize(JSON.stringify(parsed, null, 2)) + "</pre>";
     } catch (e) {
-      container.querySelector('#output').innerHTML = '<pre style="color:#ef4444">Invalid JSON</pre>';
+      container.querySelector("#output").innerHTML =
+        '<pre style="color:#ef4444">Invalid JSON</pre>';
     }
   }
 
-  container.querySelector('#formatBtn').addEventListener('click', () => {
+  container.querySelector("#formatBtn").addEventListener("click", () => {
     try {
-      const parsed = JSON.parse(container.querySelector('#jsonInput').value);
-      container.querySelector('#jsonInput').value = JSON.stringify(parsed, null, 2);
+      const parsed = JSON.parse(container.querySelector("#jsonInput").value);
+      container.querySelector("#jsonInput").value = JSON.stringify(parsed, null, 2);
       render();
     } catch {}
   });
 
-  container.querySelector('#minifyBtn').addEventListener('click', () => {
+  container.querySelector("#minifyBtn").addEventListener("click", () => {
     try {
-      const parsed = JSON.parse(container.querySelector('#jsonInput').value);
-      container.querySelector('#jsonInput').value = JSON.stringify(parsed);
+      const parsed = JSON.parse(container.querySelector("#jsonInput").value);
+      container.querySelector("#jsonInput").value = JSON.stringify(parsed);
       render();
     } catch {}
   });
 
-  container.querySelector('#copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(container.querySelector('#jsonInput').value);
-    container.querySelector('#copyBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyBtn').textContent = 'Copy', 1500);
+  container.querySelector("#copyBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(container.querySelector("#jsonInput").value);
+    container.querySelector("#copyBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyBtn").textContent = "Copy"), 1500);
   });
 
-  container.querySelector('#jsonInput').addEventListener('input', render);
+  container.querySelector("#jsonInput").addEventListener("input", render);
   render();
 }

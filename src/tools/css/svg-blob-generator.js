@@ -8,7 +8,8 @@ function seededRandom(seed) {
 
 function generateBlobPath(pointCount, variance, seed) {
   const rand = seededRandom(seed);
-  const cx = 200, cy = 200;
+  const cx = 200,
+    cy = 200;
   const baseR = 150;
   const angles = [];
   const radii = [];
@@ -20,7 +21,7 @@ function generateBlobPath(pointCount, variance, seed) {
     radii.push(Math.max(r, 20));
   }
 
-  let path = '';
+  let path = "";
   for (let i = 0; i < pointCount; i++) {
     const p0 = angles[i];
     const r0 = radii[i];
@@ -40,21 +41,22 @@ function generateBlobPath(pointCount, variance, seed) {
     if (i === 0) path += `M ${x0.toFixed(1)} ${y0.toFixed(1)} `;
     path += `C ${cx1.toFixed(1)} ${cy1.toFixed(1)} ${cx1.toFixed(1)} ${cy1.toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)} `;
   }
-  path += 'Z';
+  path += "Z";
   return path;
 }
 
 function generateWavePath(amplitude, frequency, layers, seed) {
   const rand = seededRandom(seed);
-  const w = 800, h = 200;
-  let path = '';
+  const w = 800,
+    h = 200;
+  let path = "";
 
   for (let layer = 0; layer < layers; layer++) {
     const amp = amplitude * (1 - layer * 0.3);
     const phaseShift = rand() * Math.PI * 2;
     const yBase = h - (h / (layers + 1)) * (layer + 1);
 
-    if (layer > 0) path += ' ';
+    if (layer > 0) path += " ";
     path += `M 0 ${h} `;
     path += `L 0 ${yBase} `;
 
@@ -67,14 +69,24 @@ function generateWavePath(amplitude, frequency, layers, seed) {
   return path;
 }
 
-export function generateBlobSVG(type, pointCount, variance, color1, color2, seed, amplitude, frequency, layers) {
+export function generateBlobSVG(
+  type,
+  pointCount,
+  variance,
+  color1,
+  color2,
+  seed,
+  amplitude,
+  frequency,
+  layers
+) {
   const gradientId = `blob-grad-${seed}`;
   let pathData;
-  let viewBox = '0 0 400 400';
+  let viewBox = "0 0 400 400";
 
-  if (type === 'wave') {
+  if (type === "wave") {
     pathData = generateWavePath(amplitude, frequency, layers, seed);
-    viewBox = '0 0 800 200';
+    viewBox = "0 0 800 200";
   } else {
     pathData = generateBlobPath(pointCount, variance, seed);
   }
@@ -93,19 +105,44 @@ export function generateBlobSVG(type, pointCount, variance, color1, color2, seed
 }
 
 export const toolConfig = {
-  id: 'svg-blob-generator',
-  name: 'Organic SVG Blob & Wave Generator',
-  category: 'css',
-  description: 'Generate mathematical cubic bezier organic shapes and wave page dividers with zero tracking.',
-  icon: '🌊',
+  id: "svg-blob-generator",
+  name: "Organic SVG Blob & Wave Generator",
+  category: "css",
+  description:
+    "Generate mathematical cubic bezier organic shapes and wave page dividers with zero tracking.",
+  icon: "🌊",
   accept: null,
   maxSizeMB: null,
-  keywords: ['svg blob', 'organic shape', 'wave divider', 'svg generator', 'blob shape', 'vector shape', 'cubic bezier'],
-  steps: ['Choose blob or wave shape type', 'Adjust complexity, colors, and randomization', 'Copy the SVG code or download the SVG file'],
+  keywords: [
+    "svg blob",
+    "organic shape",
+    "wave divider",
+    "svg generator",
+    "blob shape",
+    "vector shape",
+    "cubic bezier"
+  ],
+  steps: [
+    "Choose blob or wave shape type",
+    "Adjust complexity, colors, and randomization",
+    "Copy the SVG code or download the SVG file"
+  ],
   faqs: [
-    { question: 'What are SVG blobs used for?', answer: 'Blobs are organic shapes used as background elements, hero section decorations, or section dividers in modern web design.' },
-    { question: 'How does the randomization work?', answer: 'Each seed value generates a unique shape. The same seed always produces the same result, so you can recreate shapes you like.' },
-    { question: 'Can I use these SVGs commercially?', answer: 'Yes! All shapes are generated client-side with no tracking. You own the output completely.' }
+    {
+      question: "What are SVG blobs used for?",
+      answer:
+        "Blobs are organic shapes used as background elements, hero section decorations, or section dividers in modern web design."
+    },
+    {
+      question: "How does the randomization work?",
+      answer:
+        "Each seed value generates a unique shape. The same seed always produces the same result, so you can recreate shapes you like."
+    },
+    {
+      question: "Can I use these SVGs commercially?",
+      answer:
+        "Yes! All shapes are generated client-side with no tracking. You own the output completely."
+    }
   ]
 };
 
@@ -168,7 +205,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .blob-grid { display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-4); }
     .blob-controls { display:flex;flex-direction:column;gap:var(--space-3); }
@@ -179,29 +216,31 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const typeSelect = container.querySelector('#blob-type');
-  const pointsSlider = container.querySelector('#blob-points');
-  const varianceSlider = container.querySelector('#blob-variance');
-  const amplitudeSlider = container.querySelector('#blob-amplitude');
-  const frequencySlider = container.querySelector('#blob-frequency');
-  const layersSlider = container.querySelector('#blob-layers');
-  const color1 = container.querySelector('#blob-color1');
-  const color2 = container.querySelector('#blob-color2');
-  const svgWrap = container.querySelector('#blob-svg-wrap');
-  const cssOutput = container.querySelector('#blob-css');
-  const copyBtn = container.querySelector('#blob-copy');
-  const downloadBtn = container.querySelector('#blob-download');
-  const randomizeBtn = container.querySelector('#blob-randomize');
+  const typeSelect = container.querySelector("#blob-type");
+  const pointsSlider = container.querySelector("#blob-points");
+  const varianceSlider = container.querySelector("#blob-variance");
+  const amplitudeSlider = container.querySelector("#blob-amplitude");
+  const frequencySlider = container.querySelector("#blob-frequency");
+  const layersSlider = container.querySelector("#blob-layers");
+  const color1 = container.querySelector("#blob-color1");
+  const color2 = container.querySelector("#blob-color2");
+  const svgWrap = container.querySelector("#blob-svg-wrap");
+  const cssOutput = container.querySelector("#blob-css");
+  const copyBtn = container.querySelector("#blob-copy");
+  const downloadBtn = container.querySelector("#blob-download");
+  const randomizeBtn = container.querySelector("#blob-randomize");
 
-  const pointsGroup = container.querySelector('#blob-points-group');
-  const varianceGroup = container.querySelector('#blob-variance-group');
-  const waveGroups = container.querySelectorAll('.wave-control');
+  const pointsGroup = container.querySelector("#blob-points-group");
+  const varianceGroup = container.querySelector("#blob-variance-group");
+  const waveGroups = container.querySelectorAll(".wave-control");
 
   function toggleWaveControls() {
-    const isWave = typeSelect.value === 'wave';
-    pointsGroup.style.display = isWave ? 'none' : '';
-    varianceGroup.style.display = isWave ? 'none' : '';
-    waveGroups.forEach(g => { g.style.display = isWave ? '' : 'none'; });
+    const isWave = typeSelect.value === "wave";
+    pointsGroup.style.display = isWave ? "none" : "";
+    varianceGroup.style.display = isWave ? "none" : "";
+    waveGroups.forEach(g => {
+      g.style.display = isWave ? "" : "none";
+    });
   }
 
   function renderSVG() {
@@ -220,11 +259,11 @@ export function render(container) {
   }
 
   function updateLabels() {
-    container.querySelector('#blob-points-val').textContent = pointsSlider.value;
-    container.querySelector('#blob-variance-val').textContent = varianceSlider.value;
-    container.querySelector('#blob-amplitude-val').textContent = amplitudeSlider.value;
-    container.querySelector('#blob-frequency-val').textContent = frequencySlider.value;
-    container.querySelector('#blob-layers-val').textContent = layersSlider.value;
+    container.querySelector("#blob-points-val").textContent = pointsSlider.value;
+    container.querySelector("#blob-variance-val").textContent = varianceSlider.value;
+    container.querySelector("#blob-amplitude-val").textContent = amplitudeSlider.value;
+    container.querySelector("#blob-frequency-val").textContent = frequencySlider.value;
+    container.querySelector("#blob-layers-val").textContent = layersSlider.value;
   }
 
   function update() {
@@ -233,16 +272,16 @@ export function render(container) {
     renderSVG();
   }
 
-  typeSelect.addEventListener('change', update);
-  pointsSlider.addEventListener('input', update);
-  varianceSlider.addEventListener('input', update);
-  amplitudeSlider.addEventListener('input', update);
-  frequencySlider.addEventListener('input', update);
-  layersSlider.addEventListener('input', update);
-  color1.addEventListener('input', update);
-  color2.addEventListener('input', update);
+  typeSelect.addEventListener("change", update);
+  pointsSlider.addEventListener("input", update);
+  varianceSlider.addEventListener("input", update);
+  amplitudeSlider.addEventListener("input", update);
+  frequencySlider.addEventListener("input", update);
+  layersSlider.addEventListener("input", update);
+  color1.addEventListener("input", update);
+  color2.addEventListener("input", update);
 
-  randomizeBtn.addEventListener('click', () => {
+  randomizeBtn.addEventListener("click", () => {
     currentSeed = Date.now();
     pointsSlider.value = Math.floor(Math.random() * 12) + 5;
     varianceSlider.value = Math.floor(Math.random() * 60) + 30;
@@ -252,17 +291,22 @@ export function render(container) {
     update();
   });
 
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(cssOutput.value).then(() => {
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy SVG'; }, 1500);
-    }).catch(() => {});
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(cssOutput.value)
+      .then(() => {
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy SVG";
+        }, 1500);
+      })
+      .catch(() => {});
   });
 
-  downloadBtn.addEventListener('click', () => {
-    const blob = new Blob([cssOutput.value], { type: 'image/svg+xml' });
+  downloadBtn.addEventListener("click", () => {
+    const blob = new Blob([cssOutput.value], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `blob-${currentSeed}.svg`;
     document.body.appendChild(a);
@@ -274,5 +318,4 @@ export function render(container) {
   update();
 }
 
-export function destroy() {
-}
+export function destroy() {}

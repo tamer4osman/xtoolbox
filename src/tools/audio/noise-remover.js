@@ -74,7 +74,7 @@ export function estimateNoiseProfile(magnitudes, noiseFrames) {
 }
 
 export function autoDetectNoiseFrames(magnitudes) {
-  let energies = magnitudes.map((m) => {
+  let energies = magnitudes.map(m => {
     let s = 0;
     for (let i = 0; i < m.length; i++) s += m[i] * m[i];
     return s;
@@ -280,29 +280,29 @@ export const toolConfig = {
     "Upload an audio file",
     "Choose noise reduction method and strength",
     "Click Remove Noise",
-    "Download cleaned audio",
+    "Download cleaned audio"
   ],
   faqs: [
     {
       question: "How does it work?",
       answer:
-        "Uses spectral gating and Wiener filtering to estimate and subtract noise from your audio. All processing happens locally in your browser.",
+        "Uses spectral gating and Wiener filtering to estimate and subtract noise from your audio. All processing happens locally in your browser."
     },
     {
       question: "Which method should I use?",
       answer:
-        "Auto picks the best method for your audio. Spectral Subtraction works well for stationary noise (fan, hum). Wiener Filter is best for speech in changing noise.",
+        "Auto picks the best method for your audio. Spectral Subtraction works well for stationary noise (fan, hum). Wiener Filter is best for speech in changing noise."
     },
     {
       question: "What audio formats are supported?",
       answer:
-        "Any format your browser can decode: MP3, WAV, FLAC, OGG, M4A, etc. Output is always WAV for maximum quality.",
-    },
-  ],
+        "Any format your browser can decode: MP3, WAV, FLAC, OGG, M4A, etc. Output is always WAV for maximum quality."
+    }
+  ]
 };
 
 function yieldToEventLoop() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     if (typeof requestIdleCallback !== "undefined") {
       requestIdleCallback(resolve, { timeout: 20 });
     } else {
@@ -400,14 +400,14 @@ export function render(container) {
     uploadArea.appendChild(dropZone);
 
     dropZone.addEventListener("click", () => input.click());
-    dropZone.addEventListener("dragover", (e) => {
+    dropZone.addEventListener("dragover", e => {
       e.preventDefault();
       dropZone.style.borderColor = "var(--color-primary)";
     });
     dropZone.addEventListener("dragleave", () => {
       dropZone.style.borderColor = "var(--color-border)";
     });
-    dropZone.addEventListener("drop", async (e) => {
+    dropZone.addEventListener("drop", async e => {
       e.preventDefault();
       dropZone.style.borderColor = "var(--color-border)";
       if (e.dataTransfer.files[0]) await handleFile(e.dataTransfer.files[0]);
@@ -421,7 +421,7 @@ export function render(container) {
     if (file.size > toolConfig.maxSizeMB * 1024 * 1024) {
       showToast({
         message: "File is too large. Max " + toolConfig.maxSizeMB + " MB.",
-        type: "error",
+        type: "error"
       });
       return;
     }
@@ -458,15 +458,15 @@ export function render(container) {
     setProgress("Preparing audio...", 0);
 
     try {
-      await new Promise((r) => setTimeout(r, 50));
+      await new Promise(r => setTimeout(r, 50));
       const signal = normalizeAudio(currentBuffer);
       const sampleRate = currentBuffer.sampleRate;
       setProgress("Running FFT analysis...", 0.1);
-      await new Promise((r) => setTimeout(r, 10));
+      await new Promise(r => setTimeout(r, 10));
 
       const { mags, phases } = stft(signal, yieldToEventLoop);
       setProgress("Estimating noise profile...", 0.3);
-      await new Promise((r) => setTimeout(r, 10));
+      await new Promise(r => setTimeout(r, 10));
 
       let noiseProfile;
       const profileMode = profileSelect.value;
@@ -498,7 +498,7 @@ export function render(container) {
           noiseProfile,
           alpha,
           beta,
-          yieldToEventLoop,
+          yieldToEventLoop
         );
       }
 
@@ -509,13 +509,13 @@ export function render(container) {
         cleanedMags,
         phases.slice(0, cleanedMags.length),
         signal.length,
-        yieldToEventLoop,
+        yieldToEventLoop
       );
       const outBlob = encodeWav(cleaned, sampleRate);
       const origBlob = encodeWav(signal, sampleRate);
 
       setProgress("Drawing waveforms...", 0.95);
-      await new Promise((r) => setTimeout(r, 10));
+      await new Promise(r => setTimeout(r, 10));
 
       const metrics = computeMetrics(signal, cleaned);
 

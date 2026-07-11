@@ -1,32 +1,41 @@
-import { findLocalFileHeaders, extractEntryData, isDirectory, hasDataDescriptor } from '../../utils/archive-utils.js';
-import { formatFileSize, downloadBlob as downloadFile } from '../../utils/file.js';
-import JSZip from 'jszip';
+import {
+  findLocalFileHeaders,
+  extractEntryData,
+  isDirectory,
+  hasDataDescriptor
+} from "../../utils/archive-utils.js";
+import { formatFileSize, downloadBlob as downloadFile } from "../../utils/file.js";
+import JSZip from "jszip";
 
 export const toolConfig = {
-  id: 'archive-repair',
-  name: 'Archive Repair & Recovery',
-  category: 'productivity',
-  description: 'Repair corrupted ZIP archives and recover readable files from damaged or incomplete ZIP archives.',
-  icon: '🔧',
-  keywords: ['zip', 'repair', 'recover', 'corrupted', 'archive', 'fix', 'broken'],
-  accept: '.zip',
+  id: "archive-repair",
+  name: "Archive Repair & Recovery",
+  category: "productivity",
+  description:
+    "Repair corrupted ZIP archives and recover readable files from damaged or incomplete ZIP archives.",
+  icon: "🔧",
+  keywords: ["zip", "repair", "recover", "corrupted", "archive", "fix", "broken"],
+  accept: ".zip",
   maxSizeMB: 100,
-  status: 'done'
+  status: "done"
 };
 
 function getCompressionName(method) {
-  const names = { 0: 'Stored', 8: 'Deflated' };
+  const names = { 0: "Stored", 8: "Deflated" };
   return names[method] || `Method ${method}`;
 }
 
 function escapeHtml(str) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML;
 }
 
 async function tryNormalLoad(arrayBuffer) {
-  const zip = await JSZip.loadAsync(arrayBuffer, { checkCRC32: false, optimizedBinaryString: true });
+  const zip = await JSZip.loadAsync(arrayBuffer, {
+    checkCRC32: false,
+    optimizedBinaryString: true
+  });
   const files = [];
   zip.forEach((path, entry) => {
     if (!entry.dir) {
@@ -47,27 +56,45 @@ async function tryNormalLoad(arrayBuffer) {
 
 function extractStoredEntry(view, header) {
   const data = extractEntryData(view, header);
-  if (!data) return { skipped: { path: header.fileName, reason: 'Data extends beyond file boundary' } };
+  if (!data)
+    return { skipped: { path: header.fileName, reason: "Data extends beyond file boundary" } };
   return { recovered: { header, data: new Uint8Array(data) } };
 }
 
 async function extractDeflatedEntry(view, header) {
   const data = extractEntryData(view, header);
-  if (!data) return { skipped: { path: header.fileName, reason: 'Data extends beyond file boundary' } };
+  if (!data)
+    return { skipped: { path: header.fileName, reason: "Data extends beyond file boundary" } };
   try {
     const decompressed = await inflateRaw(data);
     return { recovered: { header, data: decompressed } };
   } catch {
-    return { skipped: { path: header.fileName, reason: 'Deflate decompression failed - data may be corrupted' } };
+    return {
+      skipped: {
+        path: header.fileName,
+        reason: "Deflate decompression failed - data may be corrupted"
+      }
+    };
   }
 }
 
 async function processEntry(view, header) {
   if (isDirectory(header)) return null;
-  if (hasDataDescriptor(header)) return { skipped: { path: header.fileName, reason: 'Data descriptor (streaming) - cannot recover without full ZIP structure' } };
+  if (hasDataDescriptor(header))
+    return {
+      skipped: {
+        path: header.fileName,
+        reason: "Data descriptor (streaming) - cannot recover without full ZIP structure"
+      }
+    };
   if (header.compressionMethod === 0) return extractStoredEntry(view, header);
   if (header.compressionMethod === 8) return extractDeflatedEntry(view, header);
-  return { skipped: { path: header.fileName, reason: `Unsupported compression method: ${header.compressionMethod}` } };
+  return {
+    skipped: {
+      path: header.fileName,
+      reason: `Unsupported compression method: ${header.compressionMethod}`
+    }
+  };
 }
 
 async function recoverFromRawBytes(arrayBuffer) {
@@ -88,7 +115,7 @@ async function recoverFromRawBytes(arrayBuffer) {
 
 async function inflateRaw(data) {
   const blob = new Blob([data]);
-  const ds = new DecompressionStream('deflate-raw');
+  const ds = new DecompressionStream("deflate-raw");
 
   const writer = ds.writable.getWriter();
   const reader = blob.stream().getReader();
@@ -132,20 +159,29 @@ async function buildRepairedZip(recoveredFiles) {
   for (const file of recoveredFiles) {
     zip.file(file.header.fileName, file.data, { binary: true });
   }
-  return zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+  return zip.generateAsync({
+    type: "blob",
+    compression: "DEFLATE",
+    compressionOptions: { level: 6 }
+  });
 }
 
 function renderFileList(files, emptyMsg) {
-  if (files.length === 0) return `<div style="padding:12px;color:var(--text-muted,#888);font-size:13px;">${emptyMsg}</div>`;
-  return files.map(f => `
+  if (files.length === 0)
+    return `<div style="padding:12px;color:var(--text-muted,#888);font-size:13px;">${emptyMsg}</div>`;
+  return files
+    .map(
+      f => `
     <div class="ar-file-item">
       <div>
         <div class="name">${escapeHtml(f.header?.fileName || f.path)}</div>
         <div class="reason">${f.reason ? escapeHtml(f.reason) : `${getCompressionName(f.header.compressionMethod)} → ${formatFileSize(f.data.length)}`}</div>
       </div>
-      <div class="meta">${f.data ? formatFileSize(f.data.length) : ''}</div>
+      <div class="meta">${f.data ? formatFileSize(f.data.length) : ""}</div>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
 }
 
 function renderSummary(recoveredFiles, skippedFiles) {
@@ -242,9 +278,16 @@ async function extractFromNormalLoad(arrayBuffer) {
   for (const f of normalResult.files) {
     const entry = normalResult.zip.file(f.path);
     if (entry) {
-      const data = await entry.async('uint8array');
+      const data = await entry.async("uint8array");
       recoveredFiles.push({
-        header: { fileName: f.path, compressionMethod: f.method || 8, compressedSize: f.compressedSize, uncompressedSize: f.uncompressedSize, lastModTime: 0, lastModDate: 0 },
+        header: {
+          fileName: f.path,
+          compressionMethod: f.method || 8,
+          compressedSize: f.compressedSize,
+          uncompressedSize: f.uncompressedSize,
+          lastModTime: 0,
+          lastModDate: 0
+        },
         data
       });
     }
@@ -253,89 +296,116 @@ async function extractFromNormalLoad(arrayBuffer) {
 }
 
 function setStatus(el, className, text) {
-  el.style.display = '';
+  el.style.display = "";
   el.className = className;
   el.textContent = text;
 }
 
-
-
 export function render(container) {
   container.innerHTML = getMarkup();
 
-  const dropZone = container.querySelector('#ar-drop-zone');
-  const fileInput = container.querySelector('#ar-file-input');
-  const status = container.querySelector('#ar-status');
-  const results = container.querySelector('#ar-results');
-  const downloadBtn = container.querySelector('#ar-download');
+  const dropZone = container.querySelector("#ar-drop-zone");
+  const fileInput = container.querySelector("#ar-file-input");
+  const status = container.querySelector("#ar-status");
+  const results = container.querySelector("#ar-results");
+  const downloadBtn = container.querySelector("#ar-download");
 
   let repairedBlob = null;
-  let fileName = '';
+  let fileName = "";
 
-  dropZone.addEventListener('click', () => fileInput.click());
-  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-  dropZone.addEventListener('drop', e => {
+  dropZone.addEventListener("click", () => fileInput.click());
+  dropZone.addEventListener("dragover", e => {
     e.preventDefault();
-    dropZone.classList.remove('drag-over');
+    dropZone.classList.add("drag-over");
+  });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
     if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
   });
-  fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+  fileInput.addEventListener("change", e => {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
 
-  container.querySelectorAll('.ar-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      container.querySelectorAll('.ar-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      container.querySelectorAll('.ar-tab-content').forEach(c => c.style.display = 'none');
-      container.querySelector(`#ar-tab-${tab.dataset.tab}`).style.display = '';
+  container.querySelectorAll(".ar-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      container.querySelectorAll(".ar-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      container.querySelectorAll(".ar-tab-content").forEach(c => (c.style.display = "none"));
+      container.querySelector(`#ar-tab-${tab.dataset.tab}`).style.display = "";
     });
   });
 
-  downloadBtn.addEventListener('click', () => {
-    if (repairedBlob) downloadFile(repairedBlob, fileName.replace(/\.zip$/i, '') + '-repaired.zip');
+  downloadBtn.addEventListener("click", () => {
+    if (repairedBlob) downloadFile(repairedBlob, fileName.replace(/\.zip$/i, "") + "-repaired.zip");
   });
 
   async function handleFile(file) {
     fileName = file.name;
-    setStatus(status, 'ar-status', `Analyzing ${file.name} (${formatFileSize(file.size)})...`);
-    results.style.display = 'none';
+    setStatus(status, "ar-status", `Analyzing ${file.name} (${formatFileSize(file.size)})...`);
+    results.style.display = "none";
 
     try {
       const arrayBuffer = await file.arrayBuffer();
       let recoveredFiles = [];
       let skippedFiles = [];
-      let loadMethod = '';
+      let loadMethod = "";
 
       try {
         recoveredFiles = await extractFromNormalLoad(arrayBuffer);
-        loadMethod = 'normal';
+        loadMethod = "normal";
       } catch {
-        setStatus(status, 'ar-status', 'Normal load failed. Scanning raw bytes...');
+        setStatus(status, "ar-status", "Normal load failed. Scanning raw bytes...");
         const raw = await recoverFromRawBytes(arrayBuffer);
         recoveredFiles = raw.recoveredFiles;
         skippedFiles = raw.skippedFiles;
-        loadMethod = 'raw-scan';
+        loadMethod = "raw-scan";
       }
 
       if (recoveredFiles.length === 0) {
-        setStatus(status, 'ar-status error', 'No recoverable files found. The file may not be a ZIP or may be too corrupted.');
+        setStatus(
+          status,
+          "ar-status error",
+          "No recoverable files found. The file may not be a ZIP or may be too corrupted."
+        );
         return;
       }
 
-      setStatus(status, 'ar-status', `Building repaired ZIP from ${recoveredFiles.length} recovered file(s)...`);
+      setStatus(
+        status,
+        "ar-status",
+        `Building repaired ZIP from ${recoveredFiles.length} recovered file(s)...`
+      );
       repairedBlob = await buildRepairedZip(recoveredFiles);
-      setStatus(status, 'ar-status success', `Recovery complete! ${recoveredFiles.length} file(s) recovered (${loadMethod === 'normal' ? 'loaded normally' : 'scanned from raw bytes'}).`);
+      setStatus(
+        status,
+        "ar-status success",
+        `Recovery complete! ${recoveredFiles.length} file(s) recovered (${loadMethod === "normal" ? "loaded normally" : "scanned from raw bytes"}).`
+      );
       showResults(recoveredFiles, skippedFiles, arrayBuffer, file.name);
     } catch (err) {
-      setStatus(status, 'ar-status error', `Recovery failed: ${err.message}`);
+      setStatus(status, "ar-status error", `Recovery failed: ${err.message}`);
     }
   }
 
   function showResults(recoveredFiles, skippedFiles, arrayBuffer, originalName) {
-    results.style.display = '';
-    container.querySelector('#ar-summary').innerHTML = renderSummary(recoveredFiles, skippedFiles);
-    container.querySelector('#ar-file-list').innerHTML = renderFileList(recoveredFiles, 'No files recovered.');
-    container.querySelector('#ar-skipped-list').innerHTML = renderFileList(skippedFiles, 'No files were skipped.');
-    container.querySelector('#ar-archive-info').innerHTML = renderArchiveInfo(originalName, arrayBuffer, repairedBlob, recoveredFiles, skippedFiles);
+    results.style.display = "";
+    container.querySelector("#ar-summary").innerHTML = renderSummary(recoveredFiles, skippedFiles);
+    container.querySelector("#ar-file-list").innerHTML = renderFileList(
+      recoveredFiles,
+      "No files recovered."
+    );
+    container.querySelector("#ar-skipped-list").innerHTML = renderFileList(
+      skippedFiles,
+      "No files were skipped."
+    );
+    container.querySelector("#ar-archive-info").innerHTML = renderArchiveInfo(
+      originalName,
+      arrayBuffer,
+      repairedBlob,
+      recoveredFiles,
+      skippedFiles
+    );
   }
 }

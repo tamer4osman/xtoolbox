@@ -1,21 +1,32 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { createFileList } from '../../utils/file-list.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
+import { createFileList } from "../../utils/file-list.js";
 
-export function createMergeTool({ id, name, category, icon, accept, maxSizeMB, keywords, steps, faqs, mergeFiles }) {
+export function createMergeTool({
+  id,
+  name,
+  category,
+  icon,
+  accept,
+  maxSizeMB,
+  keywords,
+  steps,
+  faqs,
+  mergeFiles
+}) {
   return {
     id,
     name,
     category,
-    description: `Combine multiple ${accept.replace('.', '')} files into one.`,
+    description: `Combine multiple ${accept.replace(".", "")} files into one.`,
     icon,
     accept,
     maxSizeMB: maxSizeMB || 100,
     keywords,
-    steps: steps || ['Upload files', 'Reorder if needed', 'Click "Merge"', 'Download merged file'],
+    steps: steps || ["Upload files", "Reorder if needed", 'Click "Merge"', "Download merged file"],
     faqs,
-    render: (container) => {
+    render: container => {
       let files = [];
 
       const upload = createFileUpload({
@@ -23,10 +34,10 @@ export function createMergeTool({ id, name, category, icon, accept, maxSizeMB, k
         multiple: true,
         maxSizeMB,
         maxFiles: 20,
-        onFilesSelected: (f) => {
+        onFilesSelected: f => {
           files = f;
           renderFileList();
-          mergeBtn.style.display = f.length > 1 ? 'inline-flex' : 'none';
+          mergeBtn.style.display = f.length > 1 ? "inline-flex" : "none";
         }
       });
 
@@ -39,28 +50,28 @@ export function createMergeTool({ id, name, category, icon, accept, maxSizeMB, k
         </div>
       `;
 
-      container.querySelector('#upload-area').appendChild(upload.element);
-      const fileList = container.querySelector('#file-list');
-      const mergeBtn = container.querySelector('#merge-btn');
-      const processing = container.querySelector('#processing');
+      container.querySelector("#upload-area").appendChild(upload.element);
+      const fileList = container.querySelector("#file-list");
+      const mergeBtn = container.querySelector("#merge-btn");
+      const processing = container.querySelector("#processing");
 
       function renderFileList() {
         fileList.innerHTML = createFileList(files);
       }
 
-      mergeBtn.addEventListener('click', async () => {
+      mergeBtn.addEventListener("click", async () => {
         if (files.length < 2) return;
-        processing.style.display = 'block';
-        mergeBtn.style.display = 'none';
+        processing.style.display = "block";
+        mergeBtn.style.display = "none";
 
         try {
           await mergeFiles(files, downloadBlob);
-          showToast({ message: `${files.length} files merged!`, type: 'success' });
+          showToast({ message: `${files.length} files merged!`, type: "success" });
         } catch (err) {
-          showToast({ message: 'Error: ' + err.message, type: 'error' });
+          showToast({ message: "Error: " + err.message, type: "error" });
         } finally {
-          processing.style.display = 'none';
-          mergeBtn.style.display = 'inline-flex';
+          processing.style.display = "none";
+          mergeBtn.style.display = "inline-flex";
         }
       });
     },

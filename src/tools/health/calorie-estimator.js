@@ -1,37 +1,37 @@
-import { createHealthCalculator } from './health-calculator.js';
+import { createHealthCalculator } from "./health-calculator.js";
 
 export function computeMacros(tdee, weight) {
   const protein = Math.round(weight * 1.6);
   const proteinCals = protein * 4;
   const remainingCals = tdee - proteinCals;
-  const carbs = Math.round(remainingCals * 0.5 / 4);
-  const fat = Math.round(remainingCals * 0.5 / 9);
+  const carbs = Math.round((remainingCals * 0.5) / 4);
+  const fat = Math.round((remainingCals * 0.5) / 9);
   return { protein, carbs, fat };
 }
 
 export const toolConfig = {
-  id: 'calorie-estimator',
-  name: 'Calorie Estimator',
-  category: 'health',
-  description: 'Estimate daily calorie needs based on age, weight, height, and activity level.',
-  icon: '🔥',
-  status: 'done'
+  id: "calorie-estimator",
+  name: "Calorie Estimator",
+  category: "health",
+  description: "Estimate daily calorie needs based on age, weight, height, and activity level.",
+  icon: "🔥",
+  status: "done"
 };
 
 const ACTIVITY_OPTIONS = [
-  { value: '1.2', label: 'Sedentary (little exercise)' },
-  { value: '1.375', label: 'Light (exercise 1-3 days/week)' },
-  { value: '1.55', label: 'Moderate (exercise 3-5 days/week)', selected: true },
-  { value: '1.725', label: 'Active (exercise 6-7 days/week)' },
-  { value: '1.9', label: 'Very Active (hard exercise daily)' }
+  { value: "1.2", label: "Sedentary (little exercise)" },
+  { value: "1.375", label: "Light (exercise 1-3 days/week)" },
+  { value: "1.55", label: "Moderate (exercise 3-5 days/week)", selected: true },
+  { value: "1.725", label: "Active (exercise 6-7 days/week)" },
+  { value: "1.9", label: "Very Active (hard exercise daily)" }
 ];
 
 const GOAL_OPTIONS = [
-  { value: '-500', label: 'Lose weight (0.5 kg/week)' },
-  { value: '-250', label: 'Slow weight loss' },
-  { value: '0', label: 'Maintain weight', selected: true },
-  { value: '250', label: 'Gain muscle' },
-  { value: '500', label: 'Quick weight gain' }
+  { value: "-500", label: "Lose weight (0.5 kg/week)" },
+  { value: "-250", label: "Slow weight loss" },
+  { value: "0", label: "Maintain weight", selected: true },
+  { value: "250", label: "Gain muscle" },
+  { value: "500", label: "Quick weight gain" }
 ];
 
 const RESULT_CSS = `
@@ -48,31 +48,37 @@ const RESULT_CSS = `
 export function render(container) {
   createHealthCalculator({
     container,
-    containerClass: 'calorie-container',
-    calcButtonLabel: 'Calculate',
+    containerClass: "calorie-container",
+    calcButtonLabel: "Calculate",
     extraCSS: RESULT_CSS,
     fields: [
-      { id: 'age', label: 'Age', value: 30, min: 15, max: 100 },
-      { id: 'gender', type: 'select', label: 'Gender', options: [
-        { value: 'male', label: 'Male', selected: true },
-        { value: 'female', label: 'Female' }
-      ]},
-      { id: 'height', label: 'Height (cm)', value: 170, min: 100, max: 250 },
-      { id: 'weight', label: 'Weight (kg)', value: 70, min: 30, max: 300 },
-      { id: 'activity', type: 'select', label: 'Activity Level', options: ACTIVITY_OPTIONS },
-      { id: 'goal', type: 'select', label: 'Goal', options: GOAL_OPTIONS }
+      { id: "age", label: "Age", value: 30, min: 15, max: 100 },
+      {
+        id: "gender",
+        type: "select",
+        label: "Gender",
+        options: [
+          { value: "male", label: "Male", selected: true },
+          { value: "female", label: "Female" }
+        ]
+      },
+      { id: "height", label: "Height (cm)", value: 170, min: 100, max: 250 },
+      { id: "weight", label: "Weight (kg)", value: 70, min: 30, max: 300 },
+      { id: "activity", type: "select", label: "Activity Level", options: ACTIVITY_OPTIONS },
+      { id: "goal", type: "select", label: "Goal", options: GOAL_OPTIONS }
     ],
     onCalculate: (container, resultEl) => {
-      const age = parseInt(container.querySelector('#age').value) || 30;
-      const gender = container.querySelector('#gender').value;
-      const height = parseInt(container.querySelector('#height').value) || 170;
-      const weight = parseFloat(container.querySelector('#weight').value) || 70;
-      const activity = parseFloat(container.querySelector('#activity').value);
-      const goal = parseInt(container.querySelector('#goal').value);
+      const age = parseInt(container.querySelector("#age").value) || 30;
+      const gender = container.querySelector("#gender").value;
+      const height = parseInt(container.querySelector("#height").value) || 170;
+      const weight = parseFloat(container.querySelector("#weight").value) || 70;
+      const activity = parseFloat(container.querySelector("#activity").value);
+      const goal = parseInt(container.querySelector("#goal").value);
 
-      const bmr = gender === 'male'
-        ? 10 * weight + 6.25 * height - 5 * age + 5
-        : 10 * weight + 6.25 * height - 5 * age - 161;
+      const bmr =
+        gender === "male"
+          ? 10 * weight + 6.25 * height - 5 * age + 5
+          : 10 * weight + 6.25 * height - 5 * age - 161;
 
       const tdee = Math.round(bmr * activity + goal);
       const { protein, carbs, fat } = computeMacros(tdee, weight);

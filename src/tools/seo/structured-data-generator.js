@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'structured-data-generator',
-  name: 'Structured Data Generator',
-  category: 'seo',
-  description: 'Generate JSON-LD structured data for SEO.',
-  icon: '📄',
-  status: 'done'
+  id: "structured-data-generator",
+  name: "Structured Data Generator",
+  category: "seo",
+  description: "Generate JSON-LD structured data for SEO.",
+  icon: "📄",
+  status: "done"
 };
 
 export function render(container) {
@@ -18,7 +18,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .sd-container { max-width: 700px; margin: 0 auto; }
     .sd-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -33,41 +33,43 @@ export function render(container) {
   container.appendChild(style);
 
   const schemas = {
-    organization: ['name', 'url', 'logo', 'description', 'sameAs'],
-    localbusiness: ['name', 'address', 'telephone', 'priceRange', 'openingHours'],
-    person: ['name', 'jobTitle', 'email', 'url', 'sameAs'],
-    article: ['headline', 'author', 'datePublished', 'image', 'description'],
-    product: ['name', 'image', 'description', 'offers', 'brand'],
-    faq: ['question', 'answer']
+    organization: ["name", "url", "logo", "description", "sameAs"],
+    localbusiness: ["name", "address", "telephone", "priceRange", "openingHours"],
+    person: ["name", "jobTitle", "email", "url", "sameAs"],
+    article: ["headline", "author", "datePublished", "image", "description"],
+    product: ["name", "image", "description", "offers", "brand"],
+    faq: ["question", "answer"]
   };
 
   function renderFields() {
-    const type = container.querySelector('#type').value;
+    const type = container.querySelector("#type").value;
     const fields = schemas[type] || [];
-    container.querySelector('#fields').innerHTML = fields.map(f => 
-      '<input placeholder="' + f + '" data-field="' + f + '">'
-    ).join('');
+    container.querySelector("#fields").innerHTML = fields
+      .map(f => '<input placeholder="' + f + '" data-field="' + f + '">')
+      .join("");
   }
 
   function generate() {
-    const type = container.querySelector('#type').value;
-    const inputs = container.querySelectorAll('#fields input');
+    const type = container.querySelector("#type").value;
+    const inputs = container.querySelectorAll("#fields input");
     const data = {};
-    inputs.forEach(i => { if (i.value) data[i.dataset.field] = i.value; });
+    inputs.forEach(i => {
+      if (i.value) data[i.dataset.field] = i.value;
+    });
     const ld = {
-      '@context': 'https://schema.org',
-      '@type': type.charAt(0).toUpperCase() + type.slice(1),
+      "@context": "https://schema.org",
+      "@type": type.charAt(0).toUpperCase() + type.slice(1),
       ...data
     };
-    container.querySelector('#result').textContent = JSON.stringify(ld, null, 2);
+    container.querySelector("#result").textContent = JSON.stringify(ld, null, 2);
   }
 
-  container.querySelector('#type').addEventListener('change', renderFields);
-  container.querySelector('#generateBtn').addEventListener('click', generate);
-  container.querySelector('#copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(container.querySelector('#result').textContent);
-    container.querySelector('#copyBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyBtn').textContent = 'Copy', 1500);
+  container.querySelector("#type").addEventListener("change", renderFields);
+  container.querySelector("#generateBtn").addEventListener("click", generate);
+  container.querySelector("#copyBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(container.querySelector("#result").textContent);
+    container.querySelector("#copyBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyBtn").textContent = "Copy"), 1500);
   });
   renderFields();
 }

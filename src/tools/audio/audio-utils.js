@@ -13,7 +13,7 @@ export async function loadAudioFile(file) {
  * Get audio duration from file
  */
 export async function getAudioDuration(file) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const audio = new Audio();
     audio.onloadedmetadata = () => {
       resolve(audio.duration);
@@ -113,7 +113,7 @@ export function sliceAudioBuffer(buffer, startTime, endTime) {
 export function concatAudioBuffers(buffers) {
   const ctx = audioContext();
   const sampleRate = buffers[0].sampleRate;
-  const numChannels = Math.max(...buffers.map((b) => b.numberOfChannels));
+  const numChannels = Math.max(...buffers.map(b => b.numberOfChannels));
   const totalLength = buffers.reduce((sum, b) => sum + b.length, 0);
 
   const result = ctx.createBuffer(numChannels, totalLength, sampleRate);
@@ -133,7 +133,7 @@ export function concatAudioBuffers(buffers) {
  * Apply gain to AudioBuffer
  */
 export function applyGain(buffer, gain) {
-  return mapBuffer(buffer, (sample) => Math.max(-1, Math.min(1, sample * gain)));
+  return mapBuffer(buffer, sample => Math.max(-1, Math.min(1, sample * gain)));
 }
 
 /**
@@ -141,7 +141,7 @@ export function applyGain(buffer, gain) {
  */
 export function getPeakLevel(buffer) {
   let peak = 0;
-  forEachSample(buffer, (sample) => {
+  forEachSample(buffer, sample => {
     const abs = Math.abs(sample);
     if (abs > peak) peak = abs;
   });
@@ -260,13 +260,13 @@ function kWeight(channelData, sampleRate) {
   const stage1 = applyBiquad(channelData, sampleRate, {
     type: "high_pass",
     freq: 1681.974450955533,
-    Q: 0.7071752369554196,
+    Q: 0.7071752369554196
   });
   return applyBiquad(stage1, sampleRate, {
     type: "high_shelf",
     freq: 3813.547087602444,
     Q: 0.5,
-    gain: 3.999843853973347,
+    gain: 3.999843853973347
   });
 }
 
@@ -313,7 +313,7 @@ export function measureLoudness(buffer) {
 
   // Absolute gate: -70 LUFS
   const absGate = Math.pow(10, (-70 + 0.691) / 10);
-  const aboveAbs = blocks.filter((b) => b > absGate);
+  const aboveAbs = blocks.filter(b => b > absGate);
 
   if (aboveAbs.length === 0) return { integratedLoudness: -Infinity, loudnessRange: 0 };
 
@@ -322,7 +322,7 @@ export function measureLoudness(buffer) {
   const relativeThresh = avgAboveAbs * Math.pow(10, -10 + 0.691);
 
   // Apply relative gate
-  const aboveRelative = aboveAbs.filter((b) => b > relativeThresh);
+  const aboveRelative = aboveAbs.filter(b => b > relativeThresh);
 
   if (aboveRelative.length === 0) return { integratedLoudness: -Infinity, loudnessRange: 0 };
 

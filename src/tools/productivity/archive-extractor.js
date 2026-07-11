@@ -1,14 +1,14 @@
-import JSZip from 'jszip';
-import { downloadBlob } from '../../utils/file.js';
+import JSZip from "jszip";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'archive-extractor',
-  name: 'Archive Extractor',
-  category: 'productivity',
-  description: 'Extract files from ZIP and TAR archives directly in the browser.',
-  icon: '📦',
-  keywords: ['archive', 'extract', 'zip', 'tar', 'gzip', 'unzip'],
-  accept: '.zip,.tar,.gz,.bz2',
+  id: "archive-extractor",
+  name: "Archive Extractor",
+  category: "productivity",
+  description: "Extract files from ZIP and TAR archives directly in the browser.",
+  icon: "📦",
+  keywords: ["archive", "extract", "zip", "tar", "gzip", "unzip"],
+  accept: ".zip,.tar,.gz,.bz2",
   maxSizeMB: 100
 };
 
@@ -29,7 +29,7 @@ function parseTar(arrayBuffer) {
     }
     const name = String.fromCharCode(...nameBytes);
 
-    let sizeStr = '';
+    let sizeStr = "";
     for (let i = 124; i < 136; i++) {
       const byte = dataView.getUint8(offset + i);
       if (byte === 32) break;
@@ -92,58 +92,59 @@ export function render(container) {
     </div>
   `;
 
-  const $ = (id) => container.querySelector(id);
-  const el = (sel) => container.querySelector(sel);
-  const formatSize = (bytes) => {
-    if (bytes === 0) return '0 B';
+  const $ = id => container.querySelector(id);
+  const el = sel => container.querySelector(sel);
+  const formatSize = bytes => {
+    if (bytes === 0) return "0 B";
     const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const sizes = ["B", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
   };
 
-  const handleFile = async (file) => {
+  const handleFile = async file => {
     try {
-      const ext = file.name.split('.').pop().toLowerCase();
+      const ext = file.name.split(".").pop().toLowerCase();
       state.archive = null;
       state.files = [];
 
-      if (ext === 'zip') {
+      if (ext === "zip") {
         const arrayBuffer = await file.arrayBuffer();
         state.archive = await JSZip.loadAsync(arrayBuffer);
-        state.archiveType = 'zip';
+        state.archiveType = "zip";
         state.files = Object.keys(state.archive.files)
-          .filter(name => !name.endsWith('/'))
+          .filter(name => !name.endsWith("/"))
           .map(name => ({ name, data: state.archive.files[name] }));
-      } else if (ext === 'tar') {
+      } else if (ext === "tar") {
         const arrayBuffer = await file.arrayBuffer();
-        state.archiveType = 'tar';
+        state.archiveType = "tar";
         state.files = parseTar(arrayBuffer);
       } else {
-        alert('Unsupported format: ' + ext + '. Supports ZIP and TAR.');
+        alert("Unsupported format: " + ext + ". Supports ZIP and TAR.");
         return;
       }
 
       if (state.files.length === 0) {
-        alert('No files found in archive');
+        alert("No files found in archive");
         return;
       }
 
       renderFileList();
     } catch (err) {
-      console.error('Extraction error:', err);
-      alert('Error extracting archive: ' + err.message);
+      console.error("Extraction error:", err);
+      alert("Error extracting archive: " + err.message);
     }
   };
 
   const renderFileList = () => {
-    const tbody = $('#filesBody');
-    tbody.innerHTML = state.files.map((file) => {
-      const isImage = /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file.name);
-      const isPdf = /\.pdf$/i.test(file.name);
-      const type = isImage ? 'image' : isPdf ? 'pdf' : 'file';
+    const tbody = $("#filesBody");
+    tbody.innerHTML = state.files
+      .map(file => {
+        const isImage = /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file.name);
+        const isPdf = /\.pdf$/i.test(file.name);
+        const type = isImage ? "image" : isPdf ? "pdf" : "file";
 
-      return `
+        return `
         <tr>
           <td>${file.name}</td>
           <td>${formatSize(file.size)}</td>
@@ -153,73 +154,78 @@ export function render(container) {
           </td>
         </tr>
       `;
-    }).join('');
+      })
+      .join("");
 
-    container.querySelectorAll('.extract-single').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    container.querySelectorAll(".extract-single").forEach(btn => {
+      btn.addEventListener("click", e => {
         const filename = e.target.dataset.name;
         const file = state.files.find(f => f.name === filename);
         if (!file) return;
 
-        if (state.archiveType === 'zip') {
-          file.data.async('blob').then(blob => {
+        if (state.archiveType === "zip") {
+          file.data.async("blob").then(blob => {
             downloadBlob(blob, filename);
           });
         } else {
-          const ext = filename.split('.').pop();
-          const mimeType = ext === 'pdf' ? 'application/pdf'
-            : ext === 'png' ? 'image/png'
-            : ext === 'txt' ? 'text/plain'
-            : 'application/octet-stream';
+          const ext = filename.split(".").pop();
+          const mimeType =
+            ext === "pdf"
+              ? "application/pdf"
+              : ext === "png"
+                ? "image/png"
+                : ext === "txt"
+                  ? "text/plain"
+                  : "application/octet-stream";
           downloadBlob(new Blob([file.data], { type: mimeType }), filename);
         }
       });
     });
 
-    $('#results').style.display = 'block';
+    $("#results").style.display = "block";
   };
 
-  const dropZone = $('#dropZone');
+  const dropZone = $("#dropZone");
 
-  dropZone.addEventListener('dragover', (e) => {
+  dropZone.addEventListener("dragover", e => {
     e.preventDefault();
-    dropZone.classList.add('dragover');
+    dropZone.classList.add("dragover");
   });
 
-  dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('dragover');
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
   });
 
-  dropZone.addEventListener('drop', async (e) => {
+  dropZone.addEventListener("drop", async e => {
     e.preventDefault();
-    dropZone.classList.remove('dragover');
+    dropZone.classList.remove("dragover");
     const files = e.dataTransfer.files;
     if (files.length > 0) {
       await handleFile(files[0]);
     }
   });
 
-  el('#fileInput').addEventListener('change', async (e) => {
+  el("#fileInput").addEventListener("change", async e => {
     const files = e.target.files;
     if (files.length > 0) {
       await handleFile(files[0]);
     }
   });
 
-  el('#downloadAll').addEventListener('click', async () => {
+  el("#downloadAll").addEventListener("click", async () => {
     if (!state.files.length) return;
 
     const newZip = new JSZip();
     for (const file of state.files) {
-      if (state.archiveType === 'zip') {
-        const blob = await file.data.async('blob');
+      if (state.archiveType === "zip") {
+        const blob = await file.data.async("blob");
         newZip.file(file.name, blob);
       } else {
         newZip.file(file.name, file.data);
       }
     }
 
-    const content = await newZip.generateAsync({ type: 'blob' });
-    downloadBlob(content, 'extracted-files.zip');
+    const content = await newZip.generateAsync({ type: "blob" });
+    downloadBlob(content, "extracted-files.zip");
   });
 }

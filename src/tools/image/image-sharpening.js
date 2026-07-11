@@ -1,19 +1,33 @@
-import { createPixelTool } from './pixel-tool-factory.js';
+import { createPixelTool } from "./pixel-tool-factory.js";
 
 const { toolConfig, render } = createPixelTool({
   toolConfig: {
-    id: 'image-sharpening',
-    name: 'Image Sharpening',
-    category: 'image',
-    description: 'Sharpen blurry or soft images using convolution filters. Adjust intensity and preview results in real-time.',
-    icon: '🔍',
-    accept: 'image/*',
+    id: "image-sharpening",
+    name: "Image Sharpening",
+    category: "image",
+    description:
+      "Sharpen blurry or soft images using convolution filters. Adjust intensity and preview results in real-time.",
+    icon: "🔍",
+    accept: "image/*",
     maxSizeMB: 50,
-    keywords: ['sharpen image', 'unsharp mask', 'image clarity', 'enhance photo', 'fix blur'],
-    steps: ['Upload an image', 'Adjust sharpening intensity', 'Preview the result', 'Download the sharpened image'],
+    keywords: ["sharpen image", "unsharp mask", "image clarity", "enhance photo", "fix blur"],
+    steps: [
+      "Upload an image",
+      "Adjust sharpening intensity",
+      "Preview the result",
+      "Download the sharpened image"
+    ],
     faqs: [
-      { question: 'Can this fix severely blurry images?', answer: 'Sharpening enhances existing edges but cannot recover lost detail. It works best for slightly soft or out-of-focus images.' },
-      { question: 'What sharpening method is used?', answer: 'This tool uses an unsharp mask technique — a high-pass filter that enhances edge contrast while preserving smooth areas.' }
+      {
+        question: "Can this fix severely blurry images?",
+        answer:
+          "Sharpening enhances existing edges but cannot recover lost detail. It works best for slightly soft or out-of-focus images."
+      },
+      {
+        question: "What sharpening method is used?",
+        answer:
+          "This tool uses an unsharp mask technique — a high-pass filter that enhances edge contrast while preserving smooth areas."
+      }
     ]
   },
   optionsHTML: `
@@ -25,25 +39,25 @@ const { toolConfig, render } = createPixelTool({
       <button id="compare-btn" class="btn btn-sm btn-secondary">👁️ Show Original</button>
     </div>
   `,
-  outputFilename: 'sharpened.png',
-  successMessage: 'Image sharpened successfully!',
+  outputFilename: "sharpened.png",
+  successMessage: "Image sharpened successfully!",
   initControls(container, renderPreview) {
-    const intensityRange = container.querySelector('#intensity-range');
-    const intensityVal = container.querySelector('#intensity-val');
-    const compareBtn = container.querySelector('#compare-btn');
+    const intensityRange = container.querySelector("#intensity-range");
+    const intensityVal = container.querySelector("#intensity-val");
+    const compareBtn = container.querySelector("#compare-btn");
 
     let intensity = 1.5;
     let showingOriginal = false;
 
-    intensityRange.addEventListener('input', () => {
+    intensityRange.addEventListener("input", () => {
       intensity = parseFloat(intensityRange.value);
       intensityVal.textContent = intensity.toFixed(1);
       renderPreview();
     });
 
-    compareBtn.addEventListener('click', () => {
+    compareBtn.addEventListener("click", () => {
       showingOriginal = !showingOriginal;
-      compareBtn.textContent = showingOriginal ? '👁️ Show Sharpened' : '👁️ Show Original';
+      compareBtn.textContent = showingOriginal ? "👁️ Show Sharpened" : "👁️ Show Original";
       renderPreview();
     });
 
@@ -52,7 +66,7 @@ const { toolConfig, render } = createPixelTool({
   renderPreview(previewCanvas, originalImage, scale, container) {
     const { intensity, showingOriginal } = container._getState();
     if (!showingOriginal && intensity > 0) {
-      const ctx = previewCanvas.getContext('2d');
+      const ctx = previewCanvas.getContext("2d");
       applySharpening(ctx, previewCanvas.width, previewCanvas.height, intensity);
     }
   },
@@ -67,11 +81,7 @@ function applySharpening(ctx, w, h, amount) {
   const data = imageData.data;
   const copy = new Uint8ClampedArray(data);
 
-  const kernel = [
-    0, -1, 0,
-    -1, 4 + (1 / amount), -1,
-    0, -1, 0
-  ];
+  const kernel = [0, -1, 0, -1, 4 + 1 / amount, -1, 0, -1, 0];
 
   const scale = amount;
 

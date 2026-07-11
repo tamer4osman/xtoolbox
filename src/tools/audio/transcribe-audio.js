@@ -1,32 +1,38 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { copyToClipboard } from '../../utils/clipboard.js';
-import { downloadBlob } from '../../utils/file.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { copyToClipboard } from "../../utils/clipboard.js";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'transcribe-audio',
-  name: 'Audio Transcription',
-  category: 'audio',
-  description: 'Transcribe audio to text using AI. Supports 100+ languages.',
-  icon: '📝',
-  accept: 'audio/*',
+  id: "transcribe-audio",
+  name: "Audio Transcription",
+  category: "audio",
+  description: "Transcribe audio to text using AI. Supports 100+ languages.",
+  icon: "📝",
+  accept: "audio/*",
   maxSizeMB: 200,
-  keywords: ['transcribe audio', 'speech to text', 'audio to text'],
-  steps: ['Upload an audio file', 'Select language', 'Click "Transcribe"', 'Copy or download text'],
+  keywords: ["transcribe audio", "speech to text", "audio to text"],
+  steps: ["Upload an audio file", "Select language", 'Click "Transcribe"', "Copy or download text"],
   faqs: [
-    { question: 'How accurate is it?', answer: 'Accuracy depends on audio quality and language. English is typically 90%+ accurate.' },
-    { question: 'Is my audio sent to a server?', answer: 'The Whisper model runs in your browser via WASM. No data leaves your device.' }
+    {
+      question: "How accurate is it?",
+      answer: "Accuracy depends on audio quality and language. English is typically 90%+ accurate."
+    },
+    {
+      question: "Is my audio sent to a server?",
+      answer: "The Whisper model runs in your browser via WASM. No data leaves your device."
+    }
   ]
 };
 
 export function render(container) {
   const upload = createFileUpload({
-    accept: 'audio/*',
+    accept: "audio/*",
     multiple: false,
     maxSizeMB: 200,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
-      resultArea.style.display = 'block';
+      resultArea.style.display = "block";
       resultArea.innerHTML = `
         <div style="text-align:center;padding:var(--space-8);">
           <div style="font-size:3rem;margin-bottom:var(--space-4);">📝</div>
@@ -50,8 +56,8 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const resultArea = container.querySelector('#result-area');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const resultArea = container.querySelector("#result-area");
 }
 
 export function destroy() {}

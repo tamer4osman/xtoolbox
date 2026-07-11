@@ -1,14 +1,18 @@
 function createCopyHandler(btn, getText) {
-  btn.addEventListener('click', async () => {
+  btn.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(getText());
       const original = btn.textContent;
-      btn.textContent = 'Copied!';
-      setTimeout(() => { btn.textContent = original; }, 1500);
+      btn.textContent = "Copied!";
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 1500);
     } catch {
       const original = btn.textContent;
-      btn.textContent = 'Failed';
-      setTimeout(() => { btn.textContent = original; }, 1500);
+      btn.textContent = "Failed";
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 1500);
     }
   });
 }
@@ -22,7 +26,7 @@ export function createGeneratorTool({ container, title, renderForm, generate, st
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .gen-container { max-width: 700px; margin: 0 auto; }
     .gen-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -34,18 +38,20 @@ export function createGeneratorTool({ container, title, renderForm, generate, st
     .gen-output { display: flex; gap: var(--space-2); background: var(--color-surface); padding: var(--space-3); border-radius: var(--radius-xl); }
     .gen-output pre { flex: 1; margin: 0; font-family: monospace; font-size: var(--text-xs); white-space: pre-wrap; }
     #gen-copy { padding: var(--space-2) var(--space-3); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); cursor: pointer; height: fit-content; }
-    ${styles || ''}
+    ${styles || ""}
   `;
   container.appendChild(style);
 
-  const resultEl = container.querySelector('#gen-result');
-  const copyBtn = container.querySelector('#gen-copy');
+  const resultEl = container.querySelector("#gen-result");
+  const copyBtn = container.querySelector("#gen-copy");
 
-  function update() { resultEl.textContent = generate(container); }
+  function update() {
+    resultEl.textContent = generate(container);
+  }
 
-  container.querySelectorAll('input, textarea, select').forEach(el => {
-    el.addEventListener('input', update);
-    el.addEventListener('change', update);
+  container.querySelectorAll("input, textarea, select").forEach(el => {
+    el.addEventListener("input", update);
+    el.addEventListener("change", update);
   });
 
   createCopyHandler(copyBtn, () => resultEl.textContent);

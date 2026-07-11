@@ -1,28 +1,55 @@
 const PRESETS = [
-  { name: 'Light Mode', bg: '#e0e0e0', shadow: '#bebebe', highlight: '#ffffff' },
-  { name: 'Dark Mode', bg: '#2d2d2d', shadow: '#1a1a1a', highlight: '#404040' },
-  { name: 'Soft Blue', bg: '#e0e5ec', shadow: '#a3b1c6', highlight: '#ffffff' },
-  { name: 'Warm Gray', bg: '#e0dcd5', shadow: '#b8b4ad', highlight: '#ffffff' },
-  { name: 'Cool Gray', bg: '#e0e4ea', shadow: '#b0b8c4', highlight: '#ffffff' },
-  { name: 'Pastel Pink', bg: '#f0e0e8', shadow: '#d0b8c4', highlight: '#ffffff' },
-  { name: 'Pastel Blue', bg: '#e0e8f0', shadow: '#b8c4d0', highlight: '#ffffff' },
-  { name: 'Mint Green', bg: '#e0f0e8', shadow: '#b8d0c4', highlight: '#ffffff' }
+  { name: "Light Mode", bg: "#e0e0e0", shadow: "#bebebe", highlight: "#ffffff" },
+  { name: "Dark Mode", bg: "#2d2d2d", shadow: "#1a1a1a", highlight: "#404040" },
+  { name: "Soft Blue", bg: "#e0e5ec", shadow: "#a3b1c6", highlight: "#ffffff" },
+  { name: "Warm Gray", bg: "#e0dcd5", shadow: "#b8b4ad", highlight: "#ffffff" },
+  { name: "Cool Gray", bg: "#e0e4ea", shadow: "#b0b8c4", highlight: "#ffffff" },
+  { name: "Pastel Pink", bg: "#f0e0e8", shadow: "#d0b8c4", highlight: "#ffffff" },
+  { name: "Pastel Blue", bg: "#e0e8f0", shadow: "#b8c4d0", highlight: "#ffffff" },
+  { name: "Mint Green", bg: "#e0f0e8", shadow: "#b8d0c4", highlight: "#ffffff" }
 ];
 
 export const toolConfig = {
-  id: 'neumorphism-generator',
-  name: 'CSS Neumorphism Studio',
-  category: 'css',
-  description: 'Interactive tool to generate convex, concave, or pressed neumorphic shadow sets based on hue luminance offset.',
-  icon: '🔘',
+  id: "neumorphism-generator",
+  name: "CSS Neumorphism Studio",
+  category: "css",
+  description:
+    "Interactive tool to generate convex, concave, or pressed neumorphic shadow sets based on hue luminance offset.",
+  icon: "🔘",
   accept: null,
   maxSizeMB: null,
-  keywords: ['neumorphism', 'neumorphic', 'soft ui', 'css shadows', 'convex', 'concave', 'pressed', 'extruded'],
-  steps: ['Choose a preset or custom background color', 'Adjust shadow intensity and blur', 'Select element shape (convex, concave, pressed)', 'Copy the generated CSS code'],
+  keywords: [
+    "neumorphism",
+    "neumorphic",
+    "soft ui",
+    "css shadows",
+    "convex",
+    "concave",
+    "pressed",
+    "extruded"
+  ],
+  steps: [
+    "Choose a preset or custom background color",
+    "Adjust shadow intensity and blur",
+    "Select element shape (convex, concave, pressed)",
+    "Copy the generated CSS code"
+  ],
   faqs: [
-    { question: 'What is neumorphism?', answer: 'Neumorphism (or soft UI) is a design trend that uses two opposing shadows to create extruded, 3D-looking elements that appear to push out from or sink into the background.' },
-    { question: 'What are convex, concave, and pressed?', answer: 'Convex appears raised (like a button), concave appears recessed (like an input field), and pressed appears flattened (active state).' },
-    { question: 'Why must the background match?', answer: 'Neumorphism relies on subtle shadow differences. The element color must be similar to the background for the shadows to create the 3D illusion.' }
+    {
+      question: "What is neumorphism?",
+      answer:
+        "Neumorphism (or soft UI) is a design trend that uses two opposing shadows to create extruded, 3D-looking elements that appear to push out from or sink into the background."
+    },
+    {
+      question: "What are convex, concave, and pressed?",
+      answer:
+        "Convex appears raised (like a button), concave appears recessed (like an input field), and pressed appears flattened (active state)."
+    },
+    {
+      question: "Why must the background match?",
+      answer:
+        "Neumorphism relies on subtle shadow differences. The element color must be similar to the background for the shadows to create the 3D illusion."
+    }
   ]
 };
 
@@ -34,7 +61,7 @@ export function render(container) {
           <div class="form-group">
             <label>Preset</label>
             <select id="neo-preset" class="text-input">
-              ${PRESETS.map((p, i) => `<option value="${i}">${p.name}</option>`).join('')}
+              ${PRESETS.map((p, i) => `<option value="${i}">${p.name}</option>`).join("")}
               <option value="custom">Custom</option>
             </select>
           </div>
@@ -85,7 +112,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .neo-studio { display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-4); }
     .neo-controls { display:flex;flex-direction:column;gap:var(--space-3); }
@@ -102,19 +129,19 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const preset = container.querySelector('#neo-preset');
-  const bg = container.querySelector('#neo-bg');
-  const intensity = container.querySelector('#neo-intensity');
-  const blur = container.querySelector('#neo-blur');
-  const distance = container.querySelector('#neo-distance');
-  const radius = container.querySelector('#neo-radius');
-  const shapeBtns = container.querySelectorAll('.neo-shape-btn');
-  const card = container.querySelector('#neo-card');
-  const previewArea = container.querySelector('#neo-preview-area');
-  const cssOutput = container.querySelector('#neo-css');
-  const copyBtn = container.querySelector('#neo-copy');
+  const preset = container.querySelector("#neo-preset");
+  const bg = container.querySelector("#neo-bg");
+  const intensity = container.querySelector("#neo-intensity");
+  const blur = container.querySelector("#neo-blur");
+  const distance = container.querySelector("#neo-distance");
+  const radius = container.querySelector("#neo-radius");
+  const shapeBtns = container.querySelectorAll(".neo-shape-btn");
+  const card = container.querySelector("#neo-card");
+  const previewArea = container.querySelector("#neo-preview-area");
+  const cssOutput = container.querySelector("#neo-css");
+  const copyBtn = container.querySelector("#neo-copy");
 
-  let currentShape = 'convex';
+  let currentShape = "convex";
 
   function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -149,12 +176,12 @@ export function render(container) {
     const lightShadow = adjustColor(bgColor, Math.round(50 * int));
 
     let boxShadow;
-    if (currentShape === 'convex') {
+    if (currentShape === "convex") {
       boxShadow = `${d}px ${d}px ${b}px ${darkShadow}, -${d}px -${d}px ${b}px ${lightShadow}`;
-    } else if (currentShape === 'concave') {
+    } else if (currentShape === "concave") {
       boxShadow = `inset ${d}px ${d}px ${b}px ${darkShadow}, inset -${d}px -${d}px ${b}px ${lightShadow}`;
     } else {
-      boxShadow = `${d/2}px ${d/2}px ${b/2}px ${darkShadow}, -${d/2}px -${d/2}px ${b/2}px ${lightShadow}`;
+      boxShadow = `${d / 2}px ${d / 2}px ${b / 2}px ${darkShadow}, -${d / 2}px -${d / 2}px ${b / 2}px ${lightShadow}`;
     }
     card.style.boxShadow = boxShadow;
 
@@ -165,49 +192,53 @@ export function render(container) {
     css += `}`;
     cssOutput.value = css;
 
-    container.querySelector('#neo-intensity-val').textContent = Math.round(int * 100);
-    container.querySelector('#neo-blur-val').textContent = b;
-    container.querySelector('#neo-distance-val').textContent = d;
-    container.querySelector('#neo-radius-val').textContent = r;
+    container.querySelector("#neo-intensity-val").textContent = Math.round(int * 100);
+    container.querySelector("#neo-blur-val").textContent = b;
+    container.querySelector("#neo-distance-val").textContent = d;
+    container.querySelector("#neo-radius-val").textContent = r;
   }
 
-  preset.addEventListener('change', () => {
+  preset.addEventListener("change", () => {
     const val = preset.value;
-    if (val !== 'custom') {
+    if (val !== "custom") {
       const p = PRESETS[val];
       bg.value = p.bg;
       update();
     }
   });
 
-  bg.addEventListener('input', () => {
-    preset.value = 'custom';
+  bg.addEventListener("input", () => {
+    preset.value = "custom";
     update();
   });
 
-  intensity.addEventListener('input', update);
-  blur.addEventListener('input', update);
-  distance.addEventListener('input', update);
-  radius.addEventListener('input', update);
+  intensity.addEventListener("input", update);
+  blur.addEventListener("input", update);
+  distance.addEventListener("input", update);
+  radius.addEventListener("input", update);
 
   shapeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      shapeBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    btn.addEventListener("click", () => {
+      shapeBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
       currentShape = btn.dataset.shape;
       update();
     });
   });
 
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(cssOutput.value).then(() => {
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy CSS'; }, 1500);
-    }).catch(() => {});
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(cssOutput.value)
+      .then(() => {
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy CSS";
+        }, 1500);
+      })
+      .catch(() => {});
   });
 
   update();
 }
 
-export function destroy() {
-}
+export function destroy() {}

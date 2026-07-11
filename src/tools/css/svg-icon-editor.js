@@ -1,18 +1,27 @@
-import { optimizeSvg } from './svg-optimizer.js';
-import { downloadBlob } from '../../utils/file.js';
+import { optimizeSvg } from "./svg-optimizer.js";
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'svg-icon-editor',
-  name: 'SVG Icon Editor',
-  category: 'css',
-  description: 'Upload, view, edit attributes, and optimize SVG icons',
-  icon: '🎨',
-  keywords: ['svg', 'icon', 'editor', 'optimize', 'vector'],
-  accept: '.svg',
+  id: "svg-icon-editor",
+  name: "SVG Icon Editor",
+  category: "css",
+  description: "Upload, view, edit attributes, and optimize SVG icons",
+  icon: "🎨",
+  keywords: ["svg", "icon", "editor", "optimize", "vector"],
+  accept: ".svg",
   maxSizeMB: 5
 };
 
-const defaultPalette = ['#000000', '#ffffff', '#ff5722', '#4caf50', '#2196f3', '#9c27b0', '#ffc107', '#607d8b'];
+const defaultPalette = [
+  "#000000",
+  "#ffffff",
+  "#ff5722",
+  "#4caf50",
+  "#2196f3",
+  "#9c27b0",
+  "#ffc107",
+  "#607d8b"
+];
 
 export function render(container) {
   container.innerHTML = `
@@ -23,10 +32,10 @@ export function render(container) {
     </div>
   `;
 
-  const editor = container.querySelector('#icon-editor');
-  let originalSvg = '';
-  let currentSvg = '';
-  let fileName = 'icon.svg';
+  const editor = container.querySelector("#icon-editor");
+  let originalSvg = "";
+  let currentSvg = "";
+  let fileName = "icon.svg";
 
   editor.innerHTML = `
     <div class="icon-editor-layout" style="display:grid;grid-template-columns:1fr 280px;gap:var(--space-4);align-items:start;">
@@ -94,58 +103,75 @@ export function render(container) {
     </div>
   `;
 
-  const svgFileInput = editor.querySelector('#svg-file-input');
-  const svgPasteInput = editor.querySelector('#svg-paste-input');
-  const pasteSvgBtn = editor.querySelector('#paste-svg-btn');
-  const previewPlaceholder = editor.querySelector('.preview-placeholder');
-  const svgPreview = editor.querySelector('.svg-preview');
-  const editControls = editor.querySelector('.edit-controls');
-  const sizeSlider = editor.querySelector('#size-slider');
-  const sizeVal = editor.querySelector('#size-val');
-  const fillColor = editor.querySelector('#fill-color');
-  const strokeColor = editor.querySelector('#stroke-color');
-  const strokeWidthSlider = editor.querySelector('#stroke-width-slider');
-  const strokeWidthVal = editor.querySelector('#stroke-width-val');
-  const optRemoveComments = editor.querySelector('#opt-remove-comments');
-  const optRemoveMetadata = editor.querySelector('#opt-remove-metadata');
-  const optRemoveEmptyGroups = editor.querySelector('#opt-remove-empty-groups');
-  const optPrecision = editor.querySelector('#opt-precision');
-  const optPrecisionVal = editor.querySelector('#opt-precision-val');
-  const downloadBtn = editor.querySelector('#download-btn');
-  const resetBtn = editor.querySelector('#reset-btn');
+  const svgFileInput = editor.querySelector("#svg-file-input");
+  const svgPasteInput = editor.querySelector("#svg-paste-input");
+  const pasteSvgBtn = editor.querySelector("#paste-svg-btn");
+  const previewPlaceholder = editor.querySelector(".preview-placeholder");
+  const svgPreview = editor.querySelector(".svg-preview");
+  const editControls = editor.querySelector(".edit-controls");
+  const sizeSlider = editor.querySelector("#size-slider");
+  const sizeVal = editor.querySelector("#size-val");
+  const fillColor = editor.querySelector("#fill-color");
+  const strokeColor = editor.querySelector("#stroke-color");
+  const strokeWidthSlider = editor.querySelector("#stroke-width-slider");
+  const strokeWidthVal = editor.querySelector("#stroke-width-val");
+  const optRemoveComments = editor.querySelector("#opt-remove-comments");
+  const optRemoveMetadata = editor.querySelector("#opt-remove-metadata");
+  const optRemoveEmptyGroups = editor.querySelector("#opt-remove-empty-groups");
+  const optPrecision = editor.querySelector("#opt-precision");
+  const optPrecisionVal = editor.querySelector("#opt-precision-val");
+  const downloadBtn = editor.querySelector("#download-btn");
+  const resetBtn = editor.querySelector("#reset-btn");
 
-  const colorPalette = editor.querySelector('.color-palette');
-  const strokePalette = editor.querySelector('.stroke-palette');
+  const colorPalette = editor.querySelector(".color-palette");
+  const strokePalette = editor.querySelector(".stroke-palette");
 
   defaultPalette.forEach(c => {
-    const btn1 = document.createElement('button');
-    btn1.style.cssText = 'width:24px;height:24px;background:' + c + ';border:2px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;';
-    btn1.addEventListener('click', () => { fillColor.value = c; updateSvg(); });
+    const btn1 = document.createElement("button");
+    btn1.style.cssText =
+      "width:24px;height:24px;background:" +
+      c +
+      ";border:2px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;";
+    btn1.addEventListener("click", () => {
+      fillColor.value = c;
+      updateSvg();
+    });
     colorPalette.appendChild(btn1);
 
-    const btn2 = document.createElement('button');
-    btn2.style.cssText = 'width:24px;height:24px;background:' + c + ';border:2px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;';
-    btn2.addEventListener('click', () => { strokeColor.value = c; updateSvg(); });
+    const btn2 = document.createElement("button");
+    btn2.style.cssText =
+      "width:24px;height:24px;background:" +
+      c +
+      ";border:2px solid var(--color-border);border-radius:var(--radius-sm);cursor:pointer;";
+    btn2.addEventListener("click", () => {
+      strokeColor.value = c;
+      updateSvg();
+    });
     strokePalette.appendChild(btn2);
   });
 
-  const dropArea = editor.querySelector('.preview-area');
+  const dropArea = editor.querySelector(".preview-area");
 
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
-    dropArea.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
+  ["dragenter", "dragover", "dragleave", "drop"].forEach(evt => {
+    dropArea.addEventListener(evt, e => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
   });
 
-  dropArea.addEventListener('drop', e => {
+  dropArea.addEventListener("drop", e => {
     const file = e.dataTransfer.files[0];
-    if (file && file.type === 'image/svg+xml') loadSvgFile(file);
+    if (file && file.type === "image/svg+xml") loadSvgFile(file);
   });
 
-  dropArea.addEventListener('click', () => svgFileInput.click());
-  svgFileInput.addEventListener('change', e => { if (e.target.files[0]) loadSvgFile(e.target.files[0]); });
+  dropArea.addEventListener("click", () => svgFileInput.click());
+  svgFileInput.addEventListener("change", e => {
+    if (e.target.files[0]) loadSvgFile(e.target.files[0]);
+  });
 
   function loadSvgFile(file) {
     if (!file) return;
-    fileName = file.name.replace('.svg', '') + '.svg';
+    fileName = file.name.replace(".svg", "") + ".svg";
     const reader = new FileReader();
     reader.onload = e => {
       originalSvg = e.target.result;
@@ -155,10 +181,10 @@ export function render(container) {
     reader.readAsText(file);
   }
 
-  pasteSvgBtn.addEventListener('click', () => {
+  pasteSvgBtn.addEventListener("click", () => {
     const val = svgPasteInput.value.trim();
-    if (!val || !val.includes('<svg')) return;
-    fileName = 'pasted.svg';
+    if (!val || !val.includes("<svg")) return;
+    fileName = "pasted.svg";
     originalSvg = val;
     currentSvg = val;
     showPreview();
@@ -166,38 +192,38 @@ export function render(container) {
 
   function showPreview() {
     if (!originalSvg) return;
-    previewPlaceholder.style.display = 'none';
-    svgPreview.style.display = 'flex';
+    previewPlaceholder.style.display = "none";
+    svgPreview.style.display = "flex";
     svgPreview.innerHTML = currentSvg;
-    const svgEl = svgPreview.querySelector('svg');
+    const svgEl = svgPreview.querySelector("svg");
     if (svgEl) {
-      svgEl.style.width = '100%';
-      svgEl.style.height = '100%';
+      svgEl.style.width = "100%";
+      svgEl.style.height = "100%";
     }
-    editControls.style.display = 'flex';
+    editControls.style.display = "flex";
   }
 
   function updateSvg() {
     if (!originalSvg) return;
     const parser = new DOMParser();
-    const doc = parser.parseFromString(originalSvg, 'image/svg+xml');
+    const doc = parser.parseFromString(originalSvg, "image/svg+xml");
     const svgEl = doc.documentElement;
 
-    if (svgEl.tagName !== 'svg') {
-      console.error('Invalid SVG');
+    if (svgEl.tagName !== "svg") {
+      console.error("Invalid SVG");
       return;
     }
 
-    svgEl.setAttribute('width', sizeSlider.value);
-    svgEl.setAttribute('height', sizeSlider.value);
+    svgEl.setAttribute("width", sizeSlider.value);
+    svgEl.setAttribute("height", sizeSlider.value);
 
-    if (fillColor.value && fillColor.value !== '#000000') {
-      svgEl.setAttribute('fill', fillColor.value);
+    if (fillColor.value && fillColor.value !== "#000000") {
+      svgEl.setAttribute("fill", fillColor.value);
     }
 
     if (strokeWidthSlider.value > 0) {
-      svgEl.setAttribute('stroke', strokeColor.value);
-      svgEl.setAttribute('stroke-width', strokeWidthSlider.value);
+      svgEl.setAttribute("stroke", strokeColor.value);
+      svgEl.setAttribute("stroke-width", strokeWidthSlider.value);
     }
 
     const serializer = new XMLSerializer();
@@ -212,42 +238,51 @@ export function render(container) {
     try {
       currentSvg = optimizeSvg(svg, opts);
     } catch (err) {
-      console.error('SVG optimization failed:', err);
+      console.error("SVG optimization failed:", err);
       currentSvg = svg;
     }
     svgPreview.innerHTML = currentSvg;
-    const previewSvg = svgPreview.querySelector('svg');
+    const previewSvg = svgPreview.querySelector("svg");
     if (previewSvg) {
-      previewSvg.style.width = '100%';
-      previewSvg.style.height = '100%';
+      previewSvg.style.width = "100%";
+      previewSvg.style.height = "100%";
     }
   }
 
-  sizeSlider.addEventListener('input', () => { sizeVal.textContent = sizeSlider.value + 'px'; updateSvg(); });
-  fillColor.addEventListener('input', updateSvg);
-  strokeColor.addEventListener('input', updateSvg);
-  strokeWidthSlider.addEventListener('input', () => { strokeWidthVal.textContent = strokeWidthSlider.value + 'px'; updateSvg(); });
-  optRemoveComments.addEventListener('change', updateSvg);
-  optRemoveMetadata.addEventListener('change', updateSvg);
-  optRemoveEmptyGroups.addEventListener('change', updateSvg);
-  optPrecision.addEventListener('input', () => { optPrecisionVal.textContent = optPrecision.value; updateSvg(); });
-
-  downloadBtn.addEventListener('click', () => {
-    if (!currentSvg) return;
-    downloadBlob(currentSvg, fileName, 'image/svg+xml');
+  sizeSlider.addEventListener("input", () => {
+    sizeVal.textContent = sizeSlider.value + "px";
+    updateSvg();
+  });
+  fillColor.addEventListener("input", updateSvg);
+  strokeColor.addEventListener("input", updateSvg);
+  strokeWidthSlider.addEventListener("input", () => {
+    strokeWidthVal.textContent = strokeWidthSlider.value + "px";
+    updateSvg();
+  });
+  optRemoveComments.addEventListener("change", updateSvg);
+  optRemoveMetadata.addEventListener("change", updateSvg);
+  optRemoveEmptyGroups.addEventListener("change", updateSvg);
+  optPrecision.addEventListener("input", () => {
+    optPrecisionVal.textContent = optPrecision.value;
+    updateSvg();
   });
 
-  resetBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
+    if (!currentSvg) return;
+    downloadBlob(currentSvg, fileName, "image/svg+xml");
+  });
+
+  resetBtn.addEventListener("click", () => {
     if (!originalSvg) return;
     currentSvg = originalSvg;
     sizeSlider.value = 128;
-    sizeVal.textContent = '128px';
-    fillColor.value = '#000000';
-    strokeColor.value = '#000000';
+    sizeVal.textContent = "128px";
+    fillColor.value = "#000000";
+    strokeColor.value = "#000000";
     strokeWidthSlider.value = 0;
-    strokeWidthVal.textContent = '0px';
+    strokeWidthVal.textContent = "0px";
     optPrecision.value = 2;
-    optPrecisionVal.textContent = '2';
+    optPrecisionVal.textContent = "2";
     showPreview();
   });
 }

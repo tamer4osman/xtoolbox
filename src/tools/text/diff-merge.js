@@ -1,13 +1,13 @@
-import { diffLines, buildMergeResult } from './text-diff.js';
+import { diffLines, buildMergeResult } from "./text-diff.js";
 
 export const toolConfig = {
-  id: 'diff-merge',
-  name: 'Diff Viewer & Merge Tool',
-  category: 'text',
-  description: 'Compare two texts side-by-side and merge changes with accept/reject controls.',
-  icon: '🔀',
-  keywords: ['diff', 'merge', 'compare', 'text', 'changes'],
-  accept: '.txt,.md,.json,.js,.py,.html,.css,.xml,.csv',
+  id: "diff-merge",
+  name: "Diff Viewer & Merge Tool",
+  category: "text",
+  description: "Compare two texts side-by-side and merge changes with accept/reject controls.",
+  icon: "🔀",
+  keywords: ["diff", "merge", "compare", "text", "changes"],
+  accept: ".txt,.md,.json,.js,.py,.html,.css,.xml,.csv",
   maxSizeMB: 5
 };
 
@@ -20,9 +20,9 @@ export function render(container) {
     </div>
   `;
 
-  const root = container.querySelector('#diff-merge');
-  let leftText = '';
-  let rightText = '';
+  const root = container.querySelector("#diff-merge");
+  let leftText = "";
+  let rightText = "";
   let currentDiff = null;
   const acceptedChanges = new Set();
 
@@ -57,57 +57,62 @@ export function render(container) {
     </div>
   `;
 
-  const leftInput = root.querySelector('#diff-left');
-  const rightInput = root.querySelector('#diff-right');
-  const compareBtn = root.querySelector('#compare-btn');
-  const clearBtn = root.querySelector('#clear-btn');
-  const diffResultArea = root.querySelector('#diff-result-area');
-  const diffChanges = root.querySelector('#diff-changes');
-  const acceptAllBtn = root.querySelector('#accept-all-btn');
-  const rejectAllBtn = root.querySelector('#reject-all-btn');
-  const mergedResult = root.querySelector('#merged-result');
-  const downloadBtn = root.querySelector('#download-btn');
-  const copyBtn = root.querySelector('#copy-btn');
+  const leftInput = root.querySelector("#diff-left");
+  const rightInput = root.querySelector("#diff-right");
+  const compareBtn = root.querySelector("#compare-btn");
+  const clearBtn = root.querySelector("#clear-btn");
+  const diffResultArea = root.querySelector("#diff-result-area");
+  const diffChanges = root.querySelector("#diff-changes");
+  const acceptAllBtn = root.querySelector("#accept-all-btn");
+  const rejectAllBtn = root.querySelector("#reject-all-btn");
+  const mergedResult = root.querySelector("#merged-result");
+  const downloadBtn = root.querySelector("#download-btn");
+  const copyBtn = root.querySelector("#copy-btn");
 
   function renderChanges() {
     if (!currentDiff) return;
-    diffChanges.innerHTML = '';
+    diffChanges.innerHTML = "";
     for (let diffIdx = 0; diffIdx < currentDiff.length; diffIdx++) {
       const d = currentDiff[diffIdx];
-      if (d.type === 'unchanged') continue;
-      const row = document.createElement('div');
-      row.style.cssText = 'display:flex;align-items:center;gap:var(--space-2);padding:var(--space-1);border-radius:var(--radius-sm);margin-bottom:var(--space-1);';
+      if (d.type === "unchanged") continue;
+      const row = document.createElement("div");
+      row.style.cssText =
+        "display:flex;align-items:center;gap:var(--space-2);padding:var(--space-1);border-radius:var(--radius-sm);margin-bottom:var(--space-1);";
       const typeStyles = {
-        added: 'background:rgba(76,175,80,0.15);border-left:3px solid #4caf50;',
-        removed: 'background:rgba(244,67,54,0.15);border-left:3px solid #f44336;'
+        added: "background:rgba(76,175,80,0.15);border-left:3px solid #4caf50;",
+        removed: "background:rgba(244,67,54,0.15);border-left:3px solid #f44336;"
       };
       row.style.cssText += typeStyles[d.type];
       const isAccepted = acceptedChanges.has(diffIdx);
-      const prefix = d.type === 'added' ? '+ ' : '- ';
-      const lineNum = document.createElement('span');
-      lineNum.style.cssText = 'font-size:var(--text-xs);color:var(--color-text-muted);min-width:30px;';
-      lineNum.textContent = (d.type === 'added' ? d.newIdx : d.oldIdx) + 1;
-      const lineContent = document.createElement('span');
-      lineContent.style.cssText = 'flex:1;font-family:monospace;font-size:var(--text-xs);word-break:break-all;';
-      lineContent.textContent = prefix + d.line.substring(0, 100) + (d.line.length > 100 ? '...' : '');
-      const btn = document.createElement('button');
-      btn.style.cssText = 'padding:4px 8px;font-size:var(--text-xs);border-radius:var(--radius-sm);cursor:pointer;border:none;';
+      const prefix = d.type === "added" ? "+ " : "- ";
+      const lineNum = document.createElement("span");
+      lineNum.style.cssText =
+        "font-size:var(--text-xs);color:var(--color-text-muted);min-width:30px;";
+      lineNum.textContent = (d.type === "added" ? d.newIdx : d.oldIdx) + 1;
+      const lineContent = document.createElement("span");
+      lineContent.style.cssText =
+        "flex:1;font-family:monospace;font-size:var(--text-xs);word-break:break-all;";
+      lineContent.textContent =
+        prefix + d.line.substring(0, 100) + (d.line.length > 100 ? "..." : "");
+      const btn = document.createElement("button");
+      btn.style.cssText =
+        "padding:4px 8px;font-size:var(--text-xs);border-radius:var(--radius-sm);cursor:pointer;border:none;";
       if (isAccepted) {
-        btn.style.cssText += 'background:#4caf50;color:#fff;';
-        btn.textContent = 'Accepted';
+        btn.style.cssText += "background:#4caf50;color:#fff;";
+        btn.textContent = "Accepted";
       } else {
-        btn.style.cssText += 'background:#757575;color:#fff;';
-        btn.textContent = 'Rejected';
+        btn.style.cssText += "background:#757575;color:#fff;";
+        btn.textContent = "Rejected";
       }
-      btn.addEventListener('click', () => {
+      btn.addEventListener("click", () => {
         if (acceptedChanges.has(diffIdx)) {
           acceptedChanges.delete(diffIdx);
-          btn.style.background = '#757575';
-          btn.textContent = 'Rejected';
+          btn.style.background = "#757575";
+          btn.textContent = "Rejected";
         } else {
           acceptedChanges.add(diffIdx);
-          btn.style.background = '#4caf50';
-          btn.textContent = 'Accepted';
+          btn.style.background = "#4caf50";
+          btn.textContent = "Accepted";
         }
         updateMerged();
       });
@@ -117,7 +122,8 @@ export function render(container) {
       diffChanges.appendChild(row);
     }
     if (diffChanges.children.length === 0) {
-      diffChanges.innerHTML = '<div style="text-align:center;color:var(--color-text-muted);padding:var(--space-4);">No differences found</div>';
+      diffChanges.innerHTML =
+        '<div style="text-align:center;color:var(--color-text-muted);padding:var(--space-4);">No differences found</div>';
     }
   }
 
@@ -127,35 +133,35 @@ export function render(container) {
     mergedResult.value = merged;
   }
 
-  compareBtn.addEventListener('click', () => {
+  compareBtn.addEventListener("click", () => {
     leftText = leftInput.value;
     rightText = rightInput.value;
     if (!leftText && !rightText) return;
     currentDiff = diffLines(leftText, rightText);
     acceptedChanges.clear();
     for (let i = 0; i < currentDiff.length; i++) {
-      if (currentDiff[i].type === 'added') {
+      if (currentDiff[i].type === "added") {
         acceptedChanges.add(i);
       }
     }
-    diffResultArea.style.display = 'block';
+    diffResultArea.style.display = "block";
     renderChanges();
     updateMerged();
   });
 
-  clearBtn.addEventListener('click', () => {
-    leftInput.value = '';
-    rightInput.value = '';
+  clearBtn.addEventListener("click", () => {
+    leftInput.value = "";
+    rightInput.value = "";
     currentDiff = null;
     acceptedChanges.clear();
-    diffResultArea.style.display = 'none';
+    diffResultArea.style.display = "none";
   });
 
-  acceptAllBtn.addEventListener('click', () => {
+  acceptAllBtn.addEventListener("click", () => {
     if (!currentDiff) return;
     let idx = 0;
     for (const d of currentDiff) {
-      if (d.type !== 'unchanged') {
+      if (d.type !== "unchanged") {
         acceptedChanges.add(idx);
       }
       idx++;
@@ -164,33 +170,38 @@ export function render(container) {
     updateMerged();
   });
 
-  rejectAllBtn.addEventListener('click', () => {
+  rejectAllBtn.addEventListener("click", () => {
     if (!currentDiff) return;
     acceptedChanges.clear();
     renderChanges();
     updateMerged();
   });
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     const content = mergedResult.value;
     if (!content) return;
-    const blob = new Blob([content], { type: 'text/plain' });
+    const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'merged.txt';
+    a.download = "merged.txt";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   });
 
-  copyBtn.addEventListener('click', () => {
+  copyBtn.addEventListener("click", () => {
     mergedResult.select();
-    navigator.clipboard.writeText(mergedResult.value).then(() => {
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
-    }).catch(() => {});
+    navigator.clipboard
+      .writeText(mergedResult.value)
+      .then(() => {
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy";
+        }, 1500);
+      })
+      .catch(() => {});
   });
 }
 

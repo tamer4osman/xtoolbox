@@ -1,4 +1,4 @@
-import { downloadBlob } from '../../utils/file.js';
+import { downloadBlob } from "../../utils/file.js";
 
 /**
  * Load an image from File into an HTMLImageElement
@@ -16,10 +16,10 @@ export function loadImageFromFile(file) {
  * Draw image to canvas with given dimensions
  */
 export function drawImageToCanvas(img, width, height) {
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   ctx.drawImage(img, 0, 0, width, height);
   return canvas;
 }
@@ -27,7 +27,7 @@ export function drawImageToCanvas(img, width, height) {
 /**
  * Convert canvas to Blob
  */
-export function canvasToBlob(canvas, type = 'image/png', quality = 0.92) {
+export function canvasToBlob(canvas, type = "image/png", quality = 0.92) {
   return new Promise(resolve => canvas.toBlob(resolve, type, quality));
 }
 
@@ -50,7 +50,7 @@ export async function fileToCanvas(file) {
 /**
  * Download canvas as image file
  */
-export async function downloadCanvas(canvas, filename, type = 'image/png', quality = 0.92) {
+export async function downloadCanvas(canvas, filename, type = "image/png", quality = 0.92) {
   const blob = await canvasToBlob(canvas, type, quality);
   downloadBlob(blob, filename);
 }
@@ -59,10 +59,10 @@ export async function downloadCanvas(canvas, filename, type = 'image/png', quali
  * Apply CSS filter to canvas and return new canvas
  */
 export function applyFilter(canvas, filterString) {
-  const newCanvas = document.createElement('canvas');
+  const newCanvas = document.createElement("canvas");
   newCanvas.width = canvas.width;
   newCanvas.height = canvas.height;
-  const ctx = newCanvas.getContext('2d');
+  const ctx = newCanvas.getContext("2d");
   ctx.filter = filterString;
   ctx.drawImage(canvas, 0, 0);
   return newCanvas;
@@ -72,7 +72,7 @@ export function applyFilter(canvas, filterString) {
  * Get pixel data from canvas for manipulation
  */
 export function getPixelData(canvas) {
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   return ctx.getImageData(0, 0, canvas.width, canvas.height);
 }
 
@@ -80,6 +80,6 @@ export function getPixelData(canvas) {
  * Put pixel data back to canvas
  */
 export function putPixelData(canvas, imageData) {
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   ctx.putImageData(imageData, 0, 0);
 }

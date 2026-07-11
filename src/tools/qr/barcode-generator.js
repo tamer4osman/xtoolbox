@@ -1,13 +1,13 @@
 export const toolConfig = {
-  id: 'barcode-generator',
-  name: 'Barcode Generator',
-  category: 'qr',
-  description: 'Generate barcodes in Code128, EAN-13, UPC-A formats.',
-  icon: '📊',
-  status: 'done'
+  id: "barcode-generator",
+  name: "Barcode Generator",
+  category: "qr",
+  description: "Generate barcodes in Code128, EAN-13, UPC-A formats.",
+  icon: "📊",
+  status: "done"
 };
 
-import JsBarcode from 'jsbarcode';
+import JsBarcode from "jsbarcode";
 
 const BARCODE_CSS = `
     .tool-container { max-width: 600px; margin: 0 auto; }
@@ -129,74 +129,114 @@ const BARCODE_HTML = `
 `;
 
 const FORMAT_HINTS = {
-  EAN13: { hint: '12 or 13 digits', eanHint: 'Enter 12 or 13 digits', maxLength: 13 },
-  EAN8: { hint: '7 or 8 digits', eanHint: 'Enter 7 or 8 digits', maxLength: 8 },
-  UPC: { hint: '11 or 12 digits', eanHint: 'Enter 11 or 12 digits (UPC-A)', maxLength: 12 },
-  ITF14: { hint: '13 or 14 digits', eanHint: 'Enter 13 or 14 digits', maxLength: 14 }
+  EAN13: { hint: "12 or 13 digits", eanHint: "Enter 12 or 13 digits", maxLength: 13 },
+  EAN8: { hint: "7 or 8 digits", eanHint: "Enter 7 or 8 digits", maxLength: 8 },
+  UPC: { hint: "11 or 12 digits", eanHint: "Enter 11 or 12 digits (UPC-A)", maxLength: 12 },
+  ITF14: { hint: "13 or 14 digits", eanHint: "Enter 13 or 14 digits", maxLength: 14 }
 };
 
 function downloadBarcodeSvg(svgEl) {
   const svgData = new XMLSerializer().serializeToString(svgEl);
-  const blob = new Blob([svgData], { type: 'image/svg+xml' });
+  const blob = new Blob([svgData], { type: "image/svg+xml" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'barcode.svg'; a.click();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "barcode.svg";
+  a.click();
 }
 
 function downloadBarcodePng(svgEl) {
   const svgData = new XMLSerializer().serializeToString(svgEl);
   const img = new Image();
   img.onload = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width; canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'white'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0);
-    const a = document.createElement('a');
-    a.href = canvas.toDataURL('image/png'); a.download = 'barcode.png'; a.click();
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png");
+    a.download = "barcode.png";
+    a.click();
   };
-  img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+  img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
 }
 
 export function render(container) {
   container.innerHTML = BARCODE_HTML;
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = BARCODE_CSS;
   container.appendChild(style);
 
   const q = id => container.querySelector(`#${id}`);
-  const barcodeType = q('barcode-type'), barcodeContent = q('barcode-content'), formatHint = q('format-hint');
-  const eanFields = container.querySelector('.ean-fields'), eanValue = q('ean-value'), eanHint = q('ean-hint');
-  const barcodeWidth = q('barcode-width'), barcodeHeight = q('barcode-height');
-  const barcodeShowText = q('barcode-show-text'), barcodeColor = q('barcode-color');
-  const generateBtn = q('generate-btn'), resultSection = q('result-section');
-  const barcodeSvg = q('barcode-svg'), errorSection = q('error-section'), errorMessage = q('error-message');
+  const barcodeType = q("barcode-type"),
+    barcodeContent = q("barcode-content"),
+    formatHint = q("format-hint");
+  const eanFields = container.querySelector(".ean-fields"),
+    eanValue = q("ean-value"),
+    eanHint = q("ean-hint");
+  const barcodeWidth = q("barcode-width"),
+    barcodeHeight = q("barcode-height");
+  const barcodeShowText = q("barcode-show-text"),
+    barcodeColor = q("barcode-color");
+  const generateBtn = q("generate-btn"),
+    resultSection = q("result-section");
+  const barcodeSvg = q("barcode-svg"),
+    errorSection = q("error-section"),
+    errorMessage = q("error-message");
 
-  barcodeType.addEventListener('change', () => {
+  barcodeType.addEventListener("change", () => {
     const type = barcodeType.value;
-    const isEan = ['EAN13', 'EAN8', 'UPC', 'ITF14'].includes(type);
-    eanFields.style.display = isEan ? 'block' : 'none';
-    barcodeContent.style.display = isEan ? 'none' : 'block';
+    const isEan = ["EAN13", "EAN8", "UPC", "ITF14"].includes(type);
+    eanFields.style.display = isEan ? "block" : "none";
+    barcodeContent.style.display = isEan ? "none" : "block";
     const h = FORMAT_HINTS[type];
-    if (h) { formatHint.textContent = h.hint; eanHint.textContent = h.eanHint; eanValue.maxLength = h.maxLength; }
-    else { formatHint.textContent = 'Any alphanumeric text'; }
+    if (h) {
+      formatHint.textContent = h.hint;
+      eanHint.textContent = h.eanHint;
+      eanValue.maxLength = h.maxLength;
+    } else {
+      formatHint.textContent = "Any alphanumeric text";
+    }
   });
 
-  barcodeWidth.addEventListener('input', e => { e.target.nextElementSibling.textContent = e.target.value + 'x'; });
-  barcodeHeight.addEventListener('input', e => { e.target.nextElementSibling.textContent = e.target.value + 'px'; });
+  barcodeWidth.addEventListener("input", e => {
+    e.target.nextElementSibling.textContent = e.target.value + "x";
+  });
+  barcodeHeight.addEventListener("input", e => {
+    e.target.nextElementSibling.textContent = e.target.value + "px";
+  });
 
   function generate() {
-    errorSection.classList.add('hidden'); resultSection.classList.add('hidden');
+    errorSection.classList.add("hidden");
+    resultSection.classList.add("hidden");
     const type = barcodeType.value;
-    const content = eanFields.style.display !== 'none' ? eanValue.value : barcodeContent.value;
-    if (!content) { errorMessage.textContent = 'Please enter content for the barcode'; errorSection.classList.remove('hidden'); return; }
+    const content = eanFields.style.display !== "none" ? eanValue.value : barcodeContent.value;
+    if (!content) {
+      errorMessage.textContent = "Please enter content for the barcode";
+      errorSection.classList.remove("hidden");
+      return;
+    }
     try {
-      JsBarcode(barcodeSvg, content, { format: type, width: parseInt(barcodeWidth.value), height: parseInt(barcodeHeight.value), displayValue: barcodeShowText.checked, lineColor: barcodeColor.value, background: '#ffffff', margin: 10 });
-      resultSection.classList.remove('hidden');
-    } catch (err) { errorMessage.textContent = err.message || 'Invalid barcode content for selected format'; errorSection.classList.remove('hidden'); }
+      JsBarcode(barcodeSvg, content, {
+        format: type,
+        width: parseInt(barcodeWidth.value),
+        height: parseInt(barcodeHeight.value),
+        displayValue: barcodeShowText.checked,
+        lineColor: barcodeColor.value,
+        background: "#ffffff",
+        margin: 10
+      });
+      resultSection.classList.remove("hidden");
+    } catch (err) {
+      errorMessage.textContent = err.message || "Invalid barcode content for selected format";
+      errorSection.classList.remove("hidden");
+    }
   }
 
-  generateBtn.addEventListener('click', generate);
-  q('download-svg').addEventListener('click', () => downloadBarcodeSvg(barcodeSvg));
-  q('download-png').addEventListener('click', () => downloadBarcodePng(barcodeSvg));
+  generateBtn.addEventListener("click", generate);
+  q("download-svg").addEventListener("click", () => downloadBarcodeSvg(barcodeSvg));
+  q("download-png").addEventListener("click", () => downloadBarcodePng(barcodeSvg));
 }

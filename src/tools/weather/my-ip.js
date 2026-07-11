@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'my-ip',
-  name: 'My IP Address',
-  category: 'weather',
-  description: 'Show your public IP address, location, ISP, and timezone.',
-  icon: '🌐',
-  status: 'done'
+  id: "my-ip",
+  name: "My IP Address",
+  category: "weather",
+  description: "Show your public IP address, location, ISP, and timezone.",
+  icon: "🌐",
+  status: "done"
 };
 
 export function render(container) {
@@ -61,7 +61,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -82,37 +82,38 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const lookupBtn = container.querySelector('#lookup-btn');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
+  const lookupBtn = container.querySelector("#lookup-btn");
+  const loading = container.querySelector("#loading");
+  const result = container.querySelector("#result");
+  const error = container.querySelector("#error");
 
-  lookupBtn.addEventListener('click', async () => {
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
+  lookupBtn.addEventListener("click", async () => {
+    loading.classList.remove("hidden");
+    result.classList.add("hidden");
+    error.classList.add("hidden");
 
     try {
-      const res = await fetch('http://ip-api.com/json/?fields=status,message,country,region,city,isp,timezone,lat,lon,query');
+      const res = await fetch(
+        "http://ip-api.com/json/?fields=status,message,country,region,city,isp,timezone,lat,lon,query"
+      );
       const data = await res.json();
-      
-      if (data.status !== 'success') throw new Error(data.message || 'Failed to lookup IP');
-      
-      document.getElementById('ip-address').textContent = data.query;
-      document.getElementById('isp').textContent = data.isp;
-      document.getElementById('city').textContent = data.city;
-      document.getElementById('region').textContent = data.region;
-      document.getElementById('country').textContent = data.country;
-      document.getElementById('timezone').textContent = data.timezone;
-      document.getElementById('coords').textContent = data.lat + ', ' + data.lon;
-      
-      result.classList.remove('hidden');
+
+      if (data.status !== "success") throw new Error(data.message || "Failed to lookup IP");
+
+      document.getElementById("ip-address").textContent = data.query;
+      document.getElementById("isp").textContent = data.isp;
+      document.getElementById("city").textContent = data.city;
+      document.getElementById("region").textContent = data.region;
+      document.getElementById("country").textContent = data.country;
+      document.getElementById("timezone").textContent = data.timezone;
+      document.getElementById("coords").textContent = data.lat + ", " + data.lon;
+
+      result.classList.remove("hidden");
     } catch (err) {
-      error.textContent = 'Error: ' + err.message;
-      error.classList.remove('hidden');
+      error.textContent = "Error: " + err.message;
+      error.classList.remove("hidden");
     } finally {
-      loading.classList.add('hidden');
+      loading.classList.add("hidden");
     }
   });
-
-  }
+}

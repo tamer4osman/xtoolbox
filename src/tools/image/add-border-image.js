@@ -1,45 +1,58 @@
-import { createImageTool } from './image-tool-factory.js';
+import { createImageTool } from "./image-tool-factory.js";
 
 export const toolConfig = {
-  id: 'add-border-image',
-  name: 'Add Border to Image',
-  category: 'image',
-  description: 'Add customizable borders to images. Solid, dashed, double, or rounded corners with shadow effects.',
-  icon: '🖼️',
-  accept: 'image/*',
+  id: "add-border-image",
+  name: "Add Border to Image",
+  category: "image",
+  description:
+    "Add customizable borders to images. Solid, dashed, double, or rounded corners with shadow effects.",
+  icon: "🖼️",
+  accept: "image/*",
   maxSizeMB: 50,
-  keywords: ['add border', 'image border', 'photo frame', 'picture border'],
-  steps: ['Upload an image', 'Choose border style and width', 'Set border color and corner radius', 'Add optional shadow', 'Download the result'],
+  keywords: ["add border", "image border", "photo frame", "picture border"],
+  steps: [
+    "Upload an image",
+    "Choose border style and width",
+    "Set border color and corner radius",
+    "Add optional shadow",
+    "Download the result"
+  ],
   faqs: [
-    { question: 'What border styles are available?', answer: 'Solid, dashed, dotted, double, and groove styles with customizable color and width.' },
-    { question: 'Can I add rounded corners?', answer: 'Yes, use the corner radius slider to round the image corners.' }
+    {
+      question: "What border styles are available?",
+      answer: "Solid, dashed, dotted, double, and groove styles with customizable color and width."
+    },
+    {
+      question: "Can I add rounded corners?",
+      answer: "Yes, use the corner radius slider to round the image corners."
+    }
   ]
 };
 
 const BORDER_STYLES = [
-  { id: 'solid', name: 'Solid' },
-  { id: 'dashed', name: 'Dashed' },
-  { id: 'dotted', name: 'Dotted' },
-  { id: 'double', name: 'Double' },
-  { id: 'groove', name: 'Groove' }
+  { id: "solid", name: "Solid" },
+  { id: "dashed", name: "Dashed" },
+  { id: "dotted", name: "Dotted" },
+  { id: "double", name: "Double" },
+  { id: "groove", name: "Groove" }
 ];
 
 export function render(container) {
-  let borderStyle = 'solid';
+  let borderStyle = "solid";
 
   const tool = createImageTool({
     container,
-    toolId: 'add-border',
-    processingMessage: 'Adding border...',
-    successMessage: 'Border added!',
+    toolId: "add-border",
+    processingMessage: "Adding border...",
+    successMessage: "Border added!",
     getFilename: () => {
-      const fmt = container.querySelector('#format-select').value;
-      const ext = fmt === 'png' ? 'png' : fmt === 'webp' ? 'webp' : 'jpg';
+      const fmt = container.querySelector("#format-select").value;
+      const ext = fmt === "png" ? "png" : fmt === "webp" ? "webp" : "jpg";
       return `bordered-image.${ext}`;
     },
     getFormat: () => {
-      const fmt = container.querySelector('#format-select').value;
-      return fmt === 'png' ? 'image/png' : fmt === 'webp' ? 'image/webp' : 'image/jpeg';
+      const fmt = container.querySelector("#format-select").value;
+      return fmt === "png" ? "image/png" : fmt === "webp" ? "image/webp" : "image/jpeg";
     },
     getQuality: () => 0.92,
     optionsHTML: `
@@ -85,29 +98,35 @@ export function render(container) {
         </select>
       </div>
     `,
-    optionsCSS: '',
+    optionsCSS: "",
     renderPreview: ({ state }) => {
       if (!state.originalImage) return;
-      const canvas = container.querySelector('#add-border-preview-canvas');
+      const canvas = container.querySelector("#add-border-preview-canvas");
       processImage(canvas, state.originalImage, 500, container, borderStyle);
     },
     processForDownload: ({ state, canvas }) => {
       if (!state.originalImage) return;
-      processImage(canvas, state.originalImage, state.originalImage.naturalWidth, container, borderStyle);
+      processImage(
+        canvas,
+        state.originalImage,
+        state.originalImage.naturalWidth,
+        container,
+        borderStyle
+      );
     }
   });
 
   function renderStyleButtons() {
-    const styleButtons = container.querySelector('#style-buttons');
-    styleButtons.innerHTML = '';
+    const styleButtons = container.querySelector("#style-buttons");
+    styleButtons.innerHTML = "";
     BORDER_STYLES.forEach(style => {
-      const btn = document.createElement('button');
-      btn.className = `btn ${borderStyle === style.id ? 'btn-primary' : 'btn-secondary'}`;
-      btn.style.fontSize = 'var(--text-xs)';
-      btn.style.flex = '1';
-      btn.style.minWidth = '60px';
+      const btn = document.createElement("button");
+      btn.className = `btn ${borderStyle === style.id ? "btn-primary" : "btn-secondary"}`;
+      btn.style.fontSize = "var(--text-xs)";
+      btn.style.flex = "1";
+      btn.style.minWidth = "60px";
       btn.textContent = style.name;
-      btn.addEventListener('click', () => {
+      btn.addEventListener("click", () => {
         borderStyle = style.id;
         renderStyleButtons();
         tool.renderPreview();
@@ -118,25 +137,25 @@ export function render(container) {
 
   renderStyleButtons();
 
-  tool.bindOptionChange({ rangeId: 'width-range', valueId: 'width-val' });
-  tool.bindOptionChange({ rangeId: 'radius-range', valueId: 'radius-val' });
-  tool.bindOptionChange({ rangeId: 'shadow-range', valueId: 'shadow-val' });
+  tool.bindOptionChange({ rangeId: "width-range", valueId: "width-val" });
+  tool.bindOptionChange({ rangeId: "radius-range", valueId: "radius-val" });
+  tool.bindOptionChange({ rangeId: "shadow-range", valueId: "shadow-val" });
 
-  const borderColor = container.querySelector('#border-color');
-  const borderColorHex = container.querySelector('#border-color-hex');
-  borderColor.addEventListener('input', () => {
+  const borderColor = container.querySelector("#border-color");
+  const borderColorHex = container.querySelector("#border-color-hex");
+  borderColor.addEventListener("input", () => {
     borderColorHex.textContent = borderColor.value;
     tool.renderPreview();
   });
 
-  const shadowToggle = container.querySelector('#shadow-toggle');
-  const shadowOptions = container.querySelector('#shadow-options');
-  shadowToggle.addEventListener('change', () => {
-    shadowOptions.style.display = shadowToggle.checked ? 'block' : 'none';
+  const shadowToggle = container.querySelector("#shadow-toggle");
+  const shadowOptions = container.querySelector("#shadow-options");
+  shadowToggle.addEventListener("change", () => {
+    shadowOptions.style.display = shadowToggle.checked ? "block" : "none";
     tool.renderPreview();
   });
 
-  container.querySelector('#format-select').addEventListener('change', () => {});
+  container.querySelector("#format-select").addEventListener("change", () => {});
 }
 
 function drawBorder(ctx, x, y, w, h, borderWidth, color, style, radius) {
@@ -161,11 +180,11 @@ function drawBorder(ctx, x, y, w, h, borderWidth, color, style, radius) {
     ctx.rect(x, y, w, h);
   }
 
-  if (style === 'dashed') {
+  if (style === "dashed") {
     ctx.setLineDash([borderWidth * 2, borderWidth]);
-  } else if (style === 'dotted') {
+  } else if (style === "dotted") {
     ctx.setLineDash([borderWidth, borderWidth]);
-  } else if (style === 'double') {
+  } else if (style === "double") {
     ctx.setLineDash([]);
     const half = borderWidth / 3;
     ctx.lineWidth = half;
@@ -175,11 +194,26 @@ function drawBorder(ctx, x, y, w, h, borderWidth, color, style, radius) {
       const r = Math.min(radius, Math.min(w, h) / 2) - borderWidth;
       ctx.moveTo(x + borderWidth + r, y + borderWidth);
       ctx.lineTo(x + w - borderWidth - r, y + borderWidth);
-      ctx.quadraticCurveTo(x + w - borderWidth, y + borderWidth, x + w - borderWidth, y + borderWidth + r);
+      ctx.quadraticCurveTo(
+        x + w - borderWidth,
+        y + borderWidth,
+        x + w - borderWidth,
+        y + borderWidth + r
+      );
       ctx.lineTo(x + w - borderWidth, y + h - borderWidth - r);
-      ctx.quadraticCurveTo(x + w - borderWidth, y + h - borderWidth, x + w - borderWidth - r, y + h - borderWidth);
+      ctx.quadraticCurveTo(
+        x + w - borderWidth,
+        y + h - borderWidth,
+        x + w - borderWidth - r,
+        y + h - borderWidth
+      );
       ctx.lineTo(x + borderWidth + r, y + h - borderWidth);
-      ctx.quadraticCurveTo(x + borderWidth, y + h - borderWidth, x + borderWidth, y + h - borderWidth - r);
+      ctx.quadraticCurveTo(
+        x + borderWidth,
+        y + h - borderWidth,
+        x + borderWidth,
+        y + h - borderWidth - r
+      );
       ctx.lineTo(x + borderWidth, y + borderWidth + r);
       ctx.quadraticCurveTo(x + borderWidth, y + borderWidth, x + borderWidth + r, y + borderWidth);
     } else {
@@ -188,12 +222,12 @@ function drawBorder(ctx, x, y, w, h, borderWidth, color, style, radius) {
     ctx.stroke();
     ctx.setLineDash([]);
     return;
-  } else if (style === 'groove') {
+  } else if (style === "groove") {
     ctx.setLineDash([]);
-    ctx.shadowColor = 'rgba(0,0,0,0.3)';
+    ctx.shadowColor = "rgba(0,0,0,0.3)";
     ctx.shadowBlur = 2;
     ctx.stroke();
-    ctx.shadowColor = 'transparent';
+    ctx.shadowColor = "transparent";
     ctx.shadowBlur = 0;
     return;
   } else {
@@ -205,11 +239,11 @@ function drawBorder(ctx, x, y, w, h, borderWidth, color, style, radius) {
 }
 
 function processImage(canvas, originalImage, width, container, borderStyle) {
-  const widthRange = container.querySelector('#width-range');
-  const borderColor = container.querySelector('#border-color');
-  const radiusRange = container.querySelector('#radius-range');
-  const shadowToggle = container.querySelector('#shadow-toggle');
-  const shadowRange = container.querySelector('#shadow-range');
+  const widthRange = container.querySelector("#width-range");
+  const borderColor = container.querySelector("#border-color");
+  const radiusRange = container.querySelector("#radius-range");
+  const shadowToggle = container.querySelector("#shadow-toggle");
+  const shadowRange = container.querySelector("#shadow-range");
 
   const borderWidth = parseInt(widthRange.value) || 20;
   const color = borderColor.value;
@@ -228,9 +262,9 @@ function processImage(canvas, originalImage, width, container, borderStyle) {
 
   canvas.width = totalW;
   canvas.height = totalH;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
-  ctx.fillStyle = '#ffffff';
+  ctx.fillStyle = "#ffffff";
   if (radius > 0) {
     const r = Math.min(radius + borderWidth, Math.min(totalW, totalH) / 2);
     ctx.beginPath();
@@ -250,7 +284,7 @@ function processImage(canvas, originalImage, width, container, borderStyle) {
   }
 
   if (shadow) {
-    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowColor = "rgba(0,0,0,0.4)";
     ctx.shadowBlur = shadowBlur;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = shadowBlur / 3;
@@ -263,7 +297,12 @@ function processImage(canvas, originalImage, width, container, borderStyle) {
     ctx.lineTo(borderWidth + drawW - r, borderWidth);
     ctx.quadraticCurveTo(borderWidth + drawW, borderWidth, borderWidth + drawW, borderWidth + r);
     ctx.lineTo(borderWidth + drawW, borderWidth + drawH - r);
-    ctx.quadraticCurveTo(borderWidth + drawW, borderWidth + drawH, borderWidth + drawW - r, borderWidth + drawH);
+    ctx.quadraticCurveTo(
+      borderWidth + drawW,
+      borderWidth + drawH,
+      borderWidth + drawW - r,
+      borderWidth + drawH
+    );
     ctx.lineTo(borderWidth + r, borderWidth + drawH);
     ctx.quadraticCurveTo(borderWidth, borderWidth + drawH, borderWidth, borderWidth + drawH - r);
     ctx.lineTo(borderWidth, borderWidth + r);
@@ -273,7 +312,7 @@ function processImage(canvas, originalImage, width, container, borderStyle) {
   }
 
   ctx.drawImage(originalImage, borderWidth, borderWidth, drawW, drawH);
-  ctx.shadowColor = 'transparent';
+  ctx.shadowColor = "transparent";
   ctx.shadowBlur = 0;
   ctx.shadowOffsetX = 0;
   ctx.shadowOffsetY = 0;

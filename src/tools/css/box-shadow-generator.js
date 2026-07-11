@@ -1,18 +1,18 @@
-import { createCssGenerator } from './css-generator-factory.js';
+import { createCssGenerator } from "./css-generator-factory.js";
 
 export const toolConfig = {
-  id: 'box-shadow-generator',
-  name: 'Box Shadow Generator',
-  category: 'css',
-  description: 'Visual editor for CSS box-shadow with live preview.',
-  icon: '🔲',
-  status: 'done'
+  id: "box-shadow-generator",
+  name: "Box Shadow Generator",
+  category: "css",
+  description: "Visual editor for CSS box-shadow with live preview.",
+  icon: "🔲",
+  status: "done"
 };
 
 export function render(container) {
   createCssGenerator({
     container,
-    cssClass: 'shadow-gen',
+    cssClass: "shadow-gen",
     extraCSS: `
       .shadow-gen .preview { width: 150px; height: 150px; margin: 0 auto var(--space-4); background: white; border-radius: var(--radius-lg); }
     `,
@@ -55,16 +55,23 @@ export function render(container) {
       const color = values.color;
       const opacity = values.opacity;
       const inset = values.inset;
-      const rgba = color + Math.round(opacity * 2.55).toString(16).padStart(2, '0');
-      const shadow = `${inset ? 'inset ' : ''}${h}px ${v}px ${blur}px ${spread}px ${rgba}`;
+      const rgba =
+        color +
+        Math.round(opacity * 2.55)
+          .toString(16)
+          .padStart(2, "0");
+      const shadow = `${inset ? "inset " : ""}${h}px ${v}px ${blur}px ${spread}px ${rgba}`;
       preview.style.boxShadow = shadow;
       cssOutput.textContent = `box-shadow: ${shadow};`;
-      const set = (id, val) => { const el = preview.parentElement.querySelector('#' + id); if (el) el.textContent = val; };
-      set('hVal', h + 'px');
-      set('vVal', v + 'px');
-      set('blurVal', blur + 'px');
-      set('spreadVal', spread + 'px');
-      set('opacityVal', opacity + '%');
+      const set = (id, val) => {
+        const el = preview.parentElement.querySelector("#" + id);
+        if (el) el.textContent = val;
+      };
+      set("hVal", h + "px");
+      set("vVal", v + "px");
+      set("blurVal", blur + "px");
+      set("spreadVal", spread + "px");
+      set("opacityVal", opacity + "%");
     }
   });
 }

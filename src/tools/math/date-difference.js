@@ -1,12 +1,12 @@
-import { CALC_FORM_STYLES } from '../../utils/calculator-form.js';
+import { CALC_FORM_STYLES } from "../../utils/calculator-form.js";
 
 export const toolConfig = {
-  id: 'date-difference',
-  name: 'Date Difference Calculator',
-  category: 'math',
-  description: 'Calculate the exact difference between two dates in days, weeks, months.',
-  icon: '📅',
-  status: 'done'
+  id: "date-difference",
+  name: "Date Difference Calculator",
+  category: "math",
+  description: "Calculate the exact difference between two dates in days, weeks, months.",
+  icon: "📅",
+  status: "done"
 };
 
 const RESULT_STYLES = `
@@ -55,30 +55,31 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = CALC_FORM_STYLES + RESULT_STYLES;
   container.appendChild(style);
 
-  const today = new Date().toISOString().split('T')[0];
-  container.querySelector('#start-date').value = today;
-  container.querySelector('#end-date').value = today;
+  const today = new Date().toISOString().split("T")[0];
+  container.querySelector("#start-date").value = today;
+  container.querySelector("#end-date").value = today;
 
-  container.querySelector('#calc-btn').addEventListener('click', () => {
-    const start = new Date(container.querySelector('#start-date').value);
-    const end = new Date(container.querySelector('#end-date').value);
+  container.querySelector("#calc-btn").addEventListener("click", () => {
+    const start = new Date(container.querySelector("#start-date").value);
+    const end = new Date(container.querySelector("#end-date").value);
     const diff = Math.abs(end - start);
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const weeks = Math.floor(days / 7);
     const months = Math.floor(days / 30);
     const years = Math.floor(days / 365);
 
-    container.querySelector('#days').textContent = days;
-    container.querySelector('#weeks').textContent = weeks;
-    container.querySelector('#months').textContent = months;
-    container.querySelector('#years').textContent = years;
+    container.querySelector("#days").textContent = days;
+    container.querySelector("#weeks").textContent = weeks;
+    container.querySelector("#months").textContent = months;
+    container.querySelector("#years").textContent = years;
 
-    const sign = end >= start ? '' : '-';
-    container.querySelector('#detail').textContent = sign + days + ' days' + (sign ? ' difference' : ' between dates');
-    container.querySelector('#result').classList.remove('hidden');
+    const sign = end >= start ? "" : "-";
+    container.querySelector("#detail").textContent =
+      sign + days + " days" + (sign ? " difference" : " between dates");
+    container.querySelector("#result").classList.remove("hidden");
   });
 }

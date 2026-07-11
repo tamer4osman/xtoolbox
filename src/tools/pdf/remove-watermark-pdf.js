@@ -1,26 +1,38 @@
-import { PDFDocument } from 'pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
+import { PDFDocument } from "pdf-lib";
+import * as pdfjsLib from "pdfjs-dist";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 export const toolConfig = {
-  id: 'remove-watermark-pdf',
-  name: 'Remove Watermark from PDF',
-  category: 'pdf',
-  description: 'Remove overlay watermarks from PDF pages.',
-  icon: '',
-  accept: '.pdf',
+  id: "remove-watermark-pdf",
+  name: "Remove Watermark from PDF",
+  category: "pdf",
+  description: "Remove overlay watermarks from PDF pages.",
+  icon: "",
+  accept: ".pdf",
   maxSizeMB: 50,
-  keywords: ['remove watermark pdf', 'delete watermark', 'clean pdf', 'watermark remover'],
-  steps: ['Upload a PDF file', 'Draw rectangles around watermark areas on the preview', 'Click "Remove Watermarks"', 'Download the cleaned PDF'],
+  keywords: ["remove watermark pdf", "delete watermark", "clean pdf", "watermark remover"],
+  steps: [
+    "Upload a PDF file",
+    "Draw rectangles around watermark areas on the preview",
+    'Click "Remove Watermarks"',
+    "Download the cleaned PDF"
+  ],
   faqs: [
-    { question: 'What formats supported?', answer: 'We support PDF files up to 50MB.' },
-    { question: 'How does it work?', answer: 'Draw rectangles around watermark areas. Those areas will be removed from all pages.' },
-    { question: 'Does it work on all watermarks?', answer: 'Works best on text watermarks and simple image watermarks. Complex watermarks may leave artifacts.' }
+    { question: "What formats supported?", answer: "We support PDF files up to 50MB." },
+    {
+      question: "How does it work?",
+      answer: "Draw rectangles around watermark areas. Those areas will be removed from all pages."
+    },
+    {
+      question: "Does it work on all watermarks?",
+      answer:
+        "Works best on text watermarks and simple image watermarks. Complex watermarks may leave artifacts."
+    }
   ]
 };
 
@@ -33,88 +45,88 @@ let currentPageNum = 1;
 let pdfDoc = null;
 
 function renderPreview(pageNum) {
-  return new Promise(async (resolve) => {
+  return new Promise(async resolve => {
     const page = await pdfDoc.getPage(pageNum);
     const viewport = page.getViewport({ scale: 1.0 });
-    
+
     previewCanvas.width = viewport.width;
     previewCanvas.height = viewport.height;
-    
-    const ctx = previewCanvas.getContext('2d');
+
+    const ctx = previewCanvas.getContext("2d");
     await page.render({ canvasContext: ctx, viewport }).promise;
-    
+
     // Draw watermark regions overlay
     drawWatermarkRegions(viewport.width, viewport.height);
-    
+
     resolve();
   });
 }
 
 function drawWatermarkRegions(canvasWidth, canvasHeight) {
-  const ctx = previewCanvas.getContext('2d');
-  
+  const ctx = previewCanvas.getContext("2d");
+
   // Redraw the base image (we need to keep a copy)
   // For simplicity, we'll just draw the regions on top
   // In a real implementation, we'd keep a copy of the base image
-  
-  ctx.strokeStyle = '#ef4444';
+
+  ctx.strokeStyle = "#ef4444";
   ctx.lineWidth = 2;
   ctx.setLineDash([5, 5]);
-  
+
   for (const region of watermarkRegions) {
     const x = (region.x / 100) * canvasWidth;
     const y = (region.y / 100) * canvasHeight;
     const w = (region.width / 100) * canvasWidth;
     const h = (region.height / 100) * canvasHeight;
-    
-    ctx.fillStyle = 'rgba(239, 68, 68, 0.2)';
+
+    ctx.fillStyle = "rgba(239, 68, 68, 0.2)";
     ctx.fillRect(x, y, w, h);
     ctx.strokeRect(x, y, w, h);
   }
-  
+
   ctx.setLineDash([]);
 }
 
 function setupCanvasInteraction() {
-  previewCanvas.addEventListener('mousedown', (e) => {
+  previewCanvas.addEventListener("mousedown", e => {
     isDrawing = true;
     const rect = previewCanvas.getBoundingClientRect();
     startX = e.clientX - rect.left;
     startY = e.clientY - rect.top;
   });
-  
-  previewCanvas.addEventListener('mousemove', (e) => {
+
+  previewCanvas.addEventListener("mousemove", e => {
     if (!isDrawing) return;
-    
+
     const rect = previewCanvas.getBoundingClientRect();
     endX = e.clientX - rect.left;
     endY = e.clientY - rect.top;
-    
+
     // Redraw preview and current selection
     renderPreview(currentPageNum).then(() => {
-      const ctx = previewCanvas.getContext('2d');
-      ctx.strokeStyle = '#3b82f6';
+      const ctx = previewCanvas.getContext("2d");
+      ctx.strokeStyle = "#3b82f6";
       ctx.lineWidth = 2;
       ctx.setLineDash([5, 5]);
       ctx.strokeRect(startX, startY, endX - startX, endY - startY);
       ctx.setLineDash([]);
     });
   });
-  
-  previewCanvas.addEventListener('mouseup', (e) => {
+
+  previewCanvas.addEventListener("mouseup", e => {
     if (!isDrawing) return;
     isDrawing = false;
-    
+
     const rect = previewCanvas.getBoundingClientRect();
     endX = e.clientX - rect.left;
     endY = e.clientY - rect.top;
-    
+
     // Calculate region in percentage
-    const x = Math.min(startX, endX) / rect.width * 100;
-    const y = Math.min(startY, endY) / rect.height * 100;
-    const width = Math.abs(endX - startX) / rect.width * 100;
-    const height = Math.abs(endY - startY) / rect.height * 100;
-    
+    const x = (Math.min(startX, endX) / rect.width) * 100;
+    const y = (Math.min(startY, endY) / rect.height) * 100;
+    const width = (Math.abs(endX - startX) / rect.width) * 100;
+    const height = (Math.abs(endY - startY) / rect.height) * 100;
+
     if (width > 1 && height > 1) {
       watermarkRegions.push({ x, y, width, height });
       updateRegionList();
@@ -124,22 +136,22 @@ function setupCanvasInteraction() {
 }
 
 function updateRegionList() {
-  const list = document.querySelector('#watermark-regions');
+  const list = document.querySelector("#watermark-regions");
   if (!list) return;
-  
-  list.innerHTML = '';
+
+  list.innerHTML = "";
   watermarkRegions.forEach((region, idx) => {
-    const item = document.createElement('div');
-    item.className = 'region-item';
+    const item = document.createElement("div");
+    item.className = "region-item";
     item.innerHTML = `
       <span>Region ${idx + 1}: ${Math.round(region.width)}% × ${Math.round(region.height)}%</span>
       <button class="btn btn-sm btn-danger" data-idx="${idx}">Remove</button>
     `;
     list.appendChild(item);
   });
-  
-  list.querySelectorAll('.btn-danger').forEach(btn => {
-    btn.addEventListener('click', () => {
+
+  list.querySelectorAll(".btn-danger").forEach(btn => {
+    btn.addEventListener("click", () => {
       const idx = parseInt(btn.dataset.idx);
       watermarkRegions.splice(idx, 1);
       updateRegionList();
@@ -150,59 +162,59 @@ function updateRegionList() {
 
 async function removeWatermarks() {
   if (watermarkRegions.length === 0) {
-    showToast({ message: 'Please draw at least one watermark region.', type: 'warning' });
+    showToast({ message: "Please draw at least one watermark region.", type: "warning" });
     return;
   }
-  
-  const processing = document.querySelector('#processing');
-  const convertBtn = document.querySelector('#convert-btn');
-  const progressPct = document.querySelector('#progress-pct');
-  
-  processing.style.display = 'block';
-  convertBtn.style.display = 'none';
-  
+
+  const processing = document.querySelector("#processing");
+  const convertBtn = document.querySelector("#convert-btn");
+  const progressPct = document.querySelector("#progress-pct");
+
+  processing.style.display = "block";
+  convertBtn.style.display = "none";
+
   try {
     const arrayBuffer = await currentPdf.arrayBuffer();
     const srcDoc = await PDFDocument.load(arrayBuffer);
     const newDoc = await PDFDocument.create();
-    
+
     const totalPages = srcDoc.getPageCount();
-    
+
     for (let i = 0; i < totalPages; i++) {
       progressPct.textContent = Math.round(((i + 1) / totalPages) * 80);
-      
+
       const page = await srcDoc.getPage(i + 1);
       const { width, height } = page.getSize();
-      
+
       // Render page to canvas
       const pdfPage = await pdfDoc.getPage(i + 1);
       const scale = 2; // Higher quality
       const viewport = pdfPage.getViewport({ scale });
-      
-      const canvas = document.createElement('canvas');
+
+      const canvas = document.createElement("canvas");
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      const ctx = canvas.getContext('2d');
-      
+      const ctx = canvas.getContext("2d");
+
       await pdfPage.render({ canvasContext: ctx, viewport }).promise;
-      
+
       // Remove watermark regions
       for (const region of watermarkRegions) {
         const x = (region.x / 100) * canvas.width;
         const y = (region.y / 100) * canvas.height;
         const w = (region.width / 100) * canvas.width;
         const h = (region.height / 100) * canvas.height;
-        
+
         // Fill with white (assuming white background)
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = "#ffffff";
         ctx.fillRect(x, y, w, h);
       }
-      
+
       // Convert canvas to PNG and embed in new PDF
-      const pngData = canvas.toDataURL('image/png').split(',')[1];
+      const pngData = canvas.toDataURL("image/png").split(",")[1];
       const pngBytes = Uint8Array.from(atob(pngData), c => c.charCodeAt(0));
       const pngImage = await newDoc.embedPng(pngBytes);
-      
+
       const newPage = newDoc.addPage([width, height]);
       newPage.drawImage(pngImage, {
         x: 0,
@@ -211,44 +223,44 @@ async function removeWatermarks() {
         height
       });
     }
-    
-    progressPct.textContent = '95';
-    
+
+    progressPct.textContent = "95";
+
     const bytes = await newDoc.save();
-    const blob = new Blob([bytes], { type: 'application/pdf' });
-    const fileNameWithoutExt = currentPdf.name.replace(/\.pdf$/i, '');
+    const blob = new Blob([bytes], { type: "application/pdf" });
+    const fileNameWithoutExt = currentPdf.name.replace(/\.pdf$/i, "");
     downloadBlob(blob, `${fileNameWithoutExt}_cleaned.pdf`);
-    
-    progressPct.textContent = '100';
-    showToast({ message: `Watermarks removed from ${totalPages} page(s).`, type: 'success' });
+
+    progressPct.textContent = "100";
+    showToast({ message: `Watermarks removed from ${totalPages} page(s).`, type: "success" });
   } catch (err) {
-    showToast({ message: 'Error: ' + err.message, type: 'error' });
+    showToast({ message: "Error: " + err.message, type: "error" });
   } finally {
-    processing.style.display = 'none';
-    convertBtn.style.display = 'inline-flex';
+    processing.style.display = "none";
+    convertBtn.style.display = "inline-flex";
   }
 }
 
 export function render(container) {
   watermarkRegions = [];
   currentPdf = null;
-  
+
   const upload = createFileUpload({
-    accept: '.pdf',
+    accept: ".pdf",
     multiple: false,
     maxSizeMB: 50,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       if (files.length > 0) {
         currentPdf = files[0];
         fileName.textContent = files[0].name;
-        fileInfo.textContent = (files[0].size / 1024 / 1024).toFixed(2) + ' MB';
-        filePanel.style.display = 'block';
-        convertBtn.style.display = 'inline-flex';
-        previewContainer.style.display = 'block';
-        regionListContainer.style.display = 'block';
-        
+        fileInfo.textContent = (files[0].size / 1024 / 1024).toFixed(2) + " MB";
+        filePanel.style.display = "block";
+        convertBtn.style.display = "inline-flex";
+        previewContainer.style.display = "block";
+        regionListContainer.style.display = "block";
+
         // Load PDF for preview
-        files[0].arrayBuffer().then(async (buffer) => {
+        files[0].arrayBuffer().then(async buffer => {
           pdfDoc = await pdfjsLib.getDocument({ data: buffer }).promise;
           currentPageNum = 1;
           await renderPreview(currentPageNum);
@@ -298,29 +310,29 @@ export function render(container) {
     </style>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  
-  previewCanvas = container.querySelector('#preview-canvas');
-  previewCtx = previewCanvas.getContext('2d');
-  
-  const convertBtn = container.querySelector('#convert-btn');
-  const processing = container.querySelector('#processing');
-  const progressPct = container.querySelector('#progress-pct');
-  const filePanel = container.querySelector('#file-panel');
-  const fileName = container.querySelector('#file-name');
-  const fileInfo = container.querySelector('#file-info');
-  const previewContainer = container.querySelector('#preview-container');
-  const regionListContainer = container.querySelector('#region-list-container');
-  
+  container.querySelector("#upload-area").appendChild(upload.element);
+
+  previewCanvas = container.querySelector("#preview-canvas");
+  previewCtx = previewCanvas.getContext("2d");
+
+  const convertBtn = container.querySelector("#convert-btn");
+  const processing = container.querySelector("#processing");
+  const progressPct = container.querySelector("#progress-pct");
+  const filePanel = container.querySelector("#file-panel");
+  const fileName = container.querySelector("#file-name");
+  const fileInfo = container.querySelector("#file-info");
+  const previewContainer = container.querySelector("#preview-container");
+  const regionListContainer = container.querySelector("#region-list-container");
+
   setupCanvasInteraction();
-  
-  container.querySelector('#clear-regions-btn').addEventListener('click', () => {
+
+  container.querySelector("#clear-regions-btn").addEventListener("click", () => {
     watermarkRegions = [];
     updateRegionList();
     renderPreview(currentPageNum);
   });
 
-  convertBtn.addEventListener('click', async () => {
+  convertBtn.addEventListener("click", async () => {
     await removeWatermarks();
   });
 }

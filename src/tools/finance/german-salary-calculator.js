@@ -1,24 +1,24 @@
 export const toolConfig = {
-  id: 'german-salary-calculator',
-  name: 'German Net Salary Calculator',
-  category: 'finance',
-  description: 'Calculate German net salary with tax class, church tax, and social contributions.',
-  icon: '🇩🇪',
-  status: 'done'
+  id: "german-salary-calculator",
+  name: "German Net Salary Calculator",
+  category: "finance",
+  description: "Calculate German net salary with tax class, church tax, and social contributions.",
+  icon: "🇩🇪",
+  status: "done"
 };
 
 export function getTaxThresholds(taxYear) {
   return {
-    grundfreibetrag: taxYear >= 2026 ? 12096 : (taxYear >= 2025 ? 11784 : 11604),
-    kinderfreibetragAnnual: taxYear >= 2026 ? 9600 : (taxYear >= 2025 ? 9540 : 9456)
+    grundfreibetrag: taxYear >= 2026 ? 12096 : taxYear >= 2025 ? 11784 : 11604,
+    kinderfreibetragAnnual: taxYear >= 2026 ? 9600 : taxYear >= 2025 ? 9540 : 9456
   };
 }
 
 export function calculateIncomeTax(taxableIncome) {
   if (taxableIncome <= 17005) {
-    return (1164.67 * taxableIncome / 10000 + 1400) * taxableIncome / 10000;
+    return (((1164.67 * taxableIncome) / 10000 + 1400) * taxableIncome) / 10000;
   } else if (taxableIncome <= 66760) {
-    return (181.19 * taxableIncome / 10000 + 2397) * taxableIncome / 10000 + 1025.38;
+    return (((181.19 * taxableIncome) / 10000 + 2397) * taxableIncome) / 10000 + 1025.38;
   } else if (taxableIncome <= 277825) {
     return 0.42 * taxableIncome - 10602.13;
   } else {
@@ -26,20 +26,26 @@ export function calculateIncomeTax(taxableIncome) {
   }
 }
 
-export function calculateSocialContributions(adjustedGross, isPrivateHealth, isPrivatePension, age) {
-  const health = isPrivateHealth ? 0 : adjustedGross / 12 * 0.073;
+export function calculateSocialContributions(
+  adjustedGross,
+  isPrivateHealth,
+  isPrivatePension,
+  age
+) {
+  const health = isPrivateHealth ? 0 : (adjustedGross / 12) * 0.073;
   const careRate = age >= 23 ? 0.034 : 0.02;
-  let care = isPrivateHealth ? 0 : adjustedGross / 12 * careRate;
+  let care = isPrivateHealth ? 0 : (adjustedGross / 12) * careRate;
   if (adjustedGross > 90600 && !isPrivateHealth) {
-    care += (adjustedGross - 90600) / 12 * 0.002;
+    care += ((adjustedGross - 90600) / 12) * 0.002;
   }
-  const pension = isPrivatePension ? 0 : adjustedGross / 12 * 0.093;
-  const unemployment = isPrivateHealth ? 0 : adjustedGross / 12 * 0.012;
+  const pension = isPrivatePension ? 0 : (adjustedGross / 12) * 0.093;
+  const unemployment = isPrivateHealth ? 0 : (adjustedGross / 12) * 0.012;
 
   return { health, pension, unemployment, care };
 }
 
-const fmt = (amt) => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(amt);
+const fmt = amt =>
+  new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(amt);
 
 const SALARY_CALC_CSS = `
     .tool-container { max-width: 600px; margin: 0 auto; }
@@ -193,12 +199,12 @@ const SALARY_CALC_HTML = `
 function readInputs(inputs) {
   return {
     grossSalary: parseFloat(inputs.grossSalary.value) || 0,
-    isMonthly: inputs.payPeriod.value === 'month',
+    isMonthly: inputs.payPeriod.value === "month",
     taxYear: parseInt(inputs.taxYear.value),
-    isChurchMember: inputs.churchTax.value === 'yes',
+    isChurchMember: inputs.churchTax.value === "yes",
     childrenCount: parseInt(inputs.childrenCount.value) || 0,
-    isPrivateHealth: inputs.healthIns.value === 'private',
-    isPrivatePension: inputs.pensionIns.value === 'private',
+    isPrivateHealth: inputs.healthIns.value === "private",
+    isPrivatePension: inputs.pensionIns.value === "private",
     companyPension: parseFloat(inputs.companyPension.value) || 0,
     companyCar: parseFloat(inputs.companyCar.value) || 0,
     age: parseInt(inputs.age.value) || 35
@@ -209,7 +215,7 @@ function calculateSalary(vals) {
   const grossAnnual = vals.isMonthly ? vals.grossSalary * 12 : vals.grossSalary;
   if (grossAnnual <= 0) return null;
 
-  const adjustedGross = grossAnnual - (vals.companyPension * 12) - (vals.companyCar * 12);
+  const adjustedGross = grossAnnual - vals.companyPension * 12 - vals.companyCar * 12;
   const { grundfreibetrag, kinderfreibetragAnnual } = getTaxThresholds(vals.taxYear);
   const kinderfreibetrag = vals.childrenCount > 0 ? kinderfreibetragAnnual * vals.childrenCount : 0;
 
@@ -224,62 +230,87 @@ function calculateSalary(vals) {
   if (annualTax + churchTax > 17175.39) solidarity = (annualTax + churchTax) * 0.057;
 
   const totalTaxAnnual = annualTax + churchTax + solidarity;
-  const social = calculateSocialContributions(adjustedGross, vals.isPrivateHealth, vals.isPrivatePension, vals.age);
-  const totalDeductionsMonthly = (totalTaxAnnual / 12) + social.health + social.pension + social.unemployment + social.care;
+  const social = calculateSocialContributions(
+    adjustedGross,
+    vals.isPrivateHealth,
+    vals.isPrivatePension,
+    vals.age
+  );
+  const totalDeductionsMonthly =
+    totalTaxAnnual / 12 + social.health + social.pension + social.unemployment + social.care;
   const grossMonthly = vals.isMonthly ? vals.grossSalary : vals.grossSalary / 12;
   const netMonthly = grossMonthly - totalDeductionsMonthly;
-  const effectiveRate = grossMonthly > 0 ? ((grossMonthly - netMonthly) / grossMonthly * 100) : 0;
+  const effectiveRate = grossMonthly > 0 ? ((grossMonthly - netMonthly) / grossMonthly) * 100 : 0;
 
-  return { grossMonthly, netMonthly, totalDeductionsMonthly, kinderfreibetrag, childrenCount: vals.childrenCount, annualTax, churchTax, solidarity, social, effectiveRate, isPrivateHealth: vals.isPrivateHealth, isPrivatePension: vals.isPrivatePension };
+  return {
+    grossMonthly,
+    netMonthly,
+    totalDeductionsMonthly,
+    kinderfreibetrag,
+    childrenCount: vals.childrenCount,
+    annualTax,
+    churchTax,
+    solidarity,
+    social,
+    effectiveRate,
+    isPrivateHealth: vals.isPrivateHealth,
+    isPrivatePension: vals.isPrivatePension
+  };
 }
 
 function writeResults(container, r) {
-  if (!r) { container.querySelector('#results').classList.add('hidden'); return; }
+  if (!r) {
+    container.querySelector("#results").classList.add("hidden");
+    return;
+  }
   const q = id => container.querySelector(`#${id}`);
-  q('gross-monthly').textContent = fmt(r.grossMonthly);
-  q('total-deductions').textContent = fmt(r.totalDeductionsMonthly);
-  q('net-monthly').textContent = fmt(r.netMonthly);
-  q('kinderfreibetrag').textContent = r.childrenCount > 0 ? `${r.childrenCount} child${r.childrenCount > 1 ? 'ren' : ''} × ${fmt(r.kinderfreibetrag / 12 / r.childrenCount)}/mo` : '0';
-  q('income-tax').textContent = fmt(r.annualTax / 12);
-  q('church-tax-val').textContent = fmt(r.churchTax / 12);
-  q('solidarity').textContent = fmt(r.solidarity / 12);
-  q('health-ins-val').textContent = r.isPrivateHealth ? 'Private' : fmt(r.social.health);
-  q('pension-ins-val').textContent = r.isPrivatePension ? 'Private' : fmt(r.social.pension);
-  q('unemployment-ins-val').textContent = r.isPrivatePension ? '-' : fmt(r.social.unemployment);
-  q('care-ins-val').textContent = r.isPrivateHealth ? '-' : fmt(r.social.care);
-  q('effective-rate').textContent = r.effectiveRate.toFixed(1) + '%';
-  container.querySelector('#results').classList.remove('hidden');
+  q("gross-monthly").textContent = fmt(r.grossMonthly);
+  q("total-deductions").textContent = fmt(r.totalDeductionsMonthly);
+  q("net-monthly").textContent = fmt(r.netMonthly);
+  q("kinderfreibetrag").textContent =
+    r.childrenCount > 0
+      ? `${r.childrenCount} child${r.childrenCount > 1 ? "ren" : ""} × ${fmt(r.kinderfreibetrag / 12 / r.childrenCount)}/mo`
+      : "0";
+  q("income-tax").textContent = fmt(r.annualTax / 12);
+  q("church-tax-val").textContent = fmt(r.churchTax / 12);
+  q("solidarity").textContent = fmt(r.solidarity / 12);
+  q("health-ins-val").textContent = r.isPrivateHealth ? "Private" : fmt(r.social.health);
+  q("pension-ins-val").textContent = r.isPrivatePension ? "Private" : fmt(r.social.pension);
+  q("unemployment-ins-val").textContent = r.isPrivatePension ? "-" : fmt(r.social.unemployment);
+  q("care-ins-val").textContent = r.isPrivateHealth ? "-" : fmt(r.social.care);
+  q("effective-rate").textContent = r.effectiveRate.toFixed(1) + "%";
+  container.querySelector("#results").classList.remove("hidden");
 }
 
 export function render(container) {
   container.innerHTML = SALARY_CALC_HTML;
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = SALARY_CALC_CSS;
   container.appendChild(style);
 
   const inputs = {
-    grossSalary: container.querySelector('#gross-salary'),
-    payPeriod: container.querySelector('#pay-period'),
-    taxYear: container.querySelector('#tax-year'),
-    salariesPerYear: container.querySelector('#salaries-per-year'),
-    taxClass: container.querySelector('#tax-class'),
-    churchTax: container.querySelector('#church-tax'),
-    childrenCount: container.querySelector('#children-count'),
-    healthIns: container.querySelector('#health-ins'),
-    pensionIns: container.querySelector('#pension-ins'),
-    companyPension: container.querySelector('#company-pension'),
-    companyCar: container.querySelector('#company-car'),
-    weeklyHours: container.querySelector('#weekly-hours'),
-    age: container.querySelector('#age')
+    grossSalary: container.querySelector("#gross-salary"),
+    payPeriod: container.querySelector("#pay-period"),
+    taxYear: container.querySelector("#tax-year"),
+    salariesPerYear: container.querySelector("#salaries-per-year"),
+    taxClass: container.querySelector("#tax-class"),
+    churchTax: container.querySelector("#church-tax"),
+    childrenCount: container.querySelector("#children-count"),
+    healthIns: container.querySelector("#health-ins"),
+    pensionIns: container.querySelector("#pension-ins"),
+    companyPension: container.querySelector("#company-pension"),
+    companyCar: container.querySelector("#company-car"),
+    weeklyHours: container.querySelector("#weekly-hours"),
+    age: container.querySelector("#age")
   };
 
   function calculate() {
     writeResults(container, calculateSalary(readInputs(inputs)));
   }
 
-  container.querySelector('#calculate-btn').addEventListener('click', calculate);
+  container.querySelector("#calculate-btn").addEventListener("click", calculate);
   Object.values(inputs).forEach(input => {
-    input.addEventListener('input', calculate);
-    input.addEventListener('change', calculate);
+    input.addEventListener("input", calculate);
+    input.addEventListener("change", calculate);
   });
 }

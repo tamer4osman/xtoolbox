@@ -1,16 +1,16 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { loadPdf, savePdf } from './pdf-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { loadPdf, savePdf } from "./pdf-utils.js";
 
 export function createPdfOverlayTool({ container, optionsHtml, onApply }) {
   let currentFile = null;
 
   const upload = createFileUpload({
-    accept: '.pdf',
+    accept: ".pdf",
     multiple: false,
     maxSizeMB: 100,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       currentFile = files[0] || null;
-      optionsArea.style.display = currentFile ? 'block' : 'none';
+      optionsArea.style.display = currentFile ? "block" : "none";
     }
   });
 
@@ -25,22 +25,28 @@ export function createPdfOverlayTool({ container, optionsHtml, onApply }) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const applyBtn = container.querySelector('#apply-btn');
-  const processing = container.querySelector('#processing');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const applyBtn = container.querySelector("#apply-btn");
+  const processing = container.querySelector("#processing");
 
-  return { getFile: () => currentFile, optionsArea, applyBtn, processing, async process(filename, processFn) {
-    if (!currentFile) return;
-    processing.style.display = 'block';
-    applyBtn.style.display = 'none';
-    try {
-      const pdfDoc = await loadPdf(currentFile);
-      await processFn(pdfDoc);
-      await savePdf(pdfDoc, filename);
-    } finally {
-      processing.style.display = 'none';
-      applyBtn.style.display = 'inline-flex';
+  return {
+    getFile: () => currentFile,
+    optionsArea,
+    applyBtn,
+    processing,
+    async process(filename, processFn) {
+      if (!currentFile) return;
+      processing.style.display = "block";
+      applyBtn.style.display = "none";
+      try {
+        const pdfDoc = await loadPdf(currentFile);
+        await processFn(pdfDoc);
+        await savePdf(pdfDoc, filename);
+      } finally {
+        processing.style.display = "none";
+        applyBtn.style.display = "inline-flex";
+      }
     }
-  }};
+  };
 }

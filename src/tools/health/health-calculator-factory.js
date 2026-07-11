@@ -11,12 +11,13 @@ const FORM_STYLES = `
 `;
 
 function buildCycleSelect() {
-  return `<select id="cycle">${CYCLE_OPTIONS.map(d =>
-    `<option value="${d}"${d === 28 ? ' selected' : ''}>${d} days${d === 28 ? ' (typical)' : ''}</option>`
-  ).join('')}</select>`;
+  return `<select id="cycle">${CYCLE_OPTIONS.map(
+    d =>
+      `<option value="${d}"${d === 28 ? " selected" : ""}>${d} days${d === 28 ? " (typical)" : ""}</option>`
+  ).join("")}</select>`;
 }
 
-export function renderHealthForm(container, { buttonText = 'Calculate', resultId = 'result' }) {
+export function renderHealthForm(container, { buttonText = "Calculate", resultId = "result" }) {
   container.innerHTML = `
     <div class="health-container">
       <div class="health-form">
@@ -36,23 +37,26 @@ export function renderHealthForm(container, { buttonText = 'Calculate', resultId
   `;
 }
 
-export function initHealthForm(container, { buttonText = 'Calculate', resultId = 'result', calculate, renderResult }) {
+export function initHealthForm(
+  container,
+  { buttonText = "Calculate", resultId = "result", calculate, renderResult }
+) {
   renderHealthForm(container, { buttonText, resultId });
 
-  const today = new Date().toISOString().split('T')[0];
-  const lastPeriodInput = container.querySelector('#last-period');
+  const today = new Date().toISOString().split("T")[0];
+  const lastPeriodInput = container.querySelector("#last-period");
   lastPeriodInput.value = today;
   lastPeriodInput.max = today;
 
   function run() {
-    const lastPeriod = new Date(container.querySelector('#last-period').value);
-    const cycle = parseInt(container.querySelector('#cycle').value) || 28;
+    const lastPeriod = new Date(container.querySelector("#last-period").value);
+    const cycle = parseInt(container.querySelector("#cycle").value) || 28;
     const data = calculate(lastPeriod, cycle);
     renderResult(container.querySelector(`#${resultId}`), data);
-    container.querySelector(`#${resultId}`).classList.remove('hidden');
+    container.querySelector(`#${resultId}`).classList.remove("hidden");
   }
 
-  container.querySelector('#calc-btn').addEventListener('click', run);
+  container.querySelector("#calc-btn").addEventListener("click", run);
   run();
 }
 
@@ -82,9 +86,14 @@ export function weeksBetween(a, b) {
 }
 
 export function formatDateShort(d) {
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 export function formatDateLong(d) {
-  return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  return d.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
 }

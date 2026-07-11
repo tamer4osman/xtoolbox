@@ -1,27 +1,36 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'og-generator',
-  name: 'Open Graph Generator',
-  category: 'seo',
-  description: 'Generate Open Graph tags for social media sharing.',
-  icon: '🔗',
-  status: 'done',
-  keywords: ['open graph', 'og tags', 'meta tags', 'social preview', 'facebook preview', 'twitter card'],
+  id: "og-generator",
+  name: "Open Graph Generator",
+  category: "seo",
+  description: "Generate Open Graph tags for social media sharing.",
+  icon: "🔗",
+  status: "done",
+  keywords: [
+    "open graph",
+    "og tags",
+    "meta tags",
+    "social preview",
+    "facebook preview",
+    "twitter card"
+  ],
   steps: [
-    'Enter your page URL, title, description, and image URL',
-    'OG and Twitter meta tags are generated in real-time',
-    'Switch between Facebook, X/Twitter, LinkedIn, and Slack preview tabs',
-    'Copy the generated meta tags with one click'
+    "Enter your page URL, title, description, and image URL",
+    "OG and Twitter meta tags are generated in real-time",
+    "Switch between Facebook, X/Twitter, LinkedIn, and Slack preview tabs",
+    "Copy the generated meta tags with one click"
   ],
   faqs: [
     {
-      question: 'What are Open Graph tags?',
-      answer: 'Open Graph (OG) tags are HTML meta tags that control how your web pages appear when shared on social media platforms like Facebook, X/Twitter, LinkedIn, and Slack.'
+      question: "What are Open Graph tags?",
+      answer:
+        "Open Graph (OG) tags are HTML meta tags that control how your web pages appear when shared on social media platforms like Facebook, X/Twitter, LinkedIn, and Slack."
     },
     {
-      question: 'What image size should I use?',
-      answer: 'The recommended image size is 1200×630 pixels with a 1.91:1 aspect ratio. This ensures your link previews display correctly across all major platforms.'
+      question: "What image size should I use?",
+      answer:
+        "The recommended image size is 1200×630 pixels with a 1.91:1 aspect ratio. This ensures your link previews display correctly across all major platforms."
     }
   ]
 };
@@ -65,7 +74,7 @@ export function render(container) {
     </div>
   `;
 
-  _style = document.createElement('style');
+  _style = document.createElement("style");
   _style.textContent = `
     .og-container { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
     @media (max-width: 768px) { .og-container { grid-template-columns: 1fr; } }
@@ -127,16 +136,16 @@ export function render(container) {
   `;
   container.appendChild(_style);
 
-  const urlInput = container.querySelector('#url');
-  const titleInput = container.querySelector('#title');
-  const descInput = container.querySelector('#desc');
-  const imgInput = container.querySelector('#image');
-  const typeSelect = container.querySelector('#type');
-  const togglePreview = container.querySelector('#toggle-preview');
-  const previewsSection = container.querySelector('#og-previews');
-  const generateBtn = container.querySelector('#generateBtn');
-  const resultEl = container.querySelector('#result');
-  const copyBtn = container.querySelector('#copyBtn');
+  const urlInput = container.querySelector("#url");
+  const titleInput = container.querySelector("#title");
+  const descInput = container.querySelector("#desc");
+  const imgInput = container.querySelector("#image");
+  const typeSelect = container.querySelector("#type");
+  const togglePreview = container.querySelector("#toggle-preview");
+  const previewsSection = container.querySelector("#og-previews");
+  const generateBtn = container.querySelector("#generateBtn");
+  const resultEl = container.querySelector("#result");
+  const copyBtn = container.querySelector("#copyBtn");
 
   function getFormData() {
     return {
@@ -150,58 +159,63 @@ export function render(container) {
 
   function renderPreview(platform) {
     const { url, title, desc, image } = getFormData();
-    let domain = 'example.com';
+    let domain = "example.com";
     if (url) {
-      try { domain = new URL(url).hostname.replace('www.', ''); }
-      catch { /* incomplete URL during typing */ }
+      try {
+        domain = new URL(url).hostname.replace("www.", "");
+      } catch {
+        /* incomplete URL during typing */
+      }
     }
-    const hasImage = image && (image.startsWith('http') || image.startsWith('/'));
-    const imgTag = hasImage ? `<img src="${escapeHtml(image)}" alt="" onerror="this.parentElement.innerHTML='<span class=placeholder>No image</span>'">` : '<span class="placeholder">Add image URL for preview</span>';
+    const hasImage = image && (image.startsWith("http") || image.startsWith("/"));
+    const imgTag = hasImage
+      ? `<img src="${escapeHtml(image)}" alt="" onerror="this.parentElement.innerHTML='<span class=placeholder>No image</span>'">`
+      : '<span class="placeholder">Add image URL for preview</span>';
 
     if (!title && !desc) {
       return '<div class="empty-preview">Fill in title and description to see preview</div>';
     }
 
-    const prefix = { facebook: 'fb', twitter: 'tw', linkedin: 'li', slack: 'slack' }[platform];
+    const prefix = { facebook: "fb", twitter: "tw", linkedin: "li", slack: "slack" }[platform];
     if (!prefix) return '<div class="empty-preview">Unknown platform</div>';
 
-    return `<div class="${prefix}-card"><div class="${prefix}-card-img">${imgTag}</div><div class="${prefix}-card-body"><div class="${prefix}-card-domain">${escapeHtml(domain)}</div><div class="${prefix}-card-title">${escapeHtml(title || 'Title')}</div><div class="${prefix}-card-desc">${escapeHtml(desc || 'Description')}</div></div></div>`;
+    return `<div class="${prefix}-card"><div class="${prefix}-card-img">${imgTag}</div><div class="${prefix}-card-body"><div class="${prefix}-card-domain">${escapeHtml(domain)}</div><div class="${prefix}-card-title">${escapeHtml(title || "Title")}</div><div class="${prefix}-card-desc">${escapeHtml(desc || "Description")}</div></div></div>`;
   }
 
   function updateAllPreviews() {
-    container.querySelector('#facebook-preview').innerHTML = renderPreview('facebook');
-    container.querySelector('#twitter-preview').innerHTML = renderPreview('twitter');
-    container.querySelector('#linkedin-preview').innerHTML = renderPreview('linkedin');
-    container.querySelector('#slack-preview').innerHTML = renderPreview('slack');
+    container.querySelector("#facebook-preview").innerHTML = renderPreview("facebook");
+    container.querySelector("#twitter-preview").innerHTML = renderPreview("twitter");
+    container.querySelector("#linkedin-preview").innerHTML = renderPreview("linkedin");
+    container.querySelector("#slack-preview").innerHTML = renderPreview("slack");
   }
 
   const inputs = [urlInput, titleInput, descInput, imgInput];
-  inputs.forEach(input => input.addEventListener('input', updateAllPreviews));
-  typeSelect.addEventListener('change', updateAllPreviews);
+  inputs.forEach(input => input.addEventListener("input", updateAllPreviews));
+  typeSelect.addEventListener("change", updateAllPreviews);
 
-  togglePreview.addEventListener('change', () => {
-    previewsSection.style.display = togglePreview.checked ? 'block' : 'none';
+  togglePreview.addEventListener("change", () => {
+    previewsSection.style.display = togglePreview.checked ? "block" : "none";
   });
 
-  container.querySelectorAll('.preview-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      container.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('active'));
-      container.querySelectorAll('.preview-panel').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
+  container.querySelectorAll(".preview-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      container.querySelectorAll(".preview-tab").forEach(t => t.classList.remove("active"));
+      container.querySelectorAll(".preview-panel").forEach(p => p.classList.remove("active"));
+      tab.classList.add("active");
       const panel = container.querySelector(`#${tab.dataset.platform}-preview`);
-      if (panel) panel.classList.add('active');
+      if (panel) panel.classList.add("active");
     });
   });
 
-  generateBtn.addEventListener('click', () => {
+  generateBtn.addEventListener("click", () => {
     const { url, title, desc, image, type } = getFormData();
-    let tags = '<!-- Open Graph -->\n';
+    let tags = "<!-- Open Graph -->\n";
     if (url) tags += `<meta property="og:url" content="${escapeHtml(url)}">\n`;
     if (title) tags += `<meta property="og:title" content="${escapeHtml(title)}">\n`;
     if (desc) tags += `<meta property="og:description" content="${escapeHtml(desc)}">\n`;
     if (image) tags += `<meta property="og:image" content="${escapeHtml(image)}">\n`;
     tags += `<meta property="og:type" content="${type}">\n`;
-    tags += '\n<!-- Twitter -->\n';
+    tags += "\n<!-- Twitter -->\n";
     tags += '<meta name="twitter:card" content="summary_large_image">\n';
     if (title) tags += `<meta name="twitter:title" content="${escapeHtml(title)}">\n`;
     if (desc) tags += `<meta name="twitter:description" content="${escapeHtml(desc)}">\n`;
@@ -209,15 +223,16 @@ export function render(container) {
     resultEl.textContent = tags;
   });
 
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(resultEl.textContent)
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(resultEl.textContent)
       .then(() => {
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
       })
       .catch(() => {
-        copyBtn.textContent = 'Failed';
-        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+        copyBtn.textContent = "Failed";
+        setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
       });
   });
 

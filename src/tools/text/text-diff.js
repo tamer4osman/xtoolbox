@@ -1,35 +1,37 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'text-diff',
-  name: 'Text Diff',
-  category: 'text',
-  description: 'Compare two texts side-by-side, see differences, and merge changes.',
-  icon: '🔀',
-  status: 'done'
+  id: "text-diff",
+  name: "Text Diff",
+  category: "text",
+  description: "Compare two texts side-by-side, see differences, and merge changes.",
+  icon: "🔀",
+  status: "done"
 };
 
 export function diffLines(oldText, newText) {
-  const oldLines = oldText.split('\n');
-  const newLines = newText.split('\n');
+  const oldLines = oldText.split("\n");
+  const newLines = newText.split("\n");
   const result = [];
 
-  let i = 0, j = 0;
+  let i = 0,
+    j = 0;
   while (i < oldLines.length || j < newLines.length) {
     if (i >= oldLines.length) {
-      result.push({ type: 'added', line: newLines[j++], oldIdx: null, newIdx: j - 1 });
+      result.push({ type: "added", line: newLines[j++], oldIdx: null, newIdx: j - 1 });
     } else if (j >= newLines.length) {
-      result.push({ type: 'removed', line: oldLines[i++], oldIdx: i - 1, newIdx: null });
+      result.push({ type: "removed", line: oldLines[i++], oldIdx: i - 1, newIdx: null });
     } else if (oldLines[i] === newLines[j]) {
-      result.push({ type: 'unchanged', line: oldLines[i], oldIdx: i, newIdx: j });
-      i++; j++;
+      result.push({ type: "unchanged", line: oldLines[i], oldIdx: i, newIdx: j });
+      i++;
+      j++;
     } else {
       const foundInNew = newLines.indexOf(oldLines[i], j);
       const foundInOld = oldLines.indexOf(newLines[j], i);
       if (foundInNew !== -1 && (foundInOld === -1 || foundInNew - j <= foundInOld - i)) {
-        result.push({ type: 'added', line: newLines[j++], oldIdx: null, newIdx: j - 1 });
+        result.push({ type: "added", line: newLines[j++], oldIdx: null, newIdx: j - 1 });
       } else {
-        result.push({ type: 'removed', line: oldLines[i++], oldIdx: i - 1, newIdx: null });
+        result.push({ type: "removed", line: oldLines[i++], oldIdx: i - 1, newIdx: null });
       }
     }
   }
@@ -40,29 +42,34 @@ export function buildMergeResult(diff, accepted) {
   const lines = [];
   for (let i = 0; i < diff.length; i++) {
     const d = diff[i];
-    if (d.type === 'unchanged') {
+    if (d.type === "unchanged") {
       lines.push(d.line);
-    } else if (d.type === 'added') {
+    } else if (d.type === "added") {
       if (accepted.has(i)) lines.push(d.line);
-    } else if (d.type === 'removed') {
+    } else if (d.type === "removed") {
       if (!accepted.has(i)) lines.push(d.line);
     }
   }
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 function renderDiff(diff, accepted) {
   const lines = [];
   for (let i = 0; i < diff.length; i++) {
     const d = diff[i];
-    const typeClass = { added: 'diff-added', removed: 'diff-removed', unchanged: 'diff-unchanged' };
-    const prefix = { added: '+ ', removed: '- ', unchanged: '  ' };
-    const isAccepted = d.type === 'unchanged' || (d.type === 'added' && accepted.has(i)) || (d.type === 'removed' && !accepted.has(i));
-    const dimClass = d.type !== 'unchanged' && !isAccepted ? ' diff-dim' : '';
-    const checkAttr = d.type !== 'unchanged' ? ` data-idx="${i}"` : '';
-    lines.push(`<div class="${typeClass[d.type]}${dimClass}"${checkAttr}>${prefix[d.type]}${escapeHtml(d.line)}</div>`);
+    const typeClass = { added: "diff-added", removed: "diff-removed", unchanged: "diff-unchanged" };
+    const prefix = { added: "+ ", removed: "- ", unchanged: "  " };
+    const isAccepted =
+      d.type === "unchanged" ||
+      (d.type === "added" && accepted.has(i)) ||
+      (d.type === "removed" && !accepted.has(i));
+    const dimClass = d.type !== "unchanged" && !isAccepted ? " diff-dim" : "";
+    const checkAttr = d.type !== "unchanged" ? ` data-idx="${i}"` : "";
+    lines.push(
+      `<div class="${typeClass[d.type]}${dimClass}"${checkAttr}>${prefix[d.type]}${escapeHtml(d.line)}</div>`
+    );
   }
-  return lines.join('');
+  return lines.join("");
 }
 
 export function render(container) {
@@ -104,7 +111,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .diff-container { max-width: 1100px; margin: 0 auto; }
     .diff-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -139,12 +146,12 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const leftInput = container.querySelector('#left-input');
-  const rightInput = container.querySelector('#right-input');
-  const output = container.querySelector('#diff-output');
-  const stats = container.querySelector('#diff-stats');
-  const mergeSection = container.querySelector('#merge-section');
-  const mergeOutput = container.querySelector('#merge-output');
+  const leftInput = container.querySelector("#left-input");
+  const rightInput = container.querySelector("#right-input");
+  const output = container.querySelector("#diff-output");
+  const stats = container.querySelector("#diff-stats");
+  const mergeSection = container.querySelector("#merge-section");
+  const mergeOutput = container.querySelector("#merge-output");
 
   let currentDiff = [];
   let accepted = new Set();
@@ -153,17 +160,18 @@ export function render(container) {
     currentDiff = diffLines(leftInput.value, rightInput.value);
     accepted = new Set();
     for (let i = 0; i < currentDiff.length; i++) {
-      if (currentDiff[i].type === 'added') accepted.add(i);
+      if (currentDiff[i].type === "added") accepted.add(i);
     }
 
-    const added = currentDiff.filter(d => d.type === 'added').length;
-    const removed = currentDiff.filter(d => d.type === 'removed').length;
-    stats.innerHTML = added || removed
-      ? `<span class="added-count">+${added}</span> · <span class="removed-count">-${removed}</span>`
-      : 'No differences';
+    const added = currentDiff.filter(d => d.type === "added").length;
+    const removed = currentDiff.filter(d => d.type === "removed").length;
+    stats.innerHTML =
+      added || removed
+        ? `<span class="added-count">+${added}</span> · <span class="removed-count">-${removed}</span>`
+        : "No differences";
 
     output.innerHTML = renderDiff(currentDiff, accepted);
-    mergeSection.style.display = currentDiff.some(d => d.type !== 'unchanged') ? 'block' : 'none';
+    mergeSection.style.display = currentDiff.some(d => d.type !== "unchanged") ? "block" : "none";
     updateMerge();
     bindDiffClicks();
   }
@@ -173,8 +181,8 @@ export function render(container) {
   }
 
   function bindDiffClicks() {
-    output.querySelectorAll('[data-idx]').forEach(el => {
-      el.addEventListener('click', () => {
+    output.querySelectorAll("[data-idx]").forEach(el => {
+      el.addEventListener("click", () => {
         const idx = parseInt(el.dataset.idx);
         if (accepted.has(idx)) accepted.delete(idx);
         else accepted.add(idx);
@@ -185,50 +193,50 @@ export function render(container) {
     });
   }
 
-  container.querySelector('#compare-diff').addEventListener('click', compare);
+  container.querySelector("#compare-diff").addEventListener("click", compare);
 
-  container.querySelector('#diff-swap').addEventListener('click', () => {
+  container.querySelector("#diff-swap").addEventListener("click", () => {
     const tmp = leftInput.value;
     leftInput.value = rightInput.value;
     rightInput.value = tmp;
   });
 
-  container.querySelector('#diff-clear').addEventListener('click', () => {
-    leftInput.value = '';
-    rightInput.value = '';
-    output.innerHTML = '';
-    stats.innerHTML = '';
-    mergeSection.style.display = 'none';
+  container.querySelector("#diff-clear").addEventListener("click", () => {
+    leftInput.value = "";
+    rightInput.value = "";
+    output.innerHTML = "";
+    stats.innerHTML = "";
+    mergeSection.style.display = "none";
     currentDiff = [];
     accepted = new Set();
   });
 
-  container.querySelector('#accept-all').addEventListener('click', () => {
+  container.querySelector("#accept-all").addEventListener("click", () => {
     for (let i = 0; i < currentDiff.length; i++) {
-      if (currentDiff[i].type === 'added') accepted.add(i);
+      if (currentDiff[i].type === "added") accepted.add(i);
     }
     output.innerHTML = renderDiff(currentDiff, accepted);
     bindDiffClicks();
     updateMerge();
   });
 
-  container.querySelector('#reject-all').addEventListener('click', () => {
+  container.querySelector("#reject-all").addEventListener("click", () => {
     accepted = new Set();
     output.innerHTML = renderDiff(currentDiff, accepted);
     bindDiffClicks();
     updateMerge();
   });
 
-  container.querySelector('#copy-merge').addEventListener('click', () => {
+  container.querySelector("#copy-merge").addEventListener("click", () => {
     navigator.clipboard.writeText(mergeOutput.value).catch(() => {});
   });
 
-  container.querySelector('#download-merge').addEventListener('click', () => {
-    const blob = new Blob([mergeOutput.value], { type: 'text/plain' });
+  container.querySelector("#download-merge").addEventListener("click", () => {
+    const blob = new Blob([mergeOutput.value], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'merged.txt';
+    a.download = "merged.txt";
     a.click();
     URL.revokeObjectURL(url);
   });

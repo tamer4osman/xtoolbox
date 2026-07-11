@@ -1,20 +1,21 @@
-import { createCssGenerator } from './css-generator-factory.js';
+import { createCssGenerator } from "./css-generator-factory.js";
 
 export const toolConfig = {
-  id: 'css-grid-generator',
-  name: 'CSS Grid Generator',
-  category: 'css',
-  description: 'Visual builder for CSS Grid layouts with copy-ready code.',
-  icon: '📐',
-  status: 'done'
+  id: "css-grid-generator",
+  name: "CSS Grid Generator",
+  category: "css",
+  description: "Visual builder for CSS Grid layouts with copy-ready code.",
+  icon: "📐",
+  status: "done"
 };
 
 export function render(container) {
   const { preview } = createCssGenerator({
     container,
-    cssClass: 'grid-gen',
-    maxWidth: '800px',
-    previewHTML: '<div class="preview" id="preview"><div class="grid-box">1</div><div class="grid-box">2</div><div class="grid-box">3</div><div class="grid-box">4</div><div class="grid-box">5</div><div class="grid-box">6</div></div>',
+    cssClass: "grid-gen",
+    maxWidth: "800px",
+    previewHTML:
+      '<div class="preview" id="preview"><div class="grid-box">1</div><div class="grid-box">2</div><div class="grid-box">3</div><div class="grid-box">4</div><div class="grid-box">5</div><div class="grid-box">6</div></div>',
     extraCSS: `
       .grid-gen .preview { display: grid; background: var(--color-surface); padding: var(--space-4); border-radius: var(--radius-xl); min-height: 200px; margin-bottom: var(--space-4); }
       .grid-gen .grid-box { background: var(--color-primary); color: white; padding: var(--space-4); display: flex; align-items: center; justify-content: center; font-weight: 600; border-radius: var(--radius-md); }
@@ -51,7 +52,7 @@ export function render(container) {
       const align = values.align;
       preview.style.gridTemplateColumns = cols;
       preview.style.gridTemplateRows = rows;
-      preview.style.gap = gap + 'px';
+      preview.style.gap = gap + "px";
       preview.style.justifyItems = justify;
       preview.style.alignItems = align;
       cssOutput.textContent = `.container {
@@ -62,8 +63,8 @@ export function render(container) {
   justify-items: ${justify};
   align-items: ${align};
 }`;
-      const gapVal = container.querySelector('#gapVal');
-      if (gapVal) gapVal.textContent = gap + 'px';
+      const gapVal = container.querySelector("#gapVal");
+      if (gapVal) gapVal.textContent = gap + "px";
     }
   });
 }

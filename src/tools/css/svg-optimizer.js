@@ -16,44 +16,51 @@ export function optimizeSvg(svgText, options = {}) {
   }
 
   if (removeComments) {
-    result = result.replace(/<!--[\s\S]*?-->/g, '');
+    result = result.replace(/<!--[\s\S]*?-->/g, "");
   }
 
   if (removeMetadata) {
-    result = result.replace(/<metadata[\s\S]*?<\/metadata>/gi, '');
+    result = result.replace(/<metadata[\s\S]*?<\/metadata>/gi, "");
   }
 
   if (removeEditorData) {
-    result = result.replace(/<(sodipodi|inkscape|sketch|adobe|illustrator|corel)[\s\S]*?<\/\1:[\s\S]*?>/gi, '');
-    result = result.replace(/<(sodipodi|inkscape|sketch|adobe|illustrator|corel)[^>]*\/>/gi, '');
-    result = result.replace(/\s*(sodipodi|inkscape|sketch|adobe|illustrator|corel):[a-z-]+="[^"]*"/gi, '');
+    result = result.replace(
+      /<(sodipodi|inkscape|sketch|adobe|illustrator|corel)[\s\S]*?<\/\1:[\s\S]*?>/gi,
+      ""
+    );
+    result = result.replace(/<(sodipodi|inkscape|sketch|adobe|illustrator|corel)[^>]*\/>/gi, "");
+    result = result.replace(
+      /\s*(sodipodi|inkscape|sketch|adobe|illustrator|corel):[a-z-]+="[^"]*"/gi,
+      ""
+    );
   }
 
-  result = result.replace(/<title[\s\S]*?<\/title>/gi, '');
-  result = result.replace(/<desc[\s\S]*?<\/desc>/gi, '');
+  result = result.replace(/<title[\s\S]*?<\/title>/gi, "");
+  result = result.replace(/<desc[\s\S]*?<\/desc>/gi, "");
 
   if (removeUselessDefs) {
-    result = result.replace(/<defs>\s*<\/defs>/gi, '');
+    result = result.replace(/<defs>\s*<\/defs>/gi, "");
   }
 
   if (removeEmptyGroups) {
-    let prev = '';
+    let prev = "";
     while (prev !== result) {
       prev = result;
       result = result.replace(/<g([^>]*)>\s*<\/g>/gi, (match, attrs) => {
-        if (/\b(id|class|transform|style|fill|stroke|opacity|clip-path|mask)\s*=/i.test(attrs)) return match;
-        return '';
+        if (/\b(id|class|transform|style|fill|stroke|opacity|clip-path|mask)\s*=/i.test(attrs))
+          return match;
+        return "";
       });
     }
   }
 
-  result = result.replace(/\s*data-[a-z-]+="[^"]*"/gi, '');
+  result = result.replace(/\s*data-[a-z-]+="[^"]*"/gi, "");
 
-  result = result.replace(/(\d+\.\d{3,})/g, (m) => roundNum(parseFloat(m)).toString());
+  result = result.replace(/(\d+\.\d{3,})/g, m => roundNum(parseFloat(m)).toString());
 
-  result = result.replace(/\s+/g, ' ');
-  result = result.replace(/> </g, '><');
-  result = result.replace(/\s+\/>/g, '/>');
+  result = result.replace(/\s+/g, " ");
+  result = result.replace(/> </g, "><");
+  result = result.replace(/\s+\/>/g, "/>");
   result = result.trim();
 
   const before = svgText.length;
@@ -68,54 +75,84 @@ export function optimizeSvg(svgText, options = {}) {
 }
 
 export const toolConfig = {
-  id: 'svg-optimizer',
-  name: 'SVG Optimizer & Minifier',
-  category: 'css',
-  description: 'Optimize and minify SVG files by removing metadata, comments, editor data, and redundant code. Reduces file size 30-70%.',
-  icon: '✨',
-  accept: '.svg,image/svg+xml',
+  id: "svg-optimizer",
+  name: "SVG Optimizer & Minifier",
+  category: "css",
+  description:
+    "Optimize and minify SVG files by removing metadata, comments, editor data, and redundant code. Reduces file size 30-70%.",
+  icon: "✨",
+  accept: ".svg,image/svg+xml",
   maxSizeMB: 10,
-  keywords: ['svg', 'optimizer', 'minifier', 'svgomg', 'compress', 'svg optimization', 'reduce svg size'],
-  steps: ['Upload or paste an SVG file', 'Configure optimization options', 'Preview before/after comparison', 'Download optimized SVG'],
+  keywords: [
+    "svg",
+    "optimizer",
+    "minifier",
+    "svgomg",
+    "compress",
+    "svg optimization",
+    "reduce svg size"
+  ],
+  steps: [
+    "Upload or paste an SVG file",
+    "Configure optimization options",
+    "Preview before/after comparison",
+    "Download optimized SVG"
+  ],
   faqs: [
-    { question: 'What does SVG optimization remove?', answer: 'Metadata, comments, editor data (Inkscape, Sketch, etc.), empty groups, useless defs, data attributes, unnecessary whitespace, and redundant path data precision.' },
-    { question: 'Will optimization change how my SVG looks?', answer: 'No. The optimizer preserves visual appearance while removing non-visual data. Groups may be collapsed and path data rounded, but the rendered output is identical.' },
-    { question: 'What SVG editors add bloat?', answer: 'Inkscape (sodipodi namespace), Sketch, Adobe Illustrator, and CorelDRAW all embed metadata and editor-specific attributes that are unnecessary for rendering.' }
+    {
+      question: "What does SVG optimization remove?",
+      answer:
+        "Metadata, comments, editor data (Inkscape, Sketch, etc.), empty groups, useless defs, data attributes, unnecessary whitespace, and redundant path data precision."
+    },
+    {
+      question: "Will optimization change how my SVG looks?",
+      answer:
+        "No. The optimizer preserves visual appearance while removing non-visual data. Groups may be collapsed and path data rounded, but the rendered output is identical."
+    },
+    {
+      question: "What SVG editors add bloat?",
+      answer:
+        "Inkscape (sodipodi namespace), Sketch, Adobe Illustrator, and CorelDRAW all embed metadata and editor-specific attributes that are unnecessary for rendering."
+    }
   ]
 };
 
-function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function esc(s) {
+  const d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
 
 function formatBytes(b) {
-  if (b === 0) return '0 B';
+  if (b === 0) return "0 B";
   const k = 1024;
-  const s = ['B', 'KB', 'MB'];
+  const s = ["B", "KB", "MB"];
   const i = Math.floor(Math.log(b) / Math.log(k));
-  return (b / Math.pow(k, i)).toFixed(1) + ' ' + s[i];
+  return (b / Math.pow(k, i)).toFixed(1) + " " + s[i];
 }
 
 function getOptions(container) {
   return {
-    removeMetadata: container.querySelector('#opt-metadata').checked,
-    removeComments: container.querySelector('#opt-comments').checked,
-    removeEditorData: container.querySelector('#opt-editor').checked,
-    removeEmptyGroups: container.querySelector('#opt-groups').checked,
-    collapseGroups: container.querySelector('#opt-collapse').checked,
-    removeUselessDefs: container.querySelector('#opt-defs').checked,
-    precision: parseInt(container.querySelector('#opt-precision').value)
+    removeMetadata: container.querySelector("#opt-metadata").checked,
+    removeComments: container.querySelector("#opt-comments").checked,
+    removeEditorData: container.querySelector("#opt-editor").checked,
+    removeEmptyGroups: container.querySelector("#opt-groups").checked,
+    collapseGroups: container.querySelector("#opt-collapse").checked,
+    removeUselessDefs: container.querySelector("#opt-defs").checked,
+    precision: parseInt(container.querySelector("#opt-precision").value)
   };
 }
 
 function showResults(container, result, originalSvg, originalName) {
   const { stats, optimized } = result;
   const isGood = stats.saved > 0;
-  const resultsEl = container.querySelector('#svg-results');
-  const previewEl = container.querySelector('#svg-preview');
-  const originalPreview = container.querySelector('#svg-preview-original');
-  const optimizedPreview = container.querySelector('#svg-preview-optimized');
+  const resultsEl = container.querySelector("#svg-results");
+  const previewEl = container.querySelector("#svg-preview");
+  const originalPreview = container.querySelector("#svg-preview-original");
+  const optimizedPreview = container.querySelector("#svg-preview-optimized");
 
-  resultsEl.style.display = 'block';
-  previewEl.style.display = 'grid';
+  resultsEl.style.display = "block";
+  previewEl.style.display = "grid";
   resultsEl.innerHTML = `
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);margin-bottom:var(--space-4);">
       <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
@@ -123,11 +160,11 @@ function showResults(container, result, originalSvg, originalName) {
         <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Original</div>
       </div>
       <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
-        <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? 'var(--color-success)' : 'var(--color-text)'};">${formatBytes(stats.after)}</div>
+        <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? "var(--color-success)" : "var(--color-text)"};">${formatBytes(stats.after)}</div>
         <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Optimized</div>
       </div>
       <div style="padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);text-align:center;">
-        <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? 'var(--color-success)' : 'var(--color-text-muted)'};">${isGood ? '-' : ''}${formatBytes(Math.abs(stats.saved))} (${stats.percent}%)</div>
+        <div style="font-size:var(--text-xl);font-weight:700;color:${isGood ? "var(--color-success)" : "var(--color-text-muted)"};">${isGood ? "-" : ""}${formatBytes(Math.abs(stats.saved))} (${stats.percent}%)</div>
         <div style="font-size:var(--text-xs);color:var(--color-text-muted);">Saved</div>
       </div>
     </div>
@@ -141,12 +178,12 @@ function showResults(container, result, originalSvg, originalName) {
   originalPreview.innerHTML = originalSvg;
   optimizedPreview.innerHTML = optimized;
 
-  container.querySelector('#svg-download-btn').addEventListener('click', () => {
-    const blob = new Blob([optimized], { type: 'image/svg+xml' });
+  container.querySelector("#svg-download-btn").addEventListener("click", () => {
+    const blob = new Blob([optimized], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = originalName.replace(/\.svg$/i, '') + '.min.svg';
+    a.download = originalName.replace(/\.svg$/i, "") + ".min.svg";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -156,7 +193,7 @@ function showResults(container, result, originalSvg, originalName) {
 
 export function render(container) {
   let originalSvg = null;
-  let originalName = 'input.svg';
+  let originalName = "input.svg";
 
   container.innerHTML = `
     <div class="tool-layout">
@@ -199,24 +236,29 @@ export function render(container) {
     </div>
   `;
 
-  const uploadArea = container.querySelector('#svg-upload-area');
-  const pasteArea = container.querySelector('#svg-paste-area');
-  const optionsArea = container.querySelector('#svg-options');
-  const precisionSlider = container.querySelector('#opt-precision');
-  const precisionVal = container.querySelector('#opt-precision-val');
-  const optimizeBtn = container.querySelector('#svg-optimize-btn');
-  const pasteInput = container.querySelector('#svg-paste-input');
-  const pasteBtn = container.querySelector('#svg-paste-btn');
+  const uploadArea = container.querySelector("#svg-upload-area");
+  const pasteArea = container.querySelector("#svg-paste-area");
+  const optionsArea = container.querySelector("#svg-options");
+  const precisionSlider = container.querySelector("#opt-precision");
+  const precisionVal = container.querySelector("#opt-precision-val");
+  const optimizeBtn = container.querySelector("#svg-optimize-btn");
+  const pasteInput = container.querySelector("#svg-paste-input");
+  const pasteBtn = container.querySelector("#svg-paste-btn");
 
   function optimizeSvgFile() {
     if (!originalSvg) return;
-    showResults(container, optimizeSvg(originalSvg, getOptions(container)), originalSvg, originalName);
+    showResults(
+      container,
+      optimizeSvg(originalSvg, getOptions(container)),
+      originalSvg,
+      originalName
+    );
   }
 
   function showUploadOrPaste() {
-    uploadArea.innerHTML = '';
-    const dropZone = document.createElement('div');
-    dropZone.className = 'tool-upload-zone';
+    uploadArea.innerHTML = "";
+    const dropZone = document.createElement("div");
+    dropZone.className = "tool-upload-zone";
     dropZone.innerHTML = `
       <div style="text-align:center;padding:var(--space-8);">
         <div style="font-size:48px;margin-bottom:var(--space-3);">📁</div>
@@ -231,11 +273,24 @@ export function render(container) {
     `;
     uploadArea.appendChild(dropZone);
 
-    dropZone.querySelector('#svg-file-input').addEventListener('change', e => handleFile(e.target.files[0]));
-    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = 'var(--color-primary)'; });
-    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = ''; });
-    dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.style.borderColor = ''; if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
-    dropZone.querySelector('#svg-show-paste').addEventListener('click', () => { pasteArea.style.display = 'block'; });
+    dropZone
+      .querySelector("#svg-file-input")
+      .addEventListener("change", e => handleFile(e.target.files[0]));
+    dropZone.addEventListener("dragover", e => {
+      e.preventDefault();
+      dropZone.style.borderColor = "var(--color-primary)";
+    });
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.style.borderColor = "";
+    });
+    dropZone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropZone.style.borderColor = "";
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    dropZone.querySelector("#svg-show-paste").addEventListener("click", () => {
+      pasteArea.style.display = "block";
+    });
   }
 
   function handleFile(file) {
@@ -244,8 +299,8 @@ export function render(container) {
     const reader = new FileReader();
     reader.onload = e => {
       originalSvg = e.target.result;
-      optionsArea.style.display = 'block';
-      pasteArea.style.display = 'none';
+      optionsArea.style.display = "block";
+      pasteArea.style.display = "none";
       uploadArea.innerHTML = `
         <div style="padding:var(--space-3);background:var(--color-surface);border-radius:var(--radius-md);display:flex;align-items:center;gap:var(--space-3);">
           <span style="font-size:24px;">📄</span>
@@ -253,22 +308,24 @@ export function render(container) {
           <button class="btn btn-ghost btn-sm" id="svg-change-file">Change</button>
         </div>
       `;
-      uploadArea.querySelector('#svg-change-file').addEventListener('click', showUploadOrPaste);
+      uploadArea.querySelector("#svg-change-file").addEventListener("click", showUploadOrPaste);
       optimizeSvgFile();
     };
     reader.readAsText(file);
   }
 
-  precisionSlider.addEventListener('input', () => { precisionVal.textContent = precisionSlider.value; });
-  optimizeBtn.addEventListener('click', optimizeSvgFile);
+  precisionSlider.addEventListener("input", () => {
+    precisionVal.textContent = precisionSlider.value;
+  });
+  optimizeBtn.addEventListener("click", optimizeSvgFile);
 
-  pasteBtn.addEventListener('click', () => {
+  pasteBtn.addEventListener("click", () => {
     const val = pasteInput.value.trim();
     if (!val) return;
     originalSvg = val;
-    originalName = 'pasted.svg';
-    optionsArea.style.display = 'block';
-    pasteArea.style.display = 'none';
+    originalName = "pasted.svg";
+    optionsArea.style.display = "block";
+    pasteArea.style.display = "none";
     uploadArea.innerHTML = `
       <div style="padding:var(--space-3);background:var(--color-surface);border-radius:var(--radius-md);display:flex;align-items:center;gap:var(--space-3);">
         <span style="font-size:24px;">📋</span>
@@ -276,7 +333,7 @@ export function render(container) {
         <button class="btn btn-ghost btn-sm" id="svg-change-file">Change</button>
       </div>
     `;
-    uploadArea.querySelector('#svg-change-file').addEventListener('click', showUploadOrPaste);
+    uploadArea.querySelector("#svg-change-file").addEventListener("click", showUploadOrPaste);
     optimizeSvgFile();
   });
 

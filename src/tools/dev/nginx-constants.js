@@ -1,4 +1,4 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export { escapeHtml };
 
@@ -30,19 +30,19 @@ export const NGX_CSS = `
 `;
 
 export function fieldHtml(id, label, state, fields, areaFields, placeholder) {
-  const def = state[id] !== undefined ? state[id] : '';
+  const def = state[id] !== undefined ? state[id] : "";
   if (areaFields.has(id)) {
     return `
         <div class="form-group">
           <label for="ngx-${id}">${label}</label>
-          <textarea id="ngx-${id}" class="text-input ngx-field ngx-area" data-field="${id}" rows="3" spellcheck="false" placeholder="${placeholder || ''}">${escapeHtml(String(def ?? ''))}</textarea>
+          <textarea id="ngx-${id}" class="text-input ngx-field ngx-area" data-field="${id}" rows="3" spellcheck="false" placeholder="${placeholder || ""}">${escapeHtml(String(def ?? ""))}</textarea>
         </div>`;
   }
-  const inputType = fields.find(f => f.id === id)?.type || 'text';
+  const inputType = fields.find(f => f.id === id)?.type || "text";
   return `
         <div class="form-group">
           <label for="ngx-${id}">${label}</label>
-          <input id="ngx-${id}" type="${inputType}" class="text-input ngx-field" data-field="${id}" value="${escapeHtml(String(def ?? ''))}" placeholder="${placeholder || ''}">
+          <input id="ngx-${id}" type="${inputType}" class="text-input ngx-field" data-field="${id}" value="${escapeHtml(String(def ?? ""))}" placeholder="${placeholder || ""}">
         </div>`;
 }
 
@@ -52,7 +52,7 @@ export function selectHtml(id, label, options, state) {
         <div class="form-group">
           <label for="ngx-${id}">${label}</label>
           <select id="ngx-${id}" class="text-input ngx-field" data-field="${id}">
-            ${options.map(o => `<option value="${escapeHtml(o.value)}"${o.value === value ? ' selected' : ''}>${escapeHtml(o.label)}</option>`).join('')}
+            ${options.map(o => `<option value="${escapeHtml(o.value)}"${o.value === value ? " selected" : ""}>${escapeHtml(o.label)}</option>`).join("")}
           </select>
         </div>`;
 }
@@ -61,85 +61,91 @@ export function checkHtml(id, label, state, hint) {
   const checked = state[id];
   return `
         <label class="ngx-check">
-          <input type="checkbox" id="ngx-${id}" class="ngx-toggle" data-field="${id}"${checked ? ' checked' : ''}>
+          <input type="checkbox" id="ngx-${id}" class="ngx-toggle" data-field="${id}"${checked ? " checked" : ""}>
           <span>${label}</span>
-          ${hint ? `<small class="ngx-hint">${hint}</small>` : ''}
+          ${hint ? `<small class="ngx-hint">${hint}</small>` : ""}
         </label>`;
 }
 
 export const NGX_FIELDS = [
-  { id: 'listen', label: 'Port', type: 'number', min: 1, max: 65535 },
-  { id: 'listenExtra', label: 'Extra listen flags (e.g. default_server)', type: 'text' },
-  { id: 'serverName', label: 'Server name (domain)', type: 'text' },
-  { id: 'root', label: 'Root directory', type: 'text' },
-  { id: 'index', label: 'Index files', type: 'text' },
-  { id: 'accessLog', label: 'Access log path', type: 'text' },
-  { id: 'errorLog', label: 'Error log path', type: 'text' },
-  { id: 'sslCertificate', label: 'SSL certificate path', type: 'text' },
-  { id: 'sslCertificateKey', label: 'SSL certificate key', type: 'text' },
-  { id: 'sslProtocols', label: 'SSL protocols', type: 'text' },
-  { id: 'cacheExpires', label: 'Static cache expires', type: 'text' },
-  { id: 'phpSocket', label: 'PHP-FPM socket / address', type: 'text' },
-  { id: 'proxyUrl', label: 'Proxy pass URL', type: 'text' },
-  { id: 'upstreamName', label: 'Upstream name', type: 'text' },
-  { id: 'upstreamBackends', label: 'Upstream backends (one per line)', type: 'textarea' },
-  { id: 'rateLimitRate', label: 'Rate (e.g. 10r/s)', type: 'text' },
-  { id: 'rateLimitBurst', label: 'Burst size', type: 'text' }
+  { id: "listen", label: "Port", type: "number", min: 1, max: 65535 },
+  { id: "listenExtra", label: "Extra listen flags (e.g. default_server)", type: "text" },
+  { id: "serverName", label: "Server name (domain)", type: "text" },
+  { id: "root", label: "Root directory", type: "text" },
+  { id: "index", label: "Index files", type: "text" },
+  { id: "accessLog", label: "Access log path", type: "text" },
+  { id: "errorLog", label: "Error log path", type: "text" },
+  { id: "sslCertificate", label: "SSL certificate path", type: "text" },
+  { id: "sslCertificateKey", label: "SSL certificate key", type: "text" },
+  { id: "sslProtocols", label: "SSL protocols", type: "text" },
+  { id: "cacheExpires", label: "Static cache expires", type: "text" },
+  { id: "phpSocket", label: "PHP-FPM socket / address", type: "text" },
+  { id: "proxyUrl", label: "Proxy pass URL", type: "text" },
+  { id: "upstreamName", label: "Upstream name", type: "text" },
+  { id: "upstreamBackends", label: "Upstream backends (one per line)", type: "textarea" },
+  { id: "rateLimitRate", label: "Rate (e.g. 10r/s)", type: "text" },
+  { id: "rateLimitBurst", label: "Burst size", type: "text" }
 ];
 
 export function bindNginxEvents(ctx) {
   const { container, getState, setState, syncFormFromState, syncConditional, generate } = ctx;
 
-  container.querySelector('#ngx-preset').addEventListener('change', e => {
+  container.querySelector("#ngx-preset").addEventListener("change", e => {
     const id = e.target.value;
     const { applyPreset } = ctx;
     setState(applyPreset(id, getState()));
-    container.querySelector('#ngx-preset-desc').textContent = ctx.PRESETS[id]?.description || '';
+    container.querySelector("#ngx-preset-desc").textContent = ctx.PRESETS[id]?.description || "";
     syncFormFromState();
     syncConditional();
     generate();
   });
 
-  container.querySelectorAll('.ngx-toggle').forEach(el => {
-    el.addEventListener('change', () => {
-      const s = getState(); s[el.dataset.field] = el.checked; setState(s);
+  container.querySelectorAll(".ngx-toggle").forEach(el => {
+    el.addEventListener("change", () => {
+      const s = getState();
+      s[el.dataset.field] = el.checked;
+      setState(s);
       syncConditional();
       generate();
     });
   });
 
-  container.querySelectorAll('.ngx-field').forEach(el => {
-    const evt = el.tagName === 'SELECT' ? 'change' : 'input';
+  container.querySelectorAll(".ngx-field").forEach(el => {
+    const evt = el.tagName === "SELECT" ? "change" : "input";
     el.addEventListener(evt, () => {
       const f = el.dataset.field;
       const s = getState();
-      s[f] = f === 'listen' ? (parseInt(el.value, 10) || 80) : el.value;
+      s[f] = f === "listen" ? parseInt(el.value, 10) || 80 : el.value;
       setState(s);
       generate();
     });
   });
 
-  container.querySelector('#ngx-copy').addEventListener('click', async () => {
-    const text = container.querySelector('#ngx-output').textContent;
+  container.querySelector("#ngx-copy").addEventListener("click", async () => {
+    const text = container.querySelector("#ngx-output").textContent;
     const ok = await ctx.copyToClipboard(text);
-    ctx.showToast({ message: ok ? 'Config copied to clipboard' : 'Copy failed', type: ok ? 'success' : 'error' });
+    ctx.showToast({
+      message: ok ? "Config copied to clipboard" : "Copy failed",
+      type: ok ? "success" : "error"
+    });
   });
 
-  container.querySelector('#ngx-download').addEventListener('click', () => {
-    const text = container.querySelector('#ngx-output').textContent;
+  container.querySelector("#ngx-download").addEventListener("click", () => {
+    const text = container.querySelector("#ngx-output").textContent;
     const s = getState();
-    const blob = new Blob([text], { type: 'text/plain' });
-    const name = (s.serverName || 'nginx').split(/\s+/)[0].replace(/[^A-Za-z0-9.-]/g, '_') || 'nginx';
+    const blob = new Blob([text], { type: "text/plain" });
+    const name =
+      (s.serverName || "nginx").split(/\s+/)[0].replace(/[^A-Za-z0-9.-]/g, "_") || "nginx";
     ctx.downloadBlob(blob, `${name}.conf`);
-    ctx.showToast({ message: `Downloaded ${name}.conf`, type: 'success' });
+    ctx.showToast({ message: `Downloaded ${name}.conf`, type: "success" });
   });
 
-  container.querySelector('#ngx-reset').addEventListener('click', () => {
+  container.querySelector("#ngx-reset").addEventListener("click", () => {
     ctx.resetState();
     syncFormFromState();
     syncConditional();
-    container.querySelector('#ngx-preset').value = 'custom';
-    container.querySelector('#ngx-preset-desc').textContent = ctx.PRESETS.custom.description;
+    container.querySelector("#ngx-preset").value = "custom";
+    container.querySelector("#ngx-preset-desc").textContent = ctx.PRESETS.custom.description;
     generate();
   });
 }

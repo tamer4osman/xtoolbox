@@ -14,19 +14,18 @@ export const toolConfig = {
     "Click Start Recording",
     "Select screen or browser tab",
     "Click Stop when done",
-    "Download WebM video",
+    "Download WebM video"
   ],
   faqs: [
     {
       question: "What formats are supported?",
-      answer: "WebM (VP8/VP9) is the default format. Some browsers also support MP4.",
+      answer: "WebM (VP8/VP9) is the default format. Some browsers also support MP4."
     },
     {
       question: "Is audio recorded?",
-      answer:
-        'Yes, system audio can be included if you select "Share audio" in the browser dialog.',
-    },
-  ],
+      answer: 'Yes, system audio can be included if you select "Share audio" in the browser dialog.'
+    }
+  ]
 };
 
 export function formatDuration(ms) {
@@ -79,17 +78,15 @@ export function render(container) {
     try {
       stream = await navigator.mediaDevices.getDisplayMedia({
         video: { cursor: "always" },
-        audio: true,
+        audio: true
       });
 
       chunks = [];
       const preferredType = "video/webm;codecs=vp9";
-      const mimeType = MediaRecorder.isTypeSupported(preferredType)
-        ? preferredType
-        : "video/webm";
+      const mimeType = MediaRecorder.isTypeSupported(preferredType) ? preferredType : "video/webm";
       mediaRecorder = new MediaRecorder(stream, { mimeType });
 
-      mediaRecorder.ondataavailable = (e) => {
+      mediaRecorder.ondataavailable = e => {
         if (e.data.size > 0) chunks.push(e.data);
         recSize.textContent = `${(chunks.reduce((s, c) => s + c.size, 0) / 1048576).toFixed(1)} MB`;
       };
@@ -123,7 +120,7 @@ export function render(container) {
       showToast({ message: "Recording started.", type: "success" });
     } catch (err) {
       if (stream) {
-        stream.getTracks().forEach((t) => t.stop());
+        stream.getTracks().forEach(t => t.stop());
       }
       showToast({ message: `Screen capture failed: ${err.message}`, type: "error" });
     }
@@ -134,7 +131,7 @@ export function render(container) {
       mediaRecorder.stop();
     }
     if (stream) {
-      stream.getTracks().forEach((t) => t.stop());
+      stream.getTracks().forEach(t => t.stop());
     }
     startBtn.disabled = false;
     stopBtn.disabled = true;
@@ -152,7 +149,7 @@ export function destroy() {
     mediaRecorder.stop();
   }
   if (stream) {
-    stream.getTracks().forEach((t) => t.stop());
+    stream.getTracks().forEach(t => t.stop());
   }
   clearInterval(timerInterval);
   if (previewObjectURL) URL.revokeObjectURL(previewObjectURL);

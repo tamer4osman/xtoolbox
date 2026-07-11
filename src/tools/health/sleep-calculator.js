@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'sleep-calculator',
-  name: 'Sleep Calculator',
-  category: 'health',
-  description: 'Find the best times to wake up based on sleep cycles.',
-  icon: '😴',
-  status: 'done'
+  id: "sleep-calculator",
+  name: "Sleep Calculator",
+  category: "health",
+  description: "Find the best times to wake up based on sleep cycles.",
+  icon: "😴",
+  status: "done"
 };
 
 export function render(container) {
@@ -46,7 +46,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .sleep-container { max-width: 500px; margin: 0 auto; }
     .sleep-container h2 { text-align: center; margin-bottom: var(--space-6); }
@@ -73,29 +73,29 @@ export function render(container) {
   container.appendChild(style);
 
   function formatTime(h, m) {
-    const ampm = h >= 12 ? 'PM' : 'AM';
+    const ampm = h >= 12 ? "PM" : "AM";
     const hour = h % 12 || 12;
-    return `${hour}:${m.toString().padStart(2, '0')} ${ampm}`;
+    return `${hour}:${m.toString().padStart(2, "0")} ${ampm}`;
   }
 
-  container.querySelector('#bedtime-btn').addEventListener('click', () => {
-    const hour = parseInt(container.querySelector('#wake-hour').value) || 7;
-    const min = parseInt(container.querySelector('#wake-min').value) || 0;
-    
-    const slots = container.querySelector('#bedtime-slots');
-    slots.innerHTML = '';
-    
+  container.querySelector("#bedtime-btn").addEventListener("click", () => {
+    const hour = parseInt(container.querySelector("#wake-hour").value) || 7;
+    const min = parseInt(container.querySelector("#wake-min").value) || 0;
+
+    const slots = container.querySelector("#bedtime-slots");
+    slots.innerHTML = "";
+
     const cycles = [6, 5, 4, 3];
     cycles.forEach(cycle => {
       const sleepMinutes = cycle * 90 + 15;
       const bedDate = new Date();
       bedDate.setHours(hour, min, 0);
       bedDate.setMinutes(bedDate.getMinutes() - sleepMinutes);
-      
+
       const h = bedDate.getHours();
       const m = bedDate.getMinutes();
-      const cls = cycle >= 5 ? 'optimal' : cycle >= 4 ? 'good' : '';
-      
+      const cls = cycle >= 5 ? "optimal" : cycle >= 4 ? "good" : "";
+
       slots.innerHTML += `
         <div class="time-slot ${cls}">
           <span class="slot-time">${formatTime(h, m)}</span>
@@ -103,29 +103,29 @@ export function render(container) {
         </div>
       `;
     });
-    
-    container.querySelector('#bedtime-result').classList.remove('hidden');
-    container.querySelector('#wake-result').classList.add('hidden');
+
+    container.querySelector("#bedtime-result").classList.remove("hidden");
+    container.querySelector("#wake-result").classList.add("hidden");
   });
 
-  container.querySelector('#wake-btn').addEventListener('click', () => {
-    const hour = parseInt(container.querySelector('#bed-hour').value) || 23;
-    const min = parseInt(container.querySelector('#bed-min').value) || 0;
-    
-    const slots = container.querySelector('#wake-slots');
-    slots.innerHTML = '';
-    
+  container.querySelector("#wake-btn").addEventListener("click", () => {
+    const hour = parseInt(container.querySelector("#bed-hour").value) || 23;
+    const min = parseInt(container.querySelector("#bed-min").value) || 0;
+
+    const slots = container.querySelector("#wake-slots");
+    slots.innerHTML = "";
+
     const cycles = [6, 5, 4, 3];
     cycles.forEach(cycle => {
       const sleepMinutes = cycle * 90 + 15;
       const wakeDate = new Date();
       wakeDate.setHours(hour, min, 0);
       wakeDate.setMinutes(wakeDate.getMinutes() + sleepMinutes);
-      
+
       const h = wakeDate.getHours();
       const m = wakeDate.getMinutes();
-      const cls = cycle >= 5 ? 'optimal' : cycle >= 4 ? 'good' : '';
-      
+      const cls = cycle >= 5 ? "optimal" : cycle >= 4 ? "good" : "";
+
       slots.innerHTML += `
         <div class="time-slot ${cls}">
           <span class="slot-time">${formatTime(h, m)}</span>
@@ -133,9 +133,8 @@ export function render(container) {
         </div>
       `;
     });
-    
-    container.querySelector('#wake-result').classList.remove('hidden');
-    container.querySelector('#bedtime-result').classList.add('hidden');
-  });
 
-  }
+    container.querySelector("#wake-result").classList.remove("hidden");
+    container.querySelector("#bedtime-result").classList.add("hidden");
+  });
+}

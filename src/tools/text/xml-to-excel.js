@@ -1,11 +1,11 @@
-import writeExcelFile from 'write-excel-file/browser';
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob, formatFileSize } from '../../utils/file.js';
+import writeExcelFile from "write-excel-file/browser";
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob, formatFileSize } from "../../utils/file.js";
 
 export function parseXmlToRows(xmlText) {
   const parser = new DOMParser();
-  const doc = parser.parseFromString(xmlText, 'text/xml');
+  const doc = parser.parseFromString(xmlText, "text/xml");
   const root = doc.documentElement;
   if (!root) return { rows: [], headers: [] };
 
@@ -27,7 +27,7 @@ export function parseXmlToRows(xmlText) {
     const row = {};
     for (let i = 0; i < el.children.length; i++) {
       const child = el.children[i];
-      row[child.tagName] = child.textContent || '';
+      row[child.tagName] = child.textContent || "";
     }
     return row;
   });
@@ -39,7 +39,7 @@ export function rowsToSheet(rows, headers) {
   const headerRow = headers.map(h => ({ type: String, value: h }));
   const dataRows = rows.map(row =>
     headers.map(h => {
-      const val = row[h] ?? '';
+      const val = row[h] ?? "";
       return { type: String, value: String(val) };
     })
   );
@@ -47,18 +47,27 @@ export function rowsToSheet(rows, headers) {
 }
 
 export const toolConfig = {
-  id: 'xml-to-excel',
-  name: 'XML to Excel',
-  category: 'text',
-  description: 'Convert XML files to Excel spreadsheets (.xlsx). Automatically detects row elements.',
-  icon: '📊',
-  accept: '.xml',
+  id: "xml-to-excel",
+  name: "XML to Excel",
+  category: "text",
+  description:
+    "Convert XML files to Excel spreadsheets (.xlsx). Automatically detects row elements.",
+  icon: "📊",
+  accept: ".xml",
   maxSizeMB: 10,
-  keywords: ['xml to excel', 'xml to xlsx', 'convert xml to spreadsheet'],
-  steps: ['Upload XML file', 'Review detected rows', 'Click "Convert"', 'Download XLSX'],
+  keywords: ["xml to excel", "xml to xlsx", "convert xml to spreadsheet"],
+  steps: ["Upload XML file", "Review detected rows", 'Click "Convert"', "Download XLSX"],
   faqs: [
-    { question: 'How does it detect rows?', answer: 'The tool looks for repeated child elements under the root. Each child becomes a spreadsheet row, with sub-elements as columns.' },
-    { question: 'What if my XML has nested data?', answer: 'Only direct child elements of the root are treated as rows. Deeply nested data may not be fully captured.' }
+    {
+      question: "How does it detect rows?",
+      answer:
+        "The tool looks for repeated child elements under the root. Each child becomes a spreadsheet row, with sub-elements as columns."
+    },
+    {
+      question: "What if my XML has nested data?",
+      answer:
+        "Only direct child elements of the root are treated as rows. Deeply nested data may not be fully captured."
+    }
   ]
 };
 
@@ -66,10 +75,10 @@ export function render(container) {
   let currentFile = null;
 
   const upload = createFileUpload({
-    accept: '.xml',
+    accept: ".xml",
     multiple: false,
     maxSizeMB: 10,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       currentFile = files[0];
       fileInfo.textContent = `${currentFile.name} — ${formatFileSize(currentFile.size)}`;
@@ -78,12 +87,12 @@ export function render(container) {
       const result = parseXmlToRows(text);
 
       if (result.rows.length === 0) {
-        showToast({ message: 'No repeated row elements found in XML', type: 'error' });
+        showToast({ message: "No repeated row elements found in XML", type: "error" });
         return;
       }
 
       rowCount.textContent = `${result.rows.length} rows, ${result.headers.length} columns`;
-      optionsArea.style.display = 'block';
+      optionsArea.style.display = "block";
       currentResult = result;
     }
   });
@@ -107,24 +116,24 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const fileInfo = container.querySelector('#file-info');
-  const rowCount = container.querySelector('#row-count');
-  const convertBtn = container.querySelector('#convert-btn');
-  const processing = container.querySelector('#processing');
-  const results = container.querySelector('#results');
-  const previewTable = container.querySelector('#preview-table');
-  const downloadBtn = container.querySelector('#download-btn');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const fileInfo = container.querySelector("#file-info");
+  const rowCount = container.querySelector("#row-count");
+  const convertBtn = container.querySelector("#convert-btn");
+  const processing = container.querySelector("#processing");
+  const results = container.querySelector("#results");
+  const previewTable = container.querySelector("#preview-table");
+  const downloadBtn = container.querySelector("#download-btn");
   let currentResult = null;
   let excelBlob = null;
 
-  convertBtn.addEventListener('click', () => {
+  convertBtn.addEventListener("click", () => {
     if (!currentResult) return;
 
-    processing.style.display = 'block';
-    convertBtn.style.display = 'none';
-    results.style.display = 'none';
+    processing.style.display = "block";
+    convertBtn.style.display = "none";
+    results.style.display = "none";
 
     setTimeout(async () => {
       try {
@@ -136,38 +145,38 @@ export function render(container) {
         const headers = currentResult.headers;
         const data = currentResult.rows;
         let html = '<table style="width:100%;border-collapse:collapse;font-size:var(--text-sm);">';
-        html += '<thead><tr>';
+        html += "<thead><tr>";
         for (const h of headers) {
           html += `<th style="padding:var(--space-2);border-bottom:2px solid var(--color-border);text-align:left;background:var(--color-surface);font-weight:600;">${h}</th>`;
         }
-        html += '</tr></thead><tbody>';
+        html += "</tr></thead><tbody>";
         for (let i = 0; i < Math.min(data.length, 50); i++) {
-          html += '<tr>';
+          html += "<tr>";
           for (const h of headers) {
-            html += `<td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">${data[i][h] || ''}</td>`;
+            html += `<td style="padding:var(--space-2);border-bottom:1px solid var(--color-border);">${data[i][h] || ""}</td>`;
           }
-          html += '</tr>';
+          html += "</tr>";
         }
         if (data.length > 50) {
           html += `<tr><td colspan="${headers.length}" style="padding:var(--space-2);text-align:center;color:var(--color-text-muted);font-style:italic;">... and ${data.length - 50} more rows</td></tr>`;
         }
-        html += '</tbody></table>';
+        html += "</tbody></table>";
         previewTable.innerHTML = html;
 
-        results.style.display = 'block';
-        showToast({ message: 'Excel file ready!', type: 'success' });
+        results.style.display = "block";
+        showToast({ message: "Excel file ready!", type: "success" });
       } catch (err) {
-        showToast({ message: 'Error: ' + err.message, type: 'error' });
+        showToast({ message: "Error: " + err.message, type: "error" });
       } finally {
-        processing.style.display = 'none';
-        convertBtn.style.display = 'inline-flex';
+        processing.style.display = "none";
+        convertBtn.style.display = "inline-flex";
       }
     }, 50);
   });
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     if (!excelBlob) return;
-    downloadBlob(excelBlob, currentFile.name.replace(/\.xml$/i, '.xlsx'));
+    downloadBlob(excelBlob, currentFile.name.replace(/\.xml$/i, ".xlsx"));
   });
 }
 

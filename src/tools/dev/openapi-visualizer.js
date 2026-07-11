@@ -13,18 +13,18 @@ export const toolConfig = {
   steps: [
     "Upload or paste an OpenAPI 3.x spec",
     "Browse endpoints by tag",
-    "View request/response schemas",
+    "View request/response schemas"
   ],
   faqs: [
     {
       question: "What formats are supported?",
-      answer: "OpenAPI 3.0 and 3.1 in JSON or YAML format.",
+      answer: "OpenAPI 3.0 and 3.1 in JSON or YAML format."
     },
     {
       question: "Does it work with Swagger 2.0?",
-      answer: "No, only OpenAPI 3.x specs are supported.",
-    },
-  ],
+      answer: "No, only OpenAPI 3.x specs are supported."
+    }
+  ]
 };
 
 export function parseYAML(text) {
@@ -101,13 +101,17 @@ export function parseSpecText(text) {
 }
 
 export function escapeHtml(str) {
-  return String(str ?? "").replace(/[&<>"']/g, (c) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  })[c]);
+  return String(str ?? "").replace(
+    /[&<>"']/g,
+    c =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[c]
+  );
 }
 
 export function parseOpenAPI(spec) {
@@ -124,7 +128,7 @@ export function parseOpenAPI(spec) {
           tags: operation.tags && operation.tags.length > 0 ? operation.tags : ["Untagged"],
           parameters: operation.parameters || [],
           requestBody: operation.requestBody || null,
-          responses: operation.responses || {},
+          responses: operation.responses || {}
         });
       }
     }
@@ -151,7 +155,7 @@ export function getMethodColor(method) {
     PATCH: "#50e3c2",
     DELETE: "#f93e3e",
     HEAD: "#9012fe",
-    OPTIONS: "#0d5aa7",
+    OPTIONS: "#0d5aa7"
   };
   return colors[method] || "#999";
 }
@@ -163,7 +167,7 @@ export function render(container) {
     accept: ".json,.yaml,.yml",
     multiple: false,
     maxSizeMB: 5,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       try {
         const text = await files[0].text();
@@ -173,7 +177,7 @@ export function render(container) {
       } catch {
         showToast({ message: "Failed to parse spec. Check file format.", type: "error" });
       }
-    },
+    }
   });
 
   container.innerHTML = `
@@ -230,18 +234,18 @@ export function render(container) {
           <div style="margin-top:var(--space-2);">
             ${eps
               .map(
-                (ep) => `
+                ep => `
               <div style="display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-bottom:var(--space-1);">
                 <span style="background:${getMethodColor(ep.method)};color:white;padding:2px 8px;border-radius:var(--radius-sm);font-size:var(--text-xs);font-weight:700;min-width:50px;text-align:center;">${ep.method}</span>
                 <code style="font-size:var(--text-sm);">${escapeHtml(ep.path)}</code>
                 <span style="color:var(--color-text-muted);font-size:var(--text-sm);margin-left:auto;">${escapeHtml(ep.summary)}</span>
               </div>
-            `,
+            `
               )
               .join("")}
           </div>
         </details>
-      `,
+      `
         )
         .join("")}
     `;

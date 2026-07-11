@@ -1,32 +1,32 @@
-import { Html5Qrcode } from 'html5-qrcode';
-import { createScanner } from './scanner-factory.js';
+import { Html5Qrcode } from "html5-qrcode";
+import { createScanner } from "./scanner-factory.js";
 
 export const toolConfig = {
-  id: 'barcode-scanner',
-  name: 'Barcode Scanner',
-  category: 'qr',
-  description: 'Scan and decode barcodes from images.',
-  icon: '📷',
-  status: 'done'
+  id: "barcode-scanner",
+  name: "Barcode Scanner",
+  category: "qr",
+  description: "Scan and decode barcodes from images.",
+  icon: "📷",
+  status: "done"
 };
 
 export function render(container) {
   const scanner = createScanner({
     container,
     toolConfig,
-    scanLabel: 'barcode',
-    resultTitle: 'Decoded Barcode',
-    resultMetaId: 'result-format',
+    scanLabel: "barcode",
+    resultTitle: "Decoded Barcode",
+    resultMetaId: "result-format",
     hasCamera: false,
     hasOpenUrl: false,
-    onScanFile: async (file) => {
+    onScanFile: async file => {
       try {
-        const html5QrCode = new Html5Qrcode('barcode-scanner-reader');
+        const html5QrCode = new Html5Qrcode("barcode-scanner-reader");
         const decoded = await html5QrCode.scanFileV2(file, true);
-        const formatName = decoded.result.format?.formatName || 'Unknown';
+        const formatName = decoded.result.format?.formatName || "Unknown";
         scanner.showResult(decoded.decodedText, `Format: ${formatName}`);
       } catch {
-        scanner.showError('No barcode found. Try a clearer image.');
+        scanner.showError("No barcode found. Try a clearer image.");
       }
     }
   });

@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'hash-file',
-  name: 'File Hash Generator',
-  category: 'privacy',
-  description: 'Generate MD5, SHA-1, SHA-256, SHA-512 checksums for files.',
-  icon: '#️⃣',
-  status: 'done'
+  id: "hash-file",
+  name: "File Hash Generator",
+  category: "privacy",
+  description: "Generate MD5, SHA-1, SHA-256, SHA-512 checksums for files.",
+  icon: "#️⃣",
+  status: "done"
 };
 
 export function render(container) {
@@ -38,7 +38,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -62,31 +62,36 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const fileInput = container.querySelector('#file-input');
-  const generateBtn = container.querySelector('#generate-btn');
-  const resultSection = container.querySelector('#result-section');
+  const fileInput = container.querySelector("#file-input");
+  const generateBtn = container.querySelector("#generate-btn");
+  const resultSection = container.querySelector("#result-section");
 
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files[0]) container.querySelector('#filename').textContent = fileInput.files[0].name;
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files[0])
+      container.querySelector("#filename").textContent = fileInput.files[0].name;
   });
 
   async function digest(message, algorithm) {
     const msgBuffer = new TextEncoder().encode(message);
     const hashBuffer = await crypto.subtle.digest(algorithm, msgBuffer);
-    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    return Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
   }
 
-  generateBtn.addEventListener('click', async () => {
+  generateBtn.addEventListener("click", async () => {
     const file = fileInput.files[0];
-    if (!file) { alert('Select a file'); return; }
+    if (!file) {
+      alert("Select a file");
+      return;
+    }
 
     const buffer = await file.arrayBuffer();
-    const hash = await digest(buffer, 'SHA-256');
-    container.querySelector('#hash-md5').textContent = hash.substring(0, 32);
-    container.querySelector('#hash-sha1').textContent = hash.substring(0, 40);
-    container.querySelector('#hash-sha256').textContent = hash;
-    container.querySelector('#hash-sha512').textContent = await digest(buffer, 'SHA-512');
-    resultSection.classList.remove('hidden');
+    const hash = await digest(buffer, "SHA-256");
+    container.querySelector("#hash-md5").textContent = hash.substring(0, 32);
+    container.querySelector("#hash-sha1").textContent = hash.substring(0, 40);
+    container.querySelector("#hash-sha256").textContent = hash;
+    container.querySelector("#hash-sha512").textContent = await digest(buffer, "SHA-512");
+    resultSection.classList.remove("hidden");
   });
-
 }

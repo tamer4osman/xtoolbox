@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'base-converter',
-  name: 'Number Base Converter',
-  category: 'math',
-  description: 'Convert between decimal, binary, hexadecimal, and octal.',
-  icon: '🔢',
-  status: 'done'
+  id: "base-converter",
+  name: "Number Base Converter",
+  category: "math",
+  description: "Convert between decimal, binary, hexadecimal, and octal.",
+  icon: "🔢",
+  status: "done"
 };
 
 export function render(container) {
@@ -31,7 +31,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .converter-container { max-width: 500px; margin: 0 auto; }
     .converter-container h2 { text-align: center; margin-bottom: var(--space-6); }
@@ -42,12 +42,12 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const decimal = container.querySelector('#decimal');
-  const binary = container.querySelector('#binary');
-  const hex = container.querySelector('#hex');
-  const octal = container.querySelector('#octal');
+  const decimal = container.querySelector("#decimal");
+  const binary = container.querySelector("#binary");
+  const hex = container.querySelector("#hex");
+  const octal = container.querySelector("#octal");
 
-  decimal.addEventListener('input', () => {
+  decimal.addEventListener("input", () => {
     const d = parseInt(decimal.value, 10);
     if (!isNaN(d)) {
       binary.value = d.toString(2);
@@ -56,7 +56,7 @@ export function render(container) {
     }
   });
 
-  binary.addEventListener('input', () => {
+  binary.addEventListener("input", () => {
     const b = parseInt(binary.value, 2);
     if (!isNaN(b)) {
       decimal.value = b.toString(10);
@@ -65,7 +65,7 @@ export function render(container) {
     }
   });
 
-  hex.addEventListener('input', () => {
+  hex.addEventListener("input", () => {
     const h = parseInt(hex.value, 16);
     if (!isNaN(h)) {
       decimal.value = h.toString(10);
@@ -74,7 +74,7 @@ export function render(container) {
     }
   });
 
-  octal.addEventListener('input', () => {
+  octal.addEventListener("input", () => {
     const o = parseInt(octal.value, 8);
     if (!isNaN(o)) {
       decimal.value = o.toString(10);

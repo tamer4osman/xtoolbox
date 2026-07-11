@@ -1,6 +1,13 @@
-import { createImageTool } from './create-image-tool.js';
+import { createImageTool } from "./create-image-tool.js";
 
-export function createImageFilterTool({ optionsHTML, getFilter, filename, onReady, accept = 'image/*', maxSizeMB = 50 }) {
+export function createImageFilterTool({
+  optionsHTML,
+  getFilter,
+  filename,
+  onReady,
+  accept = "image/*",
+  maxSizeMB = 50
+}) {
   return createImageTool({
     optionsHTML,
     drawEffect: (ctx, w, h, _scale, tctx, img) => {
@@ -10,6 +17,6 @@ export function createImageFilterTool({ optionsHTML, getFilter, filename, onRead
     filename,
     accept,
     maxSizeMB,
-    onReady,
+    onReady
   });
 }

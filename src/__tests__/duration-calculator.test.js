@@ -1,7 +1,7 @@
-import { describe } from 'vitest';
-import { toolConfig } from '../tools/math/duration-calculator.js';
-import { testSimpleToolConfig } from './tool-config-test.js';
+import { describe } from "vitest";
+import { toolConfig } from "../tools/math/duration-calculator.js";
+import { testSimpleToolConfig } from "./tool-config-test.js";
 
-describe('duration-calculator', () => {
-  testSimpleToolConfig(toolConfig, 'duration-calculator', 'Time Duration Calculator', 'math');
+describe("duration-calculator", () => {
+  testSimpleToolConfig(toolConfig, "duration-calculator", "Time Duration Calculator", "math");
 });

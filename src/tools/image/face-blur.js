@@ -15,19 +15,19 @@ export const toolConfig = {
     "Upload an image",
     "Choose blur or pixelate method",
     "Adjust intensity",
-    "Download anonymized image",
+    "Download anonymized image"
   ],
   faqs: [
     {
       question: "How accurate is face detection?",
       answer:
-        "BlazeFace detects faces reliably for photos with clearly visible faces. Side-profile or partially obscured faces may be missed.",
+        "BlazeFace detects faces reliably for photos with clearly visible faces. Side-profile or partially obscured faces may be missed."
     },
     {
       question: "Is the image sent anywhere?",
-      answer: "No. All processing happens locally in your browser.",
-    },
-  ],
+      answer: "No. All processing happens locally in your browser."
+    }
+  ]
 };
 
 export function drawPixelated(ctx, x, y, w, h, pixelSize = 10) {
@@ -69,7 +69,7 @@ export function render(container) {
     accept: "image/*",
     multiple: false,
     maxSizeMB: 20,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       const img = new Image();
       img.onload = () => {
@@ -78,7 +78,7 @@ export function render(container) {
         detectFaces();
       };
       img.src = URL.createObjectURL(files[0]);
-    },
+    }
   });
 
   container.innerHTML = `
@@ -167,7 +167,7 @@ export function render(container) {
     } catch (err) {
       showToast({
         message: `Face detection failed: ${err.message}. Trying fallback...`,
-        type: "warning",
+        type: "warning"
       });
       const canvas = previewCanvas;
       const ctx = canvas.getContext("2d");
@@ -183,7 +183,7 @@ export function render(container) {
   });
 
   downloadBtn.addEventListener("click", () => {
-    previewCanvas.toBlob((blob) => {
+    previewCanvas.toBlob(blob => {
       downloadBlob(blob, "anonymized-image.png");
       showToast({ message: "Image downloaded.", type: "success" });
     }, "image/png");

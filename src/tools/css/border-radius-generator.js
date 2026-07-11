@@ -1,18 +1,18 @@
-import { createCssGenerator } from './css-generator-factory.js';
+import { createCssGenerator } from "./css-generator-factory.js";
 
 export const toolConfig = {
-  id: 'border-radius-generator',
-  name: 'Border Radius Generator',
-  category: 'css',
-  description: 'Visual editor for CSS border-radius with per-corner control.',
-  icon: '⬜',
-  status: 'done'
+  id: "border-radius-generator",
+  name: "Border Radius Generator",
+  category: "css",
+  description: "Visual editor for CSS border-radius with per-corner control.",
+  icon: "⬜",
+  status: "done"
 };
 
 export function render(container) {
   const { preview, cssOutput } = createCssGenerator({
     container,
-    cssClass: 'br-gen',
+    cssClass: "br-gen",
     extraCSS: `
       .br-gen .preview { width: 150px; height: 150px; margin: 0 auto var(--space-4); background: var(--color-primary); }
       .br-gen .control-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); margin-bottom: var(--space-3); }
@@ -46,8 +46,8 @@ export function render(container) {
       const radius = `${tl}px ${tr}px ${br}px ${bl}px`;
       preview.style.borderRadius = radius;
       cssOutput.textContent = `border-radius: ${radius};`;
-      const allVal = container.querySelector('#allVal');
-      if (allVal) allVal.textContent = all + 'px';
+      const allVal = container.querySelector("#allVal");
+      if (allVal) allVal.textContent = all + "px";
     }
   });
 }

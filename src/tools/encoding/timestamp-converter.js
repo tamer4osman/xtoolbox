@@ -1,18 +1,28 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { copyToClipboard } from '../../utils/clipboard.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { copyToClipboard } from "../../utils/clipboard.js";
 
 export const toolConfig = {
-  id: 'timestamp-converter',
-  name: 'Timestamp Converter',
-  category: 'encoding',
-  description: 'Convert between Unix timestamps and human-readable dates.',
-  icon: '⏰',
-  keywords: ['unix timestamp', 'epoch', 'date converter', 'timestamp to date'],
-  steps: ['Enter a Unix timestamp or select a date', 'Click Convert to see the result', 'Copy any value with one click'],
+  id: "timestamp-converter",
+  name: "Timestamp Converter",
+  category: "encoding",
+  description: "Convert between Unix timestamps and human-readable dates.",
+  icon: "⏰",
+  keywords: ["unix timestamp", "epoch", "date converter", "timestamp to date"],
+  steps: [
+    "Enter a Unix timestamp or select a date",
+    "Click Convert to see the result",
+    "Copy any value with one click"
+  ],
   faqs: [
-    { question: 'What is a Unix timestamp?', answer: 'A Unix timestamp is the number of seconds since January 1, 1970 (UTC).' },
-    { question: 'Does it support milliseconds?', answer: 'Yes, it auto-detects seconds vs milliseconds.' }
+    {
+      question: "What is a Unix timestamp?",
+      answer: "A Unix timestamp is the number of seconds since January 1, 1970 (UTC)."
+    },
+    {
+      question: "Does it support milliseconds?",
+      answer: "Yes, it auto-detects seconds vs milliseconds."
+    }
   ]
 };
 
@@ -58,13 +68,13 @@ export function render(container) {
     </style>
   `;
 
-  const tsInput = container.querySelector('#ts-input');
-  const dateInput = container.querySelector('#date-input');
-  const tsConvertBtn = container.querySelector('#ts-convert');
-  const dateConvertBtn = container.querySelector('#date-convert');
-  const nowBtn = container.querySelector('#now-btn');
-  const resultsDiv = container.querySelector('#ts-results');
-  const resultsContent = container.querySelector('#ts-results-content');
+  const tsInput = container.querySelector("#ts-input");
+  const dateInput = container.querySelector("#date-input");
+  const tsConvertBtn = container.querySelector("#ts-convert");
+  const dateConvertBtn = container.querySelector("#date-convert");
+  const nowBtn = container.querySelector("#now-btn");
+  const resultsDiv = container.querySelector("#ts-results");
+  const resultsContent = container.querySelector("#ts-results-content");
 
   function getRelativeTime(date) {
     const now = new Date();
@@ -78,64 +88,81 @@ export function render(container) {
     const years = Math.floor(days / 365);
 
     let unit, value;
-    if (years > 0) { unit = 'year'; value = years; }
-    else if (months > 0) { unit = 'month'; value = months; }
-    else if (days > 0) { unit = 'day'; value = days; }
-    else if (hours > 0) { unit = 'hour'; value = hours; }
-    else if (minutes > 0) { unit = 'minute'; value = minutes; }
-    else { unit = 'second'; value = seconds; }
+    if (years > 0) {
+      unit = "year";
+      value = years;
+    } else if (months > 0) {
+      unit = "month";
+      value = months;
+    } else if (days > 0) {
+      unit = "day";
+      value = days;
+    } else if (hours > 0) {
+      unit = "hour";
+      value = hours;
+    } else if (minutes > 0) {
+      unit = "minute";
+      value = minutes;
+    } else {
+      unit = "second";
+      value = seconds;
+    }
 
-    const prefix = diff > 0 ? 'ago' : 'from now';
-    return `${value} ${unit}${value > 1 ? 's' : ''} ${prefix}`;
+    const prefix = diff > 0 ? "ago" : "from now";
+    return `${value} ${unit}${value > 1 ? "s" : ""} ${prefix}`;
   }
 
   function showResults(rows) {
-    resultsContent.innerHTML = rows.map(([label, value]) => `
+    resultsContent.innerHTML = rows
+      .map(
+        ([label, value]) => `
       <div class="ts-result-row">
         <span class="ts-result-label">${label}</span>
         <span class="ts-result-value" data-copy="${value}">${value}</span>
       </div>
-    `).join('');
-    resultsDiv.style.display = 'block';
+    `
+      )
+      .join("");
+    resultsDiv.style.display = "block";
 
-    resultsContent.querySelectorAll('.ts-result-value').forEach(el => {
-      el.addEventListener('click', () => {
+    resultsContent.querySelectorAll(".ts-result-value").forEach(el => {
+      el.addEventListener("click", () => {
         copyToClipboard(el.dataset.copy);
-        showToast({ message: 'Copied!', type: 'success' });
+        showToast({ message: "Copied!", type: "success" });
       });
     });
   }
 
-  tsConvertBtn.addEventListener('click', () => {
+  tsConvertBtn.addEventListener("click", () => {
     const ts = parseInt(tsInput.value, 10);
     if (isNaN(ts)) {
-      showToast({ message: 'Please enter a valid timestamp', type: 'error' });
+      showToast({ message: "Please enter a valid timestamp", type: "error" });
       return;
     }
     const date = ts < 10000000000 ? new Date(ts * 1000) : new Date(ts);
     showResults([
-      ['Local', date.toLocaleString()],
-      ['ISO', date.toISOString()],
-      ['UTC', date.toUTCString()],
-      ['Relative', getRelativeTime(date)]
+      ["Local", date.toLocaleString()],
+      ["ISO", date.toISOString()],
+      ["UTC", date.toUTCString()],
+      ["Relative", getRelativeTime(date)]
     ]);
   });
 
-  dateConvertBtn.addEventListener('click', () => {
+  dateConvertBtn.addEventListener("click", () => {
     const date = new Date(dateInput.value);
     if (isNaN(date.getTime())) {
-      showToast({ message: 'Please select a valid date', type: 'error' });
+      showToast({ message: "Please select a valid date", type: "error" });
       return;
     }
     showResults([
-      ['Seconds', Math.floor(date.getTime() / 1000).toString()],
-      ['Milliseconds', date.getTime().toString()],
-      ['ISO', date.toISOString()],
-      ['UTC', date.toUTCString()]
+      ["Seconds", Math.floor(date.getTime() / 1000).toString()],
+      ["Milliseconds", date.getTime().toString()],
+      ["ISO", date.toISOString()],
+      ["UTC", date.toUTCString()]
     ]);
   });
 
-  nowBtn.addEventListener('click', () => {
+  nowBtn.addEventListener("click", () => {
     const now = new Date();
     tsInput.value = Math.floor(now.getTime() / 1000).toString();
     dateInput.value = now.toISOString().slice(0, 16);

@@ -10,7 +10,7 @@ const { toolConfig, render } = createBasicTool({
     accept: null,
     maxSizeMB: null,
     keywords: ["hmac", "hmac generator", "hmac signature", "message authentication", "sha256 hmac"],
-    steps: ["Enter message and secret key", "Choose algorithm", "Generate or verify HMAC"],
+    steps: ["Enter message and secret key", "Choose algorithm", "Generate or verify HMAC"]
   },
   inputHTML: `
     <div class="hmac-modes">
@@ -86,7 +86,7 @@ const { toolConfig, render } = createBasicTool({
         enc.encode(keyStr),
         { name: "HMAC", hash: currentAlgo },
         false,
-        ["sign", "verify"],
+        ["sign", "verify"]
       );
     }
 
@@ -104,7 +104,7 @@ const { toolConfig, render } = createBasicTool({
         const sig = await crypto.subtle.sign("HMAC", key, enc.encode(msg));
         const bytes = new Uint8Array(sig);
         hexOutput.value = Array.from(bytes)
-          .map((b) => b.toString(16).padStart(2, "0"))
+          .map(b => b.toString(16).padStart(2, "0"))
           .join("");
         base64Output.value = btoa(String.fromCharCode(...bytes));
       } catch (e) {
@@ -128,10 +128,10 @@ const { toolConfig, render } = createBasicTool({
         let sigBytes;
         if (/^[0-9a-fA-F]+$/.test(sigStr)) {
           const hex = sigStr.padStart(Math.ceil(sigStr.length / 2) * 2, "0");
-          sigBytes = new Uint8Array(hex.match(/.{1,2}/g).map((b) => parseInt(b, 16)));
+          sigBytes = new Uint8Array(hex.match(/.{1,2}/g).map(b => parseInt(b, 16)));
         } else {
           const bin = atob(sigStr);
-          sigBytes = new Uint8Array([...bin].map((c) => c.charCodeAt(0)));
+          sigBytes = new Uint8Array([...bin].map(c => c.charCodeAt(0)));
         }
         const valid = await crypto.subtle.verify("HMAC", key, sigBytes, enc.encode(msg));
         verifyResult.textContent = valid ? "Signature is valid" : "Signature is invalid";
@@ -142,9 +142,9 @@ const { toolConfig, render } = createBasicTool({
       }
     }
 
-    modeBtns.forEach((btn) => {
+    modeBtns.forEach(btn => {
       btn.addEventListener("click", () => {
-        modeBtns.forEach((b) => b.classList.remove("active"));
+        modeBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentMode = btn.dataset.mode;
         generateOutput.classList.toggle("hidden", currentMode !== "generate");
@@ -152,9 +152,9 @@ const { toolConfig, render } = createBasicTool({
       });
     });
 
-    algoBtns.forEach((btn) => {
+    algoBtns.forEach(btn => {
       btn.addEventListener("click", () => {
-        algoBtns.forEach((b) => b.classList.remove("active"));
+        algoBtns.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         currentAlgo = btn.dataset.algo;
         if (currentMode === "generate") generate();
@@ -185,10 +185,10 @@ const { toolConfig, render } = createBasicTool({
     });
 
     verifyBtn.addEventListener("click", verify);
-    signatureInput.addEventListener("keydown", (e) => {
+    signatureInput.addEventListener("keydown", e => {
       if (e.key === "Enter") verify();
     });
-  },
+  }
 });
 
 export { toolConfig, render };

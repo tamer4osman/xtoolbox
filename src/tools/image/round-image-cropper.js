@@ -1,35 +1,48 @@
-import { createImageTool } from './image-tool-factory.js';
+import { createImageTool } from "./image-tool-factory.js";
 
 export const toolConfig = {
-  id: 'round-image-cropper',
-  name: 'Round Image Cropper',
-  category: 'image',
-  description: 'Crop images into perfect circles with customizable border, shadow, and background options.',
-  icon: '⭕',
-  accept: 'image/*',
+  id: "round-image-cropper",
+  name: "Round Image Cropper",
+  category: "image",
+  description:
+    "Crop images into perfect circles with customizable border, shadow, and background options.",
+  icon: "⭕",
+  accept: "image/*",
   maxSizeMB: 50,
-  keywords: ['round crop', 'circle crop', 'avatar maker', 'profile picture', 'circular image'],
-  steps: ['Upload an image', 'Adjust crop area and size', 'Set border width and color', 'Add optional shadow', 'Download the circular image'],
+  keywords: ["round crop", "circle crop", "avatar maker", "profile picture", "circular image"],
+  steps: [
+    "Upload an image",
+    "Adjust crop area and size",
+    "Set border width and color",
+    "Add optional shadow",
+    "Download the circular image"
+  ],
   faqs: [
-    { question: 'What format should I download in?', answer: 'Use PNG for transparent backgrounds. JPEG will fill transparent areas with white.' },
-    { question: 'Can I add a colored border?', answer: 'Yes, you can add a solid border with any color and width.' }
+    {
+      question: "What format should I download in?",
+      answer: "Use PNG for transparent backgrounds. JPEG will fill transparent areas with white."
+    },
+    {
+      question: "Can I add a colored border?",
+      answer: "Yes, you can add a solid border with any color and width."
+    }
   ]
 };
 
 export function render(container) {
   const tool = createImageTool({
     container,
-    toolId: 'round-crop',
-    processingMessage: 'Cropping...',
-    successMessage: 'Circle crop saved!',
+    toolId: "round-crop",
+    processingMessage: "Cropping...",
+    successMessage: "Circle crop saved!",
     getFilename: () => {
-      const fmt = container.querySelector('#format-select').value;
-      const ext = fmt === 'png' ? 'png' : fmt === 'webp' ? 'webp' : 'jpg';
+      const fmt = container.querySelector("#format-select").value;
+      const ext = fmt === "png" ? "png" : fmt === "webp" ? "webp" : "jpg";
       return `circle-crop.${ext}`;
     },
     getFormat: () => {
-      const fmt = container.querySelector('#format-select').value;
-      return fmt === 'png' ? 'image/png' : fmt === 'webp' ? 'image/webp' : 'image/jpeg';
+      const fmt = container.querySelector("#format-select").value;
+      return fmt === "png" ? "image/png" : fmt === "webp" ? "image/webp" : "image/jpeg";
     },
     getQuality: () => 0.92,
     optionsHTML: `
@@ -99,72 +112,72 @@ export function render(container) {
         </select>
       </div>
     `,
-    optionsCSS: '',
+    optionsCSS: "",
     renderPreview: ({ state }) => {
       if (!state.originalImage) return;
-      const canvas = container.querySelector('#round-crop-preview-canvas');
+      const canvas = container.querySelector("#round-crop-preview-canvas");
       processImage(canvas, state.originalImage, 300, container);
     },
     processForDownload: ({ state, canvas }) => {
       if (!state.originalImage) return;
-      const size = parseInt(container.querySelector('#size-range').value) || 500;
+      const size = parseInt(container.querySelector("#size-range").value) || 500;
       processImage(canvas, state.originalImage, size, container);
     }
   });
 
-  tool.bindOptionChange({ rangeId: 'size-range', valueId: 'size-val' });
+  tool.bindOptionChange({ rangeId: "size-range", valueId: "size-val" });
   tool.bindOptionChange({
-    rangeId: 'pos-x-range',
-    valueId: 'pos-x-val',
-    formatValue: (v) => {
+    rangeId: "pos-x-range",
+    valueId: "pos-x-val",
+    formatValue: v => {
       const n = parseInt(v);
-      return n < 35 ? 'Left' : n > 65 ? 'Right' : 'Center';
+      return n < 35 ? "Left" : n > 65 ? "Right" : "Center";
     }
   });
   tool.bindOptionChange({
-    rangeId: 'pos-y-range',
-    valueId: 'pos-y-val',
-    formatValue: (v) => {
+    rangeId: "pos-y-range",
+    valueId: "pos-y-val",
+    formatValue: v => {
       const n = parseInt(v);
-      return n < 35 ? 'Top' : n > 65 ? 'Bottom' : 'Center';
+      return n < 35 ? "Top" : n > 65 ? "Bottom" : "Center";
     }
   });
-  tool.bindOptionChange({ rangeId: 'zoom-range', valueId: 'zoom-val' });
-  tool.bindOptionChange({ rangeId: 'border-range', valueId: 'border-val' });
-  tool.bindOptionChange({ rangeId: 'shadow-range', valueId: 'shadow-val' });
+  tool.bindOptionChange({ rangeId: "zoom-range", valueId: "zoom-val" });
+  tool.bindOptionChange({ rangeId: "border-range", valueId: "border-val" });
+  tool.bindOptionChange({ rangeId: "shadow-range", valueId: "shadow-val" });
 
-  const borderColor = container.querySelector('#border-color');
-  const borderColorHex = container.querySelector('#border-color-hex');
-  borderColor.addEventListener('input', () => {
+  const borderColor = container.querySelector("#border-color");
+  const borderColorHex = container.querySelector("#border-color-hex");
+  borderColor.addEventListener("input", () => {
     borderColorHex.textContent = borderColor.value;
     tool.renderPreview();
   });
 
-  const bgSelect = container.querySelector('#bg-select');
-  const customBgGroup = container.querySelector('#custom-bg-group');
-  bgSelect.addEventListener('change', () => {
-    customBgGroup.style.display = bgSelect.value === 'custom' ? 'block' : 'none';
+  const bgSelect = container.querySelector("#bg-select");
+  const customBgGroup = container.querySelector("#custom-bg-group");
+  bgSelect.addEventListener("change", () => {
+    customBgGroup.style.display = bgSelect.value === "custom" ? "block" : "none";
     tool.renderPreview();
   });
 
-  const shadowToggle = container.querySelector('#shadow-toggle');
-  const shadowOptions = container.querySelector('#shadow-options');
-  shadowToggle.addEventListener('change', () => {
-    shadowOptions.style.display = shadowToggle.checked ? 'block' : 'none';
+  const shadowToggle = container.querySelector("#shadow-toggle");
+  const shadowOptions = container.querySelector("#shadow-options");
+  shadowToggle.addEventListener("change", () => {
+    shadowOptions.style.display = shadowToggle.checked ? "block" : "none";
     tool.renderPreview();
   });
 }
 
 function processImage(canvas, originalImage, outputSize, container) {
-  const borderRange = container.querySelector('#border-range');
-  const borderColor = container.querySelector('#border-color');
-  const bgSelect = container.querySelector('#bg-select');
-  const bgColor = container.querySelector('#bg-color');
-  const shadowToggle = container.querySelector('#shadow-toggle');
-  const shadowRange = container.querySelector('#shadow-range');
-  const posXRange = container.querySelector('#pos-x-range');
-  const posYRange = container.querySelector('#pos-y-range');
-  const zoomRange = container.querySelector('#zoom-range');
+  const borderRange = container.querySelector("#border-range");
+  const borderColor = container.querySelector("#border-color");
+  const bgSelect = container.querySelector("#bg-select");
+  const bgColor = container.querySelector("#bg-color");
+  const shadowToggle = container.querySelector("#shadow-toggle");
+  const shadowRange = container.querySelector("#shadow-range");
+  const posXRange = container.querySelector("#pos-x-range");
+  const posYRange = container.querySelector("#pos-y-range");
+  const zoomRange = container.querySelector("#zoom-range");
 
   const borderWidth = parseInt(borderRange.value) || 0;
   const borderCol = borderColor.value;
@@ -179,16 +192,16 @@ function processImage(canvas, originalImage, outputSize, container) {
   const totalSize = outputSize + borderWidth * 2;
   canvas.width = totalSize;
   canvas.height = totalSize;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
-  if (bg === 'white') {
-    ctx.fillStyle = '#ffffff';
-  } else if (bg === 'black') {
-    ctx.fillStyle = '#000000';
-  } else if (bg === 'custom') {
+  if (bg === "white") {
+    ctx.fillStyle = "#ffffff";
+  } else if (bg === "black") {
+    ctx.fillStyle = "#000000";
+  } else if (bg === "custom") {
     ctx.fillStyle = bgCol;
   } else {
-    ctx.fillStyle = 'transparent';
+    ctx.fillStyle = "transparent";
   }
 
   const center = totalSize / 2;
@@ -198,7 +211,7 @@ function processImage(canvas, originalImage, outputSize, container) {
   ctx.fill();
 
   if (shadow) {
-    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowColor = "rgba(0,0,0,0.4)";
     ctx.shadowBlur = shadowBlur;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = shadowBlur / 3;
@@ -217,11 +230,17 @@ function processImage(canvas, originalImage, outputSize, container) {
 
   ctx.drawImage(
     originalImage,
-    cropX, cropY, cropSize, cropSize,
-    borderWidth, borderWidth, outputSize, outputSize
+    cropX,
+    cropY,
+    cropSize,
+    cropSize,
+    borderWidth,
+    borderWidth,
+    outputSize,
+    outputSize
   );
 
-  ctx.shadowColor = 'transparent';
+  ctx.shadowColor = "transparent";
   ctx.shadowBlur = 0;
   ctx.shadowOffsetX = 0;
   ctx.shadowOffsetY = 0;

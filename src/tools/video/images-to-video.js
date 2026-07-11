@@ -1,20 +1,28 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob, formatFileSize } from '../../utils/file.js';
-import { loadFFmpeg, writeUploadedFile, readFFmpegFile } from './video-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob, formatFileSize } from "../../utils/file.js";
+import { loadFFmpeg, writeUploadedFile, readFFmpegFile } from "./video-utils.js";
 
 export const toolConfig = {
-  id: 'images-to-video',
-  name: 'Images to Video',
-  category: 'video',
-  description: 'Create a video from a sequence of images with custom FPS.',
-  icon: '🎬',
-  accept: 'image/*',
+  id: "images-to-video",
+  name: "Images to Video",
+  category: "video",
+  description: "Create a video from a sequence of images with custom FPS.",
+  icon: "🎬",
+  accept: "image/*",
   maxSizeMB: 100,
-  keywords: ['images to video', 'photo to video', 'slideshow maker'],
-  steps: ['Upload images', 'Set duration per image or FPS', 'Click "Create Video"', 'Download video'],
+  keywords: ["images to video", "photo to video", "slideshow maker"],
+  steps: [
+    "Upload images",
+    "Set duration per image or FPS",
+    'Click "Create Video"',
+    "Download video"
+  ],
   faqs: [
-    { question: 'What format is the output?', answer: 'MP4 with H.264 encoding for maximum compatibility.' }
+    {
+      question: "What format is the output?",
+      answer: "MP4 with H.264 encoding for maximum compatibility."
+    }
   ]
 };
 
@@ -22,14 +30,14 @@ export function render(container) {
   let files = [];
 
   const upload = createFileUpload({
-    accept: 'image/*',
+    accept: "image/*",
     multiple: true,
     maxSizeMB: 100,
     maxFiles: 100,
-    onFilesSelected: (f) => {
+    onFilesSelected: f => {
       files = f;
       countInfo.textContent = `${f.length} images selected`;
-      optionsArea.style.display = f.length > 0 ? 'block' : 'none';
+      optionsArea.style.display = f.length > 0 ? "block" : "none";
     }
   });
 
@@ -70,70 +78,75 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const countInfo = container.querySelector('#count-info');
-  const createBtn = container.querySelector('#create-btn');
-  const processing = container.querySelector('#processing');
-  const progressPct = container.querySelector('#progress-pct');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const countInfo = container.querySelector("#count-info");
+  const createBtn = container.querySelector("#create-btn");
+  const processing = container.querySelector("#processing");
+  const progressPct = container.querySelector("#progress-pct");
 
-  createBtn.addEventListener('click', async () => {
+  createBtn.addEventListener("click", async () => {
     if (files.length === 0) return;
-    const duration = parseFloat(container.querySelector('#duration-input').value) || 2;
-    const fps = container.querySelector('#fps-select').value;
-    const resolution = container.querySelector('#resolution-select').value;
+    const duration = parseFloat(container.querySelector("#duration-input").value) || 2;
+    const fps = container.querySelector("#fps-select").value;
+    const resolution = container.querySelector("#resolution-select").value;
 
-    processing.style.display = 'block';
-    createBtn.style.display = 'none';
+    processing.style.display = "block";
+    createBtn.style.display = "none";
 
     try {
-      const ffmpeg = await loadFFmpeg((pct) => { progressPct.textContent = pct; });
+      const ffmpeg = await loadFFmpeg(pct => {
+        progressPct.textContent = pct;
+      });
 
       // Write all images
       for (let i = 0; i < files.length; i++) {
-        const padded = String(i + 1).padStart(4, '0');
-        const ext = files[i].name.split('.').pop() || 'png';
+        const padded = String(i + 1).padStart(4, "0");
+        const ext = files[i].name.split(".").pop() || "png";
         await writeUploadedFile(ffmpeg, files[i], `img_${padded}.${ext}`);
       }
 
       // Create concat file for ffmpeg
-      let concatContent = '';
+      let concatContent = "";
       for (let i = 0; i < files.length; i++) {
-        const padded = String(i + 1).padStart(4, '0');
-        const ext = files[i].name.split('.').pop() || 'png';
+        const padded = String(i + 1).padStart(4, "0");
+        const ext = files[i].name.split(".").pop() || "png";
         concatContent += `file 'img_${padded}.${ext}'\nduration ${duration}\n`;
       }
       // Repeat last frame
-      const lastPadded = String(files.length).padStart(4, '0');
-      const lastExt = files[files.length - 1].name.split('.').pop() || 'png';
+      const lastPadded = String(files.length).padStart(4, "0");
+      const lastExt = files[files.length - 1].name.split(".").pop() || "png";
       concatContent += `file 'img_${lastPadded}.${lastExt}'\n`;
 
       const encoder = new TextEncoder();
-      await ffmpeg.writeFile('concat.txt', encoder.encode(concatContent));
+      await ffmpeg.writeFile("concat.txt", encoder.encode(concatContent));
 
-      const args = ['-f', 'concat', '-safe', '0', '-i', 'concat.txt'];
-      if (resolution !== 'original') args.push('-s', resolution);
-      args.push('-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', fps, 'output.mp4');
+      const args = ["-f", "concat", "-safe", "0", "-i", "concat.txt"];
+      if (resolution !== "original") args.push("-s", resolution);
+      args.push("-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", fps, "output.mp4");
 
       await ffmpeg.exec(args);
 
-      const blob = await readFFmpegFile(ffmpeg, 'output.mp4', 'video/mp4');
-      downloadBlob(blob, 'slideshow.mp4');
-      showToast({ message: `Video created from ${files.length} images! (${formatFileSize(blob.size)})`, type: 'success' });
+      const blob = await readFFmpegFile(ffmpeg, "output.mp4", "video/mp4");
+      downloadBlob(blob, "slideshow.mp4");
+      showToast({
+        message: `Video created from ${files.length} images! (${formatFileSize(blob.size)})`,
+        type: "success"
+      });
 
       // Cleanup
-      await ffmpeg.deleteFile('concat.txt');
-      await ffmpeg.deleteFile('output.mp4');
+      await ffmpeg.deleteFile("concat.txt");
+      await ffmpeg.deleteFile("output.mp4");
       for (let i = 0; i < files.length; i++) {
-        const padded = String(i + 1).padStart(4, '0');
-        const ext = files[i].name.split('.').pop() || 'png';
+        const padded = String(i + 1).padStart(4, "0");
+        const ext = files[i].name.split(".").pop() || "png";
         await ffmpeg.deleteFile(`img_${padded}.${ext}`);
       }
     } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
+      showToast({ message: "Error: " + err.message, type: "error" });
     } finally {
-      processing.style.display = 'none';
-      createBtn.style.display = 'inline-flex';
+      processing.style.display = "none";
+      createBtn.style.display = "inline-flex";
     }
   });
 }

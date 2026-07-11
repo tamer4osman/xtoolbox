@@ -1,19 +1,19 @@
-import { $ } from '../utils/dom-query.js';
-import { updatePageMeta } from '../utils/seo.js';
+import { $ } from "../utils/dom-query.js";
+import { updatePageMeta } from "../utils/seo.js";
 
 export function renderTerms() {
-  const main = $('#main-content');
+  const main = $("#main-content");
 
   updatePageMeta({
-    title: 'Terms of Service',
-    description: 'XToolBox Terms of Service — terms and conditions for using our tools.',
+    title: "Terms of Service",
+    description: "XToolBox Terms of Service — terms and conditions for using our tools.",
     url: `${window.location.origin}/terms`
   });
 
   main.innerHTML = `
     <div class="container page-content" style="max-width:800px;">
       <h1 style="font-size:var(--text-3xl);font-weight:700;margin-bottom:var(--space-6);">Terms of Service</h1>
-      <p style="color:var(--color-text-muted);margin-bottom:var(--space-8);">Last updated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+      <p style="color:var(--color-text-muted);margin-bottom:var(--space-8);">Last updated: ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
 
       <div style="color:var(--color-text-secondary);line-height:1.8;">
         <h2 style="font-size:var(--text-2xl);font-weight:600;margin:var(--space-8) 0 var(--space-4);">Use at Your Own Risk</h2>

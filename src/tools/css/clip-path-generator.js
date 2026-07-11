@@ -1,18 +1,18 @@
-import { createCssGenerator } from './css-generator-factory.js';
+import { createCssGenerator } from "./css-generator-factory.js";
 
 export const toolConfig = {
-  id: 'clip-path-generator',
-  name: 'CSS Clip-Path Generator',
-  category: 'css',
-  description: 'Visual polygon editor for CSS clip-path.',
-  icon: '✂️',
-  status: 'done'
+  id: "clip-path-generator",
+  name: "CSS Clip-Path Generator",
+  category: "css",
+  description: "Visual polygon editor for CSS clip-path.",
+  icon: "✂️",
+  status: "done"
 };
 
 export function render(container) {
   createCssGenerator({
     container,
-    cssClass: 'clip-gen',
+    cssClass: "clip-gen",
     extraCSS: `
       .clip-gen .preview { width: 200px; height: 200px; margin: 0 auto var(--space-4); background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
       .clip-gen .polygon-inputs { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
@@ -55,43 +55,55 @@ export function render(container) {
     `,
     onUpdate: ({ values, preview, cssOutput, container }) => {
       const shape = values.shape;
-      let clip = '';
-      container.querySelector('#polygonInputs').style.display = shape === 'polygon' ? 'grid' : 'none';
-      container.querySelector('#circleInputs').style.display = shape === 'circle' ? 'block' : 'none';
-      container.querySelector('#ellipseInputs').style.display = shape === 'ellipse' ? 'block' : 'none';
-      container.querySelector('#insetInputs').style.display = shape === 'inset' ? 'block' : 'none';
-      const setVal = (id, v) => { const el = container.querySelector('#' + id); if (el) el.textContent = v; };
-      if (shape === 'polygon') {
+      let clip = "";
+      container.querySelector("#polygonInputs").style.display =
+        shape === "polygon" ? "grid" : "none";
+      container.querySelector("#circleInputs").style.display =
+        shape === "circle" ? "block" : "none";
+      container.querySelector("#ellipseInputs").style.display =
+        shape === "ellipse" ? "block" : "none";
+      container.querySelector("#insetInputs").style.display = shape === "inset" ? "block" : "none";
+      const setVal = (id, v) => {
+        const el = container.querySelector("#" + id);
+        if (el) el.textContent = v;
+      };
+      if (shape === "polygon") {
         const pts = [];
         for (let i = 1; i <= 4; i++) {
-          pts.push(values['p' + i + 'x'] + '% ' + values['p' + i + 'y'] + '%');
+          pts.push(values["p" + i + "x"] + "% " + values["p" + i + "y"] + "%");
         }
-        clip = 'polygon(' + pts.join(', ') + ')';
-      } else if (shape === 'circle') {
+        clip = "polygon(" + pts.join(", ") + ")";
+      } else if (shape === "circle") {
         const r = values.radius;
         const cx = values.cx;
         const cy = values.cy;
-        clip = 'circle(' + r + '% at ' + cx + '% ' + cy + '%)';
-        setVal('radiusVal', r + '%');
-        setVal('cxVal', cx + '%');
-        setVal('cyVal', cy + '%');
-      } else if (shape === 'inset') {
-        const t = values.top, r = values.right, b = values.bottom, l = values.left;
-        clip = 'inset(' + t + '% ' + r + '% ' + b + '% ' + l + '%)';
-        setVal('topVal', t + '%');
-        setVal('rightVal', r + '%');
-        setVal('bottomVal', b + '%');
-        setVal('leftVal', l + '%');
-      } else if (shape === 'ellipse') {
-        const rx = values.rx, ry = values.ry, ex = values.ex, ey = values.ey;
-        clip = 'ellipse(' + rx + '% ' + ry + '% at ' + ex + '% ' + ey + '%)';
-        setVal('rxVal', rx + '%');
-        setVal('ryVal', ry + '%');
-        setVal('exVal', ex + '%');
-        setVal('eyVal', ey + '%');
+        clip = "circle(" + r + "% at " + cx + "% " + cy + "%)";
+        setVal("radiusVal", r + "%");
+        setVal("cxVal", cx + "%");
+        setVal("cyVal", cy + "%");
+      } else if (shape === "inset") {
+        const t = values.top,
+          r = values.right,
+          b = values.bottom,
+          l = values.left;
+        clip = "inset(" + t + "% " + r + "% " + b + "% " + l + "%)";
+        setVal("topVal", t + "%");
+        setVal("rightVal", r + "%");
+        setVal("bottomVal", b + "%");
+        setVal("leftVal", l + "%");
+      } else if (shape === "ellipse") {
+        const rx = values.rx,
+          ry = values.ry,
+          ex = values.ex,
+          ey = values.ey;
+        clip = "ellipse(" + rx + "% " + ry + "% at " + ex + "% " + ey + "%)";
+        setVal("rxVal", rx + "%");
+        setVal("ryVal", ry + "%");
+        setVal("exVal", ex + "%");
+        setVal("eyVal", ey + "%");
       }
       preview.style.clipPath = clip;
-      cssOutput.textContent = 'clip-path: ' + clip + ';';
+      cssOutput.textContent = "clip-path: " + clip + ";";
     }
   });
 }

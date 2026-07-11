@@ -61,25 +61,25 @@ export function renderNavbar() {
  * Initialize navbar event listeners
  */
 export function initNavbar() {
-  const hamburger = document.getElementById('hamburger-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById("hamburger-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
 
   if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      mobileMenu.classList.toggle("open");
     });
 
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobileMenu.classList.remove('open');
+    mobileMenu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("open");
       });
     });
   }
 
   // Initialize search inputs (lazy import — breaks static dep on home.js)
   setTimeout(() => {
-    import('../pages/home.js').then(m => m.initAllSearchInputs());
+    import("../pages/home.js").then(m => m.initAllSearchInputs());
   }, 100);
 }

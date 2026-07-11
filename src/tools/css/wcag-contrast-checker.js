@@ -1,4 +1,4 @@
-import { rgbToHex, hue2rgb } from '../../utils/color.js';
+import { rgbToHex, hue2rgb } from "../../utils/color.js";
 
 export { rgbToHex };
 
@@ -7,9 +7,17 @@ export function parseColor(input) {
 
   const hexMatch = trimmed.match(/^#?([\da-f]{3}){1,2}$/i);
   if (hexMatch) {
-    let h = trimmed.replace('#', '');
-    if (h.length === 3) h = h.split('').map(c => c + c).join('');
-    return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
+    let h = trimmed.replace("#", "");
+    if (h.length === 3)
+      h = h
+        .split("")
+        .map(c => c + c)
+        .join("");
+    return {
+      r: parseInt(h.slice(0, 2), 16),
+      g: parseInt(h.slice(2, 4), 16),
+      b: parseInt(h.slice(4, 6), 16)
+    };
   }
 
   const rgbMatch = trimmed.match(/^rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);
@@ -70,9 +78,11 @@ export function suggestFix(fg, bg, targetRatio) {
 
   let best = null;
   for (let step = 0; step <= 255; step += 5) {
-    for (const channel of ['r', 'g', 'b']) {
+    for (const channel of ["r", "g", "b"]) {
       const tryColor = { ...fg };
-      tryColor[channel] = bgLighter ? Math.max(0, fg[channel] - step) : Math.min(255, fg[channel] + step);
+      tryColor[channel] = bgLighter
+        ? Math.max(0, fg[channel] - step)
+        : Math.min(255, fg[channel] + step);
       const ratio = contrastRatio(tryColor, bg);
       if (ratio >= targetRatio) {
         if (!best || step < best.step) {
@@ -111,26 +121,51 @@ export function simulateColorBlindness(rgb, type) {
   const matrix = m[type];
   if (!matrix) return rgb;
   return {
-    r: Math.min(255, Math.max(0, Math.round(matrix[0][0] * r + matrix[0][1] * g + matrix[0][2] * b))),
-    g: Math.min(255, Math.max(0, Math.round(matrix[1][0] * r + matrix[1][1] * g + matrix[1][2] * b))),
-    b: Math.min(255, Math.max(0, Math.round(matrix[2][0] * r + matrix[2][1] * g + matrix[2][2] * b)))
+    r: Math.min(
+      255,
+      Math.max(0, Math.round(matrix[0][0] * r + matrix[0][1] * g + matrix[0][2] * b))
+    ),
+    g: Math.min(
+      255,
+      Math.max(0, Math.round(matrix[1][0] * r + matrix[1][1] * g + matrix[1][2] * b))
+    ),
+    b: Math.min(
+      255,
+      Math.max(0, Math.round(matrix[2][0] * r + matrix[2][1] * g + matrix[2][2] * b))
+    )
   };
 }
 
 export const toolConfig = {
-  id: 'wcag-contrast-checker',
-  name: 'WCAG Color Contrast Checker',
-  category: 'css',
-  description: 'Check color contrast ratios against WCAG 2.1 AA/AAA standards. Includes colorblind simulation preview.',
-  icon: '♿',
+  id: "wcag-contrast-checker",
+  name: "WCAG Color Contrast Checker",
+  category: "css",
+  description:
+    "Check color contrast ratios against WCAG 2.1 AA/AAA standards. Includes colorblind simulation preview.",
+  icon: "♿",
   accept: null,
   maxSizeMB: null,
-  keywords: ['wcag', 'contrast', 'accessibility', 'color', 'a11y', 'aa', 'aaa', 'contrast checker'],
-  steps: ['Enter foreground and background colors', 'See contrast ratio and WCAG pass/fail results', 'Preview colorblind simulation'],
+  keywords: ["wcag", "contrast", "accessibility", "color", "a11y", "aa", "aaa", "contrast checker"],
+  steps: [
+    "Enter foreground and background colors",
+    "See contrast ratio and WCAG pass/fail results",
+    "Preview colorblind simulation"
+  ],
   faqs: [
-    { question: 'What is WCAG?', answer: 'Web Content Accessibility Guidelines (WCAG) define standards for accessible web content. Contrast ratios ensure text is readable for people with visual impairments.' },
-    { question: 'What are AA and AAA levels?', answer: 'AA is the minimum standard (4.5:1 for normal text, 3:1 for large text). AAA is the enhanced standard (7:1 for normal text, 4.5:1 for large text).' },
-    { question: 'What counts as large text?', answer: 'Large text is 18pt (24px) or larger, or 14pt (18.66px) bold or larger.' }
+    {
+      question: "What is WCAG?",
+      answer:
+        "Web Content Accessibility Guidelines (WCAG) define standards for accessible web content. Contrast ratios ensure text is readable for people with visual impairments."
+    },
+    {
+      question: "What are AA and AAA levels?",
+      answer:
+        "AA is the minimum standard (4.5:1 for normal text, 3:1 for large text). AAA is the enhanced standard (7:1 for normal text, 4.5:1 for large text)."
+    },
+    {
+      question: "What counts as large text?",
+      answer: "Large text is 18pt (24px) or larger, or 14pt (18.66px) bold or larger."
+    }
   ]
 };
 
@@ -158,30 +193,55 @@ export function render(container) {
     </div>
   `;
 
-  const fgInput = container.querySelector('#wcag-fg');
-  const bgInput = container.querySelector('#wcag-bg');
-  const fgPicker = container.querySelector('#wcag-fg-picker');
-  const bgPicker = container.querySelector('#wcag-bg-picker');
-  const checkBtn = container.querySelector('#wcag-check');
-  const results = container.querySelector('#wcag-results');
+  const fgInput = container.querySelector("#wcag-fg");
+  const bgInput = container.querySelector("#wcag-bg");
+  const fgPicker = container.querySelector("#wcag-fg-picker");
+  const bgPicker = container.querySelector("#wcag-bg-picker");
+  const checkBtn = container.querySelector("#wcag-check");
+  const results = container.querySelector("#wcag-results");
 
-  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+  function esc(s) {
+    const d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML;
+  }
 
   function renderResults(fg, bg, ratio, checks) {
     const ratioStr = ratio.toFixed(2);
-    const makeBadge = (pass) => pass
-      ? '<span style="background:#10b981;color:#fff;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:600;">PASS</span>'
-      : '<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:600;">FAIL</span>';
+    const makeBadge = pass =>
+      pass
+        ? '<span style="background:#10b981;color:#fff;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:600;">PASS</span>'
+        : '<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:600;">FAIL</span>';
 
     const fgHex = rgbToHex(fg.r, fg.g, fg.b);
     const bgHex = rgbToHex(bg.r, bg.g, bg.b);
 
     const simTypes = [
-      { key: 'none', label: 'Normal Vision', fg: fg, bg: bg },
-      { key: 'protanopia', label: 'Protanopia (Red-Blind)', fg: simulateColorBlindness(fg, 'protanopia'), bg: simulateColorBlindness(bg, 'protanopia') },
-      { key: 'deuteranopia', label: 'Deuteranopia (Green-Blind)', fg: simulateColorBlindness(fg, 'deuteranopia'), bg: simulateColorBlindness(bg, 'deuteranopia') },
-      { key: 'tritanopia', label: 'Tritanopia (Blue-Blind)', fg: simulateColorBlindness(fg, 'tritanopia'), bg: simulateColorBlindness(bg, 'tritanopia') },
-      { key: 'achromatopsia', label: 'Achromatopsia (Mono)', fg: simulateColorBlindness(fg, 'achromatopsia'), bg: simulateColorBlindness(bg, 'achromatopsia') }
+      { key: "none", label: "Normal Vision", fg: fg, bg: bg },
+      {
+        key: "protanopia",
+        label: "Protanopia (Red-Blind)",
+        fg: simulateColorBlindness(fg, "protanopia"),
+        bg: simulateColorBlindness(bg, "protanopia")
+      },
+      {
+        key: "deuteranopia",
+        label: "Deuteranopia (Green-Blind)",
+        fg: simulateColorBlindness(fg, "deuteranopia"),
+        bg: simulateColorBlindness(bg, "deuteranopia")
+      },
+      {
+        key: "tritanopia",
+        label: "Tritanopia (Blue-Blind)",
+        fg: simulateColorBlindness(fg, "tritanopia"),
+        bg: simulateColorBlindness(bg, "tritanopia")
+      },
+      {
+        key: "achromatopsia",
+        label: "Achromatopsia (Mono)",
+        fg: simulateColorBlindness(fg, "achromatopsia"),
+        bg: simulateColorBlindness(bg, "achromatopsia")
+      }
     ];
 
     results.innerHTML = `
@@ -229,14 +289,18 @@ export function render(container) {
       </div>
       <div style="margin-bottom:var(--space-2);font-weight:600;font-size:var(--text-sm);">Colorblind Simulation</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:var(--space-3);">
-        ${simTypes.map(s => `
+        ${simTypes
+          .map(
+            s => `
           <div style="border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;text-align:center;">
             <div style="background:${rgbToHex(s.bg.r, s.bg.g, s.bg.b)};padding:var(--space-4);">
               <span style="color:${rgbToHex(s.fg.r, s.fg.g, s.fg.b)};font-weight:700;font-size:14px;">Aa</span>
             </div>
             <div style="padding:var(--space-2);font-size:11px;color:var(--color-text-muted);">${s.label}</div>
           </div>
-        `).join('')}
+        `
+          )
+          .join("")}
       </div>
     `;
   }
@@ -245,7 +309,8 @@ export function render(container) {
     const fg = parseColor(fgInput.value);
     const bg = parseColor(bgInput.value);
     if (!fg || !bg) {
-      results.innerHTML = '<div style="padding:var(--space-4);color:var(--color-error);">Invalid color format. Use #hex, rgb(), or hsl().</div>';
+      results.innerHTML =
+        '<div style="padding:var(--space-4);color:var(--color-error);">Invalid color format. Use #hex, rgb(), or hsl().</div>';
       return;
     }
     const ratio = contrastRatio(fg, bg);
@@ -253,11 +318,21 @@ export function render(container) {
     renderResults(fg, bg, ratio, checks);
   }
 
-  checkBtn.addEventListener('click', check);
-  fgInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
-  bgInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
-  fgPicker.addEventListener('input', () => { fgInput.value = fgPicker.value; check(); });
-  bgPicker.addEventListener('input', () => { bgInput.value = bgPicker.value; check(); });
+  checkBtn.addEventListener("click", check);
+  fgInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") check();
+  });
+  bgInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") check();
+  });
+  fgPicker.addEventListener("input", () => {
+    fgInput.value = fgPicker.value;
+    check();
+  });
+  bgPicker.addEventListener("input", () => {
+    bgInput.value = bgPicker.value;
+    check();
+  });
   check();
 }
 

@@ -1,36 +1,46 @@
-import { showToast } from '../../components/toast.js';
-import { renderAllPages, renderPdfPage } from './pdf-utils.js';
-import { downloadBlob } from '../../utils/file.js';
-import JSZip from 'jszip';
-import { createPdfPageBrowser } from './pdf-page-browser.js';
+import { showToast } from "../../components/toast.js";
+import { renderAllPages, renderPdfPage } from "./pdf-utils.js";
+import { downloadBlob } from "../../utils/file.js";
+import JSZip from "jszip";
+import { createPdfPageBrowser } from "./pdf-page-browser.js";
 
 export const toolConfig = {
-  id: 'textbook-splitter',
-  name: 'Page Textbook Splitter',
-  category: 'pdf',
-  description: 'Split landscape-scanned book pages down the middle into consecutive portrait pages.',
-  icon: '📖',
-  accept: '.pdf',
+  id: "textbook-splitter",
+  name: "Page Textbook Splitter",
+  category: "pdf",
+  description:
+    "Split landscape-scanned book pages down the middle into consecutive portrait pages.",
+  icon: "📖",
+  accept: ".pdf",
   maxSizeMB: 100,
-  keywords: ['textbook splitter', 'split pdf pages', 'book scanner', 'landscape to portrait', 'pdf page split'],
+  keywords: [
+    "textbook splitter",
+    "split pdf pages",
+    "book scanner",
+    "landscape to portrait",
+    "pdf page split"
+  ],
   steps: [
-    'Upload a PDF with landscape-scanned book pages',
-    'Review the preview to see how pages will be split',
+    "Upload a PDF with landscape-scanned book pages",
+    "Review the preview to see how pages will be split",
     'Click "Split Pages" to split each landscape page down the center',
-    'Download a ZIP file containing all individual half-page images'
+    "Download a ZIP file containing all individual half-page images"
   ],
   faqs: [
     {
-      question: 'What kind of PDFs does this work with?',
-      answer: 'This tool works best with landscape-oriented PDFs where each page contains two book pages side by side, as produced by book scanners or flatbed scanners.'
+      question: "What kind of PDFs does this work with?",
+      answer:
+        "This tool works best with landscape-oriented PDFs where each page contains two book pages side by side, as produced by book scanners or flatbed scanners."
     },
     {
-      question: 'What format is the output?',
-      answer: 'The output is a ZIP file containing PNG images of each half-page, named sequentially (page_001_left.png, page_001_right.png, etc.).'
+      question: "What format is the output?",
+      answer:
+        "The output is a ZIP file containing PNG images of each half-page, named sequentially (page_001_left.png, page_001_right.png, etc.)."
     },
     {
-      question: 'Is this truly client-side?',
-      answer: 'Yes. All processing happens in your browser using PDF.js. Your files never leave your device.'
+      question: "Is this truly client-side?",
+      answer:
+        "Yes. All processing happens in your browser using PDF.js. Your files never leave your device."
     }
   ]
 };
@@ -69,16 +79,18 @@ export function render(container) {
     container,
     optionsHTML: OPTIONS_HTML,
     styleCSS: STYLE_CSS,
-    actionButtonSelector: '#split-btn',
+    actionButtonSelector: "#split-btn",
     renderScale: 0.4,
-    initialProcessingMessage: 'Splitting pages...',
+    initialProcessingMessage: "Splitting pages...",
 
-    onPagesLoaded: (canvases) => {
-      const splitterInfo = container.querySelector('#splitter-info');
-      const splitterPreviews = container.querySelector('#splitter-previews');
+    onPagesLoaded: canvases => {
+      const splitterInfo = container.querySelector("#splitter-info");
+      const splitterPreviews = container.querySelector("#splitter-previews");
 
       let landscapeCount = 0;
-      canvases.forEach(c => { if (c.width > c.height) landscapeCount++; });
+      canvases.forEach(c => {
+        if (c.width > c.height) landscapeCount++;
+      });
       _totalSplitPages = canvases.length + landscapeCount;
 
       splitterInfo.innerHTML = `
@@ -86,36 +98,39 @@ export function render(container) {
         <p>${canvases.length} page(s) detected · ${landscapeCount} landscape page(s) will be split · Result: <strong>${_totalSplitPages} images</strong></p>
       `;
 
-      splitterPreviews.innerHTML = '';
+      splitterPreviews.innerHTML = "";
       canvases.forEach((canvas, i) => {
-        const card = document.createElement('div');
-        card.className = 'splitter-page-card';
+        const card = document.createElement("div");
+        card.className = "splitter-page-card";
 
-        const label = document.createElement('div');
-        label.className = 'page-label';
+        const label = document.createElement("div");
+        label.className = "page-label";
         label.textContent = `Page ${i + 1} (${canvas.width} × ${canvas.height})`;
         card.appendChild(label);
 
-        const thumb = document.createElement('canvas');
+        const thumb = document.createElement("canvas");
         thumb.width = canvas.width;
         thumb.height = canvas.height;
-        const thumbCtx = thumb.getContext('2d');
+        const thumbCtx = thumb.getContext("2d");
         thumbCtx.drawImage(canvas, 0, 0);
-        thumb.style.maxWidth = '100%';
+        thumb.style.maxWidth = "100%";
         card.appendChild(thumb);
 
-        const indicator = document.createElement('div');
-        indicator.className = 'split-indicator';
+        const indicator = document.createElement("div");
+        indicator.className = "split-indicator";
         if (canvas.width > canvas.height) {
-          const left = document.createElement('div');
-          left.className = 'half left'; left.textContent = '← Left';
-          const right = document.createElement('div');
-          right.className = 'half right'; right.textContent = 'Right →';
+          const left = document.createElement("div");
+          left.className = "half left";
+          left.textContent = "← Left";
+          const right = document.createElement("div");
+          right.className = "half right";
+          right.textContent = "Right →";
           indicator.appendChild(left);
           indicator.appendChild(right);
         } else {
-          const pt = document.createElement('div');
-          pt.className = 'pass-through'; pt.textContent = 'Pass through';
+          const pt = document.createElement("div");
+          pt.className = "pass-through";
+          pt.textContent = "Pass through";
           indicator.appendChild(pt);
         }
         card.appendChild(indicator);
@@ -125,11 +140,11 @@ export function render(container) {
 
     onReset: () => {
       _totalSplitPages = 0;
-      container.querySelector('#splitter-info').innerHTML = '';
-      container.querySelector('#splitter-previews').innerHTML = '';
+      container.querySelector("#splitter-info").innerHTML = "";
+      container.querySelector("#splitter-previews").innerHTML = "";
     },
 
-    onAction: async (api) => {
+    onAction: async api => {
       const zip = new JSZip();
       const canvases = api.canvases;
       const file = api.file;
@@ -140,34 +155,44 @@ export function render(container) {
         const preview = canvases[i];
         const isLandscape = preview.width > preview.height;
         const fullCanvas = await renderPdfPage(file, i, 2.0);
-        const pageNum = String(i + 1).padStart(3, '0');
+        const pageNum = String(i + 1).padStart(3, "0");
 
         if (isLandscape) {
           const halfW = Math.round(fullCanvas.width / 2);
 
-          for (const half of ['left', 'right']) {
-            const halfCanvas = document.createElement('canvas');
+          for (const half of ["left", "right"]) {
+            const halfCanvas = document.createElement("canvas");
             halfCanvas.width = halfW;
             halfCanvas.height = fullCanvas.height;
-            const ctx = halfCanvas.getContext('2d');
-            const sx = half === 'left' ? 0 : halfW;
-            ctx.drawImage(fullCanvas, sx, 0, halfW, fullCanvas.height, 0, 0, halfW, fullCanvas.height);
+            const ctx = halfCanvas.getContext("2d");
+            const sx = half === "left" ? 0 : halfW;
+            ctx.drawImage(
+              fullCanvas,
+              sx,
+              0,
+              halfW,
+              fullCanvas.height,
+              0,
+              0,
+              halfW,
+              fullCanvas.height
+            );
 
-            const pngBlob = await new Promise(resolve => halfCanvas.toBlob(resolve, 'image/png'));
+            const pngBlob = await new Promise(resolve => halfCanvas.toBlob(resolve, "image/png"));
             const pngBytes = await pngBlob.arrayBuffer();
             zip.file(`page_${pageNum}_${half}.png`, pngBytes);
           }
         } else {
-          const pngBlob = await new Promise(resolve => fullCanvas.toBlob(resolve, 'image/png'));
+          const pngBlob = await new Promise(resolve => fullCanvas.toBlob(resolve, "image/png"));
           const pngBytes = await pngBlob.arrayBuffer();
           zip.file(`page_${pageNum}.png`, pngBytes);
         }
       }
 
-      api.setProcessingText('Creating ZIP archive...');
-      const zipBlob = await zip.generateAsync({ type: 'blob' });
-      downloadBlob(zipBlob, 'split_pages.zip');
-      showToast({ message: `Downloaded ${_totalSplitPages} images as ZIP!`, type: 'success' });
+      api.setProcessingText("Creating ZIP archive...");
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      downloadBlob(zipBlob, "split_pages.zip");
+      showToast({ message: `Downloaded ${_totalSplitPages} images as ZIP!`, type: "success" });
     }
   });
 }

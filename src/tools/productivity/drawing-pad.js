@@ -1,8 +1,8 @@
 export function setupCanvas(canvas, bgColor) {
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let drawing = false;
-  let tool = 'pen';
-  let color = '#000000';
+  let tool = "pen";
+  let color = "#000000";
   let size = 3;
 
   function resize() {
@@ -34,10 +34,10 @@ export function setupCanvas(canvas, bgColor) {
     e.preventDefault();
     if (!drawing) return;
     const pos = getPos(e);
-    ctx.strokeStyle = tool === 'eraser' ? bgColor : color;
-    ctx.lineWidth = tool === 'eraser' ? size * 5 : size;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.strokeStyle = tool === "eraser" ? bgColor : color;
+    ctx.lineWidth = tool === "eraser" ? size * 5 : size;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
     ctx.beginPath();
@@ -51,37 +51,59 @@ export function setupCanvas(canvas, bgColor) {
   }
 
   resize();
-  canvas.addEventListener('mousedown', start);
-  canvas.addEventListener('mousemove', move);
-  canvas.addEventListener('mouseup', stop);
-  canvas.addEventListener('mouseleave', stop);
-  canvas.addEventListener('touchstart', start, { passive: false });
-  canvas.addEventListener('touchmove', move, { passive: false });
-  canvas.addEventListener('touchend', stop, { passive: false });
+  canvas.addEventListener("mousedown", start);
+  canvas.addEventListener("mousemove", move);
+  canvas.addEventListener("mouseup", stop);
+  canvas.addEventListener("mouseleave", stop);
+  canvas.addEventListener("touchstart", start, { passive: false });
+  canvas.addEventListener("touchmove", move, { passive: false });
+  canvas.addEventListener("touchend", stop, { passive: false });
 
   return {
-    setColor(c) { color = c; tool = 'pen'; },
-    setSize(s) { size = s; },
-    setTool(t) { tool = t; },
-    clear() { resize(); },
+    setColor(c) {
+      color = c;
+      tool = "pen";
+    },
+    setSize(s) {
+      size = s;
+    },
+    setTool(t) {
+      tool = t;
+    },
+    clear() {
+      resize();
+    },
     resize,
-    getCtx() { return ctx; }
+    getCtx() {
+      return ctx;
+    }
   };
 }
 
 export const toolConfig = {
-  id: 'drawing-pad',
-  name: 'Drawing Pad',
-  category: 'productivity',
-  description: 'Freehand drawing canvas. Draw, erase, change colors and brush sizes, and export as PNG.',
-  icon: '✏️',
+  id: "drawing-pad",
+  name: "Drawing Pad",
+  category: "productivity",
+  description:
+    "Freehand drawing canvas. Draw, erase, change colors and brush sizes, and export as PNG.",
+  icon: "✏️",
   accept: null,
   maxSizeMB: null,
-  keywords: ['drawing', 'draw', 'sketch', 'canvas', 'freehand', 'painting', 'whiteboard'],
-  steps: ['Select brush color and size', 'Draw on the canvas', 'Export as PNG or clear to start over'],
+  keywords: ["drawing", "draw", "sketch", "canvas", "freehand", "painting", "whiteboard"],
+  steps: [
+    "Select brush color and size",
+    "Draw on the canvas",
+    "Export as PNG or clear to start over"
+  ],
   faqs: [
-    { question: 'Can I undo strokes?', answer: 'Not yet — clear the canvas and try again, or export frequent saves.' },
-    { question: 'Does it work on touch devices?', answer: 'Yes! Drawing Pad works with mouse and touch input.' }
+    {
+      question: "Can I undo strokes?",
+      answer: "Not yet — clear the canvas and try again, or export frequent saves."
+    },
+    {
+      question: "Does it work on touch devices?",
+      answer: "Yes! Drawing Pad works with mouse and touch input."
+    }
   ]
 };
 
@@ -109,39 +131,39 @@ export function render(container) {
     </div>
   `;
 
-  const canvas = container.querySelector('#dp-canvas');
-  const ctrl = setupCanvas(canvas, '#ffffff');
+  const canvas = container.querySelector("#dp-canvas");
+  const ctrl = setupCanvas(canvas, "#ffffff");
 
-  container.querySelector('#dp-color').addEventListener('input', e => {
+  container.querySelector("#dp-color").addEventListener("input", e => {
     ctrl.setColor(e.target.value);
   });
 
-  container.querySelector('#dp-size').addEventListener('input', e => {
+  container.querySelector("#dp-size").addEventListener("input", e => {
     const v = parseInt(e.target.value);
     ctrl.setSize(v);
-    container.querySelector('#dp-size-label').textContent = v;
+    container.querySelector("#dp-size-label").textContent = v;
   });
 
-  container.querySelector('#dp-eraser').addEventListener('click', () => {
-    ctrl.setTool('eraser');
-    container.querySelector('#dp-eraser').style.display = 'none';
-    container.querySelector('#dp-pen').style.display = '';
+  container.querySelector("#dp-eraser").addEventListener("click", () => {
+    ctrl.setTool("eraser");
+    container.querySelector("#dp-eraser").style.display = "none";
+    container.querySelector("#dp-pen").style.display = "";
   });
 
-  container.querySelector('#dp-pen').addEventListener('click', () => {
-    ctrl.setTool('pen');
-    container.querySelector('#dp-eraser').style.display = '';
-    container.querySelector('#dp-pen').style.display = 'none';
+  container.querySelector("#dp-pen").addEventListener("click", () => {
+    ctrl.setTool("pen");
+    container.querySelector("#dp-eraser").style.display = "";
+    container.querySelector("#dp-pen").style.display = "none";
   });
 
-  container.querySelector('#dp-clear').addEventListener('click', () => {
+  container.querySelector("#dp-clear").addEventListener("click", () => {
     ctrl.clear();
   });
 
-  container.querySelector('#dp-export').addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.download = 'drawing.png';
-    link.href = canvas.toDataURL('image/png');
+  container.querySelector("#dp-export").addEventListener("click", () => {
+    const link = document.createElement("a");
+    link.download = "drawing.png";
+    link.href = canvas.toDataURL("image/png");
     link.click();
   });
 

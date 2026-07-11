@@ -1,4 +1,4 @@
-import { createFileUpload } from '../../components/file-upload.js';
+import { createFileUpload } from "../../components/file-upload.js";
 
 const SHELL_STYLES = `
   .tool-layout { max-width: 700px; margin: 0 auto; }
@@ -18,7 +18,7 @@ export function createUploadTool({
   accept,
   maxSizeMB = 50,
   buttonText,
-  optionsHTML = '',
+  optionsHTML = "",
   onConvert
 }) {
   let files = [];
@@ -27,12 +27,13 @@ export function createUploadTool({
     accept,
     multiple: true,
     maxSizeMB,
-    onFilesSelected: async (selectedFiles) => {
+    onFilesSelected: async selectedFiles => {
       if (selectedFiles.length === 0) return;
       files = Array.from(selectedFiles);
-      totalFiles.textContent = files.length + ' ' + fileTypeName + ' file(s)';
-      totalSize.textContent = (files.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1) + ' KB total';
-      optionsArea.style.display = 'block';
+      totalFiles.textContent = files.length + " " + fileTypeName + " file(s)";
+      totalSize.textContent =
+        (files.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1) + " KB total";
+      optionsArea.style.display = "block";
     }
   });
 
@@ -54,7 +55,7 @@ export function createUploadTool({
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = SHELL_STYLES;
   container.appendChild(style);
 
@@ -66,15 +67,20 @@ export function createUploadTool({
   const processing = container.querySelector(`#${toolId}-processing`);
   const progressPct = container.querySelector(`#${toolId}-pct`);
 
-  convertBtn.addEventListener('click', async () => {
+  convertBtn.addEventListener("click", async () => {
     if (files.length === 0) return;
-    processing.style.display = 'flex';
-    convertBtn.style.display = 'none';
+    processing.style.display = "flex";
+    convertBtn.style.display = "none";
     try {
-      await onConvert({ files, progress: (pct) => { progressPct.textContent = pct; } });
+      await onConvert({
+        files,
+        progress: pct => {
+          progressPct.textContent = pct;
+        }
+      });
     } finally {
-      processing.style.display = 'none';
-      convertBtn.style.display = 'inline-flex';
+      processing.style.display = "none";
+      convertBtn.style.display = "inline-flex";
     }
   });
 

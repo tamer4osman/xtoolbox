@@ -1,6 +1,6 @@
-import { downloadBlob } from '../../utils/file.js';
-import { canvasToBlob } from './image-utils.js';
-import { showToast } from '../../components/toast.js';
+import { downloadBlob } from "../../utils/file.js";
+import { canvasToBlob } from "./image-utils.js";
+import { showToast } from "../../components/toast.js";
 
 /**
  * Scale an image to fit a max width and draw it onto a preview canvas.
@@ -13,7 +13,7 @@ export function setupPreviewCanvas(previewCanvas, originalImage, container, maxW
   const displayH = Math.round(originalImage.naturalHeight * scale);
   previewCanvas.width = displayW;
   previewCanvas.height = displayH;
-  const ctx = previewCanvas.getContext('2d');
+  const ctx = previewCanvas.getContext("2d");
   ctx.clearRect(0, 0, displayW, displayH);
   ctx.drawImage(originalImage, 0, 0, displayW, displayH);
   return { width: displayW, height: displayH, scale };
@@ -39,14 +39,14 @@ export function attachDragSelection(canvas, onChange) {
   let selStart = { x: 0, y: 0 };
   let selection = null;
 
-  canvas.addEventListener('mousedown', (e) => {
+  canvas.addEventListener("mousedown", e => {
     isDragging = true;
     selStart = getCanvasCoords(e, canvas);
     selection = null;
     onChange(selection);
   });
 
-  canvas.addEventListener('mousemove', (e) => {
+  canvas.addEventListener("mousemove", e => {
     if (!isDragging) return;
     const current = getCanvasCoords(e, canvas);
     selection = {
@@ -58,7 +58,7 @@ export function attachDragSelection(canvas, onChange) {
     onChange(selection);
   });
 
-  canvas.addEventListener('mouseup', () => {
+  canvas.addEventListener("mouseup", () => {
     isDragging = false;
     if (selection && (selection.w < 5 || selection.h < 5)) {
       selection = null;
@@ -66,7 +66,7 @@ export function attachDragSelection(canvas, onChange) {
     }
   });
 
-  canvas.addEventListener('mouseleave', () => {
+  canvas.addEventListener("mouseleave", () => {
     isDragging = false;
   });
 
@@ -78,14 +78,14 @@ export function attachDragSelection(canvas, onChange) {
  * Shows success/error toast.
  */
 export async function downloadTransformedImage(originalImage, transform, filename, successMsg) {
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = originalImage.naturalWidth;
   canvas.height = originalImage.naturalHeight;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   ctx.drawImage(originalImage, 0, 0);
   transform(ctx, canvas.width, canvas.height);
-  const blob = await canvasToBlob(canvas, 'image/png');
+  const blob = await canvasToBlob(canvas, "image/png");
   downloadBlob(blob, filename);
-  showToast(successMsg, 'success');
+  showToast(successMsg, "success");
   return blob;
 }

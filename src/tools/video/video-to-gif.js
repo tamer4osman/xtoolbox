@@ -1,20 +1,23 @@
-import { showToast } from '../../components/toast.js';
-import { downloadBlob, formatFileSize } from '../../utils/file.js';
-import { readFFmpegFile, formatTime } from './video-utils.js';
-import { createVideoTool } from './video-tool-factory.js';
+import { showToast } from "../../components/toast.js";
+import { downloadBlob, formatFileSize } from "../../utils/file.js";
+import { readFFmpegFile, formatTime } from "./video-utils.js";
+import { createVideoTool } from "./video-tool-factory.js";
 
 export const toolConfig = {
-  id: 'video-to-gif',
-  name: 'Video to GIF',
-  category: 'video',
-  description: 'Convert video clips to animated GIF images.',
-  icon: '🎞️',
-  accept: 'video/*',
+  id: "video-to-gif",
+  name: "Video to GIF",
+  category: "video",
+  description: "Convert video clips to animated GIF images.",
+  icon: "🎞️",
+  accept: "video/*",
   maxSizeMB: 200,
-  keywords: ['video to gif', 'mp4 to gif', 'gif maker'],
-  steps: ['Upload a video', 'Set start/end time and FPS', 'Click "Convert"', 'Download GIF'],
+  keywords: ["video to gif", "mp4 to gif", "gif maker"],
+  steps: ["Upload a video", "Set start/end time and FPS", 'Click "Convert"', "Download GIF"],
   faqs: [
-    { question: 'What FPS should I use?', answer: '10-15 FPS is usually good for GIFs. Lower FPS = smaller file.' }
+    {
+      question: "What FPS should I use?",
+      answer: "10-15 FPS is usually good for GIFs. Lower FPS = smaller file."
+    }
   ]
 };
 
@@ -22,8 +25,8 @@ let gifBlob = null;
 
 export const render = createVideoTool({
   maxSizeMB: 200,
-  processingText: 'Converting...',
-  actionBtnLabel: 'Convert to GIF',
+  processingText: "Converting...",
+  actionBtnLabel: "Convert to GIF",
   optionsHTML: `
     <div id="duration-info" style="font-size:var(--text-sm);color:var(--color-text-secondary);margin-bottom:var(--space-4);">-</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
@@ -56,28 +59,33 @@ export const render = createVideoTool({
     </div>
   `,
   onFileLoaded(info, tctx) {
-    tctx.query('#duration-info').textContent = `Duration: ${formatTime(info.duration)}`;
+    tctx.query("#duration-info").textContent = `Duration: ${formatTime(info.duration)}`;
   },
   async onProcess(ffmpeg, inputName, videoInfo, tctx) {
-    const fps = tctx.getValue('fps-select');
-    const width = tctx.getValue('width-select');
-    const outputName = 'output.gif';
+    const fps = tctx.getValue("fps-select");
+    const width = tctx.getValue("width-select");
+    const outputName = "output.gif";
 
-    const scaleFilter = width === '-1' ? `fps=${fps}` : `fps=${fps},scale=${width}:-1:flags=lanczos`;
-    await ffmpeg.exec(['-i', inputName, '-vf', scaleFilter, '-f', 'gif', outputName]);
+    const scaleFilter =
+      width === "-1" ? `fps=${fps}` : `fps=${fps},scale=${width}:-1:flags=lanczos`;
+    await ffmpeg.exec(["-i", inputName, "-vf", scaleFilter, "-f", "gif", outputName]);
 
-    gifBlob = await readFFmpegFile(ffmpeg, outputName, 'image/gif');
-    const preview = tctx.query('#gif-preview');
+    gifBlob = await readFFmpegFile(ffmpeg, outputName, "image/gif");
+    const preview = tctx.query("#gif-preview");
     preview.innerHTML = `<img src="${URL.createObjectURL(gifBlob)}" style="max-width:100%;border-radius:var(--radius-md);border:1px solid var(--color-border);">`;
     preview.innerHTML += `<div style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2);">Size: ${formatFileSize(gifBlob.size)}</div>`;
-    tctx.query('#results').style.display = 'block';
-    showToast({ message: 'GIF created!', type: 'success' });
+    tctx.query("#results").style.display = "block";
+    showToast({ message: "GIF created!", type: "success" });
 
-    const downloadBtn = tctx.query('#download-btn');
-    downloadBtn.onclick = () => { if (gifBlob) downloadBlob(gifBlob, 'converted.gif'); };
+    const downloadBtn = tctx.query("#download-btn");
+    downloadBtn.onclick = () => {
+      if (gifBlob) downloadBlob(gifBlob, "converted.gif");
+    };
 
     await ffmpeg.deleteFile(outputName);
-  },
+  }
 });
 
-export function destroy() { gifBlob = null; }
+export function destroy() {
+  gifBlob = null;
+}

@@ -1,13 +1,13 @@
 export const toolConfig = {
-  id: 'xml-json',
-  name: 'XML to JSON',
-  category: 'text',
-  description: 'Convert XML to JSON format.',
-  icon: '📋',
-  accept: '.xml,.json',
+  id: "xml-json",
+  name: "XML to JSON",
+  category: "text",
+  description: "Convert XML to JSON format.",
+  icon: "📋",
+  accept: ".xml,.json",
   maxSizeMB: 1,
-  keywords: ['xml to json', 'convert xml', 'xml parser'],
-  steps: ['Enter XML', 'Get JSON']
+  keywords: ["xml to json", "convert xml", "xml parser"],
+  steps: ["Enter XML", "Get JSON"]
 };
 
 export function render(container) {
@@ -29,7 +29,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .convert-container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
     .convert-input textarea, .convert-output textarea { width: 100%; min-height: 250px; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-family: monospace; font-size: 14px; }
@@ -39,29 +39,29 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const xmlInput = container.querySelector('#xml-input');
-  const jsonOutput = container.querySelector('#json-output');
-  const copyBtn = container.querySelector('#copy-btn');
+  const xmlInput = container.querySelector("#xml-input");
+  const jsonOutput = container.querySelector("#json-output");
+  const copyBtn = container.querySelector("#copy-btn");
 
   function parseXML(xml) {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(xml, 'text/xml');
-    
-    if (doc.querySelector('parsererror')) {
-      throw new Error('Invalid XML');
+    const doc = parser.parseFromString(xml, "text/xml");
+
+    if (doc.querySelector("parsererror")) {
+      throw new Error("Invalid XML");
     }
-    
+
     function nodeToObj(node) {
       const obj = {};
-      
+
       if (node.nodeType === Node.ELEMENT_NODE) {
         if (node.attributes?.length) {
-          obj['@attributes'] = {};
+          obj["@attributes"] = {};
           for (const attr of node.attributes) {
-            obj['@attributes'][attr.name] = attr.value;
+            obj["@attributes"][attr.name] = attr.value;
           }
         }
-        
+
         for (const child of node.childNodes) {
           if (child.nodeType === Node.TEXT_NODE) {
             const text = child.textContent?.trim();
@@ -82,7 +82,7 @@ export function render(container) {
       }
       return Object.keys(obj).length ? obj : null;
     }
-    
+
     const root = doc.documentElement;
     return { [root.tagName]: nodeToObj(root) };
   }
@@ -92,16 +92,16 @@ export function render(container) {
       const obj = parseXML(xmlInput.value);
       jsonOutput.value = JSON.stringify(obj, null, 2);
     } catch (e) {
-      jsonOutput.value = 'Error: ' + e.message;
+      jsonOutput.value = "Error: " + e.message;
     }
   }
 
-  copyBtn.addEventListener('click', () => {
+  copyBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(jsonOutput.value);
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
   });
 
-  xmlInput.addEventListener('input', convert);
+  xmlInput.addEventListener("input", convert);
   convert();
 }

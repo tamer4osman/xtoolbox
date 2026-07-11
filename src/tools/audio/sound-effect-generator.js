@@ -1,4 +1,4 @@
-import { downloadBlob } from '../../utils/file.js';
+import { downloadBlob } from "../../utils/file.js";
 
 function generateSFX(type, params) {
   const sampleRate = 44100;
@@ -7,63 +7,67 @@ function generateSFX(type, params) {
   const buffer = new Float32Array(length);
 
   switch (type) {
-    case 'jump': {
+    case "jump": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
         const freq = 200 + (800 - 200) * (t / duration);
-        buffer[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp(-3 * t / duration) * 0.6;
+        buffer[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp((-3 * t) / duration) * 0.6;
       }
       break;
     }
-    case 'coin': {
+    case "coin": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
         const freq = i < length / 2 ? 988 : 1319;
-        buffer[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp(-4 * t / duration) * 0.5;
+        buffer[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp((-4 * t) / duration) * 0.5;
       }
       break;
     }
-    case 'hit': {
+    case "hit": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
-        buffer[i] = (Math.random() * 2 - 1) * Math.exp(-10 * t / duration) * 0.4;
+        buffer[i] = (Math.random() * 2 - 1) * Math.exp((-10 * t) / duration) * 0.4;
       }
       break;
     }
-    case 'laser': {
+    case "laser": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
         const freq = 1200 - 1000 * (t / duration);
-        buffer[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp(-5 * t / duration) * 0.4;
+        buffer[i] = Math.sin(2 * Math.PI * freq * t) * Math.exp((-5 * t) / duration) * 0.4;
       }
       break;
     }
-    case 'powerup': {
+    case "powerup": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
         const freq = 300 + 600 * Math.pow(t / duration, 0.5);
-        buffer[i] = (Math.sin(2 * Math.PI * freq * t) + Math.sin(2 * Math.PI * freq * 1.5 * t) * 0.3) * Math.exp(-2 * t / duration) * 0.5;
+        buffer[i] =
+          (Math.sin(2 * Math.PI * freq * t) + Math.sin(2 * Math.PI * freq * 1.5 * t) * 0.3) *
+          Math.exp((-2 * t) / duration) *
+          0.5;
       }
       break;
     }
-    case 'explosion': {
+    case "explosion": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
-        const env = Math.exp(-4 * t / duration);
+        const env = Math.exp((-4 * t) / duration);
         buffer[i] = (Math.random() * 2 - 1) * env * 0.5;
         buffer[i] += Math.sin(2 * Math.PI * 60 * t) * env * 0.3;
       }
       break;
     }
-    case 'beep': {
+    case "beep": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
         const freq = params.frequency || 440;
-        buffer[i] = Math.sign(Math.sin(2 * Math.PI * freq * t)) * Math.exp(-3 * t / duration) * 0.4;
+        buffer[i] =
+          Math.sign(Math.sin(2 * Math.PI * freq * t)) * Math.exp((-3 * t) / duration) * 0.4;
       }
       break;
     }
-    case 'sweep': {
+    case "sweep": {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
         const freq = 200 + 2000 * (t / duration);
@@ -74,7 +78,7 @@ function generateSFX(type, params) {
     default: {
       for (let i = 0; i < length; i++) {
         const t = i / sampleRate;
-        buffer[i] = Math.sin(2 * Math.PI * 440 * t) * Math.exp(-3 * t / duration) * 0.5;
+        buffer[i] = Math.sin(2 * Math.PI * 440 * t) * Math.exp((-3 * t) / duration) * 0.5;
       }
     }
   }
@@ -86,7 +90,7 @@ function floatTo16BitPCM(float32Array) {
   const int16 = new Int16Array(float32Array.length);
   for (let i = 0; i < float32Array.length; i++) {
     const s = Math.max(-1, Math.min(1, float32Array[i]));
-    int16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    int16[i] = s < 0 ? s * 0x8000 : s * 0x7fff;
   }
   return int16;
 }
@@ -99,10 +103,10 @@ function encodeWAV(samples, sampleRate) {
     for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
   }
 
-  writeString(0, 'RIFF');
+  writeString(0, "RIFF");
   view.setUint32(4, 36 + samples.length * 2, true);
-  writeString(8, 'WAVE');
-  writeString(12, 'fmt ');
+  writeString(8, "WAVE");
+  writeString(12, "fmt ");
   view.setUint32(16, 16, true);
   view.setUint16(20, 1, true);
   view.setUint16(22, 1, true);
@@ -110,7 +114,7 @@ function encodeWAV(samples, sampleRate) {
   view.setUint32(28, sampleRate * 2, true);
   view.setUint16(32, 2, true);
   view.setUint16(34, 16, true);
-  writeString(36, 'data');
+  writeString(36, "data");
   view.setUint32(40, samples.length * 2, true);
 
   const int16 = floatTo16BitPCM(samples);
@@ -118,28 +122,28 @@ function encodeWAV(samples, sampleRate) {
     view.setInt16(44 + i * 2, int16[i], true);
   }
 
-  return new Blob([buffer], { type: 'audio/wav' });
+  return new Blob([buffer], { type: "audio/wav" });
 }
 
 const SFX_TYPES = [
-  { id: 'jump', name: 'Jump', icon: '⬆️', defaults: { duration: 0.3 } },
-  { id: 'coin', name: 'Coin', icon: '🪙', defaults: { duration: 0.3 } },
-  { id: 'hit', name: 'Hit', icon: '💥', defaults: { duration: 0.2 } },
-  { id: 'laser', name: 'Laser', icon: '🔫', defaults: { duration: 0.4 } },
-  { id: 'powerup', name: 'Power Up', icon: '⚡', defaults: { duration: 0.6 } },
-  { id: 'explosion', name: 'Explosion', icon: '💣', defaults: { duration: 0.8 } },
-  { id: 'beep', name: 'Beep', icon: '🔔', defaults: { duration: 0.2, frequency: 440 } },
-  { id: 'sweep', name: 'Sweep', icon: '〰️', defaults: { duration: 0.5 } }
+  { id: "jump", name: "Jump", icon: "⬆️", defaults: { duration: 0.3 } },
+  { id: "coin", name: "Coin", icon: "🪙", defaults: { duration: 0.3 } },
+  { id: "hit", name: "Hit", icon: "💥", defaults: { duration: 0.2 } },
+  { id: "laser", name: "Laser", icon: "🔫", defaults: { duration: 0.4 } },
+  { id: "powerup", name: "Power Up", icon: "⚡", defaults: { duration: 0.6 } },
+  { id: "explosion", name: "Explosion", icon: "💣", defaults: { duration: 0.8 } },
+  { id: "beep", name: "Beep", icon: "🔔", defaults: { duration: 0.2, frequency: 440 } },
+  { id: "sweep", name: "Sweep", icon: "〰️", defaults: { duration: 0.5 } }
 ];
 
 export const toolConfig = {
-  id: 'sound-effect-generator',
-  name: 'Sound Effect Generator',
-  category: 'audio',
-  description: 'Generate retro game sound effects using the Web Audio API. Export as WAV.',
-  icon: '🎮',
-  keywords: ['sound', 'effect', 'sfx', 'game', 'retro', 'wav'],
-  accept: '',
+  id: "sound-effect-generator",
+  name: "Sound Effect Generator",
+  category: "audio",
+  description: "Generate retro game sound effects using the Web Audio API. Export as WAV.",
+  icon: "🎮",
+  keywords: ["sound", "effect", "sfx", "game", "retro", "wav"],
+  accept: "",
   maxSizeMB: 5
 };
 
@@ -150,12 +154,14 @@ export function render(container) {
       <p class="tool-description">Generate retro game sound effects with the Web Audio API. Preview and export as WAV.</p>
 
       <div class="sfx-grid" id="sfx-grid">
-        ${SFX_TYPES.map(s => `
+        ${SFX_TYPES.map(
+          s => `
           <button type="button" class="sfx-card" data-type="${s.id}">
             <span class="sfx-icon">${s.icon}</span>
             <span class="sfx-name">${s.name}</span>
           </button>
-        `).join('')}
+        `
+        ).join("")}
       </div>
 
       <div class="sfx-controls" id="sfx-controls">
@@ -179,18 +185,18 @@ export function render(container) {
     </div>
   `;
 
-  const grid = container.querySelector('#sfx-grid');
-  const durationInput = container.querySelector('#sfx-duration');
-  const durationVal = container.querySelector('#duration-val');
-  const freqRow = container.querySelector('#freq-row');
-  const freqInput = container.querySelector('#sfx-frequency');
-  const freqVal = container.querySelector('#frequency-val');
-  const playBtn = container.querySelector('#play-btn');
-  const exportBtn = container.querySelector('#export-btn');
-  const canvas = container.querySelector('#waveform-canvas');
-  const ctx = canvas.getContext('2d');
+  const grid = container.querySelector("#sfx-grid");
+  const durationInput = container.querySelector("#sfx-duration");
+  const durationVal = container.querySelector("#duration-val");
+  const freqRow = container.querySelector("#freq-row");
+  const freqInput = container.querySelector("#sfx-frequency");
+  const freqVal = container.querySelector("#frequency-val");
+  const playBtn = container.querySelector("#play-btn");
+  const exportBtn = container.querySelector("#export-btn");
+  const canvas = container.querySelector("#waveform-canvas");
+  const ctx = canvas.getContext("2d");
 
-  let selectedType = 'jump';
+  let selectedType = "jump";
   let currentBuffer = null;
 
   function selectType(type) {
@@ -198,17 +204,17 @@ export function render(container) {
     const sfx = SFX_TYPES.find(s => s.id === type);
     if (sfx) {
       durationInput.value = sfx.defaults.duration;
-      durationVal.textContent = sfx.defaults.duration + 's';
+      durationVal.textContent = sfx.defaults.duration + "s";
       if (sfx.defaults.frequency) {
         freqInput.value = sfx.defaults.frequency;
-        freqVal.textContent = sfx.defaults.frequency + 'Hz';
-        freqRow.style.display = 'flex';
+        freqVal.textContent = sfx.defaults.frequency + "Hz";
+        freqRow.style.display = "flex";
       } else {
-        freqRow.style.display = 'none';
+        freqRow.style.display = "none";
       }
     }
-    grid.querySelectorAll('.sfx-card').forEach(c => {
-      c.classList.toggle('active', c.dataset.type === type);
+    grid.querySelectorAll(".sfx-card").forEach(c => {
+      c.classList.toggle("active", c.dataset.type === type);
     });
     generate();
   }
@@ -225,15 +231,15 @@ export function render(container) {
     const h = canvas.height;
     ctx.clearRect(0, 0, w, h);
 
-    ctx.fillStyle = '#1e293b';
+    ctx.fillStyle = "#1e293b";
     ctx.fillRect(0, 0, w, h);
 
-    ctx.strokeStyle = '#3b82f6';
+    ctx.strokeStyle = "#3b82f6";
     ctx.lineWidth = 1.5;
     ctx.beginPath();
 
     for (let i = 0; i < w; i++) {
-      const idx = Math.floor(i * samples.length / w);
+      const idx = Math.floor((i * samples.length) / w);
       const val = samples[idx] || 0;
       const y = h / 2 - val * h * 0.8;
       if (i === 0) ctx.moveTo(i, y);
@@ -241,7 +247,7 @@ export function render(container) {
     }
     ctx.stroke();
 
-    ctx.strokeStyle = '#374151';
+    ctx.strokeStyle = "#374151";
     ctx.lineWidth = 0.5;
     ctx.beginPath();
     ctx.moveTo(0, h / 2);
@@ -259,28 +265,28 @@ export function render(container) {
     source.start();
   }
 
-  grid.addEventListener('click', e => {
-    const card = e.target.closest('.sfx-card');
+  grid.addEventListener("click", e => {
+    const card = e.target.closest(".sfx-card");
     if (card) selectType(card.dataset.type);
   });
 
-  durationInput.addEventListener('input', () => {
-    durationVal.textContent = durationInput.value + 's';
+  durationInput.addEventListener("input", () => {
+    durationVal.textContent = durationInput.value + "s";
     generate();
   });
 
-  freqInput.addEventListener('input', () => {
-    freqVal.textContent = freqInput.value + 'Hz';
+  freqInput.addEventListener("input", () => {
+    freqVal.textContent = freqInput.value + "Hz";
     generate();
   });
 
-  playBtn.addEventListener('click', playSound);
+  playBtn.addEventListener("click", playSound);
 
-  exportBtn.addEventListener('click', () => {
+  exportBtn.addEventListener("click", () => {
     if (!currentBuffer) return;
     const wav = encodeWAV(currentBuffer, 44100);
     downloadBlob(wav, `sfx-${selectedType}.wav`);
   });
 
-  selectType('jump');
+  selectType("jump");
 }

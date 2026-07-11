@@ -1,5 +1,5 @@
-import { wireLookupSearch } from './lookup.js';
-import { LOOKUP_CSS } from './lookup-css.js';
+import { wireLookupSearch } from "./lookup.js";
+import { LOOKUP_CSS } from "./lookup-css.js";
 
 export function createLookupTool(config) {
   return {
@@ -14,22 +14,22 @@ export function createLookupTool(config) {
           </div>
           <div class="tool-content">
             ${config.contentHTML}
-            <div id="loading" class="loading hidden">${config.loadingText || 'Searching...'}</div>
-            <div id="result" class="result hidden">${config.resultHTML || ''}</div>
+            <div id="loading" class="loading hidden">${config.loadingText || "Searching..."}</div>
+            <div id="result" class="result hidden">${config.resultHTML || ""}</div>
             <div id="error" class="error hidden"></div>
           </div>
         </div>
       `;
 
-      const style = document.createElement('style');
-      style.textContent = LOOKUP_CSS + (config.extraCSS || '');
+      const style = document.createElement("style");
+      style.textContent = LOOKUP_CSS + (config.extraCSS || "");
       container.appendChild(style);
 
       wireLookupSearch({
         container,
-        searchButtonId: config.searchButtonId || 'search-btn',
-        inputSelector: config.inputSelector || 'input',
-        errorMessage: config.errorMessage || 'Search failed. Please try again.',
+        searchButtonId: config.searchButtonId || "search-btn",
+        inputSelector: config.inputSelector || "input",
+        errorMessage: config.errorMessage || "Search failed. Please try again.",
         validate: config.validate,
         onSearch: config.onSearch
       });

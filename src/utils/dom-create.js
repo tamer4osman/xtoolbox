@@ -6,23 +6,23 @@ const ATTR_HANDLERS = {
   innerHTML: (el, value) => (el.innerHTML = value),
   textContent: (el, value) => (el.textContent = value),
   style: (el, value) => {
-    if (value && typeof value === 'object') {
+    if (value && typeof value === "object") {
       Object.assign(el.style, value);
-    } else if (typeof value === 'string') {
+    } else if (typeof value === "string") {
       el.style.cssText = value;
     }
   },
   dataset: (el, value) => {
-    if (value && typeof value === 'object') {
+    if (value && typeof value === "object") {
       Object.assign(el.dataset, value);
     }
-  },
+  }
 };
 
 function handleAttribute(el, key, value) {
-  if (typeof ATTR_HANDLERS[key] === 'function') {
+  if (typeof ATTR_HANDLERS[key] === "function") {
     ATTR_HANDLERS[key](el, value);
-  } else if (key.startsWith('on')) {
+  } else if (key.startsWith("on")) {
     el.addEventListener(key.slice(2).toLowerCase(), value);
   } else {
     el.setAttribute(key, value);
@@ -38,11 +38,11 @@ function setAttributes(el, attrs) {
 export function createElement(tag, attrs = {}, children = []) {
   const el = document.createElement(tag);
   setAttributes(el, attrs);
-  if (typeof children === 'string') {
+  if (typeof children === "string") {
     el.textContent = children;
   } else if (Array.isArray(children)) {
     children.forEach(child => {
-      if (typeof child === 'string') {
+      if (typeof child === "string") {
         el.appendChild(document.createTextNode(child));
       } else if (child instanceof Node) {
         el.appendChild(child);

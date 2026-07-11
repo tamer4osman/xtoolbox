@@ -1,20 +1,23 @@
-import { createVideoTool } from './video-tool-factory.js';
-import JSZip from 'jszip';
-import { downloadBlob } from '../../utils/file.js';
+import { createVideoTool } from "./video-tool-factory.js";
+import JSZip from "jszip";
+import { downloadBlob } from "../../utils/file.js";
 
 const { toolConfig, render, destroy } = createVideoTool({
   toolConfig: {
-    id: 'video-to-images',
-    name: 'Video to Images',
-    category: 'video',
-    description: 'Extract frames from a video as PNG or JPG images.',
-    icon: '🖼️',
-    accept: 'video/*',
+    id: "video-to-images",
+    name: "Video to Images",
+    category: "video",
+    description: "Extract frames from a video as PNG or JPG images.",
+    icon: "🖼️",
+    accept: "video/*",
     maxSizeMB: 500,
-    keywords: ['video to images', 'extract frames', 'video to jpg'],
-    steps: ['Upload a video', 'Choose frame rate', 'Click "Extract"', 'Download ZIP of images'],
+    keywords: ["video to images", "extract frames", "video to jpg"],
+    steps: ["Upload a video", "Choose frame rate", 'Click "Extract"', "Download ZIP of images"],
     faqs: [
-      { question: 'How many frames will be extracted?', answer: 'Depends on video duration and chosen FPS. A 10s video at 1 FPS = 10 frames.' }
+      {
+        question: "How many frames will be extracted?",
+        answer: "Depends on video duration and chosen FPS. A 10s video at 1 FPS = 10 frames."
+      }
     ]
   },
   optionsHTML: `
@@ -35,16 +38,18 @@ const { toolConfig, render, destroy } = createVideoTool({
       </select>
     </div>
   `,
-  processingText: 'Extracting frames...',
-  actionBtnLabel: 'Extract Frames',
+  processingText: "Extracting frames...",
+  actionBtnLabel: "Extract Frames",
   async onProcess(ffmpeg, inputName, videoInfo, tctx) {
-    const fps = tctx.getValue('fps-select');
-    const format = tctx.getValue('format-select');
+    const fps = tctx.getValue("fps-select");
+    const format = tctx.getValue("format-select");
 
-    await ffmpeg.exec(['-i', inputName, '-vf', `fps=${fps}`, `frame_%04d.${format}`]);
+    await ffmpeg.exec(["-i", inputName, "-vf", `fps=${fps}`, `frame_%04d.${format}`]);
 
-    const files = await ffmpeg.listDir('.');
-    const frameFiles = files.filter(f => f.name.startsWith('frame_') && f.name.endsWith(`.${format}`));
+    const files = await ffmpeg.listDir(".");
+    const frameFiles = files.filter(
+      f => f.name.startsWith("frame_") && f.name.endsWith(`.${format}`)
+    );
 
     const zip = new JSZip();
     for (const file of frameFiles) {
@@ -52,7 +57,7 @@ const { toolConfig, render, destroy } = createVideoTool({
       zip.file(file.name, data);
     }
 
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const zipBlob = await zip.generateAsync({ type: "blob" });
     downloadBlob(zipBlob, `frames-${fps}fps.zip`);
 
     for (const file of frameFiles) await ffmpeg.deleteFile(file.name);

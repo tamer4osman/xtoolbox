@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'crypto-prices',
-  name: 'Crypto Price Tracker',
-  category: 'finance',
-  description: 'Track live prices of top 50 cryptocurrencies.',
-  icon: '₿',
-  status: 'done'
+  id: "crypto-prices",
+  name: "Crypto Price Tracker",
+  category: "finance",
+  description: "Track live prices of top 50 cryptocurrencies.",
+  icon: "₿",
+  status: "done"
 };
 
 export function render(container) {
@@ -26,7 +26,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 800px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-6); }
@@ -49,24 +49,28 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const refreshBtn = container.querySelector('#refresh-btn');
-  const loading = container.querySelector('#loading');
-  const result = container.querySelector('#result');
-  const error = container.querySelector('#error');
+  const refreshBtn = container.querySelector("#refresh-btn");
+  const loading = container.querySelector("#loading");
+  const result = container.querySelector("#result");
+  const error = container.querySelector("#error");
 
   async function fetchPrices() {
-    loading.classList.remove('hidden');
-    result.classList.add('hidden');
-    error.classList.add('hidden');
-    
+    loading.classList.remove("hidden");
+    result.classList.add("hidden");
+    error.classList.add("hidden");
+
     try {
-      const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false');
+      const res = await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false"
+      );
       const data = await res.json();
-      
-      container.querySelector('#crypto-list').innerHTML = data.map(coin => `
+
+      container.querySelector("#crypto-list").innerHTML = data
+        .map(
+          coin => `
         <div class="crypto-card">
           <div class="crypto-info">
-            <img class="crypto-icon" src="${coin.image || ''}" alt="${coin.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect fill=%22%236b7280%22 width=%2240%22 height=%2240%22 rx=%2220%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.35em%22 fill=%22white%22 font-size=%2214%22 font-weight=%22bold%22>${coin.symbol.charAt(0).toUpperCase()}</text></svg>'" />
+            <img class="crypto-icon" src="${coin.image || ""}" alt="${coin.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect fill=%22%236b7280%22 width=%2240%22 height=%2240%22 rx=%2220%22/><text x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.35em%22 fill=%22white%22 font-size=%2214%22 font-weight=%22bold%22>${coin.symbol.charAt(0).toUpperCase()}</text></svg>'" />
             <div>
               <div class="crypto-name">${coin.name}</div>
               <div class="crypto-symbol">${coin.symbol.toUpperCase()}</div>
@@ -74,22 +78,24 @@ export function render(container) {
           </div>
           <div class="crypto-price">
             <div class="price-value">$${coin.current_price.toLocaleString()}</div>
-            <div class="price-change ${coin.price_change_percentage_24h >= 0 ? 'positive' : 'negative'}">
-              ${coin.price_change_percentage_24h >= 0 ? '↑' : '↓'} ${Math.abs(coin.price_change_percentage_24h || 0).toFixed(2)}%
+            <div class="price-change ${coin.price_change_percentage_24h >= 0 ? "positive" : "negative"}">
+              ${coin.price_change_percentage_24h >= 0 ? "↑" : "↓"} ${Math.abs(coin.price_change_percentage_24h || 0).toFixed(2)}%
             </div>
           </div>
         </div>
-      `).join('');
-      
-      result.classList.remove('hidden');
+      `
+        )
+        .join("");
+
+      result.classList.remove("hidden");
     } catch (e) {
-      error.textContent = 'Failed to load crypto prices';
-      error.classList.remove('hidden');
+      error.textContent = "Failed to load crypto prices";
+      error.classList.remove("hidden");
     } finally {
-      loading.classList.add('hidden');
+      loading.classList.add("hidden");
     }
   }
 
-  refreshBtn.addEventListener('click', fetchPrices);
+  refreshBtn.addEventListener("click", fetchPrices);
   fetchPrices();
 }

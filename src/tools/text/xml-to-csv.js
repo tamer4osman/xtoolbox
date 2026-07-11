@@ -1,16 +1,16 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { escapeCsvValue } from '../../utils/csv-parser.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { escapeCsvValue } from "../../utils/csv-parser.js";
 
 export const toolConfig = {
-  id: 'xml-to-csv',
-  name: 'XML to CSV Converter',
-  category: 'text',
-  description: 'Convert XML files to CSV format. Extract data tables from XML documents.',
-  icon: '📊',
-  accept: '.xml',
+  id: "xml-to-csv",
+  name: "XML to CSV Converter",
+  category: "text",
+  description: "Convert XML files to CSV format. Extract data tables from XML documents.",
+  icon: "📊",
+  accept: ".xml",
   maxSizeMB: 10,
-  keywords: ['xml to csv', 'convert xml csv', 'xml converter'],
-  steps: ['Upload XML file', 'Preview data', 'Download CSV']
+  keywords: ["xml to csv", "convert xml csv", "xml converter"],
+  steps: ["Upload XML file", "Preview data", "Download CSV"]
 };
 
 const XML_CSV_CSS = `
@@ -43,10 +43,10 @@ const XML_CSV_HTML = `
 
 export function parseXmlToRows(xmlString) {
   const parser = new DOMParser();
-  const doc = parser.parseFromString(xmlString, 'text/xml');
+  const doc = parser.parseFromString(xmlString, "text/xml");
   const rows = [];
 
-  function extractRows(element, path = '') {
+  function extractRows(element, path = "") {
     const children = Array.from(element.children);
     const row = {};
     if (children.length === 0) {
@@ -64,9 +64,11 @@ export function parseXmlToRows(xmlString) {
   const rootRow = extractRows(doc.documentElement);
   if (rootRow) rows.push(rootRow);
 
-  const allElements = doc.getElementsByTagName('*');
+  const allElements = doc.getElementsByTagName("*");
   const tagCounts = {};
-  for (const el of allElements) { tagCounts[el.tagName] = (tagCounts[el.tagName] || 0) + 1; }
+  for (const el of allElements) {
+    tagCounts[el.tagName] = (tagCounts[el.tagName] || 0) + 1;
+  }
 
   const repeatingTags = Object.entries(tagCounts)
     .filter(([, count]) => count > 1)
@@ -77,10 +79,11 @@ export function parseXmlToRows(xmlString) {
     const elements = doc.getElementsByTagName(repeatingTags[0]);
     for (const el of elements) {
       const row = {};
-      function extract(el, prefix = '') {
+      function extract(el, prefix = "") {
         for (const child of el.children) {
           const key = prefix ? `${prefix}.${child.tagName}` : child.tagName;
-          if (child.children.length === 0 || child.textContent.trim()) row[key] = child.textContent.trim();
+          if (child.children.length === 0 || child.textContent.trim())
+            row[key] = child.textContent.trim();
           extract(child, key);
         }
       }
@@ -93,78 +96,91 @@ export function parseXmlToRows(xmlString) {
 }
 
 export function rowsToCsv(rows) {
-  if (rows.length === 0) return '';
+  if (rows.length === 0) return "";
   const allKeys = new Set();
   rows.forEach(row => Object.keys(row).forEach(k => allKeys.add(k)));
   const keys = Array.from(allKeys);
-  const header = keys.join(',');
-  const lines = rows.map(row =>
-    keys.map(k => escapeCsvValue(row[k] || '')).join(',')
-  );
-  return [header, ...lines].join('\n');
+  const header = keys.join(",");
+  const lines = rows.map(row => keys.map(k => escapeCsvValue(row[k] || "")).join(","));
+  return [header, ...lines].join("\n");
 }
 
 function renderPreviewTable(rows, tableContainer) {
   const keys = Object.keys(rows[0] || {});
-  let html = '<table><thead><tr>' + keys.map(k => `<th>${k}</th>`).join('') + '</tr></thead><tbody>';
+  let html =
+    "<table><thead><tr>" + keys.map(k => `<th>${k}</th>`).join("") + "</tr></thead><tbody>";
   rows.slice(0, 10).forEach(row => {
-    html += '<tr>' + keys.map(k => `<td>${row[k] || ''}</td>`).join('') + '</tr>';
+    html += "<tr>" + keys.map(k => `<td>${row[k] || ""}</td>`).join("") + "</tr>";
   });
-  if (rows.length > 10) html += `<tr><td colspan="${keys.length}">... and ${rows.length - 10} more rows</td></tr>`;
-  html += '</tbody></table>';
+  if (rows.length > 10)
+    html += `<tr><td colspan="${keys.length}">... and ${rows.length - 10} more rows</td></tr>`;
+  html += "</tbody></table>";
   tableContainer.innerHTML = html;
 }
 
 export function render(container) {
   container.innerHTML = XML_CSV_HTML;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = XML_CSV_CSS;
   container.appendChild(style);
 
-  const dropzone = container.querySelector('#dropzone');
-  const fileInput = container.querySelector('#file-input');
-  const browseBtn = container.querySelector('#browse-btn');
-  const preview = container.querySelector('#preview');
-  const tableContainer = container.querySelector('#table-container');
-  const downloadBtn = container.querySelector('#download-btn');
+  const dropzone = container.querySelector("#dropzone");
+  const fileInput = container.querySelector("#file-input");
+  const browseBtn = container.querySelector("#browse-btn");
+  const preview = container.querySelector("#preview");
+  const tableContainer = container.querySelector("#table-container");
+  const downloadBtn = container.querySelector("#download-btn");
 
-  let csvData = '';
+  let csvData = "";
 
   function handleFile(file) {
     const reader = new FileReader();
     reader.onload = e => {
       try {
         const rows = parseXmlToRows(e.target.result);
-        if (rows.length === 0) { alert('No data found in XML file'); return; }
+        if (rows.length === 0) {
+          alert("No data found in XML file");
+          return;
+        }
         csvData = rowsToCsv(rows);
         renderPreviewTable(rows, tableContainer);
-        preview.style.display = 'block';
+        preview.style.display = "block";
       } catch (err) {
-        alert('Error parsing XML: ' + err.message);
+        alert("Error parsing XML: " + err.message);
       }
     };
     reader.readAsText(file);
   }
 
-  dropzone.addEventListener('click', () => fileInput.click());
-  browseBtn.addEventListener('click', e => { e.stopPropagation(); fileInput.click(); });
-  fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
-  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.style.borderColor = 'var(--color-primary)'; });
-  dropzone.addEventListener('dragleave', () => { dropzone.style.borderColor = ''; });
-  dropzone.addEventListener('drop', e => {
+  dropzone.addEventListener("click", () => fileInput.click());
+  browseBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    fileInput.click();
+  });
+  fileInput.addEventListener("change", e => {
+    if (e.target.files[0]) handleFile(e.target.files[0]);
+  });
+  dropzone.addEventListener("dragover", e => {
     e.preventDefault();
-    dropzone.style.borderColor = '';
+    dropzone.style.borderColor = "var(--color-primary)";
+  });
+  dropzone.addEventListener("dragleave", () => {
+    dropzone.style.borderColor = "";
+  });
+  dropzone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropzone.style.borderColor = "";
     if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
   });
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     if (!csvData) return;
-    const blob = new Blob([csvData], { type: 'text/csv' });
+    const blob = new Blob([csvData], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'output.csv';
+    a.download = "output.csv";
     a.click();
     URL.revokeObjectURL(url);
   });

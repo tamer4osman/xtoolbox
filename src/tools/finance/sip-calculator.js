@@ -1,22 +1,22 @@
-import { createFinanceCalculator } from './finance-calculator-factory.js';
+import { createFinanceCalculator } from "./finance-calculator-factory.js";
 
 export const toolConfig = {
-  id: 'sip-calculator',
-  name: 'SIP Calculator',
-  category: 'finance',
-  description: 'Calculate returns on Systematic Investment Plan (SIP).',
-  icon: '📈',
-  status: 'done'
+  id: "sip-calculator",
+  name: "SIP Calculator",
+  category: "finance",
+  description: "Calculate returns on Systematic Investment Plan (SIP).",
+  icon: "📈",
+  status: "done"
 };
 
 export function render(container) {
   createFinanceCalculator({
     container,
-    toolId: 'sip',
+    toolId: "sip",
     icon: toolConfig.icon,
     title: toolConfig.name,
     description: toolConfig.description,
-    cardColor: 'purple',
+    cardColor: "purple",
     formHTML: `
       <div class="form-group">
         <label>Monthly Investment ($)</label>
@@ -37,7 +37,7 @@ export function render(container) {
       const y = parseInt(years);
       let fv = 0;
       let invested = 0;
-      let rows = '';
+      let rows = "";
       for (let yr = 1; yr <= y; yr++) {
         for (let mo = 1; mo <= 12; mo++) {
           fv += m * (1 + r);
@@ -47,10 +47,10 @@ export function render(container) {
       }
       const returns = fv - invested;
       return {
-        primary: { label: 'Future Value', value: '$' + Math.round(fv).toLocaleString() },
+        primary: { label: "Future Value", value: "$" + Math.round(fv).toLocaleString() },
         items: [
-          { label: 'Total Invested', value: '$' + invested.toLocaleString() },
-          { label: 'Total Returns', value: '$' + Math.round(returns).toLocaleString() }
+          { label: "Total Invested", value: "$" + invested.toLocaleString() },
+          { label: "Total Returns", value: "$" + Math.round(returns).toLocaleString() }
         ],
         extras: `<div class="result-breakdown" style="background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-4);"><h3 style="margin-bottom:var(--space-2);">Yearly Breakdown</h3>${rows}</div>`
       };

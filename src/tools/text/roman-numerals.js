@@ -1,23 +1,36 @@
 const ROMAN_MAP = [
-  [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
-  [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
-  [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+  [1000, "M"],
+  [900, "CM"],
+  [500, "D"],
+  [400, "CD"],
+  [100, "C"],
+  [90, "XC"],
+  [50, "L"],
+  [40, "XL"],
+  [10, "X"],
+  [9, "IX"],
+  [5, "V"],
+  [4, "IV"],
+  [1, "I"]
 ];
 
 const ROMAN_PATTERN = /^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
 
 export function toRoman(num) {
   if (!Number.isInteger(num) || num < 1 || num > 3999) return null;
-  let result = '';
+  let result = "";
   let n = num;
   for (const [val, sym] of ROMAN_MAP) {
-    while (n >= val) { result += sym; n -= val; }
+    while (n >= val) {
+      result += sym;
+      n -= val;
+    }
   }
   return result;
 }
 
 export function fromRoman(str) {
-  if (!str || typeof str !== 'string') return null;
+  if (!str || typeof str !== "string") return null;
   const s = str.trim().toUpperCase();
   if (!ROMAN_PATTERN.test(s)) return null;
   const map = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
@@ -25,25 +38,44 @@ export function fromRoman(str) {
   for (let i = 0; i < s.length; i++) {
     const cur = map[s[i]];
     const next = map[s[i + 1]];
-    if (next && cur < next) { total += next - cur; i++; }
-    else total += cur;
+    if (next && cur < next) {
+      total += next - cur;
+      i++;
+    } else total += cur;
   }
   return total;
 }
 
 export const toolConfig = {
-  id: 'roman-numerals',
-  name: 'Roman Numeral Converter',
-  category: 'text',
-  description: 'Convert between Roman numerals and Arabic numbers. Supports 1–3999 (I–MMMCMXCIX).',
-  icon: 'Ⅿ',
+  id: "roman-numerals",
+  name: "Roman Numeral Converter",
+  category: "text",
+  description: "Convert between Roman numerals and Arabic numbers. Supports 1–3999 (I–MMMCMXCIX).",
+  icon: "Ⅿ",
   accept: null,
   maxSizeMB: null,
-  keywords: ['roman numerals', 'roman numeral converter', 'arabic to roman', 'roman to number', 'numeral conversion'],
-  steps: ['Enter a number (1–3999) to convert to Roman', 'Or enter a Roman numeral to convert to a number', 'See the result immediately'],
+  keywords: [
+    "roman numerals",
+    "roman numeral converter",
+    "arabic to roman",
+    "roman to number",
+    "numeral conversion"
+  ],
+  steps: [
+    "Enter a number (1–3999) to convert to Roman",
+    "Or enter a Roman numeral to convert to a number",
+    "See the result immediately"
+  ],
   faqs: [
-    { question: 'What range is supported?', answer: '1 to 3999 (I to MMMCMXCIX). Larger numbers require special notation not supported here.' },
-    { question: 'Is the input validated?', answer: 'Yes. Invalid Roman numerals or out-of-range numbers show an error message.' }
+    {
+      question: "What range is supported?",
+      answer:
+        "1 to 3999 (I to MMMCMXCIX). Larger numbers require special notation not supported here."
+    },
+    {
+      question: "Is the input validated?",
+      answer: "Yes. Invalid Roman numerals or out-of-range numbers show an error message."
+    }
   ]
 };
 
@@ -74,19 +106,19 @@ export function render(container) {
     </div>
   `;
 
-  const numberInput = container.querySelector('#rn-number');
-  const romanInput = container.querySelector('#rn-roman');
-  const output = container.querySelector('#rn-output');
-  const sub = container.querySelector('#rn-sub');
-  const toRomanBtn = container.querySelector('#rn-to-roman');
-  const toNumberBtn = container.querySelector('#rn-to-number');
+  const numberInput = container.querySelector("#rn-number");
+  const romanInput = container.querySelector("#rn-roman");
+  const output = container.querySelector("#rn-output");
+  const sub = container.querySelector("#rn-sub");
+  const toRomanBtn = container.querySelector("#rn-to-roman");
+  const toNumberBtn = container.querySelector("#rn-to-number");
 
   function showNumberToRoman() {
     const val = parseInt(numberInput.value);
     const roman = toRoman(val);
     if (roman === null) {
-      output.textContent = 'Invalid';
-      sub.textContent = 'Enter a number between 1 and 3999';
+      output.textContent = "Invalid";
+      sub.textContent = "Enter a number between 1 and 3999";
       return;
     }
     output.textContent = roman;
@@ -96,18 +128,22 @@ export function render(container) {
   function showRomanToNumber() {
     const val = fromRoman(romanInput.value);
     if (val === null) {
-      output.textContent = 'Invalid';
-      sub.textContent = 'Enter a valid Roman numeral (I–MMMCMXCIX)';
+      output.textContent = "Invalid";
+      sub.textContent = "Enter a valid Roman numeral (I–MMMCMXCIX)";
       return;
     }
     output.textContent = val;
     sub.textContent = `= ${romanInput.value.trim().toUpperCase()}`;
   }
 
-  toRomanBtn.addEventListener('click', showNumberToRoman);
-  toNumberBtn.addEventListener('click', showRomanToNumber);
-  numberInput.addEventListener('keydown', e => { if (e.key === 'Enter') showNumberToRoman(); });
-  romanInput.addEventListener('keydown', e => { if (e.key === 'Enter') showRomanToNumber(); });
+  toRomanBtn.addEventListener("click", showNumberToRoman);
+  toNumberBtn.addEventListener("click", showRomanToNumber);
+  numberInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") showNumberToRoman();
+  });
+  romanInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") showRomanToNumber();
+  });
 
   showNumberToRoman();
 }

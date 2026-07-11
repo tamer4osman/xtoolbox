@@ -1,32 +1,89 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'passport-photo-maker',
-  name: 'Passport / ID Photo Maker',
-  category: 'image',
-  description: 'Create professional passport photos with face guide frame, zoom controls, and background color options.',
-  icon: '📸',
-  keywords: ['passport', 'photo', 'id', 'visa', 'biometrics', 'photo booth'],
-  accept: 'image/*',
+  id: "passport-photo-maker",
+  name: "Passport / ID Photo Maker",
+  category: "image",
+  description:
+    "Create professional passport photos with face guide frame, zoom controls, and background color options.",
+  icon: "📸",
+  keywords: ["passport", "photo", "id", "visa", "biometrics", "photo booth"],
+  accept: "image/*",
   maxSizeMB: 10,
-  status: 'done'
+  status: "done"
 };
 
 const SIZES = [
-  { id: 'us-passport', name: 'US Passport', label: '2x2 in', width: 600, height: 600, faceY: 0.35, guideW: 0.5 },
-  { id: 'uk-passport', name: 'UK Passport', label: '35x45mm', width: 600, height: 750, faceY: 0.38, guideW: 0.48 },
-  { id: 'eu-passport', name: 'EU Passport', label: '35x45mm', width: 590, height: 709, faceY: 0.38, guideW: 0.48 },
-  { id: 'schengen', name: 'Schengen Visa', label: '35x45mm', width: 590, height: 709, faceY: 0.38, guideW: 0.48 },
-  { id: 'canada-passport', name: 'Canada Passport', label: '50x70mm', width: 600, height: 720, faceY: 0.38, guideW: 0.5 },
-  { id: 'aus-passport', name: 'Australia Passport', label: '45x45mm', width: 600, height: 600, faceY: 0.35, guideW: 0.5 },
-  { id: 'generic-id', name: 'Generic ID', label: '2x2 in', width: 400, height: 500, faceY: 0.35, guideW: 0.55 }
+  {
+    id: "us-passport",
+    name: "US Passport",
+    label: "2x2 in",
+    width: 600,
+    height: 600,
+    faceY: 0.35,
+    guideW: 0.5
+  },
+  {
+    id: "uk-passport",
+    name: "UK Passport",
+    label: "35x45mm",
+    width: 600,
+    height: 750,
+    faceY: 0.38,
+    guideW: 0.48
+  },
+  {
+    id: "eu-passport",
+    name: "EU Passport",
+    label: "35x45mm",
+    width: 590,
+    height: 709,
+    faceY: 0.38,
+    guideW: 0.48
+  },
+  {
+    id: "schengen",
+    name: "Schengen Visa",
+    label: "35x45mm",
+    width: 590,
+    height: 709,
+    faceY: 0.38,
+    guideW: 0.48
+  },
+  {
+    id: "canada-passport",
+    name: "Canada Passport",
+    label: "50x70mm",
+    width: 600,
+    height: 720,
+    faceY: 0.38,
+    guideW: 0.5
+  },
+  {
+    id: "aus-passport",
+    name: "Australia Passport",
+    label: "45x45mm",
+    width: 600,
+    height: 600,
+    faceY: 0.35,
+    guideW: 0.5
+  },
+  {
+    id: "generic-id",
+    name: "Generic ID",
+    label: "2x2 in",
+    width: 400,
+    height: 500,
+    faceY: 0.35,
+    guideW: 0.55
+  }
 ];
 
 const BG_COLORS = [
-  { id: 'white', color: '#ffffff', name: 'White' },
-  { id: 'light-blue', color: '#e6f0ff', name: 'Light Blue' },
-  { id: 'light-gray', color: '#f0f0f0', name: 'Light Gray' },
-  { id: 'transparent', color: 'transparent', name: 'Transparent' }
+  { id: "white", color: "#ffffff", name: "White" },
+  { id: "light-blue", color: "#e6f0ff", name: "Light Blue" },
+  { id: "light-gray", color: "#f0f0f0", name: "Light Gray" },
+  { id: "transparent", color: "transparent", name: "Transparent" }
 ];
 
 export function render(container) {
@@ -58,7 +115,7 @@ export function render(container) {
         <div class="ppm-option">
           <label>Background</label>
           <div class="ppm-bgs">
-            ${BG_COLORS.map(b => `<button class="ppm-bg ${b.id === 'white' ? 'active' : ''}" data-bg="${b.id}" style="background:${b.color}" title="${b.name}"></button>`).join('')}
+            ${BG_COLORS.map(b => `<button class="ppm-bg ${b.id === "white" ? "active" : ""}" data-bg="${b.id}" style="background:${b.color}" title="${b.name}"></button>`).join("")}
           </div>
         </div>
         <div class="ppm-info">
@@ -71,7 +128,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .ppm-container { display: flex; gap: var(--space-4); max-width: 900px; margin: 0 auto; flex-wrap: wrap; }
     .ppm-workspace { flex: 1; min-width: 300px; }
@@ -105,26 +162,26 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const canvas = document.getElementById('ppm-canvas');
-  const ctx = canvas.getContext('2d');
-  const guide = document.getElementById('ppm-guide');
-  const sizeSelect = document.getElementById('ppm-size');
-  const zoomIn = document.getElementById('ppm-zoom-in');
-  const zoomOut = document.getElementById('ppm-zoom-out');
-  const zoomLevel = document.getElementById('ppm-zoom-level');
-  const processBtn = document.getElementById('ppm-process');
-  const result = document.getElementById('ppm-result');
-  const bgBtns = container.querySelectorAll('.ppm-bg');
+  const canvas = document.getElementById("ppm-canvas");
+  const ctx = canvas.getContext("2d");
+  const guide = document.getElementById("ppm-guide");
+  const sizeSelect = document.getElementById("ppm-size");
+  const zoomIn = document.getElementById("ppm-zoom-in");
+  const zoomOut = document.getElementById("ppm-zoom-out");
+  const zoomLevel = document.getElementById("ppm-zoom-level");
+  const processBtn = document.getElementById("ppm-process");
+  const result = document.getElementById("ppm-result");
+  const bgBtns = container.querySelectorAll(".ppm-bg");
 
   SIZES.forEach(s => {
-    const opt = document.createElement('option');
+    const opt = document.createElement("option");
     opt.value = s.id;
-    opt.textContent = s.name + ' (' + s.label + ')';
+    opt.textContent = s.name + " (" + s.label + ")";
     sizeSelect.appendChild(opt);
   });
 
   let currentSize = SIZES[0];
-  let currentBg = 'white';
+  let currentBg = "white";
   let sourceImage = null;
   let zoom = 1;
   let offsetX = 0;
@@ -134,20 +191,20 @@ export function render(container) {
 
   canvas.width = 400;
   canvas.height = 400;
-  ctx.fillStyle = '#ccc';
+  ctx.fillStyle = "#ccc";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#fff';
-  ctx.font = '20px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('No image', 200, 200);
+  ctx.fillStyle = "#fff";
+  ctx.font = "20px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("No image", 200, 200);
 
   function updateCanvas() {
     if (!sourceImage) return;
     const w = canvas.width;
     const h = canvas.height;
     const bg = BG_COLORS.find(b => b.id === currentBg);
-    
-    if (bg.id === 'transparent') {
+
+    if (bg.id === "transparent") {
       ctx.clearRect(0, 0, w, h);
     } else {
       ctx.fillStyle = bg.color;
@@ -161,55 +218,55 @@ export function render(container) {
     const dy = (h - dh) / 2 + offsetY;
 
     ctx.drawImage(sourceImage, dx, dy, dw, dh);
-    zoomLevel.textContent = Math.round(zoom * 100) + '%';
+    zoomLevel.textContent = Math.round(zoom * 100) + "%";
   }
 
   function updateGuide() {
     const s = SIZES.find(s => s.id === sizeSelect.value) || SIZES[0];
-    guide.style.borderRadius = '50%';
-    guide.style.top = (s.faceY * 100 - s.guideW * 50) + '%';
-    guide.style.height = (s.guideW * 100) + '%';
+    guide.style.borderRadius = "50%";
+    guide.style.top = s.faceY * 100 - s.guideW * 50 + "%";
+    guide.style.height = s.guideW * 100 + "%";
     currentSize = s;
     updateCanvas();
   }
 
-  sizeSelect.addEventListener('change', updateGuide);
-  
-  zoomIn.addEventListener('click', () => {
+  sizeSelect.addEventListener("change", updateGuide);
+
+  zoomIn.addEventListener("click", () => {
     zoom = Math.min(zoom + 0.1, 3);
     updateCanvas();
   });
-  
-  zoomOut.addEventListener('click', () => {
+
+  zoomOut.addEventListener("click", () => {
     zoom = Math.max(zoom - 0.1, 0.3);
     updateCanvas();
   });
 
   bgBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      bgBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    btn.addEventListener("click", () => {
+      bgBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
       currentBg = btn.dataset.bg;
       updateCanvas();
     });
   });
 
-  const previewArea = document.getElementById('ppm-preview-area');
-  previewArea.addEventListener('mousedown', e => {
+  const previewArea = document.getElementById("ppm-preview-area");
+  previewArea.addEventListener("mousedown", e => {
     isDragging = true;
     dragStart = { x: e.clientX - offsetX, y: e.clientY - offsetY };
   });
-  previewArea.addEventListener('mousemove', e => {
+  previewArea.addEventListener("mousemove", e => {
     if (isDragging) {
       offsetX = e.clientX - dragStart.x;
       offsetY = e.clientY - dragStart.y;
       updateCanvas();
     }
   });
-  previewArea.addEventListener('mouseup', () => isDragging = false);
-  previewArea.addEventListener('mouseleave', () => isDragging = false);
+  previewArea.addEventListener("mouseup", () => (isDragging = false));
+  previewArea.addEventListener("mouseleave", () => (isDragging = false));
 
-  document.getElementById('ppm-input').addEventListener('change', e => {
+  document.getElementById("ppm-input").addEventListener("change", e => {
     const file = e.target.files[0];
     if (!file) return;
     const img = new Image();
@@ -225,20 +282,20 @@ export function render(container) {
     img.src = url;
   });
 
-  processBtn.addEventListener('click', () => {
+  processBtn.addEventListener("click", () => {
     if (!sourceImage) {
       result.innerHTML = '<p style="color:red">Please upload a photo first</p>';
       return;
     }
 
     const s = currentSize;
-    const outputCanvas = document.createElement('canvas');
+    const outputCanvas = document.createElement("canvas");
     outputCanvas.width = s.width;
     outputCanvas.height = s.height;
-    const octx = outputCanvas.getContext('2d');
+    const octx = outputCanvas.getContext("2d");
 
     const bg = BG_COLORS.find(b => b.id === currentBg);
-    if (bg.id === 'transparent') {
+    if (bg.id === "transparent") {
       octx.clearRect(0, 0, s.width, s.height);
     } else {
       octx.fillStyle = bg.color;
@@ -247,19 +304,20 @@ export function render(container) {
 
     const previewW = canvas.width;
     const previewH = canvas.height;
-    const previewScale = zoom * Math.min(previewW / sourceImage.width, previewH / sourceImage.height);
+    const previewScale =
+      zoom * Math.min(previewW / sourceImage.width, previewH / sourceImage.height);
     const scale = zoom * Math.min(s.width / sourceImage.width, s.height / sourceImage.height);
     const scaleRatio = scale / previewScale;
     const dw = sourceImage.width * scale;
     const dh = sourceImage.height * scale;
-    const dx = (s.width - dw) / 2 + (offsetX * scaleRatio);
-    const dy = (s.height - dh) / 2 + (offsetY * scaleRatio);
+    const dx = (s.width - dw) / 2 + offsetX * scaleRatio;
+    const dy = (s.height - dh) / 2 + offsetY * scaleRatio;
 
     octx.drawImage(sourceImage, dx, dy, dw, dh);
 
     result.innerHTML = `
-      <img src="${outputCanvas.toDataURL('image/jpeg', 0.92)}" alt="Passport photo" />
-      <a class="ppm-download" href="${outputCanvas.toDataURL('image/jpeg', 0.92)}" download="passport-photo.jpg">Download Photo</a>
+      <img src="${outputCanvas.toDataURL("image/jpeg", 0.92)}" alt="Passport photo" />
+      <a class="ppm-download" href="${outputCanvas.toDataURL("image/jpeg", 0.92)}" download="passport-photo.jpg">Download Photo</a>
     `;
   });
 

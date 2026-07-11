@@ -1,6 +1,6 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob, formatFileSize } from '../../utils/file.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob, formatFileSize } from "../../utils/file.js";
 
 const STYLES = `
   .file-info-panel { background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-lg); }
@@ -13,14 +13,14 @@ const STYLES = `
 export function createPdfConverter({
   container,
   toolId,
-  accept = '.pdf',
+  accept = ".pdf",
   maxSizeMB = 50,
-  convertButtonText = 'Convert',
-  progressMessage = 'Converting...',
-  successMessage = 'Converted!',
-  outputExt = 'out',
-  outputMime = 'application/octet-stream',
-  extraHTML = '',
+  convertButtonText = "Convert",
+  progressMessage = "Converting...",
+  successMessage = "Converted!",
+  outputExt = "out",
+  outputMime = "application/octet-stream",
+  extraHTML = "",
   convert
 }) {
   let currentFile = null;
@@ -29,13 +29,13 @@ export function createPdfConverter({
     accept,
     multiple: false,
     maxSizeMB,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       if (files.length === 0) return;
       currentFile = files[0];
       fileName.textContent = currentFile.name;
       fileInfo.textContent = formatFileSize(currentFile.size);
-      filePanel.style.display = 'block';
-      convertBtn.style.display = 'inline-flex';
+      filePanel.style.display = "block";
+      convertBtn.style.display = "inline-flex";
     }
   });
 
@@ -69,25 +69,27 @@ export function createPdfConverter({
   const fileName = container.querySelector(`#${toolId}-file-name`);
   const fileInfo = container.querySelector(`#${toolId}-file-info`);
 
-  convertBtn.addEventListener('click', async () => {
+  convertBtn.addEventListener("click", async () => {
     if (!currentFile) return;
 
-    processing.style.display = 'block';
-    convertBtn.style.display = 'none';
-    filePanel.style.display = 'none';
+    processing.style.display = "block";
+    convertBtn.style.display = "none";
+    filePanel.style.display = "none";
 
     try {
-      const onProgress = (pct) => { progressPct.textContent = String(pct); };
+      const onProgress = pct => {
+        progressPct.textContent = String(pct);
+      };
       const blob = await convert(currentFile, onProgress);
-      const baseName = currentFile.name.replace(/\.pdf$/i, '');
+      const baseName = currentFile.name.replace(/\.pdf$/i, "");
       downloadBlob(blob, `${baseName}.${outputExt}`);
-      showToast({ message: successMessage, type: 'success' });
+      showToast({ message: successMessage, type: "success" });
     } catch (err) {
-      showToast({ message: 'Error: ' + (err?.message || 'Unknown error'), type: 'error' });
+      showToast({ message: "Error: " + (err?.message || "Unknown error"), type: "error" });
     } finally {
-      processing.style.display = 'none';
-      convertBtn.style.display = 'inline-flex';
-      filePanel.style.display = 'block';
+      processing.style.display = "none";
+      convertBtn.style.display = "inline-flex";
+      filePanel.style.display = "block";
     }
   });
 }

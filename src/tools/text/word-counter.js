@@ -1,13 +1,13 @@
 export const toolConfig = {
-  id: 'word-counter',
-  name: 'Word Counter',
-  category: 'text',
-  description: 'Count words, characters, sentences, and paragraphs.',
-  icon: '🔢',
+  id: "word-counter",
+  name: "Word Counter",
+  category: "text",
+  description: "Count words, characters, sentences, and paragraphs.",
+  icon: "🔢",
   accept: null,
   maxSizeMB: null,
-  keywords: ['word counter', 'count words', 'character count', 'text analyzer'],
-  steps: ['Enter or paste text', 'Get counts']
+  keywords: ["word counter", "count words", "character count", "text analyzer"],
+  steps: ["Enter or paste text", "Get counts"]
 };
 
 export function render(container) {
@@ -43,7 +43,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .counter-container textarea { width: 100%; min-height: 200px; padding: var(--space-4); border: 2px solid #ddd; border-radius: var(--radius-md); font-size: var(--text-base); resize: vertical; background: #fff; }
     .counter-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-4); }
@@ -53,19 +53,19 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const textInput = container.querySelector('#text-input');
-  const wordsEl = container.querySelector('#words');
-  const charsEl = container.querySelector('#chars');
-  const linesEl = container.querySelector('#lines');
-  const sentencesEl = container.querySelector('#sentences');
-  const paragraphsEl = container.querySelector('#paragraphs');
-  const readingTimeEl = container.querySelector('#reading-time');
+  const textInput = container.querySelector("#text-input");
+  const wordsEl = container.querySelector("#words");
+  const charsEl = container.querySelector("#chars");
+  const linesEl = container.querySelector("#lines");
+  const sentencesEl = container.querySelector("#sentences");
+  const paragraphsEl = container.querySelector("#paragraphs");
+  const readingTimeEl = container.querySelector("#reading-time");
 
   function count() {
     const text = textInput.value;
     const words = text.trim() ? text.trim().split(/\s+/).length : 0;
     const chars = text.length;
-    const lines = text ? text.split('\n').length : 0;
+    const lines = text ? text.split("\n").length : 0;
     const sentences = text ? text.split(/[.!?]+/).filter(s => s.trim()).length : 0;
     const paragraphs = text ? text.split(/\n\s*\n/).filter(p => p.trim()).length : 0;
     const readingTime = Math.ceil(words / 200);
@@ -75,9 +75,9 @@ export function render(container) {
     linesEl.textContent = lines.toLocaleString();
     sentencesEl.textContent = sentences.toLocaleString();
     paragraphsEl.textContent = Math.max(1, paragraphs).toLocaleString();
-    readingTimeEl.textContent = readingTime + ' min';
+    readingTimeEl.textContent = readingTime + " min";
   }
 
-  textInput.addEventListener('input', count);
+  textInput.addEventListener("input", count);
   count();
 }

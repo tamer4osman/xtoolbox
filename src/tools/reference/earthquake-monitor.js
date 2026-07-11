@@ -1,24 +1,25 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'earthquake-monitor',
-  name: 'Earthquake Monitor',
-  category: 'reference',
-  description: 'Track recent earthquakes worldwide with magnitude, location, and depth data from USGS.',
-  icon: '🌍',
-  keywords: ['earthquake', 'seismic', 'usgs', 'magnitude', 'tremor'],
-  accept: '',
+  id: "earthquake-monitor",
+  name: "Earthquake Monitor",
+  category: "reference",
+  description:
+    "Track recent earthquakes worldwide with magnitude, location, and depth data from USGS.",
+  icon: "🌍",
+  keywords: ["earthquake", "seismic", "usgs", "magnitude", "tremor"],
+  accept: "",
   maxSizeMB: 0,
-  status: 'done'
+  status: "done"
 };
 
-const API_BASE = 'https://earthquake.usgs.gov/fdsnws/event/1/query';
+const API_BASE = "https://earthquake.usgs.gov/fdsnws/event/1/query";
 const MAG_COLORS = {
-  red: '#dc2626',
-  orange: '#ea580c',
-  yellow: '#ca8a04',
-  green: '#16a34a',
-  blue: '#2563eb'
+  red: "#dc2626",
+  orange: "#ea580c",
+  yellow: "#ca8a04",
+  green: "#16a34a",
+  blue: "#2563eb"
 };
 
 function getMagColor(mag) {
@@ -30,22 +31,22 @@ function getMagColor(mag) {
 }
 
 function getMagLabel(mag) {
-  if (mag >= 6) return 'Major';
-  if (mag >= 4.5) return 'Strong';
-  if (mag >= 2.5) return 'Moderate';
-  if (mag >= 1) return 'Light';
-  return 'Minor';
+  if (mag >= 6) return "Major";
+  if (mag >= 4.5) return "Strong";
+  if (mag >= 2.5) return "Moderate";
+  if (mag >= 1) return "Light";
+  return "Minor";
 }
 
 function timeAgo(ts) {
   const diff = Date.now() - ts;
   const mins = Math.floor(diff / 60000);
-  if (mins < 1) return 'just now';
-  if (mins < 60) return mins + 'm ago';
+  if (mins < 1) return "just now";
+  if (mins < 60) return mins + "m ago";
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return hrs + 'h ago';
+  if (hrs < 24) return hrs + "h ago";
   const days = Math.floor(hrs / 24);
-  return days + 'd ago';
+  return days + "d ago";
 }
 
 function formatDate(ts) {
@@ -56,7 +57,7 @@ export function parseFeatures(features) {
   return features.map(f => ({
     id: f.id,
     mag: f.properties.mag,
-    place: f.properties.place || 'Unknown location',
+    place: f.properties.place || "Unknown location",
     time: f.properties.time,
     url: f.properties.url,
     depth: f.geometry.coordinates[2],
@@ -71,10 +72,11 @@ export function parseFeatures(features) {
 
 function renderQuakeList(quakes) {
   if (!quakes.length) return '<p class="eq-empty">No earthquakes found for this criteria.</p>';
-  return quakes.map(q => {
-    const color = getMagColor(q.mag);
-    const label = getMagLabel(q.mag);
-    return `
+  return quakes
+    .map(q => {
+      const color = getMagColor(q.mag);
+      const label = getMagLabel(q.mag);
+      return `
       <a href="${escapeHtml(q.url)}" target="_blank" rel="noopener" class="eq-item">
         <div class="eq-mag-badge" style="background:${color}">${q.mag.toFixed(1)}</div>
         <div class="eq-info">
@@ -83,17 +85,18 @@ function renderQuakeList(quakes) {
             <span class="eq-label" style="color:${color}">${label}</span>
             <span>Depth: ${q.depth.toFixed(1)} km</span>
             <span>${timeAgo(q.time)}</span>
-            ${q.tsunami ? '<span class="eq-tsunami">⚠ Tsunami</span>' : ''}
+            ${q.tsunami ? '<span class="eq-tsunami">⚠ Tsunami</span>' : ""}
           </div>
         </div>
         <div class="eq-time">${formatDate(q.time)}</div>
       </a>
     `;
-  }).join('');
+    })
+    .join("");
 }
 
 function renderStats(quakes) {
-  if (!quakes.length) return '';
+  if (!quakes.length) return "";
   const maxMag = Math.max(...quakes.map(q => q.mag));
   const avgMag = (quakes.reduce((s, q) => s + q.mag, 0) / quakes.length).toFixed(1);
   const tsunamiCount = quakes.filter(q => q.tsunami).length;
@@ -102,7 +105,7 @@ function renderStats(quakes) {
       <div class="eq-stat"><span class="eq-stat-value">${quakes.length}</span><span class="eq-stat-label">Earthquakes</span></div>
       <div class="eq-stat"><span class="eq-stat-value" style="color:${getMagColor(maxMag)}">${maxMag.toFixed(1)}</span><span class="eq-stat-label">Max Magnitude</span></div>
       <div class="eq-stat"><span class="eq-stat-value">${avgMag}</span><span class="eq-stat-label">Avg Magnitude</span></div>
-      ${tsunamiCount ? `<div class="eq-stat"><span class="eq-stat-value" style="color:#dc2626">${tsunamiCount}</span><span class="eq-stat-label">Tsunami Alerts</span></div>` : ''}
+      ${tsunamiCount ? `<div class="eq-stat"><span class="eq-stat-value" style="color:#dc2626">${tsunamiCount}</span><span class="eq-stat-label">Tsunami Alerts</span></div>` : ""}
     </div>
   `;
 }
@@ -138,7 +141,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .eq-container { max-width: 800px; margin: 0 auto; }
     .eq-controls { display: flex; gap: var(--space-3); align-items: flex-end; flex-wrap: wrap; margin-bottom: var(--space-4); }
@@ -169,50 +172,50 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const status = container.querySelector('#eq-status');
-  const statsWrap = container.querySelector('#eq-stats');
-  const results = container.querySelector('#eq-results');
+  const status = container.querySelector("#eq-status");
+  const statsWrap = container.querySelector("#eq-stats");
+  const results = container.querySelector("#eq-results");
 
   async function fetchQuakes() {
-    const mag = container.querySelector('#eq-mag').value;
-    const time = container.querySelector('#eq-time').value;
+    const mag = container.querySelector("#eq-mag").value;
+    const time = container.querySelector("#eq-time").value;
 
-    status.textContent = 'Fetching earthquakes...';
-    results.innerHTML = '';
-    statsWrap.innerHTML = '';
+    status.textContent = "Fetching earthquakes...";
+    results.innerHTML = "";
+    statsWrap.innerHTML = "";
 
     const now = new Date();
     let starttime;
-    if (time === 'hour') starttime = new Date(now - 3600000);
-    else if (time === 'day') starttime = new Date(now - 86400000);
-    else if (time === 'week') starttime = new Date(now - 604800000);
+    if (time === "hour") starttime = new Date(now - 3600000);
+    else if (time === "day") starttime = new Date(now - 86400000);
+    else if (time === "week") starttime = new Date(now - 604800000);
     else starttime = new Date(now - 2592000000);
 
     const params = new URLSearchParams({
-      format: 'geojson',
-      orderby: 'time',
-      limit: '50',
+      format: "geojson",
+      orderby: "time",
+      limit: "50",
       starttime: starttime.toISOString()
     });
-    if (mag !== 'all') params.set('minmagnitude', mag);
+    if (mag !== "all") params.set("minmagnitude", mag);
 
     try {
-      const res = await fetch(API_BASE + '?' + params.toString());
-      if (!res.ok) throw new Error('API error ' + res.status);
+      const res = await fetch(API_BASE + "?" + params.toString());
+      if (!res.ok) throw new Error("API error " + res.status);
       const data = await res.json();
       const quakes = parseFeatures(data.features);
-      status.textContent = quakes.length ? '' : 'No earthquakes found.';
+      status.textContent = quakes.length ? "" : "No earthquakes found.";
       statsWrap.innerHTML = renderStats(quakes);
       results.innerHTML = renderQuakeList(quakes);
     } catch {
-      status.textContent = 'Failed to fetch earthquake data. Try again.';
+      status.textContent = "Failed to fetch earthquake data. Try again.";
     }
   }
 
-  container.querySelector('#eq-fetch').addEventListener('click', fetchQuakes);
+  container.querySelector("#eq-fetch").addEventListener("click", fetchQuakes);
 
-  container.querySelectorAll('.eq-select').forEach(sel => {
-    sel.addEventListener('change', fetchQuakes);
+  container.querySelectorAll(".eq-select").forEach(sel => {
+    sel.addEventListener("change", fetchQuakes);
   });
 
   fetchQuakes();

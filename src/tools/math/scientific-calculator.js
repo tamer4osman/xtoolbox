@@ -1,39 +1,58 @@
 export const toolConfig = {
-  id: 'scientific-calculator',
-  name: 'Scientific Calculator',
-  category: 'math',
-  description: 'Full scientific calculator with trig, log, sqrt, and more.',
-  icon: '🔢',
-  status: 'done'
+  id: "scientific-calculator",
+  name: "Scientific Calculator",
+  category: "math",
+  description: "Full scientific calculator with trig, log, sqrt, and more.",
+  icon: "🔢",
+  status: "done"
 };
 
 export function calculate(value, operation) {
   const n = parseFloat(value);
   switch (operation) {
-    case 'sqrt': return Math.sqrt(n);
-    case 'pow': return Math.pow(n, 2);
-    case 'cube': return Math.pow(n, 3);
-    case 'cubert': return Math.cbrt(n);
-    case 'inv': return 1 / n;
-    case 'abs': return Math.abs(n);
-    case 'sin': return Math.sin(n * Math.PI / 180);
-    case 'cos': return Math.cos(n * Math.PI / 180);
-    case 'tan': return Math.tan(n * Math.PI / 180);
-    case 'asin': return Math.asin(n) * 180 / Math.PI;
-    case 'acos': return Math.acos(n) * 180 / Math.PI;
-    case 'atan': return Math.atan(n) * 180 / Math.PI;
-    case 'log': return Math.log10(n);
-    case 'ln': return Math.log(n);
-    case 'exp': return Math.exp(n);
-    case 'tenpow': return Math.pow(10, n);
-    case 'factorial':
+    case "sqrt":
+      return Math.sqrt(n);
+    case "pow":
+      return Math.pow(n, 2);
+    case "cube":
+      return Math.pow(n, 3);
+    case "cubert":
+      return Math.cbrt(n);
+    case "inv":
+      return 1 / n;
+    case "abs":
+      return Math.abs(n);
+    case "sin":
+      return Math.sin((n * Math.PI) / 180);
+    case "cos":
+      return Math.cos((n * Math.PI) / 180);
+    case "tan":
+      return Math.tan((n * Math.PI) / 180);
+    case "asin":
+      return (Math.asin(n) * 180) / Math.PI;
+    case "acos":
+      return (Math.acos(n) * 180) / Math.PI;
+    case "atan":
+      return (Math.atan(n) * 180) / Math.PI;
+    case "log":
+      return Math.log10(n);
+    case "ln":
+      return Math.log(n);
+    case "exp":
+      return Math.exp(n);
+    case "tenpow":
+      return Math.pow(10, n);
+    case "factorial":
       const num = parseInt(value);
       let fact = 1;
       for (let i = 2; i <= num; i++) fact *= i;
       return fact;
-    case 'pi': return Math.PI;
-    case 'e': return Math.E;
-    default: return null;
+    case "pi":
+      return Math.PI;
+    case "e":
+      return Math.E;
+    default:
+      return null;
   }
 }
 
@@ -97,7 +116,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .calc-container { max-width: 380px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-xl); padding: var(--space-4); }
     .calc-display { background: #1a1a2e; color: white; padding: var(--space-4); border-radius: var(--radius-lg); text-align: right; margin-bottom: var(--space-4); }
@@ -115,24 +134,42 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  let current = '0';
-  let previous = '';
+  let current = "0";
+  let previous = "";
   let operation = null;
   let newNumber = true;
 
-  const UNARY_OPS = ['sqrt', 'pow', 'cube', 'cubert', 'factorial', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'log', 'ln', 'exp', 'tenpow', 'inv', 'abs'];
-  const BINARY_OPS = ['+', '-', '*', '/'];
+  const UNARY_OPS = [
+    "sqrt",
+    "pow",
+    "cube",
+    "cubert",
+    "factorial",
+    "sin",
+    "cos",
+    "tan",
+    "asin",
+    "acos",
+    "atan",
+    "log",
+    "ln",
+    "exp",
+    "tenpow",
+    "inv",
+    "abs"
+  ];
+  const BINARY_OPS = ["+", "-", "*", "/"];
 
   function updateDisplay() {
-    container.querySelector('#current').textContent = current;
-    container.querySelector('#previous').textContent = previous + (operation || '');
+    container.querySelector("#current").textContent = current;
+    container.querySelector("#previous").textContent = previous + (operation || "");
   }
 
   function handleDigit(action) {
     if (newNumber) {
       current = action;
       newNumber = false;
-    } else if (action === '.' && current.includes('.')) {
+    } else if (action === "." && current.includes(".")) {
       return;
     } else {
       current += action;
@@ -140,8 +177,8 @@ export function render(container) {
   }
 
   function handleClear() {
-    current = '0';
-    previous = '';
+    current = "0";
+    previous = "";
     operation = null;
     newNumber = true;
   }
@@ -156,31 +193,34 @@ export function render(container) {
     if (!previous || !operation) return;
     const a = parseFloat(previous);
     const b = parseFloat(current);
-    const ops = { '+': a + b, '-': a - b, '*': a * b, '/': b !== 0 ? a / b : 'Error', 'mod': a % b };
-    current = (ops[operation] ?? 'Error').toString();
-    previous = '';
+    const ops = { "+": a + b, "-": a - b, "*": a * b, "/": b !== 0 ? a / b : "Error", mod: a % b };
+    current = (ops[operation] ?? "Error").toString();
+    previous = "";
     operation = null;
     newNumber = true;
   }
 
   function handleUnaryOp(action) {
     const result = calculate(current, action);
-    current = (result !== null && !isNaN(result) && isFinite(result)) ? result.toString() : 'Error';
+    current = result !== null && !isNaN(result) && isFinite(result) ? result.toString() : "Error";
     newNumber = true;
   }
 
-  container.querySelectorAll('.calc-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+  container.querySelectorAll(".calc-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
       const action = btn.dataset.action;
-      const isDigit = !isNaN(action) || action === '.';
+      const isDigit = !isNaN(action) || action === ".";
 
       if (isDigit) handleDigit(action);
-      else if (action === 'clear') handleClear();
-      else if (action === 'backspace') current = current.length > 1 ? current.slice(0, -1) : '0';
-      else if (action === 'percent') { current = (parseFloat(current) / 100).toString(); newNumber = true; }
-      else if (BINARY_OPS.includes(action)) handleBinaryOp(action);
-      else if (action === '=') handleEquals();
-      else if (UNARY_OPS.includes(action) || action === 'pi' || action === 'e') handleUnaryOp(action);
+      else if (action === "clear") handleClear();
+      else if (action === "backspace") current = current.length > 1 ? current.slice(0, -1) : "0";
+      else if (action === "percent") {
+        current = (parseFloat(current) / 100).toString();
+        newNumber = true;
+      } else if (BINARY_OPS.includes(action)) handleBinaryOp(action);
+      else if (action === "=") handleEquals();
+      else if (UNARY_OPS.includes(action) || action === "pi" || action === "e")
+        handleUnaryOp(action);
 
       updateDisplay();
     });

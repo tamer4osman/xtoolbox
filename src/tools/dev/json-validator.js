@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'json-validator',
-  name: 'JSON Validator & Formatter',
-  category: 'dev',
-  description: 'Validate, format, and minify JSON with error line numbers.',
-  icon: '✅',
-  status: 'done'
+  id: "json-validator",
+  name: "JSON Validator & Formatter",
+  category: "dev",
+  description: "Validate, format, and minify JSON with error line numbers.",
+  icon: "✅",
+  status: "done"
 };
 
 export function render(container) {
@@ -22,7 +22,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .validator-container { max-width: 900px; margin: 0 auto; }
     .validator-container h2 { text-align: center; margin-bottom: var(--space-6); }
@@ -71,10 +71,10 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const jsonInput = container.querySelector('#jsonInput');
-  const result = container.querySelector('#result');
+  const jsonInput = container.querySelector("#jsonInput");
+  const result = container.querySelector("#result");
 
-  function showResult(message, type, extra = '') {
+  function showResult(message, type, extra = "") {
     result.className = `result ${type}`;
     result.innerHTML = message + extra;
   }
@@ -83,67 +83,73 @@ export function render(container) {
     const match = error.message.match(/position (\d+)/);
     if (match) {
       const pos = parseInt(match[1]);
-      const lines = jsonInput.value.substring(0, pos).split('\n');
+      const lines = jsonInput.value.substring(0, pos).split("\n");
       const line = lines.length;
       const col = lines[lines.length - 1].length + 1;
       return `Error at line ${line}, column ${col}`;
     }
-    return '';
+    return "";
   }
 
-  container.querySelector('#validateBtn').addEventListener('click', () => {
+  container.querySelector("#validateBtn").addEventListener("click", () => {
     const json = jsonInput.value.trim();
     if (!json) {
-      showResult('Please enter some JSON', 'invalid');
+      showResult("Please enter some JSON", "invalid");
       return;
     }
     try {
       JSON.parse(json);
-      showResult('✓ Valid JSON', 'valid');
+      showResult("✓ Valid JSON", "valid");
     } catch (e) {
       const location = parseErrorLine(e);
-      const extra = location ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>` : `<div class="error-line">${e.message}</div>`;
-      showResult('✗ Invalid JSON', 'invalid', extra);
+      const extra = location
+        ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>`
+        : `<div class="error-line">${e.message}</div>`;
+      showResult("✗ Invalid JSON", "invalid", extra);
     }
   });
 
-  container.querySelector('#formatBtn').addEventListener('click', () => {
+  container.querySelector("#formatBtn").addEventListener("click", () => {
     const json = jsonInput.value.trim();
     if (!json) {
-      showResult('Please enter some JSON to format', 'invalid');
+      showResult("Please enter some JSON to format", "invalid");
       return;
     }
     try {
       const parsed = JSON.parse(json);
       jsonInput.value = JSON.stringify(parsed, null, 2);
-      showResult('✓ JSON formatted (pretty printed)', 'format');
+      showResult("✓ JSON formatted (pretty printed)", "format");
     } catch (e) {
       const location = parseErrorLine(e);
-      const extra = location ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>` : `<div class="error-line">${e.message}</div>`;
-      showResult('✗ Cannot format: Invalid JSON', 'invalid', extra);
+      const extra = location
+        ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>`
+        : `<div class="error-line">${e.message}</div>`;
+      showResult("✗ Cannot format: Invalid JSON", "invalid", extra);
     }
   });
 
-  container.querySelector('#minifyBtn').addEventListener('click', () => {
+  container.querySelector("#minifyBtn").addEventListener("click", () => {
     const json = jsonInput.value.trim();
     if (!json) {
-      showResult('Please enter some JSON to minify', 'invalid');
+      showResult("Please enter some JSON to minify", "invalid");
       return;
     }
     try {
       const parsed = JSON.parse(json);
       jsonInput.value = JSON.stringify(parsed);
-      showResult('✓ JSON minified (whitespace removed)', 'minify');
+      showResult("✓ JSON minified (whitespace removed)", "minify");
     } catch (e) {
       const location = parseErrorLine(e);
-      const extra = location ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>` : `<div class="error-line">${e.message}</div>`;
-      showResult('✗ Cannot minify: Invalid JSON', 'invalid', extra);
+      const extra = location
+        ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>`
+        : `<div class="error-line">${e.message}</div>`;
+      showResult("✗ Cannot minify: Invalid JSON", "invalid", extra);
     }
   });
 
-  container.querySelector('#clearBtn').addEventListener('click', () => {
-    jsonInput.value = '';
-    result.className = 'result';
-    result.innerHTML = '';
+  container.querySelector("#clearBtn").addEventListener("click", () => {
+    jsonInput.value = "";
+    result.className = "result";
+    result.innerHTML = "";
   });
 }

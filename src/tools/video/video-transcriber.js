@@ -15,24 +15,24 @@ export const toolConfig = {
   steps: [
     "Upload a video or audio file",
     "Click Transcribe (audio plays, mic captures speech)",
-    "Copy or download the transcript",
+    "Copy or download the transcript"
   ],
   faqs: [
     {
       question: "How does transcription work?",
       answer:
-        "The tool plays your audio file and uses the Web Speech API to capture speech from your microphone. For best results, use headphones to avoid echo, or be in a quiet environment.",
+        "The tool plays your audio file and uses the Web Speech API to capture speech from your microphone. For best results, use headphones to avoid echo, or be in a quiet environment."
     },
     {
       question: "Is my audio sent to a server?",
       answer:
-        "No. Speech recognition uses your browser's built-in engine. Audio plays locally through your speakers.",
+        "No. Speech recognition uses your browser's built-in engine. Audio plays locally through your speakers."
     },
     {
       question: "What languages are supported?",
-      answer: "Depends on your browser. Chrome supports 100+ languages for speech recognition.",
-    },
-  ],
+      answer: "Depends on your browser. Chrome supports 100+ languages for speech recognition."
+    }
+  ]
 };
 
 export function createSpeechRecognizer(lang = "en-US") {
@@ -46,7 +46,7 @@ export function createSpeechRecognizer(lang = "en-US") {
 }
 
 export function formatTranscript(segments) {
-  return segments.map((s) => `[${formatTime(s.start)}] ${s.text}`).join("\n");
+  return segments.map(s => `[${formatTime(s.start)}] ${s.text}`).join("\n");
 }
 
 export function formatTime(seconds) {
@@ -64,7 +64,9 @@ export function render(container) {
   destroyFn = () => {
     if (objectURL) URL.revokeObjectURL(objectURL);
     if (recognizer) {
-      try { recognizer.abort(); } catch {}
+      try {
+        recognizer.abort();
+      } catch {}
     }
   };
 
@@ -72,7 +74,7 @@ export function render(container) {
     accept: "audio/*,video/*",
     multiple: false,
     maxSizeMB: 100,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       try {
         const file = files[0];
@@ -88,7 +90,7 @@ export function render(container) {
       } catch {
         showToast({ message: "Failed to load media file.", type: "error" });
       }
-    },
+    }
   });
 
   container.innerHTML = `
@@ -146,12 +148,12 @@ export function render(container) {
     transcribeBtn.textContent = "Transcribing...";
     transcriptArea.style.display = "block";
 
-    recognizer.onresult = (event) => {
+    recognizer.onresult = event => {
       for (let i = event.resultIndex; i < event.results.length; i++) {
         if (event.results[i].isFinal) {
           segments.push({
             text: event.results[i][0].transcript,
-            start: audioElement ? audioElement.currentTime : segments.length * 3,
+            start: audioElement ? audioElement.currentTime : segments.length * 3
           });
         }
       }
@@ -163,11 +165,11 @@ export function render(container) {
       transcribeBtn.textContent = "Transcribe Again";
       showToast({
         message: `Transcription complete: ${segments.length} segments.`,
-        type: "success",
+        type: "success"
       });
     };
 
-    recognizer.onerror = (event) => {
+    recognizer.onerror = event => {
       transcribeBtn.disabled = false;
       transcribeBtn.textContent = "Transcribe";
       showToast({ message: `Recognition error: ${event.error}`, type: "error" });

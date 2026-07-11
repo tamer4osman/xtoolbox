@@ -1,21 +1,21 @@
-import { downloadBlob } from '../../utils/file.js';
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'privacy-policy-generator',
-  name: 'Privacy Policy Generator',
-  category: 'business',
-  description: 'Generate privacy policies customized for GDPR, CCPA, and similar regulations.',
-  icon: '🔒',
-  keywords: ['privacy', 'policy', 'gdpr', 'ccpa', 'legal', 'compliance'],
-  accept: '',
+  id: "privacy-policy-generator",
+  name: "Privacy Policy Generator",
+  category: "business",
+  description: "Generate privacy policies customized for GDPR, CCPA, and similar regulations.",
+  icon: "🔒",
+  keywords: ["privacy", "policy", "gdpr", "ccpa", "legal", "compliance"],
+  accept: "",
   maxSizeMB: 10
 };
 
 export function render(container) {
   let state = {
-    companyName: '',
-    websiteUrl: '',
-    contactEmail: '',
+    companyName: "",
+    websiteUrl: "",
+    contactEmail: "",
     collectsNames: true,
     collectsEmail: true,
     collectsPhone: false,
@@ -24,8 +24,8 @@ export function render(container) {
     collectsCookies: true,
     collectsAnalytics: true,
     hasAccount: false,
-    targetAudience: 'general',
-    complianceFramework: 'gdpr'
+    targetAudience: "general",
+    complianceFramework: "gdpr"
   };
 
   container.innerHTML = `
@@ -104,45 +104,61 @@ export function render(container) {
     </div>
   `;
 
-  const $ = (id) => container.querySelector(id);
-  const el = (sel) => container.querySelector(sel);
-  const formatDate = () => new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const $ = id => container.querySelector(id);
+  const el = sel => container.querySelector(sel);
+  const formatDate = () =>
+    new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
   const bindInput = (id, key) => {
-    const el$ = id.startsWith('#') ? container.querySelector(id) : container.querySelector(id);
-    el$.addEventListener(key === 'checked' ? 'change' : 'input', (e) => {
+    const el$ = id.startsWith("#") ? container.querySelector(id) : container.querySelector(id);
+    el$.addEventListener(key === "checked" ? "change" : "input", e => {
       state[key] = e.target[key];
       generate();
     });
   };
 
-  ['#companyName input', '#websiteUrl input', '#contactEmail input', '#targetAudience change', '#complianceFramework change'].forEach(s => {
-    const [sel, event] = s.split(' ');
+  [
+    "#companyName input",
+    "#websiteUrl input",
+    "#contactEmail input",
+    "#targetAudience change",
+    "#complianceFramework change"
+  ].forEach(s => {
+    const [sel, event] = s.split(" ");
     el(sel).addEventListener(event, generate);
   });
 
-  ['collectsNames', 'collectsEmail', 'collectsPhone', 'collectsAddress', 'collectsPayment', 'collectsCookies', 'collectsAnalytics', 'hasAccount'].forEach(id => {
-    el('#' + id).addEventListener('change', (e) => {
+  [
+    "collectsNames",
+    "collectsEmail",
+    "collectsPhone",
+    "collectsAddress",
+    "collectsPayment",
+    "collectsCookies",
+    "collectsAnalytics",
+    "hasAccount"
+  ].forEach(id => {
+    el("#" + id).addEventListener("change", e => {
       state[id] = e.target.checked;
       generate();
     });
   });
 
   function generate() {
-    state.companyName = el('#companyName').value || '[Company Name]';
-    state.websiteUrl = el('#websiteUrl').value || '[Website URL]';
-    state.contactEmail = el('#contactEmail').value || '[Contact Email]';
-    state.targetAudience = el('#targetAudience').value;
-    state.complianceFramework = el('#complianceFramework').value;
+    state.companyName = el("#companyName").value || "[Company Name]";
+    state.websiteUrl = el("#websiteUrl").value || "[Website URL]";
+    state.contactEmail = el("#contactEmail").value || "[Contact Email]";
+    state.targetAudience = el("#targetAudience").value;
+    state.complianceFramework = el("#complianceFramework").value;
 
     const dataTypes = [];
-    if (state.collectsNames) dataTypes.push('names');
-    if (state.collectsEmail) dataTypes.push('email addresses');
-    if (state.collectsPhone) dataTypes.push('phone numbers');
-    if (state.collectsAddress) dataTypes.push('physical addresses');
-    if (state.collectsPayment) dataTypes.push('payment information');
-    if (state.collectsCookies) dataTypes.push('cookies');
-    if (state.collectsAnalytics) dataTypes.push('analytics data');
+    if (state.collectsNames) dataTypes.push("names");
+    if (state.collectsEmail) dataTypes.push("email addresses");
+    if (state.collectsPhone) dataTypes.push("phone numbers");
+    if (state.collectsAddress) dataTypes.push("physical addresses");
+    if (state.collectsPayment) dataTypes.push("payment information");
+    if (state.collectsCookies) dataTypes.push("cookies");
+    if (state.collectsAnalytics) dataTypes.push("analytics data");
 
     let policy = `${state.companyName}
 Privacy Policy
@@ -153,7 +169,7 @@ ${state.companyName} ("we", "us", or "our") operates ${state.websiteUrl}. This P
 
 2. INFORMATION WE COLLECT
 We collect the following types of information:
-${dataTypes.map(d => '- ' + d.charAt(0).toUpperCase() + d.slice(1)).join('\n')}
+${dataTypes.map(d => "- " + d.charAt(0).toUpperCase() + d.slice(1)).join("\n")}
 
 3. HOW WE USE YOUR INFORMATION
 We use the information we collect to:
@@ -167,7 +183,7 @@ We use the information we collect to:
     if (state.hasAccount || state.collectsAnalytics) {
       policy += `
 4.Cookies and Tracking Technologies
-${state.collectsCookies ? 'We use cookies to improve your experience. You can instruct your browser to refuse cookies.' : 'We do not use cookies.'}
+${state.collectsCookies ? "We use cookies to improve your experience. You can instruct your browser to refuse cookies." : "We do not use cookies."}
 `;
     }
 
@@ -179,7 +195,7 @@ We do not sell your personal information. We may share data with:
 
 `;
 
-    if (state.complianceFramework === 'gdpr' || state.complianceFramework === 'both') {
+    if (state.complianceFramework === "gdpr" || state.complianceFramework === "both") {
       policy += `6. GDPR RIGHTS (EU Residents)
 If you are located in the EU, you have the right to:
 - Access your personal data
@@ -191,8 +207,8 @@ To exercise these rights, contact us at ${state.contactEmail}
 `;
     }
 
-    if (state.complianceFramework === 'ccpa' || state.complianceFramework === 'both') {
-      policy += `${state.complianceFramework === 'both' ? '7' : '6'}. CCPA RIGHTS (California Residents)
+    if (state.complianceFramework === "ccpa" || state.complianceFramework === "both") {
+      policy += `${state.complianceFramework === "both" ? "7" : "6"}. CCPA RIGHTS (California Residents)
 If you are a California resident, you have the right to:
 - Know what personal information we collect
 - Request deletion of your data
@@ -202,26 +218,26 @@ We do not sell your personal information.
 `;
     }
 
-    policy += `${Math.max(state.complianceFramework === 'both' ? 7 : 6, 7)}. CHILDREN'S PRIVACY
-${state.targetAudience === 'children' ? 'Our services are intended for children under 13. We do not knowingly collect information from children.' : 'We do not knowingly collect information from children under 13.'}
+    policy += `${Math.max(state.complianceFramework === "both" ? 7 : 6, 7)}. CHILDREN'S PRIVACY
+${state.targetAudience === "children" ? "Our services are intended for children under 13. We do not knowingly collect information from children." : "We do not knowingly collect information from children under 13."}
 
-${Math.max(state.complianceFramework === 'both' ? 8 : 7, 8)}. CHANGES TO THIS POLICY
+${Math.max(state.complianceFramework === "both" ? 8 : 7, 8)}. CHANGES TO THIS POLICY
 We may update this policy periodically. We will notify you of material changes.
 
-${Math.max(state.complianceFramework === 'both' ? 9 : 8, 9)}. CONTACT US
+${Math.max(state.complianceFramework === "both" ? 9 : 8, 9)}. CONTACT US
 For questions about this policy, contact:
 ${state.contactEmail}
 `;
 
-    el('#policyContent').textContent = policy;
-    el('#preview').style.display = 'block';
+    el("#policyContent").textContent = policy;
+    el("#preview").style.display = "block";
   }
 
-  el('#generate').addEventListener('click', generate);
+  el("#generate").addEventListener("click", generate);
 
-  el('#downloadTxt').addEventListener('click', () => {
-    const content = el('#policyContent').textContent;
-    const blob = new Blob([content], { type: 'text/plain' });
-    downloadBlob(blob, 'privacy-policy.txt');
+  el("#downloadTxt").addEventListener("click", () => {
+    const content = el("#policyContent").textContent;
+    const blob = new Blob([content], { type: "text/plain" });
+    downloadBlob(blob, "privacy-policy.txt");
   });
 }

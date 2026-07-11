@@ -1,19 +1,19 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi } from "vitest";
 
-vi.stubGlobal('document', {
-  createElement: (tag) => {
-    if (tag === 'canvas') {
+vi.stubGlobal("document", {
+  createElement: tag => {
+    if (tag === "canvas") {
       return {
         width: 0,
         height: 0,
         getContext: () => ({
-          fillStyle: '',
+          fillStyle: "",
           fillRect: vi.fn(),
           drawImage: vi.fn(),
           createLinearGradient: vi.fn(() => ({
             addColorStop: vi.fn()
           })),
-          globalCompositeOperation: '',
+          globalCompositeOperation: "",
           getImageData: () => ({ data: new Uint8ClampedArray(0) })
         })
       };
@@ -22,32 +22,32 @@ vi.stubGlobal('document', {
   }
 });
 
-describe('panorama-stitcher', () => {
-  it('has correct tool config', async () => {
-    const { toolConfig } = await import('../tools/image/panorama-stitcher.js');
-    expect(toolConfig.id).toBe('panorama-stitcher');
-    expect(toolConfig.name).toBe('Panorama Stitcher');
-    expect(toolConfig.category).toBe('image');
-    expect(toolConfig.accept).toBe('image/*');
+describe("panorama-stitcher", () => {
+  it("has correct tool config", async () => {
+    const { toolConfig } = await import("../tools/image/panorama-stitcher.js");
+    expect(toolConfig.id).toBe("panorama-stitcher");
+    expect(toolConfig.name).toBe("Panorama Stitcher");
+    expect(toolConfig.category).toBe("image");
+    expect(toolConfig.accept).toBe("image/*");
   });
 
-  it('exports render function', async () => {
-    const { render } = await import('../tools/image/panorama-stitcher.js');
-    expect(typeof render).toBe('function');
+  it("exports render function", async () => {
+    const { render } = await import("../tools/image/panorama-stitcher.js");
+    expect(typeof render).toBe("function");
   });
 
-  it('exports detectOverlap function', async () => {
-    const { detectOverlap } = await import('../tools/image/panorama-stitcher.js');
-    expect(typeof detectOverlap).toBe('function');
+  it("exports detectOverlap function", async () => {
+    const { detectOverlap } = await import("../tools/image/panorama-stitcher.js");
+    expect(typeof detectOverlap).toBe("function");
   });
 
-  it('exports stitchPanorama function', async () => {
-    const { stitchPanorama } = await import('../tools/image/panorama-stitcher.js');
-    expect(typeof stitchPanorama).toBe('function');
+  it("exports stitchPanorama function", async () => {
+    const { stitchPanorama } = await import("../tools/image/panorama-stitcher.js");
+    expect(typeof stitchPanorama).toBe("function");
   });
 
-  it('stitchPanorama returns canvas with correct dimensions', async () => {
-    const { stitchPanorama } = await import('../tools/image/panorama-stitcher.js');
+  it("stitchPanorama returns canvas with correct dimensions", async () => {
+    const { stitchPanorama } = await import("../tools/image/panorama-stitcher.js");
     const mockImg = (w, h) => ({
       naturalWidth: w,
       naturalHeight: h
@@ -60,8 +60,8 @@ describe('panorama-stitcher', () => {
     expect(result.height).toBe(300);
   });
 
-  it('stitchPanorama handles no overlap', async () => {
-    const { stitchPanorama } = await import('../tools/image/panorama-stitcher.js');
+  it("stitchPanorama handles no overlap", async () => {
+    const { stitchPanorama } = await import("../tools/image/panorama-stitcher.js");
     const mockImg = (w, h) => ({
       naturalWidth: w,
       naturalHeight: h
@@ -73,8 +73,8 @@ describe('panorama-stitcher', () => {
     expect(result.height).toBe(300);
   });
 
-  it('stitchPanorama handles multiple images', async () => {
-    const { stitchPanorama } = await import('../tools/image/panorama-stitcher.js');
+  it("stitchPanorama handles multiple images", async () => {
+    const { stitchPanorama } = await import("../tools/image/panorama-stitcher.js");
     const mockImg = (w, h) => ({
       naturalWidth: w,
       naturalHeight: h
@@ -85,8 +85,8 @@ describe('panorama-stitcher', () => {
     expect(result.height).toBe(300);
   });
 
-  it('stitchPanorama uses max height', async () => {
-    const { stitchPanorama } = await import('../tools/image/panorama-stitcher.js');
+  it("stitchPanorama uses max height", async () => {
+    const { stitchPanorama } = await import("../tools/image/panorama-stitcher.js");
     const mockImg = (w, h) => ({
       naturalWidth: w,
       naturalHeight: h

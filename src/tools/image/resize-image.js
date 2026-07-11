@@ -1,21 +1,32 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
+import { loadImageFromFile, canvasToBlob } from "./image-utils.js";
 
 export const toolConfig = {
-  id: 'resize-image',
-  name: 'Image Resizer',
-  category: 'image',
-  description: 'Change image dimensions. Resize by pixels, percentage, or social media presets.',
-  icon: '📐',
-  accept: 'image/*',
+  id: "resize-image",
+  name: "Image Resizer",
+  category: "image",
+  description: "Change image dimensions. Resize by pixels, percentage, or social media presets.",
+  icon: "📐",
+  accept: "image/*",
   maxSizeMB: 50,
-  keywords: ['resize image', 'change image size', 'image resizer'],
-  steps: ['Upload an image', 'Set new dimensions or choose a preset', 'Click "Resize"', 'Download the resized image'],
+  keywords: ["resize image", "change image size", "image resizer"],
+  steps: [
+    "Upload an image",
+    "Set new dimensions or choose a preset",
+    'Click "Resize"',
+    "Download the resized image"
+  ],
   faqs: [
-    { question: 'Will resizing reduce quality?', answer: 'Upscaling may reduce quality. Downscaling maintains quality well.' },
-    { question: 'What are the social media presets?', answer: 'Common sizes for Instagram, Facebook, Twitter, and YouTube.' }
+    {
+      question: "Will resizing reduce quality?",
+      answer: "Upscaling may reduce quality. Downscaling maintains quality well."
+    },
+    {
+      question: "What are the social media presets?",
+      answer: "Common sizes for Instagram, Facebook, Twitter, and YouTube."
+    }
   ]
 };
 
@@ -24,17 +35,17 @@ export function render(container) {
   let aspectRatio = 1;
 
   const upload = createFileUpload({
-    accept: 'image/*',
+    accept: "image/*",
     multiple: false,
     maxSizeMB: 50,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       originalImg = await loadImageFromFile(files[0]);
       aspectRatio = originalImg.naturalWidth / originalImg.naturalHeight;
       widthInput.value = originalImg.naturalWidth;
       heightInput.value = originalImg.naturalHeight;
       originalInfo.textContent = `${originalImg.naturalWidth} × ${originalImg.naturalHeight}px`;
-      optionsArea.style.display = 'block';
+      optionsArea.style.display = "block";
     }
   });
 
@@ -73,33 +84,37 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const widthInput = container.querySelector('#width-input');
-  const heightInput = container.querySelector('#height-input');
-  const lockBtn = container.querySelector('#lock-btn');
-  const originalInfo = container.querySelector('#original-info');
-  const resizeBtn = container.querySelector('#resize-btn');
-  const processing = container.querySelector('#processing');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const widthInput = container.querySelector("#width-input");
+  const heightInput = container.querySelector("#height-input");
+  const lockBtn = container.querySelector("#lock-btn");
+  const originalInfo = container.querySelector("#original-info");
+  const resizeBtn = container.querySelector("#resize-btn");
+  const processing = container.querySelector("#processing");
 
   let lockAspect = true;
-  lockBtn.style.background = 'var(--color-primary-light)';
-  lockBtn.addEventListener('click', () => {
+  lockBtn.style.background = "var(--color-primary-light)";
+  lockBtn.addEventListener("click", () => {
     lockAspect = !lockAspect;
-    lockBtn.style.background = lockAspect ? 'var(--color-primary-light)' : 'transparent';
+    lockBtn.style.background = lockAspect ? "var(--color-primary-light)" : "transparent";
   });
 
-  widthInput.addEventListener('input', () => { if (lockAspect) heightInput.value = Math.round(widthInput.value / aspectRatio); });
-  heightInput.addEventListener('input', () => { if (lockAspect) widthInput.value = Math.round(heightInput.value * aspectRatio); });
+  widthInput.addEventListener("input", () => {
+    if (lockAspect) heightInput.value = Math.round(widthInput.value / aspectRatio);
+  });
+  heightInput.addEventListener("input", () => {
+    if (lockAspect) widthInput.value = Math.round(heightInput.value * aspectRatio);
+  });
 
-  container.querySelectorAll('[data-w]').forEach(btn => {
-    btn.addEventListener('click', () => {
+  container.querySelectorAll("[data-w]").forEach(btn => {
+    btn.addEventListener("click", () => {
       const w = parseInt(btn.dataset.w);
       const h = parseInt(btn.dataset.h);
       if (w <= 100 && h <= 100) {
         // Percentage
-        widthInput.value = Math.round(originalImg.naturalWidth * w / 100);
-        heightInput.value = Math.round(originalImg.naturalHeight * h / 100);
+        widthInput.value = Math.round((originalImg.naturalWidth * w) / 100);
+        heightInput.value = Math.round((originalImg.naturalHeight * h) / 100);
       } else {
         widthInput.value = w;
         heightInput.value = h;
@@ -107,28 +122,31 @@ export function render(container) {
     });
   });
 
-  resizeBtn.addEventListener('click', async () => {
+  resizeBtn.addEventListener("click", async () => {
     if (!originalImg) return;
     const w = parseInt(widthInput.value);
     const h = parseInt(heightInput.value);
-    if (!w || !h || w < 1 || h < 1) { showToast({ message: 'Invalid dimensions', type: 'warning' }); return; }
+    if (!w || !h || w < 1 || h < 1) {
+      showToast({ message: "Invalid dimensions", type: "warning" });
+      return;
+    }
 
-    processing.style.display = 'block';
+    processing.style.display = "block";
 
     try {
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = w;
       canvas.height = h;
-      canvas.getContext('2d').drawImage(originalImg, 0, 0, w, h);
-      const format = container.querySelector('#format-select').value;
+      canvas.getContext("2d").drawImage(originalImg, 0, 0, w, h);
+      const format = container.querySelector("#format-select").value;
       const blob = await canvasToBlob(canvas, format, 0.92);
-      const ext = format.split('/')[1].replace('jpeg', 'jpg');
+      const ext = format.split("/")[1].replace("jpeg", "jpg");
       downloadBlob(blob, `resized-${w}x${h}.${ext}`);
-      showToast({ message: `Resized to ${w}×${h}!`, type: 'success' });
+      showToast({ message: `Resized to ${w}×${h}!`, type: "success" });
     } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
+      showToast({ message: "Error: " + err.message, type: "error" });
     } finally {
-      processing.style.display = 'none';
+      processing.style.display = "none";
     }
   });
 }

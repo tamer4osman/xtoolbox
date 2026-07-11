@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'keyword-density',
-  name: 'Keyword Density Checker',
-  category: 'seo',
-  description: 'Analyze keyword frequency in your content.',
-  icon: '📊',
-  status: 'done'
+  id: "keyword-density",
+  name: "Keyword Density Checker",
+  category: "seo",
+  description: "Analyze keyword frequency in your content.",
+  icon: "📊",
+  status: "done"
 };
 
 export function render(container) {
@@ -22,7 +22,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .density-container { max-width: 700px; margin: 0 auto; }
     .density-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -36,18 +36,18 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  container.querySelector('#analyzeBtn').addEventListener('click', () => {
-    const content = container.querySelector('#content').value.toLowerCase();
-    const keyword = container.querySelector('#keyword').value.toLowerCase().trim();
+  container.querySelector("#analyzeBtn").addEventListener("click", () => {
+    const content = container.querySelector("#content").value.toLowerCase();
+    const keyword = container.querySelector("#keyword").value.toLowerCase().trim();
     if (!keyword) return;
     const words = content.split(/\s+/).filter(w => w);
-    const regex = new RegExp(keyword, 'gi');
+    const regex = new RegExp(keyword, "gi");
     const matchResult = content.match(regex);
     const count = matchResult ? matchResult : [];
-    const density = words.length ? (count.length / words.length * 100).toFixed(2) : 0;
-    container.querySelector('#count').textContent = count.length;
-    container.querySelector('#density').textContent = density + '%';
-    container.querySelector('#words').textContent = words.length;
+    const density = words.length ? ((count.length / words.length) * 100).toFixed(2) : 0;
+    container.querySelector("#count").textContent = count.length;
+    container.querySelector("#density").textContent = density + "%";
+    container.querySelector("#words").textContent = words.length;
   });
-  container.querySelector('#analyzeBtn').click();
+  container.querySelector("#analyzeBtn").click();
 }

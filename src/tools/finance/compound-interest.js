@@ -1,22 +1,22 @@
-import { createFinanceCalculator } from './finance-calculator-factory.js';
+import { createFinanceCalculator } from "./finance-calculator-factory.js";
 
 export const toolConfig = {
-  id: 'compound-interest',
-  name: 'Compound Interest Calculator',
-  category: 'finance',
-  description: 'Calculate compound interest with different compounding frequencies.',
-  icon: '💹',
-  status: 'done'
+  id: "compound-interest",
+  name: "Compound Interest Calculator",
+  category: "finance",
+  description: "Calculate compound interest with different compounding frequencies.",
+  icon: "💹",
+  status: "done"
 };
 
 export function render(container) {
   createFinanceCalculator({
     container,
-    toolId: 'compound',
+    toolId: "compound",
     icon: toolConfig.icon,
     title: toolConfig.name,
     description: toolConfig.description,
-    cardColor: 'emerald',
+    cardColor: "emerald",
     formHTML: `
       <div class="form-group">
         <label>Principal Amount ($)</label>
@@ -50,10 +50,10 @@ export function render(container) {
       const interest = amount - p;
       const effectiveRate = (Math.pow(amount / p, 1 / y) - 1) * 100;
       return {
-        primary: { label: 'Final Amount', value: '$' + amount.toFixed(2) },
+        primary: { label: "Final Amount", value: "$" + amount.toFixed(2) },
         items: [
-          { label: 'Total Interest Earned', value: '$' + interest.toFixed(2) },
-          { label: 'Effective Rate', value: effectiveRate.toFixed(2) + '%' }
+          { label: "Total Interest Earned", value: "$" + interest.toFixed(2) },
+          { label: "Effective Rate", value: effectiveRate.toFixed(2) + "%" }
         ]
       };
     }

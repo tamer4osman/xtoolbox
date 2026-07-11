@@ -1,12 +1,12 @@
-import { createHealthCalculator } from './health-calculator.js';
+import { createHealthCalculator } from "./health-calculator.js";
 
 export const toolConfig = {
-  id: 'blood-pressure-checker',
-  name: 'Blood Pressure Checker',
-  category: 'health',
-  description: 'Check and categorize blood pressure readings.',
-  icon: '❤️',
-  status: 'done'
+  id: "blood-pressure-checker",
+  name: "Blood Pressure Checker",
+  category: "health",
+  description: "Check and categorize blood pressure readings.",
+  icon: "❤️",
+  status: "done"
 };
 
 const RESULT_CSS = `
@@ -28,11 +28,51 @@ const RESULT_CSS = `
 `;
 
 const BP_CATEGORIES = [
-  { maxSys: 119, maxDia: 79, category: 'Normal', color: '#10b981', desc: 'Keep up the good work', tips: '<ul><li>Maintain healthy lifestyle</li><li>Regular check-ups</li><li>Stay active</li></ul>', pos: 15 },
-  { maxSys: 129, maxDia: 79, category: 'Elevated', color: '#10b981', desc: 'Lifestyle modifications advised', tips: '<ul><li>Maintain healthy diet</li><li>Regular exercise</li><li>Monitor readings</li></ul>', pos: 35 },
-  { maxSys: 139, maxDia: 89, category: 'High Blood Pressure (Stage 1)', color: '#f59e0b', desc: 'Lifestyle changes recommended', tips: '<ul><li>Reduce sodium</li><li>Increase physical activity</li><li>Maintain healthy weight</li><li>Monitor regularly</li></ul>', pos: 55 },
-  { maxSys: 179, maxDia: 119, category: 'High Blood Pressure (Stage 2)', color: '#ef4444', desc: 'Consult a healthcare provider', tips: '<ul><li>Schedule appointment soon</li><li>Reduce sodium intake</li><li>Exercise regularly</li><li>Limit alcohol</li></ul>', pos: 75 },
-  { maxSys: Infinity, maxDia: Infinity, category: 'Hypertensive Crisis', color: '#dc2626', desc: 'Seek immediate medical attention', tips: '<ul><li>Call emergency services immediately</li><li>Do not wait</li><li>This is a medical emergency</li></ul>', pos: 95 }
+  {
+    maxSys: 119,
+    maxDia: 79,
+    category: "Normal",
+    color: "#10b981",
+    desc: "Keep up the good work",
+    tips: "<ul><li>Maintain healthy lifestyle</li><li>Regular check-ups</li><li>Stay active</li></ul>",
+    pos: 15
+  },
+  {
+    maxSys: 129,
+    maxDia: 79,
+    category: "Elevated",
+    color: "#10b981",
+    desc: "Lifestyle modifications advised",
+    tips: "<ul><li>Maintain healthy diet</li><li>Regular exercise</li><li>Monitor readings</li></ul>",
+    pos: 35
+  },
+  {
+    maxSys: 139,
+    maxDia: 89,
+    category: "High Blood Pressure (Stage 1)",
+    color: "#f59e0b",
+    desc: "Lifestyle changes recommended",
+    tips: "<ul><li>Reduce sodium</li><li>Increase physical activity</li><li>Maintain healthy weight</li><li>Monitor regularly</li></ul>",
+    pos: 55
+  },
+  {
+    maxSys: 179,
+    maxDia: 119,
+    category: "High Blood Pressure (Stage 2)",
+    color: "#ef4444",
+    desc: "Consult a healthcare provider",
+    tips: "<ul><li>Schedule appointment soon</li><li>Reduce sodium intake</li><li>Exercise regularly</li><li>Limit alcohol</li></ul>",
+    pos: 75
+  },
+  {
+    maxSys: Infinity,
+    maxDia: Infinity,
+    category: "Hypertensive Crisis",
+    color: "#dc2626",
+    desc: "Seek immediate medical attention",
+    tips: "<ul><li>Call emergency services immediately</li><li>Do not wait</li><li>This is a medical emergency</li></ul>",
+    pos: 95
+  }
 ];
 
 function classifyBp(sys, dia) {
@@ -42,16 +82,16 @@ function classifyBp(sys, dia) {
 export function render(container) {
   createHealthCalculator({
     container,
-    containerClass: 'bp-container',
-    calcButtonLabel: 'Check Reading',
+    containerClass: "bp-container",
+    calcButtonLabel: "Check Reading",
     extraCSS: RESULT_CSS,
     fields: [
-      { id: 'systolic', label: 'Systolic (upper number)', value: 120, min: 70, max: 250 },
-      { id: 'diastolic', label: 'Diastolic (lower number)', value: 80, min: 40, max: 150 }
+      { id: "systolic", label: "Systolic (upper number)", value: 120, min: 70, max: 250 },
+      { id: "diastolic", label: "Diastolic (lower number)", value: 80, min: 40, max: 150 }
     ],
     onCalculate: (container, resultEl) => {
-      const sys = parseInt(container.querySelector('#systolic').value) || 120;
-      const dia = parseInt(container.querySelector('#diastolic').value) || 80;
+      const sys = parseInt(container.querySelector("#systolic").value) || 120;
+      const dia = parseInt(container.querySelector("#diastolic").value) || 80;
       const c = classifyBp(sys, dia);
 
       resultEl.innerHTML = `

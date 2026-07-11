@@ -1,40 +1,102 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'currency-converter',
-  name: 'Currency Exchange Calculator',
-  category: 'finance',
-  description: 'Convert between currencies using live exchange rates with historical charts.',
-  icon: '💱',
-  keywords: ['currency', 'exchange', 'converter', 'money', 'Forex', 'USD', 'EUR', 'GBP'],
-  accept: '',
+  id: "currency-converter",
+  name: "Currency Exchange Calculator",
+  category: "finance",
+  description: "Convert between currencies using live exchange rates with historical charts.",
+  icon: "💱",
+  keywords: ["currency", "exchange", "converter", "money", "Forex", "USD", "EUR", "GBP"],
+  accept: "",
   maxSizeMB: 0,
-  status: 'done'
+  status: "done"
 };
 
 const STATIC_RATES = {
-  USD: 1, EUR: 0.92, GBP: 0.79, JPY: 149.50, AUD: 1.53, CAD: 1.36, CHF: 0.88, CNY: 7.24,
-  INR: 83.12, MXN: 17.15, BRL: 4.97, KRW: 1320, SGD: 1.34, HKD: 7.82, NOK: 10.65,
-  SEK: 10.42, DKK: 6.87, NZD: 1.64, ZAR: 18.65, RUB: 91.50, TRY: 32.15, PLN: 4.02,
-  THB: 35.80, IDR: 15650, MYR: 4.72, PHP: 56.20, CZK: 22.80, ILS: 3.65, AED: 3.67, SAR: 3.75
+  USD: 1,
+  EUR: 0.92,
+  GBP: 0.79,
+  JPY: 149.5,
+  AUD: 1.53,
+  CAD: 1.36,
+  CHF: 0.88,
+  CNY: 7.24,
+  INR: 83.12,
+  MXN: 17.15,
+  BRL: 4.97,
+  KRW: 1320,
+  SGD: 1.34,
+  HKD: 7.82,
+  NOK: 10.65,
+  SEK: 10.42,
+  DKK: 6.87,
+  NZD: 1.64,
+  ZAR: 18.65,
+  RUB: 91.5,
+  TRY: 32.15,
+  PLN: 4.02,
+  THB: 35.8,
+  IDR: 15650,
+  MYR: 4.72,
+  PHP: 56.2,
+  CZK: 22.8,
+  ILS: 3.65,
+  AED: 3.67,
+  SAR: 3.75
 };
 
-const MAJOR_CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'INR', 'MXN', 'BRL'];
+const MAJOR_CURRENCIES = [
+  "USD",
+  "EUR",
+  "GBP",
+  "JPY",
+  "AUD",
+  "CAD",
+  "CHF",
+  "CNY",
+  "INR",
+  "MXN",
+  "BRL"
+];
 
 const CURRENCY_NAMES = {
-  USD: 'US Dollar', EUR: 'Euro', GBP: 'British Pound', JPY: 'Japanese Yen',
-  AUD: 'Australian Dollar', CAD: 'Canadian Dollar', CHF: 'Swiss Franc', CNY: 'Chinese Yuan',
-  INR: 'Indian Rupee', MXN: 'Mexican Peso', BRL: 'Brazilian Real', KRW: 'South Korean Won',
-  SGD: 'Singapore Dollar', HKD: 'Hong Kong Dollar', NOK: 'Norwegian Krone',
-  SEK: 'Swedish Krona', DKK: 'Danish Krone', NZD: 'New Zealand Dollar',
-  ZAR: 'South African Rand', RUB: 'Russian Ruble', TRY: 'Turkish Lira',
-  PLN: 'Polish Zloty', THB: 'Thai Baht', IDR: 'Indonesian Rupiah',
-  MYR: 'Malaysian Ringgit', PHP: 'Philippine Peso', CZK: 'Czech Koruna',
-  ILS: 'Israeli Shekel', AED: 'UAE Dirham', SAR: 'Saudi Riyal'
+  USD: "US Dollar",
+  EUR: "Euro",
+  GBP: "British Pound",
+  JPY: "Japanese Yen",
+  AUD: "Australian Dollar",
+  CAD: "Canadian Dollar",
+  CHF: "Swiss Franc",
+  CNY: "Chinese Yuan",
+  INR: "Indian Rupee",
+  MXN: "Mexican Peso",
+  BRL: "Brazilian Real",
+  KRW: "South Korean Won",
+  SGD: "Singapore Dollar",
+  HKD: "Hong Kong Dollar",
+  NOK: "Norwegian Krone",
+  SEK: "Swedish Krona",
+  DKK: "Danish Krone",
+  NZD: "New Zealand Dollar",
+  ZAR: "South African Rand",
+  RUB: "Russian Ruble",
+  TRY: "Turkish Lira",
+  PLN: "Polish Zloty",
+  THB: "Thai Baht",
+  IDR: "Indonesian Rupiah",
+  MYR: "Malaysian Ringgit",
+  PHP: "Philippine Peso",
+  CZK: "Czech Koruna",
+  ILS: "Israeli Shekel",
+  AED: "UAE Dirham",
+  SAR: "Saudi Riyal"
 };
 
 function formatNumber(num, decimals = 2) {
-  return num.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return num.toLocaleString("en-US", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  });
 }
 
 export function render(container) {
@@ -68,7 +130,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .cec-container { max-width: 600px; margin: 0 auto; }
     .cec-inputs { display: flex; gap: var(--space-3); align-items: flex-end; margin-bottom: var(--space-4); }
@@ -93,28 +155,28 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const amountInput = container.querySelector('#cec-amount');
-  const fromSelect = container.querySelector('#cec-from');
-  const toSelect = container.querySelector('#cec-to');
-  const swapBtn = container.querySelector('#cec-swap-btn');
-  const resultEl = container.querySelector('.cec-result-value');
-  const rateEl = container.querySelector('.cec-result-rate');
-  const updatedEl = container.querySelector('#cec-updated');
-  const conversionsEl = container.querySelector('#cec-conversions');
+  const amountInput = container.querySelector("#cec-amount");
+  const fromSelect = container.querySelector("#cec-from");
+  const toSelect = container.querySelector("#cec-to");
+  const swapBtn = container.querySelector("#cec-swap-btn");
+  const resultEl = container.querySelector(".cec-result-value");
+  const rateEl = container.querySelector(".cec-result-rate");
+  const updatedEl = container.querySelector("#cec-updated");
+  const conversionsEl = container.querySelector("#cec-conversions");
 
   MAJOR_CURRENCIES.forEach(c => {
-    const opt1 = document.createElement('option');
+    const opt1 = document.createElement("option");
     opt1.value = c;
-    opt1.textContent = c + ' - ' + (CURRENCY_NAMES[c] || c);
+    opt1.textContent = c + " - " + (CURRENCY_NAMES[c] || c);
     fromSelect.appendChild(opt1);
 
-    const opt2 = document.createElement('option');
+    const opt2 = document.createElement("option");
     opt2.value = c;
-    opt2.textContent = c + ' - ' + (CURRENCY_NAMES[c] || c);
+    opt2.textContent = c + " - " + (CURRENCY_NAMES[c] || c);
     toSelect.appendChild(opt2);
   });
-  fromSelect.value = 'USD';
-  toSelect.value = 'EUR';
+  fromSelect.value = "USD";
+  toSelect.value = "EUR";
 
   let rates = {};
 
@@ -128,23 +190,30 @@ export function render(container) {
     const rate = toRate / fromRate;
     const result = amount * rate;
 
-    resultEl.textContent = formatNumber(result, 2) + ' ' + to;
-    rateEl.textContent = '1 ' + from + ' = ' + formatNumber(rate, 4) + ' ' + to;
-    updatedEl.textContent = 'Rates as of June 2025';
+    resultEl.textContent = formatNumber(result, 2) + " " + to;
+    rateEl.textContent = "1 " + from + " = " + formatNumber(rate, 4) + " " + to;
+    updatedEl.textContent = "Rates as of June 2025";
 
     conversionsEl.innerHTML = MAJOR_CURRENCIES.filter(c => c !== from && c !== to)
       .slice(0, 6)
       .map(c => {
         const r = amount * ((STATIC_RATES[c] || 1) / fromRate);
-        return '<div class="cec-conversion"><span class="cec-from">' + formatNumber(r, 2) + ' ' + c + '</span></div>';
-      }).join('');
+        return (
+          '<div class="cec-conversion"><span class="cec-from">' +
+          formatNumber(r, 2) +
+          " " +
+          c +
+          "</span></div>"
+        );
+      })
+      .join("");
   }
 
-  amountInput.addEventListener('input', update);
-  fromSelect.addEventListener('change', update);
-  toSelect.addEventListener('change', update);
+  amountInput.addEventListener("input", update);
+  fromSelect.addEventListener("change", update);
+  toSelect.addEventListener("change", update);
 
-  swapBtn.addEventListener('click', () => {
+  swapBtn.addEventListener("click", () => {
     const temp = fromSelect.value;
     fromSelect.value = toSelect.value;
     toSelect.value = temp;

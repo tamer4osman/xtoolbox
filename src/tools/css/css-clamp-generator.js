@@ -1,17 +1,41 @@
 export const toolConfig = {
-  id: 'css-clamp-generator',
-  name: 'Fluid Typography (CSS Clamp) Calculator',
-  category: 'css',
-  description: 'Calculate responsive font scales using CSS clamp() function with preferred viewport mathematical scale.',
-  icon: '📐',
+  id: "css-clamp-generator",
+  name: "Fluid Typography (CSS Clamp) Calculator",
+  category: "css",
+  description:
+    "Calculate responsive font scales using CSS clamp() function with preferred viewport mathematical scale.",
+  icon: "📐",
   accept: null,
   maxSizeMB: null,
-  keywords: ['css clamp', 'fluid typography', 'responsive font', 'viewport scaling', 'clamp calculator', 'font size'],
-  steps: ['Set min and max viewport widths', 'Set min and max font sizes', 'Copy the generated clamp() CSS rule'],
+  keywords: [
+    "css clamp",
+    "fluid typography",
+    "responsive font",
+    "viewport scaling",
+    "clamp calculator",
+    "font size"
+  ],
+  steps: [
+    "Set min and max viewport widths",
+    "Set min and max font sizes",
+    "Copy the generated clamp() CSS rule"
+  ],
   faqs: [
-    { question: 'What does clamp() do?', answer: 'clamp() clamps a value between an upper and lower bound. For fluid typography, it lets text scale smoothly between viewport sizes.' },
-    { question: 'When should I use fluid typography?', answer: 'Use it for headings and body text where you want smooth scaling between breakpoints instead of abrupt media query jumps.' },
-    { question: 'What units should I use?', answer: 'Use px for precise control or rem for accessibility (respects user font-size settings). The preferred value uses vw units.' }
+    {
+      question: "What does clamp() do?",
+      answer:
+        "clamp() clamps a value between an upper and lower bound. For fluid typography, it lets text scale smoothly between viewport sizes."
+    },
+    {
+      question: "When should I use fluid typography?",
+      answer:
+        "Use it for headings and body text where you want smooth scaling between breakpoints instead of abrupt media query jumps."
+    },
+    {
+      question: "What units should I use?",
+      answer:
+        "Use px for precise control or rem for accessibility (respects user font-size settings). The preferred value uses vw units."
+    }
   ]
 };
 
@@ -91,7 +115,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .clamp-grid { display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-4); }
     .clamp-row { display:flex;gap:var(--space-3); }
@@ -105,23 +129,23 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const minVw = container.querySelector('#cc-min-vw');
-  const maxVw = container.querySelector('#cc-max-vw');
-  const vwUnit = container.querySelector('#cc-vw-unit');
-  const minSize = container.querySelector('#cc-min-size');
-  const maxSize = container.querySelector('#cc-max-size');
-  const sizeUnit = container.querySelector('#cc-size-unit');
-  const previewVw = container.querySelector('#cc-preview-vw');
-  const previewLabel = container.querySelector('#cc-preview-label');
-  const cssOutput = container.querySelector('#cc-css');
-  const copyBtn = container.querySelector('#cc-copy');
-  const minBar = container.querySelector('#cc-min-bar');
-  const maxBar = container.querySelector('#cc-max-bar');
-  const previewText = container.querySelector('#cc-preview-text');
-  const minLabel = container.querySelector('#cc-min-label');
-  const maxLabel = container.querySelector('#cc-max-label');
-  const maxVwUnit = container.querySelector('#cc-max-vw-unit');
-  const maxSizeUnit = container.querySelector('#cc-max-size-unit');
+  const minVw = container.querySelector("#cc-min-vw");
+  const maxVw = container.querySelector("#cc-max-vw");
+  const vwUnit = container.querySelector("#cc-vw-unit");
+  const minSize = container.querySelector("#cc-min-size");
+  const maxSize = container.querySelector("#cc-max-size");
+  const sizeUnit = container.querySelector("#cc-size-unit");
+  const previewVw = container.querySelector("#cc-preview-vw");
+  const previewLabel = container.querySelector("#cc-preview-label");
+  const cssOutput = container.querySelector("#cc-css");
+  const copyBtn = container.querySelector("#cc-copy");
+  const minBar = container.querySelector("#cc-min-bar");
+  const maxBar = container.querySelector("#cc-max-bar");
+  const previewText = container.querySelector("#cc-preview-text");
+  const minLabel = container.querySelector("#cc-min-label");
+  const maxLabel = container.querySelector("#cc-max-label");
+  const maxVwUnit = container.querySelector("#cc-max-vw-unit");
+  const maxSizeUnit = container.querySelector("#cc-max-size-unit");
 
   function update() {
     const mnVw = parseFloat(minVw.value) || 320;
@@ -140,7 +164,7 @@ export function render(container) {
     previewLabel.textContent = `Preview at ${pVw}${vu} viewport`;
 
     if (mxVw <= mnVw || mxSz <= mnSz) {
-      cssOutput.value = '/* Max values must be greater than min values */';
+      cssOutput.value = "/* Max values must be greater than min values */";
       previewText.style.fontSize = mnSz + su;
       return;
     }
@@ -159,23 +183,27 @@ export function render(container) {
     maxLabel.textContent = `${mxSz}${su}`;
   }
 
-  minVw.addEventListener('input', update);
-  maxVw.addEventListener('input', update);
-  vwUnit.addEventListener('change', update);
-  minSize.addEventListener('input', update);
-  maxSize.addEventListener('input', update);
-  sizeUnit.addEventListener('change', update);
-  previewVw.addEventListener('input', update);
+  minVw.addEventListener("input", update);
+  maxVw.addEventListener("input", update);
+  vwUnit.addEventListener("change", update);
+  minSize.addEventListener("input", update);
+  maxSize.addEventListener("input", update);
+  sizeUnit.addEventListener("change", update);
+  previewVw.addEventListener("input", update);
 
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(cssOutput.value).then(() => {
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy CSS'; }, 1500);
-    }).catch(() => {});
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(cssOutput.value)
+      .then(() => {
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy CSS";
+        }, 1500);
+      })
+      .catch(() => {});
   });
 
   update();
 }
 
-export function destroy() {
-}
+export function destroy() {}

@@ -1,13 +1,13 @@
 export const toolConfig = {
-  id: 'uuid-generator',
-  name: 'UUID Generator',
-  category: 'encoding',
-  description: 'Generate UUIDs v4 randomly.',
-  icon: '🎲',
+  id: "uuid-generator",
+  name: "UUID Generator",
+  category: "encoding",
+  description: "Generate UUIDs v4 randomly.",
+  icon: "🎲",
   accept: null,
   maxSizeMB: null,
-  keywords: ['uuid generator', 'guid generator', 'unique id'],
-  steps: ['Click Generate', 'Copy UUID']
+  keywords: ["uuid generator", "guid generator", "unique id"],
+  steps: ["Click Generate", "Copy UUID"]
 };
 
 export function render(container) {
@@ -24,7 +24,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .uuid-container { max-width: 500px; margin: 0 auto; text-align: center; }
     .uuid-display { 
@@ -40,33 +40,36 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const display = container.querySelector('#uuid-display');
-  const generateBtn = container.querySelector('#generate-btn');
-  const copyBtn = container.querySelector('#copy-btn');
-  const countInput = container.querySelector('#count');
+  const display = container.querySelector("#uuid-display");
+  const generateBtn = container.querySelector("#generate-btn");
+  const copyBtn = container.querySelector("#copy-btn");
+  const countInput = container.querySelector("#count");
 
   function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = Math.random() * 16 | 0;
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
   }
 
   function generate() {
     const count = Math.min(100, Math.max(1, parseInt(countInput.value) || 1));
-    display.innerHTML = Array(count).fill().map(() => 
-      `<div class="uuid">${generateUUID()}</div>`
-    ).join('');
+    display.innerHTML = Array(count)
+      .fill()
+      .map(() => `<div class="uuid">${generateUUID()}</div>`)
+      .join("");
   }
 
-  copyBtn.addEventListener('click', () => {
-    const uuids = Array.from(display.querySelectorAll('.uuid')).map(el => el.textContent).join('\n');
+  copyBtn.addEventListener("click", () => {
+    const uuids = Array.from(display.querySelectorAll(".uuid"))
+      .map(el => el.textContent)
+      .join("\n");
     navigator.clipboard.writeText(uuids);
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => (copyBtn.textContent = "Copy"), 1500);
   });
 
-  generateBtn.addEventListener('click', generate);
+  generateBtn.addEventListener("click", generate);
   generate();
 }

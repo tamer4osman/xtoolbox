@@ -1,31 +1,32 @@
-import { createSoundNodes } from './sound-nodes.js';
+import { createSoundNodes } from "./sound-nodes.js";
 
 export const toolConfig = {
-  id: 'ambient-sound-mixer',
-  name: 'Ambient Focus Soundboard',
-  category: 'productivity',
-  description: 'Create customizable ambient focus soundtracks using 8 high-quality offline loopable sound nodes.',
-  icon: '🎧',
-  status: 'done'
+  id: "ambient-sound-mixer",
+  name: "Ambient Focus Soundboard",
+  category: "productivity",
+  description:
+    "Create customizable ambient focus soundtracks using 8 high-quality offline loopable sound nodes.",
+  icon: "🎧",
+  status: "done"
 };
 
 const SOUNDS = [
-  { id: 'rain', name: 'Rain', icon: '🌧️', color: '#3b82f6' },
-  { id: 'cafe', name: 'Cafe', icon: '☕', color: '#92400e' },
-  { id: 'brown', name: 'Brown Noise', icon: '🟤', color: '#78350f' },
-  { id: 'waves', name: 'Waves', icon: '🌊', color: '#0ea5e9' },
-  { id: 'wind', name: 'Wind', icon: '💨', color: '#6b7280' },
-  { id: 'fire', name: 'Fire', icon: '🔥', color: '#ef4444' },
-  { id: 'thunder', name: 'Thunder', icon: '⛈️', color: '#4b5563' },
-  { id: 'birds', name: 'Birds', icon: '🐦', color: '#22c55e' },
+  { id: "rain", name: "Rain", icon: "🌧️", color: "#3b82f6" },
+  { id: "cafe", name: "Cafe", icon: "☕", color: "#92400e" },
+  { id: "brown", name: "Brown Noise", icon: "🟤", color: "#78350f" },
+  { id: "waves", name: "Waves", icon: "🌊", color: "#0ea5e9" },
+  { id: "wind", name: "Wind", icon: "💨", color: "#6b7280" },
+  { id: "fire", name: "Fire", icon: "🔥", color: "#ef4444" },
+  { id: "thunder", name: "Thunder", icon: "⛈️", color: "#4b5563" },
+  { id: "birds", name: "Birds", icon: "🐦", color: "#22c55e" }
 ];
 
 const TIMER_OPTIONS = [
-  { label: 'Off', value: 0 },
-  { label: '15 min', value: 15 },
-  { label: '30 min', value: 30 },
-  { label: '1 hour', value: 60 },
-  { label: '2 hours', value: 120 },
+  { label: "Off", value: 0 },
+  { label: "15 min", value: 15 },
+  { label: "30 min", value: 30 },
+  { label: "1 hour", value: 60 },
+  { label: "2 hours", value: 120 }
 ];
 
 const STYLES = `
@@ -51,12 +52,12 @@ const STYLES = `
 `;
 
 function formatTime(s) {
-  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+  return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
 }
 
 function createCard(sound) {
-  const card = document.createElement('div');
-  card.className = 'amb-card';
+  const card = document.createElement("div");
+  card.className = "amb-card";
   card.dataset.sound = sound.id;
   card.innerHTML = `
     <div class="amb-card-icon">${sound.icon}</div>
@@ -90,7 +91,11 @@ export function render(container) {
 
   function stopSound(soundId) {
     if (activeSounds[soundId]) {
-      activeSounds[soundId].nodes.forEach(n => { try { n.stop(); } catch {} });
+      activeSounds[soundId].nodes.forEach(n => {
+        try {
+          n.stop();
+        } catch {}
+      });
       activeSounds[soundId].gain.disconnect();
       delete activeSounds[soundId];
     }
@@ -98,16 +103,16 @@ export function render(container) {
 
   function toggleSound(soundId) {
     const ctx = getAudioContext();
-    if (ctx.state === 'suspended') ctx.resume();
+    if (ctx.state === "suspended") ctx.resume();
     const card = container.querySelector(`[data-sound="${soundId}"]`);
     if (activeSounds[soundId]) {
       stopSound(soundId);
-      card.classList.remove('active');
-      card.querySelector('.amb-card-status').textContent = 'Stopped';
+      card.classList.remove("active");
+      card.querySelector(".amb-card-status").textContent = "Stopped";
     } else {
       activeSounds[soundId] = createSoundNodes(ctx, soundId);
-      card.classList.add('active');
-      card.querySelector('.amb-card-status').textContent = 'Playing';
+      card.classList.add("active");
+      card.querySelector(".amb-card-status").textContent = "Playing";
     }
   }
 
@@ -119,8 +124,11 @@ export function render(container) {
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = null;
     timerSeconds = 0;
-    const display = container.querySelector('#amb-timer-display');
-    if (minutes === 0) { display.textContent = ''; return; }
+    const display = container.querySelector("#amb-timer-display");
+    if (minutes === 0) {
+      display.textContent = "";
+      return;
+    }
     timerSeconds = minutes * 60;
     display.textContent = formatTime(timerSeconds);
     timerInterval = setInterval(() => {
@@ -132,10 +140,10 @@ export function render(container) {
         Object.keys(activeSounds).forEach(id => {
           stopSound(id);
           const card = container.querySelector(`[data-sound="${id}"]`);
-          card.classList.remove('active');
-          card.querySelector('.amb-card-status').textContent = 'Stopped';
+          card.classList.remove("active");
+          card.querySelector(".amb-card-status").textContent = "Stopped";
         });
-        display.textContent = 'Done!';
+        display.textContent = "Done!";
       }
     }, 1000);
   }
@@ -147,7 +155,7 @@ export function render(container) {
         <div class="amb-timer">
           <label>Sleep Timer</label>
           <select id="amb-timer">
-            ${TIMER_OPTIONS.map(t => `<option value="${t.value}">${t.label}</option>`).join('')}
+            ${TIMER_OPTIONS.map(t => `<option value="${t.value}">${t.label}</option>`).join("")}
           </select>
           <span id="amb-timer-display"></span>
         </div>
@@ -161,36 +169,36 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = STYLES;
   container.appendChild(style);
 
   // Render sound cards
-  const grid = container.querySelector('#amb-grid');
+  const grid = container.querySelector("#amb-grid");
   SOUNDS.forEach(sound => {
     const card = createCard(sound);
-    card.addEventListener('click', (e) => {
-      if (e.target.type === 'range') return;
+    card.addEventListener("click", e => {
+      if (e.target.type === "range") return;
       toggleSound(sound.id);
     });
-    card.querySelector(`[data-volume="${sound.id}"]`).addEventListener('input', (e) => {
+    card.querySelector(`[data-volume="${sound.id}"]`).addEventListener("input", e => {
       e.stopPropagation();
       const val = parseInt(e.target.value);
-      card.querySelector('.amb-card-volume span').textContent = val + '%';
+      card.querySelector(".amb-card-volume span").textContent = val + "%";
       updateVolume(sound.id, val);
     });
     grid.appendChild(card);
   });
 
   // Master volume
-  container.querySelector('#amb-master').addEventListener('input', (e) => {
+  container.querySelector("#amb-master").addEventListener("input", e => {
     const val = parseInt(e.target.value);
-    container.querySelector('#amb-master-val').textContent = val + '%';
+    container.querySelector("#amb-master-val").textContent = val + "%";
     if (masterGain) masterGain.gain.value = val / 100;
   });
 
   // Timer
-  container.querySelector('#amb-timer').addEventListener('change', (e) => {
+  container.querySelector("#amb-timer").addEventListener("change", e => {
     startTimer(parseInt(e.target.value));
   });
 }

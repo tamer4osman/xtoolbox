@@ -10,7 +10,7 @@ export async function loadFFmpeg(onProgress) {
   if (ffmpegInstance) return ffmpegInstance;
   if (ffmpegLoading) {
     // Wait for existing load
-    while (ffmpegLoading) await new Promise((r) => setTimeout(r, 100));
+    while (ffmpegLoading) await new Promise(r => setTimeout(r, 100));
     return ffmpegInstance;
   }
 
@@ -27,7 +27,7 @@ export async function loadFFmpeg(onProgress) {
     const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
     await ffmpeg.load({
       coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
+      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm")
     });
 
     ffmpegInstance = ffmpeg;
@@ -41,7 +41,7 @@ export async function loadFFmpeg(onProgress) {
  * Get video info from file
  */
 export async function getVideoInfo(file) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const video = document.createElement("video");
     video.preload = "metadata";
     video.onloadedmetadata = () => {
@@ -52,7 +52,7 @@ export async function getVideoInfo(file) {
         size: file.size,
         sizeFormatted: formatFileSize(file.size),
         type: file.type,
-        name: file.name,
+        name: file.name
       });
       URL.revokeObjectURL(video.src);
     };
@@ -64,7 +64,7 @@ export async function getVideoInfo(file) {
         size: file.size,
         sizeFormatted: formatFileSize(file.size),
         type: file.type,
-        name: file.name,
+        name: file.name
       });
     };
     video.src = URL.createObjectURL(file);

@@ -1,5 +1,5 @@
-import { createFileUpload } from '../components/file-upload.js';
-import { showToast } from '../components/toast.js';
+import { createFileUpload } from "../components/file-upload.js";
+import { showToast } from "../components/toast.js";
 
 const PANEL_STYLES = `
   .file-info-panel { background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-lg); }
@@ -13,9 +13,9 @@ export function createSingleFileTool({
   container,
   toolId,
   accept,
-  icon = '',
-  buttonText = 'Convert',
-  processingMessage = 'Processing...',
+  icon = "",
+  buttonText = "Convert",
+  processingMessage = "Processing...",
   onConvert
 }) {
   let currentFile = null;
@@ -24,13 +24,13 @@ export function createSingleFileTool({
     accept,
     multiple: false,
     maxSizeMB: 50,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       if (files.length > 0) {
         currentFile = files[0];
-        convertBtn.style.display = 'inline-flex';
+        convertBtn.style.display = "inline-flex";
         fileName.textContent = files[0].name;
-        fileInfo.textContent = (files[0].size / 1024 / 1024).toFixed(2) + ' MB';
-        filePanel.style.display = 'block';
+        fileInfo.textContent = (files[0].size / 1024 / 1024).toFixed(2) + " MB";
+        filePanel.style.display = "block";
       }
     }
   });
@@ -55,7 +55,7 @@ export function createSingleFileTool({
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = PANEL_STYLES;
   container.appendChild(style);
 
@@ -67,21 +67,23 @@ export function createSingleFileTool({
   const fileName = container.querySelector(`#${toolId}-name`);
   const fileInfo = container.querySelector(`#${toolId}-info`);
 
-  convertBtn.addEventListener('click', async () => {
+  convertBtn.addEventListener("click", async () => {
     if (!currentFile) return;
-    processing.style.display = 'block';
-    convertBtn.style.display = 'none';
-    filePanel.style.display = 'none';
+    processing.style.display = "block";
+    convertBtn.style.display = "none";
+    filePanel.style.display = "none";
     try {
       await onConvert({
         file: currentFile,
-        progress: (pct) => { progressPct.textContent = pct; }
+        progress: pct => {
+          progressPct.textContent = pct;
+        }
       });
     } catch (err) {
-      showToast({ message: 'Error: ' + (err?.message || 'Unknown error'), type: 'error' });
+      showToast({ message: "Error: " + (err?.message || "Unknown error"), type: "error" });
     } finally {
-      processing.style.display = 'none';
-      convertBtn.style.display = 'inline-flex';
+      processing.style.display = "none";
+      convertBtn.style.display = "inline-flex";
     }
   });
 

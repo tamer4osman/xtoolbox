@@ -1,12 +1,12 @@
-import { initHealthForm, calcOvulationDate, formatDateShort } from './health-calculator-factory.js';
+import { initHealthForm, calcOvulationDate, formatDateShort } from "./health-calculator-factory.js";
 
 export const toolConfig = {
-  id: 'ovulation-calculator',
-  name: 'Ovulation Calculator',
-  category: 'health',
-  description: 'Predict ovulation and fertile windows.',
-  icon: '📅',
-  status: 'done'
+  id: "ovulation-calculator",
+  name: "Ovulation Calculator",
+  category: "health",
+  description: "Predict ovulation and fertile windows.",
+  icon: "📅",
+  status: "done"
 };
 
 const RESULT_STYLES = `
@@ -24,7 +24,7 @@ const RESULT_STYLES = `
 
 export function render(container) {
   initHealthForm(container, {
-    buttonText: 'Calculate',
+    buttonText: "Calculate",
     calculate(lastPeriod, cycle) {
       const ovulation = calcOvulationDate(lastPeriod, cycle);
 
@@ -68,7 +68,7 @@ export function render(container) {
     }
   });
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = RESULT_STYLES;
   container.appendChild(style);
 }

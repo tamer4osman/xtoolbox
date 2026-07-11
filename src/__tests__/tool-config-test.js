@@ -1,4 +1,4 @@
-import { it, expect } from 'vitest';
+import { it, expect } from "vitest";
 
 /**
  * Reusable tool configuration tests
@@ -12,24 +12,17 @@ import { it, expect } from 'vitest';
  * @param {number} [options.minSteps=2] - Minimum steps count
  */
 export function testToolConfig(toolConfig, options) {
-  const {
-    id,
-    name,
-    category,
-    minKeywords = 3,
-    minFaqs = 1,
-    minSteps = 2
-  } = options;
+  const { id, name, category, minKeywords = 3, minFaqs = 1, minSteps = 2 } = options;
 
-  it('has correct id', () => {
+  it("has correct id", () => {
     expect(toolConfig.id).toBe(id);
   });
 
-  it('has correct name', () => {
+  it("has correct name", () => {
     expect(toolConfig.name).toBe(name);
   });
 
-  it('has correct category', () => {
+  it("has correct category", () => {
     expect(toolConfig.category).toBe(category);
   });
 
@@ -72,8 +65,8 @@ export function testSimpleToolConfig(toolConfig, id, name, category) {
  * @param {string[]} selectors - CSS selectors to check in render
  */
 export function testRenderAndDestroy(render, destroy, selectors) {
-  it('render appends content to container', () => {
-    const container = document.createElement('div');
+  it("render appends content to container", () => {
+    const container = document.createElement("div");
     render(container);
     selectors.forEach(sel => {
       expect(container.querySelector(sel)).toBeTruthy();
@@ -81,8 +74,8 @@ export function testRenderAndDestroy(render, destroy, selectors) {
   });
 
   if (destroy) {
-    it('destroy cleans up without throwing', () => {
-      const container = document.createElement('div');
+    it("destroy cleans up without throwing", () => {
+      const container = document.createElement("div");
       render(container);
       expect(() => destroy()).not.toThrow();
     });
@@ -98,12 +91,12 @@ export function testRenderAndDestroy(render, destroy, selectors) {
  * @param {string} expectedText - Expected text in output
  */
 export function testSliderInteraction(render, sliderId, outputId, testValue, expectedText) {
-  it('slider updates output', () => {
-    const container = document.createElement('div');
+  it("slider updates output", () => {
+    const container = document.createElement("div");
     render(container);
     const slider = container.querySelector(`#${sliderId}`);
     slider.value = testValue;
-    slider.dispatchEvent(new Event('input'));
+    slider.dispatchEvent(new Event("input"));
     const output = container.querySelector(`#${outputId}`).value;
     expect(output).toContain(expectedText);
   });
@@ -116,37 +109,37 @@ export function testSliderInteraction(render, sliderId, outputId, testValue, exp
  */
 export function testToolConfigCustom(toolConfig, validators) {
   if (validators.id) {
-    it('has correct id', () => {
+    it("has correct id", () => {
       expect(toolConfig.id).toBe(validators.id);
     });
   }
 
   if (validators.name) {
-    it('has correct name', () => {
+    it("has correct name", () => {
       expect(toolConfig.name).toBe(validators.name);
     });
   }
 
   if (validators.category) {
-    it('has correct category', () => {
+    it("has correct category", () => {
       expect(toolConfig.category).toBe(validators.category);
     });
   }
 
   if (validators.keywords) {
-    it('has keywords', () => {
+    it("has keywords", () => {
       expect(toolConfig.keywords.length).toBeGreaterThan(validators.keywords - 1);
     });
   }
 
   if (validators.faqs) {
-    it('has faqs', () => {
+    it("has faqs", () => {
       expect(toolConfig.faqs.length).toBeGreaterThan(validators.faqs - 1);
     });
   }
 
   if (validators.steps) {
-    it('has steps', () => {
+    it("has steps", () => {
       expect(toolConfig.steps.length).toBeGreaterThan(validators.steps - 1);
     });
   }

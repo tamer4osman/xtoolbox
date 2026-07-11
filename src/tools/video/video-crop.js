@@ -47,8 +47,8 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
       {
         name: "br",
         hx: toDisplay(crop.x) + toDisplay(crop.w),
-        hy: toDisplay(crop.y) + toDisplay(crop.h),
-      },
+        hy: toDisplay(crop.y) + toDisplay(crop.h)
+      }
     ];
 
     for (const h of corners) {
@@ -103,7 +103,7 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
       [toDisplay(crop.x), toDisplay(crop.y)],
       [toDisplay(crop.x) + toDisplay(crop.w), toDisplay(crop.y)],
       [toDisplay(crop.x), toDisplay(crop.y) + toDisplay(crop.h)],
-      [toDisplay(crop.x) + toDisplay(crop.w), toDisplay(crop.y) + toDisplay(crop.h)],
+      [toDisplay(crop.x) + toDisplay(crop.w), toDisplay(crop.y) + toDisplay(crop.h)]
     ];
     for (const [hx, hy] of handles) {
       ctx.fillStyle = "#fff";
@@ -119,11 +119,11 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
     ctx.fillText(
       `${crop.w}×${crop.h}`,
       toDisplay(crop.x) + toDisplay(crop.w) / 2,
-      toDisplay(crop.y) + toDisplay(crop.h) / 2 + 4,
+      toDisplay(crop.y) + toDisplay(crop.h) / 2 + 4
     );
   }
 
-  canvas.addEventListener("mousedown", (e) => {
+  canvas.addEventListener("mousedown", e => {
     const handle = getHandle(e.clientX, e.clientY);
     if (handle) {
       dragHandle = handle;
@@ -184,12 +184,12 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
 
   return {
     getCrop: () => ({ ...crop }),
-    setCrop: (c) => {
+    setCrop: c => {
       crop = clampCrop({ ...c });
       onChange(crop);
       draw();
     },
-    setAspect: (ratio) => {
+    setAspect: ratio => {
       if (ratio === "free") {
         crop = { x: 0, y: 0, w: videoWidth, h: videoHeight };
       } else {
@@ -209,7 +209,7 @@ function createCropSelector({ canvas, videoWidth, videoHeight, onChange }) {
     dispose: () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
-    },
+    }
   };
 }
 
@@ -226,19 +226,19 @@ export const toolConfig = {
     "Upload a video",
     "Adjust the crop rectangle or enter values",
     'Click "Crop Video"',
-    "Download cropped video",
+    "Download cropped video"
   ],
   faqs: [
     {
       question: "What crop filter is used?",
       answer:
-        "We use FFmpeg's crop filter which re-encodes the video. Use even pixel dimensions for best compatibility.",
+        "We use FFmpeg's crop filter which re-encodes the video. Use even pixel dimensions for best compatibility."
     },
     {
       question: "Can I crop to a specific aspect ratio?",
-      answer: "Yes! Use the preset buttons (16:9, 4:3, 1:1) or drag the handles freely.",
-    },
-  ],
+      answer: "Yes! Use the preset buttons (16:9, 4:3, 1:1) or drag the handles freely."
+    }
+  ]
 };
 
 export const render = createVideoTool({
@@ -304,7 +304,7 @@ export const render = createVideoTool({
           tctx.query("#crop-y").value = c.y;
           tctx.query("#crop-w").value = c.w;
           tctx.query("#crop-h").value = c.h;
-        },
+        }
       });
 
       if (tctx.container._selector) tctx.container._selector.dispose();
@@ -322,17 +322,17 @@ export const render = createVideoTool({
       selector.setCrop({ x, y, w, h });
     };
 
-    ["crop-x", "crop-y", "crop-w", "crop-h"].forEach((id) => {
+    ["crop-x", "crop-y", "crop-w", "crop-h"].forEach(id => {
       tctx.query(`#${id}`).addEventListener("input", syncFromInputs);
     });
 
-    tctx.query("#aspect-presets").addEventListener("click", (e) => {
+    tctx.query("#aspect-presets").addEventListener("click", e => {
       const btn = e.target.closest(".aspect-btn");
       if (!btn || !selector) return;
       tctx
         .query("#aspect-presets")
         .querySelectorAll(".aspect-btn")
-        .forEach((b) => b.classList.remove("active"));
+        .forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       selector.setAspect(btn.dataset.ratio);
     });
@@ -355,11 +355,11 @@ export const render = createVideoTool({
       `crop=${cw}:${ch}:${crop.x}:${crop.y}`,
       "-c:a",
       "copy",
-      outputName,
+      outputName
     ]);
 
     await downloadVideoOutput(ffmpeg, outputName, `cropped.${ext}`, ext);
-  },
+  }
 });
 
 export function destroy(container) {

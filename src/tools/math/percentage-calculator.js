@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'percentage-calculator',
-  name: 'Percentage Calculator',
-  category: 'math',
-  description: 'Calculate percentages: what is X% of Y, X is what % of Y, % change.',
-  icon: '%',
-  status: 'done'
+  id: "percentage-calculator",
+  name: "Percentage Calculator",
+  category: "math",
+  description: "Calculate percentages: what is X% of Y, X is what % of Y, % change.",
+  icon: "%",
+  status: "done"
 };
 
 export function render(container) {
@@ -70,7 +70,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .calc-container { max-width: 500px; margin: 0 auto; }
     .calc-tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
@@ -86,51 +86,59 @@ export function render(container) {
   container.appendChild(style);
 
   function calc1() {
-    const p = parseFloat(container.querySelector('#p1').value) || 0;
-    const v = parseFloat(container.querySelector('#v1').value) || 0;
-    container.querySelector('#r1').textContent = '= ' + (p * v / 100);
+    const p = parseFloat(container.querySelector("#p1").value) || 0;
+    const v = parseFloat(container.querySelector("#v1").value) || 0;
+    container.querySelector("#r1").textContent = "= " + (p * v) / 100;
   }
 
   function calc2() {
-    const x = parseFloat(container.querySelector('#p2').value) || 0;
-    const t = parseFloat(container.querySelector('#v2').value) || 1;
-    container.querySelector('#r2').textContent = (x / t * 100).toFixed(2) + '%';
+    const x = parseFloat(container.querySelector("#p2").value) || 0;
+    const t = parseFloat(container.querySelector("#v2").value) || 1;
+    container.querySelector("#r2").textContent = ((x / t) * 100).toFixed(2) + "%";
   }
 
   function calc3() {
-    const o = parseFloat(container.querySelector('#old').value) || 1;
-    const n = parseFloat(container.querySelector('#new').value) || 0;
-    const change = ((n - o) / o * 100);
-    container.querySelector('#r3').textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
+    const o = parseFloat(container.querySelector("#old").value) || 1;
+    const n = parseFloat(container.querySelector("#new").value) || 0;
+    const change = ((n - o) / o) * 100;
+    container.querySelector("#r3").textContent = (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
   }
 
   function calc4() {
-    const from = parseFloat(container.querySelector('#increase-from').value) || 0;
-    const pct = parseFloat(container.querySelector('#increase-pct').value) || 0;
-    container.querySelector('#r4').textContent = from * (1 + pct / 100);
+    const from = parseFloat(container.querySelector("#increase-from").value) || 0;
+    const pct = parseFloat(container.querySelector("#increase-pct").value) || 0;
+    container.querySelector("#r4").textContent = from * (1 + pct / 100);
   }
 
   function calc5() {
-    const d1 = parseFloat(container.querySelector('#diff1').value) || 0;
-    const d2 = parseFloat(container.querySelector('#diff2').value) || 0;
-    const diff = d2 > 0 ? ((d1 - d2) / d2 * 100) : 0;
-    container.querySelector('#r5').textContent = diff.toFixed(2) + '%';
+    const d1 = parseFloat(container.querySelector("#diff1").value) || 0;
+    const d2 = parseFloat(container.querySelector("#diff2").value) || 0;
+    const diff = d2 > 0 ? ((d1 - d2) / d2) * 100 : 0;
+    container.querySelector("#r5").textContent = diff.toFixed(2) + "%";
   }
 
-  container.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      container.querySelector('#' + btn.dataset.tab).classList.add('active');
+  container.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      container.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      container.querySelector("#" + btn.dataset.tab).classList.add("active");
     });
   });
 
-  container.querySelectorAll('input').forEach(inp => {
-    inp.addEventListener('input', () => {
-      calc1(); calc2(); calc3(); calc4(); calc5();
+  container.querySelectorAll("input").forEach(inp => {
+    inp.addEventListener("input", () => {
+      calc1();
+      calc2();
+      calc3();
+      calc4();
+      calc5();
     });
   });
 
-  calc1(); calc2(); calc3(); calc4(); calc5();
+  calc1();
+  calc2();
+  calc3();
+  calc4();
+  calc5();
 }

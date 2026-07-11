@@ -1,11 +1,11 @@
-import { formatFileSize } from '../utils/file.js';
-import { createElement } from '../utils/dom-create.js';
+import { formatFileSize } from "../utils/file.js";
+import { createElement } from "../utils/dom-create.js";
 
 /**
  * Create a file upload dropzone component
  */
 export function createFileUpload({
-  accept = '*',
+  accept = "*",
   multiple = false,
   maxSizeMB = 100,
   maxFiles = 20,
@@ -14,7 +14,7 @@ export function createFileUpload({
 }) {
   let selectedFiles = [];
 
-  const element = createElement('div', { className: 'file-upload' });
+  const element = createElement("div", { className: "file-upload" });
   element.innerHTML = `
     <div class="file-upload-dropzone" id="dropzone">
       <div class="file-upload-icon">
@@ -24,44 +24,48 @@ export function createFileUpload({
           <line x1="12" y1="3" x2="12" y2="15"/>
         </svg>
       </div>
-      <p class="file-upload-text">${label || (multiple ? 'Drag & drop files here or click to browse' : 'Drag & drop a file here or click to browse')}</p>
-      <p class="file-upload-hint">Max ${maxSizeMB}MB per file${multiple ? `, up to ${maxFiles} files` : ''}</p>
-      <input type="file" class="file-upload-input" accept="${accept}" ${multiple ? 'multiple' : ''}>
+      <p class="file-upload-text">${label || (multiple ? "Drag & drop files here or click to browse" : "Drag & drop a file here or click to browse")}</p>
+      <p class="file-upload-hint">Max ${maxSizeMB}MB per file${multiple ? `, up to ${maxFiles} files` : ""}</p>
+      <input type="file" class="file-upload-input" accept="${accept}" ${multiple ? "multiple" : ""}>
       <button class="btn btn-primary file-upload-btn">Browse Files</button>
     </div>
     <div class="file-upload-list" id="file-list"></div>
   `;
 
-  const dropzone = element.querySelector('#dropzone');
-  const fileInput = element.querySelector('.file-upload-input');
-  const browseBtn = element.querySelector('.file-upload-btn');
-  const fileList = element.querySelector('#file-list');
+  const dropzone = element.querySelector("#dropzone");
+  const fileInput = element.querySelector(".file-upload-input");
+  const browseBtn = element.querySelector(".file-upload-btn");
+  const fileList = element.querySelector("#file-list");
 
-  browseBtn.addEventListener('click', () => fileInput.click());
-  dropzone.addEventListener('click', (e) => {
-    if (e.target === dropzone || e.target.closest('.file-upload-icon') || e.target.closest('.file-upload-text')) {
+  browseBtn.addEventListener("click", () => fileInput.click());
+  dropzone.addEventListener("click", e => {
+    if (
+      e.target === dropzone ||
+      e.target.closest(".file-upload-icon") ||
+      e.target.closest(".file-upload-text")
+    ) {
       fileInput.click();
     }
   });
 
-  fileInput.addEventListener('change', () => {
+  fileInput.addEventListener("change", () => {
     handleFiles(Array.from(fileInput.files));
-    fileInput.value = '';
+    fileInput.value = "";
   });
 
-  dropzone.addEventListener('dragover', (e) => {
+  dropzone.addEventListener("dragover", e => {
     e.preventDefault();
-    dropzone.classList.add('drag-over');
+    dropzone.classList.add("drag-over");
   });
 
-  dropzone.addEventListener('dragleave', (e) => {
+  dropzone.addEventListener("dragleave", e => {
     e.preventDefault();
-    dropzone.classList.remove('drag-over');
+    dropzone.classList.remove("drag-over");
   });
 
-  dropzone.addEventListener('drop', (e) => {
+  dropzone.addEventListener("drop", e => {
     e.preventDefault();
-    dropzone.classList.remove('drag-over');
+    dropzone.classList.remove("drag-over");
     handleFiles(Array.from(e.dataTransfer.files));
   });
 
@@ -70,7 +74,7 @@ export function createFileUpload({
     const errors = [];
 
     for (const file of files) {
-      if (accept !== '*' && !isFileTypeAccepted(file, accept)) {
+      if (accept !== "*" && !isFileTypeAccepted(file, accept)) {
         errors.push(`${file.name}: Invalid file type`);
         continue;
       }
@@ -90,24 +94,29 @@ export function createFileUpload({
     renderFileList();
     onFilesSelected(selectedFiles);
 
-    if (errors.length > 0 && typeof showToast === 'function') {
-      errors.forEach(err => showToast({ message: err, type: 'error' }));
+    if (errors.length > 0 && typeof showToast === "function") {
+      errors.forEach(err => showToast({ message: err, type: "error" }));
     }
   }
 
   function isFileTypeAccepted(file, acceptStr) {
-    const types = acceptStr.split(',').map(t => t.trim());
+    const types = acceptStr.split(",").map(t => t.trim());
     return types.some(type => {
-      if (type.startsWith('.')) return file.name.toLowerCase().endsWith(type.toLowerCase());
-      if (type.endsWith('/*')) return file.type.startsWith(type.replace('/*', '/'));
+      if (type.startsWith(".")) return file.name.toLowerCase().endsWith(type.toLowerCase());
+      if (type.endsWith("/*")) return file.type.startsWith(type.replace("/*", "/"));
       return file.type === type;
     });
   }
 
   function renderFileList() {
-    if (selectedFiles.length === 0) { fileList.innerHTML = ''; return; }
+    if (selectedFiles.length === 0) {
+      fileList.innerHTML = "";
+      return;
+    }
 
-    fileList.innerHTML = selectedFiles.map((file, index) => `
+    fileList.innerHTML = selectedFiles
+      .map(
+        (file, index) => `
       <div class="file-upload-item">
         <span class="file-upload-item-icon">📎</span>
         <div class="file-upload-item-info">
@@ -116,10 +125,12 @@ export function createFileUpload({
         </div>
         <button class="file-upload-item-remove" data-index="${index}" title="Remove file">✕</button>
       </div>
-    `).join('');
+    `
+      )
+      .join("");
 
-    fileList.querySelectorAll('.file-upload-item-remove').forEach(btn => {
-      btn.addEventListener('click', () => {
+    fileList.querySelectorAll(".file-upload-item-remove").forEach(btn => {
+      btn.addEventListener("click", () => {
         selectedFiles.splice(parseInt(btn.dataset.index), 1);
         renderFileList();
         onFilesSelected(selectedFiles);
@@ -130,6 +141,9 @@ export function createFileUpload({
   return {
     element,
     getFiles: () => selectedFiles,
-    clear: () => { selectedFiles = []; renderFileList(); }
+    clear: () => {
+      selectedFiles = [];
+      renderFileList();
+    }
   };
 }

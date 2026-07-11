@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'loan-calculator',
-  name: 'Loan Calculator',
-  category: 'finance',
-  description: 'Calculate EMI, total interest, and view amortization schedule.',
-  icon: '💰',
-  status: 'done'
+  id: "loan-calculator",
+  name: "Loan Calculator",
+  category: "finance",
+  description: "Calculate EMI, total interest, and view amortization schedule.",
+  icon: "💰",
+  status: "done"
 };
 
 export function render(container) {
@@ -50,7 +50,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tool-container { max-width: 600px; margin: 0 auto; }
     .tool-header { text-align: center; margin-bottom: var(--space-8); }
@@ -72,32 +72,38 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const calcBtn = container.querySelector('#calculate-btn');
-  
-  calcBtn.addEventListener('click', () => {
-    const principal = parseFloat(container.querySelector('#amount').value);
-    const rate = parseFloat(container.querySelector('#rate').value) / 12 / 100;
-    const years = parseInt(container.querySelector('#years').value);
+  const calcBtn = container.querySelector("#calculate-btn");
+
+  calcBtn.addEventListener("click", () => {
+    const principal = parseFloat(container.querySelector("#amount").value);
+    const rate = parseFloat(container.querySelector("#rate").value) / 12 / 100;
+    const years = parseInt(container.querySelector("#years").value);
     const months = years * 12;
-    
-    const emi = principal * rate * Math.pow(1 + rate, months) / (Math.pow(1 + rate, months) - 1);
+
+    const emi = (principal * rate * Math.pow(1 + rate, months)) / (Math.pow(1 + rate, months) - 1);
     const totalPayment = emi * months;
     const totalInterest = totalPayment - principal;
-    
-    document.getElementById('emi').textContent = '$' + emi.toFixed(2);
-    document.getElementById('total-interest').textContent = '$' + totalInterest.toFixed(2);
-    document.getElementById('total-payment').textContent = '$' + totalPayment.toFixed(2);
-    
-    let schedule = '';
+
+    document.getElementById("emi").textContent = "$" + emi.toFixed(2);
+    document.getElementById("total-interest").textContent = "$" + totalInterest.toFixed(2);
+    document.getElementById("total-payment").textContent = "$" + totalPayment.toFixed(2);
+
+    let schedule = "";
     let balance = principal;
     for (let i = 1; i <= 12; i++) {
       const interest = balance * rate;
       const principalPaid = emi - interest;
       balance -= principalPaid;
-      schedule += '<div class="schedule-item"><span>Month ' + i + '</span><span>Principal: $' + principalPaid.toFixed(0) + ', Interest: $' + interest.toFixed(0) + '</span></div>';
+      schedule +=
+        '<div class="schedule-item"><span>Month ' +
+        i +
+        "</span><span>Principal: $" +
+        principalPaid.toFixed(0) +
+        ", Interest: $" +
+        interest.toFixed(0) +
+        "</span></div>";
     }
-    document.getElementById('schedule').innerHTML = schedule;
-    container.querySelector('#result').classList.remove('hidden');
+    document.getElementById("schedule").innerHTML = schedule;
+    container.querySelector("#result").classList.remove("hidden");
   });
-
 }

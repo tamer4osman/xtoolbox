@@ -1,29 +1,32 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'sql-to-json',
-  name: 'SQL to JSON & Schema Converter',
-  category: 'dev',
-  description: 'Parse SQL CREATE TABLE and INSERT INTO queries to generate structured JSON schemas and arrays.',
-  icon: '🗃️',
-  accept: '.sql',
+  id: "sql-to-json",
+  name: "SQL to JSON & Schema Converter",
+  category: "dev",
+  description:
+    "Parse SQL CREATE TABLE and INSERT INTO queries to generate structured JSON schemas and arrays.",
+  icon: "🗃️",
+  accept: ".sql",
   maxSizeMB: 5,
-  keywords: ['sql', 'json', 'schema', 'converter', 'database', 'parser'],
-  status: 'done',
+  keywords: ["sql", "json", "schema", "converter", "database", "parser"],
+  status: "done",
   steps: [
-    'Paste your SQL CREATE TABLE or INSERT statements',
+    "Paste your SQL CREATE TABLE or INSERT statements",
     'Click "Parse SQL" to convert',
-    'View JSON output and schema definitions',
-    'Copy or download the results'
+    "View JSON output and schema definitions",
+    "Copy or download the results"
   ],
   faqs: [
     {
-      question: 'What SQL statements does this tool support?',
-      answer: 'It supports CREATE TABLE statements and INSERT INTO statements with VALUES clauses. It can extract table structures and data rows.'
+      question: "What SQL statements does this tool support?",
+      answer:
+        "It supports CREATE TABLE statements and INSERT INTO statements with VALUES clauses. It can extract table structures and data rows."
     },
     {
-      question: 'Is my SQL data sent to any server?',
-      answer: 'No, all parsing happens entirely in your browser. Your SQL queries never leave your device.'
+      question: "Is my SQL data sent to any server?",
+      answer:
+        "No, all parsing happens entirely in your browser. Your SQL queries never leave your device."
     }
   ]
 };
@@ -98,26 +101,31 @@ const SQL_HTML = `
 `;
 
 function buildPreviewHtml(jsonData) {
-  let html = '';
+  let html = "";
   for (const [tableName, data] of Object.entries(jsonData)) {
     if (data.rows.length > 0) {
       html += `<h4>${escapeHtml(tableName)}</h4><table><thead><tr>`;
-      Object.keys(data.rows[0]).forEach(col => { html += `<th>${escapeHtml(col)}</th>`; });
-      html += '</tr></thead><tbody>';
-      data.rows.slice(0, 10).forEach(row => {
-        html += '<tr>';
-        Object.values(row).forEach(val => { html += `<td>${val === null ? 'NULL' : escapeHtml(val)}</td>`; });
-        html += '</tr>';
+      Object.keys(data.rows[0]).forEach(col => {
+        html += `<th>${escapeHtml(col)}</th>`;
       });
-      html += '</tbody></table>';
+      html += "</tr></thead><tbody>";
+      data.rows.slice(0, 10).forEach(row => {
+        html += "<tr>";
+        Object.values(row).forEach(val => {
+          html += `<td>${val === null ? "NULL" : escapeHtml(val)}</td>`;
+        });
+        html += "</tr>";
+      });
+      html += "</tbody></table>";
     }
   }
-  return html || '<p>No data rows found to preview.</p>';
+  return html || "<p>No data rows found to preview.</p>";
 }
 
 function parseCreateTable(sql) {
   const tables = {};
-  const createRegex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`"']?(\w+)[`"']?\s*\(([\s\S]*?)\)\s*;/gi;
+  const createRegex =
+    /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`"']?(\w+)[`"']?\s*\(([\s\S]*?)\)\s*;/gi;
   let match;
 
   while ((match = createRegex.exec(sql)) !== null) {
@@ -125,13 +133,15 @@ function parseCreateTable(sql) {
     const columnsDef = match[2];
     const columns = {};
 
-    const columnLines = columnsDef.split(',');
+    const columnLines = columnsDef.split(",");
     for (const line of columnLines) {
       const trimmed = line.trim();
-      if (trimmed.toUpperCase().startsWith('PRIMARY') || 
-          trimmed.toUpperCase().startsWith('UNIQUE') ||
-          trimmed.toUpperCase().startsWith('INDEX') ||
-          trimmed.toUpperCase().startsWith('KEY')) {
+      if (
+        trimmed.toUpperCase().startsWith("PRIMARY") ||
+        trimmed.toUpperCase().startsWith("UNIQUE") ||
+        trimmed.toUpperCase().startsWith("INDEX") ||
+        trimmed.toUpperCase().startsWith("KEY")
+      ) {
         continue;
       }
 
@@ -141,7 +151,7 @@ function parseCreateTable(sql) {
         const colType = colMatch[2].toUpperCase();
         columns[colName] = {
           type: mapSqlType(colType),
-          nullable: !trimmed.toUpperCase().includes('NOT NULL')
+          nullable: !trimmed.toUpperCase().includes("NOT NULL")
         };
       }
     }
@@ -153,38 +163,39 @@ function parseCreateTable(sql) {
 }
 
 function mapSqlType(sqlType) {
-  const type = sqlType.toUpperCase().split('(')[0];
+  const type = sqlType.toUpperCase().split("(")[0];
   const mapping = {
-    'INT': 'integer',
-    'INTEGER': 'integer',
-    'BIGINT': 'integer',
-    'SMALLINT': 'integer',
-    'TINYINT': 'integer',
-    'DECIMAL': 'number',
-    'NUMERIC': 'number',
-    'FLOAT': 'number',
-    'DOUBLE': 'number',
-    'REAL': 'number',
-    'VARCHAR': 'string',
-    'CHAR': 'string',
-    'TEXT': 'string',
-    'LONGTEXT': 'string',
-    'MEDIUMTEXT': 'string',
-    'DATE': 'string (date)',
-    'DATETIME': 'string (datetime)',
-    'TIMESTAMP': 'string (datetime)',
-    'TIME': 'string (time)',
-    'BOOLEAN': 'boolean',
-    'BOOL': 'boolean',
-    'BLOB': 'string (binary)',
-    'JSON': 'object'
+    INT: "integer",
+    INTEGER: "integer",
+    BIGINT: "integer",
+    SMALLINT: "integer",
+    TINYINT: "integer",
+    DECIMAL: "number",
+    NUMERIC: "number",
+    FLOAT: "number",
+    DOUBLE: "number",
+    REAL: "number",
+    VARCHAR: "string",
+    CHAR: "string",
+    TEXT: "string",
+    LONGTEXT: "string",
+    MEDIUMTEXT: "string",
+    DATE: "string (date)",
+    DATETIME: "string (datetime)",
+    TIMESTAMP: "string (datetime)",
+    TIME: "string (time)",
+    BOOLEAN: "boolean",
+    BOOL: "boolean",
+    BLOB: "string (binary)",
+    JSON: "object"
   };
-  return mapping[type] || 'string';
+  return mapping[type] || "string";
 }
 
 function parseInsertStatements(sql) {
   const inserts = {};
-  const insertRegex = /INSERT\s+INTO\s+[`"']?(\w+)[`"']?\s*(?:\(([^)]+)\))?\s*VALUES\s*\(([\s\S]*?)\)\s*;/gi;
+  const insertRegex =
+    /INSERT\s+INTO\s+[`"']?(\w+)[`"']?\s*(?:\(([^)]+)\))?\s*VALUES\s*\(([\s\S]*?)\)\s*;/gi;
   let match;
 
   while ((match = insertRegex.exec(sql)) !== null) {
@@ -192,8 +203,8 @@ function parseInsertStatements(sql) {
     const columnsStr = match[2];
     const valuesStr = match[3];
 
-    const columns = columnsStr 
-      ? columnsStr.split(',').map(c => c.trim().replace(/[`"']/g, ''))
+    const columns = columnsStr
+      ? columnsStr.split(",").map(c => c.trim().replace(/[`"']/g, ""))
       : [];
 
     const values = parseValues(valuesStr);
@@ -221,18 +232,18 @@ function parseInsertStatements(sql) {
 
 function parseValues(valuesStr) {
   const values = [];
-  let current = '';
+  let current = "";
   let inString = false;
-  let stringChar = '';
+  let stringChar = "";
 
   for (let i = 0; i < valuesStr.length; i++) {
     const char = valuesStr[i];
 
     if (inString) {
-      if (char === stringChar && valuesStr[i - 1] !== '\\') {
+      if (char === stringChar && valuesStr[i - 1] !== "\\") {
         inString = false;
         values.push(current);
-        current = '';
+        current = "";
         i++; // skip comma
       } else {
         current += char;
@@ -241,20 +252,20 @@ function parseValues(valuesStr) {
       if (char === "'" || char === '"') {
         inString = true;
         stringChar = char;
-      } else if (char === ',' || i === valuesStr.length - 1) {
+      } else if (char === "," || i === valuesStr.length - 1) {
         const trimmed = current.trim();
-        if (trimmed.toUpperCase() === 'NULL') {
+        if (trimmed.toUpperCase() === "NULL") {
           values.push(null);
-        } else if (trimmed === 'TRUE') {
+        } else if (trimmed === "TRUE") {
           values.push(true);
-        } else if (trimmed === 'FALSE') {
+        } else if (trimmed === "FALSE") {
           values.push(false);
-        } else if (!isNaN(trimmed) && trimmed !== '') {
+        } else if (!isNaN(trimmed) && trimmed !== "") {
           values.push(Number(trimmed));
         } else {
           values.push(trimmed || null);
         }
-        current = '';
+        current = "";
       } else {
         current += char;
       }
@@ -268,7 +279,7 @@ export function generateSchema(tables) {
   const schema = {};
   for (const [tableName, columns] of Object.entries(tables)) {
     schema[tableName] = {
-      type: 'object',
+      type: "object",
       properties: {}
     };
     for (const [colName, colDef] of Object.entries(columns)) {
@@ -283,51 +294,56 @@ export function generateSchema(tables) {
 export function render(container) {
   container.innerHTML = SQL_HTML;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = SQL_CSS;
   container.appendChild(style);
 
   const q = id => container.querySelector(`#${id}`);
   const els = {
-    sqlInput: q('sql-input'),
-    fileUpload: q('file-upload'),
-    jsonOutput: q('json-output'),
-    schemaOutput: q('schema-output'),
-    dataPreview: q('data-preview'),
-    parseBtn: q('parse-btn'),
-    copyJsonBtn: q('copy-json-btn'),
-    copySchemaBtn: q('copy-schema-btn'),
-    downloadJsonBtn: q('download-json-btn'),
-    downloadSchemaBtn: q('download-schema-btn'),
-    clearBtn: q('clear-btn'),
-    tabs: container.querySelectorAll('.tab'),
-    tabPanels: container.querySelectorAll('.tab-panel'),
+    sqlInput: q("sql-input"),
+    fileUpload: q("file-upload"),
+    jsonOutput: q("json-output"),
+    schemaOutput: q("schema-output"),
+    dataPreview: q("data-preview"),
+    parseBtn: q("parse-btn"),
+    copyJsonBtn: q("copy-json-btn"),
+    copySchemaBtn: q("copy-schema-btn"),
+    downloadJsonBtn: q("download-json-btn"),
+    downloadSchemaBtn: q("download-schema-btn"),
+    clearBtn: q("clear-btn"),
+    tabs: container.querySelectorAll(".tab"),
+    tabPanels: container.querySelectorAll(".tab-panel")
   };
 
   let parsedData = null;
   let parsedSchema = null;
 
   els.tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      els.tabs.forEach(t => t.classList.remove('active'));
-      els.tabPanels.forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      container.querySelector(`#${tab.dataset.tab}-tab`).classList.add('active');
+    tab.addEventListener("click", () => {
+      els.tabs.forEach(t => t.classList.remove("active"));
+      els.tabPanels.forEach(p => p.classList.remove("active"));
+      tab.classList.add("active");
+      container.querySelector(`#${tab.dataset.tab}-tab`).classList.add("active");
     });
   });
 
-  els.fileUpload.addEventListener('change', e => {
+  els.fileUpload.addEventListener("change", e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = ev => { els.sqlInput.value = ev.target.result; };
+      reader.onload = ev => {
+        els.sqlInput.value = ev.target.result;
+      };
       reader.readAsText(file);
     }
   });
 
-  els.parseBtn.addEventListener('click', () => {
+  els.parseBtn.addEventListener("click", () => {
     const sql = els.sqlInput.value.trim();
-    if (!sql) { alert('Please paste SQL or upload a .sql file first.'); return; }
+    if (!sql) {
+      alert("Please paste SQL or upload a .sql file first.");
+      return;
+    }
     try {
       const tables = parseCreateTable(sql);
       const inserts = parseInsertStatements(sql);
@@ -345,7 +361,7 @@ export function render(container) {
       els.downloadJsonBtn.disabled = false;
       els.downloadSchemaBtn.disabled = false;
     } catch (err) {
-      alert('Error parsing SQL: ' + err.message);
+      alert("Error parsing SQL: " + err.message);
     }
   });
 
@@ -353,40 +369,50 @@ export function render(container) {
     try {
       await navigator.clipboard.writeText(text);
       const original = btn.textContent;
-      btn.textContent = 'Copied!';
-      setTimeout(() => { btn.textContent = original; }, 2000);
+      btn.textContent = "Copied!";
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 2000);
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error("Failed to copy:", err);
     }
   };
 
   const downloadFile = (content, filename) => {
-    const blob = new Blob([content], { type: 'application/json' });
+    const blob = new Blob([content], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  els.copyJsonBtn.addEventListener('click', () => copyToClipboard(els.jsonOutput.value, els.copyJsonBtn));
-  els.copySchemaBtn.addEventListener('click', () => copyToClipboard(els.schemaOutput.value, els.copySchemaBtn));
-  els.downloadJsonBtn.addEventListener('click', () => downloadFile(els.jsonOutput.value, 'converted-data.json'));
-  els.downloadSchemaBtn.addEventListener('click', () => downloadFile(els.schemaOutput.value, 'schema.json'));
+  els.copyJsonBtn.addEventListener("click", () =>
+    copyToClipboard(els.jsonOutput.value, els.copyJsonBtn)
+  );
+  els.copySchemaBtn.addEventListener("click", () =>
+    copyToClipboard(els.schemaOutput.value, els.copySchemaBtn)
+  );
+  els.downloadJsonBtn.addEventListener("click", () =>
+    downloadFile(els.jsonOutput.value, "converted-data.json")
+  );
+  els.downloadSchemaBtn.addEventListener("click", () =>
+    downloadFile(els.schemaOutput.value, "schema.json")
+  );
 
-  els.clearBtn.addEventListener('click', () => {
-    els.sqlInput.value = '';
-    els.jsonOutput.value = '';
-    els.schemaOutput.value = '';
-    els.dataPreview.innerHTML = '';
+  els.clearBtn.addEventListener("click", () => {
+    els.sqlInput.value = "";
+    els.jsonOutput.value = "";
+    els.schemaOutput.value = "";
+    els.dataPreview.innerHTML = "";
     parsedData = null;
     parsedSchema = null;
     els.copyJsonBtn.disabled = true;
     els.copySchemaBtn.disabled = true;
     els.downloadJsonBtn.disabled = true;
     els.downloadSchemaBtn.disabled = true;
-    els.fileUpload.value = '';
+    els.fileUpload.value = "";
   });
 }
 

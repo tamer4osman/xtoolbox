@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'user-agent-parser',
-  name: 'User Agent Parser',
-  category: 'dev',
-  description: 'Parse browser, OS, and device info from user agent strings.',
-  icon: '🖥️',
-  status: 'done'
+  id: "user-agent-parser",
+  name: "User Agent Parser",
+  category: "dev",
+  description: "Parse browser, OS, and device info from user agent strings.",
+  icon: "🖥️",
+  status: "done"
 };
 
 export function render(container) {
@@ -17,7 +17,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .ua-container { max-width: 800px; margin: 0 auto; }
     .ua-container h2 { margin-bottom: var(--space-4); }
@@ -26,24 +26,24 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const input = container.querySelector('#uaInput');
-  const result = container.querySelector('#result');
-  const parseBtn = container.querySelector('#parseBtn');
+  const input = container.querySelector("#uaInput");
+  const result = container.querySelector("#result");
+  const parseBtn = container.querySelector("#parseBtn");
 
   const BROWSERS = [
-    { pattern: 'Firefox/', regex: /Firefox\/(\d+)/, name: 'Firefox ' },
-    { pattern: 'Edg/', regex: /Edg\/(\d+)/, name: 'Edge ' },
-    { pattern: 'Chrome/', not: 'Edg', regex: /Chrome\/(\d+)/, name: 'Chrome ' },
-    { pattern: 'Safari/', not: 'Chrome', regex: /Version\/(\d+)/, name: 'Safari ' }
+    { pattern: "Firefox/", regex: /Firefox\/(\d+)/, name: "Firefox " },
+    { pattern: "Edg/", regex: /Edg\/(\d+)/, name: "Edge " },
+    { pattern: "Chrome/", not: "Edg", regex: /Chrome\/(\d+)/, name: "Chrome " },
+    { pattern: "Safari/", not: "Chrome", regex: /Version\/(\d+)/, name: "Safari " }
   ];
 
   const OS_MAP = [
-    { keyword: 'Windows', name: 'Windows' },
-    { keyword: 'Mac OS', name: 'macOS' },
-    { keyword: 'Linux', name: 'Linux' },
-    { keyword: 'Android', name: 'Android' },
-    { keyword: 'iPhone', name: 'iOS' },
-    { keyword: 'iPad', name: 'iOS' }
+    { keyword: "Windows", name: "Windows" },
+    { keyword: "Mac OS", name: "macOS" },
+    { keyword: "Linux", name: "Linux" },
+    { keyword: "Android", name: "Android" },
+    { keyword: "iPhone", name: "iOS" },
+    { keyword: "iPad", name: "iOS" }
   ];
 
   function detectBrowser(ua) {
@@ -51,22 +51,22 @@ export function render(container) {
       if (!b.pattern || ua.includes(b.pattern)) continue;
       if (b.not && ua.includes(b.not)) continue;
       const match = ua.match(b.regex);
-      return b.name + (match ? match[1] : '');
+      return b.name + (match ? match[1] : "");
     }
-    return 'Unknown';
+    return "Unknown";
   }
 
   function detectOS(ua) {
     for (const o of OS_MAP) {
       if (ua.includes(o.keyword)) return o.name;
     }
-    return 'Unknown';
+    return "Unknown";
   }
 
   function detectDevice(ua) {
-    if (ua.includes('Tablet') || ua.includes('iPad')) return 'Tablet';
-    if (ua.includes('Mobile')) return 'Mobile';
-    return 'Desktop';
+    if (ua.includes("Tablet") || ua.includes("iPad")) return "Tablet";
+    if (ua.includes("Mobile")) return "Mobile";
+    return "Desktop";
   }
 
   function parseUA(ua) {
@@ -77,7 +77,7 @@ export function render(container) {
     };
   }
 
-  parseBtn.addEventListener('click', () => {
+  parseBtn.addEventListener("click", () => {
     const info = parseUA(input.value || navigator.userAgent);
     result.innerHTML = `
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);">

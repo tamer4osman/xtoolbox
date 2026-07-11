@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'readability-score',
-  name: 'Readability Score',
-  category: 'text',
-  description: 'Check text readability with Flesch-Kincaid grade level and reading ease.',
-  icon: '📊',
-  status: 'done'
+  id: "readability-score",
+  name: "Readability Score",
+  category: "text",
+  description: "Check text readability with Flesch-Kincaid grade level and reading ease.",
+  icon: "📊",
+  status: "done"
 };
 
 export function render(container) {
@@ -42,7 +42,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .readability-container { max-width: 700px; margin: 0 auto; }
     .readability-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -63,46 +63,72 @@ export function render(container) {
   container.appendChild(style);
 
   function countSyllables(word) {
-    word = word.toLowerCase().replace(/[^a-z]/g, '');
+    word = word.toLowerCase().replace(/[^a-z]/g, "");
     if (word.length <= 3) return 1;
-    word = word.replace(/(?:[^laeiouy]+es|ed|[^laeiouy]e)$/, '');
-    word = word.replace(/^y/, '');
+    word = word.replace(/(?:[^laeiouy]+es|ed|[^laeiouy]e)$/, "");
+    word = word.replace(/^y/, "");
     const matches = word.match(/[aeiouy]{1,2}/g);
     return matches ? matches.length : 1;
   }
 
   function analyze() {
-    const text = container.querySelector('#text-input').value;
+    const text = container.querySelector("#text-input").value;
     const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length || 1;
     const words = text.split(/\\s+/).filter(w => w.match(/[a-zA-Z]/)).length || 1;
     const syllables = text.split(/\\s+/).reduce((sum, w) => sum + countSyllables(w), 0);
-    const characters = text.replace(/\\s/g, '').length;
-    
+    const characters = text.replace(/\\s/g, "").length;
+
     const flesch = 206.835 - 1.015 * (words / sentences) - 84.6 * (syllables / words);
-    const coleman = 0.0588 * (characters / words * 100) - 0.296 * (sentences / words * 100) - 15.8;
+    const coleman =
+      0.0588 * ((characters / words) * 100) - 0.296 * ((sentences / words) * 100) - 15.8;
     const autoRI = 4.71 * (characters / words) + 0.5 * (words / sentences) - 21.43;
-    const gunning = 0.4 * ((words / sentences) + 100 * (text.split(/[a-zA-Z]+/).filter(w => w.length > 6).length / words));
-    
+    const gunning =
+      0.4 *
+      (words / sentences +
+        100 * (text.split(/[a-zA-Z]+/).filter(w => w.length > 6).length / words));
+
     let level, desc, color;
-    if (flesch >= 90) { level = 'Grade 5'; desc = 'Very Easy'; color = '#10b981'; }
-    else if (flesch >= 80) { level = 'Grade 6'; desc = 'Easy'; color = '#10b981'; }
-    else if (flesch >= 70) { level = 'Grade 7'; desc = 'Fairly Easy'; color = '#3b82f6'; }
-    else if (flesch >= 60) { level = 'Grade 8-9'; desc = 'Standard'; color = '#f59e0b'; }
-    else if (flesch >= 50) { level = 'Grade 10-12'; desc = 'Fairly Difficult'; color = '#f97316'; }
-    else if (flesch >= 30) { level = 'College'; desc = 'Difficult'; color = '#ef4444'; }
-    else { level = 'Graduate'; desc = 'Very Difficult'; color = '#dc2626'; }
-    
-    container.querySelector('#level').textContent = level;
-    container.querySelector('#level').style.color = color;
-    container.querySelector('#desc').textContent = desc;
-    container.querySelector('#flesch').textContent = flesch.toFixed(1);
-    container.querySelector('#coleman').textContent = coleman.toFixed(1);
-    container.querySelector('#auto').textContent = autoRI.toFixed(1);
-    container.querySelector('#gunning').textContent = gunning.toFixed(1);
-    container.querySelector('#result').classList.add('show');
+    if (flesch >= 90) {
+      level = "Grade 5";
+      desc = "Very Easy";
+      color = "#10b981";
+    } else if (flesch >= 80) {
+      level = "Grade 6";
+      desc = "Easy";
+      color = "#10b981";
+    } else if (flesch >= 70) {
+      level = "Grade 7";
+      desc = "Fairly Easy";
+      color = "#3b82f6";
+    } else if (flesch >= 60) {
+      level = "Grade 8-9";
+      desc = "Standard";
+      color = "#f59e0b";
+    } else if (flesch >= 50) {
+      level = "Grade 10-12";
+      desc = "Fairly Difficult";
+      color = "#f97316";
+    } else if (flesch >= 30) {
+      level = "College";
+      desc = "Difficult";
+      color = "#ef4444";
+    } else {
+      level = "Graduate";
+      desc = "Very Difficult";
+      color = "#dc2626";
+    }
+
+    container.querySelector("#level").textContent = level;
+    container.querySelector("#level").style.color = color;
+    container.querySelector("#desc").textContent = desc;
+    container.querySelector("#flesch").textContent = flesch.toFixed(1);
+    container.querySelector("#coleman").textContent = coleman.toFixed(1);
+    container.querySelector("#auto").textContent = autoRI.toFixed(1);
+    container.querySelector("#gunning").textContent = gunning.toFixed(1);
+    container.querySelector("#result").classList.add("show");
   }
 
-  container.querySelector('#analyze-btn').addEventListener('click', analyze);
+  container.querySelector("#analyze-btn").addEventListener("click", analyze);
   analyze();
   return container;
 }

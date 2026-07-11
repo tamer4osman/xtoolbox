@@ -1,172 +1,178 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 import {
   toolConfig,
   CATEGORIES,
   TEMPLATES,
   PRESETS,
   buildGitignore
-} from '../tools/dev/gitignore-generator.js';
+} from "../tools/dev/gitignore-generator.js";
 
-describe('gitignore-generator', () => {
-  describe('toolConfig', () => {
-    it('has correct id, name, category', () => {
-      expect(toolConfig.id).toBe('gitignore-generator');
-      expect(toolConfig.name).toBe('Gitignore Generator');
-      expect(toolConfig.category).toBe('dev');
+describe("gitignore-generator", () => {
+  describe("toolConfig", () => {
+    it("has correct id, name, category", () => {
+      expect(toolConfig.id).toBe("gitignore-generator");
+      expect(toolConfig.name).toBe("Gitignore Generator");
+      expect(toolConfig.category).toBe("dev");
     });
 
-    it('has keywords, steps, and faqs', () => {
+    it("has keywords, steps, and faqs", () => {
       expect(toolConfig.keywords.length).toBeGreaterThan(3);
       expect(toolConfig.steps.length).toBeGreaterThan(2);
       expect(toolConfig.faqs.length).toBeGreaterThan(1);
     });
   });
 
-  describe('CATEGORIES', () => {
-    it('is a non-empty array', () => {
+  describe("CATEGORIES", () => {
+    it("is a non-empty array", () => {
       expect(Array.isArray(CATEGORIES)).toBe(true);
       expect(CATEGORIES.length).toBeGreaterThan(0);
     });
 
-    it('every entry has id, name, icon', () => {
+    it("every entry has id, name, icon", () => {
       CATEGORIES.forEach(c => {
-        expect(typeof c.id).toBe('string');
+        expect(typeof c.id).toBe("string");
         expect(c.id.length).toBeGreaterThan(0);
-        expect(typeof c.name).toBe('string');
+        expect(typeof c.name).toBe("string");
         expect(c.name.length).toBeGreaterThan(0);
-        expect(typeof c.icon).toBe('string');
+        expect(typeof c.icon).toBe("string");
         expect(c.icon.length).toBeGreaterThan(0);
       });
     });
 
-    it('has unique category ids', () => {
+    it("has unique category ids", () => {
       const ids = CATEGORIES.map(c => c.id);
       expect(new Set(ids).size).toBe(ids.length);
     });
   });
 
-  describe('TEMPLATES', () => {
-    it('has many templates (>= 50)', () => {
+  describe("TEMPLATES", () => {
+    it("has many templates (>= 50)", () => {
       expect(Object.keys(TEMPLATES).length).toBeGreaterThanOrEqual(50);
     });
 
-    it('every template has name, category, and non-empty content', () => {
+    it("every template has name, category, and non-empty content", () => {
       const validCats = new Set(CATEGORIES.map(c => c.id));
       Object.entries(TEMPLATES).forEach(([key, t]) => {
-        expect(typeof t.name, `template "${key}" missing name`).toBe('string');
+        expect(typeof t.name, `template "${key}" missing name`).toBe("string");
         expect(t.name.length, `template "${key}" has empty name`).toBeGreaterThan(0);
-        expect(validCats.has(t.category), `template "${key}" has unknown category "${t.category}"`).toBe(true);
-        expect(typeof t.content, `template "${key}" missing content`).toBe('string');
+        expect(
+          validCats.has(t.category),
+          `template "${key}" has unknown category "${t.category}"`
+        ).toBe(true);
+        expect(typeof t.content, `template "${key}" missing content`).toBe("string");
         expect(t.content.trim().length, `template "${key}" has empty content`).toBeGreaterThan(0);
       });
     });
 
-    it('template keys are unique', () => {
+    it("template keys are unique", () => {
       const keys = Object.keys(TEMPLATES);
       expect(new Set(keys).size).toBe(keys.length);
     });
   });
 
-  describe('PRESETS', () => {
-    it('has at least 3 built-in presets', () => {
+  describe("PRESETS", () => {
+    it("has at least 3 built-in presets", () => {
       expect(PRESETS.length).toBeGreaterThanOrEqual(3);
     });
 
-    it('every preset has name and keys', () => {
+    it("every preset has name and keys", () => {
       PRESETS.forEach(p => {
-        expect(typeof p.name).toBe('string');
+        expect(typeof p.name).toBe("string");
         expect(p.name.length).toBeGreaterThan(0);
         expect(Array.isArray(p.keys)).toBe(true);
         expect(p.keys.length).toBeGreaterThan(0);
       });
     });
 
-    it('every preset key resolves to a real template', () => {
+    it("every preset key resolves to a real template", () => {
       PRESETS.forEach(p => {
         p.keys.forEach(k => {
-          expect(TEMPLATES[k], `preset "${p.name}" references missing template "${k}"`).toBeDefined();
+          expect(
+            TEMPLATES[k],
+            `preset "${p.name}" references missing template "${k}"`
+          ).toBeDefined();
         });
       });
     });
   });
 
-  describe('buildGitignore', () => {
-    it('returns empty string for empty selection and no custom', () => {
-      expect(buildGitignore([], '')).toBe('');
-      expect(buildGitignore([], '   \n  ')).toBe('');
+  describe("buildGitignore", () => {
+    it("returns empty string for empty selection and no custom", () => {
+      expect(buildGitignore([], "")).toBe("");
+      expect(buildGitignore([], "   \n  ")).toBe("");
     });
 
-    it('returns empty string for null/undefined inputs', () => {
-      expect(buildGitignore(null, null)).toBe('');
-      expect(buildGitignore(undefined, undefined)).toBe('');
+    it("returns empty string for null/undefined inputs", () => {
+      expect(buildGitignore(null, null)).toBe("");
+      expect(buildGitignore(undefined, undefined)).toBe("");
     });
 
-    it('includes the header with date', () => {
-      const out = buildGitignore(['node'], '');
-      expect(out.startsWith('# Generated by ToolBox Gitignore Generator')).toBe(true);
+    it("includes the header with date", () => {
+      const out = buildGitignore(["node"], "");
+      expect(out.startsWith("# Generated by ToolBox Gitignore Generator")).toBe(true);
       expect(out).toMatch(/# \d{4}-\d{2}-\d{2}/);
     });
 
-    it('includes the node template content', () => {
-      const out = buildGitignore(['node'], '');
-      expect(out).toContain('node_modules/');
-      expect(out).toContain('npm-debug.log');
+    it("includes the node template content", () => {
+      const out = buildGitignore(["node"], "");
+      expect(out).toContain("node_modules/");
+      expect(out).toContain("npm-debug.log");
     });
 
-    it('combines multiple templates with double newlines between sections', () => {
-      const out = buildGitignore(['node', 'python'], '');
-      expect(out).toContain('node_modules/');
-      expect(out).toContain('__pycache__/');
+    it("combines multiple templates with double newlines between sections", () => {
+      const out = buildGitignore(["node", "python"], "");
+      expect(out).toContain("node_modules/");
+      expect(out).toContain("__pycache__/");
       expect(out).toMatch(/node_modules\/[\s\S]*\n\n[\s\S]*__pycache__/);
     });
 
-    it('appends custom lines with a # Custom header', () => {
-      const out = buildGitignore(['node'], 'secrets/\n*.local');
-      expect(out).toContain('node_modules/');
-      expect(out).toContain('# Custom');
-      expect(out).toContain('secrets/');
-      expect(out).toContain('*.local');
+    it("appends custom lines with a # Custom header", () => {
+      const out = buildGitignore(["node"], "secrets/\n*.local");
+      expect(out).toContain("node_modules/");
+      expect(out).toContain("# Custom");
+      expect(out).toContain("secrets/");
+      expect(out).toContain("*.local");
     });
 
-    it('preserves custom lines exactly (no truncation)', () => {
-      const custom = 'a/\nb/\nc/\n# comment with spaces\n   leading-spaces';
+    it("preserves custom lines exactly (no truncation)", () => {
+      const custom = "a/\nb/\nc/\n# comment with spaces\n   leading-spaces";
       const out = buildGitignore([], custom);
-      expect(out).toContain('leading-spaces');
-      expect(out).toContain('# comment with spaces');
+      expect(out).toContain("leading-spaces");
+      expect(out).toContain("# comment with spaces");
     });
 
-    it('skips invalid template keys silently', () => {
-      const out = buildGitignore(['node', 'nonexistent', 'python'], '');
-      expect(out).toContain('node_modules/');
-      expect(out).toContain('__pycache__/');
-      expect(out).not.toContain('nonexistent');
+    it("skips invalid template keys silently", () => {
+      const out = buildGitignore(["node", "nonexistent", "python"], "");
+      expect(out).toContain("node_modules/");
+      expect(out).toContain("__pycache__/");
+      expect(out).not.toContain("nonexistent");
     });
 
-    it('produces empty string for invalid keys with no custom lines', () => {
-      const out = buildGitignore(['nonexistent'], '');
-      expect(out).toBe('');
+    it("produces empty string for invalid keys with no custom lines", () => {
+      const out = buildGitignore(["nonexistent"], "");
+      expect(out).toBe("");
     });
 
-    it('respects provided templates map (overrides default)', () => {
-      const custom = { foo: { name: 'Foo', category: 'languages', content: '# Foo\nfoo.txt' } };
-      const out = buildGitignore(['foo'], '', custom);
-      expect(out).toContain('foo.txt');
-      expect(out).not.toContain('node_modules/');
+    it("respects provided templates map (overrides default)", () => {
+      const custom = { foo: { name: "Foo", category: "languages", content: "# Foo\nfoo.txt" } };
+      const out = buildGitignore(["foo"], "", custom);
+      expect(out).toContain("foo.txt");
+      expect(out).not.toContain("node_modules/");
     });
 
-    it('does not have a trailing extra blank line at end', () => {
-      const out = buildGitignore(['node'], '');
-      expect(out.endsWith('\n\n')).toBe(false);
+    it("does not have a trailing extra blank line at end", () => {
+      const out = buildGitignore(["node"], "");
+      expect(out.endsWith("\n\n")).toBe(false);
     });
 
-    it('appending custom lines does not double-space when no templates', () => {
-      const out = buildGitignore([], 'secrets/');
-      expect(out).toContain('# Custom');
-      expect(out).toContain('secrets/');
+    it("appending custom lines does not double-space when no templates", () => {
+      const out = buildGitignore([], "secrets/");
+      expect(out).toContain("# Custom");
+      expect(out).toContain("secrets/");
     });
 
-    it('every Web preset template is present in TEMPLATES', () => {
-      const web = PRESETS.find(p => p.name.startsWith('Web'));
+    it("every Web preset template is present in TEMPLATES", () => {
+      const web = PRESETS.find(p => p.name.startsWith("Web"));
       expect(web).toBeDefined();
       web.keys.forEach(k => expect(TEMPLATES[k]).toBeDefined());
     });

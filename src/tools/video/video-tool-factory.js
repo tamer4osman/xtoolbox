@@ -1,30 +1,36 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { loadFFmpeg, getVideoInfo, writeUploadedFile, readFFmpegFile, formatTime } from './video-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import {
+  loadFFmpeg,
+  getVideoInfo,
+  writeUploadedFile,
+  readFFmpegFile,
+  formatTime
+} from "./video-utils.js";
 
 export function createVideoTool({
   optionsHTML,
   maxSizeMB = 500,
-  processingText = 'Processing...',
-  actionBtnLabel = 'Process',
+  processingText = "Processing...",
+  actionBtnLabel = "Process",
   onFileLoaded,
   onProcess,
-  destroy: onDestroy,
+  destroy: onDestroy
 }) {
   return function render(container) {
     let currentFile = null;
     let videoInfo = null;
 
     const upload = createFileUpload({
-      accept: 'video/*',
+      accept: "video/*",
       multiple: false,
       maxSizeMB,
-      onFilesSelected: async (files) => {
+      onFilesSelected: async files => {
         if (files.length === 0) return;
         currentFile = files[0];
         videoInfo = await getVideoInfo(currentFile);
         if (onFileLoaded) onFileLoaded(videoInfo, tctx);
-        optionsArea.style.display = 'block';
+        optionsArea.style.display = "block";
       }
     });
 
@@ -42,37 +48,39 @@ export function createVideoTool({
       </div>
     `;
 
-    container.querySelector('#upload-area').appendChild(upload.element);
-    const optionsArea = container.querySelector('#options-area');
-    const actionBtn = container.querySelector('#action-btn');
-    const processing = container.querySelector('#processing');
-    const progressPct = container.querySelector('#progress-pct');
+    container.querySelector("#upload-area").appendChild(upload.element);
+    const optionsArea = container.querySelector("#options-area");
+    const actionBtn = container.querySelector("#action-btn");
+    const processing = container.querySelector("#processing");
+    const progressPct = container.querySelector("#progress-pct");
 
     const tctx = {
       container,
-      getValue: (id) => container.querySelector(`#${id}`).value,
-      query: (sel) => container.querySelector(sel),
+      getValue: id => container.querySelector(`#${id}`).value,
+      query: sel => container.querySelector(sel)
     };
 
-    actionBtn.addEventListener('click', async () => {
+    actionBtn.addEventListener("click", async () => {
       if (!currentFile) return;
 
-      processing.style.display = 'block';
-      actionBtn.style.display = 'none';
+      processing.style.display = "block";
+      actionBtn.style.display = "none";
 
       try {
-        const ffmpeg = await loadFFmpeg((pct) => { progressPct.textContent = pct; });
-        const ext = currentFile.name.split('.').pop() || 'mp4';
+        const ffmpeg = await loadFFmpeg(pct => {
+          progressPct.textContent = pct;
+        });
+        const ext = currentFile.name.split(".").pop() || "mp4";
         const inputName = `input.${ext}`;
 
         await writeUploadedFile(ffmpeg, currentFile, inputName);
         await onProcess(ffmpeg, inputName, videoInfo, tctx);
         await ffmpeg.deleteFile(inputName);
       } catch (err) {
-        showToast({ message: 'Error: ' + err.message, type: 'error' });
+        showToast({ message: "Error: " + err.message, type: "error" });
       } finally {
-        processing.style.display = 'none';
-        actionBtn.style.display = 'inline-flex';
+        processing.style.display = "none";
+        actionBtn.style.display = "inline-flex";
       }
     });
 

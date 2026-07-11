@@ -1,40 +1,65 @@
 export const toolConfig = {
-  id: 'text-to-table',
-  name: 'Text to Table',
-  category: 'text',
-  description: 'Convert delimited text (TSV, CSV, pipe, custom) into formatted HTML tables.',
-  icon: '📋',
-  status: 'done'
+  id: "text-to-table",
+  name: "Text to Table",
+  category: "text",
+  description: "Convert delimited text (TSV, CSV, pipe, custom) into formatted HTML tables.",
+  icon: "📋",
+  status: "done"
 };
 
 function detectDelimiter(text) {
-  const lines = text.trim().split('\n').filter(l => l.trim());
-  if (lines.length === 0) return '\t';
-  const delimiters = ['\t', ',', '|', ';', '^'];
+  const lines = text
+    .trim()
+    .split("\n")
+    .filter(l => l.trim());
+  if (lines.length === 0) return "\t";
+  const delimiters = ["\t", ",", "|", ";", "^"];
   const scores = delimiters.map(d => {
     const count = lines.reduce((s, l) => {
       const inQuotes = l.match(/"[^"]*"/g) || [];
       let stripped = l;
-      inQuotes.forEach(q => { stripped = stripped.replace(q, ''); });
-      return s + (stripped.match(new RegExp(`${d === '\t' ? '\\t' : d === '|' ? '\\|' : d === '^' ? '\\^' : d === ';' ? ';' : ','}`, 'g')) || []).length;
+      inQuotes.forEach(q => {
+        stripped = stripped.replace(q, "");
+      });
+      return (
+        s +
+        (
+          stripped.match(
+            new RegExp(
+              `${d === "\t" ? "\\t" : d === "|" ? "\\|" : d === "^" ? "\\^" : d === ";" ? ";" : ","}`,
+              "g"
+            )
+          ) || []
+        ).length
+      );
     }, 0);
     return { d, count };
   });
   scores.sort((a, b) => b.count - a.count);
-  if (scores[0].count === 0) return '\t';
+  if (scores[0].count === 0) return "\t";
   return scores[0].d;
 }
 
 function parseTable(text, delimiter, hasHeader) {
-  const lines = text.trim().split('\n').filter(l => l.trim());
+  const lines = text
+    .trim()
+    .split("\n")
+    .filter(l => l.trim());
   if (lines.length === 0) return { headers: [], rows: [] };
   const parseLine = line => {
     const result = [];
-    let current = '';
+    let current = "";
     let inQuote = false;
     for (const ch of line) {
-      if (ch === '"') { inQuote = !inQuote; continue; }
-      if (ch === delimiter && !inQuote) { result.push(current.trim()); current = ''; continue; }
+      if (ch === '"') {
+        inQuote = !inQuote;
+        continue;
+      }
+      if (ch === delimiter && !inQuote) {
+        result.push(current.trim());
+        current = "";
+        continue;
+      }
       current += ch;
     }
     result.push(current.trim());
@@ -43,7 +68,7 @@ function parseTable(text, delimiter, hasHeader) {
   const parsedLines = lines.map(parseLine);
   const maxCols = Math.max(...parsedLines.map(l => l.length));
   const normalized = parsedLines.map(l => {
-    while (l.length < maxCols) l.push('');
+    while (l.length < maxCols) l.push("");
     return l;
   });
   if (hasHeader) {
@@ -84,7 +109,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .tt-container { max-width: 1000px; margin: 0 auto; }
     .tt-input-section { margin-bottom: var(--space-4); }
@@ -108,78 +133,85 @@ export function render(container) {
   container.appendChild(style);
 
   function update() {
-    const text = container.querySelector('#tt-input').value;
-    const delimiterChoice = container.querySelector('#tt-delimiter').value;
-    const hasHeader = container.querySelector('#tt-header').checked;
+    const text = container.querySelector("#tt-input").value;
+    const delimiterChoice = container.querySelector("#tt-delimiter").value;
+    const hasHeader = container.querySelector("#tt-header").checked;
 
-    let delimiter = delimiterChoice === 'auto' ? detectDelimiter(text) : delimiterChoice;
+    let delimiter = delimiterChoice === "auto" ? detectDelimiter(text) : delimiterChoice;
     const { headers, rows } = parseTable(text, delimiter, hasHeader);
 
     if (rows.length === 0) {
-      container.querySelector('#tt-stats').innerHTML = '';
-      container.querySelector('#tt-table').innerHTML = '<tbody><tr><td style="text-align:center;padding:2rem;color:var(--color-text-secondary)">Paste delimited text to see preview</td></tr></tbody>';
+      container.querySelector("#tt-stats").innerHTML = "";
+      container.querySelector("#tt-table").innerHTML =
+        '<tbody><tr><td style="text-align:center;padding:2rem;color:var(--color-text-secondary)">Paste delimited text to see preview</td></tr></tbody>';
       return;
     }
 
-    container.querySelector('#tt-stats').innerHTML = `
+    container.querySelector("#tt-stats").innerHTML = `
       <span class="tt-stat">Rows: <strong>${rows.length}</strong></span>
       <span class="tt-stat">Columns: <strong>${headers.length}</strong></span>
       <span class="tt-stat">Cells: <strong>${rows.length * headers.length}</strong></span>
     `;
 
-    let html = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
-    html += rows.map(row => '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>').join('');
-    html += '</tbody>';
-    container.querySelector('#tt-table').innerHTML = html;
+    let html = "<thead><tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr></thead><tbody>";
+    html += rows
+      .map(row => "<tr>" + row.map(cell => `<td>${cell}</td>`).join("") + "</tr>")
+      .join("");
+    html += "</tbody>";
+    container.querySelector("#tt-table").innerHTML = html;
 
-    container.querySelector('#tt-copy-html').textContent = 'Copy HTML';
-    container.querySelector('#tt-copy-md').textContent = 'Copy Markdown';
-    container.querySelector('#tt-copy-csv').textContent = 'Copy CSV';
+    container.querySelector("#tt-copy-html").textContent = "Copy HTML";
+    container.querySelector("#tt-copy-md").textContent = "Copy Markdown";
+    container.querySelector("#tt-copy-csv").textContent = "Copy CSV";
   }
 
-  container.querySelector('#tt-input').addEventListener('input', update);
-  container.querySelector('#tt-delimiter').addEventListener('change', update);
-  container.querySelector('#tt-header').addEventListener('change', update);
+  container.querySelector("#tt-input").addEventListener("input", update);
+  container.querySelector("#tt-delimiter").addEventListener("change", update);
+  container.querySelector("#tt-header").addEventListener("change", update);
 
-  container.querySelector('#tt-copy-html').addEventListener('click', () => {
-    const table = container.querySelector('#tt-table');
-    const html = '<table>\n' + table.outerHTML + '\n</table>';
+  container.querySelector("#tt-copy-html").addEventListener("click", () => {
+    const table = container.querySelector("#tt-table");
+    const html = "<table>\n" + table.outerHTML + "\n</table>";
     navigator.clipboard.writeText(html).then(() => {
-      container.querySelector('#tt-copy-html').textContent = 'Copied!';
-      setTimeout(() => container.querySelector('#tt-copy-html').textContent = 'Copy HTML', 1500);
+      container.querySelector("#tt-copy-html").textContent = "Copied!";
+      setTimeout(() => (container.querySelector("#tt-copy-html").textContent = "Copy HTML"), 1500);
     });
   });
 
-  container.querySelector('#tt-copy-md').addEventListener('click', () => {
-    const text = container.querySelector('#tt-input').value;
-    const delimiterChoice = container.querySelector('#tt-delimiter').value;
-    const hasHeader = container.querySelector('#tt-header').checked;
-    const delimiter = delimiterChoice === 'auto' ? detectDelimiter(text) : delimiterChoice;
+  container.querySelector("#tt-copy-md").addEventListener("click", () => {
+    const text = container.querySelector("#tt-input").value;
+    const delimiterChoice = container.querySelector("#tt-delimiter").value;
+    const hasHeader = container.querySelector("#tt-header").checked;
+    const delimiter = delimiterChoice === "auto" ? detectDelimiter(text) : delimiterChoice;
     const { headers, rows } = parseTable(text, delimiter, hasHeader);
     if (rows.length === 0) return;
-    let md = '| ' + headers.join(' | ') + ' |\n| ' + headers.map(() => '---').join(' | ') + ' |\n';
-    md += rows.map(row => '| ' + row.join(' | ') + ' |').join('\n');
+    let md = "| " + headers.join(" | ") + " |\n| " + headers.map(() => "---").join(" | ") + " |\n";
+    md += rows.map(row => "| " + row.join(" | ") + " |").join("\n");
     navigator.clipboard.writeText(md).then(() => {
-      container.querySelector('#tt-copy-md').textContent = 'Copied!';
-      setTimeout(() => container.querySelector('#tt-copy-md').textContent = 'Copy Markdown', 1500);
+      container.querySelector("#tt-copy-md").textContent = "Copied!";
+      setTimeout(
+        () => (container.querySelector("#tt-copy-md").textContent = "Copy Markdown"),
+        1500
+      );
     });
   });
 
-  container.querySelector('#tt-copy-csv').addEventListener('click', () => {
-    const text = container.querySelector('#tt-input').value;
-    const delimiterChoice = container.querySelector('#tt-delimiter').value;
-    const hasHeader = container.querySelector('#tt-header').checked;
-    const delimiter = delimiterChoice === 'auto' ? detectDelimiter(text) : delimiterChoice;
+  container.querySelector("#tt-copy-csv").addEventListener("click", () => {
+    const text = container.querySelector("#tt-input").value;
+    const delimiterChoice = container.querySelector("#tt-delimiter").value;
+    const hasHeader = container.querySelector("#tt-header").checked;
+    const delimiter = delimiterChoice === "auto" ? detectDelimiter(text) : delimiterChoice;
     const { headers, rows } = parseTable(text, delimiter, hasHeader);
     if (rows.length === 0) return;
     const escapeCsv = v => {
-      if (v.includes(',') || v.includes('"') || v.includes('\n')) return '"' + v.replace(/"/g, '""') + '"';
+      if (v.includes(",") || v.includes('"') || v.includes("\n"))
+        return '"' + v.replace(/"/g, '""') + '"';
       return v;
     };
-    const csv = [headers.join(','), ...rows.map(r => r.map(escapeCsv).join(','))].join('\n');
+    const csv = [headers.join(","), ...rows.map(r => r.map(escapeCsv).join(","))].join("\n");
     navigator.clipboard.writeText(csv).then(() => {
-      container.querySelector('#tt-copy-csv').textContent = 'Copied!';
-      setTimeout(() => container.querySelector('#tt-copy-csv').textContent = 'Copy CSV', 1500);
+      container.querySelector("#tt-copy-csv").textContent = "Copied!";
+      setTimeout(() => (container.querySelector("#tt-copy-csv").textContent = "Copy CSV"), 1500);
     });
   });
 

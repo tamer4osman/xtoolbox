@@ -1,20 +1,28 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob } from '../../utils/file.js';
-import { loadImageFromFile, canvasToBlob } from './image-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
+import { loadImageFromFile, canvasToBlob } from "./image-utils.js";
 
 export const toolConfig = {
-  id: 'convert-image',
-  name: 'Image Format Converter',
-  category: 'image',
-  description: 'Convert images between JPG, PNG, WebP, and BMP formats.',
-  icon: '🔄',
-  accept: 'image/*',
+  id: "convert-image",
+  name: "Image Format Converter",
+  category: "image",
+  description: "Convert images between JPG, PNG, WebP, and BMP formats.",
+  icon: "🔄",
+  accept: "image/*",
   maxSizeMB: 50,
-  keywords: ['convert image', 'jpg to png', 'png to webp', 'image converter'],
-  steps: ['Upload an image', 'Choose output format', 'Choose quality (for lossy formats)', 'Download converted image'],
+  keywords: ["convert image", "jpg to png", "png to webp", "image converter"],
+  steps: [
+    "Upload an image",
+    "Choose output format",
+    "Choose quality (for lossy formats)",
+    "Download converted image"
+  ],
   faqs: [
-    { question: 'Which format should I choose?', answer: 'PNG for transparency, JPG for photos, WebP for best compression.' }
+    {
+      question: "Which format should I choose?",
+      answer: "PNG for transparency, JPG for photos, WebP for best compression."
+    }
   ]
 };
 
@@ -23,16 +31,16 @@ export function render(container) {
   let originalFile = null;
 
   const upload = createFileUpload({
-    accept: 'image/*',
+    accept: "image/*",
     multiple: false,
     maxSizeMB: 50,
-    onFilesSelected: async (files) => {
+    onFilesSelected: async files => {
       if (files.length === 0) return;
       originalFile = files[0];
       originalImg = await loadImageFromFile(files[0]);
-      currentFormat.textContent = originalFile.type || 'unknown';
-      currentSize.textContent = (originalFile.size / 1024).toFixed(1) + ' KB';
-      optionsArea.style.display = 'block';
+      currentFormat.textContent = originalFile.type || "unknown";
+      currentSize.textContent = (originalFile.size / 1024).toFixed(1) + " KB";
+      optionsArea.style.display = "block";
     }
   });
 
@@ -62,35 +70,37 @@ export function render(container) {
     </div>
   `;
 
-  container.querySelector('#upload-area').appendChild(upload.element);
-  const optionsArea = container.querySelector('#options-area');
-  const currentFormat = container.querySelector('#current-format');
-  const currentSize = container.querySelector('#current-size');
-  const qualityGroup = container.querySelector('#quality-group');
-  const qualitySlider = container.querySelector('#quality-slider');
-  const qualityDisplay = container.querySelector('#quality-display');
-  const convertBtn = container.querySelector('#convert-btn');
+  container.querySelector("#upload-area").appendChild(upload.element);
+  const optionsArea = container.querySelector("#options-area");
+  const currentFormat = container.querySelector("#current-format");
+  const currentSize = container.querySelector("#current-size");
+  const qualityGroup = container.querySelector("#quality-group");
+  const qualitySlider = container.querySelector("#quality-slider");
+  const qualityDisplay = container.querySelector("#quality-display");
+  const convertBtn = container.querySelector("#convert-btn");
 
-  qualitySlider.addEventListener('input', () => { qualityDisplay.textContent = qualitySlider.value; });
-
-  container.querySelector('#format-select').addEventListener('change', (e) => {
-    qualityGroup.style.display = e.target.value === 'image/bmp' ? 'none' : 'block';
+  qualitySlider.addEventListener("input", () => {
+    qualityDisplay.textContent = qualitySlider.value;
   });
 
-  convertBtn.addEventListener('click', async () => {
+  container.querySelector("#format-select").addEventListener("change", e => {
+    qualityGroup.style.display = e.target.value === "image/bmp" ? "none" : "block";
+  });
+
+  convertBtn.addEventListener("click", async () => {
     if (!originalImg) return;
-    const format = container.querySelector('#format-select').value;
+    const format = container.querySelector("#format-select").value;
     const quality = parseInt(qualitySlider.value) / 100;
 
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = originalImg.naturalWidth;
     canvas.height = originalImg.naturalHeight;
-    canvas.getContext('2d').drawImage(originalImg, 0, 0);
+    canvas.getContext("2d").drawImage(originalImg, 0, 0);
 
     const blob = await canvasToBlob(canvas, format, quality);
-    const ext = format.split('/')[1].replace('jpeg', 'jpg');
+    const ext = format.split("/")[1].replace("jpeg", "jpg");
     downloadBlob(blob, `converted.${ext}`);
-    showToast({ message: `Converted to ${ext.toUpperCase()}!`, type: 'success' });
+    showToast({ message: `Converted to ${ext.toUpperCase()}!`, type: "success" });
   });
 }
 

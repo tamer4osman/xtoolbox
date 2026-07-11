@@ -1,4 +1,4 @@
-import { downloadBlob } from '../../utils/file.js';
+import { downloadBlob } from "../../utils/file.js";
 
 function simulatePayoff(debts, extraPayment, strategy) {
   const accounts = debts.map(d => ({
@@ -32,9 +32,7 @@ function simulatePayoff(debts, extraPayment, strategy) {
 
     const targets = accounts
       .filter(a => a.balance > 0)
-      .sort((a, b) => strategy === 'avalanche'
-        ? b.apr - a.apr
-        : a.balance - b.balance);
+      .sort((a, b) => (strategy === "avalanche" ? b.apr - a.apr : a.balance - b.balance));
 
     for (const target of targets) {
       if (availableExtra <= 0) break;
@@ -77,18 +75,18 @@ function simulatePayoff(debts, extraPayment, strategy) {
 }
 
 function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(amount);
 }
 
 function formatCurrencyExact(amount) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }).format(amount);
@@ -103,15 +101,15 @@ function createDebtRow(index, data) {
       </div>
       <div class="debt-field">
         <label for="debt-balance-${index}">Balance ($)</label>
-        <input type="number" id="debt-balance-${index}" class="debt-balance" value="${data?.balance || ''}" min="0" step="0.01" placeholder="5000">
+        <input type="number" id="debt-balance-${index}" class="debt-balance" value="${data?.balance || ""}" min="0" step="0.01" placeholder="5000">
       </div>
       <div class="debt-field">
         <label for="debt-apr-${index}">APR (%)</label>
-        <input type="number" id="debt-apr-${index}" class="debt-apr" value="${data?.apr || ''}" min="0" max="100" step="0.01" placeholder="18.99">
+        <input type="number" id="debt-apr-${index}" class="debt-apr" value="${data?.apr || ""}" min="0" max="100" step="0.01" placeholder="18.99">
       </div>
       <div class="debt-field">
         <label for="debt-min-${index}">Min Payment ($)</label>
-        <input type="number" id="debt-min-${index}" class="debt-min" value="${data?.minPayment || ''}" min="0" step="0.01" placeholder="100">
+        <input type="number" id="debt-min-${index}" class="debt-min" value="${data?.minPayment || ""}" min="0" step="0.01" placeholder="100">
       </div>
       <button type="button" class="btn-remove-debt" data-index="${index}" aria-label="Remove debt">×</button>
     </div>
@@ -119,13 +117,13 @@ function createDebtRow(index, data) {
 }
 
 function collectDebts(container) {
-  const rows = container.querySelectorAll('.debt-row');
+  const rows = container.querySelectorAll(".debt-row");
   const debts = [];
   rows.forEach(row => {
-    const name = row.querySelector('.debt-name')?.value.trim() || 'Debt';
-    const balance = parseFloat(row.querySelector('.debt-balance')?.value) || 0;
-    const apr = parseFloat(row.querySelector('.debt-apr')?.value) || 0;
-    const minPayment = parseFloat(row.querySelector('.debt-min')?.value) || 0;
+    const name = row.querySelector(".debt-name")?.value.trim() || "Debt";
+    const balance = parseFloat(row.querySelector(".debt-balance")?.value) || 0;
+    const apr = parseFloat(row.querySelector(".debt-apr")?.value) || 0;
+    const minPayment = parseFloat(row.querySelector(".debt-min")?.value) || 0;
     if (balance > 0 && minPayment > 0) {
       debts.push({ name, balance, apr, minPayment });
     }
@@ -134,13 +132,14 @@ function collectDebts(container) {
 }
 
 export const toolConfig = {
-  id: 'debt-payoff-visualizer',
-  name: 'Debt Payoff Visualizer',
-  category: 'finance',
-  description: 'Visualize debt payoff strategies (snowball vs avalanche) with timeline and interest charts.',
-  icon: '📉',
-  keywords: ['debt', 'payoff', 'snowball', 'avalanche', 'finance', 'interest'],
-  accept: '',
+  id: "debt-payoff-visualizer",
+  name: "Debt Payoff Visualizer",
+  category: "finance",
+  description:
+    "Visualize debt payoff strategies (snowball vs avalanche) with timeline and interest charts.",
+  icon: "📉",
+  keywords: ["debt", "payoff", "snowball", "avalanche", "finance", "interest"],
+  accept: "",
   maxSizeMB: 10
 };
 
@@ -172,51 +171,51 @@ export function render(container) {
     </div>
   `;
 
-  const debtList = container.querySelector('#debt-list');
-  const addBtn = container.querySelector('#add-debt-btn');
-  const calcBtn = container.querySelector('#calculate-btn');
-  const resultsDiv = container.querySelector('#results');
-  const strategyCards = container.querySelector('#strategy-cards');
-  const chartContainer = container.querySelector('#chart-container');
-  const payoffSchedule = container.querySelector('#payoff-schedule');
-  const exportBtn = container.querySelector('#export-csv-btn');
+  const debtList = container.querySelector("#debt-list");
+  const addBtn = container.querySelector("#add-debt-btn");
+  const calcBtn = container.querySelector("#calculate-btn");
+  const resultsDiv = container.querySelector("#results");
+  const strategyCards = container.querySelector("#strategy-cards");
+  const chartContainer = container.querySelector("#chart-container");
+  const payoffSchedule = container.querySelector("#payoff-schedule");
+  const exportBtn = container.querySelector("#export-csv-btn");
 
   let debtCount = 0;
   let lastResults = null;
 
   function addDebt(data) {
     debtCount++;
-    debtList.insertAdjacentHTML('beforeend', createDebtRow(debtCount, data));
+    debtList.insertAdjacentHTML("beforeend", createDebtRow(debtCount, data));
   }
 
-  addDebt({ name: 'Credit Card', balance: 5000, apr: 18.99, minPayment: 100 });
-  addDebt({ name: 'Car Loan', balance: 8000, apr: 5.5, minPayment: 200 });
-  addDebt({ name: 'Student Loan', balance: 12000, apr: 4.5, minPayment: 150 });
+  addDebt({ name: "Credit Card", balance: 5000, apr: 18.99, minPayment: 100 });
+  addDebt({ name: "Car Loan", balance: 8000, apr: 5.5, minPayment: 200 });
+  addDebt({ name: "Student Loan", balance: 12000, apr: 4.5, minPayment: 150 });
 
-  addBtn.addEventListener('click', () => addDebt());
+  addBtn.addEventListener("click", () => addDebt());
 
-  debtList.addEventListener('click', e => {
-    const btn = e.target.closest('.btn-remove-debt');
+  debtList.addEventListener("click", e => {
+    const btn = e.target.closest(".btn-remove-debt");
     if (btn) {
-      const row = btn.closest('.debt-row');
-      if (debtList.querySelectorAll('.debt-row').length > 1) {
+      const row = btn.closest(".debt-row");
+      if (debtList.querySelectorAll(".debt-row").length > 1) {
         row.remove();
       }
     }
   });
 
-  calcBtn.addEventListener('click', () => {
+  calcBtn.addEventListener("click", () => {
     const debts = collectDebts(debtList);
     if (debts.length === 0) {
-      resultsDiv.style.display = 'none';
+      resultsDiv.style.display = "none";
       return;
     }
 
-    const extra = parseFloat(container.querySelector('#extra-payment').value) || 0;
+    const extra = parseFloat(container.querySelector("#extra-payment").value) || 0;
 
-    const snowball = simulatePayoff(debts, extra, 'snowball');
-    const avalanche = simulatePayoff(debts, extra, 'avalanche');
-    const baseline = simulatePayoff(debts, 0, 'snowball');
+    const snowball = simulatePayoff(debts, extra, "snowball");
+    const avalanche = simulatePayoff(debts, extra, "avalanche");
+    const baseline = simulatePayoff(debts, 0, "snowball");
 
     lastResults = { snowball, avalanche, baseline, debts };
 
@@ -239,12 +238,15 @@ export function render(container) {
 
     const maxMonth = Math.max(snowball.totalMonths, avalanche.totalMonths);
     const debtNames = debts.map(d => d.name);
-    const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+    const colors = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"];
 
     let svg = `<svg viewBox="0 0 800 400" class="payoff-chart" role="img" aria-label="Debt payoff timeline chart">`;
     svg += `<text x="400" y="25" text-anchor="middle" class="chart-title">Balance Over Time</text>`;
 
-    const padL = 60, padR = 20, padT = 40, padB = 60;
+    const padL = 60,
+      padR = 20,
+      padT = 40,
+      padB = 60;
     const w = 800 - padL - padR;
     const h = 400 - padT - padB;
 
@@ -254,7 +256,7 @@ export function render(container) {
     svg += `<line x1="${padL}" y1="${padT + h}" x2="${padL + w}" y2="${padT + h}" stroke="#374151" stroke-width="1"/>`;
 
     for (let i = 0; i <= 4; i++) {
-      const y = padT + (h * i / 4);
+      const y = padT + (h * i) / 4;
       const val = maxBalance * (1 - i / 4);
       svg += `<text x="${padL - 5}" y="${y + 4}" text-anchor="end" class="chart-label">${formatCurrency(val)}</text>`;
       svg += `<line x1="${padL}" y1="${y}" x2="${padL + w}" y2="${y}" stroke="#374151" stroke-width="0.5" stroke-dasharray="4"/>`;
@@ -268,12 +270,12 @@ export function render(container) {
     }
 
     debtNames.forEach((name, di) => {
-      let pathD = '';
+      let pathD = "";
       snowball.months.forEach((m, mi) => {
         const bal = m.balances[di]?.remaining || 0;
         const x = padL + (m.month / maxMonth) * w;
         const y = padT + h - (bal / maxBalance) * h;
-        pathD += (mi === 0 ? 'M' : 'L') + `${x},${y}`;
+        pathD += (mi === 0 ? "M" : "L") + `${x},${y}`;
       });
       svg += `<path d="${pathD}" fill="none" stroke="${colors[di % colors.length]}" stroke-width="2"/>`;
       const lastBal = snowball.months[snowball.months.length - 1]?.balances[di]?.remaining || 0;
@@ -291,22 +293,30 @@ export function render(container) {
       <h3>Payoff Timeline (Snowball)</h3>
       ${svg}
       <div class="chart-legend-list">
-        ${debtNames.map((name, i) => `<span class="legend-item"><span class="legend-dot" style="background:${colors[i % colors.length]}"></span>${name}</span>`).join('')}
+        ${debtNames.map((name, i) => `<span class="legend-item"><span class="legend-dot" style="background:${colors[i % colors.length]}"></span>${name}</span>`).join("")}
       </div>
     `;
 
-    let scheduleHTML = '<h3>Month-by-Month Comparison</h3>';
-    scheduleHTML += '<div class="schedule-table-wrapper"><table class="schedule-table"><thead><tr><th>Month</th>';
-    debtNames.forEach(name => { scheduleHTML += `<th>${name} (Snow)</th><th>${name} (Avl)</th>`; });
-    scheduleHTML += '<th>Total Interest (Snow)</th><th>Total Interest (Avl)</th></tr></thead><tbody>';
+    let scheduleHTML = "<h3>Month-by-Month Comparison</h3>";
+    scheduleHTML +=
+      '<div class="schedule-table-wrapper"><table class="schedule-table"><thead><tr><th>Month</th>';
+    debtNames.forEach(name => {
+      scheduleHTML += `<th>${name} (Snow)</th><th>${name} (Avl)</th>`;
+    });
+    scheduleHTML +=
+      "<th>Total Interest (Snow)</th><th>Total Interest (Avl)</th></tr></thead><tbody>";
 
     const maxRows = Math.min(Math.max(snowball.totalMonths, avalanche.totalMonths), 120);
-    const displayMonths = [snowball, avalanche].reduce((acc) => {
-      for (let i = 0; i < maxRows; i++) {
-        if (!acc.includes(i + 1)) acc.push(i + 1);
-      }
-      return acc;
-    }, []).filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a - b).slice(0, 60);
+    const displayMonths = [snowball, avalanche]
+      .reduce(acc => {
+        for (let i = 0; i < maxRows; i++) {
+          if (!acc.includes(i + 1)) acc.push(i + 1);
+        }
+        return acc;
+      }, [])
+      .filter((v, i, a) => a.indexOf(v) === i)
+      .sort((a, b) => a - b)
+      .slice(0, 60);
 
     displayMonths.forEach(monthNum => {
       const sMonth = snowball.months[monthNum - 1];
@@ -322,24 +332,26 @@ export function render(container) {
       });
       scheduleHTML += `<td>${formatCurrencyExact(sMonth?.totalInterest || 0)}</td>`;
       scheduleHTML += `<td>${formatCurrencyExact(aMonth?.totalInterest || 0)}</td>`;
-      scheduleHTML += '</tr>';
+      scheduleHTML += "</tr>";
     });
 
-    scheduleHTML += '</tbody></table></div>';
+    scheduleHTML += "</tbody></table></div>";
     payoffSchedule.innerHTML = scheduleHTML;
 
-    resultsDiv.style.display = 'block';
-    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    resultsDiv.style.display = "block";
+    resultsDiv.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
-  exportBtn.addEventListener('click', () => {
+  exportBtn.addEventListener("click", () => {
     if (!lastResults) return;
     const { snowball, avalanche, debts } = lastResults;
     const debtNames = debts.map(d => d.name);
 
-    let csv = 'Month,';
-    debtNames.forEach(name => { csv += `${name} (Snowball),${name} (Avalanche),`; });
-    csv += 'Interest (Snowball),Interest (Avalanche)\n';
+    let csv = "Month,";
+    debtNames.forEach(name => {
+      csv += `${name} (Snowball),${name} (Avalanche),`;
+    });
+    csv += "Interest (Snowball),Interest (Avalanche)\n";
 
     const maxMonth = Math.max(snowball.totalMonths, avalanche.totalMonths);
     for (let m = 1; m <= maxMonth; m++) {
@@ -352,6 +364,6 @@ export function render(container) {
       csv += `${s ? s.totalInterest.toFixed(2) : 0},${a ? a.totalInterest.toFixed(2) : 0}\n`;
     }
 
-    downloadBlob(new Blob([csv], { type: 'text/csv' }), 'debt-payoff-schedule.csv');
+    downloadBlob(new Blob([csv], { type: "text/csv" }), "debt-payoff-schedule.csv");
   });
 }

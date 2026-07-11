@@ -1,7 +1,7 @@
-import { createFileUpload } from '../../components/file-upload.js';
-import { showToast } from '../../components/toast.js';
-import { downloadBlob, formatFileSize } from '../../utils/file.js';
-import { loadFFmpeg, writeUploadedFile, readFFmpegFile } from './video-utils.js';
+import { createFileUpload } from "../../components/file-upload.js";
+import { showToast } from "../../components/toast.js";
+import { downloadBlob, formatFileSize } from "../../utils/file.js";
+import { loadFFmpeg, writeUploadedFile, readFFmpegFile } from "./video-utils.js";
 
 const STYLES = `
   .tool-options { background:var(--color-surface);padding:var(--space-4);border-radius:var(--radius-lg);margin:var(--space-4) 0; }
@@ -14,11 +14,11 @@ export function createVideoConverter({
   toolId,
   accept,
   maxSizeMB = 500,
-  optionsHTML = '',
-  actionButtonText = 'Convert',
-  processingMessage = 'Converting...',
-  outputFilename = 'output.mp4',
-  successMessage = 'Conversion complete!',
+  optionsHTML = "",
+  actionButtonText = "Convert",
+  processingMessage = "Converting...",
+  outputFilename = "output.mp4",
+  successMessage = "Conversion complete!",
   getInputFilename,
   ffmpegArgs = [],
   getPreviewHTML,
@@ -53,12 +53,12 @@ export function createVideoConverter({
     accept,
     multiple: false,
     maxSizeMB,
-    onFilesSelected: (files) => {
+    onFilesSelected: files => {
       if (files.length === 0) return;
       currentFile = files[0];
       fileInfo.textContent = `${currentFile.name} — ${formatFileSize(currentFile.size)}`;
       if (getPreviewHTML) filePreview.innerHTML = getPreviewHTML(currentFile);
-      optionsArea.style.display = 'block';
+      optionsArea.style.display = "block";
     }
   });
 
@@ -73,46 +73,64 @@ export function createVideoConverter({
   const previewArea = container.querySelector(`#${toolId}-preview-area`);
   const downloadBtn = container.querySelector(`#${toolId}-download-btn`);
 
-  actionBtn.addEventListener('click', async () => {
+  actionBtn.addEventListener("click", async () => {
     if (!currentFile) return;
-    const quality = container.querySelector('#quality-select')?.value || 'medium';
-    const inputFilename = typeof getInputFilename === 'function' ? getInputFilename(currentFile.name) : 'input.video';
+    const quality = container.querySelector("#quality-select")?.value || "medium";
+    const inputFilename =
+      typeof getInputFilename === "function" ? getInputFilename(currentFile.name) : "input.video";
 
-    processing.style.display = 'block';
-    actionBtn.style.display = 'none';
-    results.style.display = 'none';
+    processing.style.display = "block";
+    actionBtn.style.display = "none";
+    results.style.display = "none";
 
     try {
-      const ffmpeg = await loadFFmpeg((pct) => { progressPct.textContent = pct; });
+      const ffmpeg = await loadFFmpeg(pct => {
+        progressPct.textContent = pct;
+      });
       await writeUploadedFile(ffmpeg, currentFile, inputFilename);
 
-      const crf = quality === 'max' ? '15' : quality === 'high' ? '20' : '25';
-      const audioArgs = includeAudioCodec ? ['-c:a', 'aac'] : [];
-      const args = ['-i', inputFilename, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', crf, '-movflags', '+faststart', ...audioArgs, ...ffmpegArgs, 'output.mp4'];
+      const crf = quality === "max" ? "15" : quality === "high" ? "20" : "25";
+      const audioArgs = includeAudioCodec ? ["-c:a", "aac"] : [];
+      const args = [
+        "-i",
+        inputFilename,
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        "-crf",
+        crf,
+        "-movflags",
+        "+faststart",
+        ...audioArgs,
+        ...ffmpegArgs,
+        "output.mp4"
+      ];
       await ffmpeg.exec(args);
 
-      outputBlob = await readFFmpegFile(ffmpeg, 'output.mp4', 'video/mp4');
+      outputBlob = await readFFmpegFile(ffmpeg, "output.mp4", "video/mp4");
       previewArea.innerHTML = `<video controls style="max-width:100%;max-height:400px;border-radius:var(--radius-md);border:1px solid var(--color-border);">
         <source src="${URL.createObjectURL(outputBlob)}" type="video/mp4">
       </video>
       <div style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2);">
         Size: ${formatFileSize(outputBlob.size)} (was ${formatFileSize(currentFile.size)})
       </div>`;
-      results.style.display = 'block';
-      showToast({ message: successMessage, type: 'success' });
+      results.style.display = "block";
+      showToast({ message: successMessage, type: "success" });
 
       await ffmpeg.deleteFile(inputFilename);
-      await ffmpeg.deleteFile('output.mp4');
+      await ffmpeg.deleteFile("output.mp4");
     } catch (err) {
-      showToast({ message: 'Error: ' + err.message, type: 'error' });
+      showToast({ message: "Error: " + err.message, type: "error" });
     } finally {
-      processing.style.display = 'none';
-      actionBtn.style.display = 'inline-flex';
+      processing.style.display = "none";
+      actionBtn.style.display = "inline-flex";
     }
   });
 
-  downloadBtn.addEventListener('click', () => {
-    if (outputBlob && currentFile) downloadBlob(outputBlob, currentFile.name.replace(getOutputExtension, '.mp4'));
+  downloadBtn.addEventListener("click", () => {
+    if (outputBlob && currentFile)
+      downloadBlob(outputBlob, currentFile.name.replace(getOutputExtension, ".mp4"));
   });
 
   return { optionsArea, actionBtn, processing, results };

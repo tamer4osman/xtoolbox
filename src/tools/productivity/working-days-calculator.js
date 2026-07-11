@@ -14,14 +14,14 @@ export const toolConfig = {
     {
       question: "Are weekends always excluded?",
       answer:
-        "Yes. Saturday and Sunday are excluded by default. The country selector adds public holidays.",
+        "Yes. Saturday and Sunday are excluded by default. The country selector adds public holidays."
     },
     {
       question: "How accurate are the holidays?",
       answer:
-        "Holidays are approximate and may not include regional or moved holidays. Always verify critical dates.",
-    },
-  ],
+        "Holidays are approximate and may not include regional or moved holidays. Always verify critical dates."
+    }
+  ]
 };
 
 export const HOLIDAYS = {
@@ -36,7 +36,7 @@ export const HOLIDAYS = {
     "10-14",
     "11-11",
     "11-28",
-    "12-25",
+    "12-25"
   ],
   UK: ["01-01", "01-02", "03-29", "04-01", "05-06", "05-27", "08-26", "12-25", "12-26"],
   DE: [
@@ -52,7 +52,7 @@ export const HOLIDAYS = {
     "10-31",
     "11-01",
     "12-25",
-    "12-26",
+    "12-26"
   ],
   FR: [
     "01-01",
@@ -66,7 +66,7 @@ export const HOLIDAYS = {
     "08-15",
     "11-01",
     "11-11",
-    "12-25",
+    "12-25"
   ],
   JP: [
     "01-01",
@@ -91,7 +91,7 @@ export const HOLIDAYS = {
     "11-24",
     "12-29",
     "12-30",
-    "12-31",
+    "12-31"
   ],
   IN: [
     "01-26",
@@ -109,7 +109,7 @@ export const HOLIDAYS = {
     "10-20",
     "11-01",
     "11-15",
-    "12-25",
+    "12-25"
   ],
   AU: ["01-01", "01-26", "03-29", "04-01", "04-25", "06-09", "12-25", "12-26"],
   BR: [
@@ -124,7 +124,7 @@ export const HOLIDAYS = {
     "10-12",
     "11-02",
     "11-15",
-    "12-25",
+    "12-25"
   ],
   CA: [
     "01-01",
@@ -137,7 +137,7 @@ export const HOLIDAYS = {
     "10-14",
     "11-11",
     "12-25",
-    "12-26",
+    "12-26"
   ],
   CN: [
     "01-01",
@@ -164,8 +164,8 @@ export const HOLIDAYS = {
     "10-04",
     "10-05",
     "10-06",
-    "10-07",
-  ],
+    "10-07"
+  ]
 };
 
 export const COUNTRIES = [
@@ -178,7 +178,7 @@ export const COUNTRIES = [
   { code: "AU", name: "Australia" },
   { code: "BR", name: "Brazil" },
   { code: "CA", name: "Canada" },
-  { code: "CN", name: "China" },
+  { code: "CN", name: "China" }
 ];
 
 export function isWeekend(date) {
@@ -222,7 +222,7 @@ export function render(container) {
         <div class="form-group" style="flex:1;">
           <label for="country-select">Country</label>
           <select id="country-select" class="text-input">
-            ${COUNTRIES.map((c) => `<option value="${c.code}">${c.name}</option>`).join("")}
+            ${COUNTRIES.map(c => `<option value="${c.code}">${c.name}</option>`).join("")}
           </select>
         </div>
       </div>
@@ -260,7 +260,7 @@ export function render(container) {
     const totalDays = Math.ceil((end - start) / 86400000) + 1;
     const weekends = totalDays - days;
     let holidays = 0;
-    for (const [m, d] of (HOLIDAYS[countryCode] || []).map((h) => h.split("-").map(Number))) {
+    for (const [m, d] of (HOLIDAYS[countryCode] || []).map(h => h.split("-").map(Number))) {
       for (let year = start.getUTCFullYear(); year <= end.getUTCFullYear(); year++) {
         const hDate = new Date(Date.UTC(year, m - 1, d));
         if (hDate >= start && hDate <= end && !isWeekend(hDate)) holidays++;

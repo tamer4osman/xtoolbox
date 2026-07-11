@@ -1,30 +1,31 @@
-import { escapeHtml } from '../../utils/escape-html.js';
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
-  id: 'wireframe-sketcher',
-  name: 'Wireframe & Mockup Sketcher',
-  category: 'productivity',
-  description: 'Quick wireframe and mockup sketcher with drag-and-drop shapes, text, and freehand drawing.',
-  icon: '✏️',
-  keywords: ['wireframe', 'mockup', 'sketch', 'draw', 'canvas', 'prototype'],
-  accept: '',
+  id: "wireframe-sketcher",
+  name: "Wireframe & Mockup Sketcher",
+  category: "productivity",
+  description:
+    "Quick wireframe and mockup sketcher with drag-and-drop shapes, text, and freehand drawing.",
+  icon: "✏️",
+  keywords: ["wireframe", "mockup", "sketch", "draw", "canvas", "prototype"],
+  accept: "",
   maxSizeMB: 0,
-  status: 'done'
+  status: "done"
 };
 
 const SHAPES = [
-  { id: 'rect', label: 'Rectangle', icon: '⬜' },
-  { id: 'round', label: 'Rounded Box', icon: '🗃️' },
-  { id: 'circle', label: 'Circle', icon: '⭕' },
-  { id: 'line', label: 'Line', icon: '➖' },
-  { id: 'arrow', label: 'Arrow', icon: '➡️' },
-  { id: 'text', label: 'Text', icon: '📝' },
-  { id: 'image', label: 'Image', icon: '🖼️' },
-  { id: 'button', label: 'Button', icon: '🔘' },
-  { id: 'input', label: 'Input', icon: '📝' },
-  { id: 'header', label: 'Header', icon: '🔝' },
-  { id: 'footer', label: 'Footer', icon: '🔻' },
-  { id: 'nav', label: 'Nav', icon: '☰' }
+  { id: "rect", label: "Rectangle", icon: "⬜" },
+  { id: "round", label: "Rounded Box", icon: "🗃️" },
+  { id: "circle", label: "Circle", icon: "⭕" },
+  { id: "line", label: "Line", icon: "➖" },
+  { id: "arrow", label: "Arrow", icon: "➡️" },
+  { id: "text", label: "Text", icon: "📝" },
+  { id: "image", label: "Image", icon: "🖼️" },
+  { id: "button", label: "Button", icon: "🔘" },
+  { id: "input", label: "Input", icon: "📝" },
+  { id: "header", label: "Header", icon: "🔝" },
+  { id: "footer", label: "Footer", icon: "🔻" },
+  { id: "nav", label: "Nav", icon: "☰" }
 ];
 
 export function render(container) {
@@ -32,7 +33,7 @@ export function render(container) {
     <div class="ws-container">
       <div class="ws-toolbar">
         <div class="ws-shapes">
-          ${SHAPES.map(s => `<button class="ws-shape" data-shape="${s.id}" title="${s.label}">${s.icon}</button>`).join('')}
+          ${SHAPES.map(s => `<button class="ws-shape" data-shape="${s.id}" title="${s.label}">${s.icon}</button>`).join("")}
         </div>
         <div class="ws-colors">
           <button class="ws-color active" data-color="#333" style="background:#333"></button>
@@ -55,7 +56,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .ws-container { display: flex; flex-direction: column; height: 100%; }
     .ws-toolbar { display: flex; gap: var(--space-4); padding: var(--space-3); background: var(--color-surface); border-bottom: 2px solid var(--color-border); flex-wrap: wrap; align-items: center; }
@@ -73,23 +74,23 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const canvas = container.querySelector('#ws-canvas');
-  const ctx = canvas.getContext('2d');
+  const canvas = container.querySelector("#ws-canvas");
+  const ctx = canvas.getContext("2d");
   const rect = canvas.getBoundingClientRect();
   canvas.width = Math.max(rect.width || 800, 800);
   canvas.height = Math.max(rect.height || 500, 500);
 
-  let currentShape = 'rect';
-  let currentColor = '#333';
+  let currentShape = "rect";
+  let currentColor = "#333";
   let elements = [];
   let selected = null;
   let dragging = false;
   let dragStart = { x: 0, y: 0 };
 
   function draw() {
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#f5f5f5';
+    ctx.fillStyle = "#f5f5f5";
     for (let x = 0; x < canvas.width; x += 20) {
       for (let y = 0; y < canvas.height; y += 20) {
         if ((x + y) % 40 === 0) ctx.fillRect(x, y, 1, 1);
@@ -108,58 +109,72 @@ export function render(container) {
       ctx.setLineDash([]);
     }
 
-    if (el.type === 'rect') {
+    if (el.type === "rect") {
       ctx.strokeRect(el.x, el.y, el.w, el.h);
-    } else if (el.type === 'round') {
+    } else if (el.type === "round") {
       const r = Math.min(el.w, el.h) / 5;
       ctx.beginPath();
       ctx.roundRect(el.x, el.y, el.w, el.h, r);
       ctx.stroke();
-    } else if (el.type === 'circle') {
+    } else if (el.type === "circle") {
       ctx.beginPath();
-      ctx.ellipse(el.x + el.w/2, el.y + el.h/2, Math.abs(el.w)/2, Math.abs(el.h)/2, 0, 0, Math.PI * 2);
+      ctx.ellipse(
+        el.x + el.w / 2,
+        el.y + el.h / 2,
+        Math.abs(el.w) / 2,
+        Math.abs(el.h) / 2,
+        0,
+        0,
+        Math.PI * 2
+      );
       ctx.stroke();
-    } else if (el.type === 'line' || el.type === 'arrow') {
+    } else if (el.type === "line" || el.type === "arrow") {
       ctx.beginPath();
       ctx.moveTo(el.x, el.y);
       ctx.lineTo(el.x + el.w, el.y + el.h);
       ctx.stroke();
-      if (el.type === 'arrow') {
+      if (el.type === "arrow") {
         const angle = Math.atan2(el.h, el.w);
         ctx.beginPath();
         ctx.moveTo(el.x + el.w, el.y + el.h);
-        ctx.lineTo(el.x + el.w - 12 * Math.cos(angle - 0.5), el.y + el.h - 12 * Math.sin(angle - 0.5));
-        ctx.lineTo(el.x + el.w - 12 * Math.cos(angle + 0.5), el.y + el.h - 12 * Math.sin(angle + 0.5));
+        ctx.lineTo(
+          el.x + el.w - 12 * Math.cos(angle - 0.5),
+          el.y + el.h - 12 * Math.sin(angle - 0.5)
+        );
+        ctx.lineTo(
+          el.x + el.w - 12 * Math.cos(angle + 0.5),
+          el.y + el.h - 12 * Math.sin(angle + 0.5)
+        );
         ctx.closePath();
         ctx.fill();
       }
-    } else if (el.type === 'text') {
-      ctx.font = '16px sans-serif';
-      ctx.fillText(el.text || 'Text', el.x, el.y + 16);
-    } else if (el.type === 'button') {
+    } else if (el.type === "text") {
+      ctx.font = "16px sans-serif";
+      ctx.fillText(el.text || "Text", el.x, el.y + 16);
+    } else if (el.type === "button") {
       ctx.beginPath();
       ctx.roundRect(el.x, el.y, el.w, el.h, 6);
       ctx.fill();
-      ctx.fillStyle = '#fff';
-      ctx.font = 'bold 14px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(el.text || 'Button', el.x + el.w/2, el.y + el.h/2 + 5);
-      ctx.textAlign = 'left';
-    } else if (el.type === 'input') {
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 14px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(el.text || "Button", el.x + el.w / 2, el.y + el.h / 2 + 5);
+      ctx.textAlign = "left";
+    } else if (el.type === "input") {
       ctx.beginPath();
       ctx.roundRect(el.x, el.y, el.w, el.h, 4);
       ctx.stroke();
-    } else if (el.type === 'header') {
+    } else if (el.type === "header") {
       ctx.fillRect(el.x, el.y, el.w, 50);
-    } else if (el.type === 'footer') {
+    } else if (el.type === "footer") {
       ctx.fillRect(el.x, el.y + el.h - 50, el.w, 50);
-    } else if (el.type === 'nav') {
+    } else if (el.type === "nav") {
       ctx.fillRect(el.x, el.y, el.w, el.h);
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = "#fff";
       for (let i = 0; i < 4; i++) {
         ctx.fillRect(el.x + 10 + i * 40, el.y + 15, 30, 3);
       }
-    } else if (el.type === 'image') {
+    } else if (el.type === "image") {
       ctx.strokeRect(el.x, el.y, el.w, el.h);
       ctx.beginPath();
       ctx.moveTo(el.x, el.y + el.h);
@@ -190,7 +205,7 @@ export function render(container) {
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   }
 
-  canvas.addEventListener('mousedown', e => {
+  canvas.addEventListener("mousedown", e => {
     const { x, y } = getCoords(e);
     const el = hitTest(x, y);
     if (el) {
@@ -198,7 +213,15 @@ export function render(container) {
       dragging = true;
       dragStart = { x: x - el.x, y: y - el.y };
     } else {
-      selected = { type: currentShape, x: x - 50, y: y - 30, w: 100, h: 60, color: currentColor, text: currentShape === 'button' ? 'Button' : '' };
+      selected = {
+        type: currentShape,
+        x: x - 50,
+        y: y - 30,
+        w: 100,
+        h: 60,
+        color: currentColor,
+        text: currentShape === "button" ? "Button" : ""
+      };
       elements.push(selected);
       dragging = true;
       dragStart = { x: 50, y: 30 };
@@ -206,7 +229,7 @@ export function render(container) {
     draw();
   });
 
-  canvas.addEventListener('mousemove', e => {
+  canvas.addEventListener("mousemove", e => {
     if (dragging && selected) {
       const { x, y } = getCoords(e);
       selected.x = x - dragStart.x;
@@ -215,10 +238,14 @@ export function render(container) {
     }
   });
 
-  canvas.addEventListener('mouseup', () => { dragging = false; });
-  canvas.addEventListener('mouseleave', () => { dragging = false; });
+  canvas.addEventListener("mouseup", () => {
+    dragging = false;
+  });
+  canvas.addEventListener("mouseleave", () => {
+    dragging = false;
+  });
 
-  canvas.addEventListener('dblclick', e => {
+  canvas.addEventListener("dblclick", e => {
     const { x, y } = getCoords(e);
     const el = hitTest(x, y);
     if (el) {
@@ -228,31 +255,38 @@ export function render(container) {
     }
   });
 
-  container.querySelectorAll('.ws-shape').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.ws-shape').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  container.querySelectorAll(".ws-shape").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".ws-shape").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
       currentShape = btn.dataset.shape;
     });
   });
-  container.querySelector('[data-shape="rect"]').classList.add('active');
+  container.querySelector('[data-shape="rect"]').classList.add("active");
 
-  container.querySelectorAll('.ws-color').forEach(btn => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.ws-color').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  container.querySelectorAll(".ws-color").forEach(btn => {
+    btn.addEventListener("click", () => {
+      container.querySelectorAll(".ws-color").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
       currentColor = btn.dataset.color;
-      if (selected) { selected.color = currentColor; draw(); }
+      if (selected) {
+        selected.color = currentColor;
+        draw();
+      }
     });
   });
 
-  container.querySelector('#ws-clear').addEventListener('click', () => { elements = []; selected = null; draw(); });
-
-  container.querySelector('#ws-download').addEventListener('click', () => {
+  container.querySelector("#ws-clear").addEventListener("click", () => {
+    elements = [];
+    selected = null;
     draw();
-    const link = document.createElement('a');
-    link.download = 'wireframe.png';
-    link.href = canvas.toDataURL('image/png');
+  });
+
+  container.querySelector("#ws-download").addEventListener("click", () => {
+    draw();
+    const link = document.createElement("a");
+    link.download = "wireframe.png";
+    link.href = canvas.toDataURL("image/png");
     link.click();
   });
 

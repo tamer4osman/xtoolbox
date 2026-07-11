@@ -1,12 +1,12 @@
-import { createHealthCalculator } from './health-calculator.js';
+import { createHealthCalculator } from "./health-calculator.js";
 
 export const toolConfig = {
-  id: 'heart-rate-zones',
-  name: 'Heart Rate Zones',
-  category: 'health',
-  description: 'Calculate target heart rate zones for exercise.',
-  icon: '💓',
-  status: 'done'
+  id: "heart-rate-zones",
+  name: "Heart Rate Zones",
+  category: "health",
+  description: "Calculate target heart rate zones for exercise.",
+  icon: "💓",
+  status: "done"
 };
 
 const RESULT_CSS = `
@@ -29,26 +29,61 @@ const RESULT_CSS = `
 `;
 
 const ZONE_DEFS = [
-  { pct: '50-60%', desc: 'Very Light - Warm up, recovery', low: 0.5, high: 0.6, name: 'Zone 1', cls: 'hr-zone-1' },
-  { pct: '60-70%', desc: 'Light - Fat burning, endurance', low: 0.6, high: 0.7, name: 'Zone 2', cls: 'hr-zone-2' },
-  { pct: '70-80%', desc: 'Moderate - Aerobic fitness', low: 0.7, high: 0.8, name: 'Zone 3', cls: 'hr-zone-3' },
-  { pct: '80-90%', desc: 'Hard - Anaerobic, speed', low: 0.8, high: 0.9, name: 'Zone 4', cls: 'hr-zone-4' },
-  { pct: '90-100%', desc: 'Maximum - Peak performance', low: 0.9, high: 1.0, name: 'Zone 5', cls: 'hr-zone-5' }
+  {
+    pct: "50-60%",
+    desc: "Very Light - Warm up, recovery",
+    low: 0.5,
+    high: 0.6,
+    name: "Zone 1",
+    cls: "hr-zone-1"
+  },
+  {
+    pct: "60-70%",
+    desc: "Light - Fat burning, endurance",
+    low: 0.6,
+    high: 0.7,
+    name: "Zone 2",
+    cls: "hr-zone-2"
+  },
+  {
+    pct: "70-80%",
+    desc: "Moderate - Aerobic fitness",
+    low: 0.7,
+    high: 0.8,
+    name: "Zone 3",
+    cls: "hr-zone-3"
+  },
+  {
+    pct: "80-90%",
+    desc: "Hard - Anaerobic, speed",
+    low: 0.8,
+    high: 0.9,
+    name: "Zone 4",
+    cls: "hr-zone-4"
+  },
+  {
+    pct: "90-100%",
+    desc: "Maximum - Peak performance",
+    low: 0.9,
+    high: 1.0,
+    name: "Zone 5",
+    cls: "hr-zone-5"
+  }
 ];
 
 export function render(container) {
   createHealthCalculator({
     container,
-    containerClass: 'hr-container',
-    calcButtonLabel: 'Calculate Zones',
+    containerClass: "hr-container",
+    calcButtonLabel: "Calculate Zones",
     extraCSS: RESULT_CSS,
     fields: [
-      { id: 'age', label: 'Age', value: 30, min: 10, max: 100 },
-      { id: 'resting', label: 'Resting Heart Rate (bpm)', value: 70, min: 40, max: 120 }
+      { id: "age", label: "Age", value: 30, min: 10, max: 100 },
+      { id: "resting", label: "Resting Heart Rate (bpm)", value: 70, min: 40, max: 120 }
     ],
     onCalculate: (container, resultEl) => {
-      const age = parseInt(container.querySelector('#age').value) || 30;
-      const resting = parseInt(container.querySelector('#resting').value) || 70;
+      const age = parseInt(container.querySelector("#age").value) || 30;
+      const resting = parseInt(container.querySelector("#resting").value) || 70;
 
       const maxHR = 220 - age;
       const hrr = maxHR - resting;
@@ -66,7 +101,7 @@ export function render(container) {
             <div class="zone-desc">${z.desc}</div>
           </div>
         `;
-      }).join('');
+      }).join("");
 
       resultEl.innerHTML = `
         <div class="hr-max">

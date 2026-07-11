@@ -1,10 +1,10 @@
 export const toolConfig = {
-  id: 'sitemap-generator',
-  name: 'Sitemap Generator',
-  category: 'seo',
-  description: 'Generate XML sitemaps for search engines.',
-  icon: '🗺️',
-  status: 'done'
+  id: "sitemap-generator",
+  name: "Sitemap Generator",
+  category: "seo",
+  description: "Generate XML sitemaps for search engines.",
+  icon: "🗺️",
+  status: "done"
 };
 
 export function render(container) {
@@ -30,7 +30,7 @@ export function render(container) {
     </div>
   `;
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     .sitemap-container { max-width: 700px; margin: 0 auto; }
     .sitemap-container h2 { text-align: center; margin-bottom: var(--space-4); }
@@ -46,24 +46,41 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const now = new Date().toISOString().split('T')[0];
+  const now = new Date().toISOString().split("T")[0];
 
-  container.querySelector('#generateBtn').addEventListener('click', () => {
-    const base = (container.querySelector('#baseUrl').value || 'https://example.com').replace(/\/$/, '');
-    const pages = container.querySelector('#pages').value.split('\n').filter(p => p.trim());
-    const freq = container.querySelector('#freq').value;
-    const pri = container.querySelector('#priority').value;
-    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  container.querySelector("#generateBtn").addEventListener("click", () => {
+    const base = (container.querySelector("#baseUrl").value || "https://example.com").replace(
+      /\/$/,
+      ""
+    );
+    const pages = container
+      .querySelector("#pages")
+      .value.split("\n")
+      .filter(p => p.trim());
+    const freq = container.querySelector("#freq").value;
+    const pri = container.querySelector("#priority").value;
+    let xml =
+      '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
     pages.forEach(p => {
-      xml += '  <url>\n    <loc>' + base + p + '</loc>\n    <lastmod>' + now + '</lastmod>\n    <changefreq>' + freq + '</changefreq>\n    <priority>' + pri + '</priority>\n  </url>\n';
+      xml +=
+        "  <url>\n    <loc>" +
+        base +
+        p +
+        "</loc>\n    <lastmod>" +
+        now +
+        "</lastmod>\n    <changefreq>" +
+        freq +
+        "</changefreq>\n    <priority>" +
+        pri +
+        "</priority>\n  </url>\n";
     });
-    xml += '</urlset>';
-    container.querySelector('#result').textContent = xml;
+    xml += "</urlset>";
+    container.querySelector("#result").textContent = xml;
   });
-  container.querySelector('#copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(container.querySelector('#result').textContent);
-    container.querySelector('#copyBtn').textContent = 'Copied!';
-    setTimeout(() => container.querySelector('#copyBtn').textContent = 'Copy', 1500);
+  container.querySelector("#copyBtn").addEventListener("click", () => {
+    navigator.clipboard.writeText(container.querySelector("#result").textContent);
+    container.querySelector("#copyBtn").textContent = "Copied!";
+    setTimeout(() => (container.querySelector("#copyBtn").textContent = "Copy"), 1500);
   });
-  container.querySelector('#generateBtn').click();
+  container.querySelector("#generateBtn").click();
 }

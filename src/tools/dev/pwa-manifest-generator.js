@@ -1,11 +1,11 @@
 export const toolConfig = {
-  id: 'pwa-manifest-generator',
-  name: 'PWA Manifest Generator',
-  category: 'dev',
-  description: 'Generate a web app manifest JSON for Progressive Web Apps.',
-  icon: '📱',
-  keywords: ['pwa', 'manifest', 'web app', 'progressive', 'manifest.json', 'service worker'],
-  accept: '.json',
+  id: "pwa-manifest-generator",
+  name: "PWA Manifest Generator",
+  category: "dev",
+  description: "Generate a web app manifest JSON for Progressive Web Apps.",
+  icon: "📱",
+  keywords: ["pwa", "manifest", "web app", "progressive", "manifest.json", "service worker"],
+  accept: ".json",
   maxSizeMB: 1
 };
 
@@ -16,7 +16,7 @@ export function render(container) {
     </div>
   `;
 
-  const form = container.querySelector('#pwa-form');
+  const form = container.querySelector("#pwa-form");
   form.innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);">
       <div class="form-group">
@@ -82,49 +82,53 @@ export function render(container) {
     </div>
   `;
 
-  const nameInput = form.querySelector('#pwa-name');
-  const shortNameInput = form.querySelector('#pwa-short-name');
-  const descInput = form.querySelector('#pwa-description');
-  const startUrlInput = form.querySelector('#pwa-start-url');
-  const displayInput = form.querySelector('#pwa-display');
-  const bgColorInput = form.querySelector('#pwa-bg-color');
-  const themeColorInput = form.querySelector('#pwa-theme-color');
-  const orientationInput = form.querySelector('#pwa-orientation');
-  const scopeInput = form.querySelector('#pwa-scope');
-  const iconsInput = form.querySelector('#pwa-icons');
-  const generateBtn = form.querySelector('#pwa-generate');
-  const outputArea = form.querySelector('#pwa-output');
-  const jsonOutput = form.querySelector('#pwa-json');
-  const downloadBtn = form.querySelector('#pwa-download');
-  const copyBtn = form.querySelector('#pwa-copy');
+  const nameInput = form.querySelector("#pwa-name");
+  const shortNameInput = form.querySelector("#pwa-short-name");
+  const descInput = form.querySelector("#pwa-description");
+  const startUrlInput = form.querySelector("#pwa-start-url");
+  const displayInput = form.querySelector("#pwa-display");
+  const bgColorInput = form.querySelector("#pwa-bg-color");
+  const themeColorInput = form.querySelector("#pwa-theme-color");
+  const orientationInput = form.querySelector("#pwa-orientation");
+  const scopeInput = form.querySelector("#pwa-scope");
+  const iconsInput = form.querySelector("#pwa-icons");
+  const generateBtn = form.querySelector("#pwa-generate");
+  const outputArea = form.querySelector("#pwa-output");
+  const jsonOutput = form.querySelector("#pwa-json");
+  const downloadBtn = form.querySelector("#pwa-download");
+  const copyBtn = form.querySelector("#pwa-copy");
 
-  generateBtn.addEventListener('click', () => {
+  generateBtn.addEventListener("click", () => {
     const name = nameInput.value.trim();
     const shortName = shortNameInput.value.trim();
 
     if (!name || !shortName) {
-      alert('Please enter App Name and Short Name');
+      alert("Please enter App Name and Short Name");
       return;
     }
 
-    const iconSizes = ['192x192', '512x512', '180x180', '144x144', '96x96'];
-    const icons = iconsInput.value.trim().split('\n').filter(u => u.trim()).map((url, i) => ({
-      src: url.trim(),
-      sizes: iconSizes[i] || '192x192',
-      type: 'image/png',
-      purpose: 'any maskable'
-    }));
+    const iconSizes = ["192x192", "512x512", "180x180", "144x144", "96x96"];
+    const icons = iconsInput.value
+      .trim()
+      .split("\n")
+      .filter(u => u.trim())
+      .map((url, i) => ({
+        src: url.trim(),
+        sizes: iconSizes[i] || "192x192",
+        type: "image/png",
+        purpose: "any maskable"
+      }));
 
     const manifest = {
       name,
       short_name: shortName,
       description: descInput.value.trim() || undefined,
-      start_url: startUrlInput.value.trim() || '/',
+      start_url: startUrlInput.value.trim() || "/",
       display: displayInput.value,
       background_color: bgColorInput.value,
       theme_color: themeColorInput.value,
       orientation: orientationInput.value,
-      scope: scopeInput.value.trim() || '/',
+      scope: scopeInput.value.trim() || "/",
       icons: icons.length > 0 ? icons : undefined
     };
 
@@ -134,27 +138,32 @@ export function render(container) {
 
     const json = JSON.stringify(manifest, null, 2);
     jsonOutput.textContent = json;
-    outputArea.style.display = 'block';
+    outputArea.style.display = "block";
   });
 
-  downloadBtn.addEventListener('click', () => {
+  downloadBtn.addEventListener("click", () => {
     const content = jsonOutput.textContent;
-    const blob = new Blob([content], { type: 'application/json' });
+    const blob = new Blob([content], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = 'manifest.json';
+    a.download = "manifest.json";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   });
 
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
-    }).catch(() => {});
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(jsonOutput.textContent)
+      .then(() => {
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyBtn.textContent = "Copy";
+        }, 1500);
+      })
+      .catch(() => {});
   });
 }
 

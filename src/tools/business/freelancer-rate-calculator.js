@@ -1,13 +1,14 @@
-import { downloadBlob } from '../../utils/file.js';
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'freelancer-rate-calculator',
-  name: 'Freelancer Rate Calculator',
-  category: 'business',
-  description: 'Calculate optimal hourly/daily/project rates based on income, expenses, and billable hours.',
-  icon: '💵',
-  keywords: ['freelancer', 'rate', 'calculator', 'hourly', 'salary', 'income'],
-  accept: '',
+  id: "freelancer-rate-calculator",
+  name: "Freelancer Rate Calculator",
+  category: "business",
+  description:
+    "Calculate optimal hourly/daily/project rates based on income, expenses, and billable hours.",
+  icon: "💵",
+  keywords: ["freelancer", "rate", "calculator", "hourly", "salary", "income"],
+  accept: "",
   maxSizeMB: 10
 };
 
@@ -19,7 +20,7 @@ export function render(container) {
     billableHoursPerDay: 6,
     workDaysPerWeek: 5,
     vacationDaysPerYear: 15,
-    state: 'CA',
+    state: "CA",
     includeTaxes: true,
     taxRate: 25
   };
@@ -105,18 +106,23 @@ export function render(container) {
     </div>
   `;
 
-  const $ = (id) => container.querySelector(id);
-  const el = (sel) => container.querySelector(sel);
-  const formatCurrency = (num) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
+  const $ = id => container.querySelector(id);
+  const el = sel => container.querySelector(sel);
+  const formatCurrency = num =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    }).format(num);
 
   function calculate() {
-    const targetIncome = parseFloat($('#desiredIncome').value) || 0;
-    const expenses = parseFloat($('#businessExpenses').value) || 0;
-    const weeks = parseFloat($('#workingWeeks').value) || 48;
-    const hoursPerDay = parseFloat($('#billableHours').value) || 6;
-    const daysPerWeek = parseFloat($('#workDays').value) || 5;
-    const includeTaxes = $('#includeTaxes').checked;
-    const taxRate = parseFloat($('#taxRate').value) || 0;
+    const targetIncome = parseFloat($("#desiredIncome").value) || 0;
+    const expenses = parseFloat($("#businessExpenses").value) || 0;
+    const weeks = parseFloat($("#workingWeeks").value) || 48;
+    const hoursPerDay = parseFloat($("#billableHours").value) || 6;
+    const daysPerWeek = parseFloat($("#workDays").value) || 5;
+    const includeTaxes = $("#includeTaxes").checked;
+    const taxRate = parseFloat($("#taxRate").value) || 0;
 
     let grossTarget = targetIncome;
     if (includeTaxes) {
@@ -133,35 +139,35 @@ export function render(container) {
     const monthlyRate = weeklyRate * 4.33;
     const costPerDay = expenses / workingDaysPerYear;
 
-    $('#hourlyRate').textContent = formatCurrency(hourlyRate);
-    $('#dailyRate').textContent = formatCurrency(dailyRate);
-    $('#weeklyRate').textContent = formatCurrency(weeklyRate);
-    $('#monthlyRate').textContent = formatCurrency(monthlyRate);
+    $("#hourlyRate").textContent = formatCurrency(hourlyRate);
+    $("#dailyRate").textContent = formatCurrency(dailyRate);
+    $("#weeklyRate").textContent = formatCurrency(weeklyRate);
+    $("#monthlyRate").textContent = formatCurrency(monthlyRate);
 
-    $('#targetRevenue').textContent = formatCurrency(totalNeeded);
-    $('#workingDaysYear').textContent = workingDaysPerYear;
-    $('#billableHoursYear').textContent = billableHoursPerYear;
-    $('#costPerDay').textContent = formatCurrency(costPerDay);
+    $("#targetRevenue").textContent = formatCurrency(totalNeeded);
+    $("#workingDaysYear").textContent = workingDaysPerYear;
+    $("#billableHoursYear").textContent = billableHoursPerYear;
+    $("#costPerDay").textContent = formatCurrency(costPerDay);
   }
 
-  const inputs = container.querySelectorAll('input');
+  const inputs = container.querySelectorAll("input");
   inputs.forEach(input => {
-    input.addEventListener('input', calculate);
-    input.addEventListener('change', calculate);
+    input.addEventListener("input", calculate);
+    input.addEventListener("change", calculate);
   });
 
-  el('#includeTaxes').addEventListener('change', (e) => {
-    el('#taxSection').style.display = e.target.checked ? 'block' : 'none';
+  el("#includeTaxes").addEventListener("change", e => {
+    el("#taxSection").style.display = e.target.checked ? "block" : "none";
     calculate();
   });
 
   calculate();
 
-  el('#exportPdf').addEventListener('click', () => {
-    const hourly = $('#hourlyRate').textContent;
-    const daily = $('#dailyRate').textContent;
-    const weekly = $('#weeklyRate').textContent;
-    const monthly = $('#monthlyRate').textContent;
+  el("#exportPdf").addEventListener("click", () => {
+    const hourly = $("#hourlyRate").textContent;
+    const daily = $("#dailyRate").textContent;
+    const weekly = $("#weeklyRate").textContent;
+    const monthly = $("#monthlyRate").textContent;
 
     const content = `FREELANCE RATE CALCULATION RESULTS
 ================================
@@ -172,19 +178,19 @@ Weekly Rate: ${weekly}
 Monthly Retainer: ${monthly}
 
 Input Parameters:
-- Desired Annual Income: ${formatCurrency(parseFloat($('#desiredIncome').value))}
-- Business Expenses: ${formatCurrency(parseFloat($('#businessExpenses').value))}
-- Working Weeks/Year: ${$('#workingWeeks').value}
-- Billable Hours/Day: ${$('#billableHours').value}
-- Work Days/Week: ${$('#workDays').value}
-- Include Taxes: ${$('#includeTaxes').checked ? 'Yes' : 'No'}
+- Desired Annual Income: ${formatCurrency(parseFloat($("#desiredIncome").value))}
+- Business Expenses: ${formatCurrency(parseFloat($("#businessExpenses").value))}
+- Working Weeks/Year: ${$("#workingWeeks").value}
+- Billable Hours/Day: ${$("#billableHours").value}
+- Work Days/Week: ${$("#workDays").value}
+- Include Taxes: ${$("#includeTaxes").checked ? "Yes" : "No"}
 
 Generated: ${new Date().toLocaleDateString()}
 
 Note: These are minimum recommended rates. Adjust based on market rates, experience, and value provided.
 `;
 
-    const blob = new Blob([content], { type: 'text/plain' });
-    downloadBlob(blob, 'freelance-rate-calculation.txt');
+    const blob = new Blob([content], { type: "text/plain" });
+    downloadBlob(blob, "freelance-rate-calculation.txt");
   });
 }
