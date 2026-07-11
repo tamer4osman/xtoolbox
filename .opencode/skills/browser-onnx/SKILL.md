@@ -19,7 +19,8 @@ Install the required library via npm:
 ```bash
 npm install onnxruntime-web
 ```
-*Note: For experimental features like WebGPU or WebNN, use the nightly version `onnxruntime-web@dev`.*
+
+_Note: For experimental features like WebGPU or WebNN, use the nightly version `onnxruntime-web@dev`._
 
 ## 2. Global Environment Configuration
 
@@ -34,11 +35,11 @@ Set global `ort.env` flags before creating a session to optimize the runtime env
 Initialize the session by choosing the appropriate **Execution Provider (EP)**:
 
 ```javascript
-import * as ort from 'onnxruntime-web';
+import * as ort from "onnxruntime-web";
 
-const session = await ort.InferenceSession.create('./model.onnx', {
-  executionProviders: ['webgpu', 'wasm'], // Prioritize GPU, fallback to CPU
-  graphOptimizationLevel: 'all' // Enable all graph-level optimizations
+const session = await ort.InferenceSession.create("./model.onnx", {
+  executionProviders: ["webgpu", "wasm"], // Prioritize GPU, fallback to CPU
+  graphOptimizationLevel: "all" // Enable all graph-level optimizations
 });
 ```
 
@@ -61,7 +62,7 @@ Input data must match the model's training format (e.g., NCHW for vision models)
 - **Loading External Data:** Explicitly link external weight files in the session options:
   ```javascript
   const session = await ort.InferenceSession.create(modelUrl, {
-    externalData: [{ path: './model.data', data: dataUrl }]
+    externalData: [{ path: "./model.data", data: dataUrl }]
   });
   ```
 
@@ -74,7 +75,9 @@ Input data must match the model's training format (e.g., NCHW for vision models)
 ## 8. Examples
 
 ### Multilingual Translation
+
 Offload heavy translation tasks to a separate **Web Worker** using a singleton pattern to ensure the model (e.g., NLLB-200) loads only once.
 
 ### Object Detection (YOLO)
+
 Implement **Non-Max Suppression (NMS)**. If the browser lacks support for specific NMS ops, run a separate NMS ONNX model to filter overlapping boxes locally.

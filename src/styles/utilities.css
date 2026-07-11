@@ -1,36 +1,89 @@
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
 
-.font-bold { font-weight: 700; }
-.font-semibold { font-weight: 600; }
-.font-medium { font-weight: 500; }
+.font-bold {
+  font-weight: 700;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.font-medium {
+  font-weight: 500;
+}
 
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: var(--space-2); }
-.gap-4 { gap: var(--space-4); }
-.gap-6 { gap: var(--space-6); }
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-2 {
+  gap: var(--space-2);
+}
+.gap-4 {
+  gap: var(--space-4);
+}
+.gap-6 {
+  gap: var(--space-6);
+}
 
-.grid { display: grid; }
-.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid {
+  display: grid;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
-.hidden { display: none; }
-.w-full { width: 100%; }
-.mx-auto { margin-left: auto; margin-right: auto; }
+.hidden {
+  display: none;
+}
+.w-full {
+  width: 100%;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 @media (max-width: 768px) {
-  .grid-cols-2 { grid-template-columns: 1fr; }
-  .grid-cols-3 { grid-template-columns: 1fr; }
-  .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
-  .hide-mobile { display: none !important; }
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hide-mobile {
+    display: none !important;
+  }
 }
 
 @media (min-width: 769px) {
-  .hide-desktop { display: none !important; }
+  .hide-desktop {
+    display: none !important;
+  }
 }

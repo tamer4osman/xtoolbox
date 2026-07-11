@@ -19,6 +19,7 @@ The codebase already has a smaller abstraction (`pixel-tool-utils.js`) used by `
 ## Goal
 
 Extract the image-tool scaffold into a factory so that adding a new image transform tool requires only:
+
 - A unique `optionsHTML` string
 - A unique `optionsCSS` string
 - A `renderPreview()` function (tool-specific drawing)
@@ -41,28 +42,28 @@ Exports `createImageTool({ ... })` that returns an object with DOM refs and a he
 
 ```js
 createImageTool({
-  container,                // HTMLElement — tool's render container
-  toolId,                   // string — for ID prefixing
-  accept,                   // 'image/*' default
-  multiple,                 // false = single image, true = images[] (collage)
-  maxSizeMB,                // default 50
+  container, // HTMLElement — tool's render container
+  toolId, // string — for ID prefixing
+  accept, // 'image/*' default
+  multiple, // false = single image, true = images[] (collage)
+  maxSizeMB, // default 50
 
   // Tool provides the unique parts:
-  optionsHTML,              // string of form controls (inserted into options-area)
-  optionsCSS,               // string of scoped CSS (.${toolId} prefix)
-  renderPreview,            // ({ state, container }) => void
-  processForDownload,       // ({ state, canvas }) => void
+  optionsHTML, // string of form controls (inserted into options-area)
+  optionsCSS, // string of scoped CSS (.${toolId} prefix)
+  renderPreview, // ({ state, container }) => void
+  processForDownload, // ({ state, canvas }) => void
 
   // Optional hooks for per-tool sidebar behavior:
-  onImageLoaded,            // ({ state, container }) => void
-  getFilename,              // () => string
-  getFormat,                // () => 'image/png' | 'image/jpeg' | 'image/webp'
-  getQuality,               // () => number (0-1)
+  onImageLoaded, // ({ state, container }) => void
+  getFilename, // () => string
+  getFormat, // () => 'image/png' | 'image/jpeg' | 'image/webp'
+  getQuality // () => number (0-1)
 
   // State object passed to all callbacks:
   //   - { originalImage } when multiple=false
   //   - { images: [] }     when multiple=true
-})
+});
 ```
 
 ### Factory output shape

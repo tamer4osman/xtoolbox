@@ -27,11 +27,11 @@ Every command, workflow, tool, and agent must emit at least 3, and up to 20, str
 
 One JSON object per line. Required fields:
 
-| Field        | Type   | Rule                                                                                                                                                                                                             |
-| ------------ | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `timestamp`  | string | ISO 8601 UTC (`date -u +"%Y-%m-%dT%H:%M:%S.000Z"`)                                                                                                                                                               |
+| Field        | Type   | Rule                                                                                                                                                                                                                                |
+| ------------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `timestamp`  | string | ISO 8601 UTC (`date -u +"%Y-%m-%dT%H:%M:%S.000Z"`)                                                                                                                                                                                  |
 | `event_type` | string | One of: `flow_start`, `flow_end`, `command_start`, `command_end`, `agent_start`, `agent_end`, `subagent_start`, `subagent.{some phase}`, `subagent_end`, `mcp-tool-invoke`, `challenge`, `error`, `event`, `unusual`, `human_input` |
-| `title`      | string | Human-readable description of what just happened                                                                                                                                                                 |
+| `title`      | string | Human-readable description of what just happened                                                                                                                                                                                    |
 
 Emit for **every** occurrence. Use `{subagent}.{some phase}` for any action tried, `error` for failures or phase entries (e.g., record network requests), `unusual` for out-of-normal-flow, `human_input` when awaiting user input, `event` for other significant moments.
 

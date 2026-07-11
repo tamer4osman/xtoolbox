@@ -68,36 +68,32 @@ A.65. Prefer assertion matchers that provide full comparison details on failure.
 
 ```typescript
 // BAD E2E TEST EXAMPLE - Violates multiple best practices
-test('Should purchase item', async ({ page }) => {
+test("Should purchase item", async ({ page }) => {
   // 👎🏻 violates A.5 (vague title)
-  await page.goto('/products'); // 👎🏻 violates A.8, A.11 (assumes existing user session)
+  await page.goto("/products"); // 👎🏻 violates A.8, A.11 (assumes existing user session)
 
-  await page.getByText('iPhone 15 Pro').click(); // 👎🏻 violates A.8, A.11 (assumes specific product exists)
-  await page.locator('#add-to-cart-btn').click(); // 👎🏻 violates A.17 (CSS selector)
-  await page.goto('/checkout');
+  await page.getByText("iPhone 15 Pro").click(); // 👎🏻 violates A.8, A.11 (assumes specific product exists)
+  await page.locator("#add-to-cart-btn").click(); // 👎🏻 violates A.17 (CSS selector)
+  await page.goto("/checkout");
 
-  await page.waitForSelector('.form-loaded'); // 👎🏻 violates A.44 (implementation detail)
-  await page.locator('#email').fill('foo@test.com'); // 👎🏻 violates A.17, A.52, A.55 (CSS + dummy data)
-  await page.locator('button').last().click(); // 👎🏻 violates A.17, A.40 (positional)
+  await page.waitForSelector(".form-loaded"); // 👎🏻 violates A.44 (implementation detail)
+  await page.locator("#email").fill("foo@test.com"); // 👎🏻 violates A.17, A.52, A.55 (CSS + dummy data)
+  await page.locator("button").last().click(); // 👎🏻 violates A.17, A.40 (positional)
 
-  const cartItems = await page.locator('.cart-item').all(); // 👎🏻 violates A.58 (custom loop)
+  const cartItems = await page.locator(".cart-item").all(); // 👎🏻 violates A.58 (custom loop)
   for (const item of cartItems) expect(await item.isVisible()).toBe(true); // 👎🏻 violates A.58
 
-  await page.goto('https://stripe.com/confirm'); // 👎🏻 violates A.23 (external system)
-  expect(
-    await page.evaluate(() => localStorage.getItem('orderId')),
-  ).toBeTruthy(); // 👎🏻 violates A.14 (implementation detail)
+  await page.goto("https://stripe.com/confirm"); // 👎🏻 violates A.23 (external system)
+  expect(await page.evaluate(() => localStorage.getItem("orderId"))).toBeTruthy(); // 👎🏻 violates A.14 (implementation detail)
 });
 ```
 
 ### GOOD E2E Test Example
 
-📝 Note: While this test below is considered a good system-wide, end to end test, these patterns are not adequate for inegration and unit tests - practices for these type of tests are described in other rule files 
+📝 Note: While this test below is considered a good system-wide, end to end test, these patterns are not adequate for inegration and unit tests - practices for these type of tests are described in other rule files
 
 ```typescript
-test('The user can purchase an item and post-purchase experience is valid', async ({
-  page,
-}) => {
+test("The user can purchase an item and post-purchase experience is valid", async ({ page }) => {
   const customer = await saveNewCustomer(customer);
   const product = await saveNewProduct(product);
   await navigateToProductsPage(page);

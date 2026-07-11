@@ -1354,12 +1354,7 @@
     "icon": "🔀",
     "href": "/tools/diff-merge",
     "status": "done",
-    "keywords": [
-      "diff",
-      "merge",
-      "compare",
-      "changes"
-    ]
+    "keywords": ["diff", "merge", "compare", "changes"]
   },
   {
     "id": "text-similarity",
@@ -1629,12 +1624,7 @@
     "description": "Convert PDF to e-book format for e-readers.",
     "icon": "📚",
     "href": "/tools/pdf-to-epub",
-    "keywords": [
-      "pdf to epub",
-      "convert pdf epub",
-      "pdf converter",
-      "ebook converter"
-    ],
+    "keywords": ["pdf to epub", "convert pdf epub", "pdf converter", "ebook converter"],
     "status": "done"
   },
   {
@@ -1644,11 +1634,7 @@
     "description": "Remove specific pages from a PDF with visual selector.",
     "icon": "📄",
     "href": "/tools/delete-pdf-pages",
-    "keywords": [
-      "delete pdf pages",
-      "remove pdf pages",
-      "remove pages from pdf"
-    ],
+    "keywords": ["delete pdf pages", "remove pdf pages", "remove pages from pdf"],
     "status": "done"
   },
   {
@@ -1658,11 +1644,7 @@
     "description": "Convert .pptx presentations to PDF files.",
     "icon": "📊",
     "href": "/tools/pptx-to-pdf",
-    "keywords": [
-      "pptx to pdf",
-      "powerpoint to pdf",
-      "convert pptx pdf"
-    ],
+    "keywords": ["pptx to pdf", "powerpoint to pdf", "convert pptx pdf"],
     "status": "done"
   },
   {
@@ -1907,15 +1889,7 @@
     "icon": "🔧",
     "href": "/tools/archive-repair",
     "status": "done",
-    "keywords": [
-      "zip",
-      "repair",
-      "recover",
-      "corrupted",
-      "archive",
-      "fix",
-      "broken"
-    ]
+    "keywords": ["zip", "repair", "recover", "corrupted", "archive", "fix", "broken"]
   },
   {
     "id": "ascii-art",
@@ -2077,12 +2051,7 @@
     "description": "Convert JPG images to PDF documents.",
     "icon": "🖼️",
     "href": "/tools/jpg-to-pdf",
-    "keywords": [
-      "jpg to pdf",
-      "jpeg to pdf",
-      "image to pdf",
-      "photo to pdf"
-    ],
+    "keywords": ["jpg to pdf", "jpeg to pdf", "image to pdf", "photo to pdf"],
     "status": "done"
   },
   {
@@ -2092,11 +2061,7 @@
     "description": "Convert PNG images to PDF documents.",
     "icon": "🖼️",
     "href": "/tools/png-to-pdf",
-    "keywords": [
-      "png to pdf",
-      "image to pdf",
-      "photo to pdf"
-    ],
+    "keywords": ["png to pdf", "image to pdf", "photo to pdf"],
     "status": "done"
   },
   {
@@ -2188,14 +2153,7 @@
     "icon": "🗄️",
     "href": "/tools/sql-to-json",
     "status": "done",
-    "keywords": [
-      "sql",
-      "json",
-      "schema",
-      "converter",
-      "database",
-      "parser"
-    ]
+    "keywords": ["sql", "json", "schema", "converter", "database", "parser"]
   },
   {
     "id": "neumorphism-generator",
@@ -2263,15 +2221,7 @@
     "icon": "🔗",
     "href": "/tools/bulk-utm-builder",
     "status": "done",
-    "keywords": [
-      "utm",
-      "campaign",
-      "tracking",
-      "url",
-      "bulk",
-      "analytics",
-      "marketing"
-    ]
+    "keywords": ["utm", "campaign", "tracking", "url", "bulk", "analytics", "marketing"]
   },
   {
     "id": "ambient-sound-mixer",
@@ -2281,16 +2231,7 @@
     "icon": "🎧",
     "href": "/tools/ambient-sound-mixer",
     "status": "done",
-    "keywords": [
-      "ambient",
-      "sound",
-      "noise",
-      "focus",
-      "sleep",
-      "relax",
-      "rain",
-      "cafe"
-    ]
+    "keywords": ["ambient", "sound", "noise", "focus", "sleep", "relax", "rain", "cafe"]
   },
   {
     "id": "subtitle-time-shifter",
@@ -2299,16 +2240,7 @@
     "description": "Adjust SRT and VTT subtitle timestamps client-side with millisecond accuracy sync offsets.",
     "icon": "⏱️",
     "href": "/tools/subtitle-time-shifter",
-    "keywords": [
-      "subtitle",
-      "srt",
-      "vtt",
-      "sync",
-      "timestamp",
-      "shift",
-      "adjust",
-      "subtitles"
-    ],
+    "keywords": ["subtitle", "srt", "vtt", "sync", "timestamp", "shift", "adjust", "subtitles"],
     "status": "done"
   },
   {
@@ -2337,14 +2269,7 @@
     "icon": "📜",
     "href": "/tools/git-changelog-generator",
     "status": "done",
-    "keywords": [
-      "git",
-      "changelog",
-      "commit",
-      "release",
-      "conventional",
-      "markdown"
-    ]
+    "keywords": ["git", "changelog", "commit", "release", "conventional", "markdown"]
   },
   {
     "id": "svg-optimizer",
@@ -2354,14 +2279,7 @@
     "icon": "✨",
     "href": "/tools/svg-optimizer",
     "status": "done",
-    "keywords": [
-      "svg",
-      "optimizer",
-      "minifier",
-      "svgomg",
-      "compress",
-      "svg optimization"
-    ]
+    "keywords": ["svg", "optimizer", "minifier", "svgomg", "compress", "svg optimization"]
   },
   {
     "id": "svg-icon-editor",
@@ -2371,13 +2289,7 @@
     "icon": "🎨",
     "href": "/tools/svg-icon-editor",
     "status": "done",
-    "keywords": [
-      "svg",
-      "icon",
-      "editor",
-      "optimize",
-      "vector"
-    ]
+    "keywords": ["svg", "icon", "editor", "optimize", "vector"]
   },
   {
     "id": "wcag-contrast-checker",
@@ -2406,13 +2318,7 @@
     "icon": "♿",
     "href": "/tools/a11y-audit",
     "status": "done",
-    "keywords": [
-      "accessibility",
-      "a11y",
-      "wcag",
-      "audit",
-      "accessibility checker"
-    ]
+    "keywords": ["accessibility", "a11y", "wcag", "audit", "accessibility checker"]
   },
   {
     "id": "css-sprite-generator",
@@ -2422,14 +2328,7 @@
     "icon": "🧩",
     "href": "/tools/css-sprite-generator",
     "status": "done",
-    "keywords": [
-      "css",
-      "sprite",
-      "spritesheet",
-      "background",
-      "image",
-      "generator"
-    ]
+    "keywords": ["css", "sprite", "spritesheet", "background", "image", "generator"]
   },
   {
     "id": "font-subsetter",
@@ -2439,15 +2338,7 @@
     "icon": "🔤",
     "href": "/tools/font-subsetter",
     "status": "done",
-    "keywords": [
-      "font",
-      "subset",
-      "woff",
-      "woff2",
-      "ttf",
-      "otf",
-      "glyphs"
-    ]
+    "keywords": ["font", "subset", "woff", "woff2", "ttf", "otf", "glyphs"]
   },
   {
     "id": "docker-compose-generator",
@@ -2481,13 +2372,7 @@
     "icon": "🙈",
     "href": "/tools/gitignore-generator",
     "status": "done",
-    "keywords": [
-      "gitignore",
-      "git",
-      "ignore",
-      "template",
-      "project"
-    ]
+    "keywords": ["gitignore", "git", "ignore", "template", "project"]
   },
   {
     "id": "env-editor",
@@ -2547,14 +2432,7 @@
     "icon": "🎲",
     "href": "/tools/mock-data-generator",
     "status": "done",
-    "keywords": [
-      "mock",
-      "data",
-      "fake",
-      "generator",
-      "test",
-      "faker"
-    ]
+    "keywords": ["mock", "data", "fake", "generator", "test", "faker"]
   },
   {
     "id": "sql-playground",
@@ -2564,14 +2442,7 @@
     "icon": "🗃️",
     "href": "/tools/sql-playground",
     "status": "done",
-    "keywords": [
-      "sql",
-      "sqlite",
-      "playground",
-      "query",
-      "database",
-      "wasm"
-    ]
+    "keywords": ["sql", "sqlite", "playground", "query", "database", "wasm"]
   },
   {
     "id": "database-schema-designer",
@@ -2581,14 +2452,7 @@
     "icon": "🗄️",
     "href": "/tools/database-schema-designer",
     "status": "done",
-    "keywords": [
-      "database",
-      "schema",
-      "erd",
-      "designer",
-      "diagram",
-      "sql"
-    ]
+    "keywords": ["database", "schema", "erd", "designer", "diagram", "sql"]
   },
   {
     "id": "ffmpeg-command-generator",
@@ -2598,14 +2462,7 @@
     "icon": "🎬",
     "href": "/tools/ffmpeg-command-generator",
     "status": "done",
-    "keywords": [
-      "ffmpeg",
-      "command",
-      "video",
-      "audio",
-      "convert",
-      "codec"
-    ]
+    "keywords": ["ffmpeg", "command", "video", "audio", "convert", "codec"]
   },
   {
     "id": "chmod-calculator",
@@ -2638,14 +2495,7 @@
     "icon": "📸",
     "href": "/tools/code-screenshot-generator",
     "status": "done",
-    "keywords": [
-      "code",
-      "screenshot",
-      "carbon",
-      "syntax",
-      "highlight",
-      "social"
-    ]
+    "keywords": ["code", "screenshot", "carbon", "syntax", "highlight", "social"]
   },
   {
     "id": "pwa-manifest-generator",
@@ -2655,14 +2505,7 @@
     "icon": "📱",
     "href": "/tools/pwa-manifest-generator",
     "status": "done",
-    "keywords": [
-      "pwa",
-      "manifest",
-      "progressive",
-      "web",
-      "app",
-      "icons"
-    ]
+    "keywords": ["pwa", "manifest", "progressive", "web", "app", "icons"]
   },
   {
     "id": "pdf-annotator",
@@ -2672,14 +2515,7 @@
     "icon": "🖍️",
     "href": "/tools/pdf-annotator",
     "status": "done",
-    "keywords": [
-      "pdf",
-      "annotate",
-      "highlight",
-      "comment",
-      "markup",
-      "draw"
-    ]
+    "keywords": ["pdf", "annotate", "highlight", "comment", "markup", "draw"]
   },
   {
     "id": "food-nutrition-scanner",
@@ -2689,13 +2525,7 @@
     "icon": "🍎",
     "href": "/tools/food-nutrition-scanner",
     "status": "done",
-    "keywords": [
-      "nutrition",
-      "food",
-      "barcode",
-      "calories",
-      "health"
-    ]
+    "keywords": ["nutrition", "food", "barcode", "calories", "health"]
   },
   {
     "id": "passport-photo-maker",
@@ -2705,14 +2535,7 @@
     "icon": "📸",
     "href": "/tools/passport-photo-maker",
     "status": "done",
-    "keywords": [
-      "passport",
-      "photo",
-      "id",
-      "visa",
-      "biometrics",
-      "photo booth"
-    ]
+    "keywords": ["passport", "photo", "id", "visa", "biometrics", "photo booth"]
   },
   {
     "id": "dns-speed-test",
@@ -2722,14 +2545,7 @@
     "icon": "⚡",
     "href": "/tools/dns-speed-test",
     "status": "done",
-    "keywords": [
-      "dns",
-      "speed",
-      "doh",
-      "cloudflare",
-      "google",
-      "network"
-    ]
+    "keywords": ["dns", "speed", "doh", "cloudflare", "google", "network"]
   },
   {
     "id": "screen-ruler",
@@ -2739,15 +2555,7 @@
     "icon": "📏",
     "href": "/tools/screen-ruler",
     "status": "done",
-    "keywords": [
-      "ruler",
-      "measure",
-      "pixel",
-      "color",
-      "picker",
-      "screen",
-      "overlay"
-    ]
+    "keywords": ["ruler", "measure", "pixel", "color", "picker", "screen", "overlay"]
   },
   {
     "id": "earthquake-monitor",
@@ -2757,13 +2565,7 @@
     "icon": "🌍",
     "href": "/tools/earthquake-monitor",
     "status": "done",
-    "keywords": [
-      "earthquake",
-      "seismic",
-      "usgs",
-      "magnitude",
-      "tremor"
-    ]
+    "keywords": ["earthquake", "seismic", "usgs", "magnitude", "tremor"]
   },
   {
     "id": "wireframe-sketcher",
@@ -2773,14 +2575,7 @@
     "icon": "✏️",
     "href": "/tools/wireframe-sketcher",
     "status": "done",
-    "keywords": [
-      "wireframe",
-      "mockup",
-      "sketch",
-      "draw",
-      "canvas",
-      "prototype"
-    ]
+    "keywords": ["wireframe", "mockup", "sketch", "draw", "canvas", "prototype"]
   },
   {
     "id": "currency-converter",
@@ -2790,16 +2585,7 @@
     "icon": "💱",
     "href": "/tools/currency-converter",
     "status": "done",
-    "keywords": [
-      "currency",
-      "exchange",
-      "converter",
-      "money",
-      "forex",
-      "usd",
-      "eur",
-      "gbp"
-    ]
+    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"]
   },
   {
     "id": "pixel-art-editor",
@@ -2809,15 +2595,7 @@
     "icon": "🎨",
     "href": "/tools/pixel-art-editor",
     "status": "done",
-    "keywords": [
-      "pixel",
-      "art",
-      "sprite",
-      "8-bit",
-      "retro",
-      "game",
-      "editor"
-    ]
+    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"]
   },
   {
     "id": "certificate-generator",
@@ -2827,13 +2605,7 @@
     "icon": "🏆",
     "href": "/tools/certificate-generator",
     "status": "done",
-    "keywords": [
-      "certificate",
-      "award",
-      "completion",
-      "template",
-      "pdf"
-    ]
+    "keywords": ["certificate", "award", "completion", "template", "pdf"]
   },
   {
     "id": "nda-generator",
@@ -2843,13 +2615,7 @@
     "icon": "📜",
     "href": "/tools/nda-generator",
     "status": "done",
-    "keywords": [
-      "nda",
-      "non-disclosure",
-      "agreement",
-      "legal",
-      "contract"
-    ]
+    "keywords": ["nda", "non-disclosure", "agreement", "legal", "contract"]
   },
   {
     "id": "freelancer-rate-calculator",
@@ -2859,14 +2625,7 @@
     "icon": "💵",
     "href": "/tools/freelancer-rate-calculator",
     "status": "done",
-    "keywords": [
-      "freelancer",
-      "rate",
-      "calculator",
-      "hourly",
-      "salary",
-      "income"
-    ]
+    "keywords": ["freelancer", "rate", "calculator", "hourly", "salary", "income"]
   },
   {
     "id": "freelancer-contract-generator",
@@ -2876,14 +2635,7 @@
     "icon": "📝",
     "href": "/tools/freelancer-contract-generator",
     "status": "done",
-    "keywords": [
-      "freelancer",
-      "contract",
-      "agreement",
-      "scope",
-      "payment",
-      "legal"
-    ]
+    "keywords": ["freelancer", "contract", "agreement", "scope", "payment", "legal"]
   },
   {
     "id": "privacy-policy-generator",
@@ -2893,14 +2645,7 @@
     "icon": "🔒",
     "href": "/tools/privacy-policy-generator",
     "status": "done",
-    "keywords": [
-      "privacy",
-      "policy",
-      "gdpr",
-      "ccpa",
-      "legal",
-      "compliance"
-    ]
+    "keywords": ["privacy", "policy", "gdpr", "ccpa", "legal", "compliance"]
   },
   {
     "id": "resume-builder",
@@ -2910,13 +2655,7 @@
     "icon": "📋",
     "href": "/tools/resume-builder",
     "status": "done",
-    "keywords": [
-      "resume",
-      "cv",
-      "career",
-      "job",
-      "pdf"
-    ]
+    "keywords": ["resume", "cv", "career", "job", "pdf"]
   },
   {
     "id": "archive-extractor",
@@ -2926,15 +2665,7 @@
     "icon": "📦",
     "href": "/tools/archive-extractor",
     "status": "done",
-    "keywords": [
-      "archive",
-      "extract",
-      "zip",
-      "rar",
-      "7z",
-      "tar",
-      "gzip"
-    ]
+    "keywords": ["archive", "extract", "zip", "rar", "7z", "tar", "gzip"]
   },
   {
     "id": "pomodoro-timer",
@@ -2944,14 +2675,7 @@
     "icon": "🍅",
     "href": "/tools/pomodoro-timer",
     "status": "done",
-    "keywords": [
-      "pomodoro",
-      "timer",
-      "focus",
-      "productivity",
-      "study",
-      "work"
-    ]
+    "keywords": ["pomodoro", "timer", "focus", "productivity", "study", "work"]
   },
   {
     "id": "habit-tracker",
@@ -2961,14 +2685,7 @@
     "icon": "📅",
     "href": "/tools/habit-tracker",
     "status": "done",
-    "keywords": [
-      "habit",
-      "tracker",
-      "streak",
-      "heatmap",
-      "productivity",
-      "goals"
-    ]
+    "keywords": ["habit", "tracker", "streak", "heatmap", "productivity", "goals"]
   },
   {
     "id": "screen-recorder",
@@ -2978,14 +2695,7 @@
     "icon": "🖥️",
     "href": "/tools/screen-recorder",
     "status": "done",
-    "keywords": [
-      "screen",
-      "record",
-      "capture",
-      "video",
-      "webm",
-      "browser"
-    ]
+    "keywords": ["screen", "record", "capture", "video", "webm", "browser"]
   },
   {
     "id": "exif-editor",
@@ -2995,14 +2705,7 @@
     "icon": "🏷️",
     "href": "/tools/exif-editor",
     "status": "done",
-    "keywords": [
-      "exif",
-      "metadata",
-      "photo",
-      "gps",
-      "camera",
-      "editor"
-    ]
+    "keywords": ["exif", "metadata", "photo", "gps", "camera", "editor"]
   },
   {
     "id": "og-image-generator",
@@ -3012,14 +2715,7 @@
     "icon": "🖼️",
     "href": "/tools/og-image-generator",
     "status": "done",
-    "keywords": [
-      "og",
-      "open-graph",
-      "social",
-      "preview",
-      "twitter",
-      "image"
-    ]
+    "keywords": ["og", "open-graph", "social", "preview", "twitter", "image"]
   },
   {
     "id": "citation-generator",
@@ -3029,14 +2725,7 @@
     "icon": "📚",
     "href": "/tools/citation-generator",
     "status": "done",
-    "keywords": [
-      "citation",
-      "bibliography",
-      "apa",
-      "mla",
-      "chicago",
-      "harvard"
-    ]
+    "keywords": ["citation", "bibliography", "apa", "mla", "chicago", "harvard"]
   },
   {
     "id": "markdown-table-generator",
@@ -3046,13 +2735,7 @@
     "icon": "⊞",
     "href": "/tools/markdown-table-generator",
     "status": "done",
-    "keywords": [
-      "markdown",
-      "table",
-      "generator",
-      "editor",
-      "spreadsheet"
-    ]
+    "keywords": ["markdown", "table", "generator", "editor", "spreadsheet"]
   },
   {
     "id": "sound-effect-generator",
@@ -3062,14 +2745,7 @@
     "icon": "🎮",
     "href": "/tools/sound-effect-generator",
     "status": "done",
-    "keywords": [
-      "sound",
-      "effect",
-      "sfx",
-      "game",
-      "retro",
-      "wav"
-    ]
+    "keywords": ["sound", "effect", "sfx", "game", "retro", "wav"]
   },
   {
     "id": "email-signature-generator",
@@ -3079,14 +2755,7 @@
     "icon": "✉️",
     "href": "/tools/email-signature-generator",
     "status": "done",
-    "keywords": [
-      "email",
-      "signature",
-      "professional",
-      "html",
-      "gmail",
-      "outlook"
-    ]
+    "keywords": ["email", "signature", "professional", "html", "gmail", "outlook"]
   },
   {
     "id": "debt-payoff-visualizer",
@@ -3096,14 +2765,7 @@
     "icon": "📉",
     "href": "/tools/debt-payoff-visualizer",
     "status": "done",
-    "keywords": [
-      "debt",
-      "payoff",
-      "snowball",
-      "avalanche",
-      "finance",
-      "interest"
-    ]
+    "keywords": ["debt", "payoff", "snowball", "avalanche", "finance", "interest"]
   },
   {
     "id": "hmac-generator",
@@ -3113,14 +2775,7 @@
     "icon": "🔐",
     "href": "/tools/hmac-generator",
     "status": "done",
-    "keywords": [
-      "hmac",
-      "signature",
-      "sha256",
-      "sha512",
-      "security",
-      "webhook"
-    ]
+    "keywords": ["hmac", "signature", "sha256", "sha512", "security", "webhook"]
   },
   {
     "id": "world-clock",
@@ -3130,14 +2785,7 @@
     "icon": "🌐",
     "href": "/tools/world-clock",
     "status": "done",
-    "keywords": [
-      "world",
-      "clock",
-      "timezone",
-      "time",
-      "converter",
-      "meeting"
-    ]
+    "keywords": ["world", "clock", "timezone", "time", "converter", "meeting"]
   },
   {
     "id": "social-media-post-previewer",
@@ -3147,14 +2795,7 @@
     "icon": "👁️",
     "href": "/tools/social-media-post-previewer",
     "status": "done",
-    "keywords": [
-      "social",
-      "media",
-      "preview",
-      "twitter",
-      "facebook",
-      "linkedin"
-    ]
+    "keywords": ["social", "media", "preview", "twitter", "facebook", "linkedin"]
   },
   {
     "id": "3d-model-viewer",
@@ -3164,15 +2805,7 @@
     "icon": "🧊",
     "href": "/tools/3d-model-viewer",
     "status": "done",
-    "keywords": [
-      "3d",
-      "model",
-      "viewer",
-      "gltf",
-      "obj",
-      "stl",
-      "webgl"
-    ]
+    "keywords": ["3d", "model", "viewer", "gltf", "obj", "stl", "webgl"]
   },
   {
     "id": "stem-separator",
@@ -3182,14 +2815,7 @@
     "icon": "🎵",
     "href": "/tools/stem-separator",
     "status": "done",
-    "keywords": [
-      "vocal",
-      "stems",
-      "separator",
-      "demucs",
-      "audio",
-      "isolation"
-    ]
+    "keywords": ["vocal", "stems", "separator", "demucs", "audio", "isolation"]
   },
   {
     "id": "noise-remover",
@@ -3199,14 +2825,7 @@
     "icon": "🔇",
     "href": "/tools/noise-remover",
     "status": "done",
-    "keywords": [
-      "noise",
-      "remove",
-      "hiss",
-      "audio",
-      "clean",
-      "denoise"
-    ]
+    "keywords": ["noise", "remove", "hiss", "audio", "clean", "denoise"]
   },
   {
     "id": "bpm-key-detector",
@@ -3216,14 +2835,7 @@
     "icon": "🥁",
     "href": "/tools/bpm-key-detector",
     "status": "done",
-    "keywords": [
-      "bpm",
-      "key",
-      "tempo",
-      "detect",
-      "music",
-      "audio"
-    ]
+    "keywords": ["bpm", "key", "tempo", "detect", "music", "audio"]
   },
   {
     "id": "audio-equalizer",
@@ -3233,15 +2845,7 @@
     "icon": "🎛️",
     "href": "/tools/audio-equalizer",
     "status": "done",
-    "keywords": [
-      "equalizer",
-      "eq",
-      "audio",
-      "spectrum",
-      "frequency",
-      "bass",
-      "treble"
-    ]
+    "keywords": ["equalizer", "eq", "audio", "spectrum", "frequency", "bass", "treble"]
   },
   {
     "id": "video-transcriber",
@@ -3251,14 +2855,7 @@
     "icon": "📝",
     "href": "/tools/video-transcriber",
     "status": "done",
-    "keywords": [
-      "transcribe",
-      "video",
-      "whisper",
-      "speech",
-      "text",
-      "audio"
-    ]
+    "keywords": ["transcribe", "video", "whisper", "speech", "text", "audio"]
   },
   {
     "id": "silence-remover",
@@ -3268,14 +2865,7 @@
     "icon": "✂️",
     "href": "/tools/silence-remover",
     "status": "done",
-    "keywords": [
-      "silence",
-      "remove",
-      "video",
-      "trim",
-      "auto",
-      "cut"
-    ]
+    "keywords": ["silence", "remove", "video", "trim", "auto", "cut"]
   },
   {
     "id": "openapi-visualizer",
@@ -3285,14 +2875,7 @@
     "icon": "🗺️",
     "href": "/tools/openapi-visualizer",
     "status": "done",
-    "keywords": [
-      "openapi",
-      "swagger",
-      "api",
-      "visualize",
-      "yaml",
-      "rest"
-    ]
+    "keywords": ["openapi", "swagger", "api", "visualize", "yaml", "rest"]
   },
   {
     "id": "graphql-schema-explorer",
@@ -3302,14 +2885,7 @@
     "icon": "🔬",
     "href": "/tools/graphql-schema-explorer",
     "status": "done",
-    "keywords": [
-      "graphql",
-      "schema",
-      "explore",
-      "types",
-      "sdl",
-      "api"
-    ]
+    "keywords": ["graphql", "schema", "explore", "types", "sdl", "api"]
   },
   {
     "id": "offline-translator",
@@ -3319,14 +2895,7 @@
     "icon": "🌐",
     "href": "/tools/offline-translator",
     "status": "done",
-    "keywords": [
-      "translate",
-      "offline",
-      "language",
-      "text",
-      "nllb",
-      "transformers"
-    ]
+    "keywords": ["translate", "offline", "language", "text", "nllb", "transformers"]
   },
   {
     "id": "legal-clause-simplifier",
@@ -3336,14 +2905,7 @@
     "icon": "⚖️",
     "href": "/tools/legal-clause-simplifier",
     "status": "done",
-    "keywords": [
-      "legal",
-      "simplify",
-      "clause",
-      "text",
-      "summarize",
-      "plain english"
-    ]
+    "keywords": ["legal", "simplify", "clause", "text", "summarize", "plain english"]
   },
   {
     "id": "sentiment-heatmap",
@@ -3353,14 +2915,7 @@
     "icon": "🗺️",
     "href": "/tools/sentiment-heatmap",
     "status": "done",
-    "keywords": [
-      "sentiment",
-      "heatmap",
-      "text",
-      "analyze",
-      "positive",
-      "negative"
-    ]
+    "keywords": ["sentiment", "heatmap", "text", "analyze", "positive", "negative"]
   },
   {
     "id": "meeting-cost-calculator",
@@ -3370,14 +2925,7 @@
     "icon": "💰",
     "href": "/tools/meeting-cost-calculator",
     "status": "done",
-    "keywords": [
-      "meeting",
-      "cost",
-      "calculator",
-      "salary",
-      "time",
-      "money"
-    ]
+    "keywords": ["meeting", "cost", "calculator", "salary", "time", "money"]
   },
   {
     "id": "working-days-calculator",
@@ -3387,14 +2935,7 @@
     "icon": "📅",
     "href": "/tools/working-days-calculator",
     "status": "done",
-    "keywords": [
-      "working",
-      "days",
-      "calculator",
-      "business",
-      "holidays",
-      "dates"
-    ]
+    "keywords": ["working", "days", "calculator", "business", "holidays", "dates"]
   },
   {
     "id": "net-worth-tracker",
@@ -3404,14 +2945,7 @@
     "icon": "📊",
     "href": "/tools/net-worth-tracker",
     "status": "done",
-    "keywords": [
-      "net",
-      "worth",
-      "tracker",
-      "assets",
-      "liabilities",
-      "finance"
-    ]
+    "keywords": ["net", "worth", "tracker", "assets", "liabilities", "finance"]
   },
   {
     "id": "face-blur",
@@ -3421,14 +2955,7 @@
     "icon": "🕵️",
     "href": "/tools/face-blur",
     "status": "done",
-    "keywords": [
-      "face",
-      "blur",
-      "anonymize",
-      "privacy",
-      "detect",
-      "pixelate"
-    ]
+    "keywords": ["face", "blur", "anonymize", "privacy", "detect", "pixelate"]
   },
   {
     "id": "symptom-tracker",
@@ -3438,14 +2965,7 @@
     "icon": "🩺",
     "href": "/tools/symptom-tracker",
     "status": "done",
-    "keywords": [
-      "symptom",
-      "tracker",
-      "health",
-      "medical",
-      "doctor",
-      "log"
-    ]
+    "keywords": ["symptom", "tracker", "health", "medical", "doctor", "log"]
   },
   {
     "id": "image-blur",
@@ -3455,12 +2975,7 @@
     "icon": "🌫️",
     "href": "/tools/image-blur",
     "status": "done",
-    "keywords": [
-      "blur",
-      "gaussian",
-      "soften",
-      "image"
-    ]
+    "keywords": ["blur", "gaussian", "soften", "image"]
   },
   {
     "id": "image-compare",
@@ -3470,13 +2985,7 @@
     "icon": "🔍",
     "href": "/tools/image-compare",
     "status": "done",
-    "keywords": [
-      "compare",
-      "diff",
-      "side by side",
-      "overlay",
-      "image comparison"
-    ]
+    "keywords": ["compare", "diff", "side by side", "overlay", "image comparison"]
   },
   {
     "id": "image-meme",
@@ -3486,13 +2995,7 @@
     "icon": "😂",
     "href": "/tools/image-meme",
     "status": "done",
-    "keywords": [
-      "meme",
-      "funny",
-      "text",
-      "image",
-      "generator"
-    ]
+    "keywords": ["meme", "funny", "text", "image", "generator"]
   },
   {
     "id": "video-crop",
@@ -3502,12 +3005,7 @@
     "icon": "✂️",
     "href": "/tools/video-crop",
     "status": "done",
-    "keywords": [
-      "crop",
-      "video",
-      "trim",
-      "frame"
-    ]
+    "keywords": ["crop", "video", "trim", "frame"]
   },
   {
     "id": "video-rotate",
@@ -3517,12 +3015,7 @@
     "icon": "🔃",
     "href": "/tools/video-rotate",
     "status": "planned",
-    "keywords": [
-      "rotate",
-      "flip",
-      "video",
-      "degrees"
-    ]
+    "keywords": ["rotate", "flip", "video", "degrees"]
   },
   {
     "id": "video-volume",
@@ -3532,13 +3025,7 @@
     "icon": "🔊",
     "href": "/tools/video-volume",
     "status": "planned",
-    "keywords": [
-      "volume",
-      "audio",
-      "video",
-      "mute",
-      "loud"
-    ]
+    "keywords": ["volume", "audio", "video", "mute", "loud"]
   },
   {
     "id": "video-reverse",
@@ -3548,12 +3035,7 @@
     "icon": "⏪",
     "href": "/tools/video-reverse",
     "status": "planned",
-    "keywords": [
-      "reverse",
-      "backward",
-      "video",
-      "rewind"
-    ]
+    "keywords": ["reverse", "backward", "video", "rewind"]
   },
   {
     "id": "video-metadata-editor",
@@ -3563,13 +3045,7 @@
     "icon": "🏷️",
     "href": "/tools/video-metadata-editor",
     "status": "planned",
-    "keywords": [
-      "metadata",
-      "tags",
-      "video",
-      "edit",
-      "info"
-    ]
+    "keywords": ["metadata", "tags", "video", "edit", "info"]
   },
   {
     "id": "audio-pitch",
@@ -3579,13 +3055,7 @@
     "icon": "🎼",
     "href": "/tools/audio-pitch",
     "status": "planned",
-    "keywords": [
-      "pitch",
-      "shift",
-      "tone",
-      "audio",
-      "semitone"
-    ]
+    "keywords": ["pitch", "shift", "tone", "audio", "semitone"]
   },
   {
     "id": "js-playground",
@@ -3595,13 +3065,7 @@
     "icon": "⚡",
     "href": "/tools/js-playground",
     "status": "planned",
-    "keywords": [
-      "javascript",
-      "playground",
-      "editor",
-      "live",
-      "code"
-    ]
+    "keywords": ["javascript", "playground", "editor", "live", "code"]
   },
   {
     "id": "html-playground",
@@ -3611,13 +3075,7 @@
     "icon": "🌐",
     "href": "/tools/html-playground",
     "status": "planned",
-    "keywords": [
-      "html",
-      "playground",
-      "editor",
-      "live",
-      "preview"
-    ]
+    "keywords": ["html", "playground", "editor", "live", "preview"]
   },
   {
     "id": "json-schema-validator",
@@ -3627,12 +3085,7 @@
     "icon": "✅",
     "href": "/tools/json-schema-validator",
     "status": "planned",
-    "keywords": [
-      "json",
-      "schema",
-      "validate",
-      "draft"
-    ]
+    "keywords": ["json", "schema", "validate", "draft"]
   },
   {
     "id": "env-parser",
@@ -3642,13 +3095,7 @@
     "icon": "🔧",
     "href": "/tools/env-parser",
     "status": "planned",
-    "keywords": [
-      "env",
-      "parse",
-      "dotenv",
-      "environment",
-      "config"
-    ]
+    "keywords": ["env", "parse", "dotenv", "environment", "config"]
   },
   {
     "id": "timezone-converter",
@@ -3658,13 +3105,7 @@
     "icon": "🌍",
     "href": "/tools/timezone-converter",
     "status": "planned",
-    "keywords": [
-      "timezone",
-      "convert",
-      "world",
-      "clock",
-      "utc"
-    ]
+    "keywords": ["timezone", "convert", "world", "clock", "utc"]
   },
   {
     "id": "regex-visualizer",
@@ -3674,13 +3115,7 @@
     "icon": "👁️",
     "href": "/tools/regex-visualizer",
     "status": "planned",
-    "keywords": [
-      "regex",
-      "visualize",
-      "pattern",
-      "diagram",
-      "match"
-    ]
+    "keywords": ["regex", "visualize", "pattern", "diagram", "match"]
   },
   {
     "id": "salary-calc",
@@ -3690,13 +3125,7 @@
     "icon": "💰",
     "href": "/tools/salary-calc",
     "status": "planned",
-    "keywords": [
-      "salary",
-      "tax",
-      "income",
-      "calculator",
-      "country"
-    ]
+    "keywords": ["salary", "tax", "income", "calculator", "country"]
   },
   {
     "id": "savings-calc",
@@ -3706,13 +3135,7 @@
     "icon": "🏦",
     "href": "/tools/savings-calc",
     "status": "planned",
-    "keywords": [
-      "savings",
-      "interest",
-      "compound",
-      "grow",
-      "money"
-    ]
+    "keywords": ["savings", "interest", "compound", "grow", "money"]
   },
   {
     "id": "retirement-planner",
@@ -3722,13 +3145,7 @@
     "icon": "🏖️",
     "href": "/tools/retirement-planner",
     "status": "planned",
-    "keywords": [
-      "retirement",
-      "plan",
-      "savings",
-      "withdrawal",
-      "future"
-    ]
+    "keywords": ["retirement", "plan", "savings", "withdrawal", "future"]
   },
   {
     "id": "equation-solver",
@@ -3738,13 +3155,7 @@
     "icon": "📐",
     "href": "/tools/equation-solver",
     "status": "planned",
-    "keywords": [
-      "equation",
-      "solve",
-      "algebra",
-      "math",
-      "formula"
-    ]
+    "keywords": ["equation", "solve", "algebra", "math", "formula"]
   },
   {
     "id": "matrix-calc",
@@ -3754,13 +3165,7 @@
     "icon": "🔢",
     "href": "/tools/matrix-calc",
     "status": "planned",
-    "keywords": [
-      "matrix",
-      "calculator",
-      "multiply",
-      "determinant",
-      "inverse"
-    ]
+    "keywords": ["matrix", "calculator", "multiply", "determinant", "inverse"]
   },
   {
     "id": "stats-calc",
@@ -3770,13 +3175,7 @@
     "icon": "📈",
     "href": "/tools/stats-calc",
     "status": "planned",
-    "keywords": [
-      "statistics",
-      "mean",
-      "median",
-      "mode",
-      "average"
-    ]
+    "keywords": ["statistics", "mean", "median", "mode", "average"]
   },
   {
     "id": "decision-matrix",
@@ -3786,13 +3185,7 @@
     "icon": "⚖️",
     "href": "/tools/decision-matrix",
     "status": "planned",
-    "keywords": [
-      "decision",
-      "matrix",
-      "weight",
-      "compare",
-      "choose"
-    ]
+    "keywords": ["decision", "matrix", "weight", "compare", "choose"]
   },
   {
     "id": "link-preview",
@@ -3802,13 +3195,7 @@
     "icon": "🔗",
     "href": "/tools/link-preview",
     "status": "planned",
-    "keywords": [
-      "link",
-      "preview",
-      "og",
-      "social",
-      "share"
-    ]
+    "keywords": ["link", "preview", "og", "social", "share"]
   },
   {
     "id": "name-generator",
@@ -3818,13 +3205,7 @@
     "icon": "🎲",
     "href": "/tools/name-generator",
     "status": "planned",
-    "keywords": [
-      "name",
-      "random",
-      "generate",
-      "baby",
-      "character"
-    ]
+    "keywords": ["name", "random", "generate", "baby", "character"]
   },
   {
     "id": "browser-fingerprint-checker",
@@ -3834,13 +3215,7 @@
     "icon": "🔍",
     "href": "/tools/browser-fingerprint-checker",
     "status": "planned",
-    "keywords": [
-      "fingerprint",
-      "browser",
-      "privacy",
-      "tracking",
-      "canvas"
-    ]
+    "keywords": ["fingerprint", "browser", "privacy", "tracking", "canvas"]
   },
   {
     "id": "expense-splitter",
@@ -3850,13 +3225,7 @@
     "icon": "💸",
     "href": "/tools/expense-splitter",
     "status": "planned",
-    "keywords": [
-      "expense",
-      "split",
-      "bill",
-      "group",
-      "share"
-    ]
+    "keywords": ["expense", "split", "bill", "group", "share"]
   },
   {
     "id": "mind-map-maker",
@@ -3866,13 +3235,7 @@
     "icon": "🧠",
     "href": "/tools/mind-map-maker",
     "status": "planned",
-    "keywords": [
-      "mind",
-      "map",
-      "brainstorm",
-      "visual",
-      "organize"
-    ]
+    "keywords": ["mind", "map", "brainstorm", "visual", "organize"]
   },
   {
     "id": "kanban-board",
@@ -3882,13 +3245,7 @@
     "icon": "📋",
     "href": "/tools/kanban-board",
     "status": "planned",
-    "keywords": [
-      "kanban",
-      "board",
-      "task",
-      "drag",
-      "project"
-    ]
+    "keywords": ["kanban", "board", "task", "drag", "project"]
   },
   {
     "id": "timesheet-tracker",
@@ -3898,13 +3255,7 @@
     "icon": "⏱️",
     "href": "/tools/timesheet-tracker",
     "status": "planned",
-    "keywords": [
-      "timesheet",
-      "hours",
-      "tracker",
-      "clock",
-      "work"
-    ]
+    "keywords": ["timesheet", "hours", "tracker", "clock", "work"]
   },
   {
     "id": "password-breach-checker",
@@ -3914,13 +3265,7 @@
     "icon": "🔐",
     "href": "/tools/password-breach-checker",
     "status": "planned",
-    "keywords": [
-      "password",
-      "breach",
-      "hibp",
-      "security",
-      "leak"
-    ]
+    "keywords": ["password", "breach", "hibp", "security", "leak"]
   },
   {
     "id": "chroma-key-composer",
@@ -3930,13 +3275,7 @@
     "icon": "🎬",
     "href": "/tools/chroma-key-composer",
     "status": "planned",
-    "keywords": [
-      "chroma",
-      "key",
-      "green",
-      "screen",
-      "composite"
-    ]
+    "keywords": ["chroma", "key", "green", "screen", "composite"]
   },
   {
     "id": "video-scene-cut-detector",
@@ -3946,13 +3285,7 @@
     "icon": "✂️",
     "href": "/tools/video-scene-cut-detector",
     "status": "planned",
-    "keywords": [
-      "scene",
-      "cut",
-      "detect",
-      "chapter",
-      "marker"
-    ]
+    "keywords": ["scene", "cut", "detect", "chapter", "marker"]
   },
   {
     "id": "video-stabilizer",
@@ -3962,13 +3295,7 @@
     "icon": "🎥",
     "href": "/tools/video-stabilizer",
     "status": "planned",
-    "keywords": [
-      "video",
-      "stabilize",
-      "shake",
-      "smooth",
-      "steady"
-    ]
+    "keywords": ["video", "stabilize", "shake", "smooth", "steady"]
   },
   {
     "id": "panorama-stitcher",
@@ -3978,13 +3305,7 @@
     "icon": "🏔️",
     "href": "/tools/panorama-stitcher",
     "status": "done",
-    "keywords": [
-      "panorama",
-      "stitch",
-      "photo",
-      "merge",
-      "wide"
-    ]
+    "keywords": ["panorama", "stitch", "photo", "merge", "wide"]
   },
   {
     "id": "resume-job-matcher",
@@ -3994,13 +3315,7 @@
     "icon": "📄",
     "href": "/tools/resume-job-matcher",
     "status": "planned",
-    "keywords": [
-      "resume",
-      "job",
-      "match",
-      "ats",
-      "career"
-    ]
+    "keywords": ["resume", "job", "match", "ats", "career"]
   },
   {
     "id": "audio-to-midi-converter",
@@ -4010,12 +3325,6 @@
     "icon": "🎹",
     "href": "/tools/audio-to-midi-converter",
     "status": "planned",
-    "keywords": [
-      "audio",
-      "midi",
-      "convert",
-      "transcribe",
-      "music"
-    ]
+    "keywords": ["audio", "midi", "convert", "transcribe", "music"]
   }
 ]

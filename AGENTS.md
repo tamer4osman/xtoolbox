@@ -130,16 +130,19 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 **Default model:** `opencode-zen/minimax-m3-free` (MiniMax M3 Free): works reliably with all MCP tools including Chrome DevTools.
 
 **When to use MiMo V2.5:**
+
 - General coding tasks (reasoning, code generation, refactoring)
 - Tasks that don't require Chrome DevTools MCP
 - When you need stronger reasoning capabilities
 
 **When to use MiniMax M3 Free:**
+
 - Chrome DevTools MCP testing (step 8 in tool-building workflow)
 - Any task requiring multi-round MCP tool calling
 - Tasks involving image/screenshot processing via MCP
 
 **Why:** MiMo V2.5's API has limitations that break Chrome DevTools MCP:
+
 - Only supports single-round tool calling (Chrome DevTools needs multiple rounds)
 - Rejects list-type tool message content (screenshots return as lists)
 - Has strict schema validation that rejects `anyOf`/`nullable` patterns
@@ -235,21 +238,21 @@ The goal: Be helpful without being annoying. Check in a few times a day, do usef
 When facing any task, you must execute in the following order until completion:
 
 1. **First Response: Understand and Decompose**
-    - Immediately parse the user's ultimate intent and expected outcome.
-    - Break down complex tasks into subtasks that can be executed sequentially or in parallel.
+   - Immediately parse the user's ultimate intent and expected outcome.
+   - Break down complex tasks into subtasks that can be executed sequentially or in parallel.
 
 2. **Second Response: Apply Built-in Capabilities**
-    - **Check MIMO Model**: Prioritize your core reasoning and planning ability (MIMO) to design a directly actionable solution.
-    - **Match Preset Skills**: Check your skill library (e.g., code execution, file operations, web search, data analysis) for existing tools that can complete or partially complete the task.
+   - **Check MIMO Model**: Prioritize your core reasoning and planning ability (MIMO) to design a directly actionable solution.
+   - **Match Preset Skills**: Check your skill library (e.g., code execution, file operations, web search, data analysis) for existing tools that can complete or partially complete the task.
 
 3. **Final Response: Active Finding and Creation (Active Finding Mode)**
-    - **Trigger Condition**: When the above built-in capabilities clearly cannot complete the task directly (e.g., missing critical information, no matching skill, unknown error), you **must** enter this mode.
-    - **Action Checklist (must attempt one or more as needed)**:
-        - a. **Information Lookup**: Proactively and safely use your `web search` or `knowledge base query` access to find necessary knowledge, code examples, or solutions.
-        - b. **Tool Creation**: If no existing tool is found, **immediately write the necessary scripts, code, or workflows** to create new tools. You are a code model: this is your core capability.
-        - c. **Divide and Iterate**: Break tasks that cannot be completed in one step into multiple possible steps, and progressively verify and iterate toward the final goal.
-        - d. **Initiate Clarification**: If the blocker is insufficient information, based on your search results, ask the user **precise, actionable** questions to obtain critical information, rather than giving up.
-        - e. **Simulation and Reasoning**: In a safe sandbox, simulate-test potential solutions to verify their feasibility.
+   - **Trigger Condition**: When the above built-in capabilities clearly cannot complete the task directly (e.g., missing critical information, no matching skill, unknown error), you **must** enter this mode.
+   - **Action Checklist (must attempt one or more as needed)**:
+     - a. **Information Lookup**: Proactively and safely use your `web search` or `knowledge base query` access to find necessary knowledge, code examples, or solutions.
+     - b. **Tool Creation**: If no existing tool is found, **immediately write the necessary scripts, code, or workflows** to create new tools. You are a code model: this is your core capability.
+     - c. **Divide and Iterate**: Break tasks that cannot be completed in one step into multiple possible steps, and progressively verify and iterate toward the final goal.
+     - d. **Initiate Clarification**: If the blocker is insufficient information, based on your search results, ask the user **precise, actionable** questions to obtain critical information, rather than giving up.
+     - e. **Simulation and Reasoning**: In a safe sandbox, simulate-test potential solutions to verify their feasibility.
 
 **Protocol Output**: At any stage, especially during "Active Finding," clearly explain to the user:
 
@@ -342,7 +345,7 @@ Every tool file MUST follow this pattern:
 
 ```js
 // 1. Imports
-import { something } from '../../utils/file.js';
+import { something } from "../../utils/file.js";
 
 // 2. Pure helper functions (exported for testing)
 export function helperFunction(input) {
@@ -351,16 +354,16 @@ export function helperFunction(input) {
 
 // 3. Tool config (required)
 export const toolConfig = {
-  id: 'tool-name',
-  name: 'Tool Name',
-  category: 'category',
-  description: 'What it does',
-  icon: '🔧',
-  accept: '.ext',
+  id: "tool-name",
+  name: "Tool Name",
+  category: "category",
+  description: "What it does",
+  icon: "🔧",
+  accept: ".ext",
   maxSizeMB: 100,
-  keywords: ['keyword1', 'keyword2'],
-  steps: ['Step 1', 'Step 2'],
-  faqs: [{ question: 'Q?', answer: 'A.' }]
+  keywords: ["keyword1", "keyword2"],
+  steps: ["Step 1", "Step 2"],
+  faqs: [{ question: "Q?", answer: "A." }]
 };
 
 // 4. Render function (required)
@@ -377,10 +380,10 @@ When 3+ tools share the same scaffold, extract a factory:
 // src/tools/image/image-tool-factory.js
 export function createImageTool(config) {
   const { container, toolId, optionsHTML, renderPreview, processForDownload } = config;
-  
+
   // Common scaffold: upload area, options, preview, download
   // Tool-specific parts: optionsHTML, renderPreview, processForDownload
-  
+
   return { state, elements, bindOptionChange };
 }
 
@@ -388,10 +391,14 @@ export function createImageTool(config) {
 export function render(container) {
   createImageTool({
     container,
-    toolId: 'my-tool',
+    toolId: "my-tool",
     optionsHTML: '<input type="range" ...>',
-    renderPreview: ({ state, canvas }) => { /* draw */ },
-    processForDownload: ({ state, canvas }) => { /* full-size draw */ }
+    renderPreview: ({ state, canvas }) => {
+      /* draw */
+    },
+    processForDownload: ({ state, canvas }) => {
+      /* full-size draw */
+    }
   });
 }
 ```
@@ -439,24 +446,24 @@ All tools must follow the **100% client-side** philosophy: no server backend, no
 
 ### ✅ Good fit
 
-| Category | Details |
-| ---------- | --------- |
-| **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API |
-| **WASM modules** | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink |
-| **Processing model** | Input → process → output pipeline |
-| **Data source** | Self-contained or public API without API key |
-| **Embedded ML** | Small ONNX models (≤100MB) for classification, detection, transcription. Modules: Transformers.js, SqueezeNet, MobileNet V2, YOLOv8n, DeepLabV3, all-MiniLM-L6-v2, DistilBERT SST-2, Whisper tiny, Moonshine tiny, BlazeFace |
-| **Audience** | Developers, creators, or general users |
+| Category              | Details                                                                                                                                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API                                                                                              |
+| **WASM modules**      | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink                                                                                                                  |
+| **Processing model**  | Input → process → output pipeline                                                                                                                                                                                            |
+| **Data source**       | Self-contained or public API without API key                                                                                                                                                                                 |
+| **Embedded ML**       | Small ONNX models (≤100MB) for classification, detection, transcription. Modules: Transformers.js, SqueezeNet, MobileNet V2, YOLOv8n, DeepLabV3, all-MiniLM-L6-v2, DistilBERT SST-2, Whisper tiny, Moonshine tiny, BlazeFace |
+| **Audience**          | Developers, creators, or general users                                                                                                                                                                                       |
 
 ### ❌ Bad fit
 
-| Restriction | Reason |
-| ------------- | -------- |
-| Requires server backend | Violates 100% client-side principle |
-| Requires authentication/accounts | Adds friction, breaks privacy promise |
-| Real-time multiplayer/collaboration | Needs server infrastructure |
-| Generative AI / LLMs / Chatbots | Out of scope: use dedicated AI platforms |
-| Niche industrial use cases | Too narrow for general audience |
+| Restriction                         | Reason                                   |
+| ----------------------------------- | ---------------------------------------- |
+| Requires server backend             | Violates 100% client-side principle      |
+| Requires authentication/accounts    | Adds friction, breaks privacy promise    |
+| Real-time multiplayer/collaboration | Needs server infrastructure              |
+| Generative AI / LLMs / Chatbots     | Out of scope: use dedicated AI platforms |
+| Niche industrial use cases          | Too narrow for general audience          |
 
 ### 🔍 API Research References
 
@@ -464,24 +471,24 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 #### Primary Directories (GitHub)
 
-| Source | Stars | Focus | Link |
-| -------- | ------- | ------- | ------ |
-| **public-apis/public-apis** | ⭐ 441k | 1,400+ free APIs, categorized, with auth info | github.com/public-apis/public-apis |
+| Source                                | Stars    | Focus                                                              | Link                                         |
+| ------------------------------------- | -------- | ------------------------------------------------------------------ | -------------------------------------------- |
+| **public-apis/public-apis**           | ⭐ 441k  | 1,400+ free APIs, categorized, with auth info                      | github.com/public-apis/public-apis           |
 | **public-api-lists/public-api-lists** | ⭐ 14.7k | 48 categories, searchable, community-maintained, has free JSON API | github.com/public-api-lists/public-api-lists |
-| **marcelscruz/public-apis** | ⭐ 9.1k | Collaborative list, actively maintained | github.com/marcelscruz/public-apis |
-| **dspinellis/awesome-rest-apis** | ⭐ 3.5k | Curated REST API list | github.com/dspinellis/awesome-rest-apis |
-| **APIs-guru/graphql-apis** | ⭐ 4.7k | Public GraphQL APIs | github.com/APIs-guru/graphql-apis |
+| **marcelscruz/public-apis**           | ⭐ 9.1k  | Collaborative list, actively maintained                            | github.com/marcelscruz/public-apis           |
+| **dspinellis/awesome-rest-apis**      | ⭐ 3.5k  | Curated REST API list                                              | github.com/dspinellis/awesome-rest-apis      |
+| **APIs-guru/graphql-apis**            | ⭐ 4.7k  | Public GraphQL APIs                                                | github.com/APIs-guru/graphql-apis            |
 
 #### Curated Web Directories (No-Auth Filtered)
 
-| Source | # APIs | Features | Link |
-| -------- | ------- | ---------- | ------ |
-| **Mixed Analytics List** | 224 | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
-| **FreePublicAPIs.com** | 598 | Tested daily, health scores | freepublicapis.com |
-| **publicapis.io** | 1,000+ | Searchable, category-filtered | publicapis.io |
-| **public-apis.io** | 1,000+ | REST APIs, categorized | public-apis.io |
-| **Apipheny Free API List** | 90+ | Code examples in JS/Python | apipheny.io/free-api |
-| **FreeAPIHub.com** | 193 | APIs + AI models | freeapihub.com |
+| Source                     | # APIs | Features                         | Link                                                                |
+| -------------------------- | ------ | -------------------------------- | ------------------------------------------------------------------- |
+| **Mixed Analytics List**   | 224    | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
+| **FreePublicAPIs.com**     | 598    | Tested daily, health scores      | freepublicapis.com                                                  |
+| **publicapis.io**          | 1,000+ | Searchable, category-filtered    | publicapis.io                                                       |
+| **public-apis.io**         | 1,000+ | REST APIs, categorized           | public-apis.io                                                      |
+| **Apipheny Free API List** | 90+    | Code examples in JS/Python       | apipheny.io/free-api                                                |
+| **FreeAPIHub.com**         | 193    | APIs + AI models                 | freeapihub.com                                                      |
 
 #### How to Find New Tool Ideas
 
@@ -543,9 +550,9 @@ When building a new tool, ALWAYS follow this exact sequence:
    **Pass criteria:**
    - All 8 page templates navigate in **<50ms** on warm (cached) iterations
    - The new tool's page must be added to `ALL_ROUTES` in the script if it's a new page template (tool pages are already covered by `#/tools/jpg-to-webp` and `#/tools/json-formatter` as representative samples)
-    **If fails:** Check for excessive static imports in the tool's module, move non-critical content behind `queueMicrotask`, or defer heavy data with dynamic import
+     **If fails:** Check for excessive static imports in the tool's module, move non-critical content behind `queueMicrotask`, or defer heavy data with dynamic import
 
-8. **Run Fallow checks**: Ensure new code doesn't degrade codebase health:
+9. **Run Fallow checks**: Ensure new code doesn't degrade codebase health:
 
    ```bash
    npx fallow dead-code --changed-since=HEAD~1
@@ -557,52 +564,48 @@ When building a new tool, ALWAYS follow this exact sequence:
    - 0 unused files/exports/deps
    - Duplication stays ≤8%
    - No new CRAP >200 functions
-   **If fails:** Fix issues before proceeding (extract unused code, deduplicate, refactor complex functions)
+     **If fails:** Fix issues before proceeding (extract unused code, deduplicate, refactor complex functions)
 
-9. **Run Oxlint + Oxfmt**: Fast Rust-based linting and formatting (replaces ESLint + Prettier):
+10. **Run Oxlint + Oxfmt**: Fast Rust-based linting and formatting (replaces ESLint + Prettier):
 
-   ```bash
-   npx oxlint src/tools/<category>/<tool-id>.js
-   npx oxfmt --write src/tools/<category>/<tool-id>.js
-   ```
+    ```bash
+    npx oxlint src/tools/<category>/<tool-id>.js
+    npx oxfmt --write src/tools/<category>/<tool-id>.js
+    ```
 
-   **Pass criteria:**
-   - 0 lint errors (warnings are OK)
-   - File formatted
-   **If fails:** Fix issues before proceeding
+    **Pass criteria:**
+    - 0 lint errors (warnings are OK)
+    - File formatted
+      **If fails:** Fix issues before proceeding
 
-10. **(Optional) MSW for external APIs**: If tool calls external APIs, add MSW mocks:
+11. **(Optional) MSW for external APIs**: If tool calls external APIs, add MSW mocks:
 
-   ```bash
-   npx msw init public/ --worker
-   ```
+```bash
+npx msw init public/ --worker
+```
 
-   Create `src/mocks/handlers.js` for reliable tests.
+Create `src/mocks/handlers.js` for reliable tests.
 
- 11. **Self-test with Chrome DevTools**: Smoke-test the tool yourself before asking the user. Start dev server (`npm run dev`) if it is not running, then use the Chrome DevTools MCP to:
-     - Navigate to `http://localhost:3000/#/tools/<tool-id>`
-     - Take a snapshot: confirm the UI renders without broken layouts
-     - `list_console_messages`: confirm 0 errors (warnings about pre-existing a11y issues on other tools are fine)
-     - `list_network_requests`: confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
-     - Click the primary action button and verify the expected output/UI change happens
-     - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
-     
-     **⚠️ MiMo V2.5 Limitation:** Chrome DevTools MCP fails silently with MiMo V2.5 due to API restrictions (single-round tool calling, rejects list-type content). If tool calls fail:
-     - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`) for this step
-     - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
-     - MiniMax handles multi-round tool calling and image content correctly
-     - This is a Xiaomi API limitation, not an OpenCode or project issue
- 12. **User testing**: Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
- 13. **Update docs**: Do NOT skip any of these:
-    - `toolsList.json`: Add tool entry, set status to "done"
-    - `src/data/tools.json`: Add tool entry, set status to "done"
-    - `README.md`: Update tool count, add phase status
-    - `PROJECT-PLAN.md`: Update phase progress, tool count
-    - `memory/tool-building-progress.md`: Update completed tools list
- 14. **Update main page**: ALL of these must reflect the new total:
-     - `src/pages/home.js`: Update tool count (hero, search placeholder, meta description), update popular tools list if needed
-     - `src/data/categories.json`: Update all category tool counts to match actual `src/data/tools.json`
-     - `src/components/footer.js`: Update tool count in tagline
- 15. **Commit**: Only after user approves the tool, commit with descriptive message.
+11. **Self-test with Chrome DevTools**: Smoke-test the tool yourself before asking the user. Start dev server (`npm run dev`) if it is not running, then use the Chrome DevTools MCP to:
+    - Navigate to `http://localhost:3000/#/tools/<tool-id>`
+    - Take a snapshot: confirm the UI renders without broken layouts
+    - `list_console_messages`: confirm 0 errors (warnings about pre-existing a11y issues on other tools are fine)
+    - `list_network_requests`: confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
+    - Click the primary action button and verify the expected output/UI change happens
+    - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
+
+    **⚠️ MiMo V2.5 Limitation:** Chrome DevTools MCP fails silently with MiMo V2.5 due to API restrictions (single-round tool calling, rejects list-type content). If tool calls fail:
+    - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`) for this step
+    - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
+    - MiniMax handles multi-round tool calling and image content correctly
+    - This is a Xiaomi API limitation, not an OpenCode or project issue
+
+12. **User testing**: Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
+13. **Update docs**: Do NOT skip any of these: - `toolsList.json`: Add tool entry, set status to "done" - `src/data/tools.json`: Add tool entry, set status to "done" - `README.md`: Update tool count, add phase status - `PROJECT-PLAN.md`: Update phase progress, tool count - `memory/tool-building-progress.md`: Update completed tools list
+14. **Update main page**: ALL of these must reflect the new total:
+    - `src/pages/home.js`: Update tool count (hero, search placeholder, meta description), update popular tools list if needed
+    - `src/data/categories.json`: Update all category tool counts to match actual `src/data/tools.json`
+    - `src/components/footer.js`: Update tool count in tagline
+15. **Commit**: Only after user approves the tool, commit with descriptive message.
 
 Never skip docs. The tool count in README and PROJECT-PLAN must match toolsList.json. Never add a tool to `src/data/tools.json` without also adding it to `toolsList.json` (and vice versa).

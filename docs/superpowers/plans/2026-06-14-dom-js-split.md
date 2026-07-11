@@ -31,6 +31,7 @@ src/__tests__/
 ### Task 1: Create `escape-html.js` and its tests
 
 **Files:**
+
 - Create: `src/utils/escape-html.js`
 - Create: `src/__tests__/escape-html.test.js`
 
@@ -38,50 +39,50 @@ src/__tests__/
 
 ```js
 // src/__tests__/escape-html.test.js
-import { describe, it, expect } from 'vitest';
-import { escapeHtml } from '../utils/escape-html.js';
+import { describe, it, expect } from "vitest";
+import { escapeHtml } from "../utils/escape-html.js";
 
-describe('escapeHtml', () => {
-  it('escapes ampersands', () => {
-    expect(escapeHtml('a&b')).toBe('a&amp;b');
+describe("escapeHtml", () => {
+  it("escapes ampersands", () => {
+    expect(escapeHtml("a&b")).toBe("a&amp;b");
   });
 
-  it('escapes less-than', () => {
-    expect(escapeHtml('a<b')).toBe('a&lt;b');
+  it("escapes less-than", () => {
+    expect(escapeHtml("a<b")).toBe("a&lt;b");
   });
 
-  it('escapes greater-than', () => {
-    expect(escapeHtml('a>b')).toBe('a&gt;b');
+  it("escapes greater-than", () => {
+    expect(escapeHtml("a>b")).toBe("a&gt;b");
   });
 
-  it('escapes double quotes', () => {
-    expect(escapeHtml('a"b')).toBe('a&quot;b');
+  it("escapes double quotes", () => {
+    expect(escapeHtml('a"b')).toBe("a&quot;b");
   });
 
-  it('escapes single quotes', () => {
-    expect(escapeHtml("a'b")).toBe('a&#39;b');
+  it("escapes single quotes", () => {
+    expect(escapeHtml("a'b")).toBe("a&#39;b");
   });
 
-  it('escapes multiple entities', () => {
+  it("escapes multiple entities", () => {
     expect(escapeHtml('<script>alert("xss")</script>')).toBe(
-      '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;'
+      "&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;"
     );
   });
 
-  it('returns empty string for null', () => {
-    expect(escapeHtml(null)).toBe('');
+  it("returns empty string for null", () => {
+    expect(escapeHtml(null)).toBe("");
   });
 
-  it('returns empty string for undefined', () => {
-    expect(escapeHtml(undefined)).toBe('');
+  it("returns empty string for undefined", () => {
+    expect(escapeHtml(undefined)).toBe("");
   });
 
-  it('converts numbers to string', () => {
-    expect(escapeHtml(42)).toBe('42');
+  it("converts numbers to string", () => {
+    expect(escapeHtml(42)).toBe("42");
   });
 
-  it('handles plain text unchanged', () => {
-    expect(escapeHtml('hello world')).toBe('hello world');
+  it("handles plain text unchanged", () => {
+    expect(escapeHtml("hello world")).toBe("hello world");
   });
 });
 ```
@@ -100,12 +101,12 @@ Expected: FAIL — module not found
  * Pure string function — no DOM dependency.
  */
 export function escapeHtml(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 ```
 
@@ -126,6 +127,7 @@ git commit -m "refactor: extract escapeHtml to utils/escape-html.js"
 ### Task 2: Create `dom-query.js` and its tests
 
 **Files:**
+
 - Create: `src/utils/dom-query.js`
 - Create: `src/__tests__/dom-query.test.js`
 
@@ -133,23 +135,23 @@ git commit -m "refactor: extract escapeHtml to utils/escape-html.js"
 
 ```js
 // src/__tests__/dom-query.test.js
-import { describe, it, expect } from 'vitest';
-import { $ } from '../utils/dom-query.js';
+import { describe, it, expect } from "vitest";
+import { $ } from "../utils/dom-query.js";
 
-describe('$', () => {
-  it('queries element by selector', () => {
+describe("$", () => {
+  it("queries element by selector", () => {
     document.body.innerHTML = '<div id="test">hi</div>';
-    expect($('#test').textContent).toBe('hi');
+    expect($("#test").textContent).toBe("hi");
   });
 
-  it('queries within parent', () => {
+  it("queries within parent", () => {
     document.body.innerHTML = '<section><p class="para">text</p></section>';
-    const section = document.querySelector('section');
-    expect($('.para', section).textContent).toBe('text');
+    const section = document.querySelector("section");
+    expect($(".para", section).textContent).toBe("text");
   });
 
-  it('returns null for missing element', () => {
-    expect($('#missing')).toBeNull();
+  it("returns null for missing element", () => {
+    expect($("#missing")).toBeNull();
   });
 });
 ```
@@ -188,6 +190,7 @@ git commit -m "refactor: extract $ selector to utils/dom-query.js"
 ### Task 3: Create `dom-create.js` and its tests
 
 **Files:**
+
 - Create: `src/utils/dom-create.js`
 - Create: `src/__tests__/dom-create.test.js`
 
@@ -195,57 +198,57 @@ git commit -m "refactor: extract $ selector to utils/dom-query.js"
 
 ```js
 // src/__tests__/dom-create.test.js
-import { describe, it, expect } from 'vitest';
-import { createElement } from '../utils/dom-create.js';
+import { describe, it, expect } from "vitest";
+import { createElement } from "../utils/dom-create.js";
 
-describe('createElement', () => {
-  it('creates element with tag', () => {
-    const el = createElement('div');
-    expect(el.tagName.toLowerCase()).toBe('div');
+describe("createElement", () => {
+  it("creates element with tag", () => {
+    const el = createElement("div");
+    expect(el.tagName.toLowerCase()).toBe("div");
   });
 
-  it('sets className', () => {
-    const el = createElement('div', { className: 'test-class' });
-    expect(el.className).toBe('test-class');
+  it("sets className", () => {
+    const el = createElement("div", { className: "test-class" });
+    expect(el.className).toBe("test-class");
   });
 
-  it('sets id attribute', () => {
-    const el = createElement('div', { id: 'my-id' });
-    expect(el.id).toBe('my-id');
+  it("sets id attribute", () => {
+    const el = createElement("div", { id: "my-id" });
+    expect(el.id).toBe("my-id");
   });
 
-  it('sets textContent', () => {
-    const el = createElement('div', { textContent: 'hello' });
-    expect(el.textContent).toBe('hello');
+  it("sets textContent", () => {
+    const el = createElement("div", { textContent: "hello" });
+    expect(el.textContent).toBe("hello");
   });
 
-  it('sets innerHTML', () => {
-    const el = createElement('div', { innerHTML: '<span>hi</span>' });
-    expect(el.innerHTML).toBe('<span>hi</span>');
+  it("sets innerHTML", () => {
+    const el = createElement("div", { innerHTML: "<span>hi</span>" });
+    expect(el.innerHTML).toBe("<span>hi</span>");
   });
 
-  it('sets style object', () => {
-    const el = createElement('div', { style: { color: 'red', fontSize: '12px' } });
-    expect(el.style.color).toBe('red');
-    expect(el.style.fontSize).toBe('12px');
+  it("sets style object", () => {
+    const el = createElement("div", { style: { color: "red", fontSize: "12px" } });
+    expect(el.style.color).toBe("red");
+    expect(el.style.fontSize).toBe("12px");
   });
 
-  it('sets dataset', () => {
-    const el = createElement('div', { dataset: { foo: 'bar' } });
-    expect(el.dataset.foo).toBe('bar');
+  it("sets dataset", () => {
+    const el = createElement("div", { dataset: { foo: "bar" } });
+    expect(el.dataset.foo).toBe("bar");
   });
 
-  it('adds string children', () => {
-    const el = createElement('div', {}, ['hello', ' ', 'world']);
-    expect(el.textContent).toBe('hello world');
+  it("adds string children", () => {
+    const el = createElement("div", {}, ["hello", " ", "world"]);
+    expect(el.textContent).toBe("hello world");
   });
 
-  it('adds node children', () => {
-    const child = document.createElement('span');
-    child.textContent = 'hi';
-    const el = createElement('div', {}, [child]);
+  it("adds node children", () => {
+    const child = document.createElement("span");
+    child.textContent = "hi";
+    const el = createElement("div", {}, [child]);
     expect(el.children.length).toBe(1);
-    expect(el.children[0].tagName.toLowerCase()).toBe('span');
+    expect(el.children[0].tagName.toLowerCase()).toBe("span");
   });
 });
 ```
@@ -267,23 +270,23 @@ const ATTR_HANDLERS = {
   innerHTML: (el, value) => (el.innerHTML = value),
   textContent: (el, value) => (el.textContent = value),
   style: (el, value) => {
-    if (value && typeof value === 'object') {
+    if (value && typeof value === "object") {
       Object.assign(el.style, value);
-    } else if (typeof value === 'string') {
+    } else if (typeof value === "string") {
       el.style.cssText = value;
     }
   },
   dataset: (el, value) => {
-    if (value && typeof value === 'object') {
+    if (value && typeof value === "object") {
       Object.assign(el.dataset, value);
     }
-  },
+  }
 };
 
 function handleAttribute(el, key, value) {
-  if (typeof ATTR_HANDLERS[key] === 'function') {
+  if (typeof ATTR_HANDLERS[key] === "function") {
     ATTR_HANDLERS[key](el, value);
-  } else if (key.startsWith('on')) {
+  } else if (key.startsWith("on")) {
     el.addEventListener(key.slice(2).toLowerCase(), value);
   } else {
     el.setAttribute(key, value);
@@ -299,11 +302,11 @@ function setAttributes(el, attrs) {
 export function createElement(tag, attrs = {}, children = []) {
   const el = document.createElement(tag);
   setAttributes(el, attrs);
-  if (typeof children === 'string') {
+  if (typeof children === "string") {
     el.textContent = children;
   } else if (Array.isArray(children)) {
     children.forEach(child => {
-      if (typeof child === 'string') {
+      if (typeof child === "string") {
         el.appendChild(document.createTextNode(child));
       } else if (child instanceof Node) {
         el.appendChild(child);
@@ -331,6 +334,7 @@ git commit -m "refactor: extract createElement to utils/dom-create.js"
 ### Task 4: Update `escapeHtml` imports (17 files)
 
 **Files:**
+
 - Modify: 17 files (see table in design doc)
 
 - [ ] **Step 1: Update all escapeHtml imports**
@@ -361,8 +365,7 @@ Or manually update each file:
 15. `src/tools/health/health-calculator.js` — line 14
 16. `src/tools/pdf/pdf-to-epub.js` — line 4
 
-And the test file:
-17. `src/__tests__/text-diff.test.js` — line 3: change `'../utils/dom.js'` → `'../utils/escape-html.js'`
+And the test file: 17. `src/__tests__/text-diff.test.js` — line 3: change `'../utils/dom.js'` → `'../utils/escape-html.js'`
 
 - [ ] **Step 2: Run unit tests to verify no breakage**
 
@@ -381,6 +384,7 @@ git commit -m "refactor: update 17 escapeHtml imports to utils/escape-html.js"
 ### Task 5: Update `$` imports (8 files)
 
 **Files:**
+
 - Modify: 8 files
 
 - [ ] **Step 1: Update all $ imports**
@@ -395,8 +399,7 @@ Replace `from './utils/dom.js'` with `from './utils/dom-query.js'` in:
 6. `src/pages/home.js` — line 1
 7. `src/pages/privacy.js` — line 1
 
-And the mixed import:
-8. `src/pages/tool.js` — line 1: change `{ $, createElement } from '../utils/dom.js'` → `{ $ } from '../utils/dom-query.js'` + `{ createElement } from '../utils/dom-create.js'`
+And the mixed import: 8. `src/pages/tool.js` — line 1: change `{ $, createElement } from '../utils/dom.js'` → `{ $ } from '../utils/dom-query.js'` + `{ createElement } from '../utils/dom-create.js'`
 
 - [ ] **Step 2: Run unit tests to verify no breakage**
 
@@ -415,28 +418,31 @@ git commit -m "refactor: update 8 $ imports to utils/dom-query.js"
 ### Task 6: Update `createElement` imports (2 files)
 
 **Files:**
+
 - Modify: `src/components/file-upload.js`
 - Modify: `src/__tests__/dom.test.js`
 
 - [ ] **Step 1: Update file-upload.js**
 
 Change line 2:
+
 ```js
 // Before
-import { createElement } from '../utils/dom.js';
+import { createElement } from "../utils/dom.js";
 // After
-import { createElement } from '../utils/dom-create.js';
+import { createElement } from "../utils/dom-create.js";
 ```
 
 - [ ] **Step 2: Update dom.test.js**
 
 Change line 2:
+
 ```js
 // Before
-import { createElement, $ } from '../utils/dom.js';
+import { createElement, $ } from "../utils/dom.js";
 // After
-import { createElement } from '../utils/dom-create.js';
-import { $ } from '../utils/dom-query.js';
+import { createElement } from "../utils/dom-create.js";
+import { $ } from "../utils/dom-query.js";
 ```
 
 - [ ] **Step 3: Run unit tests to verify no breakage**
@@ -456,6 +462,7 @@ git commit -m "refactor: update 2 createElement imports to utils/dom-create.js"
 ### Task 7: Delete old files and verify
 
 **Files:**
+
 - Delete: `src/utils/dom.js`
 - Delete: `src/__tests__/dom.test.js` (replaced by dom-query.test.js and dom-create.test.js)
 

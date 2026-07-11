@@ -92,23 +92,47 @@ The entry already exists in `tools.json` and `toolsList.json` with `status: "pla
 
 ```js
 export const toolConfig = {
-  id: 'chmod-calculator',
-  name: 'Chmod Calculator',
-  category: 'dev',
-  description: 'Convert Unix file permissions between octal, symbolic, and visual checkbox form. Supports setuid, setgid, and sticky bits.',
-  icon: '🔑',
+  id: "chmod-calculator",
+  name: "Chmod Calculator",
+  category: "dev",
+  description:
+    "Convert Unix file permissions between octal, symbolic, and visual checkbox form. Supports setuid, setgid, and sticky bits.",
+  icon: "🔑",
   accept: null,
   maxSizeMB: null,
-  keywords: ['chmod', 'permissions', 'unix', 'linux', 'octal', 'symbolic', 'setuid', 'setgid', 'sticky', 'file permissions'],
+  keywords: [
+    "chmod",
+    "permissions",
+    "unix",
+    "linux",
+    "octal",
+    "symbolic",
+    "setuid",
+    "setgid",
+    "sticky",
+    "file permissions"
+  ],
   steps: [
-    'Toggle checkboxes for owner, group, and other permissions',
-    'Or type an octal value (e.g. 755) to set permissions',
-    'Copy the chmod command to use in your terminal'
+    "Toggle checkboxes for owner, group, and other permissions",
+    "Or type an octal value (e.g. 755) to set permissions",
+    "Copy the chmod command to use in your terminal"
   ],
   faqs: [
-    { question: 'What does 755 mean?', answer: 'Owner can read, write, execute (7 = 4+2+1). Group and others can read and execute (5 = 4+1). Common for executable files and directories.' },
-    { question: 'What is setuid / setgid / sticky?', answer: 'setuid (4xxx) runs an executable as its owner. setgid (2xxx) runs as the group. Sticky (1xxx) restricts deletion in shared directories like /tmp.' },
-    { question: 'What is the difference between 644 and 755?', answer: '644 (-rw-r--r--) is typical for regular files. 755 (-rwxr-xr-x) adds execute permission, needed for scripts and directories.' }
+    {
+      question: "What does 755 mean?",
+      answer:
+        "Owner can read, write, execute (7 = 4+2+1). Group and others can read and execute (5 = 4+1). Common for executable files and directories."
+    },
+    {
+      question: "What is setuid / setgid / sticky?",
+      answer:
+        "setuid (4xxx) runs an executable as its owner. setgid (2xxx) runs as the group. Sticky (1xxx) restricts deletion in shared directories like /tmp."
+    },
+    {
+      question: "What is the difference between 644 and 755?",
+      answer:
+        "644 (-rw-r--r--) is typical for regular files. 755 (-rwxr-xr-x) adds execute permission, needed for scripts and directories."
+    }
   ]
 };
 ```
@@ -126,55 +150,56 @@ export const toolConfig = {
 
 Targets the four pure functions. Sub-millisecond per test.
 
-| # | Test | Input | Expected |
-|---|------|-------|----------|
-| 1 | octal roundtrip 755 | `chmodToOctal(octalToChmod('755'))` | `'755'` |
-| 2 | octal roundtrip 644 | same shape | `'644'` |
-| 3 | symbolic 755 | `chmodToSymbolic(octalToChmod('755'))` | `'-rwxr-xr-x'` |
-| 4 | symbolic 644 | `'644'` | `'-rw-r--r--'` |
-| 5 | 4-digit setuid | perms with `setuid:true, owner.x:true` | `'4755'` |
-| 6 | sticky bit | octalToChmod('1777') → chmodToSymbolic | `'-rwxrwxrwt'` |
-| 7 | invalid octal | `octalToChmod('888')` | `null` |
-| 8 | invalid format | `octalToChmod('abc')` | `null` |
-| 9 | empty perms | `chmodToOctal({all false})` | `'000'` |
-| 10 | symbolic roundtrip | `chmodToOctal(symbolicToChmod('-rwxr-xr-x'))` | `'755'` |
+| #   | Test                | Input                                         | Expected       |
+| --- | ------------------- | --------------------------------------------- | -------------- |
+| 1   | octal roundtrip 755 | `chmodToOctal(octalToChmod('755'))`           | `'755'`        |
+| 2   | octal roundtrip 644 | same shape                                    | `'644'`        |
+| 3   | symbolic 755        | `chmodToSymbolic(octalToChmod('755'))`        | `'-rwxr-xr-x'` |
+| 4   | symbolic 644        | `'644'`                                       | `'-rw-r--r--'` |
+| 5   | 4-digit setuid      | perms with `setuid:true, owner.x:true`        | `'4755'`       |
+| 6   | sticky bit          | octalToChmod('1777') → chmodToSymbolic        | `'-rwxrwxrwt'` |
+| 7   | invalid octal       | `octalToChmod('888')`                         | `null`         |
+| 8   | invalid format      | `octalToChmod('abc')`                         | `null`         |
+| 9   | empty perms         | `chmodToOctal({all false})`                   | `'000'`        |
+| 10  | symbolic roundtrip  | `chmodToOctal(symbolicToChmod('-rwxr-xr-x'))` | `'755'`        |
 
 ### Playwright (`tests/chmod-calculator.spec.js`)
 
 ```js
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('chmod-calculator loads and reacts', async ({ page }) => {
-  await page.goto('/#/tools/chmod-calculator');
-  await expect(page.locator('h1')).toContainText('Chmod');
-  await page.locator('#cc-octal').fill('644');
-  await page.locator('#cc-octal').press('Enter');
-  await expect(page.locator('#cc-symbolic')).toContainText('-rw-r--r--');
+test("chmod-calculator loads and reacts", async ({ page }) => {
+  await page.goto("/#/tools/chmod-calculator");
+  await expect(page.locator("h1")).toContainText("Chmod");
+  await page.locator("#cc-octal").fill("644");
+  await page.locator("#cc-octal").press("Enter");
+  await expect(page.locator("#cc-symbolic")).toContainText("-rw-r--r--");
   await page.locator('button:has-text("777")').click();
-  await expect(page.locator('#cc-octal')).toHaveValue('777');
+  await expect(page.locator("#cc-octal")).toHaveValue("777");
 });
 ```
 
 ## Files touched (Step 7 + Step 8 sync per AGENTS.md)
 
 **Important context from ground-truth check:**
+
 - `src/data/tools.json` and `toolsList.json` already contain 280 entries each, including a `chmod-calculator` stub with `status: "planned"`.
 - `src/data/categories.json` already counts dev=28 — its totals include both built and planned tools, so the sum stays 280.
 - Built / planned split today: 243 / 37. After this change: 244 / 36.
 
-| File | Change |
-|------|--------|
-| `src/tools/dev/chmod-calculator.js` | NEW — implementation |
-| `src/__tests__/chmod-calculator.test.js` | NEW — 10 unit tests |
-| `tests/chmod-calculator.spec.js` | NEW — Playwright happy path |
-| `toolsList.json` | **Update** the existing `chmod-calculator` entry: change `status` from `"planned"` to `"done"`. Refresh `description` and `keywords` to match the tool file's `toolConfig`. |
-| `src/data/tools.json` | **Update** same entry the same way. |
-| `src/data/categories.json` | **No change** — total per-category counts already include planned entries. |
-| `README.md` | Change "243 built, 37 planned" → "244 built, 36 planned" (4 occurrences across header + categories table). Phase 25 section: bump status to "Phase 25: Most Wanted — In Progress (3/37 done)" since `svg-optimizer` and `wcag-contrast-checker` already shipped. Add chmod-calculator to the "done" list. |
-| `PROJECT-PLAN.md` | Phase 25 row: status `📋 0 39` → `🟡 3 39` (also fixes existing drift — `svg-optimizer` and `wcag-contrast-checker` were shipped but the row was never updated). Total `466 / 480` → `467 / 480`. |
-| `memory/tool-building-progress.md` | Tick `[x] Chmod Calculator (chmod-calculator)`. |
-| `src/pages/home.js` | Grep for any hardcoded "243" tool-count strings (hero, search placeholder, meta description) and bump to "244". The total "280" strings stay. |
-| `src/components/footer.js` | Same — bump "243"-style built counts to "244". The total "280" tagline stays. |
+| File                                     | Change                                                                                                                                                                                                                                                                                                    |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/tools/dev/chmod-calculator.js`      | NEW — implementation                                                                                                                                                                                                                                                                                      |
+| `src/__tests__/chmod-calculator.test.js` | NEW — 10 unit tests                                                                                                                                                                                                                                                                                       |
+| `tests/chmod-calculator.spec.js`         | NEW — Playwright happy path                                                                                                                                                                                                                                                                               |
+| `toolsList.json`                         | **Update** the existing `chmod-calculator` entry: change `status` from `"planned"` to `"done"`. Refresh `description` and `keywords` to match the tool file's `toolConfig`.                                                                                                                               |
+| `src/data/tools.json`                    | **Update** same entry the same way.                                                                                                                                                                                                                                                                       |
+| `src/data/categories.json`               | **No change** — total per-category counts already include planned entries.                                                                                                                                                                                                                                |
+| `README.md`                              | Change "243 built, 37 planned" → "244 built, 36 planned" (4 occurrences across header + categories table). Phase 25 section: bump status to "Phase 25: Most Wanted — In Progress (3/37 done)" since `svg-optimizer` and `wcag-contrast-checker` already shipped. Add chmod-calculator to the "done" list. |
+| `PROJECT-PLAN.md`                        | Phase 25 row: status `📋 0 39` → `🟡 3 39` (also fixes existing drift — `svg-optimizer` and `wcag-contrast-checker` were shipped but the row was never updated). Total `466 / 480` → `467 / 480`.                                                                                                         |
+| `memory/tool-building-progress.md`       | Tick `[x] Chmod Calculator (chmod-calculator)`.                                                                                                                                                                                                                                                           |
+| `src/pages/home.js`                      | Grep for any hardcoded "243" tool-count strings (hero, search placeholder, meta description) and bump to "244". The total "280" strings stay.                                                                                                                                                             |
+| `src/components/footer.js`               | Same — bump "243"-style built counts to "244". The total "280" tagline stays.                                                                                                                                                                                                                             |
 
 After Step 8, run the registry-sync-checker one-liner to confirm `total: 280 catSum: 280 missing-files: 36 category-mismatches: []` (36 missing files is expected — those are the remaining Phase 25 planned tools).
 

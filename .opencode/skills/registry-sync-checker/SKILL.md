@@ -16,17 +16,17 @@ Single source of truth = `src/data/tools.json`. Every other registry, doc, and U
 
 ## Files in scope
 
-| File | Role |
-|------|------|
-| `src/data/tools.json` | **Authoritative runtime registry.** Every tool registered here appears in the app. |
-| `toolsList.json` | External tracking. Must mirror `src/data/tools.json` by `id`. |
-| `src/data/categories.json` | Per-category `toolCount`. Sum must equal tools.json length. |
-| `src/tools/**/*.js` | On-disk implementations. Each `toolConfig.id` should have a matching file. |
-| `README.md` | Total tool count, per-category tables, phase status. |
-| `PROJECT-PLAN.md` | Total tool count, per-phase progress table. |
-| `src/pages/home.js` | Hero count, search placeholder, meta description, popular tools list. |
-| `src/components/footer.js` | Tagline count. |
-| `memory/tool-building-progress.md` | Phase 25 checklist. |
+| File                               | Role                                                                               |
+| ---------------------------------- | ---------------------------------------------------------------------------------- |
+| `src/data/tools.json`              | **Authoritative runtime registry.** Every tool registered here appears in the app. |
+| `toolsList.json`                   | External tracking. Must mirror `src/data/tools.json` by `id`.                      |
+| `src/data/categories.json`         | Per-category `toolCount`. Sum must equal tools.json length.                        |
+| `src/tools/**/*.js`                | On-disk implementations. Each `toolConfig.id` should have a matching file.         |
+| `README.md`                        | Total tool count, per-category tables, phase status.                               |
+| `PROJECT-PLAN.md`                  | Total tool count, per-phase progress table.                                        |
+| `src/pages/home.js`                | Hero count, search placeholder, meta description, popular tools list.              |
+| `src/components/footer.js`         | Tagline count.                                                                     |
+| `memory/tool-building-progress.md` | Phase 25 checklist.                                                                |
 
 ## Step 1 — Compute ground truth
 

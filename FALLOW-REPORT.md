@@ -11,13 +11,13 @@ Last updated: 2026-06-13
 
 ## Metrics Summary
 
-| Metric | Value | Status |
-|--------|-------|--------|
-| Dead Files | 0% | ✓ |
-| Dead Exports | 0% | ✓ |
-| Avg Cyclomatic | 1.8 | ✓ |
-| P90 Cyclomatic | 4 | ✓ |
-| Duplication | 5.5% | Acceptable |
+| Metric         | Value | Status     |
+| -------------- | ----- | ---------- |
+| Dead Files     | 0%    | ✓          |
+| Dead Exports   | 0%    | ✓          |
+| Avg Cyclomatic | 1.8   | ✓          |
+| P90 Cyclomatic | 4     | ✓          |
+| Duplication    | 5.5%  | Acceptable |
 
 ## Function Size Distribution
 
@@ -32,16 +32,16 @@ Last updated: 2026-06-13
 
 1. **codec-factory.js** - Encode/decode/copy/clear patterns
    - Migrated: base64-codec, url-codec, html-entity-codec, morse-code
-   
+
 2. **merge-tool-factory.js** - File merge patterns
    - Base for merge-audio, merge-pdf
-   
+
 3. **lookup-tool-factory.js** - Lookup API patterns
    - Migrated: thesaurus, air-quality, dictionary, book-lookup, holiday-calendar, sunrise-sunset
-   
+
 4. **onnx-tool-factory.js** - ONNX model patterns
    - Migrated: remove-background, upscale-image
-   
+
 5. **pixel-tool-factory.js** - Pixel manipulation patterns
    - Migrated: image-sharpening, pixelate-image
 
@@ -56,14 +56,14 @@ Last updated: 2026-06-13
 
 ## Complex Refactoring Targets
 
-| File | Priority | Status |
-|------|---------|--------|
-| dom.js | 37.2 | Known - high impact |
-| scientific-calculator.js | 18.2 | Fixed |
-| user-agent-parser.js | N/A | Fixed |
-| blood-pressure-checker.js | N/A | Fixed |
-| ideal-weight.js | N/A | Fixed |
-| cron-builder.js | N/A | Fixed |
+| File                      | Priority | Status              |
+| ------------------------- | -------- | ------------------- |
+| dom.js                    | 37.2     | Known - high impact |
+| scientific-calculator.js  | 18.2     | Fixed               |
+| user-agent-parser.js      | N/A      | Fixed               |
+| blood-pressure-checker.js | N/A      | Fixed               |
+| ideal-weight.js           | N/A      | Fixed               |
+| cron-builder.js           | N/A      | Fixed               |
 
 ## Current Issues (Acceptable)
 
@@ -73,10 +73,10 @@ Last updated: 2026-06-13
 
 ## Health Improvements
 
-| Date | Score | Change |
-|------|-------|-------|
-| 2026-06-13 | 79.0 | +0.6 |
-| Before | 78.4 | - |
+| Date       | Score | Change |
+| ---------- | ----- | ------ |
+| 2026-06-13 | 79.0  | +0.6   |
+| Before     | 78.4  | -      |
 
 ## Recommendations
 

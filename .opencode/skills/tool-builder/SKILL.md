@@ -16,6 +16,7 @@ End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 1
 ## Modifying an existing tool
 
 For fixes, updates, or enhancements to an existing tool, follow Steps 4-14:
+
 1. Edit the tool file
 2. (Skip unit test if no new logic)
 3. (Skip Playwright test if trivial)
@@ -61,7 +62,7 @@ After passing the duplicate check, before any work:
    - "Best approach: [chosen method]"
    - "Libraries needed: [none / package name]"
    - "Potential issues: [any concerns]"
-   
+
    Wait for user confirmation before proceeding to Step 3.
 
 ## Step 3 — Webfetch Best Practices (BLOCKING)
@@ -69,14 +70,17 @@ After passing the duplicate check, before any work:
 **MUST call the `webfetch` tool.** Do not skip this step. Do not rely on memory or assumptions. Fetch authoritative documentation to ensure the implementation follows official patterns, not guesswork.
 
 **Required fetches (at minimum):**
+
 1. Official library/API docs for the approach chosen in Step 2
 2. One reference implementation or tutorial showing the recommended usage pattern
 
 **Optional fetches (if relevant):**
+
 - Open-source reference implementations on GitHub
 - MDN Web Docs for browser API usage
 
 **How to structure the fetch:**
+
 1. Identify the primary library/API chosen in Step 2
 2. Call `webfetch` on its official "getting started" or "loading" documentation page
 3. Note any gotchas, anti-patterns, or browser compatibility issues
@@ -92,16 +96,16 @@ Path: `src/tools/<category>/<tool-id>.js`
 The file MUST export both `toolConfig` and `render`. Use this skeleton (no comments in code per AGENTS.md):
 
 ```js
-import { downloadBlob } from '../../utils/file.js';
+import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
-  id: 'tool-id',
-  name: 'Tool Name',
-  category: 'category',
-  description: 'One-line description for cards and meta tags.',
-  icon: '🛠️',
-  keywords: ['keyword1', 'keyword2'],
-  accept: '',
+  id: "tool-id",
+  name: "Tool Name",
+  category: "category",
+  description: "One-line description for cards and meta tags.",
+  icon: "🛠️",
+  keywords: ["keyword1", "keyword2"],
+  accept: "",
   maxSizeMB: 10
 };
 
@@ -117,6 +121,7 @@ export function render(container) {
 ```
 
 Conventions to mimic from existing tools:
+
 - Look at 2-3 neighboring tools in the same category to match patterns, error handling, and DOM helpers used.
 - Reuse `src/utils/file.js` (`formatFileSize`, `downloadBlob`, `readFileAsArrayBuffer`, `readFileAsText`).
 - Reuse `src/utils/dom.js` (`createElement`, `$`, `$$`) and `src/utils/format.js` when applicable.
@@ -130,11 +135,11 @@ Path: `src/__tests__/<tool-id>.test.js`
 Use Vitest. Test pure logic only (not DOM rendering unless trivial). Example:
 
 ```js
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 // import the pure functions your tool exports if you split them out
 
-describe('tool-id', () => {
-  it('does the thing', () => {
+describe("tool-id", () => {
+  it("does the thing", () => {
     expect(/* ... */).toBe(/* ... */);
   });
 });
@@ -147,11 +152,11 @@ If the tool is heavily DOM-bound, export the pure helpers and test those. Keep t
 Path: `tests/<tool-id>.spec.js`
 
 ```js
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('tool-id loads and runs', async ({ page }) => {
-  await page.goto('/#/tools/tool-id');
-  await expect(page.locator('h1')).toContainText('Tool Name');
+test("tool-id loads and runs", async ({ page }) => {
+  await page.goto("/#/tools/tool-id");
+  await expect(page.locator("h1")).toContainText("Tool Name");
 });
 ```
 
@@ -203,6 +208,7 @@ node scripts/measure-spa-performance.mjs
 This script navigates through all 8 page templates (home, category×2, tool×2, about, privacy, terms) **twice** — cold (module fetch) first, then warm (cached). The warm pass must finish under **50ms** for every route.
 
 **If it fails:**
+
 - Check if your tool's module is pulling excessive static imports into its chunk
 - Check if the tool's render function does synchronous DOM work that blocks the main thread
 - Move non-critical content (ads, related tools, FAQ) behind `queueMicrotask` or lazy rendering
@@ -249,11 +255,11 @@ npx msw init public/ --worker
 Create `src/mocks/handlers.js`:
 
 ```js
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.get('https://api.example.com/endpoint', () => {
-    return HttpResponse.json({ /* mock response */ });
+  http.get("https://api.example.com/endpoint", () => {
+    return HttpResponse.json({/* mock response */});
   })
 ];
 ```
@@ -274,13 +280,13 @@ Be specific about what to try — call out the primary controls, any edge cases,
 
 ## Step 15 — Update docs (all required, all in one pass)
 
-| File | Change |
-|------|--------|
-| `toolsList.json` | Add or update the entry. Set `"status": "done"`. |
-| `src/data/tools.json` | Add the tool object. `id`, `name`, `category`, `description`, `icon`, `keywords`, `accept`, `maxSizeMB`, `status: "done"`. |
-| `README.md` | Increment total tool count. Add a row to the matching category table if a new tool. Update the Phase section only if the phase gains its first completion or finishes. |
-| `PROJECT-PLAN.md` | Remove the tool's spec section (#### heading through next #### or ---) and remove it from the "Planned Tools" list. |
-| `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool. |
+| File                               | Change                                                                                                                                                                 |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `toolsList.json`                   | Add or update the entry. Set `"status": "done"`.                                                                                                                       |
+| `src/data/tools.json`              | Add the tool object. `id`, `name`, `category`, `description`, `icon`, `keywords`, `accept`, `maxSizeMB`, `status: "done"`.                                             |
+| `README.md`                        | Increment total tool count. Add a row to the matching category table if a new tool. Update the Phase section only if the phase gains its first completion or finishes. |
+| `PROJECT-PLAN.md`                  | Remove the tool's spec section (#### heading through next #### or ---) and remove it from the "Planned Tools" list.                                                    |
+| `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool.                                                                                                                                  |
 
 ## Step 16 — Update main-page counts (all required)
 

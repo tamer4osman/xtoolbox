@@ -25,16 +25,14 @@ C.20. When having list/arrays, by default put two items. Why? zero and one are a
 ## Example: Good Data Factory
 
 ```typescript
-import { faker } from '@faker-js/faker';
-import { FileContext } from '../types';
+import { faker } from "@faker-js/faker";
+import { FileContext } from "../types";
 
-export function buildFileFromIDE(
-  overrides: Partial<FileContext> = {},
-): FileContext {
+export function buildFileFromIDE(overrides: Partial<FileContext> = {}): FileContext {
   return {
     path: faker.system.filePath(),
-    type: faker.helpers.arrayElement(['file', 'folder']),
-    ...overrides,
+    type: faker.helpers.arrayElement(["file", "folder"]),
+    ...overrides
   };
 }
 ```

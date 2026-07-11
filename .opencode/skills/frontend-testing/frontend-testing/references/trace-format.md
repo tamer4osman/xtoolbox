@@ -12,13 +12,13 @@ unzip {trace-path}.zip -d {trace-dir}
 
 ## File Structure
 
-| File | Content |
-|------|---------|
-| `test.trace` | Test runner perspective: hooks, fixtures, assertions, errors, stdout/stderr |
-| `trace.trace` (or `0-trace.trace`) | Browser perspective: API calls, DOM snapshots, console logs, screenshots |
-| `trace.network` (or `0-trace.network`) | Network: HAR-format request/response entries |
-| `trace.stacks` (or `0-trace.stacks`) | Stack trace index (single JSON object, not JSONL) |
-| `resources/` | Response bodies, screenshots, source files |
+| File                                   | Content                                                                     |
+| -------------------------------------- | --------------------------------------------------------------------------- |
+| `test.trace`                           | Test runner perspective: hooks, fixtures, assertions, errors, stdout/stderr |
+| `trace.trace` (or `0-trace.trace`)     | Browser perspective: API calls, DOM snapshots, console logs, screenshots    |
+| `trace.network` (or `0-trace.network`) | Network: HAR-format request/response entries                                |
+| `trace.stacks` (or `0-trace.stacks`)   | Stack trace index (single JSON object, not JSONL)                           |
+| `resources/`                           | Response bodies, screenshots, source files                                  |
 
 Not all files are guaranteed present in every trace. Vitest-browser-mode traces often omit `test.trace`. When a `0-` prefix is used, multiple browser contexts produce `1-trace.*`, `2-trace.*`, etc. Always check which files are present before reading.
 
@@ -78,6 +78,7 @@ Single JSON object mapping call IDs to stack frames: `{"files":["path/to/file.ts
 ## Quick Error Investigation
 
 To find errors quickly:
+
 - In `test.trace`: grep for `"error"` — shows assertion failures and step errors
 - In `trace.trace`: grep for `"messageType":"error"` — shows browser console errors (missing mocks, auth failures, runtime exceptions)
 - In `trace.network`: grep for `"status":4` or `"status":5` — shows failed HTTP requests

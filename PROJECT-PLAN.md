@@ -13,24 +13,24 @@ All tools must follow the **100% client-side** philosophy: no server backend, no
 
 ### ✅ Good fit
 
-| Category | Details |
-|----------|---------|
-| **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API |
-| **WASM modules** | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink |
-| **Processing model** | Input → process → output pipeline |
-| **Data source** | Self-contained or public API without API key |
-| **Embedded ML** | Small ONNX models (≤100MB) for classification, detection, transcription. Modules: Transformers.js, SqueezeNet, MobileNet V2, YOLOv8n, DeepLabV3, all-MiniLM-L6-v2, DistilBERT SST-2, Whisper tiny, Moonshine tiny, BlazeFace |
-| **Audience** | Developers, creators, or general users |
+| Category              | Details                                                                                                                                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Pure browser APIs** | Canvas, Web Audio, FileReader, Compression Streams, MediaRecorder, Barcode Detection, Web Workers, Geolocation, Performance API                                                                                              |
+| **WASM modules**      | pdf-lib, Tesseract, ffmpeg.wasm, sql.js, libarchive.js, OpenCV.js, opentype.js, Kaitai Struct WASM, Comlink                                                                                                                  |
+| **Processing model**  | Input → process → output pipeline                                                                                                                                                                                            |
+| **Data source**       | Self-contained or public API without API key                                                                                                                                                                                 |
+| **Embedded ML**       | Small ONNX models (≤100MB) for classification, detection, transcription. Modules: Transformers.js, SqueezeNet, MobileNet V2, YOLOv8n, DeepLabV3, all-MiniLM-L6-v2, DistilBERT SST-2, Whisper tiny, Moonshine tiny, BlazeFace |
+| **Audience**          | Developers, creators, or general users                                                                                                                                                                                       |
 
 ### ❌ Bad fit
 
-| Restriction | Reason |
-|-------------|--------|
-| Requires server backend | Violates 100% client-side principle |
-| Requires authentication/accounts | Adds friction, breaks privacy promise |
-| Real-time multiplayer/collaboration | Needs server infrastructure |
-| Generative AI / LLMs / Chatbots | Out of scope — use dedicated AI platforms |
-| Niche industrial use cases | Too narrow for general audience |
+| Restriction                         | Reason                                    |
+| ----------------------------------- | ----------------------------------------- |
+| Requires server backend             | Violates 100% client-side principle       |
+| Requires authentication/accounts    | Adds friction, breaks privacy promise     |
+| Real-time multiplayer/collaboration | Needs server infrastructure               |
+| Generative AI / LLMs / Chatbots     | Out of scope — use dedicated AI platforms |
+| Niche industrial use cases          | Too narrow for general audience           |
 
 ### 🔍 API Research References
 
@@ -38,24 +38,24 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 #### Primary Directories (GitHub)
 
-| Source | Stars | Focus | Link |
-|--------|-------|-------|------|
-| **public-apis/public-apis** | ⭐ 441k | 1,400+ free APIs, categorized, with auth info | github.com/public-apis/public-apis |
+| Source                                | Stars    | Focus                                           | Link                                         |
+| ------------------------------------- | -------- | ----------------------------------------------- | -------------------------------------------- |
+| **public-apis/public-apis**           | ⭐ 441k  | 1,400+ free APIs, categorized, with auth info   | github.com/public-apis/public-apis           |
 | **public-api-lists/public-api-lists** | ⭐ 14.7k | 48 categories, searchable, community-maintained | github.com/public-api-lists/public-api-lists |
-| **marcelscruz/public-apis** | ⭐ 9.1k | Collaborative list, actively maintained | github.com/marcelscruz/public-apis |
-| **dspinellis/awesome-rest-apis** | ⭐ 3.5k | Curated REST API list | github.com/dspinellis/awesome-rest-apis |
-| **APIs-guru/graphql-apis** | ⭐ 4.7k | Public GraphQL APIs | github.com/APIs-guru/graphql-apis |
+| **marcelscruz/public-apis**           | ⭐ 9.1k  | Collaborative list, actively maintained         | github.com/marcelscruz/public-apis           |
+| **dspinellis/awesome-rest-apis**      | ⭐ 3.5k  | Curated REST API list                           | github.com/dspinellis/awesome-rest-apis      |
+| **APIs-guru/graphql-apis**            | ⭐ 4.7k  | Public GraphQL APIs                             | github.com/APIs-guru/graphql-apis            |
 
 #### Curated Web Directories (No-Auth Filtered)
 
-| Source | # APIs | Features | Link |
-|--------|--------|----------|------|
-| **Mixed Analytics List** | 224 | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
-| **FreePublicAPIs.com** | 598 | Tested daily, health scores | freepublicapis.com |
-| **publicapis.io** | 1,000+ | Searchable, category-filtered | publicapis.io |
-| **public-apis.io** | 1,000+ | REST APIs, categorized | public-apis.io |
-| **Apipheny Free API List** | 90+ | Code examples in JS/Python | apipheny.io/free-api |
-| **FreeAPIHub.com** | 193 | APIs + AI models | freeapihub.com |
+| Source                     | # APIs | Features                         | Link                                                                |
+| -------------------------- | ------ | -------------------------------- | ------------------------------------------------------------------- |
+| **Mixed Analytics List**   | 224    | All no-auth, tested, sample URLs | mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis |
+| **FreePublicAPIs.com**     | 598    | Tested daily, health scores      | freepublicapis.com                                                  |
+| **publicapis.io**          | 1,000+ | Searchable, category-filtered    | publicapis.io                                                       |
+| **public-apis.io**         | 1,000+ | REST APIs, categorized           | public-apis.io                                                      |
+| **Apipheny Free API List** | 90+    | Code examples in JS/Python       | apipheny.io/free-api                                                |
+| **FreeAPIHub.com**         | 193    | APIs + AI models                 | freeapihub.com                                                      |
 
 #### Tool Idea Generation Process
 
@@ -89,35 +89,36 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 ### Categories (with actual tool counts)
 
-| Category | Tools |
-|----------|-------|
-| Image | 43 |
-| Dev | 40 |
-| Text | 35 |
-| PDF | 33 |
-| Video | 26 |
-| Audio | 17 |
-| Finance | 16 |
-| Business | 16 |
-| CSS | 20 |
-| Productivity | 18 |
-| Math | 13 |
-| Health | 12 |
-| Encoding | 9 |
-| Reference | 8 |
-| SEO | 8 |
-| Fun | 6 |
-| Privacy | 8 |
-| QR | 4 |
-| OCR | 4 |
-| Visualization | 4 |
-| Weather | 4 |
+| Category      | Tools |
+| ------------- | ----- |
+| Image         | 43    |
+| Dev           | 40    |
+| Text          | 35    |
+| PDF           | 33    |
+| Video         | 26    |
+| Audio         | 17    |
+| Finance       | 16    |
+| Business      | 16    |
+| CSS           | 20    |
+| Productivity  | 18    |
+| Math          | 13    |
+| Health        | 12    |
+| Encoding      | 9     |
+| Reference     | 8     |
+| SEO           | 8     |
+| Fun           | 6     |
+| Privacy       | 8     |
+| QR            | 4     |
+| OCR           | 4     |
+| Visualization | 4     |
+| Weather       | 4     |
 
 ### Planned Tools (36)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
 **Phase 28 — Legacy Catch-Up (24 original + 12 new from instructions review):**
+
 - Image basics: image-blur, image-compare, image-meme
 - Video basics: video-crop, video-rotate, video-volume, video-reverse, video-metadata-editor, chroma-key-composer, video-scene-cut-detector, video-stabilizer
 - Audio: audio-pitch, audio-to-midi-converter
@@ -1305,8 +1306,8 @@ All use ffmpeg.wasm for processing.
 - **UI:**
   1. Board with columns (To Do, In Progress, Done default)
   2. Draggable cards with text and optional colored labels
-  3. + Add card input per column
-  4. + Add column button
+  3. - Add card input per column
+  4. - Add column button
   5. Edit card text on click, delete with ✕
   6. Clear board button
 - **Implementation notes:**
@@ -1452,14 +1453,15 @@ All use ffmpeg.wasm for processing.
 npm install monaco-editor ajv mathjs katex
 ```
 
-| Package | License | Size | Purpose |
-|---------|---------|------|---------|
-| monaco-editor | MIT | 2MB | Code editor (playgrounds) |
-| ajv | MIT | 150KB | JSON Schema validation |
-| mathjs | Apache-2.0 | 500KB | Math operations |
-| katex | MIT | 250KB | LaTeX rendering |
+| Package       | License    | Size  | Purpose                   |
+| ------------- | ---------- | ----- | ------------------------- |
+| monaco-editor | MIT        | 2MB   | Code editor (playgrounds) |
+| ajv           | MIT        | 150KB | JSON Schema validation    |
+| mathjs        | Apache-2.0 | 500KB | Math operations           |
+| katex         | MIT        | 250KB | LaTeX rendering           |
 
 Additional dependencies (already installed or needed per tool):
+
 - `transformers.js` — AI/ML inference in browser (resume-job-matcher, text-similarity-checker)
 - `onnxruntime-web` — ONNX model execution (audio-to-midi-converter)
 - `ffmpeg.wasm` — Video/audio processing (video-scene-cut-detector, video-stabilizer)

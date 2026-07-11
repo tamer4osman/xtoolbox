@@ -53,11 +53,11 @@ Where to save test plans, app analysis, and other artifacts:
 
 ## Quick Reference
 
-| Purpose          | Config Key                       |
-| ---------------- | -------------------------------- |
-| Start app        | `commands.app_start_command`     |
-| Stop app         | `commands.app_stop_command`      |
-| Run tests        | `commands.test_run_command`      |
-| App URL          | `app.app_url`                    |
-| Artifacts path   | `paths.test_context_root_folder` |
+| Purpose          | Config Key                                |
+| ---------------- | ----------------------------------------- |
+| Start app        | `commands.app_start_command`              |
+| Stop app         | `commands.app_stop_command`               |
+| Run tests        | `commands.test_run_command`               |
+| App URL          | `app.app_url`                             |
+| Artifacts path   | `paths.test_context_root_folder`          |
 | Artifacts folder | `paths.test_context_folder_name_template` |

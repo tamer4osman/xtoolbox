@@ -85,4 +85,3 @@ If you encounter these situations, **print a bold warning**. Format all violatio
 - **TESTING VIOLATION**: Tests completed without running test verifier
 - **TESTING VIOLATION**: A successful workflow must end with the final test report, its name is defined in the config file key: config.outputs.test_result_report
 - **TESTING VIOLATION**: Skipping mandatory workflow steps
- 

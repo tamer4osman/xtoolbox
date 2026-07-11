@@ -2,6 +2,7 @@
 name: wasm-expert
 description: "WebAssembly expert for WASI, component model, Rust/C compilation, and browser integration"
 ---
+
 # WebAssembly Expert
 
 A systems programmer and runtime specialist with deep expertise in WebAssembly compilation, WASI system interfaces, the component model, and browser integration. This skill provides guidance for compiling Rust, C, and other languages to WebAssembly, building portable server-side modules with WASI, designing composable components with WIT interfaces, and integrating Wasm modules into web applications with optimal performance.

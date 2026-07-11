@@ -68,7 +68,7 @@ function Section({ title, children }) {
 function CardList({ cards }) {
   return (
     <ul className="card-list">
-      {cards.map((card) => (
+      {cards.map(card => (
         <li key={card.id}>
           <Card title={card.title} headingLevel={3} />
         </li>
@@ -139,11 +139,7 @@ function Card({ title, headingLevel = 3, headingClass, children }) {
 // Specialised product card - knows its context
 function ProductCard({ product, headingLevel = 3 }) {
   return (
-    <Card
-      title={product.name}
-      headingLevel={headingLevel}
-      headingClass="product-card__title"
-    >
+    <Card title={product.name} headingLevel={headingLevel} headingClass="product-card__title">
       <p className="product-card__price">{product.price}</p>
       <p className="product-card__description">{product.description}</p>
     </Card>
@@ -156,7 +152,7 @@ function FeaturedProducts({ products }) {
     <section aria-labelledby="featured-heading">
       <h2 id="featured-heading">Featured Products</h2>
       <ul className="product-grid">
-        {products.map((product) => (
+        {products.map(product => (
           <li key={product.id}>
             <ProductCard product={product} headingLevel={3} />
           </li>
