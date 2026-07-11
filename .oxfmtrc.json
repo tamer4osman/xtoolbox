@@ -1,0 +1,16 @@
+{
+  "quoteStyle": "alwaysSingle",
+  "arrowParens": "avoid",
+  "trailingComma": "none",
+  "semicolons": true,
+  "indentWidth": 2,
+  "lineWidth": 100,
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "dist-test",
+    "dist-temp",
+    "fallow-baselines",
+    "FALLOW-REPORT.md"
+  ]
+}
