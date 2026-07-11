@@ -1,6 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { copyToClipboard } from "../../utils/clipboard.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 import EXIF from "exif-js";
 
 export const toolConfig = {
@@ -56,7 +57,7 @@ export function render(container) {
                 if (value instanceof Array) displayValue = value.join(", ");
                 if (typeof value === "object" && value.numerator)
                   displayValue = `${value.numerator}/${value.denominator}`;
-                return `<tr><td style="padding:var(--space-2) var(--space-3);font-weight:600;white-space:nowrap;border-bottom:1px solid var(--color-border);font-size:var(--text-sm);">${key}</td><td style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-border);font-size:var(--text-sm);word-break:break-all;">${displayValue}</td></tr>`;
+                return `<tr><td style="padding:var(--space-2) var(--space-3);font-weight:600;white-space:nowrap;border-bottom:1px solid var(--color-border);font-size:var(--text-sm);">${escapeHtml(String(key))}</td><td style="padding:var(--space-2) var(--space-3);border-bottom:1px solid var(--color-border);font-size:var(--text-sm);word-break:break-all;">${escapeHtml(String(displayValue))}</td></tr>`;
               })
               .join("");
 
@@ -85,7 +86,7 @@ export function render(container) {
         };
         img.src = URL.createObjectURL(files[0]);
       } catch (err) {
-        resultsArea.innerHTML = `<div style="color:var(--color-error);">Error: ${err.message}</div>`;
+        resultsArea.innerHTML = `<div style="color:var(--color-error);">Error: ${escapeHtml(err.message)}</div>`;
       }
     }
   });

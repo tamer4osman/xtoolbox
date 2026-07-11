@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 export const toolConfig = {
   id: "weather-forecast",
   name: "Weather Forecast",
@@ -124,7 +126,7 @@ export function render(container) {
         div.innerHTML = `
           <div class="day">${date.toLocaleDateString("en", { weekday: "short" })}</div>
           <div class="weather-icon">${getWeatherIcon(day.hourly?.[0]?.weatherCode || 0)}</div>
-          <div class="temp">${day.avgtempC}°</div>
+          <div class="temp">${escapeHtml(String(day.avgtempC))}°</div>
         `;
         forecast.appendChild(div);
       });

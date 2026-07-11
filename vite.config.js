@@ -58,5 +58,5 @@ export default defineConfig({
   // node_modules/.vite/deps/* after `npm install`. Move the cache out
   // so `npm run dev` can rebuild it. Revert to default once Avast
   // excludes D:\Projects\xtoolbox.
-  cacheDir: ".vite-cache"
+  cacheDir: "C:/Users/tamer/AppData/Local/Temp/vite-cache-xtoolbox"
 });

@@ -128,7 +128,12 @@ export async function renderTool(toolId) {
     console.error("Error loading tool module:", error);
     const toolPage = main.querySelector(".tool-page");
     if (toolPage) {
-      toolPage.innerHTML += `<div class="error-state"><p>Error loading tool: ${error.message}</p></div>`;
+      const errorDiv = document.createElement("div");
+      errorDiv.className = "error-state";
+      const errorP = document.createElement("p");
+      errorP.textContent = `Error loading tool: ${error.message}`;
+      errorDiv.appendChild(errorP);
+      toolPage.appendChild(errorDiv);
     }
   }
 }
