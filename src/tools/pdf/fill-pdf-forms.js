@@ -1,6 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { loadPdf, savePdf } from "./pdf-utils.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
   id: "fill-pdf-forms",
@@ -106,7 +107,7 @@ export function render(container) {
 
         downloadBtn.style.display = "inline-flex";
       } catch (err) {
-        formArea.innerHTML = `<div style="color:var(--color-error);padding:var(--space-4);">Error reading form: ${err.message}</div>`;
+        formArea.innerHTML = `<div style="color:var(--color-error);padding:var(--space-4);">Error reading form: ${escapeHtml(err.message)}</div>`;
       }
     }
   });

@@ -3,10 +3,10 @@ import {
   generateId,
   formatDate,
   toLocalDatetimeInput,
-  escapeHtml,
   BODY_PARTS,
   SEVERITY_LEVELS
 } from "../tools/health/symptom-tracker.js";
+import { escapeHtml } from "../utils/escape-html.js";
 
 describe("symptom-tracker", () => {
   describe("generateId", () => {

@@ -4,6 +4,14 @@
  * Page renderers are lazy-loaded on demand for fast SPA navigation.
  */
 
+// ===== Global Error Handlers =====
+window.addEventListener("error", (event) => {
+  console.error("Uncaught error:", event.error);
+});
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("Unhandled promise rejection:", event.reason);
+});
+
 // ===== Import Styles =====
 import "./styles/global.css";
 import "./styles/components.css";

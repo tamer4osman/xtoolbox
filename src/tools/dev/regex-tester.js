@@ -1,4 +1,6 @@
-﻿export const toolConfig = {
+﻿import { escapeHtml } from "../../utils/escape-html.js";
+
+export const toolConfig = {
   id: "regex-tester",
   name: "Regex Tester & Visualizer",
   category: "dev",
@@ -192,13 +194,7 @@ export function explainRegex(pattern) {
   result = result.charAt(0).toUpperCase() + result.slice(1);
   return result;
 }
-export function escapeHtml(str) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+
 
 export function highlightMatches(text, regex) {
   if (!regex || !text) return escapeHtml(text);

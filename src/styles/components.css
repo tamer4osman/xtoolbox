@@ -1,3 +1,18 @@
+/* ===== Skip Link ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary, #3b82f6);
+  color: white;
+  padding: 8px 16px;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 /* ===== Buttons ===== */
 .btn {
   display: inline-flex;
@@ -258,7 +273,7 @@
 .footer-tagline {
   font-size: var(--text-sm);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .footer-links h4 {
@@ -272,7 +287,7 @@
 
 .footer-links a {
   display: block;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.8);
   font-size: var(--text-sm);
   text-decoration: none;
   padding: var(--space-1) 0;
@@ -289,7 +304,7 @@
   padding-top: var(--space-6);
   text-align: center;
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 @media (max-width: 768px) {

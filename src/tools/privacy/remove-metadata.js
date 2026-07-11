@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 export const toolConfig = {
   id: "remove-metadata",
   name: "Metadata Remover",
@@ -64,7 +66,7 @@ export function render(container) {
         files.push(file);
         const div = document.createElement("div");
         div.className = "preview-item";
-        div.innerHTML = `<img src="${URL.createObjectURL(file)}" /><span>${file.name}</span>`;
+        div.innerHTML = `<img src="${URL.createObjectURL(file)}" /><span>${escapeHtml(file.name)}</span>`;
         previewList.appendChild(div);
       }
     });

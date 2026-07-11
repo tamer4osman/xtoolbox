@@ -1,5 +1,6 @@
 import { copyToClipboard } from "../../utils/clipboard.js";
 import { showToast } from "../../components/toast.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
   id: "citation-generator",
@@ -105,9 +106,7 @@ function formatChicago(data) {
 
 const FORMATTERS = { apa: formatAPA, mla: formatMLA, chicago: formatChicago };
 
-function escapeHtml(str) {
-  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
+
 
 export function render(container) {
   container.innerHTML = `

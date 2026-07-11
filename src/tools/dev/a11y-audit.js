@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 export const toolConfig = {
   id: "a11y-audit",
   name: "Accessibility Audit Visualizer",
@@ -222,11 +224,7 @@ function runAudit(html, url) {
   return results;
 }
 
-function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
-}
+
 
 function renderReport(results) {
   let html = `<div class="a11y-report">`;
@@ -319,7 +317,7 @@ export function render(container) {
     urlBtn.disabled = true;
     urlBtn.textContent = "Fetching...";
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
       if (!res.ok) throw new Error("Failed to fetch");
       const html = await res.text();
       const results = runAudit(html, url);

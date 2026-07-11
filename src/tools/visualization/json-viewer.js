@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 export const toolConfig = {
   id: "json-viewer",
   name: "JSON Viewer",
@@ -43,9 +45,9 @@ export function render(container) {
   container.appendChild(style);
 
   function colorize(json) {
-    return json
-      .replace(/"([^"]+)":/g, '<span class="key">"$1"</span>:')
-      .replace(/: "([^"]+)"/g, ': <span class="string">"$1"</span>')
+    return escapeHtml(json)
+      .replace(/&quot;([^&]+)&quot;:/g, '<span class="key">&quot;$1&quot;</span>:')
+      .replace(/: &quot;([^&]+)&quot;/g, ': <span class="string">&quot;$1&quot;</span>')
       .replace(/: (\d+\.?\d*)/g, ': <span class="number">$1</span>')
       .replace(/: (true|false)/g, ': <span class="boolean">$1</span>')
       .replace(/: (null)/g, ': <span class="null">$1</span>');

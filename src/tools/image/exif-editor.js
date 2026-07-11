@@ -1,6 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 let piexif = null;
 
@@ -291,7 +292,7 @@ export function render(container) {
           showToast({ message: "Fields reset to original values.", type: "info" });
         });
       } catch (err) {
-        editorArea.innerHTML = `<div style="color:var(--color-error);">Error: ${err.message}</div>`;
+        editorArea.innerHTML = `<div style="color:var(--color-error);">Error: ${escapeHtml(err.message)}</div>`;
       }
     }
   });

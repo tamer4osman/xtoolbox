@@ -2,10 +2,10 @@ import { describe, it, expect } from "vitest";
 import {
   tokenizeRegex,
   explainRegex,
-  escapeHtml,
   highlightMatches,
   getGroupMatches
 } from "../tools/dev/regex-tester.js";
+import { escapeHtml } from "../utils/escape-html.js";
 
 describe("tokenizeRegex", () => {
   it("tokenizes simple literal", () => {

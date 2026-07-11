@@ -41,14 +41,16 @@ export default defineConfig({
     open: true,
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "require-corp"
+      "Cross-Origin-Embedder-Policy": "require-corp",
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
     }
   },
   preview: {
     port: 4173,
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "require-corp"
+      "Cross-Origin-Embedder-Policy": "require-corp",
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
     }
   },
   optimizeDeps: {

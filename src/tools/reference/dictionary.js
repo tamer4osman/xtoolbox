@@ -40,7 +40,8 @@ const { toolConfig, render } = createLookupTool({
   onSearch: async (vals, container) => {
     const word = vals["word-input"].trim();
     const res = await fetch(
-      "https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(word)
+      "https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(word),
+      { signal: AbortSignal.timeout(15000) }
     );
     if (!res.ok) throw new Error("Word not found");
     const data = await res.json();

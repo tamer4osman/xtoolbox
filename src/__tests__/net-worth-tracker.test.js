@@ -3,11 +3,11 @@ import {
   calculateNetWorth,
   formatCurrency,
   generateId,
-  escapeHtml,
   validateEntries,
   ASSET_TYPES,
   LIABILITY_TYPES
 } from "../tools/finance/net-worth-tracker.js";
+import { escapeHtml } from "../utils/escape-html.js";
 
 describe("net-worth-tracker", () => {
   describe("calculateNetWorth", () => {

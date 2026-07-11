@@ -242,7 +242,7 @@ function bindSitemapEvents(container, els) {
     } catch (e) {
       els.results.style.display = "block";
       els.stats.innerHTML = "";
-      els.tree.innerHTML = `<div class="sv-error">${e.message}</div>`;
+      els.tree.innerHTML = `<div class="sv-error">${escapeHtml(e.message)}</div>`;
     }
   });
 

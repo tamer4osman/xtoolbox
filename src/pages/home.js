@@ -44,7 +44,7 @@ export function renderHome() {
         <div class="hero-search">
           <div class="search-wrapper">
             <input type="text" id="search-input" placeholder="Search ${availableTools.length} tools..." autocomplete="off" aria-label="Search tools">
-            <div id="search-results" class="search-results"></div>
+            <div id="search-results" class="search-results" aria-live="polite" role="status"></div>
           </div>
         </div>
       </div>

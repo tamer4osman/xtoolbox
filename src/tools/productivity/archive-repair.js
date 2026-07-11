@@ -5,6 +5,7 @@ import {
   hasDataDescriptor
 } from "../../utils/archive-utils.js";
 import { formatFileSize, downloadBlob as downloadFile } from "../../utils/file.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 import JSZip from "jszip";
 
 export const toolConfig = {
@@ -25,11 +26,7 @@ function getCompressionName(method) {
   return names[method] || `Method ${method}`;
 }
 
-function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
-}
+
 
 async function tryNormalLoad(arrayBuffer) {
   const zip = await JSZip.loadAsync(arrayBuffer, {

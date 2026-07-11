@@ -1,3 +1,5 @@
+import { evaluate } from "mathjs";
+
 export const toolConfig = {
   id: "graph-plotter",
   name: "Graph Plotter",
@@ -87,7 +89,8 @@ export function render(container) {
     ctx.beginPath();
 
     try {
-      const func = new Function("x", "return " + container.querySelector("#function").value);
+      const expr = container.querySelector("#function").value;
+      const func = x => evaluate(expr, { x });
       let first = true;
 
       for (let px = 0; px < width; px++) {

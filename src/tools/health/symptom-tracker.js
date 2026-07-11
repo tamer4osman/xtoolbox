@@ -1,5 +1,6 @@
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
   id: "symptom-tracker",
@@ -58,19 +59,7 @@ export function toLocalDatetimeInput(date) {
   return local.toISOString().slice(0, 16);
 }
 
-export function escapeHtml(str) {
-  return String(str ?? "").replace(
-    /[&<>"']/g,
-    c =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[c]
-  );
-}
+
 
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);

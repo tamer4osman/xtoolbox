@@ -6,6 +6,8 @@ export function showToast({ message, type = "info", duration = 3000 }) {
   if (!container) {
     container = document.createElement("div");
     container.id = "toast-container";
+    container.setAttribute("aria-live", "polite");
+    container.setAttribute("role", "status");
     document.body.appendChild(container);
   }
 

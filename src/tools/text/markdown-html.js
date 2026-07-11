@@ -8,6 +8,7 @@ export const toolConfig = {
 };
 
 import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 export function initMarkdownHtml() {
   const textarea = document.getElementById("markdown-input");
@@ -24,7 +25,7 @@ export function initMarkdownHtml() {
 
   function convert() {
     const markdown = textarea.value;
-    output.innerHTML = marked.parse(markdown);
+    output.innerHTML = DOMPurify.sanitize(marked.parse(markdown));
   }
 
   textarea.addEventListener("input", convert);

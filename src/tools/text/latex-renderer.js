@@ -1,4 +1,5 @@
 import { createBasicTool } from "../shared/basic-tool-factory.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 const { toolConfig, render } = createBasicTool({
   toolConfig: {
@@ -59,7 +60,7 @@ const { toolConfig, render } = createBasicTool({
         preview.innerHTML = html;
         downloadBtn.disabled = false;
       } catch (e) {
-        preview.innerHTML = `<p style="color:red">Error: ${e.message}</p>`;
+        preview.innerHTML = `<p style="color:red">Error: ${escapeHtml(e.message)}</p>`;
         downloadBtn.disabled = true;
       }
     }

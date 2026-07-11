@@ -1,5 +1,6 @@
 import { formatFileSize } from "../utils/file.js";
 import { createElement } from "../utils/dom-create.js";
+import { escapeHtml } from "../utils/escape-html.js";
 
 /**
  * Create a file upload dropzone component
@@ -120,7 +121,7 @@ export function createFileUpload({
       <div class="file-upload-item">
         <span class="file-upload-item-icon">📎</span>
         <div class="file-upload-item-info">
-          <span class="file-upload-item-name">${file.name}</span>
+          <span class="file-upload-item-name">${escapeHtml(file.name)}</span>
           <span class="file-upload-item-size">${formatFileSize(file.size)}</span>
         </div>
         <button class="file-upload-item-remove" data-index="${index}" title="Remove file">✕</button>

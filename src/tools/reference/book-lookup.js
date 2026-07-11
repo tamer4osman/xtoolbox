@@ -3,7 +3,7 @@ import { escapeHtml } from "../../utils/escape-html.js";
 
 async function searchBooks(query, type) {
   if (type === "isbn") {
-    const res = await fetch("https://openlibrary.org/isbn/" + query + ".json");
+    const res = await fetch("https://openlibrary.org/isbn/" + query + ".json", { signal: AbortSignal.timeout(15000) });
     const data = await res.json();
     return [
       {
@@ -14,7 +14,8 @@ async function searchBooks(query, type) {
     ];
   }
   const res = await fetch(
-    "https://openlibrary.org/search.json?" + type + "=" + encodeURIComponent(query) + "&limit=10"
+    "https://openlibrary.org/search.json?" + type + "=" + encodeURIComponent(query) + "&limit=10",
+    { signal: AbortSignal.timeout(15000) }
   );
   const data = await res.json();
   return data.docs || [];

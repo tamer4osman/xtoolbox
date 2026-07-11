@@ -4,9 +4,9 @@ import {
   groupByTag,
   getMethodColor,
   parseYAML,
-  parseSpecText,
-  escapeHtml
+  parseSpecText
 } from "../tools/dev/openapi-visualizer.js";
+import { escapeHtml } from "../utils/escape-html.js";
 
 describe("openapi-visualizer", () => {
   describe("parseOpenAPI", () => {

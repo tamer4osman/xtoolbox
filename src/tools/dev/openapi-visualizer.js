@@ -1,5 +1,6 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
   id: "openapi-visualizer",
@@ -100,19 +101,7 @@ export function parseSpecText(text) {
   return parseYAML(trimmed);
 }
 
-export function escapeHtml(str) {
-  return String(str ?? "").replace(
-    /[&<>"']/g,
-    c =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[c]
-  );
-}
+
 
 export function parseOpenAPI(spec) {
   const endpoints = [];

@@ -1,4 +1,5 @@
 import { showToast } from "../../components/toast.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
   id: "sentiment-heatmap",
@@ -43,11 +44,7 @@ export function splitSentences(text) {
   return text.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0);
 }
 
-function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
-}
+
 
 export function render(container) {
   container.innerHTML = `

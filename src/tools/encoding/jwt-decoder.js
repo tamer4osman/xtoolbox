@@ -1,4 +1,5 @@
 import { createBasicTool } from "../shared/basic-tool-factory.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 const { toolConfig, render } = createBasicTool({
   toolConfig: {
@@ -74,7 +75,7 @@ const { toolConfig, render } = createBasicTool({
           </div>
         `;
       } catch (e) {
-        output.innerHTML = `<p class="jwt-err">Error: ${e.message}</p>`;
+        output.innerHTML = `<p class="jwt-err">Error: ${escapeHtml(e.message)}</p>`;
       }
     }
 

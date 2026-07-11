@@ -11,7 +11,7 @@ export function renderNavbar() {
         </a>
 
         <div class="navbar-search hide-mobile">
-          <input type="text" id="navbar-search-input" placeholder="Search tools..." autocomplete="off">
+          <input type="text" id="navbar-search-input" placeholder="Search tools..." autocomplete="off" aria-label="Search tools">
           <div id="navbar-search-results" class="search-results"></div>
         </div>
 
@@ -23,16 +23,16 @@ export function renderNavbar() {
           <a href="#/" data-nav-link="/">All Tools</a>
         </div>
 
-        <button class="navbar-hamburger hide-desktop" id="hamburger-btn" aria-label="Menu">
+        <button class="navbar-hamburger hide-desktop" id="hamburger-btn" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
       </div>
 
-      <div class="navbar-mobile-menu" id="mobile-menu">
+      <div class="navbar-mobile-menu" id="mobile-menu" aria-label="Navigation menu">
         <div class="navbar-mobile-search">
-          <input type="text" id="mobile-search-input" placeholder="Search tools..." autocomplete="off">
+          <input type="text" id="mobile-search-input" placeholder="Search tools..." autocomplete="off" aria-label="Search tools">
         </div>
         <a href="#/" data-nav-link="/">🏠 All Tools</a>
         <a href="#/category/pdf" data-nav-link="/category/pdf">📄 PDF Tools</a>
@@ -66,8 +66,18 @@ export function initNavbar() {
 
   if (hamburger && mobileMenu) {
     hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
+      const isOpen = hamburger.classList.toggle("active");
       mobileMenu.classList.toggle("open");
+      hamburger.setAttribute("aria-expanded", isOpen);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && mobileMenu.classList.contains("open")) {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+        hamburger.focus();
+      }
     });
 
     mobileMenu.querySelectorAll("a").forEach(link => {

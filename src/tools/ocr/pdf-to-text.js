@@ -3,6 +3,7 @@ import { showToast } from "../../components/toast.js";
 import { copyToClipboard } from "../../utils/clipboard.js";
 import { downloadBlob } from "../../utils/file.js";
 import { extractTextFromPdf } from "../pdf/pdf-utils.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
   id: "pdf-to-text",
@@ -85,7 +86,7 @@ export function render(container) {
           downloadBlob(new Blob([allText], { type: "text/plain" }), "pdf-text.txt");
         });
       } catch (err) {
-        resultsArea.innerHTML = `<div style="color:var(--color-error);padding:var(--space-4);">Error: ${err.message}</div>`;
+        resultsArea.innerHTML = `<div style="color:var(--color-error);padding:var(--space-4);">Error: ${escapeHtml(err.message)}</div>`;
       }
     }
   });

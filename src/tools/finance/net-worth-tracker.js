@@ -1,4 +1,5 @@
 import { showToast } from "../../components/toast.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 export const toolConfig = {
   id: "net-worth-tracker",
@@ -65,19 +66,7 @@ export function formatCurrency(amount) {
   }).format(amount);
 }
 
-export function escapeHtml(str) {
-  return String(str).replace(
-    /[&<>"']/g,
-    c =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[c]
-  );
-}
+
 
 export function validateEntries(data) {
   return (

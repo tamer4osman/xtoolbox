@@ -52,6 +52,31 @@ const styles = `
   .empty-state { color: var(--text-secondary); font-style: italic; }
 `;
 
+export function calculateStreak(completions) {
+  if (!completions || completions.length === 0) return 0;
+
+  const sorted = [...completions].sort();
+  const today = new Date().toISOString().split("T")[0];
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
+  if (sorted[sorted.length - 1] !== today && sorted[sorted.length - 1] !== yesterday) return 0;
+
+  let streak = 0;
+  let checkDate = new Date();
+
+  for (let i = 0; i < 365; i++) {
+    const dateStr = checkDate.toISOString().split("T")[0];
+    if (completions.includes(dateStr)) {
+      streak++;
+      checkDate.setDate(checkDate.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+}
+
 export function render(container) {
   let state = loadData();
 
@@ -130,31 +155,6 @@ export function render(container) {
     container.querySelectorAll(".btn-delete").forEach(btn => {
       btn.addEventListener("click", () => deleteHabit(btn.dataset.name));
     });
-  }
-
-  function calculateStreak(completions) {
-    if (!completions || completions.length === 0) return 0;
-
-    const sorted = [...completions].sort();
-    const today = new Date().toISOString().split("T")[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
-
-    if (sorted[sorted.length - 1] !== today && sorted[sorted.length - 1] !== yesterday) return 0;
-
-    let streak = 0;
-    let checkDate = new Date();
-
-    for (let i = 0; i < 365; i++) {
-      const dateStr = checkDate.toISOString().split("T")[0];
-      if (completions.includes(dateStr)) {
-        streak++;
-        checkDate.setDate(checkDate.getDate() - 1);
-      } else {
-        break;
-      }
-    }
-
-    return streak;
   }
 
   function toggleHabit(name) {

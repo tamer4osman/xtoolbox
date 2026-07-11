@@ -74,6 +74,11 @@ async function handleRouteChange() {
   }
 
   window.scrollTo(0, 0);
+  const mainContent = document.getElementById("main-content");
+  if (mainContent) {
+    mainContent.setAttribute("tabindex", "-1");
+    mainContent.focus({ preventScroll: true });
+  }
   updateActiveLinks(path);
 }
 

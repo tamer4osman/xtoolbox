@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 export const toolConfig = {
   id: "code-screenshot-generator",
   name: "Code Screenshot Generator",
@@ -189,9 +191,7 @@ export function render(container) {
   bindEvents(container);
 }
 
-function escapeHtml(text) {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
+
 
 function highlightCode(container, skipHighlight = false) {
   const code = container.querySelector("#codeInput").value;
