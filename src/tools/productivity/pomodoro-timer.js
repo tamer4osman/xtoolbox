@@ -1,9 +1,4 @@
 const STORAGE_KEY = "xtoolbox-pomodoro";
-const MODES = {
-  pomodoro: { label: "Pomodoro", color: "var(--color-error)" },
-  shortBreak: { label: "Short Break", color: "var(--color-success)" },
-  longBreak: { label: "Long Break", color: "var(--color-info)" }
-};
 
 function loadSettings() {
   try {
@@ -62,18 +57,6 @@ function formatMMSS(totalSeconds) {
   const m = Math.floor(totalSeconds / 60);
   const s = totalSeconds % 60;
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-}
-
-function polarToCartesian(cx, cy, r, angleDeg) {
-  const rad = ((angleDeg - 90) * Math.PI) / 180;
-  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-}
-
-function describeArc(cx, cy, r, startAngle, endAngle) {
-  const start = polarToCartesian(cx, cy, r, endAngle);
-  const end = polarToCartesian(cx, cy, r, startAngle);
-  const largeArc = endAngle - startAngle > 180 ? 1 : 0;
-  return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`;
 }
 
 export const toolConfig = {

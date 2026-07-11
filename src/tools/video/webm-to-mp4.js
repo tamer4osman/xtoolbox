@@ -44,7 +44,7 @@ export function render(container) {
     processingMessage: "Converting...",
     outputFilename: "output.mp4",
     successMessage: "Converted to MP4!",
-    getInputFilename: name => "input.webm",
+    getInputFilename: () => "input.webm",
     includeAudioCodec: true,
     getPreviewHTML:
       file => `<video controls style="max-width:100%;max-height:300px;border-radius:var(--radius-md);border:1px solid var(--color-border);">

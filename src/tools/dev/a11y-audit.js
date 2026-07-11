@@ -118,7 +118,7 @@ function runAudit(html, url) {
   }
 
   const images = body.querySelectorAll("img");
-  images.forEach((img, i) => {
+  images.forEach((img) => {
     const alt = img.getAttribute("alt");
     const role = img.getAttribute("role");
     if (!alt && role !== "presentation" && role !== "none") {
@@ -199,7 +199,6 @@ function runAudit(html, url) {
     }
   });
 
-  const hasOutline = body.querySelectorAll('[style*="outline"]');
   results.warnings.push({
     check: "focus-visible",
     msg: "Manual check: verify all interactive elements have visible focus"

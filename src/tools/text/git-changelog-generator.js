@@ -1,6 +1,3 @@
-import { showToast } from "../../components/toast.js";
-import { copyToClipboard } from "../../utils/clipboard.js";
-
 const COMMIT_TYPES = {
   feat: { label: "✨ Features", order: 1 },
   fix: { label: "🐛 Bug Fixes", order: 2 },

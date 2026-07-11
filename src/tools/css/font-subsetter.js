@@ -178,7 +178,7 @@ function bindEvents(container) {
     renderCSS(container);
   });
 
-  downloadFont.addEventListener("click", () => downloadSubsetFont(container));
+  downloadFont.addEventListener("click", () => downloadSubsetFont());
   copyCSS.addEventListener("click", () => copyFontCSS(container));
 }
 
@@ -228,17 +228,13 @@ function renderCSS(container) {
   copyCSS.disabled = false;
 }
 
-function downloadSubsetFont(container) {
+function downloadSubsetFont() {
   if (!state.font || !state.opentype) return;
 
   const codes = getCharCodes();
   const charStrings = codes.map(c => String.fromCharCode(c)).join("");
 
   try {
-    const subset = state.font.glyphs.filter(g => {
-      return codes.includes(g.unicode);
-    });
-
     const fileName = `${state.fontName}-subset.woff2`;
 
     const fontDownload = document.createElement("a");

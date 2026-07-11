@@ -67,7 +67,7 @@ describe("createFinanceCalculator", () => {
       primary: { label: "X", value: "1" },
       items: []
     }));
-    const { container, result, calculate: c2 } = build({ calculate });
+    const { container, calculate: c2 } = build({ calculate });
     container.querySelector("#test-finance-calc-btn").click();
     expect(c2).toHaveBeenCalledTimes(1);
     const vals = c2.mock.calls[0][0];

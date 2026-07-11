@@ -329,7 +329,7 @@ export function toYaml(entries) {
       const v = e.value;
       const needsQuote =
         v === "" ||
-        /[#&*!|>'"%@`{}\[\],:\n]/.test(v) ||
+        /[#&*!|>'"%@`{}[\],:\n]/.test(v) ||
         /^\s|\s$/.test(v) ||
         /^(true|false|null|yes|no|on|off)$/i.test(v) ||
         /^-?\d+(\.\d+)?$/.test(v);
@@ -394,7 +394,6 @@ function highlightLine(line) {
 
 function bindEnvEditorEvents(ctx) {
   const {
-    container,
     state,
     outputState,
     tabsEl,
@@ -412,7 +411,6 @@ function bindEnvEditorEvents(ctx) {
     convDockerBtn,
     copyBtn,
     downloadBtn,
-    outputEl,
     persist,
     renderTabs,
     renderActive,

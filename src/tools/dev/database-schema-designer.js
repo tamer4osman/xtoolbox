@@ -119,8 +119,6 @@ export function render(container) {
 }
 
 function initCanvas(container) {
-  const canvas = container.querySelector("#schemaCanvas");
-  const ctx = canvas.getContext("2d");
   drawCanvas(container);
 }
 
@@ -196,11 +194,6 @@ function bindEvents(container) {
   const clearBtn = container.querySelector("#clearBtn");
   const zoomInBtn = container.querySelector("#zoomInBtn");
   const zoomOutBtn = container.querySelector("#zoomOutBtn");
-  const colName = container.querySelector("#colName");
-  const colType = container.querySelector("#colType");
-  const colPrimary = container.querySelector("#colPrimary");
-  const colAuto = container.querySelector("#colAuto");
-  const colNull = container.querySelector("#colNull");
   const saveColBtn = container.querySelector("#saveColBtn");
   const deleteColBtn = container.querySelector("#deleteColBtn");
   const copySqlBtn = container.querySelector("#copySqlBtn");
@@ -272,7 +265,7 @@ function handleMouseMove(e, container) {
   }
 }
 
-function handleMouseUp(e, container) {
+function handleMouseUp() {
   state.dragging = null;
 }
 
@@ -341,7 +334,7 @@ function addColumn(container) {
 function saveColumn(container) {
   if (!state.editingColumn) return;
 
-  const { table, column } = state.editingColumn;
+  const { column } = state.editingColumn;
   column.name = container.querySelector("#colName").value;
   column.type = container.querySelector("#colType").value;
   column.primary = container.querySelector("#colPrimary").checked;

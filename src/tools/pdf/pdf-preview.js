@@ -8,7 +8,6 @@ export const toolConfig = {
 };
 
 import { renderAllPages } from "./pdf-utils.js";
-import { formatFileSize } from "../../utils/file.js";
 
 /**
  * Create a PDF page preview component with thumbnails

@@ -174,7 +174,7 @@ export function render(container) {
     } else {
       paramsTable.innerHTML = entries
         .map(
-          ([k, v], i) => `
+          ([k, v]) => `
         <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-2);">
           <input type="text" class="text-input up-pkey" value="${esc(k)}" placeholder="Key" style="flex:1;font-family:monospace;font-size:var(--text-sm);">
           <input type="text" class="text-input up-pval" value="${esc(v)}" placeholder="Value" style="flex:2;font-family:monospace;font-size:var(--text-sm);">
@@ -190,7 +190,6 @@ export function render(container) {
 
   function rebuild() {
     if (!currentParts) return;
-    const paramInputs = paramsTable.querySelectorAll(".up-pkey, .up-pval");
     const params = {};
     const keys = paramsTable.querySelectorAll(".up-pkey");
     const vals = paramsTable.querySelectorAll(".up-pval");

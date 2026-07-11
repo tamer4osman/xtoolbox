@@ -24,7 +24,7 @@ export const render = createVideoTool({
   processingText: "Processing...",
   actionBtnLabel: "🔇 Remove Audio & Download",
   optionsHTML: "",
-  async onProcess(ffmpeg, inputName, videoInfo, tctx) {
+  async onProcess(ffmpeg, inputName) {
     const outputName = "output.mp4";
     await ffmpeg.exec(["-i", inputName, "-an", "-c:v", "copy", outputName]);
 

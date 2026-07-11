@@ -79,7 +79,7 @@ export function render(container) {
           .filter(text => text.trim().length > 0)
           .join("\n");
 
-        const tableMatch = pageText.match(/[\d,\.]+[\s\n]+[\d,\.]+[\s\n]+[\d,\.]+/g);
+        const tableMatch = pageText.match(/[\d,.]+[\s\n]+[\d,.]+[\s\n]+[\d,.]+/g);
         if (tableMatch) {
           allTables.push(`\n--- Page ${i} ---\n`);
           allTables.push(tableMatch.join("\n"));

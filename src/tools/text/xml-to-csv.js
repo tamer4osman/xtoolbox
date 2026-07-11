@@ -1,4 +1,3 @@
-import { createFileUpload } from "../../components/file-upload.js";
 import { escapeCsvValue } from "../../utils/csv-parser.js";
 
 export const toolConfig = {

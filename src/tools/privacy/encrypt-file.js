@@ -67,9 +67,6 @@ export function render(container) {
   `;
   container.appendChild(style);
 
-  const tabs = container.querySelectorAll(".tab");
-  const encryptPanel = container.querySelector("#encrypt-panel");
-  const decryptPanel = container.querySelector("#decrypt-panel");
   const encryptFile = container.querySelector("#encrypt-file");
   const decryptFile = container.querySelector("#decrypt-file");
   const encryptFilename = container.querySelector("#encrypt-filename");

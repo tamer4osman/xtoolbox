@@ -1,6 +1,6 @@
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
-import { audioBufferToWav, drawWaveform, formatAudioTime } from "./audio-utils.js";
+import { drawWaveform, formatAudioTime } from "./audio-utils.js";
 
 export const toolConfig = {
   id: "voice-recorder",

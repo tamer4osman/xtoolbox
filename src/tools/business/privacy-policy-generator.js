@@ -104,18 +104,9 @@ export function render(container) {
     </div>
   `;
 
-  const $ = id => container.querySelector(id);
   const el = sel => container.querySelector(sel);
   const formatDate = () =>
     new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-
-  const bindInput = (id, key) => {
-    const el$ = id.startsWith("#") ? container.querySelector(id) : container.querySelector(id);
-    el$.addEventListener(key === "checked" ? "change" : "input", e => {
-      state[key] = e.target[key];
-      generate();
-    });
-  };
 
   [
     "#companyName input",

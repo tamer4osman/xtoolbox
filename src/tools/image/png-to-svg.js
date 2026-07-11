@@ -51,7 +51,7 @@ export function render(container) {
         <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-2);">Higher = more detail, larger file</p>
       </div>
     `,
-    async onConvert({ files, uploadedData, progress }) {
+    async onConvert({ files, progress }) {
       const images = [];
       for (const file of files) {
         images.push(await loadImageFromFile(file));

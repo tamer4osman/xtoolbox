@@ -77,7 +77,7 @@ export function render(container) {
         </div>
       </div>
     `,
-    async onConvert({ files, uploadedData, progress }) {
+    async onConvert({ files, progress }) {
       const svgs = [];
       for (const file of files) {
         svgs.push(await file.text());

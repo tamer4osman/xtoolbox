@@ -250,10 +250,8 @@ function updateState(container) {
 function generateCommand(container) {
   updateState(container);
 
-  let inputExt = state.inputFile.split(".").pop() || "mp4";
   let outputFile = state.inputFile.replace(/\.[^/.]+$/, "") + "." + state.format;
   if (!state.inputFile) {
-    inputExt = "mp4";
     outputFile = "output." + state.format;
   }
 

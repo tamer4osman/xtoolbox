@@ -22,7 +22,7 @@ let rotation = 0;
 let flipH = false;
 let flipV = false;
 
-function getDimensions(img, maxScale) {
+function getDimensions(img) {
   const isRotated = rotation % 180 !== 0;
   return {
     w: isRotated ? img.naturalHeight : img.naturalWidth,

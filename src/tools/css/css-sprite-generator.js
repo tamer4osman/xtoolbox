@@ -130,7 +130,7 @@ function bindEvents(container) {
     state.prefix = e.target.value;
     renderCSS(container);
   });
-  downloadSprite.addEventListener("click", () => downloadSpriteImage(container));
+  downloadSprite.addEventListener("click", () => downloadSpriteImage());
   downloadCSS.addEventListener("click", () => downloadCSSFile(container));
   copyCSS.addEventListener("click", () => copyCSSCode(container));
 }
@@ -232,7 +232,7 @@ function renderImageList(container) {
   });
 }
 
-function downloadSpriteImage(container) {
+function downloadSpriteImage() {
   const canvas = document.createElement("canvas");
   const cols = state.gridCols;
   const padding = state.padding;

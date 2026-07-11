@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe } from "vitest";
 import { toolConfig } from "../tools/image/passport-photo-maker.js";
 import { testSimpleToolConfig } from "./tool-config-test.js";
 

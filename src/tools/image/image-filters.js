@@ -97,7 +97,7 @@ export function render(container) {
   const canvas = container.querySelector("#filter-canvas");
   const ctx = canvas.getContext("2d");
 
-  const ro = new ResizeObserver(() => {
+  new ResizeObserver(() => {
     if (originalImg) renderCurrentFilter();
   });
 

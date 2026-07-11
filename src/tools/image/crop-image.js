@@ -1,7 +1,6 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
-import { canvasToBlob } from "./image-utils.js";
 
 export const toolConfig = {
   id: "crop-image",

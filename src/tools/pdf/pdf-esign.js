@@ -1,8 +1,7 @@
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { PDFDocument, StandardFonts } from "pdf-lib";
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
-import { loadPdf, renderAllPages } from "./pdf-utils.js";
 
 export const toolConfig = {
   id: "pdf-esign",

@@ -131,8 +131,6 @@ function bindEvents(container) {
   const runBtn = container.querySelector("#runBtn");
   const loadSampleBtn = container.querySelector("#loadSampleBtn");
   const clearBtn = container.querySelector("#clearBtn");
-  const sqlInput = container.querySelector("#sqlInput");
-
   runBtn.addEventListener("click", () => executeQuery(container));
   loadSampleBtn.addEventListener("click", () => loadSampleData(container));
   clearBtn.addEventListener("click", () => clearDatabase(container));

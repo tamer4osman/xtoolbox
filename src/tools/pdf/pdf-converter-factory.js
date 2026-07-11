@@ -19,7 +19,6 @@ export function createPdfConverter({
   progressMessage = "Converting...",
   successMessage = "Converted!",
   outputExt = "out",
-  outputMime = "application/octet-stream",
   extraHTML = "",
   convert
 }) {

@@ -1,16 +1,5 @@
 import { describe, it, expect } from "vitest";
 
-const FIELDS = {
-  "0th": { 271: "Make", 272: "Model", 305: "Software", 306: "DateTime" },
-  Exif: {
-    33434: "ExposureTime",
-    33437: "FNumber",
-    36867: "DateTimeOriginal",
-    37386: "FocalLength"
-  },
-  GPS: { 2: "GPSLatitudeRef", 3: "GPSLatitude", 4: "GPSLongitudeRef", 5: "GPSLongitude" }
-};
-
 function formatValue(ifd, tag, value) {
   if (value === undefined || value === null) return "";
   if (ifd === "GPS") {

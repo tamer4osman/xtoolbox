@@ -1,5 +1,4 @@
 const LOCAL_FILE_HEADER = "PK\x03\x04";
-const CENTRAL_DIRECTORY_END = "PK\x05\x06";
 
 export function findLocalFileHeaders(data) {
   const headers = [];

@@ -1214,7 +1214,7 @@ export function render(container) {
         drawSection("Skills");
         allSkills.forEach(s => {
           const tagStr = s.category + ": " + s.items;
-          wrapText(tagStr, font, 8, contentWidth).forEach((line, li) => {
+          wrapText(tagStr, font, 8, contentWidth).forEach((line) => {
             page.drawText(line, { x: margin, y, size: 8, font, color: rgb(0.2, 0.2, 0.2) });
             y -= 11;
           });

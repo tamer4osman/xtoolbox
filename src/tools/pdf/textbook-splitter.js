@@ -1,5 +1,5 @@
 import { showToast } from "../../components/toast.js";
-import { renderAllPages, renderPdfPage } from "./pdf-utils.js";
+import { renderPdfPage } from "./pdf-utils.js";
 import { downloadBlob } from "../../utils/file.js";
 import JSZip from "jszip";
 import { createPdfPageBrowser } from "./pdf-page-browser.js";

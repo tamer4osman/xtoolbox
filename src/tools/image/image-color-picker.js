@@ -141,7 +141,6 @@ const COLOR_PICKER_CSS = `
 
 export function render(container) {
   let imageCanvas = null;
-  let uploadedImage = null;
 
   container.innerHTML = `
     <div class="color-picker-container">
@@ -258,7 +257,6 @@ export function render(container) {
     reader.onload = e => {
       const img = new Image();
       img.onload = () => {
-        uploadedImage = img;
         imageCanvas = imageCanvasEl.getContext("2d");
 
         const maxWidth = Math.min(800, window.innerWidth - 48);

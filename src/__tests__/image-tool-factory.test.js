@@ -41,7 +41,7 @@ describe("createImageTool", () => {
     getQuality = vi.fn(() => 0.92);
 
     if (!HTMLCanvasElement.prototype.toBlob) {
-      HTMLCanvasElement.prototype.toBlob = function (cb, type, quality) {
+      HTMLCanvasElement.prototype.toBlob = function (cb, type, _quality) {
         cb(new Blob(["x"], { type: type || "image/png" }));
       };
     }
@@ -112,7 +112,7 @@ describe("createImageTool", () => {
     const file = makeFile();
 
     const dropzone = elements.uploadArea.querySelector(".file-upload-dropzone");
-    const fileInput = elements.uploadArea.querySelector(".file-upload-input");
+
     const dt = { files: [file] };
     const dropEvent = new Event("drop", { bubbles: true });
     Object.defineProperty(dropEvent, "dataTransfer", { value: dt, configurable: true });

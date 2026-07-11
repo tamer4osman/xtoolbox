@@ -94,7 +94,7 @@ export function render(container) {
 
     onPagesLoaded: canvases => {
       _pageCanvasesRef = canvases;
-      _redactionRects = new Array(canvases.length).fill(null).map(() => []);
+      _redactionRects = Array.from({ length: canvases.length }, () => []);
       _currentPageIndex = 0;
       _selectedRectIndex = -1;
       renderPage(0);
@@ -151,7 +151,6 @@ export function render(container) {
     }
   });
 
-  const canvasContainer = container.querySelector("#canvas-container");
   const pageIndicator = container.querySelector("#page-indicator");
   const prevBtn = container.querySelector("#prev-page");
   const nextBtn = container.querySelector("#next-page");

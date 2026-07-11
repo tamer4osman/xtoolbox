@@ -39,26 +39,28 @@ export const toolConfig = {
 let watermarkRegions = [];
 let isDrawing = false;
 let startX, startY, endX, endY;
-let previewCanvas, previewCtx;
+let previewCanvas;
 let currentPdf = null;
 let currentPageNum = 1;
 let pdfDoc = null;
 
 function renderPreview(pageNum) {
-  return new Promise(async resolve => {
-    const page = await pdfDoc.getPage(pageNum);
-    const viewport = page.getViewport({ scale: 1.0 });
+  return new Promise(resolve => {
+    (async () => {
+      const page = await pdfDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 1.0 });
 
-    previewCanvas.width = viewport.width;
-    previewCanvas.height = viewport.height;
+      previewCanvas.width = viewport.width;
+      previewCanvas.height = viewport.height;
 
-    const ctx = previewCanvas.getContext("2d");
-    await page.render({ canvasContext: ctx, viewport }).promise;
+      const ctx = previewCanvas.getContext("2d");
+      await page.render({ canvasContext: ctx, viewport }).promise;
 
-    // Draw watermark regions overlay
-    drawWatermarkRegions(viewport.width, viewport.height);
+      // Draw watermark regions overlay
+      drawWatermarkRegions(viewport.width, viewport.height);
 
-    resolve();
+      resolve();
+    })();
   });
 }
 
@@ -313,11 +315,7 @@ export function render(container) {
   container.querySelector("#upload-area").appendChild(upload.element);
 
   previewCanvas = container.querySelector("#preview-canvas");
-  previewCtx = previewCanvas.getContext("2d");
-
   const convertBtn = container.querySelector("#convert-btn");
-  const processing = container.querySelector("#processing");
-  const progressPct = container.querySelector("#progress-pct");
   const filePanel = container.querySelector("#file-panel");
   const fileName = container.querySelector("#file-name");
   const fileInfo = container.querySelector("#file-info");

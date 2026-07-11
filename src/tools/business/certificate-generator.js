@@ -148,8 +148,6 @@ export function render(container) {
 
       const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
       const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
-      const timesItalic = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
-
       page.drawRectangle({
         x: 30,
         y: 30,

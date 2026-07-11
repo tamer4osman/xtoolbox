@@ -37,7 +37,6 @@ export function render(container) {
   let running = false;
   let startTime = null;
   let elapsed = 0;
-  let lastLapTime = 0;
   let lapCount = 0;
   let animId = null;
   const laps = [];
@@ -82,7 +81,6 @@ export function render(container) {
         '<div style="color:var(--color-text-muted);font-size:var(--text-sm);">No laps recorded yet.</div>';
       return;
     }
-    const total = elapsed + (running ? Date.now() - startTime : 0);
     lapList.innerHTML = laps
       .map((l, i) => {
         const diff = i === 0 ? l.lapTime : l.lapTime - laps[i - 1].lapTime;

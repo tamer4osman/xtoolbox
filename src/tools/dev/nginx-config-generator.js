@@ -3,7 +3,6 @@ import { copyToClipboard } from "../../utils/clipboard.js";
 import { downloadBlob } from "../../utils/file.js";
 import {
   NGX_CSS,
-  escapeHtml,
   fieldHtml,
   selectHtml,
   checkHtml,
@@ -286,7 +285,6 @@ export function buildMainServerBlock(state) {
   }
 
   if (state.enableRateLimit) {
-    const rate = (state.rateLimitRate || "10r/s").trim();
     const burst = (state.rateLimitBurst || "").trim();
     lines.push("");
     lines.push("    # Rate limiting");

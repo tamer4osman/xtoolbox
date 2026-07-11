@@ -20,7 +20,7 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  const { optionsArea, processing, runFFmpeg } = createVideoTool({ container });
+  const { optionsArea, runFFmpeg } = createVideoTool({ container });
 
   optionsArea.innerHTML += `
     <div class="form-group">

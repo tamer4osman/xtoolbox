@@ -1,5 +1,3 @@
-import { escapeHtml } from "../../utils/escape-html.js";
-
 export const toolConfig = {
   id: "currency-converter",
   name: "Currency Exchange Calculator",
@@ -177,8 +175,6 @@ export function render(container) {
   });
   fromSelect.value = "USD";
   toSelect.value = "EUR";
-
-  let rates = {};
 
   function update() {
     const from = fromSelect.value;

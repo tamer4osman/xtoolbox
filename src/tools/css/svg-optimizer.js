@@ -5,7 +5,6 @@ export function optimizeSvg(svgText, options = {}) {
     removeEditorData = true,
     removeEmptyGroups = true,
     removeUselessDefs = true,
-    collapseGroups = true,
     precision = 2
   } = options;
 

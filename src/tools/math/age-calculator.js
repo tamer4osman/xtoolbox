@@ -107,7 +107,6 @@ export function render(container) {
       months += 12;
     }
 
-    const totalDays = Math.floor((now - birth) / (1000 * 60 * 60 * 24));
     const nextBirthday = new Date(now.getFullYear(), birth.getMonth(), birth.getDate());
     if (nextBirthday < now) nextBirthday.setFullYear(now.getFullYear() + 1);
     const daysToBirthday = Math.ceil((nextBirthday - now) / (1000 * 60 * 60 * 24));

@@ -87,7 +87,7 @@ export function createImageToPdfTool({
           <input type="number" id="${id}-margin" value="0" min="0" max="100" class="text-input" style="width:100px;">
         </div>
       `,
-      async onConvert({ files, uploadedData, progress }) {
+      async onConvert({ files, progress }) {
         const images = [];
         for (const file of files) {
           images.push(await loadImageFromFile(file));

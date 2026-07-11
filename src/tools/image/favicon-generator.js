@@ -98,7 +98,7 @@ export function render(container) {
 
     try {
       const zip = new JSZip();
-      for (const { size, label } of sizes) {
+      for (const { size } of sizes) {
         const canvas = document.createElement("canvas");
         canvas.width = size;
         canvas.height = size;

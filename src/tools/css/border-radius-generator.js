@@ -10,7 +10,7 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  const { preview, cssOutput } = createCssGenerator({
+  createCssGenerator({
     container,
     cssClass: "br-gen",
     extraCSS: `

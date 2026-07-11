@@ -9,13 +9,6 @@ export const toolConfig = {
   status: "done"
 };
 
-const CRON_PRESETS = {
-  "0 0 * * *": { time: "midnight", day: "daily" },
-  "0 9 * * 1-5": { time: "9 AM", day: "weekdays" },
-  "0 0 1 * *": { time: "midnight", day: "monthly" },
-  "*/15 * * * *": { time: "every 15 min", day: "" }
-};
-
 function getWeekdayLabel(wd) {
   const labels = {
     "*": "daily",
@@ -48,7 +41,7 @@ export function getCronDescription(values) {
 }
 
 export function render(container) {
-  const { cssOutput } = createCssGenerator({
+  createCssGenerator({
     container,
     cssClass: "cron-gen",
     previewHTML:

@@ -1,7 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { loadPdf, savePdf } from "./pdf-utils.js";
 
-export function createPdfOverlayTool({ container, optionsHtml, onApply }) {
+export function createPdfOverlayTool({ container, optionsHtml }) {
   let currentFile = null;
 
   const upload = createFileUpload({

@@ -10,7 +10,7 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  const { preview } = createCssGenerator({
+  createCssGenerator({
     container,
     cssClass: "grid-gen",
     maxWidth: "800px",

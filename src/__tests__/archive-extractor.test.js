@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 
 describe("archive-extractor", () => {
   it("should format file sizes correctly", () => {

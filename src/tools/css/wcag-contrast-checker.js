@@ -200,12 +200,6 @@ export function render(container) {
   const checkBtn = container.querySelector("#wcag-check");
   const results = container.querySelector("#wcag-results");
 
-  function esc(s) {
-    const d = document.createElement("div");
-    d.textContent = s;
-    return d.innerHTML;
-  }
-
   function renderResults(fg, bg, ratio, checks) {
     const ratioStr = ratio.toFixed(2);
     const makeBadge = pass =>

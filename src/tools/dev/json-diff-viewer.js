@@ -60,14 +60,6 @@ export function pathToString(path) {
     .join("");
 }
 
-function formatValue(v, indent) {
-  if (v === null) return "null";
-  if (v === undefined) return "undefined";
-  if (typeof v === "string") return `"${v}"`;
-  if (typeof v === "object") return JSON.stringify(v, null, indent);
-  return String(v);
-}
-
 export function buildPatch(changes) {
   return changes.map(c => {
     const path = "/" + c.path.join("/");
@@ -87,12 +79,9 @@ function renderJsonSide(obj, diffs, side) {
     }
   }
 
-  let depth = 0;
   const result = [];
   for (const line of lines) {
     const trimmed = line.trimStart();
-    const depthChange = line.length - line.trimStart().length;
-    depth = depthChange / 2;
 
     let className = "";
     for (const [p, type] of pathMap) {

@@ -211,10 +211,10 @@ export function splitByTokens(text, contentType) {
   if (!text) return [];
   const ct = contentType || detectContentType(text);
   if (ct === "code") {
-    const tokens = text.split(/(\s+|[{}();,<>=\[\]])/g).filter(Boolean);
+    const tokens = text.split(/(\s+|[{}();,<>=[\]])/g).filter(Boolean);
     return tokens;
   }
-  const tokens = text.split(/(\s+|[.,!?;:()\[\]{}"'`])/g).filter(Boolean);
+  const tokens = text.split(/(\s+|[.,!?;:()[\]{}"'`])/g).filter(Boolean);
   return tokens;
 }
 

@@ -123,7 +123,7 @@ function extractScripts(doc) {
     const src = script.getAttribute("src") || "unknown";
     scripts.push({
       label: `External Script #${i + 1}: ${src.slice(0, 60)}`,
-      content: `<script src="${escHtml(src)}"><\/script>`,
+      content: `<script src="${escHtml(src)}"></script>`,
       download: true,
       filename: `script-${i + 1}.html`,
       type: "text/html"

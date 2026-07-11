@@ -139,8 +139,6 @@ export function render(container) {
   const previewLabel = container.querySelector("#cc-preview-label");
   const cssOutput = container.querySelector("#cc-css");
   const copyBtn = container.querySelector("#cc-copy");
-  const minBar = container.querySelector("#cc-min-bar");
-  const maxBar = container.querySelector("#cc-max-bar");
   const previewText = container.querySelector("#cc-preview-text");
   const minLabel = container.querySelector("#cc-min-label");
   const maxLabel = container.querySelector("#cc-max-label");

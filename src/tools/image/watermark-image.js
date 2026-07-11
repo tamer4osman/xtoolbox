@@ -107,7 +107,7 @@ const render = createImageTool({
     ctx.drawImage(img, 0, 0, w, h);
     drawWatermark(ctx, w, h, scale, tctx);
   },
-  onReady({ container, tctx, updatePreview }) {
+  onReady({ container, updatePreview }) {
     ["wm-text", "wm-size", "wm-opacity", "wm-position", "wm-color"].forEach(id => {
       const el = container.querySelector(`#${id}`);
       el.addEventListener("input", updatePreview);

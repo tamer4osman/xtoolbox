@@ -130,8 +130,6 @@ export function render(container) {
 
       const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
       const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
-      const helveticaOblique = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
-
       const title =
         state.type === "mutual" ? "MUTUAL NON-DISCLOSURE AGREEMENT" : "NON-DISCLOSURE AGREEMENT";
 
@@ -145,7 +143,7 @@ export function render(container) {
       });
 
       let y = height - 100;
-      const addLine = (text, indent = 40, size = 10, font = helvetica, isBold = false) => {
+      const addLine = (text, indent = 40, size = 10, font = helvetica) => {
         if (text.length > 80) {
           const words = text.split(" ");
           let line = "";

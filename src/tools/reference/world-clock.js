@@ -234,7 +234,7 @@ function renderClockRow(z, i, now, state) {
   `;
 }
 
-function renderConverterCard(z, converted, state) {
+function renderConverterCard(z, converted) {
   const offset = getZoneOffsetMinutes(z, converted);
   const time = formatInZone(converted, z);
   const date = formatDateInZone(converted, z);

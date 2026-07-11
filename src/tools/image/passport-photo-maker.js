@@ -1,5 +1,3 @@
-import { escapeHtml } from "../../utils/escape-html.js";
-
 export const toolConfig = {
   id: "passport-photo-maker",
   name: "Passport / ID Photo Maker",

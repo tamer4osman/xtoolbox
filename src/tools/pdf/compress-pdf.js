@@ -1,4 +1,3 @@
-import { PDFDocument } from "pdf-lib";
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { downloadBlob, formatFileSize } from "../../utils/file.js";

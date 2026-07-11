@@ -1,5 +1,4 @@
 import { escapeHtml } from "../../utils/escape-html.js";
-import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
   id: "food-nutrition-scanner",
@@ -436,7 +435,6 @@ export function render(container) {
   const cameraSection = container.querySelector("#camera-section");
   const cameraPreview = container.querySelector("#camera-preview");
   const cameraVideo = container.querySelector("#camera-video");
-  const cameraCanvas = container.querySelector("#camera-canvas");
 
   if ("BarcodeDetector" in window) {
     BarcodeDetector.getSupportedFormats()

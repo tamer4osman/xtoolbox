@@ -170,7 +170,7 @@ export function render(container) {
     updateStats(inputEl.value);
   });
 
-  inputEl.addEventListener("keydown", e => {
+  inputEl.addEventListener("keydown", () => {
     if (finished) return;
     if (!startTime) startTest();
   });

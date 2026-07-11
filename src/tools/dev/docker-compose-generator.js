@@ -1,7 +1,3 @@
-import { showToast } from "../../components/toast.js";
-import { copyToClipboard } from "../../utils/clipboard.js";
-import { downloadBlob } from "../../utils/file.js";
-
 export const toolConfig = {
   id: "docker-compose-generator",
   name: "Docker Compose Generator",
@@ -199,7 +195,7 @@ export function needsQuotes(s) {
   if (/^-?\d+(\.\d+)?$/.test(s)) return true;
   if (/^(null|true|false|yes|no|on|off)$/i.test(s)) return true;
   if (/[:#\s\t\n\r]|["'`|&*?><!%@]/.test(s)) return true;
-  if (/^[-?:\,\[\]\{\}\&\*#\!\|\>\'"%@\s]/.test(s)) return true;
+  if (/^[-?:,[\]{}&*#!|>'"%@\s]/.test(s)) return true;
   return false;
 }
 
@@ -272,7 +268,6 @@ export function buildCompose(state) {
 }
 
 export function toYaml(value, indent = 0) {
-  const pad = " ".repeat(indent);
   if (value === null || value === undefined) return "null";
   if (Array.isArray(value)) {
     if (value.length === 0) return "[]";
@@ -328,97 +323,6 @@ function inlineValue(value, indent) {
     return toYaml(value, indent);
   }
   return formatScalar(value);
-}
-
-function escapeAttr(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-function renderListRow(listKey, i, value, placeholder) {
-  return `<div class="dc-list-row" style="display:flex;gap:var(--space-1);align-items:center;">
-    <input type="text" class="text-input dc-list-input" data-list="${listKey}" data-i="${i}" value="${escapeAttr(value)}" placeholder="${escapeAttr(placeholder)}" style="flex:1;font-size:var(--text-sm);">
-    <button type="button" class="btn btn-secondary btn-sm dc-list-remove" data-list="${listKey}" data-i="${i}" style="padding:0 var(--space-2);">×</button>
-  </div>`;
-}
-
-const DC_LIST_SECTIONS = [
-  { list: "ports", label: "Ports (host:container)", ph: "80:80", empty: "No ports" },
-  {
-    list: "volumes",
-    label: "Volumes (host:container or named:path)",
-    ph: "./data:/data",
-    empty: "No volumes"
-  },
-  { list: "environment", label: "Environment (KEY=VALUE)", ph: "KEY=VALUE", empty: "No env vars" },
-  {
-    list: "dependsOn",
-    label: "Depends on (other service names)",
-    ph: "other-service",
-    empty: "No dependencies"
-  },
-  {
-    list: "networks",
-    label: "Networks (custom names)",
-    ph: "frontend",
-    empty: "Default network only"
-  }
-];
-
-function renderListSection(svc, idx, section) {
-  const items = (svc[section.list] || [])
-    .map((v, i) => renderListRow(section.list, i, v, section.ph))
-    .join("");
-  return `<div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-1);">
-      <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);">${section.label}</label>
-      <button type="button" class="btn btn-secondary btn-sm dc-add-list" data-idx="${idx}" data-list="${section.list}">+ Add</button>
-    </div>
-    <div class="dc-list" data-idx="${idx}" data-list="${section.list}" style="display:flex;flex-direction:column;gap:var(--space-1);">${items || `<div class="dc-list-empty" style="color:var(--color-text-muted);font-size:var(--text-xs);padding:var(--space-1) 0;">${section.empty}</div>`}</div>
-  </div>`;
-}
-
-function renderServiceCard(svc, idx) {
-  return `
-    <div class="dc-card" data-idx="${idx}" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-3);">
-        <div style="display:flex;align-items:center;gap:var(--space-2);flex:1;min-width:200px;">
-          <span style="font-size:1.4em;">${TEMPLATES[svc.templateKey]?.icon || "🧩"}</span>
-          <input type="text" class="text-input dc-name" data-idx="${idx}" value="${escapeAttr(svc.name)}" placeholder="service-name" style="font-weight:600;font-size:var(--text-base);max-width:240px;">
-        </div>
-        <div style="display:flex;gap:var(--space-2);">
-          <button type="button" class="btn btn-secondary btn-sm dc-move-up" data-idx="${idx}">↑</button>
-          <button type="button" class="btn btn-secondary btn-sm dc-move-down" data-idx="${idx}">↓</button>
-          <button type="button" class="btn btn-secondary btn-sm dc-remove" data-idx="${idx}">Remove</button>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-3);">
-        <div>
-          <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Image</label>
-          <input type="text" class="text-input dc-image" data-idx="${idx}" value="${escapeAttr(svc.image)}" placeholder="nginx:alpine">
-        </div>
-        <div>
-          <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Command (optional)</label>
-          <input type="text" class="text-input dc-cmd" data-idx="${idx}" value="${escapeAttr(svc.command)}" placeholder="server /data --console-address :9001">
-        </div>
-        <div>
-          <label style="font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);display:block;margin-bottom:var(--space-1);">Restart policy</label>
-          <select class="text-input dc-restart" data-idx="${idx}">
-            <option value="no" ${svc.restart === "no" ? "selected" : ""}>no</option>
-            <option value="always" ${svc.restart === "always" ? "selected" : ""}>always</option>
-            <option value="on-failure" ${svc.restart === "on-failure" ? "selected" : ""}>on-failure</option>
-            <option value="unless-stopped" ${svc.restart === "unless-stopped" ? "selected" : ""}>unless-stopped</option>
-          </select>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-3);margin-top:var(--space-3);">
-        ${DC_LIST_SECTIONS.map(s => renderListSection(svc, idx, s)).join("")}
-      </div>
-    </div>
-  `;
 }
 
 export function render(container) {

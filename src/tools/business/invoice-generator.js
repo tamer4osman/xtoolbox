@@ -87,7 +87,6 @@ export function render(container) {
 
   const $ = id => container.querySelector(id);
   const $$ = sel => Array.from(container.querySelectorAll(sel));
-  const el = id => container.querySelector(id);
 
   $("#invoiceDate").valueAsDate = new Date();
   const due = new Date();

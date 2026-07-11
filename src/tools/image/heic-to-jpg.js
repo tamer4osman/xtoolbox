@@ -60,7 +60,7 @@ export function render(container) {
         </div>
       </div>
     `,
-    async onConvert({ files, uploadedData, progress }) {
+    async onConvert({ files, progress }) {
       const quality = parseInt(container.querySelector("#heic-quality").value) / 100;
       const targetWidth = parseInt(container.querySelector("#heic-width").value) || 0;
       const targetHeight = parseInt(container.querySelector("#heic-height").value) || 0;

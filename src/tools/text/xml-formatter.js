@@ -88,7 +88,7 @@ export function validateXml(xml) {
 export function highlightXml(xml) {
   const fragment = document.createDocumentFragment();
   const regex =
-    /(\<\?[\s\S]*?\?\>)|(\<!--[\s\S]*?--\>)|(\<\/?[\w:-]+\/?)|(".*?")|([\w:-]+)(\=)|(\>)/g;
+    /(<\?[\s\S]*?\?>)|(<!--[\s\S]*?-->)|(<\/?[\w:-]+\/?)|(".*?")|([\w:-]+)(=)|(>)/g;
   let lastIndex = 0;
   let match;
 
@@ -97,7 +97,7 @@ export function highlightXml(xml) {
       fragment.appendChild(document.createTextNode(xml.slice(lastIndex, match.index)));
     }
 
-    const [, decl, comment, tag, str, attr, eq, gt] = match;
+    const [, decl, comment, tag, str, attr, eq] = match;
 
     if (decl || comment) {
       const span = document.createElement("span");

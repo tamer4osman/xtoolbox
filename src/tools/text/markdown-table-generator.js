@@ -222,7 +222,7 @@ function buildGridHTML(headers, rows, alignments) {
 }
 
 function bindMarkdownTableEvents(ctx) {
-  const { container, state, gridEl, outputEl, statsEl, importTextEl, delimEl, renderAll } = ctx;
+  const { container, state, gridEl, outputEl, importTextEl, delimEl, renderAll } = ctx;
 
   gridEl.addEventListener("input", e => {
     if (e.target.classList.contains("mtg-h")) {
@@ -264,7 +264,7 @@ function bindMarkdownTableEvents(ctx) {
   });
 
   container.querySelector("#mtg-add-row").addEventListener("click", () => {
-    state.rows.push(new Array(state.headers.length).fill(""));
+    state.rows.push(Array.from({ length: state.headers.length }, () => ""));
     renderAll();
   });
   container.querySelector("#mtg-add-col").addEventListener("click", () => {
@@ -314,7 +314,7 @@ function bindMarkdownTableEvents(ctx) {
     state.rows = rows.map(r =>
       r.slice(0, state.headers.length).map(c => (c == null ? "" : String(c)))
     );
-    while (state.rows.length === 0) state.rows.push(new Array(state.headers.length).fill(""));
+    while (state.rows.length === 0) state.rows.push(Array.from({ length: state.headers.length }, () => ""));
     renderAll();
     showToast({
       message: `Imported ${state.headers.length} column${state.headers.length === 1 ? "" : "s"} × ${state.rows.length} row${state.rows.length === 1 ? "" : "s"}`,

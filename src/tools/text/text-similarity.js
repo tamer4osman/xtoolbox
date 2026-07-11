@@ -73,8 +73,6 @@ export function render(container) {
     const set1 = new Set(t1),
       set2 = new Set(t2);
     const intersection = [...set1].filter(x => set2.has(x));
-    const union = new Set([...t1, ...t2]);
-    const similarity = union.size ? (intersection.length / union.size) * 100 : 0;
     const jaccard =
       set1.size + set2.size - intersection.length > 0
         ? (intersection.length / (set1.size + set2.size - intersection.length)) * 100

@@ -323,7 +323,7 @@ export function render(container) {
     wrapper.addEventListener("mouseleave", () => {
       if (_isDrawing) {
         if (_activeTool === "freehand") {
-          finishFreehand(overlayCanvas);
+          finishFreehand();
         } else {
           _isDrawing = false;
           _drawStart = null;
@@ -409,7 +409,7 @@ export function render(container) {
     const h = Math.abs(endY - _drawStart.y);
 
     if (_activeTool === "freehand") {
-      finishFreehand(canvas);
+      finishFreehand();
       return;
     }
 
@@ -466,7 +466,7 @@ export function render(container) {
     renderPage(_currentPageIndex);
   }
 
-  function finishFreehand(canvas) {
+  function finishFreehand() {
     _isDrawing = false;
     if (_freehandPoints.length > 1) {
       const color = _strokeColor;
@@ -652,7 +652,6 @@ function drawAnnotation(ctx, ann) {
       ctx.font = "bold 20px Inter, sans-serif";
       const metrics = ctx.measureText(ann.text);
       const pw = 12;
-      const ph = 6;
       const bw = metrics.width + pw * 2;
       const bh = 30;
       ctx.save();

@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe } from "vitest";
 import { toolConfig } from "../tools/productivity/wireframe-sketcher.js";
 import { testSimpleToolConfig } from "./tool-config-test.js";
 

@@ -146,7 +146,7 @@ export function render(container) {
         .querySelectorAll(
           ".result-card #dc-years, .result-card #dc-months, .result-card #dc-weeks, .result-card #dc-days, .result-card #dc-hours, .result-card #dc-minutes, .result-card #dc-seconds"
         )
-        .forEach(el => {});
+        .forEach(() => {});
       document
         .querySelectorAll(
           "#dc-years, #dc-months, #dc-weeks, #dc-days, #dc-hours, #dc-minutes, #dc-seconds"

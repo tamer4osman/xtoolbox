@@ -1,7 +1,7 @@
 import { showToast } from "../../components/toast.js";
 import { copyToClipboard } from "../../utils/clipboard.js";
 
-export function parseTime(timeStr, isVtt) {
+export function parseTime(timeStr) {
   // Handle both SRT (00:00:01,000) and VTT (00:00:01.000) formats
   const clean = timeStr.trim();
   const match = clean.match(/^(\d{1,2}):(\d{2}):(\d{2})[,.](\d{3})$/);
@@ -67,8 +67,8 @@ export function shiftSubtitles(content, offsetMs, isVtt) {
 function shiftTimestampLine(line, offsetMs, isVtt) {
   const parts = line.split("-->");
   if (parts.length !== 2) return null;
-  const startTime = parseTime(parts[0], isVtt);
-  const endTime = parseTime(parts[1], isVtt);
+  const startTime = parseTime(parts[0]);
+  const endTime = parseTime(parts[1]);
   if (startTime === null || endTime === null) return null;
   return `${formatTime(startTime + offsetMs, isVtt)} --> ${formatTime(endTime + offsetMs, isVtt)}`;
 }

@@ -1,4 +1,3 @@
-import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { copyToClipboard } from "../../utils/clipboard.js";
 

@@ -1,7 +1,4 @@
 import { createFileUpload } from "../../components/file-upload.js";
-import { showToast } from "../../components/toast.js";
-import { copyToClipboard } from "../../utils/clipboard.js";
-import { downloadBlob } from "../../utils/file.js";
 
 export const toolConfig = {
   id: "transcribe-audio",

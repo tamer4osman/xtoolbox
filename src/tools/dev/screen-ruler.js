@@ -11,7 +11,6 @@ export const toolConfig = {
   status: "done"
 };
 
-const UNIT_LABELS = { px: "px", cm: "cm", in: "in", mm: "mm" };
 const TICK_COLORS = {
   major: "rgba(255,255,255,0.9)",
   minor: "rgba(255,255,255,0.4)",
@@ -34,66 +33,6 @@ export function formatMeasurement(px, unit, dpr) {
 
 export function hexFromRgb(r, g, b) {
   return "#" + [r, g, b].map(c => c.toString(16).padStart(2, "0")).join("");
-}
-
-function drawHorizontalRuler(ctx, width, height, scrollX, unit, dpr) {
-  const rulerH = 28;
-  ctx.fillStyle = "rgba(30,30,30,0.92)";
-  ctx.fillRect(0, 0, width, rulerH);
-
-  const step = unit === "px" ? 100 : unit === "mm" ? 10 * ((96 * dpr) / 25.4) : 50;
-  const startOffset = scrollX % step;
-
-  for (let x = -startOffset; x < width; x += step) {
-    const realX = x + scrollX;
-    const isMajor = Math.round(realX) % (step * 5) === 0 || Math.round(realX) % 100 === 0;
-
-    ctx.strokeStyle = isMajor ? TICK_COLORS.major : TICK_COLORS.minor;
-    ctx.lineWidth = isMajor ? 1.5 : 0.5;
-    ctx.beginPath();
-    ctx.moveTo(x, rulerH);
-    ctx.lineTo(x, isMajor ? rulerH - 14 : rulerH - 7);
-    ctx.stroke();
-
-    if (isMajor || step > 30) {
-      ctx.fillStyle = TICK_COLORS.text;
-      ctx.font = "10px monospace";
-      ctx.textAlign = "center";
-      ctx.fillText(formatMeasurement(realX, unit, dpr), x, rulerH - 16);
-    }
-  }
-}
-
-function drawVerticalRuler(ctx, width, height, scrollY, unit, dpr) {
-  const rulerW = 28;
-  ctx.fillStyle = "rgba(30,30,30,0.92)";
-  ctx.fillRect(0, 0, rulerW, height);
-
-  const step = unit === "px" ? 100 : unit === "mm" ? 10 * ((96 * dpr) / 25.4) : 50;
-  const startOffset = scrollY % step;
-
-  for (let y = -startOffset; y < height; y += step) {
-    const realY = y + scrollY;
-    const isMajor = Math.round(realY) % (step * 5) === 0 || Math.round(realY) % 100 === 0;
-
-    ctx.strokeStyle = isMajor ? TICK_COLORS.major : TICK_COLORS.minor;
-    ctx.lineWidth = isMajor ? 1.5 : 0.5;
-    ctx.beginPath();
-    ctx.moveTo(rulerW, y);
-    ctx.lineTo(isMajor ? rulerW - 14 : rulerW - 7, y);
-    ctx.stroke();
-
-    if (isMajor || step > 30) {
-      ctx.save();
-      ctx.fillStyle = TICK_COLORS.text;
-      ctx.font = "10px monospace";
-      ctx.translate(12, y);
-      ctx.rotate(-Math.PI / 2);
-      ctx.textAlign = "center";
-      ctx.fillText(formatMeasurement(realY, unit, dpr), 0, 0);
-      ctx.restore();
-    }
-  }
 }
 
 function drawCrosshair(ctx, x, y, width, height) {
@@ -152,7 +91,7 @@ function drawMeasurementLine(ctx, x1, y1, x2, y2, unit, dpr) {
   ctx.fillText(label, midX, midY - 9);
 }
 
-function drawTooltip(ctx, x, y, colorHex, unit, dpr) {
+function drawTooltip(ctx, x, y, colorHex) {
   const text = `(${x}, ${y}) ${colorHex}`;
   ctx.font = "11px monospace";
   const textW = ctx.measureText(text).width;

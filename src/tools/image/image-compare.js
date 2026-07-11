@@ -29,13 +29,6 @@ export const toolConfig = {
   ]
 };
 
-function drawScaled(img, canvas, maxW) {
-  const scale = Math.min(maxW / img.naturalWidth, maxW / img.naturalHeight, 1);
-  canvas.width = Math.round(img.naturalWidth * scale);
-  canvas.height = Math.round(img.naturalHeight * scale);
-  canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-}
-
 export function render(container) {
   let mode = "side-by-side";
   let swipePos = 50;

@@ -5,7 +5,6 @@ export function createCharGrid(options = {}) {
     containerClass = "char-grid-container",
     searchPlaceholder = "Search...",
     detailSection = false,
-    detailTitle = "Character Details",
     onSelect = null,
     onCopy = null
   } = options;

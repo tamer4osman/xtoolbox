@@ -1790,9 +1790,7 @@ function bindGitignoreEvents(ctx) {
     clearBtn,
     copyBtn,
     downloadBtn,
-    countEl,
     renderAll,
-    syncCheckboxes,
     showToast,
     copyToClipboard,
     downloadBlob

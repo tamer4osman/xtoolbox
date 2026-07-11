@@ -315,7 +315,6 @@ export function render(container) {
     tabPanels: container.querySelectorAll(".tab-panel")
   };
 
-  let parsedData = null;
   let parsedSchema = null;
 
   els.tabs.forEach(tab => {
@@ -351,7 +350,6 @@ export function render(container) {
       for (const [tableName, columns] of Object.entries(tables)) {
         jsonData[tableName] = { structure: columns, rows: inserts[tableName] || [] };
       }
-      parsedData = jsonData;
       parsedSchema = generateSchema(tables);
       els.jsonOutput.value = JSON.stringify(jsonData, null, 2);
       els.schemaOutput.value = JSON.stringify(parsedSchema, null, 2);
@@ -406,7 +404,6 @@ export function render(container) {
     els.jsonOutput.value = "";
     els.schemaOutput.value = "";
     els.dataPreview.innerHTML = "";
-    parsedData = null;
     parsedSchema = null;
     els.copyJsonBtn.disabled = true;
     els.copySchemaBtn.disabled = true;
