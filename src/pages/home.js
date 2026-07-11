@@ -1,27 +1,39 @@
-import { $ } from '../utils/dom-query.js';
-import { debounce } from '../utils/debounce.js';
-import { navigate } from '../router.js';
-import { updatePageMeta } from '../utils/seo.js';
-import toolsData from '../data/tools.json';
-import categoriesData from '../data/categories.json';
+import { $ } from "../utils/dom-query.js";
+import { debounce } from "../utils/debounce.js";
+import { navigate } from "../router.js";
+import { updatePageMeta } from "../utils/seo.js";
+import { availableTools } from "../utils/tools.js";
+import categoriesData from "../data/categories.json";
 
 export function renderHome() {
-  const main = $('#main-content');
+  const main = $("#main-content");
 
   updatePageMeta({
-    title: 'XToolBox - Free Online Tools',
-    description: `${toolsData.length} free online tools. Compress images, edit PDFs, convert videos and more. 100% client-side — your files never leave your device.`,
+    title: "XToolBox - Free Online Tools",
+    description: `${availableTools.length} free online tools. Compress images, edit PDFs, convert videos and more. 100% client-side — your files never leave your device.`,
     url: window.location.origin
   });
 
   const popularTools = [
-    'compress-image', 'merge-pdf', 'remove-background', 'pdf-to-word',
-    'compress-video', 'qr-generator', 'password-generator', 'csv-to-excel',
-    'markdown-html', 'json-validator', 'scientific-calculator', 'stopwatch',
-    'remove-metadata', 'svg-optimizer', 'wcag-contrast-checker', 'typing-speed-test'
+    "compress-image",
+    "merge-pdf",
+    "remove-background",
+    "pdf-to-word",
+    "compress-video",
+    "qr-generator",
+    "password-generator",
+    "csv-to-excel",
+    "markdown-html",
+    "json-validator",
+    "scientific-calculator",
+    "stopwatch",
+    "remove-metadata",
+    "svg-optimizer",
+    "wcag-contrast-checker",
+    "typing-speed-test"
   ];
 
-  const popular = popularTools.map(id => toolsData.find(t => t.id === id)).filter(Boolean);
+  const popular = popularTools.map(id => availableTools.find(t => t.id === id)).filter(Boolean);
 
   main.innerHTML = `
     <div class="hero">
@@ -31,7 +43,7 @@ export function renderHome() {
         <p>All processing happens in your browser. Your files never leave your device.</p>
         <div class="hero-search">
           <div class="search-wrapper">
-            <input type="text" id="search-input" placeholder="Search ${toolsData.length} tools..." autocomplete="off" aria-label="Search tools">
+            <input type="text" id="search-input" placeholder="Search ${availableTools.length} tools..." autocomplete="off" aria-label="Search tools">
             <div id="search-results" class="search-results"></div>
           </div>
         </div>
@@ -77,53 +89,67 @@ export function renderHome() {
   `;
 
   // Render popular tools and categories as HTML
-  const popularGrid = main.querySelector('#popular-tools');
-  popularGrid.innerHTML = popular.map(tool => toCardHtml({
-    title: tool.name, description: tool.description, icon: tool.icon,
-    href: tool.href, category: tool.category
-  })).join('');
+  const popularGrid = main.querySelector("#popular-tools");
+  popularGrid.innerHTML = popular
+    .map(tool =>
+      toCardHtml({
+        title: tool.name,
+        description: tool.description,
+        icon: tool.icon,
+        href: tool.href,
+        category: tool.category
+      })
+    )
+    .join("");
 
-  const catGrid = main.querySelector('#categories-grid');
-  catGrid.innerHTML = categoriesData.map(cat => toCardHtml({
-    title: cat.name, description: cat.description, icon: cat.icon,
-    href: `/category/${cat.id}`, category: `${cat.toolCount} tools`
-  })).join('');
+  const catGrid = main.querySelector("#categories-grid");
+  catGrid.innerHTML = categoriesData
+    .map(cat =>
+      toCardHtml({
+        title: cat.name,
+        description: cat.description,
+        icon: cat.icon,
+        href: `/category/${cat.id}`,
+        category: `${cat.toolCount} tools`
+      })
+    )
+    .join("");
 
   // Search functionality (hero only — navbar search handles itself)
   initSearch();
 }
 
 function initSearch() {
-  const searchInput = document.getElementById('search-input');
-  const searchResults = document.getElementById('search-results');
+  const searchInput = document.getElementById("search-input");
+  const searchResults = document.getElementById("search-results");
   if (!searchInput || !searchResults) return;
 
-  const handleSearch = debounce((e) => {
+  const handleSearch = debounce(e => {
     const query = e.target.value.trim().toLowerCase();
     if (query.length < 2) {
-      searchResults.innerHTML = '';
-      searchResults.classList.remove('visible');
+      searchResults.innerHTML = "";
+      searchResults.classList.remove("visible");
       return;
     }
     const results = searchTools(query);
     renderSearchResults(results, searchResults, query);
   }, 300);
 
-  searchInput.addEventListener('input', handleSearch);
+  searchInput.addEventListener("input", handleSearch);
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-wrapper')) {
-      searchResults.classList.remove('visible');
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".search-wrapper")) {
+      searchResults.classList.remove("visible");
     }
   });
 
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      searchResults.classList.remove('visible');
+  searchInput.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      searchResults.classList.remove("visible");
       searchInput.blur();
     }
-    if (e.key === 'Enter') {
-      const firstResult = searchResults.querySelector('.search-result-item');
+    if (e.key === "Enter") {
+      const firstResult = searchResults.querySelector(".search-result-item");
       if (firstResult) firstResult.click();
     }
   });
@@ -133,30 +159,33 @@ export function initAllSearchInputs() {
   // Hero search is initialized by initSearch() in renderHome() — skip it here.
 
   // Navbar search
-  const navbarInput = document.getElementById('navbar-search-input');
-  const navbarResults = document.getElementById('navbar-search-results');
+  const navbarInput = document.getElementById("navbar-search-input");
+  const navbarResults = document.getElementById("navbar-search-results");
   if (navbarInput && navbarResults) initSearchInput(navbarInput, navbarResults);
 
   // Mobile search
-  const mobileInput = document.getElementById('mobile-search-input');
+  const mobileInput = document.getElementById("mobile-search-input");
   if (mobileInput) {
-    mobileInput.addEventListener('input', debounce((e) => {
-      const query = e.target.value.trim().toLowerCase();
-      if (query.length < 2) {
-        mobileInput.classList.remove('search-active');
-        return;
-      }
-      const results = searchTools(query);
-      if (results.length > 0) {
-        mobileInput.classList.add('search-active');
-        // For mobile, navigate to first result on Enter
-      } else {
-        mobileInput.classList.remove('search-active');
-      }
-    }, 300));
+    mobileInput.addEventListener(
+      "input",
+      debounce(e => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length < 2) {
+          mobileInput.classList.remove("search-active");
+          return;
+        }
+        const results = searchTools(query);
+        if (results.length > 0) {
+          mobileInput.classList.add("search-active");
+          // For mobile, navigate to first result on Enter
+        } else {
+          mobileInput.classList.remove("search-active");
+        }
+      }, 300)
+    );
 
-    mobileInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+    mobileInput.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
         const query = e.target.value.trim().toLowerCase();
         const results = searchTools(query);
         if (results.length > 0) {
@@ -168,32 +197,32 @@ export function initAllSearchInputs() {
 }
 
 function initSearchInput(input, resultsContainer) {
-  const handleSearch = debounce((e) => {
+  const handleSearch = debounce(e => {
     const query = e.target.value.trim().toLowerCase();
     if (query.length < 2) {
-      resultsContainer.innerHTML = '';
-      resultsContainer.classList.remove('visible');
+      resultsContainer.innerHTML = "";
+      resultsContainer.classList.remove("visible");
       return;
     }
     const results = searchTools(query);
     renderSearchResults(results, resultsContainer, query);
   }, 300);
 
-  input.addEventListener('input', handleSearch);
+  input.addEventListener("input", handleSearch);
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.navbar-search')) {
-      resultsContainer.classList.remove('visible');
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".navbar-search")) {
+      resultsContainer.classList.remove("visible");
     }
   });
 
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      resultsContainer.classList.remove('visible');
+  input.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      resultsContainer.classList.remove("visible");
       input.blur();
     }
-    if (e.key === 'Enter') {
-      const firstResult = resultsContainer.querySelector('.search-result-item');
+    if (e.key === "Enter") {
+      const firstResult = resultsContainer.querySelector(".search-result-item");
       if (firstResult) firstResult.click();
     }
   });
@@ -201,10 +230,12 @@ function initSearchInput(input, resultsContainer) {
 
 function searchTools(query) {
   const words = query.split(/\s+/);
-  return toolsData
+  return availableTools
     .map(tool => {
       let score = 0;
-      const searchableText = [tool.name, tool.description, tool.category, ...(tool.keywords || [])].join(' ').toLowerCase();
+      const searchableText = [tool.name, tool.description, tool.category, ...(tool.keywords || [])]
+        .join(" ")
+        .toLowerCase();
       for (const word of words) {
         if (tool.name.toLowerCase().includes(word)) score += 10;
         if ((tool.keywords || []).some(k => k.includes(word))) score += 5;
@@ -221,12 +252,15 @@ function searchTools(query) {
 
 function renderSearchResults(results, container, query) {
   if (results.length === 0) {
-    container.innerHTML = '<div class="search-no-results"><p>No tools found. Try a different search term.</p></div>';
-    container.classList.add('visible');
+    container.innerHTML =
+      '<div class="search-no-results"><p>No tools found. Try a different search term.</p></div>';
+    container.classList.add("visible");
     return;
   }
 
-  container.innerHTML = results.map(tool => `
+  container.innerHTML = results
+    .map(
+      tool => `
     <a href="#/tools/${tool.id}" class="search-result-item" data-tool-id="${tool.id}">
       <span class="search-result-icon">${tool.icon}</span>
       <div class="search-result-info">
@@ -235,31 +269,33 @@ function renderSearchResults(results, container, query) {
       </div>
       <span class="search-result-category">${tool.category}</span>
     </a>
-  `).join('');
+  `
+    )
+    .join("");
 
-  container.classList.add('visible');
+  container.classList.add("visible");
 
-  container.querySelectorAll('.search-result-item').forEach(item => {
-    item.addEventListener('click', (e) => {
+  container.querySelectorAll(".search-result-item").forEach(item => {
+    item.addEventListener("click", e => {
       e.preventDefault();
       navigate(`/tools/${item.dataset.toolId}`);
-      container.classList.remove('visible');
+      container.classList.remove("visible");
     });
   });
 }
 
 function highlightMatch(text, query) {
   if (!query) return text;
-  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-  return text.replace(regex, '<mark>$1</mark>');
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+  return text.replace(regex, "<mark>$1</mark>");
 }
 
 function toCardHtml({ title, description, icon, href, category }) {
-  const linkHref = href.startsWith('/') ? `#${href}` : href;
+  const linkHref = href.startsWith("/") ? `#${href}` : href;
   return `<a href="${linkHref}" class="tool-card" data-nav-link="${href}">
     <span class="tool-card-icon">${icon}</span>
     <h3 class="tool-card-title">${title}</h3>
     <p class="tool-card-desc">${description}</p>
-    ${category ? `<span class="tool-card-category">${category}</span>` : ''}
+    ${category ? `<span class="tool-card-category">${category}</span>` : ""}
   </a>`;
 }

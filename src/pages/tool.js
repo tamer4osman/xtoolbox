@@ -1,17 +1,17 @@
-import { $ } from '../utils/dom-query.js';
-import { createElement } from '../utils/dom-create.js';
-import { updatePageMeta, addStructuredData } from '../utils/seo.js';
-import { createAdSlot } from '../components/ad-slot.js';
-import toolsData from '../data/tools.json';
+import { $ } from "../utils/dom-query.js";
+import { createElement } from "../utils/dom-create.js";
+import { updatePageMeta, addStructuredData } from "../utils/seo.js";
+import { createAdSlot } from "../components/ad-slot.js";
+import toolsData from "../data/tools.json";
 
 const toolCache = {};
 let cleanupFn = null;
 
 export async function renderTool(toolId) {
   await cleanupCurrentTool();
-  const main = $('#main-content');
+  const main = $("#main-content");
   if (!main) {
-    console.error('Main content not found');
+    console.error("Main content not found");
     return;
   }
 
@@ -31,12 +31,12 @@ export async function renderTool(toolId) {
   addStructuredData({
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": toolMeta.name,
-    "description": toolMeta.description,
-    "url": `${window.location.origin}/tools/${toolId}`,
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    name: toolMeta.name,
+    description: toolMeta.description,
+    url: `${window.location.origin}/tools/${toolId}`,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
   });
 
   main.innerHTML = `
@@ -57,73 +57,83 @@ export async function renderTool(toolId) {
 
   try {
     const toolModule = await loadToolModule(toolMeta.category, toolId);
-    const toolPage = main.querySelector('.tool-page');
-    const loadingEl = toolPage?.querySelector('.tool-loading');
+    const toolPage = main.querySelector(".tool-page");
+    const loadingEl = toolPage?.querySelector(".tool-loading");
     if (!loadingEl) {
-      console.error('Tool page not ready');
+      console.error("Tool page not ready");
       return;
     }
-    const toolContainer = createElement('div', { className: 'tool-container', id: 'tool-container' });
+    const toolContainer = createElement("div", {
+      className: "tool-container",
+      id: "tool-container"
+    });
     loadingEl.replaceWith(toolContainer);
 
-    const renderFn = toolModule.render || Object.values(toolModule).find(fn => typeof fn === 'function' && fn.name.startsWith('render'));
+    const renderFn =
+      toolModule.render ||
+      Object.values(toolModule).find(
+        fn => typeof fn === "function" && fn.name.startsWith("render")
+      );
     if (renderFn) {
       renderFn(toolContainer);
-      const internalHeaders = toolContainer.querySelectorAll('h1, h2, .tool-header');
+      const internalHeaders = toolContainer.querySelectorAll("h1, h2, .tool-header");
       internalHeaders.forEach(h => h.remove());
     } else {
-      console.error('No render function found in module:', toolModule);
+      console.error("No render function found in module:", toolModule);
     }
 
     // Defer non-critical content (below-the-fold: ads, FAQ, related tools)
     queueMicrotask(() => {
       if (!toolPage?.isConnected) return;
-      const adSection = document.createElement('div');
-      adSection.className = 'tool-ad-section';
-      adSection.appendChild(createAdSlot({ slot: 'TOOL_BODY_SLOT' }));
+      const adSection = document.createElement("div");
+      adSection.className = "tool-ad-section";
+      adSection.appendChild(createAdSlot({ slot: "TOOL_BODY_SLOT" }));
       toolPage?.appendChild(adSection);
 
       if (toolMeta.steps) {
-        const section = document.createElement('section');
-        section.className = 'how-to-section';
-        section.innerHTML = `<h2>How to Use</h2><ol class="how-to-steps">${toolMeta.steps.map(s => `<li>${s}</li>`).join('')}</ol>`;
+        const section = document.createElement("section");
+        section.className = "how-to-section";
+        section.innerHTML = `<h2>How to Use</h2><ol class="how-to-steps">${toolMeta.steps.map(s => `<li>${s}</li>`).join("")}</ol>`;
         toolPage?.appendChild(section);
       }
 
       if (toolMeta.faqs) {
-        const section = document.createElement('section');
-        section.className = 'faq-section';
-        section.innerHTML = `<h2>Frequently Asked Questions</h2><div class="faq-list">${toolMeta.faqs.map(faq => `<details class="faq-item"><summary>${faq.question}</summary><p>${faq.answer}</p></details>`).join('')}</div>`;
+        const section = document.createElement("section");
+        section.className = "faq-section";
+        section.innerHTML = `<h2>Frequently Asked Questions</h2><div class="faq-list">${toolMeta.faqs.map(faq => `<details class="faq-item"><summary>${faq.question}</summary><p>${faq.answer}</p></details>`).join("")}</div>`;
         toolPage?.appendChild(section);
 
         addStructuredData({
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          "mainEntity": toolMeta.faqs.map(faq => ({
-            "@type": "Question", "name": faq.question,
-            "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
+          mainEntity: toolMeta.faqs.map(faq => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: { "@type": "Answer", text: faq.answer }
           }))
         });
       }
 
-      const related = toolsData.filter(t => t.category === toolMeta.category && t.id !== toolId).slice(0, 6);
+      const related = toolsData
+        .filter(t => t.status === "done" && t.category === toolMeta.category && t.id !== toolId)
+        .slice(0, 6);
       if (related.length > 0) {
-        const section = document.createElement('section');
-        section.className = 'related-tools';
-        section.innerHTML = `<h2>Related Tools</h2><div class="tools-grid">${related.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${t.icon}</span><h3>${t.name}</h3><p>${t.description}</p></a>`).join('')}</div>`;
+        const section = document.createElement("section");
+        section.className = "related-tools";
+        section.innerHTML = `<h2>Related Tools</h2><div class="tools-grid">${related.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${t.icon}</span><h3>${t.name}</h3><p>${t.description}</p></a>`).join("")}</div>`;
         toolPage?.appendChild(section);
       }
     });
   } catch (error) {
-    console.error('Error loading tool module:', error);
-    const toolPage = main.querySelector('.tool-page');
+    console.error("Error loading tool module:", error);
+    const toolPage = main.querySelector(".tool-page");
     if (toolPage) {
       toolPage.innerHTML += `<div class="error-state"><p>Error loading tool: ${error.message}</p></div>`;
     }
   }
 }
 
-const toolModules = import.meta.glob('../tools/*/*.{js,jsx}');
+const toolModules = import.meta.glob("../tools/*/*.{js,jsx}");
 
 async function loadToolModule(category, toolId) {
   const cacheKey = `${category}/${toolId}`;
@@ -163,14 +173,14 @@ async function cleanupCurrentTool() {
     try {
       await cleanupFn();
     } catch (e) {
-      console.error('Tool cleanup error:', e);
+      console.error("Tool cleanup error:", e);
     }
     cleanupFn = null;
   }
 
-  const main = $('#main-content');
+  const main = $("#main-content");
   if (main) {
-    main.innerHTML = '';
+    main.innerHTML = "";
   }
 
   const keys = Object.keys(toolCache);

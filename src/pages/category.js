@@ -1,11 +1,11 @@
-import { $ } from '../utils/dom-query.js';
-import { updatePageMeta } from '../utils/seo.js';
-import { renderCategoryCards } from '../components/card.js';
-import toolsData from '../data/tools.json';
-import categoriesData from '../data/categories.json';
+import { $ } from "../utils/dom-query.js";
+import { updatePageMeta } from "../utils/seo.js";
+import { renderCategoryCards } from "../components/card.js";
+import { availableTools } from "../utils/tools.js";
+import categoriesData from "../data/categories.json";
 
 export function renderCategory(categoryId) {
-  const main = $('#main-content');
+  const main = $("#main-content");
   const category = categoriesData.find(c => c.id === categoryId);
 
   if (!category) {
@@ -13,7 +13,7 @@ export function renderCategory(categoryId) {
     return;
   }
 
-  const tools = toolsData.filter(t => t.category === categoryId);
+  const tools = availableTools.filter(t => t.category === categoryId);
 
   updatePageMeta({
     title: `${category.name} - Free Online Tools`,

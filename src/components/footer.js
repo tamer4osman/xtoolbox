@@ -1,4 +1,4 @@
-import toolsData from '../data/tools.json';
+import { availableTools } from "../utils/tools.js";
 
 /**
  * Render the footer
@@ -10,7 +10,7 @@ export function renderFooter() {
         <div class="footer-grid">
           <div class="footer-brand">
             <span class="footer-logo">🛠️ XToolBox</span>
-            <p class="footer-tagline">${toolsData.length} free online tools. All processing happens in your browser — your files never leave your device.</p>
+            <p class="footer-tagline">${availableTools.length} free online tools. All processing happens in your browser — your files never leave your device.</p>
           </div>
 
           <div class="footer-links">
