@@ -57,7 +57,7 @@ const { toolConfig, render } = createLookupTool({
   onSearch: async (vals, container) => {
     const country = container.querySelector("#country-select").value;
     const year = container.querySelector("#year-input").value;
-    const res = await fetch("https://date.nager.at/api/v3/PublicHolidays/" + year + "/" + country);
+    const res = await fetch("https://date.nager.at/api/v3/PublicHolidays/" + year + "/" + country, { signal: AbortSignal.timeout(15000) });
     if (!res.ok) throw new Error("Failed to fetch holidays");
     const holidays = await res.json();
     const countryName = COUNTRIES.find(c => c.code === country)?.name || country;

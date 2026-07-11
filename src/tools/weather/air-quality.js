@@ -76,7 +76,8 @@ const { toolConfig, render } = createLookupTool({
   onSearch: async (vals, container) => {
     const city = vals["city-input"].trim();
     const res = await fetch(
-      "https://api.waqi.info/feed/" + encodeURIComponent(city) + "/?token=demo"
+      "https://api.waqi.info/feed/" + encodeURIComponent(city) + "/?token=demo",
+      { signal: AbortSignal.timeout(15000) }
     );
     const data = await res.json();
     if (data.status !== "ok") throw new Error("City not found");

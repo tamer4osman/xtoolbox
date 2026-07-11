@@ -101,7 +101,7 @@ export function createImageToPdfTool({
         for (let i = 0; i < images.length; i++) {
           progress(Math.round(((i + 1) / images.length) * 80));
           const img = images[i];
-          const imageBytes = await fetch(img.src).then(r => r.arrayBuffer());
+          const imageBytes = await fetch(img.src, { signal: AbortSignal.timeout(15000) }).then(r => r.arrayBuffer());
           const embeddedImage = await embedImage(pdfDoc, new Uint8Array(imageBytes));
           const [pageWidth, pageHeight] = computePageDimensions(pageSize, orientation, img, margin);
           const page = pdfDoc.addPage([pageWidth, pageHeight]);

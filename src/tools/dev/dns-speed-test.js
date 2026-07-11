@@ -36,7 +36,7 @@ export async function testDnsProvider(provider, domain, signal) {
     headers["accept"] = "application/dns-json";
   }
 
-  const res = await fetch(url, { headers, signal });
+  const res = await fetch(url, { headers, signal: AbortSignal.any([signal, AbortSignal.timeout(15000)]) });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const data = await res.json();
   const elapsed = performance.now() - start;

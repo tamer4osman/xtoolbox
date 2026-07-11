@@ -94,7 +94,7 @@ async function loadORT() {
 }
 
 async function loadModel(ort, onProgress) {
-  const response = await fetch(MODEL_URL);
+  const response = await fetch(MODEL_URL, { signal: AbortSignal.timeout(60000) });
   const total = +response.headers.get("content-length") || 174483046;
   let loaded = 0;
   const reader = response.body.getReader();

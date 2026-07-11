@@ -87,7 +87,8 @@ const { toolConfig, render } = createLookupTool({
     const geoRes = await fetch(
       "https://nominatim.openstreetmap.org/search?format=json&q=" +
         encodeURIComponent(location) +
-        "&limit=1"
+        "&limit=1",
+      { signal: AbortSignal.timeout(15000) }
     );
     const geoData = await geoRes.json();
     if (!geoData.length) throw new Error("Location not found");
@@ -105,7 +106,8 @@ const { toolConfig, render } = createLookupTool({
         coords.lon +
         "&date=" +
         date +
-        "&formatted=0"
+        "&formatted=0",
+      { signal: AbortSignal.timeout(15000) }
     );
     const data = await res.json();
     if (!data.results) throw new Error("Failed to get times");

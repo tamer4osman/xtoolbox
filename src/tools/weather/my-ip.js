@@ -94,7 +94,8 @@ export function render(container) {
 
     try {
       const res = await fetch(
-        "http://ip-api.com/json/?fields=status,message,country,region,city,isp,timezone,lat,lon,query"
+        "http://ip-api.com/json/?fields=status,message,country,region,city,isp,timezone,lat,lon,query",
+        { signal: AbortSignal.timeout(15000) }
       );
       const data = await res.json();
 

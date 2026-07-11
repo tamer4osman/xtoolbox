@@ -214,7 +214,7 @@ export function render(container) {
       const { width, height } = page.getSize();
       const position = container.querySelector("#position-select").value;
       let embed = signatureImage.startsWith("data:image")
-        ? await pdfDocNew.embedPng(await fetch(signatureImage).then(r => r.arrayBuffer()))
+        ? await pdfDocNew.embedPng(await fetch(signatureImage, { signal: AbortSignal.timeout(15000) }).then(r => r.arrayBuffer()))
         : await pdfDocNew.embedPdf(signatureImage);
       const sigWidth = 100,
         sigHeight = embed.height * (sigWidth / embed.width),
