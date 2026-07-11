@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 export const toolConfig = {
   id: "sql-playground",
   name: "SQL Playground",
@@ -161,7 +163,7 @@ function executeQuery(container) {
     updateSchema(container);
   } catch (err) {
     resultsInfo.textContent = "Error: " + err.message;
-    resultsWrapper.innerHTML = '<div class="results-error">' + err.message + "</div>";
+    resultsWrapper.innerHTML = "<div class=\"results-error\">" + escapeHtml(err.message) + "</div>";
   }
 }
 
@@ -175,14 +177,14 @@ function renderResultsTable(container, columns, values) {
 
   let html = '<table class="results-table"><thead><tr>';
   columns.forEach(col => {
-    html += "<th>" + col + "</th>";
+    html += "<th>" + escapeHtml(col) + "</th>";
   });
   html += "</tr></thead><tbody>";
 
   values.forEach(row => {
     html += "<tr>";
     row.forEach(cell => {
-      html += "<td>" + (cell === null ? "NULL" : cell) + "</td>";
+      html += "<td>" + (cell === null ? "NULL" : escapeHtml(cell)) + "</td>";
     });
     html += "</tr>";
   });

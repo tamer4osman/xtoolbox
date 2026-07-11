@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 const COMMIT_TYPES = {
   feat: { label: "✨ Features", order: 1 },
   fix: { label: "🐛 Bug Fixes", order: 2 },
@@ -256,7 +258,7 @@ export function render(container) {
 
     const grouped = groupCommitsByType(currentCommits);
     const typeCounts = Object.entries(grouped)
-      .map(([type, commits]) => `<span class="stat-item">${type}: ${commits.length}</span>`)
+      .map(([type, commits]) => `<span class="stat-item">${escapeHtml(type)}: ${commits.length}</span>`)
       .join("");
     els.stats.innerHTML = `<strong>Found ${currentCommits.length} commits:</strong> ${typeCounts}`;
     els.stats.classList.add("visible");

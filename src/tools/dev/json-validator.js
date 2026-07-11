@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../utils/escape-html.js";
+
 export const toolConfig = {
   id: "json-validator",
   name: "JSON Validator & Formatter",
@@ -103,8 +105,8 @@ export function render(container) {
     } catch (e) {
       const location = parseErrorLine(e);
       const extra = location
-        ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>`
-        : `<div class="error-line">${e.message}</div>`;
+        ? `<div class="error-line"><span class="error-location">${location}</span>${escapeHtml(e.message)}</div>`
+        : `<div class="error-line">${escapeHtml(e.message)}</div>`;
       showResult("✗ Invalid JSON", "invalid", extra);
     }
   });
@@ -122,8 +124,8 @@ export function render(container) {
     } catch (e) {
       const location = parseErrorLine(e);
       const extra = location
-        ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>`
-        : `<div class="error-line">${e.message}</div>`;
+        ? `<div class="error-line"><span class="error-location">${location}</span>${escapeHtml(e.message)}</div>`
+        : `<div class="error-line">${escapeHtml(e.message)}</div>`;
       showResult("✗ Cannot format: Invalid JSON", "invalid", extra);
     }
   });
@@ -141,8 +143,8 @@ export function render(container) {
     } catch (e) {
       const location = parseErrorLine(e);
       const extra = location
-        ? `<div class="error-line"><span class="error-location">${location}</span>${e.message}</div>`
-        : `<div class="error-line">${e.message}</div>`;
+        ? `<div class="error-line"><span class="error-location">${location}</span>${escapeHtml(e.message)}</div>`
+        : `<div class="error-line">${escapeHtml(e.message)}</div>`;
       showResult("✗ Cannot minify: Invalid JSON", "invalid", extra);
     }
   });

@@ -60,7 +60,7 @@ export function render(container) {
           const type = field.constructor.name;
           const group = document.createElement("div");
           group.className = "form-group";
-          group.innerHTML = `<label>${name} <span style="color:var(--color-text-muted);font-size:var(--text-xs);">(${type})</span></label>`;
+          group.innerHTML = `<label>${escapeHtml(name)} <span style="color:var(--color-text-muted);font-size:var(--text-xs);">(${escapeHtml(type)})</span></label>`;
 
           if (type === "PDFTextField") {
             const input = document.createElement("input");
