@@ -28,9 +28,20 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Check secrets
+        id: check
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "has_secrets=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_secrets=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
       - name: Deploy to Cloudflare Pages (preview)
         id: deploy
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        if: steps.check.outputs.has_secrets == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -50,8 +61,8 @@ jobs:
             });
 
       - name: Skip deploy (secrets not configured)
-        if: steps.deploy.outcome == 'skipped'
-        run: echo "CLOUDFLARE_API_TOKEN not set. Deploy skipped."
+        if: steps.check.outputs.has_secrets != 'true'
+        run: echo "::warning::CLOUDFLARE_API_TOKEN not set. Deploy skipped."
 
   deploy-production:
     runs-on: ubuntu-latest
@@ -69,9 +80,20 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Check secrets
+        id: check
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "has_secrets=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_secrets=true" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
       - name: Deploy to Cloudflare Pages (production)
         id: deploy
-        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+        if: steps.check.outputs.has_secrets == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -98,3 +120,7 @@ jobs:
         run: |
           echo "::error::Production deploy failed. Check wrangler output above."
           exit 1
+
+      - name: Skip deploy (secrets not configured)
+        if: steps.check.outputs.has_secrets != 'true'
+        run: echo "::warning::CLOUDFLARE_API_TOKEN not set. Deploy skipped."
