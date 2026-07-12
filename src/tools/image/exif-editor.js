@@ -109,58 +109,59 @@ function formatValue(ifd, tag, value) {
   return String(value);
 }
 
+function parseGpsInput(tag, val) {
+  if (tag === 2 || tag === 4)
+    return val.toUpperCase().startsWith("N") || val.toUpperCase().startsWith("E") ? val[0] : "S";
+  if (tag === 3 || tag === 5) {
+    const match = val.match(/(\d+)[°d]\s*(\d+)[′']\s*([\d.]+)[″"]/);
+    if (match) {
+      const d = parseInt(match[1]);
+      const m = parseInt(match[2]);
+      const s = parseFloat(match[3]);
+      return [
+        [d, 1],
+        [m, 1],
+        [Math.round(s * 100), 100]
+      ];
+    }
+    const num = parseFloat(val);
+    if (!isNaN(num))
+      return [
+        [Math.round(num * 10000), 10000],
+        [0, 1],
+        [0, 1]
+      ];
+    return undefined;
+  }
+  if (tag === 6) return val.toLowerCase().includes("below") ? 1 : 0;
+  return undefined;
+}
+
+function parseRationalInput(val) {
+  if (val.includes("/")) {
+    const [n, d] = val.split("/").map(Number);
+    if (!isNaN(n) && !isNaN(d) && d !== 0) return [n, d];
+  }
+  const num = parseFloat(val);
+  if (!isNaN(num)) return [Math.round(num * 100), 100];
+  return undefined;
+}
+
+function parseIntegerInput(val) {
+  const num = parseInt(val);
+  if (!isNaN(num)) return num;
+  return undefined;
+}
+
+const RATIONAL_TAGS = new Set([33434, 33437, 37377, 37378, 37380, 37381, 37386, 41486]);
+const INTEGER_TAGS = new Set([274, 296, 37383, 37385, 41488]);
+
 function parseInput(ifd, tag, raw) {
   if (!raw || !raw.trim()) return undefined;
   const val = raw.trim();
-  if (ifd === "GPS") {
-    if (tag === 2 || tag === 4)
-      return val.toUpperCase().startsWith("N") || val.toUpperCase().startsWith("E") ? val[0] : "S";
-    if (tag === 3 || tag === 5) {
-      const match = val.match(/(\d+)[°d]\s*(\d+)[′']\s*([\d.]+)[″"]/);
-      if (match) {
-        const d = parseInt(match[1]);
-        const m = parseInt(match[2]);
-        const s = parseFloat(match[3]);
-        return [
-          [d, 1],
-          [m, 1],
-          [Math.round(s * 100), 100]
-        ];
-      }
-      const num = parseFloat(val);
-      if (!isNaN(num))
-        return [
-          [Math.round(num * 10000), 10000],
-          [0, 1],
-          [0, 1]
-        ];
-      return undefined;
-    }
-    if (tag === 6) return val.toLowerCase().includes("below") ? 1 : 0;
-  }
-  if (
-    tag === 33434 ||
-    tag === 33437 ||
-    tag === 37377 ||
-    tag === 37378 ||
-    tag === 37380 ||
-    tag === 37381 ||
-    tag === 37386 ||
-    tag === 41486
-  ) {
-    if (val.includes("/")) {
-      const [n, d] = val.split("/").map(Number);
-      if (!isNaN(n) && !isNaN(d) && d !== 0) return [n, d];
-    }
-    const num = parseFloat(val);
-    if (!isNaN(num)) return [Math.round(num * 100), 100];
-    return undefined;
-  }
-  if (tag === 274 || tag === 296 || tag === 37383 || tag === 37385 || tag === 41488) {
-    const num = parseInt(val);
-    if (!isNaN(num)) return num;
-    return undefined;
-  }
+  if (ifd === "GPS") return parseGpsInput(tag, val);
+  if (RATIONAL_TAGS.has(tag)) return parseRationalInput(val);
+  if (INTEGER_TAGS.has(tag)) return parseIntegerInput(val);
   return val;
 }
 
