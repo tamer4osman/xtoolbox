@@ -40,8 +40,24 @@
     "test:mobile": "playwright test --project='Mobile Chrome'",
     "test:debug": "playwright test --debug",
     "test:coverage": "playwright test --reporter=html && npx playwright show-report",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "size": "size-limit",
+    "size:why": "size-limit --why"
   },
+  "size-limit": [
+    {
+      "name": "Main bundle (initial load)",
+      "path": "dist/assets/index-*.js",
+      "limit": "200 kB",
+      "gzip": true
+    },
+    {
+      "name": "Total JS (all chunks)",
+      "path": "dist/assets/*.js",
+      "limit": "2 MB",
+      "gzip": true
+    }
+  ],
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
@@ -69,9 +85,11 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
+    "@size-limit/preset-app": "^11.2.0",
     "jsdom": "^29.1.1",
     "oxfmt": "^0.58.0",
     "oxlint": "^1.72.0",
+    "size-limit": "^11.2.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.10",
     "vitest": "^4.1.7"

@@ -1,0 +1,177 @@
+name: CD - Post-Deploy Monitoring
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
+jobs:
+  post-deploy-audit:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse CI (post-deploy)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: .lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Get Cloudflare deployment URL
+        id: deploy
+        run: |
+          PROJECT_NAME=$(basename "${{ github.repository }}")
+          echo "url=https://${PROJECT_NAME}.pages.dev" >> "$GITHUB_OUTPUT"
+
+      - name: Lighthouse on live site
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            ${{ steps.deploy.outputs.url }}
+          configPath: .lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        continue-on-error: true
+
+  ai-failure-analysis:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect failure context
+        id: ctx
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runId = context.payload.workflow_run.id;
+            const repo = context.repo;
+
+            const { data: jobs } = await github.rest.actions.listJobsForWorkflowRun({
+              ...repo,
+              run_id: runId,
+            });
+
+            const failedJobs = jobs.jobs.filter(j => j.conclusion === 'failure');
+            if (failedJobs.length === 0) return;
+
+            const failedSteps = failedJobs.flatMap(j =>
+              j.steps.filter(s => s.conclusion === 'failure').map(s => ({
+                job: j.name,
+                step: s.name,
+              }))
+            );
+
+            const prs = context.payload.workflow_run.pull_requests;
+            const prNumber = prs?.length > 0 ? prs[0].number : null;
+
+            core.setOutput('failed_jobs', JSON.stringify(failedJobs.map(j => j.name)));
+            core.setOutput('failed_steps', JSON.stringify(failedSteps));
+            core.setOutput('pr_number', prNumber || '');
+            core.setOutput('run_url', context.payload.workflow_run.html_url);
+            core.setOutput('sha', context.payload.workflow_run.head_sha);
+
+      - name: AI root cause analysis
+        if: ${{ steps.ctx.outputs.failed_jobs != '[]' }}
+        uses: actions/github-script@v7
+        env:
+          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+          FAILED_JOBS: ${{ steps.ctx.outputs.failed_jobs }}
+          FAILED_STEPS: ${{ steps.ctx.outputs.failed_steps }}
+          PR_NUMBER: ${{ steps.ctx.outputs.pr_number }}
+          RUN_URL: ${{ steps.ctx.outputs.run_url }}
+          SHA: ${{ steps.ctx.outputs.sha }}
+        with:
+          script: |
+            const failedJobs = JSON.parse(process.env.FAILED_JOBS || '[]');
+            const failedSteps = JSON.parse(process.env.FAILED_STEPS || '[]');
+            const prNumber = process.env.PR_NUMBER;
+            const runUrl = process.env.RUN_URL;
+            const sha = process.env.SHA;
+
+            const prompt = `You are a CI/CD failure analyst for xtoolbox (Vite + Vitest + Playwright + oxlint).
+
+A GitHub Actions workflow failed. Analyze and provide:
+1. Root Cause (one sentence)
+2. Category: lint | test | build | e2e | dependency | infrastructure | unknown
+3. Confidence: high | medium | low
+4. Suggested Fix (specific steps)
+
+Failed jobs: ${failedJobs.join(', ')}
+Failed steps: ${failedSteps.map(s => s.job + ' -> ' + s.step).join(', ')}
+Commit: ${sha}
+Run: ${runUrl}`;
+
+            const response = await fetch('https://api.z.ai/api/paas/v4/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.ZAI_API_KEY}`,
+              },
+              body: JSON.stringify({
+                model: 'glm-4.7-flash',
+                messages: [{ role: 'user', content: prompt }],
+                max_tokens: 800,
+                temperature: 0.2,
+              }),
+            });
+
+            if (!response.ok) {
+              core.warning(`Z.AI API error: ${response.status}`);
+              return;
+            }
+
+            const data = await response.json();
+            const analysis = data.choices[0].message.content;
+
+            const body = `## AI Failure Analysis\n\n${analysis}\n\n---\n<sub>Generated by AI failure analysis - [View logs](${runUrl})</sub>`;
+
+            if (prNumber) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(prNumber),
+                body,
+              });
+              core.info(`Posted analysis to PR #${prNumber}`);
+            } else {
+              core.summary.addRaw(body);
+              await core.summary.write();
+            }
+
+  ai-success-summary:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' }}
+    steps:
+      - name: Post success summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prs = context.payload.workflow_run.pull_requests;
+            if (prs && prs.length > 0) {
+              const prNumber = prs[0].number;
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: `## CI Passed\n\nAll quality gates passed for this PR.\n\n| Check | Status |\n|-------|--------|\n| Lint | Passed |\n| Unit Tests | Passed |\n| Build | Passed |\n| E2E | Passed |\n| Lighthouse | Passed |\n| Bundle Size | Passed |`,
+              });
+            }

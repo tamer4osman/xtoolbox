@@ -1,0 +1,22 @@
+[config]
+model = "glm-4.7-flash"
+turbo = true
+reviewer = true
+assertive = false
+
+[pr_reviewer]
+require_score_review = true
+require_focused_review = false
+enable_review_labels_security = true
+enable_review_labels_effort = true
+
+[pr_code_suggestions]
+num_code_suggestions = 5
+collapsible_file_list = true
+
+[pr_description]
+enable_semantic_files_types = true
+generate_ai_title = true
+
+[pr_questions]
+enabled = true
