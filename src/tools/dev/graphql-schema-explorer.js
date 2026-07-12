@@ -27,6 +27,34 @@ export const toolConfig = {
   ]
 };
 
+function parseField(line) {
+  const fieldMatch = line.match(/^(\w+)(?:\(([^)]*)\))?\s*:\s*(.+)/);
+  if (!fieldMatch) return null;
+  const args = [];
+  if (fieldMatch[2]) {
+    fieldMatch[2].split(",").forEach(a => {
+      const [n, t] = a.split(":").map(s => s.trim());
+      if (n && t) args.push({ name: n, type: t });
+    });
+  }
+  const fieldType = fieldMatch[3]
+    .replace(/@\w+(\([^)]*\))?\s*/g, "")
+    .replace(/[!,]/g, "")
+    .trim();
+  return {
+    name: fieldMatch[1],
+    type: fieldType,
+    args,
+    deprecated: line.includes("@deprecated")
+  };
+}
+
+function matchTypeDefinition(line) {
+  const match = line.match(/^(type|interface|enum|input|union)\s+(\w+)/);
+  if (!match) return null;
+  return { kind: match[1], name: match[2], hasBrace: line.includes("{") };
+}
+
 export function parseSDL(sdl) {
   const types = [];
   const lines = sdl.split("\n");
@@ -37,11 +65,11 @@ export function parseSDL(sdl) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith("#")) continue;
 
-    const typeMatch = trimmed.match(/^(type|interface|enum|input|union)\s+(\w+)/);
+    const typeMatch = matchTypeDefinition(trimmed);
     if (typeMatch && braceDepth === 0) {
       if (currentType) types.push(currentType);
-      currentType = { kind: typeMatch[1], name: typeMatch[2], fields: [] };
-      if (trimmed.includes("{")) {
+      currentType = { kind: typeMatch.kind, name: typeMatch.name, fields: [] };
+      if (typeMatch.hasBrace) {
         braceDepth = 1;
       } else {
         types.push(currentType);
@@ -57,26 +85,8 @@ export function parseSDL(sdl) {
         braceDepth = 0;
         continue;
       }
-      const fieldMatch = trimmed.match(/^(\w+)(?:\(([^)]*)\))?\s*:\s*(.+)/);
-      if (fieldMatch) {
-        const args = [];
-        if (fieldMatch[2]) {
-          fieldMatch[2].split(",").forEach(a => {
-            const [n, t] = a.split(":").map(s => s.trim());
-            if (n && t) args.push({ name: n, type: t });
-          });
-        }
-        const fieldType = fieldMatch[3]
-          .replace(/@\w+(\([^)]*\))?\s*/g, "")
-          .replace(/[!,]/g, "")
-          .trim();
-        currentType.fields.push({
-          name: fieldMatch[1],
-          type: fieldType,
-          args,
-          deprecated: trimmed.includes("@deprecated")
-        });
-      }
+      const field = parseField(trimmed);
+      if (field) currentType.fields.push(field);
     }
 
     const queryMatch = trimmed.match(/^(type\s+Query|type\s+Mutation|type\s+Subscription)/);
