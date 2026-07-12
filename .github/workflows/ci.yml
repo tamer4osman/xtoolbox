@@ -22,6 +22,9 @@ jobs:
       - name: Lint (oxlint)
         run: npm run lint
 
+      - name: Format check (oxfmt)
+        run: npm run format:check
+
       - name: Unit tests (vitest)
         run: npm run test:unit
 
@@ -84,6 +87,15 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           skip_step: build
+
+  dependency-review:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
 
   lighthouse:
     runs-on: ubuntu-latest
