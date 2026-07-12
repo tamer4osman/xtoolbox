@@ -64,7 +64,7 @@ function parseGroupPrefix(pattern, i) {
 }
 
 function parseQuantifier(pattern, ch, i) {
-  if (ch === "{" ) {
+  if (ch === "{") {
     let j = i + 1;
     while (j < pattern.length && pattern[j] !== "}") j++;
     const quant = pattern.slice(i, j + 1);
@@ -205,7 +205,6 @@ export function explainRegex(pattern) {
   result = result.charAt(0).toUpperCase() + result.slice(1);
   return result;
 }
-
 
 export function highlightMatches(text, regex) {
   if (!regex || !text) return escapeHtml(text);

@@ -87,8 +87,7 @@ export function validateXml(xml) {
 
 export function highlightXml(xml) {
   const fragment = document.createDocumentFragment();
-  const regex =
-    /(<\?[\s\S]*?\?>)|(<!--[\s\S]*?-->)|(<\/?[\w:-]+\/?)|(".*?")|([\w:-]+)(=)|(>)/g;
+  const regex = /(<\?[\s\S]*?\?>)|(<!--[\s\S]*?-->)|(<\/?[\w:-]+\/?)|(".*?")|([\w:-]+)(=)|(>)/g;
   let lastIndex = 0;
   let match;
 

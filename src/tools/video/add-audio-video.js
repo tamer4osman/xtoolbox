@@ -1,11 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
-import {
-  loadFFmpeg,
-  writeUploadedFile,
-  readFFmpegFile
-} from "./video-utils.js";
+import { loadFFmpeg, writeUploadedFile, readFFmpegFile } from "./video-utils.js";
 
 export const toolConfig = {
   id: "add-audio-video",

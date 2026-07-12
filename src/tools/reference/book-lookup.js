@@ -3,7 +3,9 @@ import { escapeHtml } from "../../utils/escape-html.js";
 
 async function searchBooks(query, type) {
   if (type === "isbn") {
-    const res = await fetch("https://openlibrary.org/isbn/" + query + ".json", { signal: AbortSignal.timeout(15000) });
+    const res = await fetch("https://openlibrary.org/isbn/" + query + ".json", {
+      signal: AbortSignal.timeout(15000)
+    });
     const data = await res.json();
     return [
       {

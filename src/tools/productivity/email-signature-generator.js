@@ -163,7 +163,14 @@ function buildSignatureHtml(state) {
   const addressHtml = renderAddress(state, smallSize);
   const bannerHtml = renderBanner(state);
 
-  const bodyRows = renderBodyRows(photoHtml, header, contactHtml, socialHtml, addressHtml, bannerHtml);
+  const bodyRows = renderBodyRows(
+    photoHtml,
+    header,
+    contactHtml,
+    socialHtml,
+    addressHtml,
+    bannerHtml
+  );
   if (bodyRows.length === 0) return "";
 
   const accentHtml = renderDivider(state.accentColor);
@@ -177,8 +184,6 @@ ${accentHtml}
 </table>
 </body></html>`;
 }
-
-
 
 function escapeAttribute(value) {
   return String(value ?? "")

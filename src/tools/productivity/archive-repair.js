@@ -26,8 +26,6 @@ function getCompressionName(method) {
   return names[method] || `Method ${method}`;
 }
 
-
-
 async function tryNormalLoad(arrayBuffer) {
   const zip = await JSZip.loadAsync(arrayBuffer, {
     checkCRC32: false,

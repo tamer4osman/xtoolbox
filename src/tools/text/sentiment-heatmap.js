@@ -44,8 +44,6 @@ export function splitSentences(text) {
   return text.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0);
 }
 
-
-
 export function render(container) {
   container.innerHTML = `
     <div class="tool-layout">

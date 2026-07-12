@@ -1,10 +1,6 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
-import {
-  loadFFmpeg,
-  getVideoInfo,
-  writeUploadedFile
-} from "./video-utils.js";
+import { loadFFmpeg, getVideoInfo, writeUploadedFile } from "./video-utils.js";
 
 export function createVideoTool({
   optionsHTML,

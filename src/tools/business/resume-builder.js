@@ -1049,9 +1049,7 @@ export function render(container) {
     const p = state.personal;
     const isMinimal = state.template === "minimal";
     page.drawText(p.fullName || "Your Name", {
-      x: isMinimal
-        ? width / 2 - font.widthOfTextAtSize(p.fullName || "Your Name", 20) / 2
-        : margin,
+      x: isMinimal ? width / 2 - font.widthOfTextAtSize(p.fullName || "Your Name", 20) / 2 : margin,
       y,
       size: 20,
       font: fontBold,

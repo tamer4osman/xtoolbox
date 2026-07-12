@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
-import os from 'os';
-import path from 'path';
+import os from "os";
+import path from "path";
 
 export default defineConfig({
   test: {
@@ -38,13 +38,14 @@ export default defineConfig({
     // stale hashed chunks are harmless. Remove once Avast excludes dist/.
     emptyOutDir: false
   },
-server: {
-     port: 3000,
-     open: !process.env.CI && process.env.NODE_ENV !== 'test',
-     headers: {
+  server: {
+    port: 3000,
+    open: !process.env.CI && process.env.NODE_ENV !== "test",
+    headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
-      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
+      "Content-Security-Policy":
+        "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
     }
   },
   preview: {
@@ -52,7 +53,8 @@ server: {
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
-      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
+      "Content-Security-Policy":
+        "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
     }
   },
   optimizeDeps: {

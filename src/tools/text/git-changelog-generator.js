@@ -258,7 +258,9 @@ export function render(container) {
 
     const grouped = groupCommitsByType(currentCommits);
     const typeCounts = Object.entries(grouped)
-      .map(([type, commits]) => `<span class="stat-item">${escapeHtml(type)}: ${commits.length}</span>`)
+      .map(
+        ([type, commits]) => `<span class="stat-item">${escapeHtml(type)}: ${commits.length}</span>`
+      )
       .join("");
     els.stats.innerHTML = `<strong>Found ${currentCommits.length} commits:</strong> ${typeCounts}`;
     els.stats.classList.add("visible");

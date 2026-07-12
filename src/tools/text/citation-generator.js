@@ -106,8 +106,6 @@ function formatChicago(data) {
 
 const FORMATTERS = { apa: formatAPA, mla: formatMLA, chicago: formatChicago };
 
-
-
 export function render(container) {
   container.innerHTML = `
     <div class="tool-container" style="max-width:700px;margin:0 auto;">

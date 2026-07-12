@@ -200,7 +200,9 @@ export function render(container) {
     if (mag !== "all") params.set("minmagnitude", mag);
 
     try {
-      const res = await fetch(API_BASE + "?" + params.toString(), { signal: AbortSignal.timeout(15000) });
+      const res = await fetch(API_BASE + "?" + params.toString(), {
+        signal: AbortSignal.timeout(15000)
+      });
       if (!res.ok) throw new Error("API error " + res.status);
       const data = await res.json();
       const quakes = parseFeatures(data.features);

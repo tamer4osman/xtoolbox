@@ -66,8 +66,6 @@ export function formatCurrency(amount) {
   }).format(amount);
 }
 
-
-
 export function validateEntries(data) {
   return (
     Array.isArray(data) &&

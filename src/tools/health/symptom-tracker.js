@@ -59,8 +59,6 @@ export function toLocalDatetimeInput(date) {
   return local.toISOString().slice(0, 16);
 }
 
-
-
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }

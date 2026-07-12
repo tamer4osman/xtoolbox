@@ -77,7 +77,9 @@ export function render(container) {
       for (let i = 0; i < images.length; i++) {
         progress(Math.round(((i + 1) / images.length) * 80));
         const img = images[i];
-        const imageBytes = await fetch(img.src, { signal: AbortSignal.timeout(15000) }).then(r => r.arrayBuffer());
+        const imageBytes = await fetch(img.src, { signal: AbortSignal.timeout(15000) }).then(r =>
+          r.arrayBuffer()
+        );
         const bytes = new Uint8Array(imageBytes);
 
         let embeddedImage;

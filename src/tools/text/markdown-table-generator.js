@@ -314,7 +314,8 @@ function bindMarkdownTableEvents(ctx) {
     state.rows = rows.map(r =>
       r.slice(0, state.headers.length).map(c => (c == null ? "" : String(c)))
     );
-    while (state.rows.length === 0) state.rows.push(Array.from({ length: state.headers.length }, () => ""));
+    while (state.rows.length === 0)
+      state.rows.push(Array.from({ length: state.headers.length }, () => ""));
     renderAll();
     showToast({
       message: `Imported ${state.headers.length} column${state.headers.length === 1 ? "" : "s"} × ${state.rows.length} row${state.rows.length === 1 ? "" : "s"}`,

@@ -191,8 +191,6 @@ export function render(container) {
   bindEvents(container);
 }
 
-
-
 function highlightCode(container, skipHighlight = false) {
   const code = container.querySelector("#codeInput").value;
   const block = container.querySelector("#codeBlock");

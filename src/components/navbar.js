@@ -71,7 +71,7 @@ export function initNavbar() {
       hamburger.setAttribute("aria-expanded", isOpen);
     });
 
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", e => {
       if (e.key === "Escape" && mobileMenu.classList.contains("open")) {
         hamburger.classList.remove("active");
         mobileMenu.classList.remove("open");

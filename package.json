@@ -44,20 +44,6 @@
     "size": "size-limit",
     "size:why": "size-limit --why"
   },
-  "size-limit": [
-    {
-      "name": "Main bundle (initial load)",
-      "path": "dist/assets/index-*.js",
-      "limit": "200 kB",
-      "gzip": true
-    },
-    {
-      "name": "Total JS (all chunks)",
-      "path": "dist/assets/*.js",
-      "limit": "2 MB",
-      "gzip": true
-    }
-  ],
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
@@ -80,9 +66,6 @@
     "tesseract.js": "^7.0.0",
     "write-excel-file": "^4.1.1"
   },
-  "optionalDependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.1.4"
-  },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@size-limit/preset-app": "^11.2.0",
@@ -94,5 +77,22 @@
     "vite": "^8.0.10",
     "vitest": "^4.1.7",
     "yaml": "^2.9.0"
-  }
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-win32-x64-msvc": "^1.1.4"
+  },
+  "size-limit": [
+    {
+      "name": "Main bundle (initial load)",
+      "path": "dist/assets/index-*.js",
+      "limit": "200 kB",
+      "gzip": true
+    },
+    {
+      "name": "Total JS (all chunks)",
+      "path": "dist/assets/*.js",
+      "limit": "2 MB",
+      "gzip": true
+    }
+  ]
 }

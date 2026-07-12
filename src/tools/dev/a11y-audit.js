@@ -118,7 +118,7 @@ function runAudit(html, url) {
   }
 
   const images = body.querySelectorAll("img");
-  images.forEach((img) => {
+  images.forEach(img => {
     const alt = img.getAttribute("alt");
     const role = img.getAttribute("role");
     if (!alt && role !== "presentation" && role !== "none") {
@@ -222,8 +222,6 @@ function runAudit(html, url) {
 
   return results;
 }
-
-
 
 function renderReport(results) {
   let html = `<div class="a11y-report">`;

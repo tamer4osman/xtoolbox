@@ -163,7 +163,7 @@ function executeQuery(container) {
     updateSchema(container);
   } catch (err) {
     resultsInfo.textContent = "Error: " + err.message;
-    resultsWrapper.innerHTML = "<div class=\"results-error\">" + escapeHtml(err.message) + "</div>";
+    resultsWrapper.innerHTML = '<div class="results-error">' + escapeHtml(err.message) + "</div>";
   }
 }
 
