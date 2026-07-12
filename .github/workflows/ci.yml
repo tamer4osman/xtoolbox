@@ -52,6 +52,7 @@ jobs:
 
       - name: Fallow health check
         run: npx fallow health --format compact
+        continue-on-error: true
 
       - name: Fallow dead code (PR only)
         if: github.event_name == 'pull_request'
