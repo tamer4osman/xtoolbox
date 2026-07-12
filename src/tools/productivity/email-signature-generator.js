@@ -52,22 +52,18 @@ function saveState(state) {
   } catch {}
 }
 
-function buildSignatureHtml(state) {
-  const fs = state.fontSize || 14;
-  const nameSize = Math.round(fs * 1.35);
-  const titleSize = Math.round(fs * 0.95);
-  const smallSize = Math.round(fs * 0.82);
+function renderPhoto(state) {
+  if (!state.photoDataUrl || !state.showPhoto) return "";
+  const radius = state.photoShape === "round" ? "50%" : "8px";
+  return `<td style="padding:0 16px 0 0;vertical-align:top;width:72px;"><img src="${state.photoDataUrl}" alt="" style="display:block;width:72px;height:72px;border-radius:${radius};object-fit:cover;"></td>`;
+}
 
-  const photoHtml =
-    state.photoDataUrl && state.showPhoto
-      ? `<td style="padding:0 16px 0 0;vertical-align:top;width:72px;"><img src="${state.photoDataUrl}" alt="" style="display:block;width:72px;height:72px;border-radius:${state.photoShape === "round" ? "50%" : "8px"};object-fit:cover;"></td>`
-      : "";
+function renderLogo(state) {
+  if (!state.logoDataUrl || !state.showLogo) return "";
+  return `<div style="margin-bottom:10px;"><img src="${state.logoDataUrl}" alt="" style="display:block;max-height:40px;max-width:200px;"></div>`;
+}
 
-  const logoHtml =
-    state.logoDataUrl && state.showLogo
-      ? `<div style="margin-bottom:10px;"><img src="${state.logoDataUrl}" alt="" style="display:block;max-height:40px;max-width:200px;"></div>`
-      : "";
-
+function renderNameSection(state, nameSize, titleSize) {
   const nameHtml = state.name
     ? `<div style="font-size:${nameSize}px;font-weight:700;color:${state.textColor};line-height:1.3;margin:0;">${escapeHtml(state.name)}</div>`
     : "";
@@ -77,6 +73,10 @@ function buildSignatureHtml(state) {
     ? `<div style="font-size:${titleSize}px;color:${state.textColor};line-height:1.4;margin:2px 0 0 0;">${titleCompany.map(escapeHtml).join(" &middot; ")}</div>`
     : "";
 
+  return nameHtml + titleHtml;
+}
+
+function renderContactSection(state, smallSize) {
   const contactItems = [];
   if (state.email) {
     const mailHref = state.email.includes("@") ? "mailto:" + state.email : state.email;
@@ -93,6 +93,11 @@ function buildSignatureHtml(state) {
       `<a href="${escapeAttribute(normalizeUrl(state.website))}" target="_blank" rel="noopener noreferrer" style="color:${escapeAttribute(state.linkColor)};text-decoration:none;font-size:${smallSize}px;">${escapeHtml(state.website)}</a>`
     );
 
+  if (contactItems.length === 0) return "";
+  return `<div style="margin-top:6px;">${contactItems.join(" &nbsp;|&nbsp; ")}</div>`;
+}
+
+function renderSocialLinks(state) {
   const socialLinks = [];
   const socialEntries = [
     { key: "linkedin", url: state.linkedin },
@@ -108,22 +113,25 @@ function buildSignatureHtml(state) {
     }
   }
 
-  const header = logoHtml + nameHtml + titleHtml;
-  const contactHtml =
-    contactItems.length > 0
-      ? `<div style="margin-top:6px;">${contactItems.join(" &nbsp;|&nbsp; ")}</div>`
-      : "";
-  const socialHtml =
-    socialLinks.length > 0 ? `<div style="margin-top:8px;">${socialLinks.join("")}</div>` : "";
-  const addressHtml =
-    state.address && state.showAddress
-      ? `<div style="margin-top:4px;font-size:${smallSize}px;color:${state.textColor};">${escapeHtml(state.address)}</div>`
-      : "";
-  const bannerHtml =
-    state.bannerDataUrl && state.showBanner
-      ? `<div style="margin-top:10px;"><a href="${escapeAttribute(normalizeUrl(state.website || "#"))}" target="_blank" rel="noopener noreferrer"><img src="${state.bannerDataUrl}" alt="" style="display:block;max-width:500px;max-height:120px;border:0;"></a></div>`
-      : "";
+  if (socialLinks.length === 0) return "";
+  return `<div style="margin-top:8px;">${socialLinks.join("")}</div>`;
+}
 
+function renderAddress(state, smallSize) {
+  if (!state.address || !state.showAddress) return "";
+  return `<div style="margin-top:4px;font-size:${smallSize}px;color:${state.textColor};">${escapeHtml(state.address)}</div>`;
+}
+
+function renderBanner(state) {
+  if (!state.bannerDataUrl || !state.showBanner) return "";
+  return `<div style="margin-top:10px;"><a href="${escapeAttribute(normalizeUrl(state.website || "#"))}" target="_blank" rel="noopener noreferrer"><img src="${state.bannerDataUrl}" alt="" style="display:block;max-width:500px;max-height:120px;border:0;"></a></div>`;
+}
+
+function renderDivider(accentColor) {
+  return `<tr><td style="padding:0;font-size:1px;line-height:1px;height:4px;background:${accentColor};"><div style="height:4px;">&nbsp;</div></td></tr>`;
+}
+
+function renderBodyRows(photoHtml, header, contactHtml, socialHtml, addressHtml, bannerHtml) {
   const bodyRows = [];
 
   if (photoHtml) {
@@ -138,15 +146,33 @@ function buildSignatureHtml(state) {
   }
   if (bannerHtml) bodyRows.push(`<tr><td style="padding:0;">${bannerHtml}</td></tr>`);
 
+  return bodyRows;
+}
+
+function buildSignatureHtml(state) {
+  const fs = state.fontSize || 14;
+  const nameSize = Math.round(fs * 1.35);
+  const titleSize = Math.round(fs * 0.95);
+  const smallSize = Math.round(fs * 0.82);
+
+  const photoHtml = renderPhoto(state);
+  const logoHtml = renderLogo(state);
+  const header = logoHtml + renderNameSection(state, nameSize, titleSize);
+  const contactHtml = renderContactSection(state, smallSize);
+  const socialHtml = renderSocialLinks(state);
+  const addressHtml = renderAddress(state, smallSize);
+  const bannerHtml = renderBanner(state);
+
+  const bodyRows = renderBodyRows(photoHtml, header, contactHtml, socialHtml, addressHtml, bannerHtml);
   if (bodyRows.length === 0) return "";
 
-  const accentHtml = `<tr><td style="padding:0;font-size:1px;line-height:1px;height:4px;background:${state.accentColor};"><div style="height:4px;">&nbsp;</div></td></tr>`;
+  const accentHtml = renderDivider(state.accentColor);
 
   return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"></head><body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:600px;">
 ${accentHtml}
 <tr><td style="padding:16px 0 0 0;">
-<table cellpadding="0" cellspacing="0" border="0" width="100%">${bodyRows.map(r => r).join("")}</table>
+<table cellpadding="0" cellspacing="0" border="0" width="100%">${bodyRows.join("")}</table>
 </td></tr>
 </table>
 </body></html>`;
