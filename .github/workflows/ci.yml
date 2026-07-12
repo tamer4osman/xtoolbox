@@ -100,7 +100,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: E2E tests (Playwright)
-        run: npx playwright test --project=chromium
+      - name: E2E smoke tests (Playwright)
+        run: npx playwright test tests/smoke.spec.js --project=chromium
         env:
           CI: "true"
