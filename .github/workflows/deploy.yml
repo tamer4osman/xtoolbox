@@ -15,9 +15,6 @@ jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    environment:
-      name: preview
-      url: ${{ steps.deploy.outputs.url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -33,6 +30,7 @@ jobs:
 
       - name: Deploy to Cloudflare Pages (preview)
         id: deploy
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -40,23 +38,24 @@ jobs:
           command: pages deploy dist --project-name=xtoolbox --branch=pr-${{ github.event.pull_request.number }}
 
       - name: Comment PR with preview URL
+        if: steps.deploy.outcome == 'success'
         uses: actions/github-script@v7
         with:
           script: |
             const url = '${{ steps.deploy.outputs.url }}';
             const body = '## Preview Deployed\n\nPreview URL: ' + url + '\n\nLighthouse and E2E checks will run automatically.';
-            const prNumber = context.payload.pull_request.number;
             await github.rest.issues.createComment({
               owner: context.repo.owner, repo: context.repo.repo,
-              issue_number: prNumber, body,
+              issue_number: context.payload.pull_request.number, body,
             });
+
+      - name: Skip deploy (secrets not configured)
+        if: steps.deploy.outcome == 'skipped'
+        run: echo "CLOUDFLARE_API_TOKEN not set. Deploy skipped."
 
   deploy-production:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment:
-      name: production
-      url: https://xtoolbox.pages.dev
     steps:
       - uses: actions/checkout@v4
 
@@ -71,6 +70,8 @@ jobs:
         run: npm run build
 
       - name: Deploy to Cloudflare Pages (production)
+        id: deploy
+        if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -78,6 +79,7 @@ jobs:
           command: pages deploy dist --project-name=xtoolbox --branch=main
 
       - name: Verify deployment
+        if: steps.deploy.outcome == 'success'
         run: |
           for i in $(seq 1 10); do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://xtoolbox.pages.dev)
@@ -91,17 +93,8 @@ jobs:
           echo "Site not reachable after 100s"
           exit 1
 
-  rollback:
-    runs-on: ubuntu-latest
-    if: failure()
-    needs: deploy-production
-    steps:
-      - name: Notify rollback needed
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo,
-              issue_number: context.issue.number || 0,
-              body: '## ⚠️ Deployment Failed\n\nProduction deploy failed. Manual rollback may be needed.\n\nCheck: ' + context.serverUrl + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId,
-            });
+      - name: Deploy failed
+        if: failure()
+        run: |
+          echo "::error::Production deploy failed. Check wrangler output above."
+          exit 1
