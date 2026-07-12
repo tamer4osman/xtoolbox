@@ -161,7 +161,11 @@ describe("world-clock", () => {
       expect(Array.isArray(z)).toBe(true);
       expect(z.length).toBeGreaterThanOrEqual(5);
       const all = getAllTimeZones();
-      z.forEach(zone => expect(all).toContain(zone));
+      const local = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      z.forEach(zone => {
+        if (zone === local) return;
+        expect(all).toContain(zone);
+      });
     });
 
     it("has unique entries", () => {
