@@ -860,368 +860,380 @@ export function render(container) {
     });
   }
 
+  function drawModernTemplate(page, state, font, fontBold) {
+    const { width, height } = page.getSize();
+    const margin = 50;
+    const contentWidth = width - margin * 2;
+    const p = state.personal;
+    const sidebarWidth = 175;
+    page.drawRectangle({
+      x: 0,
+      y: 0,
+      width: sidebarWidth,
+      height,
+      color: rgb(0.145, 0.388, 0.922)
+    });
+    let sy = height - 40;
+    const drawSidebar = (text, x, yPos, f, size, color) => {
+      page.drawText(text, { x, y: yPos, size, font: f, color });
+    };
+    drawSidebar(p.fullName || "Your Name", 15, sy, fontBold, 14, rgb(1, 1, 1));
+    sy -= 20;
+    if (p.title) {
+      drawSidebar(p.title, 15, sy, font, 9, rgb(0.9, 0.9, 0.9));
+      sy -= 15;
+    }
+    sy -= 10;
+    [p.email, p.phone, p.location, p.website].filter(Boolean).forEach(c => {
+      const lines = wrapText(c, font, 8, sidebarWidth - 20);
+      lines.forEach(line => {
+        drawSidebar(line, 15, sy, font, 8, rgb(0.95, 0.95, 0.95));
+        sy -= 12;
+      });
+    });
+    sy -= 15;
+    const allSkills = state.skills.filter(s => s.items.trim());
+    if (allSkills.length) {
+      drawSidebar("SKILLS", 15, sy, fontBold, 9, rgb(1, 1, 1));
+      sy -= 15;
+      allSkills.forEach(s => {
+        drawSidebar(s.category, 15, sy, fontBold, 8, rgb(0.9, 0.9, 0.9));
+        sy -= 12;
+        s.items
+          .split(",")
+          .map(sk => sk.trim())
+          .filter(Boolean)
+          .forEach(sk => {
+            drawSidebar(sk, 15, sy, font, 8, rgb(0.85, 0.85, 0.85));
+            sy -= 11;
+          });
+        sy -= 3;
+      });
+    }
+
+    let rx = sidebarWidth + 20;
+    let ry = height - 40;
+    if (p.summary) {
+      page.drawText("SUMMARY", {
+        x: rx,
+        y: ry,
+        size: 11,
+        font: fontBold,
+        color: rgb(0.145, 0.388, 0.922)
+      });
+      ry -= 3;
+      page.drawRectangle({
+        x: rx,
+        y: ry,
+        width: contentWidth - sidebarWidth - 20,
+        height: 1.5,
+        color: rgb(0.145, 0.388, 0.922)
+      });
+      ry -= 15;
+      wrapText(p.summary, font, 9, contentWidth - sidebarWidth - 20).forEach(line => {
+        page.drawText(line, { x: rx, y: ry, size: 9, font, color: rgb(0.2, 0.2, 0.2) });
+        ry -= 13;
+      });
+      ry -= 10;
+    }
+    if (state.experience.some(e => e.company || e.role)) {
+      page.drawText("EXPERIENCE", {
+        x: rx,
+        y: ry,
+        size: 11,
+        font: fontBold,
+        color: rgb(0.145, 0.388, 0.922)
+      });
+      ry -= 3;
+      page.drawRectangle({
+        x: rx,
+        y: ry,
+        width: contentWidth - sidebarWidth - 20,
+        height: 1.5,
+        color: rgb(0.145, 0.388, 0.922)
+      });
+      ry -= 15;
+      state.experience
+        .filter(e => e.company || e.role)
+        .forEach(exp => {
+          page.drawText(exp.role || "Role", {
+            x: rx,
+            y: ry,
+            size: 10,
+            font: fontBold,
+            color: rgb(0.1, 0.1, 0.1)
+          });
+          const dateStr =
+            (exp.startDate ? formatDate(exp.startDate) : "") +
+            (exp.startDate ? " - " : "") +
+            (exp.current ? "Present" : formatDate(exp.endDate));
+          page.drawText(dateStr, {
+            x: width - margin - 100,
+            y: ry,
+            size: 8,
+            font,
+            color: rgb(0.5, 0.5, 0.5)
+          });
+          ry -= 13;
+          page.drawText(exp.company || "Company", {
+            x: rx,
+            y: ry,
+            size: 9,
+            font,
+            color: rgb(0.3, 0.3, 0.3)
+          });
+          ry -= 13;
+          exp.bullets
+            .filter(b => b.trim())
+            .forEach(b => {
+              wrapText(b, font, 8, contentWidth - sidebarWidth - 35).forEach((line, li) => {
+                page.drawText((li === 0 ? "\u2022 " : "  ") + line, {
+                  x: rx + 5,
+                  y: ry,
+                  size: 8,
+                  font,
+                  color: rgb(0.25, 0.25, 0.25)
+                });
+                ry -= 11;
+              });
+            });
+          ry -= 8;
+        });
+    }
+    if (state.education.some(e => e.school)) {
+      if (ry < 120) ry = 120;
+      page.drawText("EDUCATION", {
+        x: rx,
+        y: ry,
+        size: 11,
+        font: fontBold,
+        color: rgb(0.145, 0.388, 0.922)
+      });
+      ry -= 3;
+      page.drawRectangle({
+        x: rx,
+        y: ry,
+        width: contentWidth - sidebarWidth - 20,
+        height: 1.5,
+        color: rgb(0.145, 0.388, 0.922)
+      });
+      ry -= 15;
+      state.education
+        .filter(e => e.school)
+        .forEach(edu => {
+          page.drawText((edu.degree || "Degree") + (edu.field ? " in " + edu.field : ""), {
+            x: rx,
+            y: ry,
+            size: 10,
+            font: fontBold,
+            color: rgb(0.1, 0.1, 0.1)
+          });
+          ry -= 13;
+          page.drawText(edu.school || "School", {
+            x: rx,
+            y: ry,
+            size: 9,
+            font,
+            color: rgb(0.3, 0.3, 0.3)
+          });
+          ry -= 13;
+        });
+    }
+  }
+
+  function drawClassicTemplate(page, state, font, fontBold) {
+    const { width, height } = page.getSize();
+    const margin = 50;
+    const contentWidth = width - margin * 2;
+    let y = height - margin;
+    const p = state.personal;
+    const isMinimal = state.template === "minimal";
+    page.drawText(p.fullName || "Your Name", {
+      x: isMinimal
+        ? width / 2 - font.widthOfTextAtSize(p.fullName || "Your Name", 20) / 2
+        : margin,
+      y,
+      size: 20,
+      font: fontBold,
+      color: rgb(0.1, 0.1, 0.1)
+    });
+    y -= 20;
+    if (p.title) {
+      page.drawText(p.title, {
+        x: isMinimal ? width / 2 - font.widthOfTextAtSize(p.title, 11) / 2 : margin,
+        y,
+        size: 11,
+        font,
+        color: rgb(0.4, 0.4, 0.4)
+      });
+      y -= 18;
+    }
+    const contactParts = [p.email, p.phone, p.location, p.website].filter(Boolean);
+    if (contactParts.length) {
+      const contactStr = contactParts.join("  |  ");
+      page.drawText(contactStr, {
+        x: isMinimal ? width / 2 - font.widthOfTextAtSize(contactStr, 8) / 2 : margin,
+        y,
+        size: 8,
+        font,
+        color: rgb(0.5, 0.5, 0.5)
+      });
+      y -= 15;
+    }
+    y -= 5;
+    if (!isMinimal) {
+      page.drawRectangle({
+        x: margin,
+        y,
+        width: contentWidth,
+        height: 1,
+        color: rgb(0.8, 0.8, 0.8)
+      });
+      y -= 15;
+    } else {
+      y -= 10;
+    }
+
+    const drawSection = title => {
+      page.drawText(title.toUpperCase(), {
+        x: margin,
+        y,
+        size: 10,
+        font: fontBold,
+        color: isMinimal ? rgb(0.1, 0.1, 0.1) : rgb(0.145, 0.388, 0.922)
+      });
+      y -= 3;
+      page.drawRectangle({
+        x: margin,
+        y,
+        width: contentWidth,
+        height: isMinimal ? 0.5 : 1.5,
+        color: isMinimal ? rgb(0.7, 0.7, 0.7) : rgb(0.145, 0.388, 0.922)
+      });
+      y -= 15;
+    };
+
+    if (p.summary) {
+      drawSection("Summary");
+      wrapText(p.summary, font, 9, contentWidth).forEach(line => {
+        page.drawText(line, { x: margin, y, size: 9, font, color: rgb(0.2, 0.2, 0.2) });
+        y -= 13;
+      });
+      y -= 10;
+    }
+
+    if (state.experience.some(e => e.company || e.role)) {
+      drawSection("Experience");
+      state.experience
+        .filter(e => e.company || e.role)
+        .forEach(exp => {
+          page.drawText(exp.role || "Role", {
+            x: margin,
+            y,
+            size: 10,
+            font: fontBold,
+            color: rgb(0.1, 0.1, 0.1)
+          });
+          const dateStr =
+            (exp.startDate ? formatDate(exp.startDate) : "") +
+            (exp.startDate ? " - " : "") +
+            (exp.current ? "Present" : formatDate(exp.endDate));
+          page.drawText(dateStr, {
+            x: width - margin - 100,
+            y,
+            size: 8,
+            font,
+            color: rgb(0.5, 0.5, 0.5)
+          });
+          y -= 13;
+          page.drawText(exp.company || "Company", {
+            x: margin,
+            y,
+            size: 9,
+            font,
+            color: rgb(0.3, 0.3, 0.3)
+          });
+          y -= 13;
+          exp.bullets
+            .filter(b => b.trim())
+            .forEach(b => {
+              wrapText(b, font, 8, contentWidth - 15).forEach((line, li) => {
+                page.drawText((li === 0 ? "\u2022 " : "  ") + line, {
+                  x: margin + 5,
+                  y,
+                  size: 8,
+                  font,
+                  color: rgb(0.25, 0.25, 0.25)
+                });
+                y -= 11;
+              });
+            });
+          y -= 8;
+        });
+    }
+
+    if (state.education.some(e => e.school)) {
+      if (y < 120) {
+        page.drawText("", { x: margin, y });
+        y = height - margin;
+      }
+      drawSection("Education");
+      state.education
+        .filter(e => e.school)
+        .forEach(edu => {
+          page.drawText((edu.degree || "Degree") + (edu.field ? " in " + edu.field : ""), {
+            x: margin,
+            y,
+            size: 10,
+            font: fontBold,
+            color: rgb(0.1, 0.1, 0.1)
+          });
+          const dateStr =
+            (edu.startDate ? formatDate(edu.startDate) : "") +
+            (edu.startDate ? " - " : "") +
+            formatDate(edu.endDate);
+          page.drawText(dateStr, {
+            x: width - margin - 100,
+            y,
+            size: 8,
+            font,
+            color: rgb(0.5, 0.5, 0.5)
+          });
+          y -= 13;
+          let eduLine = edu.school || "School";
+          if (edu.gpa) eduLine += " | GPA: " + edu.gpa;
+          page.drawText(eduLine, { x: margin, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
+          y -= 15;
+        });
+    }
+
+    const allSkills = state.skills.filter(s => s.items.trim());
+    if (allSkills.length && y > 100) {
+      drawSection("Skills");
+      allSkills.forEach(s => {
+        const tagStr = s.category + ": " + s.items;
+        wrapText(tagStr, font, 8, contentWidth).forEach(line => {
+          page.drawText(line, { x: margin, y, size: 8, font, color: rgb(0.2, 0.2, 0.2) });
+          y -= 11;
+        });
+      });
+    }
+  }
+
   async function generatePDF() {
     syncAllFromDOM();
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([595, 842]);
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-    const { width, height } = page.getSize();
-    const margin = 50;
-    const contentWidth = width - margin * 2;
-    let y = height - margin;
-
-    const p = state.personal;
 
     if (state.template === "modern") {
-      const sidebarWidth = 175;
-      page.drawRectangle({
-        x: 0,
-        y: 0,
-        width: sidebarWidth,
-        height,
-        color: rgb(0.145, 0.388, 0.922)
-      });
-      let sy = height - 40;
-      const drawSidebar = (text, x, yPos, f, size, color) => {
-        page.drawText(text, { x, y: yPos, size, font: f, color });
-      };
-      drawSidebar(p.fullName || "Your Name", 15, sy, fontBold, 14, rgb(1, 1, 1));
-      sy -= 20;
-      if (p.title) {
-        drawSidebar(p.title, 15, sy, font, 9, rgb(0.9, 0.9, 0.9));
-        sy -= 15;
-      }
-      sy -= 10;
-      [p.email, p.phone, p.location, p.website].filter(Boolean).forEach(c => {
-        const lines = wrapText(c, font, 8, sidebarWidth - 20);
-        lines.forEach(line => {
-          drawSidebar(line, 15, sy, font, 8, rgb(0.95, 0.95, 0.95));
-          sy -= 12;
-        });
-      });
-      sy -= 15;
-      const allSkills = state.skills.filter(s => s.items.trim());
-      if (allSkills.length) {
-        drawSidebar("SKILLS", 15, sy, fontBold, 9, rgb(1, 1, 1));
-        sy -= 15;
-        allSkills.forEach(s => {
-          drawSidebar(s.category, 15, sy, fontBold, 8, rgb(0.9, 0.9, 0.9));
-          sy -= 12;
-          s.items
-            .split(",")
-            .map(sk => sk.trim())
-            .filter(Boolean)
-            .forEach(sk => {
-              drawSidebar(sk, 15, sy, font, 8, rgb(0.85, 0.85, 0.85));
-              sy -= 11;
-            });
-          sy -= 3;
-        });
-      }
-
-      let rx = sidebarWidth + 20;
-      let ry = height - 40;
-      if (p.summary) {
-        page.drawText("SUMMARY", {
-          x: rx,
-          y: ry,
-          size: 11,
-          font: fontBold,
-          color: rgb(0.145, 0.388, 0.922)
-        });
-        ry -= 3;
-        page.drawRectangle({
-          x: rx,
-          y: ry,
-          width: contentWidth - sidebarWidth - 20,
-          height: 1.5,
-          color: rgb(0.145, 0.388, 0.922)
-        });
-        ry -= 15;
-        wrapText(p.summary, font, 9, contentWidth - sidebarWidth - 20).forEach(line => {
-          page.drawText(line, { x: rx, y: ry, size: 9, font, color: rgb(0.2, 0.2, 0.2) });
-          ry -= 13;
-        });
-        ry -= 10;
-      }
-      if (state.experience.some(e => e.company || e.role)) {
-        page.drawText("EXPERIENCE", {
-          x: rx,
-          y: ry,
-          size: 11,
-          font: fontBold,
-          color: rgb(0.145, 0.388, 0.922)
-        });
-        ry -= 3;
-        page.drawRectangle({
-          x: rx,
-          y: ry,
-          width: contentWidth - sidebarWidth - 20,
-          height: 1.5,
-          color: rgb(0.145, 0.388, 0.922)
-        });
-        ry -= 15;
-        state.experience
-          .filter(e => e.company || e.role)
-          .forEach(exp => {
-            page.drawText(exp.role || "Role", {
-              x: rx,
-              y: ry,
-              size: 10,
-              font: fontBold,
-              color: rgb(0.1, 0.1, 0.1)
-            });
-            const dateStr =
-              (exp.startDate ? formatDate(exp.startDate) : "") +
-              (exp.startDate ? " - " : "") +
-              (exp.current ? "Present" : formatDate(exp.endDate));
-            page.drawText(dateStr, {
-              x: width - margin - 100,
-              y: ry,
-              size: 8,
-              font,
-              color: rgb(0.5, 0.5, 0.5)
-            });
-            ry -= 13;
-            page.drawText(exp.company || "Company", {
-              x: rx,
-              y: ry,
-              size: 9,
-              font,
-              color: rgb(0.3, 0.3, 0.3)
-            });
-            ry -= 13;
-            exp.bullets
-              .filter(b => b.trim())
-              .forEach(b => {
-                wrapText(b, font, 8, contentWidth - sidebarWidth - 35).forEach((line, li) => {
-                  page.drawText((li === 0 ? "\u2022 " : "  ") + line, {
-                    x: rx + 5,
-                    y: ry,
-                    size: 8,
-                    font,
-                    color: rgb(0.25, 0.25, 0.25)
-                  });
-                  ry -= 11;
-                });
-              });
-            ry -= 8;
-          });
-      }
-      if (state.education.some(e => e.school)) {
-        if (ry < 120) ry = 120;
-        page.drawText("EDUCATION", {
-          x: rx,
-          y: ry,
-          size: 11,
-          font: fontBold,
-          color: rgb(0.145, 0.388, 0.922)
-        });
-        ry -= 3;
-        page.drawRectangle({
-          x: rx,
-          y: ry,
-          width: contentWidth - sidebarWidth - 20,
-          height: 1.5,
-          color: rgb(0.145, 0.388, 0.922)
-        });
-        ry -= 15;
-        state.education
-          .filter(e => e.school)
-          .forEach(edu => {
-            page.drawText((edu.degree || "Degree") + (edu.field ? " in " + edu.field : ""), {
-              x: rx,
-              y: ry,
-              size: 10,
-              font: fontBold,
-              color: rgb(0.1, 0.1, 0.1)
-            });
-            ry -= 13;
-            page.drawText(edu.school || "School", {
-              x: rx,
-              y: ry,
-              size: 9,
-              font,
-              color: rgb(0.3, 0.3, 0.3)
-            });
-            ry -= 13;
-          });
-      }
+      drawModernTemplate(page, state, font, fontBold);
     } else {
-      const isMinimal = state.template === "minimal";
-      page.drawText(p.fullName || "Your Name", {
-        x: isMinimal
-          ? width / 2 - font.widthOfTextAtSize(p.fullName || "Your Name", 20) / 2
-          : margin,
-        y,
-        size: 20,
-        font: fontBold,
-        color: rgb(0.1, 0.1, 0.1)
-      });
-      y -= 20;
-      if (p.title) {
-        page.drawText(p.title, {
-          x: isMinimal ? width / 2 - font.widthOfTextAtSize(p.title, 11) / 2 : margin,
-          y,
-          size: 11,
-          font,
-          color: rgb(0.4, 0.4, 0.4)
-        });
-        y -= 18;
-      }
-      const contactParts = [p.email, p.phone, p.location, p.website].filter(Boolean);
-      if (contactParts.length) {
-        const contactStr = contactParts.join("  |  ");
-        page.drawText(contactStr, {
-          x: isMinimal ? width / 2 - font.widthOfTextAtSize(contactStr, 8) / 2 : margin,
-          y,
-          size: 8,
-          font,
-          color: rgb(0.5, 0.5, 0.5)
-        });
-        y -= 15;
-      }
-      y -= 5;
-      if (!isMinimal) {
-        page.drawRectangle({
-          x: margin,
-          y,
-          width: contentWidth,
-          height: 1,
-          color: rgb(0.8, 0.8, 0.8)
-        });
-        y -= 15;
-      } else {
-        y -= 10;
-      }
-
-      const drawSection = title => {
-        page.drawText(title.toUpperCase(), {
-          x: margin,
-          y,
-          size: 10,
-          font: fontBold,
-          color: isMinimal ? rgb(0.1, 0.1, 0.1) : rgb(0.145, 0.388, 0.922)
-        });
-        y -= 3;
-        page.drawRectangle({
-          x: margin,
-          y,
-          width: contentWidth,
-          height: isMinimal ? 0.5 : 1.5,
-          color: isMinimal ? rgb(0.7, 0.7, 0.7) : rgb(0.145, 0.388, 0.922)
-        });
-        y -= 15;
-      };
-
-      if (p.summary) {
-        drawSection("Summary");
-        wrapText(p.summary, font, 9, contentWidth).forEach(line => {
-          page.drawText(line, { x: margin, y, size: 9, font, color: rgb(0.2, 0.2, 0.2) });
-          y -= 13;
-        });
-        y -= 10;
-      }
-
-      if (state.experience.some(e => e.company || e.role)) {
-        drawSection("Experience");
-        state.experience
-          .filter(e => e.company || e.role)
-          .forEach(exp => {
-            page.drawText(exp.role || "Role", {
-              x: margin,
-              y,
-              size: 10,
-              font: fontBold,
-              color: rgb(0.1, 0.1, 0.1)
-            });
-            const dateStr =
-              (exp.startDate ? formatDate(exp.startDate) : "") +
-              (exp.startDate ? " - " : "") +
-              (exp.current ? "Present" : formatDate(exp.endDate));
-            page.drawText(dateStr, {
-              x: width - margin - 100,
-              y,
-              size: 8,
-              font,
-              color: rgb(0.5, 0.5, 0.5)
-            });
-            y -= 13;
-            page.drawText(exp.company || "Company", {
-              x: margin,
-              y,
-              size: 9,
-              font,
-              color: rgb(0.3, 0.3, 0.3)
-            });
-            y -= 13;
-            exp.bullets
-              .filter(b => b.trim())
-              .forEach(b => {
-                wrapText(b, font, 8, contentWidth - 15).forEach((line, li) => {
-                  page.drawText((li === 0 ? "\u2022 " : "  ") + line, {
-                    x: margin + 5,
-                    y,
-                    size: 8,
-                    font,
-                    color: rgb(0.25, 0.25, 0.25)
-                  });
-                  y -= 11;
-                });
-              });
-            y -= 8;
-          });
-      }
-
-      if (state.education.some(e => e.school)) {
-        if (y < 120) {
-          page.drawText("", { x: margin, y });
-          y = height - margin;
-        }
-        drawSection("Education");
-        state.education
-          .filter(e => e.school)
-          .forEach(edu => {
-            page.drawText((edu.degree || "Degree") + (edu.field ? " in " + edu.field : ""), {
-              x: margin,
-              y,
-              size: 10,
-              font: fontBold,
-              color: rgb(0.1, 0.1, 0.1)
-            });
-            const dateStr =
-              (edu.startDate ? formatDate(edu.startDate) : "") +
-              (edu.startDate ? " - " : "") +
-              formatDate(edu.endDate);
-            page.drawText(dateStr, {
-              x: width - margin - 100,
-              y,
-              size: 8,
-              font,
-              color: rgb(0.5, 0.5, 0.5)
-            });
-            y -= 13;
-            let eduLine = edu.school || "School";
-            if (edu.gpa) eduLine += " | GPA: " + edu.gpa;
-            page.drawText(eduLine, { x: margin, y, size: 9, font, color: rgb(0.3, 0.3, 0.3) });
-            y -= 15;
-          });
-      }
-
-      const allSkills = state.skills.filter(s => s.items.trim());
-      if (allSkills.length && y > 100) {
-        drawSection("Skills");
-        allSkills.forEach(s => {
-          const tagStr = s.category + ": " + s.items;
-          wrapText(tagStr, font, 8, contentWidth).forEach((line) => {
-            page.drawText(line, { x: margin, y, size: 8, font, color: rgb(0.2, 0.2, 0.2) });
-            y -= 11;
-          });
-        });
-      }
+      drawClassicTemplate(page, state, font, fontBold);
     }
 
+    const p = state.personal;
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: "application/pdf" });
     const filename =
