@@ -30,6 +30,59 @@ const PRESETS = [
   },
   { name: "IPv6 Address", pattern: "([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}" }
 ];
+function parseGroupPrefix(pattern, i) {
+  let groupType = "group";
+  let value = "(";
+  if (pattern[i + 1] === "?") {
+    if (pattern[i + 2] === ":") {
+      groupType = "noncapture";
+      value = "(?:";
+      i += 3;
+    } else if (pattern[i + 2] === "=") {
+      groupType = "lookahead";
+      value = "(?=";
+      i += 3;
+    } else if (pattern[i + 2] === "!") {
+      groupType = "neglookahead";
+      value = "(?!";
+      i += 3;
+    } else if (pattern[i + 2] === "<" && pattern[i + 3] === "=") {
+      groupType = "lookbehind";
+      value = "(?<=";
+      i += 4;
+    } else if (pattern[i + 2] === "<" && pattern[i + 3] === "!") {
+      groupType = "neglookbehind";
+      value = "(?<!";
+      i += 4;
+    } else {
+      i += 2;
+    }
+  } else {
+    i++;
+  }
+  return { groupType, value, i };
+}
+
+function parseQuantifier(pattern, ch, i) {
+  if (ch === "{" ) {
+    let j = i + 1;
+    while (j < pattern.length && pattern[j] !== "}") j++;
+    const quant = pattern.slice(i, j + 1);
+    let value = quant;
+    if (pattern[j + 1] === "?") {
+      value += "?";
+      j++;
+    }
+    return { value, i: j + 1 };
+  }
+  let value = ch;
+  if (pattern[i + 1] === "?") {
+    value += "?";
+    i++;
+  }
+  return { value, i: i + 1 };
+}
+
 export function tokenizeRegex(pattern) {
   const tokens = [];
   let i = 0;
@@ -51,36 +104,9 @@ export function tokenizeRegex(pattern) {
       tokens.push({ type: "class", value: pattern.slice(i, j + 1) });
       i = j + 1;
     } else if (ch === "(") {
-      let groupType = "group";
-      let value = "(";
-      if (pattern[i + 1] === "?") {
-        if (pattern[i + 2] === ":") {
-          groupType = "noncapture";
-          value = "(?:";
-          i += 3;
-        } else if (pattern[i + 2] === "=") {
-          groupType = "lookahead";
-          value = "(?=";
-          i += 3;
-        } else if (pattern[i + 2] === "!") {
-          groupType = "neglookahead";
-          value = "(?!";
-          i += 3;
-        } else if (pattern[i + 2] === "<" && pattern[i + 3] === "=") {
-          groupType = "lookbehind";
-          value = "(?<=";
-          i += 4;
-        } else if (pattern[i + 2] === "<" && pattern[i + 3] === "!") {
-          groupType = "neglookbehind";
-          value = "(?<!";
-          i += 4;
-        } else {
-          i += 2;
-        }
-      } else {
-        i++;
-      }
-      tokens.push({ type: "group-start", groupType, value });
+      const g = parseGroupPrefix(pattern, i);
+      tokens.push({ type: "group-start", groupType: g.groupType, value: g.value });
+      i = g.i;
     } else if (ch === ")") {
       tokens.push({ type: "group-end", value: ")" });
       i++;
@@ -90,25 +116,10 @@ export function tokenizeRegex(pattern) {
     } else if (ch === "^" || ch === "$") {
       tokens.push({ type: "anchor", value: ch });
       i++;
-    } else if (ch === "*" || ch === "+" || ch === "?") {
-      let value = ch;
-      if (pattern[i + 1] === "?") {
-        value += "?";
-        i++;
-      }
-      tokens.push({ type: "quantifier", value });
-      i++;
-    } else if (ch === "{") {
-      let j = i + 1;
-      while (j < pattern.length && pattern[j] !== "}") j++;
-      const quant = pattern.slice(i, j + 1);
-      let value = quant;
-      if (pattern[j + 1] === "?") {
-        value += "?";
-        j++;
-      }
-      tokens.push({ type: "quantifier", value });
-      i = j + 1;
+    } else if (ch === "*" || ch === "+" || ch === "?" || ch === "{") {
+      const q = parseQuantifier(pattern, ch, i);
+      tokens.push({ type: "quantifier", value: q.value });
+      i = q.i;
     } else if (ch === ".") {
       tokens.push({ type: "class", value: "." });
       i++;
@@ -240,6 +251,53 @@ export function getGroupMatches(text, regex) {
   }
   return results;
 }
+function layoutGroup(tok, tokens, i) {
+  const inner = [];
+  let depth = 1;
+  i++;
+  while (i < tokens.length && depth > 0) {
+    if (tokens[i].type === "group-start") depth++;
+    if (tokens[i].type === "group-end") depth--;
+    if (depth > 0) inner.push(tokens[i]);
+    i++;
+  }
+  const groupLabel =
+    tok.groupType === "noncapture"
+      ? "?:"
+      : tok.groupType === "lookahead"
+        ? "?="
+        : tok.groupType === "neglookahead"
+          ? "?!"
+          : tok.groupType === "lookbehind"
+            ? "?<="
+            : tok.groupType === "neglookbehind"
+              ? "?<!"
+              : "";
+  return { item: { kind: "group", label: groupLabel, children: inner, color: "#6366f1" }, i };
+}
+
+function layoutAlternation(tokens, i) {
+  const branches = [];
+  let current = [];
+  i++;
+  let depth = 0;
+  while (i < tokens.length) {
+    if (tokens[i].type === "group-start") depth++;
+    if (tokens[i].type === "group-end") depth--;
+    if (tokens[i].type === "alternation" && depth === 0) {
+      branches.push(current);
+      current = [];
+      i++;
+      continue;
+    }
+    if (depth < 0) break;
+    current.push(tokens[i]);
+    i++;
+  }
+  branches.push(current);
+  return { item: { kind: "branch", branches }, i };
+}
+
 function buildRailroadSVG(tokens) {
   const NODE_W = 40,
     NODE_H = 28,
@@ -262,48 +320,13 @@ function buildRailroadSVG(tokens) {
     while (i < tokens.length) {
       const tok = tokens[i];
       if (tok.type === "group-start") {
-        const inner = [];
-        let depth = 1;
-        i++;
-        while (i < tokens.length && depth > 0) {
-          if (tokens[i].type === "group-start") depth++;
-          if (tokens[i].type === "group-end") depth--;
-          if (depth > 0) inner.push(tokens[i]);
-          i++;
-        }
-        const groupLabel =
-          tok.groupType === "noncapture"
-            ? "?:"
-            : tok.groupType === "lookahead"
-              ? "?="
-              : tok.groupType === "neglookahead"
-                ? "?!"
-                : tok.groupType === "lookbehind"
-                  ? "?<="
-                  : tok.groupType === "neglookbehind"
-                    ? "?<!"
-                    : "";
-        items.push({ kind: "group", label: groupLabel, children: inner, color: "#6366f1" });
+        const g = layoutGroup(tok, tokens, i);
+        items.push(g.item);
+        i = g.i;
       } else if (tok.type === "alternation") {
-        const branches = [];
-        let current = [];
-        i++;
-        let depth = 0;
-        while (i < tokens.length) {
-          if (tokens[i].type === "group-start") depth++;
-          if (tokens[i].type === "group-end") depth--;
-          if (tokens[i].type === "alternation" && depth === 0) {
-            branches.push(current);
-            current = [];
-            i++;
-            continue;
-          }
-          if (depth < 0) break;
-          current.push(tokens[i]);
-          i++;
-        }
-        branches.push(current);
-        items.push({ kind: "branch", branches });
+        const a = layoutAlternation(tokens, i);
+        items.push(a.item);
+        i = a.i;
       } else if (tok.type === "anchor") {
         items.push({
           kind: "anchor",
