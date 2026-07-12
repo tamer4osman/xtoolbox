@@ -22,19 +22,16 @@ jobs:
           PREV_TAG=$(git tag --sort=-version:refname | grep -A1 "^${TAG}$" | tail -1)
           if [ -z "$PREV_TAG" ] || [ "$PREV_TAG" = "$TAG" ]; then
             PREV_TAG=$(git rev-list --max-parents=0 HEAD | head -1)
-            echo "Using initial commit as baseline"
           fi
           echo "tag=$PREV_TAG" >> "$GITHUB_OUTPUT"
 
       - name: Collect changes
-        id: changes
         run: |
           PREV="${{ steps.prev.outputs.tag }}"
           CURRENT="${{ github.event.release.tag_name }}"
           echo "## Changes from $PREV to $CURRENT" > changes.md
           echo "" >> changes.md
           git log "$PREV..$CURRENT" --pretty=format:"- %s (%h)" --no-merges >> changes.md
-          echo "" >> changes.md
           echo "" >> changes.md
           echo "### Files changed" >> changes.md
           git diff --stat "$PREV..$CURRENT" >> changes.md
@@ -48,56 +45,21 @@ jobs:
           script: |
             const fs = require('fs');
             const changes = fs.readFileSync('changes.md', 'utf8');
-
-            const prompt = `You are a technical release notes writer for xtoolbox, a collection of 313+ free online developer/creator tools (100% client-side).
-
-Given the following git changes between two releases, generate clear, concise, user-facing release notes.
-
-Group changes into categories:
-- New Features (new tools added)
-- Improvements (enhancements to existing tools)
-- Bug Fixes
-- Developer Experience (CI/CD, testing, tooling changes)
-- Performance
-
-Skip internal-only changes (CI configs, test renames, dependency updates) unless they significantly impact users.
-Use simple language. Be specific about what changed.
-
-Changes:
-${changes}`;
-
+            const prompt = 'You are a technical release notes writer for xtoolbox, a collection of 313+ free online developer/creator tools (100% client-side). Given the following git changes between two releases, generate clear, concise, user-facing release notes. Group changes into categories: New Features, Improvements, Bug Fixes, Developer Experience, Performance. Skip internal-only changes. Use simple language. Be specific.\n\nChanges:\n' + changes;
             const response = await fetch('https://api.z.ai/api/paas/v4/chat/completions', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.ZAI_API_KEY}`,
-              },
-              body: JSON.stringify({
-                model: 'glm-4.7-flash',
-                messages: [{ role: 'user', content: prompt }],
-                max_tokens: 2000,
-                temperature: 0.3,
-              }),
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + process.env.ZAI_API_KEY },
+              body: JSON.stringify({ model: 'glm-4.7-flash', messages: [{ role: 'user', content: prompt }], max_tokens: 2000, temperature: 0.3 }),
             });
-
-            if (!response.ok) {
-              core.warning(`Z.AI API error: ${response.status}`);
-              return;
-            }
-
+            if (!response.ok) { core.warning('Z.AI API error: ' + response.status); return; }
             const data = await response.json();
             const notes = data.choices[0].message.content;
-
             await github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: context.payload.release.id,
-              body: notes,
+              owner: context.repo.owner, repo: context.repo.repo,
+              release_id: context.payload.release.id, body: notes,
             });
-
             core.info('Release notes generated and published');
 
-      - name: Fallback: raw changelog
+      - name: Fallback - raw changelog
         if: ${{ secrets.ZAI_API_KEY == '' }}
-        run: |
-          cat changes.md
+        run: cat changes.md
