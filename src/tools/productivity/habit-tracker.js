@@ -182,6 +182,28 @@ export function render(container) {
     renderHeatmap();
   }
 
+  function getHeatLevel(count) {
+    if (count >= 4) return 4;
+    if (count >= 3) return 3;
+    if (count >= 2) return 2;
+    if (count > 0) return 1;
+    return 0;
+  }
+
+  function getHeatColor(level) {
+    if (level === 0) return "#ebedf0";
+    if (level === 1) return "#9be9a8";
+    if (level === 2) return "#40c463";
+    if (level === 3) return "#30a14e";
+    return "#216e39";
+  }
+
+  function renderWeekCell(dateStr, count) {
+    const level = getHeatLevel(count);
+    const bg = getHeatColor(level);
+    return `<div class="h-cell" style="background:${bg};width:11px;height:11px;border-radius:2px;display:inline-block;margin:1px;" title="${dateStr}: ${count} habits"></div>`;
+  }
+
   function renderHeatmap() {
     const hm = $("#heatmap");
     const year = new Date().getFullYear();
@@ -201,25 +223,7 @@ export function render(container) {
       for (let d = 0; d < 7; d++) {
         const dateStr = current.toISOString().split("T")[0];
         const count = current.getFullYear() === year ? habitCounts[dateStr] || 0 : 0;
-        let level = 0;
-        if (count > 0) level = 1;
-        if (count >= 2) level = 2;
-        if (count >= 3) level = 3;
-        if (count >= 4) level = 4;
-
-        const bg =
-          level === 0
-            ? "#ebedf0"
-            : level === 1
-              ? "#9be9a8"
-              : level === 2
-                ? "#40c463"
-                : level === 3
-                  ? "#30a14e"
-                  : "#216e39";
-        days.push(
-          `<div class="h-cell" style="background:${bg};width:11px;height:11px;border-radius:2px;display:inline-block;margin:1px;" title="${dateStr}: ${count} habits"></div>`
-        );
+        days.push(renderWeekCell(dateStr, count));
         current.setDate(current.getDate() + 1);
       }
       weeks.push(`<div class="h-week">${days.join("")}</div>`);
