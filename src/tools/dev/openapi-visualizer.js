@@ -28,69 +28,78 @@ export const toolConfig = {
   ]
 };
 
+function parseYAMLValue(str) {
+  const s = str.trim();
+  if (s === "" || s === "null" || s === "~") return null;
+  if (s === "true") return true;
+  if (s === "false") return false;
+  if (/^-?\d+(\.\d+)?$/.test(s)) return Number(s);
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'")))
+    return s.slice(1, -1);
+  if (s.startsWith("[")) {
+    try {
+      return JSON.parse(s);
+    } catch {
+      return s;
+    }
+  }
+  return s;
+}
+
+function pushArrayItem(stack, frame, val, indent) {
+  if (frame.parentKey && frame.grandparent) {
+    const ref = frame.grandparent[frame.parentKey];
+    if (typeof ref === "object" && !Array.isArray(ref) && Object.keys(ref).length === 0) {
+      frame.grandparent[frame.parentKey] = [];
+    }
+    if (Array.isArray(frame.grandparent[frame.parentKey])) {
+      frame.grandparent[frame.parentKey].push(val);
+      if (typeof val === "object" && val !== null) {
+        stack.push({ obj: val, indent, parentKey: null, grandparent: null });
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
+function processYAMLLine(stack, line) {
+  if (/^\s*#/.test(line) || line.trim() === "") return;
+  const indent = line.search(/\S/);
+  const trimmed = line.trim();
+
+  while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
+  const frame = stack[stack.length - 1];
+  const parent = frame.obj;
+
+  if (trimmed.startsWith("- ")) {
+    const val = parseYAMLValue(trimmed.slice(2));
+    if (pushArrayItem(stack, frame, val, indent)) return;
+    if (Array.isArray(parent)) {
+      parent.push(val);
+    }
+  } else if (trimmed.includes(":")) {
+    const colonIdx = trimmed.indexOf(":");
+    const key = trimmed.slice(0, colonIdx).trim();
+    const valStr = trimmed.slice(colonIdx + 1).trim();
+    if (valStr === "" || valStr.startsWith("|") || valStr.startsWith(">")) {
+      parent[key] = {};
+      stack.push({ obj: parent[key], indent, parentKey: key, grandparent: parent });
+    } else {
+      parent[key] = parseYAMLValue(valStr);
+      frame.parentKey = null;
+      frame.grandparent = null;
+    }
+  }
+}
+
 export function parseYAML(text) {
   const lines = text.split("\n");
   const root = {};
   const stack = [{ obj: root, indent: -1, parentKey: null, grandparent: null }];
 
-  function parseValue(str) {
-    const s = str.trim();
-    if (s === "" || s === "null" || s === "~") return null;
-    if (s === "true") return true;
-    if (s === "false") return false;
-    if (/^-?\d+(\.\d+)?$/.test(s)) return Number(s);
-    if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'")))
-      return s.slice(1, -1);
-    if (s.startsWith("[")) {
-      try {
-        return JSON.parse(s);
-      } catch {
-        return s;
-      }
-    }
-    return s;
-  }
-
   for (const line of lines) {
-    if (/^\s*#/.test(line) || line.trim() === "") continue;
-    const indent = line.search(/\S/);
-    const trimmed = line.trim();
-
-    while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
-    const frame = stack[stack.length - 1];
-    const parent = frame.obj;
-
-    if (trimmed.startsWith("- ")) {
-      const val = parseValue(trimmed.slice(2));
-      if (frame.parentKey && frame.grandparent) {
-        const ref = frame.grandparent[frame.parentKey];
-        if (typeof ref === "object" && !Array.isArray(ref) && Object.keys(ref).length === 0) {
-          frame.grandparent[frame.parentKey] = [];
-        }
-        if (Array.isArray(frame.grandparent[frame.parentKey])) {
-          frame.grandparent[frame.parentKey].push(val);
-          if (typeof val === "object" && val !== null) {
-            stack.push({ obj: val, indent, parentKey: null, grandparent: null });
-          }
-          continue;
-        }
-      }
-      if (Array.isArray(parent)) {
-        parent.push(val);
-      }
-    } else if (trimmed.includes(":")) {
-      const colonIdx = trimmed.indexOf(":");
-      const key = trimmed.slice(0, colonIdx).trim();
-      const valStr = trimmed.slice(colonIdx + 1).trim();
-      if (valStr === "" || valStr.startsWith("|") || valStr.startsWith(">")) {
-        parent[key] = {};
-        stack.push({ obj: parent[key], indent, parentKey: key, grandparent: parent });
-      } else {
-        parent[key] = parseValue(valStr);
-        frame.parentKey = null;
-        frame.grandparent = null;
-      }
-    }
+    processYAMLLine(stack, line);
   }
   return root;
 }
@@ -100,8 +109,6 @@ export function parseSpecText(text) {
   if (trimmed.startsWith("{")) return JSON.parse(trimmed);
   return parseYAML(trimmed);
 }
-
-
 
 export function parseOpenAPI(spec) {
   const endpoints = [];
