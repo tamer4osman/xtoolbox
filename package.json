@@ -45,7 +45,6 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
-    "@rolldown/binding-win32-x64-msvc": "^1.1.4",
     "docx": "^9.6.1",
     "exif-js": "^2.3.0",
     "heic2any": "^0.0.4",
@@ -64,6 +63,9 @@
     "read-excel-file": "^9.2.0",
     "tesseract.js": "^7.0.0",
     "write-excel-file": "^4.1.1"
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-win32-x64-msvc": "^1.1.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
