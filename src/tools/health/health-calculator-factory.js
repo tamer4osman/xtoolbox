@@ -1,15 +1,5 @@
 const CYCLE_OPTIONS = [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
 
-const FORM_STYLES = `
-  .health-container { max-width: 500px; margin: 0 auto; }
-  .health-form { background: var(--color-surface); padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); }
-  .health-form .form-group { margin-bottom: var(--space-4); text-align: left; }
-  .health-form .form-group label { display: block; margin-bottom: var(--space-2); font-weight: 500; }
-  .health-form .form-group input, .health-form .form-group select { width: 100%; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
-  .health-form .calc-button { width: 100%; padding: var(--space-4); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; }
-  .hidden { display: none; }
-`;
-
 function buildCycleSelect() {
   return `<select id="cycle">${CYCLE_OPTIONS.map(
     d =>
@@ -19,22 +9,33 @@ function buildCycleSelect() {
 
 export function renderHealthForm(container, { buttonText = "Calculate", resultId = "result" }) {
   container.innerHTML = `
-    <div class="health-container">
-      <div class="health-form">
-        <div class="form-group">
+    <div class="cf-container">
+      <div class="cf-form">
+        <div class="cf-field">
           <label>First Day of Last Period</label>
           <input type="date" id="last-period" />
         </div>
-        <div class="form-group">
+        <div class="cf-field">
           <label>Cycle Length (days)</label>
           ${buildCycleSelect()}
         </div>
-        <button id="calc-btn" class="calc-button">${buttonText}</button>
+        <button type="button" class="cf-calc-btn" id="calc-btn">${buttonText}</button>
       </div>
-      <div id="${resultId}" class="hidden"></div>
+      <div id="${resultId}" class="cf-hidden"></div>
     </div>
-    <style>${FORM_STYLES}</style>
   `;
+
+  const style = document.createElement("style");
+  style.textContent = `
+    .cf-container { max-width: 500px; margin: 0 auto; }
+    .cf-form { background: var(--color-surface); padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); }
+    .cf-field { margin-bottom: var(--space-4); text-align: left; }
+    .cf-field label { display: block; margin-bottom: var(--space-2); font-weight: 500; }
+    .cf-field input, .cf-field select { width: 100%; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+    .cf-calc-btn { width: 100%; padding: var(--space-4); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; }
+    .cf-hidden { display: none !important; }
+  `;
+  container.appendChild(style);
 }
 
 export function initHealthForm(
@@ -52,8 +53,9 @@ export function initHealthForm(
     const lastPeriod = new Date(container.querySelector("#last-period").value);
     const cycle = parseInt(container.querySelector("#cycle").value) || 28;
     const data = calculate(lastPeriod, cycle);
-    renderResult(container.querySelector(`#${resultId}`), data);
-    container.querySelector(`#${resultId}`).classList.remove("hidden");
+    const resultEl = container.querySelector(`#${resultId}`);
+    renderResult(resultEl, data);
+    resultEl.classList.remove("cf-hidden");
   }
 
   container.querySelector("#calc-btn").addEventListener("click", run);

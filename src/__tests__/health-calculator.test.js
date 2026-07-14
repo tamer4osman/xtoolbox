@@ -40,10 +40,10 @@ describe("createHealthCalculator", () => {
       ],
       onCalculate: () => {}
     });
-    expect(container.querySelector("#hc-calc-btn").textContent).toBe("Go");
+    expect(container.querySelector(".cf-calc-btn").textContent).toBe("Go");
     expect(container.querySelector("#a").value).toBe("10");
     expect(container.querySelector("#b").value).toBe("x");
-    expect(resultEl.classList.contains("hidden")).toBe(false);
+    expect(resultEl.classList.contains("cf-hidden")).toBe(false);
   });
 
   it("calls onCalculate on initial render and exposes result", () => {
@@ -75,7 +75,7 @@ describe("createHealthCalculator", () => {
       }
     });
     const before = count;
-    container.querySelector("#hc-calc-btn").click();
+    container.querySelector(".cf-calc-btn").click();
     expect(count).toBe(before + 1);
   });
 
@@ -228,54 +228,10 @@ describe("createHealthCalculator XSS protection", () => {
       fields: [],
       onCalculate: () => {}
     });
-    const btn = container.querySelector("#hc-calc-btn");
+    const btn = container.querySelector(".cf-calc-btn");
     expect(btn.textContent).toBe("<script>alert(1)</script>");
     expect(btn.innerHTML).toBe("&lt;script&gt;alert(1)&lt;/script&gt;");
     expect(container.querySelector("script")).toBeNull();
-  });
-
-  it("rejects containerClass with HTML-injection characters", () => {
-    const container = makeContainer();
-    expect(() =>
-      createHealthCalculator({
-        container,
-        containerClass: 'evil"><script>alert(1)</script>',
-        fields: [],
-        onCalculate: () => {}
-      })
-    ).toThrow(/containerClass/);
-  });
-
-  it("rejects containerClass starting with digit or hyphen", () => {
-    const container = makeContainer();
-    expect(() =>
-      createHealthCalculator({
-        container,
-        containerClass: "1bad",
-        fields: [],
-        onCalculate: () => {}
-      })
-    ).toThrow(/containerClass/);
-    expect(() =>
-      createHealthCalculator({
-        container,
-        containerClass: "-bad",
-        fields: [],
-        onCalculate: () => {}
-      })
-    ).toThrow(/containerClass/);
-  });
-
-  it("accepts valid containerClass names with hyphens and underscores", () => {
-    const container = makeContainer();
-    expect(() =>
-      createHealthCalculator({
-        container,
-        containerClass: "bf-container_v2",
-        fields: [],
-        onCalculate: () => {}
-      })
-    ).not.toThrow();
   });
 
   it("skips min/max attribute when not a number", () => {

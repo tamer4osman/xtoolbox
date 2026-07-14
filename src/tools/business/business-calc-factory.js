@@ -1,30 +1,39 @@
-const CALC_STYLES = `
-  .biz-container { max-width: 400px; margin: 0 auto; text-align: center; }
-  .biz-container h2 { margin-bottom: var(--space-4); }
-  .biz-container input { width: 100%; padding: var(--space-3); margin-bottom: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-lg); text-align: center; }
-  .biz-result { background: var(--color-surface); padding: var(--space-4); border-radius: var(--radius-xl); }
-  .biz-result div { margin-bottom: var(--space-2); }
-  .biz-result strong { color: var(--color-primary); font-size: var(--text-xl); }
-`;
+import { createCalc } from "../../components/calc-factory.js";
 
+/**
+ * Creates a reactive business calculator with live calculation on input change.
+ *
+ * @param {HTMLElement} container
+ * @param {Object} config
+ * @param {string} config.title
+ * @param {Array} config.inputs - [{ id, placeholder, value }]
+ * @param {string} config.resultHTML - HTML template with element IDs to update
+ * @param {Function} config.calc - ({ get, el }) => void; get(id) returns number, el(id) returns element
+ */
 export function initBusinessCalc(container, { title, inputs, resultHTML, calc }) {
-  container.innerHTML = `
-    <div class="biz-container">
-      <h2>${title}</h2>
-      ${inputs.map(i => `<input type="number" id="${i.id}" placeholder="${i.placeholder}" value="${i.value}">`).join("")}
-      <div class="biz-result">${resultHTML}</div>
-    </div>
-  `;
+  const fields = inputs.map(i => ({
+    id: i.id,
+    label: i.placeholder,
+    type: "number",
+    value: i.value,
+    placeholder: i.placeholder
+  }));
 
-  const style = document.createElement("style");
-  style.textContent = CALC_STYLES;
-  container.appendChild(style);
-
-  function update() {
-    const get = id => parseFloat(container.querySelector(`#${id}`).value) || 0;
-    calc({ get, el: id => container.querySelector(`#${id}`) });
-  }
-
-  container.querySelectorAll("input").forEach(i => i.addEventListener("input", update));
-  update();
+  createCalc({
+    container,
+    title,
+    fields,
+    autoCalc: true,
+    calcButtonLabel: null,
+    onRender: (c, r) => {
+      const get = id => {
+        const el = c.querySelector(`#${id}`);
+        return el ? parseFloat(el.value) || 0 : 0;
+      };
+      const el = id => c.querySelector(`#${id}`);
+      r.innerHTML = `<div class="cf-result-grid" style="grid-template-columns:1fr;">${resultHTML}</div>`;
+      calc({ get, el });
+      r.classList.remove("cf-hidden");
+    }
+  });
 }

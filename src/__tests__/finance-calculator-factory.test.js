@@ -44,9 +44,9 @@ function build(overrides = {}) {
 describe("createFinanceCalculator", () => {
   it("renders the header with icon, title, and description", () => {
     const { container } = build();
-    expect(container.querySelector(".tool-icon").textContent).toBe("💰");
+    expect(container.querySelector(".cf-icon").textContent).toBe("💰");
     expect(container.querySelector("h1").textContent).toBe("Test Finance Tool");
-    expect(container.querySelector(".tool-description").textContent).toBe(
+    expect(container.querySelector(".cf-desc").textContent).toBe(
       "A test finance calculator."
     );
   });
@@ -54,12 +54,12 @@ describe("createFinanceCalculator", () => {
   it("renders the form with provided formHTML and a calculate button", () => {
     const { container } = build();
     expect(container.querySelector("#amount")).toBeTruthy();
-    expect(container.querySelector("#test-finance-calc-btn")).toBeTruthy();
+    expect(container.querySelector(".cf-calc-btn")).toBeTruthy();
   });
 
   it("hides the result area initially", () => {
     const { container } = build();
-    expect(container.querySelector("#test-finance-result").classList.contains("hidden")).toBe(true);
+    expect(container.querySelector(".cf-result").classList.contains("cf-hidden")).toBe(true);
   });
 
   it("collects form values by id and calls calculate on click", () => {
@@ -68,7 +68,7 @@ describe("createFinanceCalculator", () => {
       items: []
     }));
     const { container, calculate: c2 } = build({ calculate });
-    container.querySelector("#test-finance-calc-btn").click();
+    container.querySelector(".cf-calc-btn").click();
     expect(c2).toHaveBeenCalledTimes(1);
     const vals = c2.mock.calls[0][0];
     expect(vals.amount).toBe("1000");
@@ -76,28 +76,28 @@ describe("createFinanceCalculator", () => {
 
   it("renders primary result card with label and value", () => {
     const { container } = build();
-    container.querySelector("#test-finance-calc-btn").click();
-    const card = container.querySelector(".result-card");
+    container.querySelector(".cf-calc-btn").click();
+    const card = container.querySelector(".cf-result-card");
     expect(card).toBeTruthy();
-    expect(card.querySelector(".result-label").textContent).toBe("Result");
-    expect(card.querySelector(".result-value").textContent).toBe("$123.45");
+    expect(card.querySelector(".cf-result-label").textContent).toBe("Result");
+    expect(card.querySelector(".cf-result-value").textContent).toBe("$123.45");
   });
 
   it("renders each result item in the grid", () => {
     const { container } = build();
-    container.querySelector("#test-finance-calc-btn").click();
-    const items = container.querySelectorAll(".result-item");
+    container.querySelector(".cf-calc-btn").click();
+    const items = container.querySelectorAll(".cf-result-item");
     expect(items).toHaveLength(2);
-    expect(items[0].querySelector(".result-label").textContent).toBe("Sub A");
-    expect(items[0].querySelector(".result-value").textContent).toBe("$10");
-    expect(items[1].querySelector(".result-label").textContent).toBe("Sub B");
-    expect(items[1].querySelector(".result-value").textContent).toBe("5%");
+    expect(items[0].querySelector(".cf-ri-label").textContent).toBe("Sub A");
+    expect(items[0].querySelector(".cf-ri-value").textContent).toBe("$10");
+    expect(items[1].querySelector(".cf-ri-label").textContent).toBe("Sub B");
+    expect(items[1].querySelector(".cf-ri-value").textContent).toBe("5%");
   });
 
   it("shows the result area after calculation", () => {
     const { container } = build();
-    container.querySelector("#test-finance-calc-btn").click();
-    expect(container.querySelector("#test-finance-result").classList.contains("hidden")).toBe(
+    container.querySelector(".cf-calc-btn").click();
+    expect(container.querySelector(".cf-result").classList.contains("cf-hidden")).toBe(
       false
     );
   });
@@ -109,7 +109,7 @@ describe("createFinanceCalculator", () => {
       extras: '<div class="extras-section"><h3>Extra</h3><p>More info</p></div>'
     });
     const { container } = build({ calculate });
-    container.querySelector("#test-finance-calc-btn").click();
+    container.querySelector(".cf-calc-btn").click();
     expect(container.querySelector(".extras-section")).toBeTruthy();
     expect(container.querySelector(".extras-section h3").textContent).toBe("Extra");
   });
