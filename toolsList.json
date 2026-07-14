@@ -3294,7 +3294,7 @@
     "description": "Reduce camera shake and stabilize shaky video footage.",
     "icon": "🎥",
     "href": "/tools/video-stabilizer",
-    "status": "planned",
+    "status": "done",
     "keywords": ["video", "stabilize", "shake", "smooth", "steady"]
   },
   {
