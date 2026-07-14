@@ -83,9 +83,69 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 6. **Demand check**: Estimate user demand (search volume, community requests)
 7. **Build**: Create tool following the tool-building workflow in AGENTS.md
 
+## Competitive Landscape
+
+### Positioning
+
+ToolBox's unique advantage: **largest 100% client-side toolbox with WASM-powered processing**. Competitors either use server uploads or lack deep media processing.
+
+### Head-to-Head: ToolBox vs Toololis (691 tools)
+
+| Dimension | ToolBox (314) | Toololis (691) | Gap |
+|-----------|--------------|----------------|-----|
+| Total tools | 314 | 691 | -377 |
+| PDF tools | **33** | 8 | +25 (4x) |
+| Image tools | **39** | 19 | +20 (2x) |
+| Video tools | **19** | 0 | +19 (only) |
+| Audio tools | **15** | 10 | +5 |
+| Developer tools | 34 | **46** | -12 |
+| Calculators | ~20 | **244** | -224 |
+| Finance tools | 12 | **108** | -96 |
+| E-Commerce tools | 0 | **19** | -19 |
+| Social media tools | 0 | **28** | -28 |
+
+### Our Advantages (Defensible)
+
+1. **WASM-powered processing** — ffmpeg.wasm, Tesseract.js, ONNX Runtime, pdf-lib. Toololis is mostly form-based calculators and text tools.
+2. **Media processing dominance** — 106 media tools (33 PDF + 39 image + 19 video + 15 audio) vs their ~37.
+3. **Deep PDF expertise** — 33 tools vs their 8 (visual redactors, textbook splitters, annotators).
+4. **Video tools = zero competition** — Toololis has ZERO video tools.
+5. **Architecture maturity** — Factory patterns, 15 reusable components, design tokens, FALLOW health scoring.
+
+### Their Advantages (Honest)
+
+1. **2x more tools** — volume matters for SEO and long-tail keywords.
+2. **Niche calculators** — 244 calculators, Amazon FBA tools, DACH-specific German tools.
+3. **Decision composites** — "Should I quit my job?" and "Longevity Score" are unique viral hooks.
+4. **Social media tools** — TikTok/YouTube analysis tools (28 tools).
+5. **9 languages** — international reach.
+
+### Gaps to Close (Priority Order)
+
+These categories represent the biggest competitive gaps. Future phases should prioritize:
+
+| Priority | Category | Gap | Strategy |
+|----------|----------|-----|----------|
+| 🔴 High | Calculators | -224 | Add finance/health/conversion calculators (pure JS, fast to build) |
+| 🔴 High | Finance | -96 | Loan amortization, investment calculators, tax tools |
+| 🔴 High | E-Commerce | -19 | Amazon FBA profit calculator, Etsy SEO tools, listing analyzers |
+| 🟡 Medium | Social Media | -28 | TikTok hook scorer, YouTube thumbnail CTR predictor, hashtag tools |
+| 🟡 Medium | Developer | -12 | JSON formatter, regex tester, JWT decoder (thin wrappers, fast) |
+| 🟢 Low | AI Tools | -78 | Decision composites, cost calculators (content-heavy, not WASM) |
+| 🟢 Low | DACH Tools | -45 | German-specific tools (Bußgeld, Elterngeld) — niche audience |
+
+### Strategic Principle
+
+**Don't compete on quantity — compete on depth.** Toololis has 244 calculators but zero video processing. Our 106 WASM-powered media tools are something no JavaScript-only competitor can replicate. Prioritize:
+
+1. **Deepen media processing** (video, audio, PDF) — our moat
+2. **Add calculator/finance depth** — closes the biggest SEO gap
+3. **Add e-commerce tools** — high-demand, pure JS, fast to build
+4. **Add social media tools** — viral potential, SEO value
+
 ## Current Status
 
-**Total tools:** 344 (308 built, 36 planned)
+**Total tools:** 345 (314 built, 31 planned)
 
 ### Categories (with actual tool counts)
 
