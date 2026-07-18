@@ -88,17 +88,26 @@ export function render(container) {
     }
 
     try {
-      const key = await crypto.subtle.importKey(
-        "raw",
-        await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password)),
-        "SHA-256",
-        false
-      );
+      const salt = crypto.getRandomValues(new Uint8Array(16));
       const iv = crypto.getRandomValues(new Uint8Array(12));
+      const keyMaterial = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode(password),
+        "PBKDF2",
+        false,
+        ["deriveKey"]
+      );
+      const key = await crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt, iterations: 200000, hash: "SHA-256" },
+        keyMaterial,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["encrypt"]
+      );
       const data = await file.arrayBuffer();
       const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, data);
 
-      const blob = new Blob([iv, encrypted], { type: "application/octet-stream" });
+      const blob = new Blob([salt, iv, encrypted], { type: "application/octet-stream" });
       downloadBlob(blob, file.name + ".enc");
       resultMessage.textContent = "File encrypted successfully!";
       resultSection.className = "result-section success";
@@ -117,15 +126,24 @@ export function render(container) {
     }
 
     try {
-      const key = await crypto.subtle.importKey(
-        "raw",
-        await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password)),
-        "SHA-256",
-        false
-      );
       const data = await file.arrayBuffer();
-      const iv = new Uint8Array(data.slice(0, 12));
-      const encrypted = data.slice(12);
+      const salt = new Uint8Array(data.slice(0, 16));
+      const iv = new Uint8Array(data.slice(16, 28));
+      const encrypted = data.slice(28);
+      const keyMaterial = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode(password),
+        "PBKDF2",
+        false,
+        ["deriveKey"]
+      );
+      const key = await crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt, iterations: 200000, hash: "SHA-256" },
+        keyMaterial,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["decrypt"]
+      );
       const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, encrypted);
       const blob = new Blob([decrypted]);
       const name = file.name.replace(".enc", "");
