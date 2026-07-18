@@ -137,7 +137,7 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 
 **When to use MiniMax M3 Free:**
 
-- Chrome DevTools MCP testing (step 8 in tool-building workflow)
+- Chrome DevTools MCP testing (step 9 in tool-building workflow)
 - Any task requiring multi-round MCP tool calling
 - Tasks involving image/screenshot processing via MCP
 
@@ -438,7 +438,7 @@ export function render(container) {
    - Fix: Extract to factory when you see 3+ similar tools
 
 5. **Missing docs updates**: Tool built but README/PROJECT-PLAN not updated
-   - Fix: Follow the 14-step workflow in Tool Building Convention
+   - Fix: Follow the 19-step workflow in Tool Building Convention
 
 ### Tool Criteria
 
@@ -522,7 +522,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 5. **Technical check**: API returns JSON, supports CORS, no binary streams
 6. **Demand check**: Estimate user demand (search volume, community requests)
-7. **Build**: Create tool following the 14-step workflow below
+   7. **Build**: Create tool following the 19-step workflow below
 
 ### Workflow
 
@@ -537,36 +537,56 @@ When building a new tool, ALWAYS follow this exact sequence:
 1. **Research & Confirm**: Web search for best approach, libraries, patterns. Present findings to user. Wait for confirmation.
 2. **Webfetch best practices**: Use `webfetch` to pull authoritative documentation for the chosen approach (official library docs, tutorials, reference implementations). Document findings. If docs reveal a better approach, re-confirm with user.
 3. **Create the tool**: Implementation file in `src/tools/<category>/<tool>.js`
-4. **Write unit tests**: `src/__tests__/<tool>.test.js`
-5. **Write Playwright test**: `tests/<tool>.spec.js`
-6. **Verify build**: `npm run build` must pass
-7. **Verify tests**: `npm run test:unit` must pass
-8. **Run SPA performance check**: Verify no navigation regression (dev server required):
+4. **Security review**: Check the tool against the security checklist (Step 5 in tool-builder skill):
+   - No raw `fetch()` — use `safeFetch()` from `src/utils/safe-fetch.js`
+   - HTTPS only, no API keys, no `eval()`/`new Function()`
+   - No `innerHTML` with user input — use `escapeHtml()`
+   - CDN scripts/stylesheets must have SRI `integrity` + `crossOrigin`
+   - New CDN domains must be added to CSP in `vite.config.js` and `_headers`
+5. **Write unit tests**: `src/__tests__/<tool>.test.js`
+6. **Write Playwright test**: `tests/<tool>.spec.js`
+7. **Verify build**: `npm run build` must pass
+8. **Verify tests**: `npm run test:unit` must pass
+9. **Self-test with Chrome DevTools**: Smoke-test the tool yourself before asking the user. Start dev server (`npm run dev`) if it is not running, then use the Chrome DevTools MCP to:
+   - Navigate to `http://localhost:3000/#/tools/<tool-id>`
+   - Take a snapshot: confirm the UI renders without broken layouts
+   - `list_console_messages`: confirm 0 errors (warnings about pre-existing a11y issues on other tools are fine)
+   - `list_network_requests`: confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
+   - Click the primary action button and verify the expected output/UI change happens
+   - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
 
-   ```bash
-   node scripts/measure-spa-performance.mjs
-   ```
+   **⚠️ MiMo V2.5 Limitation:** Chrome DevTools MCP fails silently with MiMo V2.5 due to API restrictions (single-round tool calling, rejects list-type content). If tool calls fail:
+   - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`) for this step
+   - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
+   - MiniMax handles multi-round tool calling and image content correctly
+   - This is a Xiaomi API limitation, not an OpenCode or project issue
 
-   **Pass criteria:**
-   - All 8 page templates navigate in **<50ms** on warm (cached) iterations
-   - The new tool's page must be added to `ALL_ROUTES` in the script if it's a new page template (tool pages are already covered by `#/tools/jpg-to-webp` and `#/tools/json-formatter` as representative samples)
-     **If fails:** Check for excessive static imports in the tool's module, move non-critical content behind `queueMicrotask`, or defer heavy data with dynamic import
+10. **Run SPA performance check**: Verify no navigation regression (dev server required):
 
-9. **Run Fallow checks**: Ensure new code doesn't degrade codebase health:
+    ```bash
+    node scripts/measure-spa-performance.mjs
+    ```
 
-   ```bash
-   npx fallow dead-code --changed-since=HEAD~1
-   npx fallow dupes --changed-since=HEAD~1
-   npx fallow health --format compact
-   ```
+    **Pass criteria:**
+    - All 8 page templates navigate in **<50ms** on warm (cached) iterations
+    - The new tool's page must be added to `ALL_ROUTES` in the script if it's a new page template (tool pages are already covered by `#/tools/jpg-to-webp` and `#/tools/json-formatter` as representative samples)
+      **If fails:** Check for excessive static imports in the tool's module, move non-critical content behind `queueMicrotask`, or defer heavy data with dynamic import
 
-   **Pass criteria:**
-   - 0 unused files/exports/deps
-   - Duplication stays ≤8%
-   - No new CRAP >200 functions
-     **If fails:** Fix issues before proceeding (extract unused code, deduplicate, refactor complex functions)
+11. **Run Fallow checks**: Ensure new code doesn't degrade codebase health:
 
-10. **Run Oxlint + Oxfmt**: Fast Rust-based linting and formatting (replaces ESLint + Prettier):
+    ```bash
+    npx fallow dead-code --changed-since=HEAD~1
+    npx fallow dupes --changed-since=HEAD~1
+    npx fallow health --format compact
+    ```
+
+    **Pass criteria:**
+    - 0 unused files/exports/deps
+    - Duplication stays ≤8%
+    - No new CRAP >200 functions
+      **If fails:** Fix issues before proceeding (extract unused code, deduplicate, refactor complex functions)
+
+12. **Run Oxlint + Oxfmt**: Fast Rust-based linting and formatting (replaces ESLint + Prettier):
 
     ```bash
     npx oxlint src/tools/<category>/<tool-id>.js
@@ -578,7 +598,7 @@ When building a new tool, ALWAYS follow this exact sequence:
     - File formatted
       **If fails:** Fix issues before proceeding
 
-11. **(Optional) MSW for external APIs**: If tool calls external APIs, add MSW mocks:
+13. **(Optional) MSW for external APIs**: If tool calls external APIs, add MSW mocks:
 
 ```bash
 npx msw init public/ --worker
@@ -586,26 +606,19 @@ npx msw init public/ --worker
 
 Create `src/mocks/handlers.js` for reliable tests.
 
-11. **Self-test with Chrome DevTools**: Smoke-test the tool yourself before asking the user. Start dev server (`npm run dev`) if it is not running, then use the Chrome DevTools MCP to:
-    - Navigate to `http://localhost:3000/#/tools/<tool-id>`
-    - Take a snapshot: confirm the UI renders without broken layouts
-    - `list_console_messages`: confirm 0 errors (warnings about pre-existing a11y issues on other tools are fine)
-    - `list_network_requests`: confirm 0 4xx/5xx (the new tool's `.js` module must return 200, no missing imports)
-    - Click the primary action button and verify the expected output/UI change happens
-    - If a 4xx appears, the Vite module cache may be stale: stop dev server, `rm -rf node_modules/.vite`, restart, and re-test
+14. **Security gate**: Before presenting to the user, verify:
+    - No CSP violations in console
+    - No raw `fetch()` — must use `safeFetch`
+    - No `eval()` / `new Function()`
+    - CDN resources have SRI `integrity` attribute
+    - HTTPS only (no `http://` except localhost)
 
-    **⚠️ MiMo V2.5 Limitation:** Chrome DevTools MCP fails silently with MiMo V2.5 due to API restrictions (single-round tool calling, rejects list-type content). If tool calls fail:
-    - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`) for this step
-    - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
-    - MiniMax handles multi-round tool calling and image content correctly
-    - This is a Xiaomi API limitation, not an OpenCode or project issue
-
-12. **User testing**: Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
-13. **Update docs**: Do NOT skip any of these: - `toolsList.json`: Add tool entry, set status to "done" - `src/data/tools.json`: Add tool entry, set status to "done" - `README.md`: Update tool count, add phase status - `PROJECT-PLAN.md`: Update phase progress, tool count - `memory/tool-building-progress.md`: Update completed tools list
-14. **Update main page**: ALL of these must reflect the new total:
+15. **User testing**: Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
+16. **Update docs**: Do NOT skip any of these: - `toolsList.json`: Add tool entry, set status to "done" - `src/data/tools.json`: Add tool entry, set status to "done" - `README.md`: Update tool count, add phase status - `PROJECT-PLAN.md`: Update phase progress, tool count - `memory/tool-building-progress.md`: Update completed tools list
+17. **Update main page**: ALL of these must reflect the new total:
     - `src/pages/home.js`: Update tool count (hero, search placeholder, meta description), update popular tools list if needed
     - `src/data/categories.json`: Update all category tool counts to match actual `src/data/tools.json`
     - `src/components/footer.js`: Update tool count in tagline
-15. **Commit**: Only after user approves the tool, commit with descriptive message.
+18. **Commit**: Only after user approves the tool, commit with descriptive message.
 
 Never skip docs. The tool count in README and PROJECT-PLAN must match toolsList.json. Never add a tool to `src/data/tools.json` without also adding it to `toolsList.json` (and vice versa).

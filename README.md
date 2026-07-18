@@ -169,7 +169,7 @@ All tools follow the **100% client-side** philosophy:
 6. **Run** checks: `npm run build && npm run test:unit`
 7. **Submit** a pull request
 
-See [AGENTS.md](AGENTS.md) for the full 17-step tool-building workflow.
+See [AGENTS.md](AGENTS.md) for the full 19-step tool-building workflow.
 
 ## Deploy
 

@@ -1,11 +1,11 @@
 ---
 name: tool-builder
-description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 17-step tool-building convention from AGENTS.md, including duplicate check, webfetch research, file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
+description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 19-step tool-building convention from AGENTS.md, including duplicate check, webfetch research, security review, file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
 ---
 
 # Tool Builder
 
-End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 17-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
+End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 19-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
 
 ## When to use
 
@@ -15,17 +15,18 @@ End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 1
 
 ## Modifying an existing tool
 
-For fixes, updates, or enhancements to an existing tool, follow Steps 4-14:
+For fixes, updates, or enhancements to an existing tool, follow Steps 4-16:
 
 1. Edit the tool file
-2. (Skip unit test if no new logic)
-3. (Skip Playwright test if trivial)
-4. Verify build
-5. Verify unit tests
-6. Run Chrome DevTools checks (including Lighthouse a11y) — same as new tools
-7. Run SPA performance regression check — same as new tools
-8. Run Fallow
-9. Present for user approval
+2. Run security review on changed code (Step 5 checklist — skip if no new network/DOM/CDN changes)
+3. (Skip unit test if no new logic)
+4. (Skip Playwright test if trivial)
+5. Verify build
+6. Verify unit tests
+7. Run Chrome DevTools checks (including Lighthouse a11y) — same as new tools
+8. Run SPA performance regression check — same as new tools
+9. Run Fallow
+10. Present for user approval
 
 Skip docs/count propagation only when the tool is already in the registry and the change doesn't add a new tool.
 
@@ -128,7 +129,57 @@ Conventions to mimic from existing tools:
 - For PDF tools, use local worker assets via Vite `?url` (see `src/tools/pdf/pdf-utils.js` for the pattern).
 - Import styles from `../../styles/components.css` only if a needed class is missing there — otherwise rely on the shared system.
 
-## Step 5 — Unit test
+## Step 5 — Security review (BLOCKING)
+
+After creating the tool file, run through this checklist **before** writing tests:
+
+### Network requests
+
+- **No raw `fetch()`** — If the tool calls external APIs, use `safeFetch` from `src/utils/safe-fetch.js` (rate limiting + 429 handling). Never use raw `fetch()` with `AbortSignal.timeout`.
+- **HTTPS only** — All external URLs must use `https://`. No `http://` anywhere in the tool.
+- **No API keys** — This is a 100% client-side app. Never embed or require API keys.
+
+### DOM safety
+
+- **No `innerHTML` with user input** — If the tool renders user-supplied text, use `escapeHtml()` from `src/utils/escape-html.js`. `innerHTML` with static/constant strings is fine.
+- **No `eval()` / `new Function()`** — Use safe alternatives (JSON.parse, DOMParser, template literals). If you need YAML parsing, use a safe library.
+- **No `document.write()`** — Ever.
+
+### CDN resources (scripts + stylesheets)
+
+- **SRI integrity required** — Every `document.createElement("script")` or `document.createElement("link")` loading from a CDN must include `integrity` and `crossOrigin = "anonymous"` attributes.
+- **How to get the hash:** Open the CDN URL in Chrome DevTools, then run:
+  ```js
+  async () => {
+    const resp = await fetch(location.href);
+    const buf = await resp.arrayBuffer();
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return 'sha256-' + btoa(String.fromCharCode(...new Uint8Array(hash)));
+  }
+  ```
+- **CSP compliance** — If using a new CDN domain, it must be added to `vite.config.js` CSP and `_headers` CSP. Check `script-src`, `style-src`, `font-src` as needed.
+
+### Forbidden patterns
+
+- ❌ `document.cookie` access
+- ❌ `localStorage.setItem` with sensitive data (tokens, passwords)
+- ❌ `window.open` without user gesture
+- ❌ Dynamic `import()` from untrusted CDN (use local or add SRI)
+- ❌ Loading fonts from CDN without `font-src` CSP entry
+
+### If the tool fails any check
+
+Fix the issue before proceeding. Do not write tests for insecure code. Common fixes:
+
+| Issue | Fix |
+|-------|-----|
+| Raw `fetch()` | Replace with `safeFetch()` |
+| innerHTML + user input | Wrap in `escapeHtml()` |
+| eval() | Use JSON.parse or DOMParser |
+| Missing SRI | Compute hash via browser, add `integrity` + `crossOrigin` |
+| New CDN domain | Add to both `vite.config.js` CSP and `_headers` CSP |
+
+## Step 6 — Unit test
 
 Path: `src/__tests__/<tool-id>.test.js`
 
@@ -147,7 +198,7 @@ describe("tool-id", () => {
 
 If the tool is heavily DOM-bound, export the pure helpers and test those. Keep tests fast and offline.
 
-## Step 6 — Playwright test
+## Step 7 — Playwright test
 
 Path: `tests/<tool-id>.spec.js`
 
@@ -162,7 +213,7 @@ test("tool-id loads and runs", async ({ page }) => {
 
 Add deeper interaction only if the tool has a non-trivial happy path.
 
-## Step 7 — Verify build
+## Step 8 — Verify build
 
 ```bash
 npm run build
@@ -170,7 +221,7 @@ npm run build
 
 Must exit 0. If it fails, fix the tool file before proceeding. Common causes: bad import path, missing export, syntax error, missing dependency in `package.json`.
 
-## Step 8 — Verify unit tests
+## Step 9 — Verify unit tests
 
 ```bash
 npm run test:unit
@@ -178,7 +229,7 @@ npm run test:unit
 
 All tests must pass. The Playwright suite (`npm run test`) is **not** required here — that runs in CI.
 
-## Step 9 — Self-test with Chrome DevTools (BLOCKING)
+## Step 10 — Self-test with Chrome DevTools (BLOCKING)
 
 Before asking the user, smoke-test the tool yourself with the Chrome DevTools MCP. Start the dev server if it is not already running:
 
@@ -197,7 +248,7 @@ Then verify all of the following in order:
 
 If any check fails, fix the code and re-run from Step 4. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
 
-## Step 10 — SPA performance regression check (BLOCKING)
+## Step 11 — SPA performance regression check (BLOCKING)
 
 Verify that adding the new tool doesn't regress SPA navigation performance. Run the automated Playwright-based performance check with the dev server running:
 
@@ -216,7 +267,7 @@ This script navigates through all 8 page templates (home, category×2, tool×2, 
 
 **If a previous run already passed and only your tool was added:** Focus on whether the tool page itself renders fast. The other page template times should be unchanged. If a non-tool page (e.g. home, about) regressed, you may have pulled new deps into a shared chunk.
 
-## Step 11 — Fallow static analysis (BLOCKING)
+## Step 12 — Fallow static analysis (BLOCKING)
 
 Run Fallow against the new tool's file to catch dead code and complexity issues before the user sees it:
 
@@ -228,9 +279,9 @@ npx fallow health src/tools/<category>/<tool-id>.js
 - **Dead code** — Fallow must report 0 unused exports in the new tool file. Every exported symbol (`toolConfig`, `render`, and any helper functions) must be consumed by the module graph. If Fallow flags something, either remove it or add a re-export/barrel.
 - **Health** — Fallow must not report any file with complexity above the project threshold. If the tool file triggers a warning, refactor to reduce branching.
 
-If either check fails, fix the code and re-run Step 11. Do not proceed to Step 12 until both pass clean.
+If either check fails, fix the code and re-run Step 12. Do not proceed to Step 13 until both pass clean.
 
-## Step 12 — Oxlint + Oxfmt (BLOCKING)
+## Step 13 — Oxlint + Oxfmt (BLOCKING)
 
 Fast Rust-based linting and formatting (replaces ESLint + Prettier). Scope to new tool only:
 
@@ -244,7 +295,7 @@ npx oxfmt --write src/tools/<category>/<tool-id>.js
 
 If either fails, fix and re-run. Do not proceed until both pass.
 
-## Step 13 — (Optional) MSW for external APIs
+## Step 14 — (Optional) MSW for external APIs
 
 If the tool calls external APIs (crypto-prices, currency-converter, weather, etc.), add MSW mocks:
 
@@ -266,7 +317,20 @@ export const handlers = [
 
 Why: Tests don't depend on live APIs, can test error states, work offline.
 
-## Step 14 — User testing gate (BLOCKING)
+## Step 15 — Security gate (BLOCKING)
+
+Before presenting to the user, verify:
+
+1. **No console errors** from the tool (Step 10 confirmed this)
+2. **CSP violations** — Check `list_console_messages` for any CSP block errors. A clean console = no CSP violations
+3. **No raw `fetch()`** — Grep the tool file: `grep -n "fetch(" src/tools/<category>/<tool-id>.js`. If found, must use `safeFetch` instead
+4. **No `eval()` / `new Function()`** — Grep: `grep -n "eval\|new Function" src/tools/<category>/<tool-id>.js`. Must be 0 matches
+5. **CDN resources have SRI** — Grep: `grep -n "createElement.*script\|createElement.*link" src/tools/<category>/<tool-id>.js`. If any match, verify each has `integrity` attribute on the next 2 lines
+6. **HTTPS only** — Grep: `grep -n "http://" src/tools/<category>/<tool-id>.js`. Must be 0 matches (except `http://localhost` for dev)
+
+If any check fails, fix and re-run from Step 4. **Do not present insecure code to the user.**
+
+## Step 16 — User testing gate (BLOCKING)
 
 Tell the user:
 
@@ -276,9 +340,9 @@ Tell the user:
 > 2. …
 > 3. …
 
-Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 15 if the user has not approved.
+Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 17 if the user has not approved.
 
-## Step 15 — Update docs (all required, all in one pass)
+## Step 17 — Update docs (all required, all in one pass)
 
 | File                               | Change                                                                                                                                                                 |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -288,7 +352,7 @@ Be specific about what to try — call out the primary controls, any edge cases,
 | `PROJECT-PLAN.md`                  | Remove the tool's spec section (#### heading through next #### or ---) and remove it from the "Planned Tools" list.                                                    |
 | `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool.                                                                                                                                  |
 
-## Step 16 — Update main-page counts (all required)
+## Step 18 — Update main-page counts (all required)
 
 These MUST reflect the new total — the tool count appears in 4 user-facing files and must agree:
 
@@ -304,7 +368,7 @@ rg -n "(\\d+)\\+?\\s*(free\\s*)?(online\\s*)?tools" README.md src/pages/home.js 
 
 Every number should be the same.
 
-## Step 17 — Commit (only after user approval)
+## Step 19 — Commit (only after user approval)
 
 Stage only the files you touched. Write a descriptive commit message:
 
@@ -321,8 +385,13 @@ Add <tool-name> tool (<category>)
 
 ## Red lines
 
-- Do not commit before Step 14 (user) approval. Steps 9-12 are automated checks; only the user's explicit approval clears the gate to Steps 15-17.
+- Do not commit before Step 16 (user) approval. Steps 10-15 are automated checks; only the user's explicit approval clears the gate to Steps 17-19.
 - Do not edit `package.json` to add a dependency without asking — many Phase 25 tools can be built with browser built-ins only (see the AGENTS.md / README convention).
 - Do not add a tool to `src/data/tools.json` without also adding it to `toolsList.json` and vice versa.
 - Do not add comments to the tool source (AGENTS.md: "DO NOT ADD ANY COMMENTS unless asked").
 - Do not modify `opencode.json`, model config, or the existing skill files.
+- **Never use raw `fetch()` for external APIs** — always use `safeFetch()` from `src/utils/safe-fetch.js`.
+- **Never use `eval()` or `new Function()`** — use safe alternatives.
+- **Never skip SRI on CDN scripts/stylesheets** — compute the hash via browser, add `integrity` + `crossOrigin`.
+- **Never embed API keys** — this is a 100% client-side app with no backend.
+- **Never use `http://`** for external resources — HTTPS only.
