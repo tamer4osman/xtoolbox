@@ -20,18 +20,18 @@ export function renderHome() {
     "merge-pdf",
     "remove-background",
     "pdf-to-word",
-    "compress-video",
     "qr-generator",
     "password-generator",
+    "word-counter",
+    "json-formatter",
+    "percentage-calculator",
+    "case-converter",
+    "uuid-generator",
+    "hash-file",
+    "base-converter",
     "csv-to-excel",
-    "markdown-html",
-    "json-validator",
-    "scientific-calculator",
-    "stopwatch",
-    "remove-metadata",
-    "svg-optimizer",
-    "wcag-contrast-checker",
-    "typing-speed-test"
+    "text-diff",
+    "compress-video"
   ];
 
   const popular = popularTools.map(id => availableTools.find(t => t.id === id)).filter(Boolean);
