@@ -74,10 +74,14 @@ const { toolConfig, render } = createBasicTool({
       const link = document.createElement("link");
       link.rel = "stylesheet";
       link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+      link.integrity = "sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=";
+      link.crossOrigin = "anonymous";
       document.head.appendChild(link);
 
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
+      script.integrity = "sha256-3ISyluw+iE3gkxWPdg/Z1Ftser5YtTgVV/ThOPRqWK4=";
+      script.crossOrigin = "anonymous";
       script.onload = () => {
         katexLoaded = true;
         renderLatex();

@@ -2,7 +2,25 @@ import { defineConfig } from "vite";
 import os from "os";
 import path from "path";
 
+function ffmpegCoreCORP() {
+  return {
+    name: "ffmpeg-core-corp",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.startsWith("/ffmpeg-core/")) {
+          res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+          if (req.url.includes("?import")) {
+            req.url = req.url.replace("?import", "");
+          }
+        }
+        next();
+      });
+    }
+  };
+}
+
 export default defineConfig({
+  plugins: [ffmpegCoreCORP()],
   test: {
     environment: "jsdom",
     include: ["src/**/*.test.js"]
@@ -44,8 +62,9 @@ export default defineConfig({
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Resource-Policy": "cross-origin",
       "Content-Security-Policy":
-        "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
+        "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; media-src 'self' blob:; connect-src 'self' https://unpkg.com https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; worker-src 'self' blob:; frame-src 'none'"
     }
   },
   preview: {
@@ -53,8 +72,9 @@ export default defineConfig({
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Resource-Policy": "cross-origin",
       "Content-Security-Policy":
-        "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; connect-src 'self' https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com; worker-src 'self' blob:; frame-src 'none'"
+        "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net https://unpkg.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: blob: https://covers.openlibrary.org https://world.openfoodfacts.org https://api.coingecko.com; media-src 'self' blob:; connect-src 'self' https://unpkg.com https://wttr.in https://api.coingecko.com https://api.dictionaryapi.dev https://earthquake.usgs.gov https://api.waqi.info https://date.nager.at https://openlibrary.org https://cloudflare-dns.com https://dns.google https://*.openfoodfacts.org; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; worker-src 'self' blob:; frame-src 'none'"
     }
   },
   optimizeDeps: {

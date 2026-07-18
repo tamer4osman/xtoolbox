@@ -1,4 +1,5 @@
 import { createLookupTool } from "../shared/lookup-tool-factory.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 function getAQIColor(aqi) {
   if (aqi <= 50) return { bg: "#10b981", label: "Good", desc: "Air quality is satisfactory." };
@@ -75,9 +76,8 @@ const { toolConfig, render } = createLookupTool({
   validate: vals => (!vals["city-input"]?.trim() ? "Enter a city" : null),
   onSearch: async (vals, container) => {
     const city = vals["city-input"].trim();
-    const res = await fetch(
-      "https://api.waqi.info/feed/" + encodeURIComponent(city) + "/?token=demo",
-      { signal: AbortSignal.timeout(15000) }
+    const res = await safeFetch(
+      "https://api.waqi.info/feed/" + encodeURIComponent(city) + "/?token=demo"
     );
     const data = await res.json();
     if (data.status !== "ok") throw new Error("City not found");

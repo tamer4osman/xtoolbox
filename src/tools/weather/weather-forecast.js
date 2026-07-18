@@ -1,4 +1,5 @@
 import { escapeHtml } from "../../utils/escape-html.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 export const toolConfig = {
   id: "weather-forecast",
@@ -90,9 +91,7 @@ export function render(container) {
     error.classList.add("hidden");
 
     try {
-      const res = await fetch("https://wttr.in/" + encodeURIComponent(city) + "?format=j1", {
-        signal: AbortSignal.timeout(15000)
-      });
+      const res = await safeFetch("https://wttr.in/" + encodeURIComponent(city) + "?format=j1");
       if (!res.ok) throw new Error("City not found");
       const data = await res.json();
       displayWeather(data);

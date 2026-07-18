@@ -303,7 +303,9 @@ async function downloadScreenshot(container) {
 function loadHtml2Canvas() {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.6/dist/html2canvas.min.js";
+    script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+    script.integrity = "sha256-6H5VB5QyLldKH9oMFUmjxw2uWpPZETQXpCkBaDjquMs=";
+    script.crossOrigin = "anonymous";
     script.onload = () => resolve();
     script.onerror = reject;
     document.head.appendChild(script);

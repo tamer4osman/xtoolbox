@@ -1,4 +1,5 @@
 import { escapeHtml } from "../../utils/escape-html.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 export const toolConfig = {
   id: "a11y-audit",
@@ -314,7 +315,7 @@ export function render(container) {
     urlBtn.disabled = true;
     urlBtn.textContent = "Fetching...";
     try {
-      const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      const res = await safeFetch(url);
       if (!res.ok) throw new Error("Failed to fetch");
       const html = await res.text();
       const results = runAudit(html, url);

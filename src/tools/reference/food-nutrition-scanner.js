@@ -1,4 +1,5 @@
 import { escapeHtml } from "../../utils/escape-html.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 export const toolConfig = {
   id: "food-nutrition-scanner",
@@ -355,12 +356,11 @@ export function render(container) {
     setStatus("Looking up barcode...", "loading");
     result.innerHTML = "";
     try {
-      const res = await fetch(
+      const res = await safeFetch(
         API_BASE +
           "/api/v2/product/" +
           barcode +
-          ".json?fields=product_name,brands,image_front_url,image_front_small_url,nutriments,nutrition_grades,nutriscore_grade,nutrient_levels,ingredients_text,ingredients_text_en,allergens_tags,categories_tags,quantity,code",
-        { signal: AbortSignal.timeout(15000) }
+          ".json?fields=product_name,brands,image_front_url,image_front_small_url,nutriments,nutrition_grades,nutriscore_grade,nutrient_levels,ingredients_text,ingredients_text_en,allergens_tags,categories_tags,quantity,code"
       );
       if (!res.ok) throw new Error("API error");
       const data = await res.json();
@@ -385,12 +385,11 @@ export function render(container) {
     setStatus("Searching...", "loading");
     result.innerHTML = "";
     try {
-      const res = await fetch(
+      const res = await safeFetch(
         API_BASE +
           "/cgi/search.pl?search_terms=" +
           encodeURIComponent(query) +
-          "&search_simple=1&action=process&json=1&page_size=10&fields=code,product_name,brands,image_front_small_url,nutrition_grades",
-        { signal: AbortSignal.timeout(15000) }
+          "&search_simple=1&action=process&json=1&page_size=10&fields=code,product_name,brands,image_front_small_url,nutrition_grades"
       );
       if (!res.ok) throw new Error("API error");
       const data = await res.json();

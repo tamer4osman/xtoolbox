@@ -1,4 +1,5 @@
 import { escapeHtml } from "../../utils/escape-html.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 export const toolConfig = {
   id: "dns-speed-test",
@@ -36,9 +37,9 @@ export async function testDnsProvider(provider, domain, signal) {
     headers["accept"] = "application/dns-json";
   }
 
-  const res = await fetch(url, {
+  const res = await safeFetch(url, {
     headers,
-    signal: AbortSignal.any([signal, AbortSignal.timeout(15000)])
+    signal
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const data = await res.json();

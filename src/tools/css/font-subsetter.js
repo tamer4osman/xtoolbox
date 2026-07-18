@@ -97,6 +97,8 @@ export function render(container) {
 async function initOpentype(container) {
   const script = document.createElement("script");
   script.src = "https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js";
+  script.integrity = "sha256-wPnHyoXhgHWogZ5f4t7m4dU1+aImn1MU82zOlKGDrbo=";
+  script.crossOrigin = "anonymous";
   script.onload = () => {
     state.opentype = window.opentype;
     setupFileUpload(container);

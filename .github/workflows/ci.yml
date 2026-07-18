@@ -39,7 +39,7 @@ jobs:
           retention-days: 1
 
       - name: Dependency audit
-        run: npm audit --audit-level=high || true
+        run: npm audit --audit-level=high
 
   code-health:
     runs-on: ubuntu-latest

@@ -1,3 +1,5 @@
+import { safeFetch } from "../../utils/safe-fetch.js";
+
 const CORS_PROXIES = [
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
@@ -8,7 +10,7 @@ async function fetchWithProxy(url) {
   for (const makeProxy of CORS_PROXIES) {
     try {
       const proxyUrl = makeProxy(url);
-      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+      const res = await safeFetch(proxyUrl, { timeoutMs: 8000 });
       if (res.ok) return await res.text();
     } catch {}
   }

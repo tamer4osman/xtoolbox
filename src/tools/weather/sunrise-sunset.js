@@ -1,4 +1,5 @@
 import { createLookupTool } from "../shared/lookup-tool-factory.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 const formatTime = iso =>
   new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -84,11 +85,10 @@ const { toolConfig, render } = createLookupTool({
   validate: vals => (!vals["location-input"]?.trim() ? "Enter a location" : null),
   onSearch: async (vals, container) => {
     const location = vals["location-input"].trim();
-    const geoRes = await fetch(
+    const geoRes = await safeFetch(
       "https://nominatim.openstreetmap.org/search?format=json&q=" +
         encodeURIComponent(location) +
-        "&limit=1",
-      { signal: AbortSignal.timeout(15000) }
+        "&limit=1"
     );
     const geoData = await geoRes.json();
     if (!geoData.length) throw new Error("Location not found");
@@ -99,15 +99,14 @@ const { toolConfig, render } = createLookupTool({
     };
 
     const date = new Date().toISOString().split("T")[0];
-    const res = await fetch(
+    const res = await safeFetch(
       "https://api.sunrise-sunset.org/json?lat=" +
         coords.lat +
         "&lng=" +
         coords.lon +
         "&date=" +
         date +
-        "&formatted=0",
-      { signal: AbortSignal.timeout(15000) }
+        "&formatted=0"
     );
     const data = await res.json();
     if (!data.results) throw new Error("Failed to get times");

@@ -1,3 +1,5 @@
+import { safeFetch } from "../../utils/safe-fetch.js";
+
 export const toolConfig = {
   id: "my-ip",
   name: "My IP Address",
@@ -93,9 +95,8 @@ export function render(container) {
     error.classList.add("hidden");
 
     try {
-      const res = await fetch(
-        "http://ip-api.com/json/?fields=status,message,country,region,city,isp,timezone,lat,lon,query",
-        { signal: AbortSignal.timeout(15000) }
+      const res = await safeFetch(
+        "https://ip-api.com/json/?fields=status,message,country,region,city,isp,timezone,lat,lon,query"
       );
       const data = await res.json();
 

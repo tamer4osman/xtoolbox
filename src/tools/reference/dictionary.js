@@ -1,5 +1,6 @@
 import { createLookupTool } from "../shared/lookup-tool-factory.js";
 import { escapeHtml } from "../../utils/escape-html.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 const { toolConfig, render } = createLookupTool({
   toolConfig: {
@@ -39,9 +40,8 @@ const { toolConfig, render } = createLookupTool({
   validate: vals => (!vals["word-input"]?.trim() ? "Enter a word" : null),
   onSearch: async (vals, container) => {
     const word = vals["word-input"].trim();
-    const res = await fetch(
-      "https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(word),
-      { signal: AbortSignal.timeout(15000) }
+    const res = await safeFetch(
+      "https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(word)
     );
     if (!res.ok) throw new Error("Word not found");
     const data = await res.json();

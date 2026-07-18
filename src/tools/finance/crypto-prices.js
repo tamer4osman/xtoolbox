@@ -1,4 +1,5 @@
 import { escapeHtml } from "../../utils/escape-html.js";
+import { safeFetch } from "../../utils/safe-fetch.js";
 
 export const toolConfig = {
   id: "crypto-prices",
@@ -62,9 +63,8 @@ export function render(container) {
     error.classList.add("hidden");
 
     try {
-      const res = await fetch(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false",
-        { signal: AbortSignal.timeout(15000) }
+      const res = await safeFetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false"
       );
       const data = await res.json();
 
