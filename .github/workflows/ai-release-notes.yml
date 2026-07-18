@@ -39,7 +39,7 @@ jobs:
 
       - name: Generate AI release notes
         if: ${{ secrets.ZAI_API_KEY != '' }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
         with:
