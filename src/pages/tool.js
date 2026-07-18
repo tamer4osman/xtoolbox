@@ -2,6 +2,7 @@ import { $ } from "../utils/dom-query.js";
 import { createElement } from "../utils/dom-create.js";
 import { updatePageMeta, addStructuredData } from "../utils/seo.js";
 import { createAdSlot } from "../components/ad-slot.js";
+import { addRecentTool, getRecentTools } from "../utils/recent-tools.js";
 import toolsData from "../data/tools.json";
 
 const toolCache = {};
@@ -57,6 +58,7 @@ export async function renderTool(toolId) {
 
   try {
     const toolModule = await loadToolModule(toolMeta.category, toolId);
+    addRecentTool(toolId);
     const toolPage = main.querySelector(".tool-page");
     const loadingEl = toolPage?.querySelector(".tool-loading");
     if (!loadingEl) {
@@ -114,13 +116,12 @@ export async function renderTool(toolId) {
         });
       }
 
-      const related = toolsData
-        .filter(t => t.status === "done" && t.category === toolMeta.category && t.id !== toolId)
-        .slice(0, 6);
-      if (related.length > 0) {
+      const recentIds = getRecentTools().filter(id => id !== toolId).slice(0, 6);
+      const recent = recentIds.map(id => toolsData.find(t => t.id === id && t.status === "done")).filter(Boolean);
+      if (recent.length > 0) {
         const section = document.createElement("section");
         section.className = "related-tools";
-        section.innerHTML = `<h2>Related Tools</h2><div class="tools-grid">${related.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${t.icon}</span><h3>${t.name}</h3><p>${t.description}</p></a>`).join("")}</div>`;
+        section.innerHTML = `<h2>Recently Used</h2><div class="tools-grid">${recent.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${t.icon}</span><h3>${t.name}</h3><p>${t.description}</p></a>`).join("")}</div>`;
         toolPage?.appendChild(section);
       }
     });

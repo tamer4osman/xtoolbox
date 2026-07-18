@@ -3,6 +3,7 @@ import { debounce } from "../utils/debounce.js";
 import { navigate } from "../router.js";
 import { updatePageMeta } from "../utils/seo.js";
 import { availableTools } from "../utils/tools.js";
+import { getRecentTools } from "../utils/recent-tools.js";
 import categoriesData from "../data/categories.json";
 
 export function renderHome() {
@@ -46,6 +47,7 @@ export function renderHome() {
             <input type="text" id="search-input" placeholder="Search ${availableTools.length} tools..." autocomplete="off" aria-label="Search tools">
             <div id="search-results" class="search-results" aria-live="polite" role="status"></div>
           </div>
+          <div id="recent-tools-strip" class="recent-tools-strip"></div>
         </div>
       </div>
     </div>
@@ -117,6 +119,7 @@ export function renderHome() {
 
   // Search functionality (hero only — navbar search handles itself)
   initSearch();
+  renderRecentTools();
 }
 
 function initSearch() {
@@ -194,6 +197,42 @@ export function initAllSearchInputs() {
       }
     });
   }
+}
+
+function renderRecentTools() {
+  const strip = document.getElementById("recent-tools-strip");
+  if (!strip) return;
+
+  const recentIds = getRecentTools();
+  if (recentIds.length === 0) {
+    strip.style.display = "none";
+    return;
+  }
+
+  const recentTools = recentIds
+    .map(id => availableTools.find(t => t.id === id))
+    .filter(Boolean);
+
+  if (recentTools.length === 0) {
+    strip.style.display = "none";
+    return;
+  }
+
+  strip.innerHTML = `
+    <span class="recent-tools-label">Recent</span>
+    <div class="recent-tools-list">
+      ${recentTools
+        .map(
+          tool => `
+        <a href="#/tools/${tool.id}" class="recent-tool-chip" title="${tool.name}">
+          <span class="recent-tool-icon">${tool.icon}</span>
+          <span class="recent-tool-name">${tool.name}</span>
+        </a>
+      `
+        )
+        .join("")}
+    </div>
+  `;
 }
 
 function initSearchInput(input, resultsContainer) {
