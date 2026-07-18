@@ -20,3 +20,5 @@ playwright-temp.config.js
 
 # Vite cache (redirected from node_modules/.vite due to Windows AV lock on this dev box)
 .vite-cache/
+public/ffmpeg-core/
+test-video.mp4
