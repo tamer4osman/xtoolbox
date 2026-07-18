@@ -83,7 +83,7 @@
     "yaml": "^2.9.0"
   },
   "optionalDependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.1.4"
+    "@rolldown/binding-win32-x64-msvc": "^1.2.0"
   },
   "size-limit": [
     {
