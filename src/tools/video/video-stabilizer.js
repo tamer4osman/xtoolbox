@@ -1,41 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { downloadBlob, formatFileSize } from "../../utils/file.js";
-import { getVideoInfo, formatTime, writeUploadedFile } from "./video-utils.js";
-
-const VIDSTAB_CORE_URL = "https://unpkg.com/@willyjl/ffmpeg.wasm-core-vidstab@0.11.1/dist/esm";
-
-let ffmpegInstance = null;
-let ffmpegLoading = false;
-
-async function loadFFmpegVidstab(onProgress) {
-  if (ffmpegInstance) return ffmpegInstance;
-  if (ffmpegLoading) {
-    while (ffmpegLoading) await new Promise(r => setTimeout(r, 100));
-    return ffmpegInstance;
-  }
-
-  ffmpegLoading = true;
-  try {
-    const { FFmpeg } = await import("@ffmpeg/ffmpeg");
-    const { toBlobURL } = await import("@ffmpeg/util");
-
-    const ffmpeg = new FFmpeg();
-    ffmpeg.on("progress", ({ progress }) => {
-      if (onProgress) onProgress(Math.round(progress * 100));
-    });
-
-    await ffmpeg.load({
-      coreURL: await toBlobURL(`${VIDSTAB_CORE_URL}/ffmpeg-core.js`, "text/javascript"),
-      wasmURL: await toBlobURL(`${VIDSTAB_CORE_URL}/ffmpeg-core.wasm`, "application/wasm")
-    });
-
-    ffmpegInstance = ffmpeg;
-    return ffmpeg;
-  } finally {
-    ffmpegLoading = false;
-  }
-}
+import { getVideoInfo, formatTime, writeUploadedFile, loadFFmpeg } from "./video-utils.js";
 
 export const toolConfig = {
   id: "video-stabilizer",
@@ -45,7 +11,7 @@ export const toolConfig = {
   icon: "🎥",
   accept: "video/*",
   maxSizeMB: 500,
-  keywords: ["video stabilizer", "reduce shake", "steady video", "vidstab"],
+  keywords: ["video stabilizer", "reduce shake", "steady video", "deshake"],
   steps: [
     "Upload a shaky video",
     "Adjust shakiness and smoothing",
@@ -56,17 +22,17 @@ export const toolConfig = {
     {
       question: "What is shakiness?",
       answer:
-        "Shakiness (1-10) tells the detector how aggressive to look for motion. Use higher values for very shaky footage."
+        "Shakiness (1-10) sets how aggressively deshake corrects rotation and jitter. Higher values fix more severe shake but may crop the frame more."
     },
     {
       question: "What is smoothing?",
       answer:
-        "Smoothing (1-30) sets how many frames to average for the camera path. Higher values produce smoother output but may soften intentional pans."
+        "Smoothing (1-30) averages the camera path over that many frames. Higher values produce smoother output but may soften intentional pans."
     },
     {
-      question: "Why does it take so long?",
+      question: "Why does it take a while?",
       answer:
-        "Stabilization requires two full passes through the video. Pass 1 analyzes motion, Pass 2 applies the transform. Longer videos take more time."
+        "Stabilization runs ffmpeg's deshake filter across the whole video in a single pass. Longer videos take more time to process."
     }
   ]
 };
@@ -126,7 +92,7 @@ export function render(container) {
       </div>
       <div class="tool-processing" id="processing" style="display:none;">
         <div class="spinner"></div>
-        <p id="pass-label">Pass 1 of 2: Analyzing motion...</p>
+        <p id="pass-label">Stabilizing...</p>
         <p><span id="progress-pct">0</span>%</p>
       </div>
     </div>
@@ -166,10 +132,10 @@ export function render(container) {
       const shakiness = parseInt(shakinessInput.value, 10);
       const smoothing = parseInt(smoothingInput.value, 10);
 
-      passLabel.textContent = "Loading FFmpeg (with vidstab support)...";
+      passLabel.textContent = "Loading FFmpeg...";
       progressPct.textContent = "0";
 
-      const ffmpeg = await loadFFmpegVidstab(pct => {
+      const ffmpeg = await loadFFmpeg(pct => {
         progressPct.textContent = pct;
       });
 
@@ -177,33 +143,28 @@ export function render(container) {
       const inputName = `input.${ext}`;
       await writeUploadedFile(ffmpeg, currentFile, inputName);
 
-      passLabel.textContent = "Pass 1 of 2: Analyzing motion...";
+      passLabel.textContent = "Stabilizing...";
       progressPct.textContent = "0";
+
+      const rx = shakiness * 4;
+      const ry = shakiness * 4;
+      const filter = `deshake=rx=${rx}:ry=${ry}:smoothing=${smoothing}:edge=original`;
 
       await ffmpeg.exec([
         "-i",
         inputName,
         "-vf",
-        `vidstabdetect=shakiness=${shakiness}:accuracy=15:result=transforms.trf`,
-        "-f",
-        "null",
-        "-"
-      ]);
-
-      passLabel.textContent = "Pass 2 of 2: Applying stabilization...";
-      progressPct.textContent = "0";
-
-      await ffmpeg.exec([
-        "-i",
-        inputName,
-        "-vf",
-        `vidstabtransform=input=transforms.trf:zoom=0:smoothing=${smoothing},unsharp=5:5:0.8:3:3:0.4`,
+        filter,
         "-c:v",
         "libx264",
         "-preset",
         "fast",
         "-crf",
-        "23",
+        "20",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "copy",
         "stabilized.mp4"
       ]);
 
@@ -225,7 +186,6 @@ export function render(container) {
 
       await ffmpeg.deleteFile(inputName);
       await ffmpeg.deleteFile("stabilized.mp4");
-      await ffmpeg.deleteFile("transforms.trf");
     } catch (err) {
       showToast({ message: "Error: " + err.message, type: "error" });
     } finally {

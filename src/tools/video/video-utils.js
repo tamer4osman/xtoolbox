@@ -17,17 +17,15 @@ export async function loadFFmpeg(onProgress) {
   ffmpegLoading = true;
   try {
     const { FFmpeg } = await import("@ffmpeg/ffmpeg");
-    const { toBlobURL } = await import("@ffmpeg/util");
 
     const ffmpeg = new FFmpeg();
     ffmpeg.on("progress", ({ progress }) => {
       if (onProgress) onProgress(Math.round(progress * 100));
     });
 
-    const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
     await ffmpeg.load({
-      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-      wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm")
+      coreURL: "/ffmpeg-core/ffmpeg-core.js",
+      wasmURL: "/ffmpeg-core/ffmpeg-core.wasm"
     });
 
     ffmpegInstance = ffmpeg;
