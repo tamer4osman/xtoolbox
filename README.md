@@ -1,9 +1,9 @@
 # ToolBox
 
-> 314 free online tools — 100% client-side. Your files never leave your device.
+> 315 free online tools — 100% client-side. Your files never leave your device.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tools](https://img.shields.io/badge/tools-314-brightgreen)](#categories)
+[![Tools](https://img.shields.io/badge/tools-315-brightgreen)](#categories)
 [![Phases](https://img.shields.io/badge/phases-27%2F28-complete-orange)](#build-progress)
 [![Stack](https://img.shields.io/badge/stack-Vite%20%2B%20WASM-lightgrey)](#stack)
 
@@ -43,7 +43,7 @@ npm run test       # → Playwright tests
 | Capability | Description |
 | ------------ | ------------- |
 | **Privacy-first** | Zero server uploads — all processing happens in your browser |
-| **314 tools** | PDF, image, video, audio, text, code, math, finance, and more |
+| **315 tools** | PDF, image, video, audio, text, code, math, finance, and more |
 | **No accounts** | No sign-ups, no tracking, no data collection |
 | **Offline-capable** | Service worker + PWA — works without internet |
 | **Mobile-friendly** | Responsive design, works on phones and tablets |
@@ -63,7 +63,7 @@ npm run test       # → Playwright tests
 | **Business** | 15 | +1 planned | Custom JS, jsPDF |
 | **Finance** | 12 | +4 planned | Chart.js |
 | **Productivity** | 14 | +4 planned | Custom JS |
-| **Math** | 10 | +3 planned | math.js |
+| **Math** | 11 | +2 planned | math.js |
 | **Health** | 12 | ✅ Complete | Custom JS |
 | **Encoding & Hashing** | 9 | ✅ Complete | Web Crypto API |
 | **SEO** | 8 | ✅ Complete | Custom JS |
@@ -75,7 +75,7 @@ npm run test       # → Playwright tests
 | **Visualization** | 4 | ✅ Complete | Chart.js, Papa Parse |
 | **Weather** | 4 | ✅ Complete | wttr.in, Open-Meteo |
 
-**Total:** 314 built, 31 planned = 345 tools
+**Total:** 315 built, 30 planned = 345 tools
 
 ## Architecture
 
@@ -134,7 +134,7 @@ toolbox/
 │   ├── components/          ← 15 reusable UI components
 │   ├── utils/               ← Shared utilities
 │   ├── pages/               ← Page templates
-│   ├── tools/               ← 314 tool implementations
+│   ├── tools/               ← 315 tool implementations
 │   │   ├── pdf/             ← 33 PDF tools
 │   │   ├── image/           ← 39 image tools
 │   │   ├── video/           ← 19 video tools
@@ -169,7 +169,7 @@ All tools follow the **100% client-side** philosophy:
 6. **Run** checks: `npm run build && npm run test:unit`
 7. **Submit** a pull request
 
-See [AGENTS.md](AGENTS.md) for the full 19-step tool-building workflow.
+See [AGENTS.md](AGENTS.md) for the full 20-step tool-building workflow.
 
 ## Deploy
 

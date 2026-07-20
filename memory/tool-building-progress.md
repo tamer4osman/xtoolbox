@@ -1,8 +1,8 @@
 # Tool Building Progress
 
-## Current Status: 314 built, 31 planned = 345 total
+## Current Status: 315 built, 30 planned = 345 total
 
-### Phase 28 — Legacy Tool Catch-Up (36 planned, 5 built)
+### Phase 28 — Legacy Tool Catch-Up (36 planned, 6 built)
 
 > 13 tools removed from original list — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
 > 7 tools from PHASE-28-INSTRUCTIONS.md skipped — duplicates of existing tools (color-blindness, font-pairing, text-to-speech, currency-converter, text-similarity, loan-calculator, audio-pitch).
@@ -29,7 +29,7 @@
 | HTML Playground                 | dev          | Planned |
 | JSON Schema Validator           | dev          | Planned |
 | Environment File Parser         | dev          | Planned |
-| Timezone Converter              | dev          | Planned |
+| Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — already has full time zone converter built in |
 | Regex Visualizer                | dev          | Planned |
 | Multi-Country Salary Calculator | finance      | Planned |
 | Savings Calculator              | finance      | Planned |
@@ -37,7 +37,7 @@
 | Expense Splitter                | finance      | Planned |
 | Equation Solver                 | math         | Planned |
 | Matrix Calculator               | math         | Planned |
-| Statistics Calculator           | math         | Planned |
+| Statistics Calculator           | math         | ✅ Done |
 | Decision Matrix Maker           | productivity | Planned |
 | Mind Map Maker                  | productivity | Planned |
 | Kanban Board                    | productivity | Planned |

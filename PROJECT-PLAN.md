@@ -145,7 +145,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 
 ## Current Status
 
-**Total tools:** 345 (314 built, 31 planned)
+**Total tools:** 345 (315 built, 30 planned)
 
 ### Categories (with actual tool counts)
 
@@ -161,7 +161,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Business      | 16    |
 | CSS           | 20    |
 | Productivity  | 18    |
-| Math          | 13    |
+| Math         | 14    |
 | Health        | 12    |
 | Encoding      | 9     |
 | Reference     | 8     |
@@ -184,7 +184,7 @@ See `src/data/tools.json` for the full list. Key planned tools:
 - Audio: audio-pitch, audio-to-midi-converter
 - Dev playgrounds: js-playground, html-playground, json-schema-validator, env-parser, timezone-converter, regex-visualizer
 - Finance: salary-calc, savings-calc, retirement-planner, expense-splitter
-- Math: equation-solver, matrix-calc, stats-calc
+- Math: equation-solver, matrix-calc
 - Productivity: decision-matrix, mind-map-maker, kanban-board, timesheet-tracker
 - Privacy: browser-fingerprint-checker, password-breach-checker
 - Business: resume-job-matcher
@@ -1142,27 +1142,6 @@ All use ffmpeg.wasm for processing.
   - Handle singular matrices (no inverse) with clear error message
   - Format result with proper matrix brackets and alignment
   - Support identity matrix and zero matrix quick-fill buttons
-
-#### stats-calc
-
-- **File:** `src/tools/math/stats-calc.js`
-- **Category:** math
-- **Purpose:** Calculate descriptive statistics from a dataset
-- **Library:** Pure JS + Canvas chart
-- **UI:**
-  1. Number input area (comma or newline separated)
-  2. File upload for CSV/TXT data
-  3. Calculate button
-  4. Results: Mean, Median, Mode, Standard Deviation, Variance, Range, Quartiles, Percentiles
-  5. Histogram chart (auto-binned)
-  6. Box plot visualization
-  7. Copy results as JSON or text
-- **Implementation notes:**
-  - Parse input: split by comma, newline, or space; handle mixed delimiters
-  - Sort data for median, quartiles, percentiles
-  - Mode: handle multimodal datasets (return all modes)
-  - Histogram: auto-calculate bin count using Sturges' rule or square root choice
-  - Box plot: show Q1, median, Q3, whiskers (1.5x IQR), outliers
 
 #### Productivity Tools (1 tool)
 

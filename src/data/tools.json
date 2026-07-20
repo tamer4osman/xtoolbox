@@ -3203,12 +3203,11 @@
     "id": "stats-calc",
     "name": "Statistics Calculator",
     "category": "math",
-    "description": "Calculate mean, median, mode, std dev, and more.",
+    "description": "Compute descriptive statistics from any dataset: mean, median, mode, variance, standard deviation, quartiles, percentiles, skewness, kurtosis, and outliers. Includes a histogram and box plot, all 100% in your browser.",
     "icon": "📈",
     "href": "/tools/stats-calc",
-    "keywords": ["statistics", "mean", "median", "mode", "average"],
-    "status": "planned",
-    "phase": 28
+    "status": "done",
+    "keywords": ["statistics", "stats", "mean", "median", "mode", "average", "variance", "standard deviation", "stddev", "quartile", "percentile", "decile", "range", "iqr", "skewness", "kurtosis", "outlier", "histogram", "box plot", "five number summary", "descriptive statistics"]
   },
   {
     "id": "decision-matrix",
