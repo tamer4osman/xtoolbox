@@ -44,6 +44,7 @@
     "test:debug": "playwright test --debug",
     "test:coverage": "playwright test --reporter=html && npx playwright show-report",
     "test:unit": "vitest run",
+    "smoke": "node scripts/smoke-test-tool.mjs",
     "size": "size-limit",
     "size:why": "size-limit --why"
   },
