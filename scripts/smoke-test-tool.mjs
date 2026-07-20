@@ -15,11 +15,10 @@ function loadToolMeta(toolId) {
   return tools.find(t => t.id === toolId);
 }
 
-function checkDevServer() {
+async function checkDevServer(baseUrl) {
   try {
-    const pkg = JSON.parse(readFileSync(resolve(ROOT, "package.json"), "utf8"));
-    void pkg;
-    return true;
+    const res = await fetch(baseUrl, { signal: AbortSignal.timeout(3000) });
+    return res.status < 500;
   } catch {
     return false;
   }
@@ -162,7 +161,7 @@ async function smokeTest(toolId) {
     await page.waitForTimeout(800);
 
     const relevantErrors = consoleErrors.filter(text => {
-      if (text.includes("third-party") || text.includes("ad")) return false;
+      if (text.includes("third-party") || text.includes("doubleclick") || text.includes("googlesyndication") || text.includes("adsbygoogle")) return false;
       if (text.includes("favicon.ico")) return false;
       if (text.includes("DevTools failed to load")) return false;
       return true;
@@ -185,7 +184,7 @@ async function smokeTest(toolId) {
 
     const relevantNetFailures = networkFailures.filter(f => {
       if (f.url.includes("favicon.ico")) return false;
-      if (f.url.includes("ad") || f.url.includes("doubleclick") || f.url.includes("googlesyndication")) return false;
+      if (f.url.includes("doubleclick") || f.url.includes("googlesyndication") || f.url.includes("adsbygoogle")) return false;
       return true;
     });
     if (relevantNetFailures.length === 0) {
@@ -226,8 +225,8 @@ async function main() {
     process.exit(2);
   }
 
-  if (!checkDevServer()) {
-    console.log(`${RED}✗ Could not read package.json from project root${RESET}`);
+  if (!(await checkDevServer(BASE))) {
+    console.log(`${RED}✗ Dev server not reachable at ${BASE} — run npm run dev first${RESET}`);
     process.exit(1);
   }
 

@@ -121,7 +121,7 @@ graph TB
 | 25: Most Wanted | 23 | ✅ Complete |
 | 26: Uncommon High-Demand | 16 | ✅ Complete |
 | 27: High-Demand | 19 | ✅ Complete |
-| 28: Legacy Catch-Up | 5/37 | 🟡 In Progress |
+| 28: Legacy Catch-Up | 6/37 | 🟡 In Progress |
 
 ## Project Structure
 

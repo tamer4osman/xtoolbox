@@ -27,7 +27,8 @@ export function findChrome() {
     "/usr/bin/chromium-browser",
     "/usr/bin/chromium",
     "/usr/bin/google-chrome",
-    "/snap/bin/chromium"
+    "/snap/bin/chromium",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
   ].filter(Boolean);
 
   for (const p of systemPaths) {

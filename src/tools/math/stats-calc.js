@@ -84,8 +84,7 @@ export function parseInput(raw) {
   for (let i = 0; i < tokens.length; i++) {
     const cleaned = tokens[i]
       .replace(/^[$€£¥₹]+/, "")
-      .replace(/[€%km,]+$/, "")
-      .replace(/,(\d{3})/g, "$1")
+      .replace(/[€%km]+$/, "")
       .trim();
     if (cleaned.length === 0) continue;
     const n = Number(cleaned);
@@ -186,7 +185,7 @@ export function skewness(values) {
   const n = values.length;
   if (n < 3) return null;
   const m = mean(values);
-  const sd = stdDev(values, false);
+  const sd = stdDev(values, true);
   if (sd === 0 || sd === null) return null;
   let sum = 0;
   for (const v of values) sum += Math.pow((v - m) / sd, 3);
@@ -197,7 +196,7 @@ export function kurtosis(values) {
   const n = values.length;
   if (n < 4) return null;
   const m = mean(values);
-  const sd = stdDev(values, false);
+  const sd = stdDev(values, true);
   if (sd === 0 || sd === null) return null;
   let sum = 0;
   for (const v of values) sum += Math.pow((v - m) / sd, 4);
@@ -471,7 +470,7 @@ function drawBoxPlot(canvas, stats) {
   ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, cssW, cssH);
   if (!stats || stats.count === 0) {
-    ctx.fillStyle = "var(--color-text-muted)";
+    ctx.fillStyle = getCssVar("--color-text-muted", "#6b7280");
     ctx.font = "14px sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("Enter data to see box plot", cssW / 2, cssH / 2);
@@ -746,51 +745,51 @@ export function render(container) {
   container.innerHTML += `
     <div class="tool-layout">
       <div class="sc-input-card">
-        <label for="sc-input" style="font-size:var(--text-sm);font-weight:600;display:block;margin-bottom:var(--space-2);">Enter numbers (comma, space, or newline separated)</label>
+        <label for="stats-calc-input" style="font-size:var(--text-sm);font-weight:600;display:block;margin-bottom:var(--space-2);">Enter numbers (comma, space, or newline separated)</label>
         <div class="sc-input-row">
-          <textarea id="sc-input" placeholder="e.g. 1, 2, 3, 4, 5 or paste a column of numbers..."></textarea>
+          <textarea id="stats-calc-input" placeholder="e.g. 1, 2, 3, 4, 5 or paste a column of numbers..."></textarea>
         </div>
         <div class="sc-btn-row">
-          <button class="btn btn-secondary" id="sc-sample" type="button">Generate Sample</button>
-          <button class="btn btn-secondary" id="sc-upload-btn" type="button">Upload CSV/TXT</button>
-          <input type="file" id="sc-file" accept=".csv,.txt" style="display:none;">
-          <button class="btn btn-secondary" id="sc-clear" type="button">Clear</button>
+          <button class="btn btn-secondary" id="stats-calc-sample" type="button">Generate Sample</button>
+          <button class="btn btn-secondary" id="stats-calc-upload-btn" type="button">Upload CSV/TXT</button>
+          <input type="file" id="stats-calc-file" accept=".csv,.txt" style="display:none;">
+          <button class="btn btn-secondary" id="stats-calc-clear" type="button">Clear</button>
         </div>
-        <div class="sc-meta" id="sc-meta"></div>
+        <div class="sc-meta" id="stats-calc-meta"></div>
       </div>
 
-      <div id="sc-custom-pct" style="margin-bottom:var(--space-3);"></div>
-      <div class="sc-stats-grid" id="sc-results"></div>
+      <div id="stats-calc-custom-pct" style="margin-bottom:var(--space-3);"></div>
+      <div class="sc-stats-grid" id="stats-calc-results"></div>
 
       <div class="sc-chart-card">
         <div class="sc-chart-title">Histogram (Sturges' bins)</div>
-        <canvas id="sc-histogram"></canvas>
+        <canvas id="stats-calc-histogram"></canvas>
       </div>
 
       <div class="sc-chart-card">
         <div class="sc-chart-title">Box Plot (5-number summary + outliers)</div>
-        <canvas id="sc-boxplot"></canvas>
+        <canvas id="stats-calc-boxplot"></canvas>
       </div>
 
-      <div class="sc-export-row" id="sc-export" style="display:none;">
-        <button class="btn btn-secondary" id="sc-copy-json" type="button">Copy JSON</button>
-        <button class="btn btn-secondary" id="sc-copy-csv" type="button">Copy CSV</button>
-        <button class="btn btn-secondary" id="sc-download-txt" type="button">Download TXT</button>
+      <div class="sc-export-row" id="stats-calc-export" style="display:none;">
+        <button class="btn btn-secondary" id="stats-calc-copy-json" type="button">Copy JSON</button>
+        <button class="btn btn-secondary" id="stats-calc-copy-csv" type="button">Copy CSV</button>
+        <button class="btn btn-secondary" id="stats-calc-download-txt" type="button">Download TXT</button>
       </div>
     </div>
   `;
 
-  const inputEl = container.querySelector("#sc-input");
-  const sampleBtn = container.querySelector("#sc-sample");
-  const uploadBtn = container.querySelector("#sc-upload-btn");
-  const fileEl = container.querySelector("#sc-file");
-  const clearBtn = container.querySelector("#sc-clear");
-  const metaEl = container.querySelector("#sc-meta");
-  const resultsEl = container.querySelector("#sc-results");
-  const histCanvas = container.querySelector("#sc-histogram");
-  const boxCanvas = container.querySelector("#sc-boxplot");
-  const exportRow = container.querySelector("#sc-export");
-  const pctEl = container.querySelector("#sc-custom-pct");
+  const inputEl = container.querySelector("#stats-calc-input");
+  const sampleBtn = container.querySelector("#stats-calc-sample");
+  const uploadBtn = container.querySelector("#stats-calc-upload-btn");
+  const fileEl = container.querySelector("#stats-calc-file");
+  const clearBtn = container.querySelector("#stats-calc-clear");
+  const metaEl = container.querySelector("#stats-calc-meta");
+  const resultsEl = container.querySelector("#stats-calc-results");
+  const histCanvas = container.querySelector("#stats-calc-histogram");
+  const boxCanvas = container.querySelector("#stats-calc-boxplot");
+  const exportRow = container.querySelector("#stats-calc-export");
+  const pctEl = container.querySelector("#stats-calc-custom-pct");
 
   let currentStats = null;
   let currentValues = [];
@@ -916,15 +915,15 @@ export function render(container) {
     inputEl.focus();
   });
 
-  container.querySelector("#sc-copy-json").addEventListener("click", () => {
+  container.querySelector("#stats-calc-copy-json").addEventListener("click", () => {
     copyToClipboard(buildStatsJson(currentStats, currentValues));
     showToast({ message: "Stats copied as JSON", type: "success" });
   });
-  container.querySelector("#sc-copy-csv").addEventListener("click", () => {
+  container.querySelector("#stats-calc-copy-csv").addEventListener("click", () => {
     copyToClipboard(buildStatsCsv(currentStats));
     showToast({ message: "Stats copied as CSV", type: "success" });
   });
-  container.querySelector("#sc-download-txt").addEventListener("click", () => {
+  container.querySelector("#stats-calc-download-txt").addEventListener("click", () => {
     const blob = new Blob([buildStatsTxt(currentStats)], { type: "text/plain" });
     downloadBlob(blob, "statistics-report.txt");
   });
