@@ -1,11 +1,11 @@
 ---
 name: tool-builder
-description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 19-step tool-building convention from AGENTS.md, including duplicate check, webfetch research, security review, file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
+description: Use ONLY when the user asks to build, create, scaffold, or add a new tool to the xtoolbox project. Triggers on phrases like "build a new tool", "add tool", "create tool", "scaffold tool", or naming a specific tool from memory/tool-building-progress.md. Enforces the 20-step tool-building convention from AGENTS.md, including duplicate check, webfetch research, design grilling, security review, file scaffolding, test templates, doc sync, count propagation, self-test gate, and the user-approval gate.
 ---
 
 # Tool Builder
 
-End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 19-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
+End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 20-step convention in `AGENTS.md` strictly. **Never skip steps. Never commit before user approval.**
 
 ## When to use
 
@@ -15,10 +15,10 @@ End-to-end workflow for adding a new tool to the xtoolbox project. Follows the 1
 
 ## Modifying an existing tool
 
-For fixes, updates, or enhancements to an existing tool, follow Steps 4-16:
+For fixes, updates, or enhancements to an existing tool, follow Steps 5-17:
 
 1. Edit the tool file
-2. Run security review on changed code (Step 5 checklist — skip if no new network/DOM/CDN changes)
+2. Run security review on changed code (Step 6 checklist — skip if no new network/DOM/CDN changes)
 3. (Skip unit test if no new logic)
 4. (Skip Playwright test if trivial)
 5. Verify build
@@ -86,11 +86,34 @@ After passing the duplicate check, before any work:
 2. Call `webfetch` on its official "getting started" or "loading" documentation page
 3. Note any gotchas, anti-patterns, or browser compatibility issues
 
-**Output:** Document findings in your response. These become the implementation reference for Step 4. If the fetched docs reveal a better approach than Step 2 decided, re-confirm with the user before proceeding.
+**Output:** Document findings in your response. These become the implementation reference for Step 5. If the fetched docs reveal a better approach than Step 2 decided, re-confirm with the user before proceeding.
 
 **Gate:** Do not proceed to Step 4 until you have called `webfetch` at least once and documented the results.
 
-## Step 4 — Create the tool file
+## Step 4 — Grill the design (BLOCKING)
+
+Use the `grill-me` skill to interview the user on every design decision before writing any code. This step resolves ambiguities that would otherwise become rework.
+
+**How to grill:**
+
+1. Ask questions **one at a time**, waiting for feedback on each before continuing. Asking multiple questions at once is bewildering.
+2. For each question, provide your **recommended answer** — don't ask open-ended questions without a suggestion.
+3. Walk down each branch of the decision tree, resolving dependencies between decisions one-by-one.
+4. If a *fact* can be found by exploring the environment (filesystem, tools, existing tools), look it up rather than asking.
+5. The *decisions* are the user's — put each one to them and wait for their answer.
+
+**What to grill on (minimum):**
+
+- **UI layout** — upload area, options panel, preview, download. Which existing tool's layout is closest?
+- **Library choices** — which WASM module, npm package, or pure browser API? Is it already in `package.json`?
+- **Factory pattern** — does an existing factory apply (`image-tool-factory`, `video-tool-factory`, `codec-factory`, `lookup-tool-factory`, `merge-tool-factory`, `pdf-options-tool-factory`)? Or does this tool need a bespoke scaffold?
+- **Edge cases** — empty input, huge files, unsupported formats, browser compatibility
+- **Error handling** — try/catch boundaries, user-facing error messages, graceful degradation
+- **Tool-specific decisions** — any non-obvious UX or algorithm choices unique to this tool
+
+**Gate:** Do not proceed to Step 5 until the user confirms you have reached a shared understanding. Do not act on any decision until confirmed.
+
+## Step 5 — Create the tool file
 
 Path: `src/tools/<category>/<tool-id>.js`
 
@@ -129,7 +152,7 @@ Conventions to mimic from existing tools:
 - For PDF tools, use local worker assets via Vite `?url` (see `src/tools/pdf/pdf-utils.js` for the pattern).
 - Import styles from `../../styles/components.css` only if a needed class is missing there — otherwise rely on the shared system.
 
-## Step 5 — Security review (BLOCKING)
+## Step 6 — Security review (BLOCKING)
 
 After creating the tool file, run through this checklist **before** writing tests:
 
@@ -179,7 +202,7 @@ Fix the issue before proceeding. Do not write tests for insecure code. Common fi
 | Missing SRI | Compute hash via browser, add `integrity` + `crossOrigin` |
 | New CDN domain | Add to both `vite.config.js` CSP and `_headers` CSP |
 
-## Step 6 — Unit test
+## Step 7 — Unit test
 
 Path: `src/__tests__/<tool-id>.test.js`
 
@@ -198,7 +221,7 @@ describe("tool-id", () => {
 
 If the tool is heavily DOM-bound, export the pure helpers and test those. Keep tests fast and offline.
 
-## Step 7 — Playwright test
+## Step 8 — Playwright test
 
 Path: `tests/<tool-id>.spec.js`
 
@@ -213,7 +236,7 @@ test("tool-id loads and runs", async ({ page }) => {
 
 Add deeper interaction only if the tool has a non-trivial happy path.
 
-## Step 8 — Verify build
+## Step 9 — Verify build
 
 ```bash
 npm run build
@@ -221,7 +244,7 @@ npm run build
 
 Must exit 0. If it fails, fix the tool file before proceeding. Common causes: bad import path, missing export, syntax error, missing dependency in `package.json`.
 
-## Step 9 — Verify unit tests
+## Step 10 — Verify unit tests
 
 ```bash
 npm run test:unit
@@ -229,26 +252,39 @@ npm run test:unit
 
 All tests must pass. The Playwright suite (`npm run test`) is **not** required here — that runs in CI.
 
-## Step 10 — Self-test with Chrome DevTools (BLOCKING)
+## Step 11 — Smoke test (BLOCKING)
 
-Before asking the user, smoke-test the tool yourself with the Chrome DevTools MCP. Start the dev server if it is not already running:
+Before asking the user, run the automated smoke test. Start the dev server if it is not already running:
 
 ```bash
 npm run dev
 ```
 
-Then verify all of the following in order:
+Then run the smoke test against the new tool:
 
-1. **Navigate** — Go to `http://localhost:3000/#/tools/tool-id`
-2. **Snapshot** — Confirm UI renders (tool header, primary controls visible) with no broken layouts
-3. **Console** — `list_console_messages` must show 0 errors. Warnings about pre-existing a11y issues on other tools are fine; a fresh error from your new tool is not
-4. **Network** — `list_network_requests` must show 0 4xx/5xx. The new tool's `.js` module must return 200, and every helper it imports must resolve. If a 4xx appears, clear Vite cache: stop server, `rm -rf node_modules/.vite`, restart, re-test
-5. **Lighthouse** — Run `lighthouse_audit` with a11y. Score must be >= 90. Fix any critical issues found (missing labels, low contrast, heading order). SEO/best-practice scores don't need to pass
-6. **Interaction** — Click the primary action button and verify expected output. For input-driven tools, simulate input and assert result appears
+```bash
+npm run smoke <tool-id>
+```
 
-If any check fails, fix the code and re-run from Step 4. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
+The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and verifies all of the following in one shot:
 
-## Step 11 — SPA performance regression check (BLOCKING)
+1. **Load** — `#tool-container` renders with content (no infinite spinner)
+2. **Header** — `.tool-header h1` matches the tool name in `tools.json`
+3. **Primary control** — at least one `input`, `button`, `textarea`, or `select` exists inside `#tool-container`
+4. **No error state** — no `.error-state` / `.error-page` element rendered
+5. **0 console errors** — filters out third-party ad/favicon noise
+6. **0 uncaught page errors** — no thrown exceptions
+7. **0 failed network requests** — no 4xx/5xx (filters out ad/favicon). The new tool's `.js` module must return 200, and every helper it imports must resolve
+
+**Pass criteria:** script exits 0 (all checks pass). If it exits 1, fix the reported issue and re-run.
+
+**If a 4xx appears on the tool's `.js` module:** the Vite module cache may be stale — stop server, `rm -rf node_modules/.vite`, restart, re-test.
+
+**Lighthouse a11y (manual, optional):** For a deeper visual audit, run `lighthouse_audit` via the Chrome DevTools MCP. Score must be >= 90. Fix any critical issues found (missing labels, low contrast, heading order). SEO/best-practice scores don't need to pass. This is separate from the automated smoke test and can be skipped if the tool has no new interactive controls.
+
+If any check fails, fix the code and re-run from Step 5. **Do not bother the user with a broken tool** — the user gate is for them to validate the polished version, not to find obvious bugs.
+
+## Step 12 — SPA performance regression check (BLOCKING)
 
 Verify that adding the new tool doesn't regress SPA navigation performance. Run the automated Playwright-based performance check with the dev server running:
 
@@ -267,7 +303,7 @@ This script navigates through all 8 page templates (home, category×2, tool×2, 
 
 **If a previous run already passed and only your tool was added:** Focus on whether the tool page itself renders fast. The other page template times should be unchanged. If a non-tool page (e.g. home, about) regressed, you may have pulled new deps into a shared chunk.
 
-## Step 12 — Fallow static analysis (BLOCKING)
+## Step 13 — Fallow static analysis (BLOCKING)
 
 Run Fallow against the new tool's file to catch dead code and complexity issues before the user sees it:
 
@@ -279,9 +315,9 @@ npx fallow health src/tools/<category>/<tool-id>.js
 - **Dead code** — Fallow must report 0 unused exports in the new tool file. Every exported symbol (`toolConfig`, `render`, and any helper functions) must be consumed by the module graph. If Fallow flags something, either remove it or add a re-export/barrel.
 - **Health** — Fallow must not report any file with complexity above the project threshold. If the tool file triggers a warning, refactor to reduce branching.
 
-If either check fails, fix the code and re-run Step 12. Do not proceed to Step 13 until both pass clean.
+If either check fails, fix the code and re-run Step 13. Do not proceed to Step 14 until both pass clean.
 
-## Step 13 — Oxlint + Oxfmt (BLOCKING)
+## Step 14 — Oxlint + Oxfmt (BLOCKING)
 
 Fast Rust-based linting and formatting (replaces ESLint + Prettier). Scope to new tool only:
 
@@ -295,7 +331,7 @@ npx oxfmt --write src/tools/<category>/<tool-id>.js
 
 If either fails, fix and re-run. Do not proceed until both pass.
 
-## Step 14 — (Optional) MSW for external APIs
+## Step 15 — (Optional) MSW for external APIs
 
 If the tool calls external APIs (crypto-prices, currency-converter, weather, etc.), add MSW mocks:
 
@@ -317,20 +353,20 @@ export const handlers = [
 
 Why: Tests don't depend on live APIs, can test error states, work offline.
 
-## Step 15 — Security gate (BLOCKING)
+## Step 16 — Security gate (BLOCKING)
 
 Before presenting to the user, verify:
 
-1. **No console errors** from the tool (Step 10 confirmed this)
+1. **No console errors** from the tool (Step 11 confirmed this)
 2. **CSP violations** — Check `list_console_messages` for any CSP block errors. A clean console = no CSP violations
 3. **No raw `fetch()`** — Grep the tool file: `grep -n "fetch(" src/tools/<category>/<tool-id>.js`. If found, must use `safeFetch` instead
 4. **No `eval()` / `new Function()`** — Grep: `grep -n "eval\|new Function" src/tools/<category>/<tool-id>.js`. Must be 0 matches
 5. **CDN resources have SRI** — Grep: `grep -n "createElement.*script\|createElement.*link" src/tools/<category>/<tool-id>.js`. If any match, verify each has `integrity` attribute on the next 2 lines
 6. **HTTPS only** — Grep: `grep -n "http://" src/tools/<category>/<tool-id>.js`. Must be 0 matches (except `http://localhost` for dev)
 
-If any check fails, fix and re-run from Step 4. **Do not present insecure code to the user.**
+If any check fails, fix and re-run from Step 5. **Do not present insecure code to the user.**
 
-## Step 16 — User testing gate (BLOCKING)
+## Step 17 — User testing gate (BLOCKING)
 
 Tell the user:
 
@@ -340,9 +376,9 @@ Tell the user:
 > 2. …
 > 3. …
 
-Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 17 if the user has not approved.
+Be specific about what to try — call out the primary controls, any edge cases, and any persistence behavior. **Wait for explicit approval.** Do not proceed to Step 18 if the user has not approved.
 
-## Step 17 — Update docs (all required, all in one pass)
+## Step 18 — Update docs (all required, all in one pass)
 
 | File                               | Change                                                                                                                                                                 |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -352,7 +388,7 @@ Be specific about what to try — call out the primary controls, any edge cases,
 | `PROJECT-PLAN.md`                  | Remove the tool's spec section (#### heading through next #### or ---) and remove it from the "Planned Tools" list.                                                    |
 | `memory/tool-building-progress.md` | Tick the `[ ]` to `[x]` for the tool.                                                                                                                                  |
 
-## Step 18 — Update main-page counts (all required)
+## Step 19 — Update main-page counts (all required)
 
 These MUST reflect the new total — the tool count appears in 4 user-facing files and must agree:
 
@@ -368,7 +404,7 @@ rg -n "(\\d+)\\+?\\s*(free\\s*)?(online\\s*)?tools" README.md src/pages/home.js 
 
 Every number should be the same.
 
-## Step 19 — Commit (only after user approval)
+## Step 20 — Commit (only after user approval)
 
 Stage only the files you touched. Write a descriptive commit message:
 
@@ -385,7 +421,7 @@ Add <tool-name> tool (<category>)
 
 ## Red lines
 
-- Do not commit before Step 16 (user) approval. Steps 10-15 are automated checks; only the user's explicit approval clears the gate to Steps 17-19.
+- Do not commit before Step 17 (user) approval. Steps 11-16 are automated checks; only the user's explicit approval clears the gate to Steps 18-20.
 - Do not edit `package.json` to add a dependency without asking — many Phase 25 tools can be built with browser built-ins only (see the AGENTS.md / README convention).
 - Do not add a tool to `src/data/tools.json` without also adding it to `toolsList.json` and vice versa.
 - Do not add comments to the tool source (AGENTS.md: "DO NOT ADD ANY COMMENTS unless asked").

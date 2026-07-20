@@ -27,4 +27,4 @@ When grilling about refactoring or architecture:
 - Use terms from codebase-design: module, interface, depth, seam, adapter, leverage, locality
 - Apply the deletion test: would deleting it concentrate complexity?
 - Consider the factory pattern — can the change be extracted to a shared factory?
-- Check `AGENTS.md` conventions — does the change follow the 19-step workflow?
+- Check `AGENTS.md` conventions — does the change follow the 20-step workflow?
