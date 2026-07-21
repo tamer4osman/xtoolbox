@@ -26,54 +26,54 @@ npm run test       # → Playwright tests
 
 ## Stack
 
-| Layer | Technology | Purpose |
-| ------- | ----------- | --------- |
-| Build | Vite | Fast HMR, ES modules |
-| UI | Vanilla JS | Zero framework overhead |
-| PDF | pdf-lib, PDF.js, jsPDF | Client-side PDF manipulation |
-| Video | ffmpeg.wasm | Browser-native video processing |
-| Image | Canvas API, Pica, Cropper.js | Real-time image transforms |
-| OCR | Tesseract.js | In-browser optical character recognition |
-| ML | ONNX Runtime Web | Embedded AI models (≤100MB) |
-| Audio | Web Audio API, lamejs | Sound processing and encoding |
-| Crypto | Web Crypto API | Hashing, HMAC, encryption |
+| Layer  | Technology                   | Purpose                                  |
+| ------ | ---------------------------- | ---------------------------------------- |
+| Build  | Vite                         | Fast HMR, ES modules                     |
+| UI     | Vanilla JS                   | Zero framework overhead                  |
+| PDF    | pdf-lib, PDF.js, jsPDF       | Client-side PDF manipulation             |
+| Video  | ffmpeg.wasm                  | Browser-native video processing          |
+| Image  | Canvas API, Pica, Cropper.js | Real-time image transforms               |
+| OCR    | Tesseract.js                 | In-browser optical character recognition |
+| ML     | ONNX Runtime Web             | Embedded AI models (≤100MB)              |
+| Audio  | Web Audio API, lamejs        | Sound processing and encoding            |
+| Crypto | Web Crypto API               | Hashing, HMAC, encryption                |
 
 ## Features
 
-| Capability | Description |
-| ------------ | ------------- |
-| **Privacy-first** | Zero server uploads — all processing happens in your browser |
-| **315 tools** | PDF, image, video, audio, text, code, math, finance, and more |
-| **No accounts** | No sign-ups, no tracking, no data collection |
-| **Offline-capable** | Service worker + PWA — works without internet |
-| **Mobile-friendly** | Responsive design, works on phones and tablets |
-| **Open source** | MIT license — inspect, modify, and deploy freely |
+| Capability          | Description                                                   |
+| ------------------- | ------------------------------------------------------------- |
+| **Privacy-first**   | Zero server uploads — all processing happens in your browser  |
+| **315 tools**       | PDF, image, video, audio, text, code, math, finance, and more |
+| **No accounts**     | No sign-ups, no tracking, no data collection                  |
+| **Offline-capable** | Service worker + PWA — works without internet                 |
+| **Mobile-friendly** | Responsive design, works on phones and tablets                |
+| **Open source**     | MIT license — inspect, modify, and deploy freely              |
 
 ## Categories
 
-| Category | Built | Status | Key Libraries |
-| ---------- | ------- | -------- | --------------- |
-| **Image** | 39 | +4 planned | Canvas API, Cropper.js, Pica, ONNX, heic2any |
-| **Developer** | 34 | +6 planned | Custom JS, CodeMirror, sql.js |
-| **Text & Content** | 35 | ✅ Complete | marked, turndown, js-yaml, SheetJS |
-| **PDF** | 33 | ✅ Complete | pdf-lib, PDF.js, jsPDF |
-| **Video** | 19 | +7 planned | ffmpeg.wasm |
-| **CSS & Web Design** | 20 | ✅ Complete | Custom JS |
-| **Audio** | 15 | +2 planned | Web Audio API, lamejs, Wavesurfer.js |
-| **Business** | 15 | +1 planned | Custom JS, jsPDF |
-| **Finance** | 12 | +4 planned | Chart.js |
-| **Productivity** | 14 | +4 planned | Custom JS |
-| **Math** | 11 | +2 planned | math.js |
-| **Health** | 12 | ✅ Complete | Custom JS |
-| **Encoding & Hashing** | 9 | ✅ Complete | Web Crypto API |
-| **SEO** | 8 | ✅ Complete | Custom JS |
-| **Reference** | 7 | +1 planned | Free Dictionary API, Open Library |
-| **Privacy & Security** | 6 | +2 planned | Web Crypto API |
-| **Fun & Games** | 5 | +1 planned | Custom JS |
-| **QR & Barcode** | 4 | ✅ Complete | qrcode, JsBarcode |
-| **OCR** | 4 | ✅ Complete | Tesseract.js |
-| **Visualization** | 4 | ✅ Complete | Chart.js, Papa Parse |
-| **Weather** | 4 | ✅ Complete | wttr.in, Open-Meteo |
+| Category               | Built | Status      | Key Libraries                                |
+| ---------------------- | ----- | ----------- | -------------------------------------------- |
+| **Image**              | 39    | +4 planned  | Canvas API, Cropper.js, Pica, ONNX, heic2any |
+| **Developer**          | 34    | +6 planned  | Custom JS, CodeMirror, sql.js                |
+| **Text & Content**     | 35    | ✅ Complete | marked, turndown, js-yaml, SheetJS           |
+| **PDF**                | 33    | ✅ Complete | pdf-lib, PDF.js, jsPDF                       |
+| **Video**              | 19    | +7 planned  | ffmpeg.wasm                                  |
+| **CSS & Web Design**   | 20    | ✅ Complete | Custom JS                                    |
+| **Audio**              | 15    | +2 planned  | Web Audio API, lamejs, Wavesurfer.js         |
+| **Business**           | 15    | +1 planned  | Custom JS, jsPDF                             |
+| **Finance**            | 12    | +4 planned  | Chart.js                                     |
+| **Productivity**       | 14    | +4 planned  | Custom JS                                    |
+| **Math**               | 11    | +2 planned  | math.js                                      |
+| **Health**             | 12    | ✅ Complete | Custom JS                                    |
+| **Encoding & Hashing** | 9     | ✅ Complete | Web Crypto API                               |
+| **SEO**                | 8     | ✅ Complete | Custom JS                                    |
+| **Reference**          | 7     | +1 planned  | Free Dictionary API, Open Library            |
+| **Privacy & Security** | 6     | +2 planned  | Web Crypto API                               |
+| **Fun & Games**        | 5     | +1 planned  | Custom JS                                    |
+| **QR & Barcode**       | 4     | ✅ Complete | qrcode, JsBarcode                            |
+| **OCR**                | 4     | ✅ Complete | Tesseract.js                                 |
+| **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
+| **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
 **Total:** 315 built, 30 planned = 345 tools
 
@@ -110,18 +110,18 @@ graph TB
 
 27 of 28 phases complete. Phase 28 (Legacy Catch-Up) in progress.
 
-| Phase | Tools | Status |
-| ------- | ------- | -------- |
-| 1–19: Foundation | 200+ | ✅ Complete |
-| 20: Launch | — | ✅ Complete |
-| 21: Market Expansion | 33 | ✅ Complete |
-| 22: Format Converters | 11 | ✅ Complete |
-| 23: Gap Fill | 20 | ✅ Complete |
-| 24: Privacy & Utility | 18 | ✅ Complete |
-| 25: Most Wanted | 23 | ✅ Complete |
-| 26: Uncommon High-Demand | 16 | ✅ Complete |
-| 27: High-Demand | 19 | ✅ Complete |
-| 28: Legacy Catch-Up | 6/37 | 🟡 In Progress |
+| Phase                    | Tools | Status         |
+| ------------------------ | ----- | -------------- |
+| 1–19: Foundation         | 200+  | ✅ Complete    |
+| 20: Launch               | —     | ✅ Complete    |
+| 21: Market Expansion     | 33    | ✅ Complete    |
+| 22: Format Converters    | 11    | ✅ Complete    |
+| 23: Gap Fill             | 20    | ✅ Complete    |
+| 24: Privacy & Utility    | 18    | ✅ Complete    |
+| 25: Most Wanted          | 23    | ✅ Complete    |
+| 26: Uncommon High-Demand | 16    | ✅ Complete    |
+| 27: High-Demand          | 19    | ✅ Complete    |
+| 28: Legacy Catch-Up      | 6/37  | 🟡 In Progress |
 
 ## Project Structure
 
@@ -151,13 +151,13 @@ toolbox/
 
 All tools follow the **100% client-side** philosophy:
 
-| ✅ Good Fit | ❌ Bad Fit |
-| ------------- | ----------- |
-| Pure browser APIs (Canvas, Web Audio, FileReader) | Requires server backend |
-| WASM modules (pdf-lib, ffmpeg.wasm, Tesseract.js) | Requires authentication |
-| Input → process → output pipeline | Real-time multiplayer |
-| Public APIs without API keys | Generative AI / LLMs |
-| Embedded ML models (≤100MB) | Niche industrial use cases |
+| ✅ Good Fit                                       | ❌ Bad Fit                 |
+| ------------------------------------------------- | -------------------------- |
+| Pure browser APIs (Canvas, Web Audio, FileReader) | Requires server backend    |
+| WASM modules (pdf-lib, ffmpeg.wasm, Tesseract.js) | Requires authentication    |
+| Input → process → output pipeline                 | Real-time multiplayer      |
+| Public APIs without API keys                      | Generative AI / LLMs       |
+| Embedded ML models (≤100MB)                       | Niche industrial use cases |
 
 ## Contributing
 

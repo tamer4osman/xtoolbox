@@ -521,8 +521,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
    - Niche industrial use cases (too narrow for general audience)
 
 5. **Technical check**: API returns JSON, supports CORS, no binary streams
-6. **Demand check**: Estimate user demand (search volume, community requests)
-   7. **Build**: Create tool following the 20-step workflow below
+6. **Demand check**: Estimate user demand (search volume, community requests) 7. **Build**: Create tool following the 20-step workflow below
 
 ### Workflow
 
@@ -550,29 +549,31 @@ When building a new tool, ALWAYS follow this exact sequence:
 9. **Verify tests**: `npm run test:unit` must pass
 10. **Smoke test**: Run the automated smoke test before asking the user. Start dev server (`npm run dev`) if it is not running, then:
 
-   ```bash
-   npm run smoke <tool-id>
-   ```
+```bash
+npm run smoke <tool-id>
+```
 
-   The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
-   - **Load** — `#tool-container` renders with content
-   - **Header** — `.tool-header h1` matches the tool name in `tools.json`
-   - **Primary control** — at least one `input`, `button`, `textarea`, or `select` exists inside `#tool-container`
-   - **No error state** — no `.error-state` / `.error-page` rendered
-   - **0 console errors** — filters out third-party ad/favicon noise
-   - **0 uncaught page errors** — no thrown exceptions
-   - **0 failed network requests** — no 4xx/5xx (filters out ad/favicon)
+The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
 
-   **Pass criteria:** script exits 0 (all checks pass). If it exits 1, fix the reported issue and re-run.
+- **Load** — `#tool-container` renders with content
+- **Header** — `.tool-header h1` matches the tool name in `tools.json`
+- **Primary control** — at least one `input`, `button`, `textarea`, or `select` exists inside `#tool-container`
+- **No error state** — no `.error-state` / `.error-page` rendered
+- **0 console errors** — filters out third-party ad/favicon noise
+- **0 uncaught page errors** — no thrown exceptions
+- **0 failed network requests** — no 4xx/5xx (filters out ad/favicon)
 
-   **If a 4xx appears on the tool's `.js` module:** the Vite module cache may be stale — stop dev server, `rm -rf node_modules/.vite`, restart, and re-test.
+**Pass criteria:** script exits 0 (all checks pass). If it exits 1, fix the reported issue and re-run.
 
-   **Lighthouse a11y (manual, optional):** For a deeper visual audit, run `lighthouse_audit` via the Chrome DevTools MCP. Score must be >= 90. This is separate from the automated smoke test and can be skipped if the tool has no new interactive controls.
+**If a 4xx appears on the tool's `.js` module:** the Vite module cache may be stale — stop dev server, `rm -rf node_modules/.vite`, restart, and re-test.
 
-   **⚠️ MiMo V2.5 Limitation:** The Chrome DevTools MCP (for the optional Lighthouse check) fails silently with MiMo V2.5 due to API restrictions. If you need Lighthouse:
-   - **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`)
-   - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
-   - This is a Xiaomi API limitation, not an OpenCode or project issue
+**Lighthouse a11y (manual, optional):** For a deeper visual audit, run `lighthouse_audit` via the Chrome DevTools MCP. Score must be >= 90. This is separate from the automated smoke test and can be skipped if the tool has no new interactive controls.
+
+**⚠️ MiMo V2.5 Limitation:** The Chrome DevTools MCP (for the optional Lighthouse check) fails silently with MiMo V2.5 due to API restrictions. If you need Lighthouse:
+
+- **Switch to MiniMax M3 Free** (`opencode-zen/minimax-m3-free`)
+- Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
+- This is a Xiaomi API limitation, not an OpenCode or project issue
 
 11. **Run SPA performance check**: Verify no navigation regression (dev server required):
 

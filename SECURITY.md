@@ -9,6 +9,7 @@ If you discover a security vulnerability in xtoolbox, please report it responsib
 Instead, please report via [GitHub Security Advisories](https://github.com/anomalyco/xtoolbox/security/advisories/new).
 
 Include:
+
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -41,10 +42,10 @@ xtoolbox is a 100% client-side application. The following are in scope:
 
 ## Supported Versions
 
-| Version | Supported          |
-|---------|--------------------|
-| latest  | Yes                |
-| < latest | No               |
+| Version  | Supported |
+| -------- | --------- |
+| latest   | Yes       |
+| < latest | No        |
 
 ## Security Best Practices
 

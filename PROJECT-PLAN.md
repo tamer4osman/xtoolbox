@@ -91,18 +91,18 @@ ToolBox's unique advantage: **largest 100% client-side toolbox with WASM-powered
 
 ### Head-to-Head: ToolBox vs Toololis (691 tools)
 
-| Dimension | ToolBox (314) | Toololis (691) | Gap |
-|-----------|--------------|----------------|-----|
-| Total tools | 314 | 691 | -377 |
-| PDF tools | **33** | 8 | +25 (4x) |
-| Image tools | **39** | 19 | +20 (2x) |
-| Video tools | **19** | 0 | +19 (only) |
-| Audio tools | **15** | 10 | +5 |
-| Developer tools | 34 | **46** | -12 |
-| Calculators | ~20 | **244** | -224 |
-| Finance tools | 12 | **108** | -96 |
-| E-Commerce tools | 0 | **19** | -19 |
-| Social media tools | 0 | **28** | -28 |
+| Dimension          | ToolBox (314) | Toololis (691) | Gap        |
+| ------------------ | ------------- | -------------- | ---------- |
+| Total tools        | 314           | 691            | -377       |
+| PDF tools          | **33**        | 8              | +25 (4x)   |
+| Image tools        | **39**        | 19             | +20 (2x)   |
+| Video tools        | **19**        | 0              | +19 (only) |
+| Audio tools        | **15**        | 10             | +5         |
+| Developer tools    | 34            | **46**         | -12        |
+| Calculators        | ~20           | **244**        | -224       |
+| Finance tools      | 12            | **108**        | -96        |
+| E-Commerce tools   | 0             | **19**         | -19        |
+| Social media tools | 0             | **28**         | -28        |
 
 ### Our Advantages (Defensible)
 
@@ -124,15 +124,15 @@ ToolBox's unique advantage: **largest 100% client-side toolbox with WASM-powered
 
 These categories represent the biggest competitive gaps. Future phases should prioritize:
 
-| Priority | Category | Gap | Strategy |
-|----------|----------|-----|----------|
-| 🔴 High | Calculators | -224 | Add finance/health/conversion calculators (pure JS, fast to build) |
-| 🔴 High | Finance | -96 | Loan amortization, investment calculators, tax tools |
-| 🔴 High | E-Commerce | -19 | Amazon FBA profit calculator, Etsy SEO tools, listing analyzers |
-| 🟡 Medium | Social Media | -28 | TikTok hook scorer, YouTube thumbnail CTR predictor, hashtag tools |
-| 🟡 Medium | Developer | -12 | JSON formatter, regex tester, JWT decoder (thin wrappers, fast) |
-| 🟢 Low | AI Tools | -78 | Decision composites, cost calculators (content-heavy, not WASM) |
-| 🟢 Low | DACH Tools | -45 | German-specific tools (Bußgeld, Elterngeld) — niche audience |
+| Priority  | Category     | Gap  | Strategy                                                           |
+| --------- | ------------ | ---- | ------------------------------------------------------------------ |
+| 🔴 High   | Calculators  | -224 | Add finance/health/conversion calculators (pure JS, fast to build) |
+| 🔴 High   | Finance      | -96  | Loan amortization, investment calculators, tax tools               |
+| 🔴 High   | E-Commerce   | -19  | Amazon FBA profit calculator, Etsy SEO tools, listing analyzers    |
+| 🟡 Medium | Social Media | -28  | TikTok hook scorer, YouTube thumbnail CTR predictor, hashtag tools |
+| 🟡 Medium | Developer    | -12  | JSON formatter, regex tester, JWT decoder (thin wrappers, fast)    |
+| 🟢 Low    | AI Tools     | -78  | Decision composites, cost calculators (content-heavy, not WASM)    |
+| 🟢 Low    | DACH Tools   | -45  | German-specific tools (Bußgeld, Elterngeld) — niche audience       |
 
 ### Strategic Principle
 
@@ -161,7 +161,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Business      | 16    |
 | CSS           | 20    |
 | Productivity  | 18    |
-| Math         | 14    |
+| Math          | 14    |
 | Health        | 12    |
 | Encoding      | 9     |
 | Reference     | 8     |
