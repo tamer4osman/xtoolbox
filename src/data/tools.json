@@ -3207,7 +3207,29 @@
     "icon": "📈",
     "href": "/tools/stats-calc",
     "status": "done",
-    "keywords": ["statistics", "stats", "mean", "median", "mode", "average", "variance", "standard deviation", "stddev", "quartile", "percentile", "decile", "range", "iqr", "skewness", "kurtosis", "outlier", "histogram", "box plot", "five number summary", "descriptive statistics"]
+    "keywords": [
+      "statistics",
+      "stats",
+      "mean",
+      "median",
+      "mode",
+      "average",
+      "variance",
+      "standard deviation",
+      "stddev",
+      "quartile",
+      "percentile",
+      "decile",
+      "range",
+      "iqr",
+      "skewness",
+      "kurtosis",
+      "outlier",
+      "histogram",
+      "box plot",
+      "five number summary",
+      "descriptive statistics"
+    ]
   },
   {
     "id": "decision-matrix",
