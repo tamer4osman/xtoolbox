@@ -99,8 +99,8 @@ Use the `grill-me` skill to interview the user on every design decision before w
 1. Ask questions **one at a time**, waiting for feedback on each before continuing. Asking multiple questions at once is bewildering.
 2. For each question, provide your **recommended answer** — don't ask open-ended questions without a suggestion.
 3. Walk down each branch of the decision tree, resolving dependencies between decisions one-by-one.
-4. If a *fact* can be found by exploring the environment (filesystem, tools, existing tools), look it up rather than asking.
-5. The *decisions* are the user's — put each one to them and wait for their answer.
+4. If a _fact_ can be found by exploring the environment (filesystem, tools, existing tools), look it up rather than asking.
+5. The _decisions_ are the user's — put each one to them and wait for their answer.
 
 **What to grill on (minimum):**
 
@@ -176,9 +176,9 @@ After creating the tool file, run through this checklist **before** writing test
   async () => {
     const resp = await fetch(location.href);
     const buf = await resp.arrayBuffer();
-    const hash = await crypto.subtle.digest('SHA-256', buf);
-    return 'sha256-' + btoa(String.fromCharCode(...new Uint8Array(hash)));
-  }
+    const hash = await crypto.subtle.digest("SHA-256", buf);
+    return "sha256-" + btoa(String.fromCharCode(...new Uint8Array(hash)));
+  };
   ```
 - **CSP compliance** — If using a new CDN domain, it must be added to `vite.config.js` CSP and `_headers` CSP. Check `script-src`, `style-src`, `font-src` as needed.
 
@@ -194,13 +194,13 @@ After creating the tool file, run through this checklist **before** writing test
 
 Fix the issue before proceeding. Do not write tests for insecure code. Common fixes:
 
-| Issue | Fix |
-|-------|-----|
-| Raw `fetch()` | Replace with `safeFetch()` |
-| innerHTML + user input | Wrap in `escapeHtml()` |
-| eval() | Use JSON.parse or DOMParser |
-| Missing SRI | Compute hash via browser, add `integrity` + `crossOrigin` |
-| New CDN domain | Add to both `vite.config.js` CSP and `_headers` CSP |
+| Issue                  | Fix                                                       |
+| ---------------------- | --------------------------------------------------------- |
+| Raw `fetch()`          | Replace with `safeFetch()`                                |
+| innerHTML + user input | Wrap in `escapeHtml()`                                    |
+| eval()                 | Use JSON.parse or DOMParser                               |
+| Missing SRI            | Compute hash via browser, add `integrity` + `crossOrigin` |
+| New CDN domain         | Add to both `vite.config.js` CSP and `_headers` CSP       |
 
 ## Step 7 — Unit test
 
