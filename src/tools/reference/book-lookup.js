@@ -4,7 +4,9 @@ import { safeFetch } from "../../utils/safe-fetch.js";
 
 async function searchBooks(query, type) {
   if (type === "isbn") {
-    const res = await safeFetch("https://openlibrary.org/isbn/" + encodeURIComponent(query) + ".json");
+    const res = await safeFetch(
+      "https://openlibrary.org/isbn/" + encodeURIComponent(query) + ".json"
+    );
     const data = await res.json();
     return [
       {
