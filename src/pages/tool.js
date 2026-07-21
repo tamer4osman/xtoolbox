@@ -116,8 +116,12 @@ export async function renderTool(toolId) {
         });
       }
 
-      const recentIds = getRecentTools().filter(id => id !== toolId).slice(0, 6);
-      const recent = recentIds.map(id => toolsData.find(t => t.id === id && t.status === "done")).filter(Boolean);
+      const recentIds = getRecentTools()
+        .filter(id => id !== toolId)
+        .slice(0, 6);
+      const recent = recentIds
+        .map(id => toolsData.find(t => t.id === id && t.status === "done"))
+        .filter(Boolean);
       if (recent.length > 0) {
         const section = document.createElement("section");
         section.className = "related-tools";

@@ -209,9 +209,7 @@ function renderRecentTools() {
     return;
   }
 
-  const recentTools = recentIds
-    .map(id => availableTools.find(t => t.id === id))
-    .filter(Boolean);
+  const recentTools = recentIds.map(id => availableTools.find(t => t.id === id)).filter(Boolean);
 
   if (recentTools.length === 0) {
     strip.style.display = "none";
