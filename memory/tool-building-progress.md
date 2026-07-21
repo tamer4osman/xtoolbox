@@ -16,7 +16,7 @@
 | Meme Generator                  | image        | ✅ Done                                                                                   |
 | Panorama Stitcher               | image        | ✅ Done                                                                                   |
 | Video Cropper                   | video        | ✅ Done                                                                                   |
-| Video Rotator                   | video        | Planned                                                                                   |
+| Video Rotator                   | video        | ✅ Done                                                                                   |
 | Video Volume Adjuster           | video        | Planned                                                                                   |
 | Video Reverser                  | video        | Planned                                                                                   |
 | Video Metadata Editor           | video        | Planned                                                                                   |

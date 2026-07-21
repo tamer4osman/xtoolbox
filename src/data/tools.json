@@ -3031,8 +3031,7 @@
     "icon": "🔃",
     "href": "/tools/video-rotate",
     "keywords": ["rotate", "flip", "video", "degrees"],
-    "status": "planned",
-    "phase": 28
+    "status": "done"
   },
   {
     "id": "video-volume",

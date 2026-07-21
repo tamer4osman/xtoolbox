@@ -3014,7 +3014,7 @@
     "description": "Rotate or flip video by 90/180/270 degrees.",
     "icon": "🔃",
     "href": "/tools/video-rotate",
-    "status": "planned",
+    "status": "done",
     "keywords": ["rotate", "flip", "video", "degrees"]
   },
   {
