@@ -3162,8 +3162,7 @@
     "icon": "🏦",
     "href": "/tools/savings-calc",
     "keywords": ["savings", "interest", "compound", "grow", "money"],
-    "status": "planned",
-    "phase": 28
+    "status": "done"
   },
   {
     "id": "retirement-planner",

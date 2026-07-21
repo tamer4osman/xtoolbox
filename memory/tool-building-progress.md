@@ -32,7 +32,7 @@
 | Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — already has full time zone converter built in |
 | Regex Visualizer                | dev          | Planned                                                                                   |
 | Multi-Country Salary Calculator | finance      | Planned                                                                                   |
-| Savings Calculator              | finance      | Planned                                                                                   |
+| Savings Calculator              | finance      | ✅ Done                                                                                   |
 | Retirement Planner              | finance      | Planned                                                                                   |
 | Expense Splitter                | finance      | Planned                                                                                   |
 | Equation Solver                 | math         | Planned                                                                                   |

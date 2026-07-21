@@ -3134,7 +3134,7 @@
     "description": "Calculate compound interest and savings growth over time.",
     "icon": "🏦",
     "href": "/tools/savings-calc",
-    "status": "planned",
+    "status": "done",
     "keywords": ["savings", "interest", "compound", "grow", "money"]
   },
   {
