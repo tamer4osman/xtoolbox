@@ -46,9 +46,7 @@ describe("createFinanceCalculator", () => {
     const { container } = build();
     expect(container.querySelector(".cf-icon").textContent).toBe("💰");
     expect(container.querySelector("h1").textContent).toBe("Test Finance Tool");
-    expect(container.querySelector(".cf-desc").textContent).toBe(
-      "A test finance calculator."
-    );
+    expect(container.querySelector(".cf-desc").textContent).toBe("A test finance calculator.");
   });
 
   it("renders the form with provided formHTML and a calculate button", () => {
@@ -97,9 +95,7 @@ describe("createFinanceCalculator", () => {
   it("shows the result area after calculation", () => {
     const { container } = build();
     container.querySelector(".cf-calc-btn").click();
-    expect(container.querySelector(".cf-result").classList.contains("cf-hidden")).toBe(
-      false
-    );
+    expect(container.querySelector(".cf-result").classList.contains("cf-hidden")).toBe(false);
   });
 
   it("renders optional extras HTML in the result area", () => {
