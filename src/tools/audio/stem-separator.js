@@ -95,7 +95,10 @@ async function loadORT() {
 }
 
 async function loadModel(ort, onProgress) {
-  const response = await safeFetch(MODEL_URL, { rateLimit: { maxRequests: 3, windowMs: 60000 }, timeoutMs: 60000 });
+  const response = await safeFetch(MODEL_URL, {
+    rateLimit: { maxRequests: 3, windowMs: 60000 },
+    timeoutMs: 60000
+  });
   const total = +response.headers.get("content-length") || 174483046;
   let loaded = 0;
   const reader = response.body.getReader();
