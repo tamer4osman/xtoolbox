@@ -3024,7 +3024,7 @@
     "description": "Adjust or mute audio track volume in video files.",
     "icon": "🔊",
     "href": "/tools/video-volume",
-    "status": "planned",
+    "status": "done",
     "keywords": ["volume", "audio", "video", "mute", "loud"]
   },
   {

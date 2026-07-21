@@ -17,7 +17,7 @@
 | Panorama Stitcher               | image        | ✅ Done                                                                                   |
 | Video Cropper                   | video        | ✅ Done                                                                                   |
 | Video Rotator                   | video        | ✅ Done                                                                                   |
-| Video Volume Adjuster           | video        | Planned                                                                                   |
+| Video Volume Adjuster           | video        | ✅ Done                                                                                   |
 | Video Reverser                  | video        | Planned                                                                                   |
 | Video Metadata Editor           | video        | Planned                                                                                   |
 | Chroma Key Composer             | video        | Planned                                                                                   |
