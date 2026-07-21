@@ -55,6 +55,11 @@
   text-decoration: none;
   color: var(--color-text);
 }
+.btn-secondary.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
 
 .btn-ghost {
   background: transparent;
