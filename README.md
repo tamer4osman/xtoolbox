@@ -1,6 +1,6 @@
 # ToolBox
 
-> 315 free online tools — 100% client-side. Your files never leave your device.
+> 344 free online tools — 100% client-side. Your files never leave your device.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Tools](https://img.shields.io/badge/tools-315-brightgreen)](#categories)
@@ -43,7 +43,7 @@ npm run test       # → Playwright tests
 | Capability          | Description                                                   |
 | ------------------- | ------------------------------------------------------------- |
 | **Privacy-first**   | Zero server uploads — all processing happens in your browser  |
-| **315 tools**       | PDF, image, video, audio, text, code, math, finance, and more |
+| **344 tools**       | PDF, image, video, audio, text, code, math, finance, and more |
 | **No accounts**     | No sign-ups, no tracking, no data collection                  |
 | **Offline-capable** | Service worker + PWA — works without internet                 |
 | **Mobile-friendly** | Responsive design, works on phones and tablets                |
@@ -53,29 +53,29 @@ npm run test       # → Playwright tests
 
 | Category               | Built | Status      | Key Libraries                                |
 | ---------------------- | ----- | ----------- | -------------------------------------------- |
-| **Image**              | 39    | +4 planned  | Canvas API, Cropper.js, Pica, ONNX, heic2any |
-| **Developer**          | 34    | +6 planned  | Custom JS, CodeMirror, sql.js                |
+| **Image**              | 43    | ✅ Complete | Canvas API, Cropper.js, Pica, ONNX, heic2any |
+| **Developer**          | 40    | ✅ Complete | Custom JS, CodeMirror, sql.js                |
 | **Text & Content**     | 35    | ✅ Complete | marked, turndown, js-yaml, SheetJS           |
 | **PDF**                | 33    | ✅ Complete | pdf-lib, PDF.js, jsPDF                       |
-| **Video**              | 19    | +7 planned  | ffmpeg.wasm                                  |
+| **Video**              | 26    | ✅ Complete | ffmpeg.wasm                                  |
 | **CSS & Web Design**   | 20    | ✅ Complete | Custom JS                                    |
-| **Audio**              | 15    | +2 planned  | Web Audio API, lamejs, Wavesurfer.js         |
-| **Business**           | 15    | +1 planned  | Custom JS, jsPDF                             |
-| **Finance**            | 12    | +4 planned  | Chart.js                                     |
-| **Productivity**       | 14    | +4 planned  | Custom JS                                    |
-| **Math**               | 11    | +2 planned  | math.js                                      |
+| **Audio**              | 17    | ✅ Complete | Web Audio API, lamejs, Wavesurfer.js         |
+| **Business**           | 16    | ✅ Complete | Custom JS, jsPDF                             |
+| **Finance**            | 16    | ✅ Complete | Chart.js                                     |
+| **Productivity**       | 18    | ✅ Complete | Custom JS                                    |
+| **Math**               | 13    | ✅ Complete | math.js                                      |
 | **Health**             | 12    | ✅ Complete | Custom JS                                    |
 | **Encoding & Hashing** | 9     | ✅ Complete | Web Crypto API                               |
 | **SEO**                | 8     | ✅ Complete | Custom JS                                    |
-| **Reference**          | 7     | +1 planned  | Free Dictionary API, Open Library            |
-| **Privacy & Security** | 6     | +2 planned  | Web Crypto API                               |
-| **Fun & Games**        | 5     | +1 planned  | Custom JS                                    |
+| **Reference**          | 8     | ✅ Complete | Free Dictionary API, Open Library            |
+| **Privacy & Security** | 8     | ✅ Complete | Web Crypto API                               |
+| **Fun & Games**        | 6     | ✅ Complete | Custom JS                                    |
 | **QR & Barcode**       | 4     | ✅ Complete | qrcode, JsBarcode                            |
 | **OCR**                | 4     | ✅ Complete | Tesseract.js                                 |
 | **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
 | **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
-**Total:** 315 built, 30 planned = 345 tools
+**Total:** 315 built, 29 planned = 344 tools
 
 ## Architecture
 
