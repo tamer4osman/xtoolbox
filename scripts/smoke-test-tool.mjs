@@ -51,7 +51,9 @@ async function smokeTest(toolId) {
 
   const chromePath = findChrome();
   if (!chromePath) {
-    console.log(`${RED}✗ Chrome/Edge not found. Set CHROME_PATH or run: npx playwright install chromium${RESET}`);
+    console.log(
+      `${RED}✗ Chrome/Edge not found. Set CHROME_PATH or run: npx playwright install chromium${RESET}`
+    );
     return false;
   }
 
@@ -115,10 +117,7 @@ async function smokeTest(toolId) {
     if (!headerText) {
       failWith("Tool header h1 not found", "Expected .tool-header h1 to exist");
     } else if (!headerText.includes(toolMeta.name)) {
-      failWith(
-        `Header h1 mismatch`,
-        `Expected to contain "${toolMeta.name}", got "${headerText}"`
-      );
+      failWith(`Header h1 mismatch`, `Expected to contain "${toolMeta.name}", got "${headerText}"`);
     } else {
       pass(`Header h1 matches tool name ("${headerText}")`);
     }
@@ -140,7 +139,10 @@ async function smokeTest(toolId) {
     if (primaryControl) {
       pass("Primary interactive control found (input/button/textarea/select)");
     } else {
-      failWith("No primary interactive control found", "Expected at least one button, input, textarea, or select inside #tool-container");
+      failWith(
+        "No primary interactive control found",
+        "Expected at least one button, input, textarea, or select inside #tool-container"
+      );
     }
 
     const hasErrorState = await page.evaluate(() => {
@@ -150,7 +152,9 @@ async function smokeTest(toolId) {
     });
     if (hasErrorState) {
       const errorText = await page.evaluate(() => {
-        const el = document.querySelector("#tool-container .error-state, #tool-container .error-page");
+        const el = document.querySelector(
+          "#tool-container .error-state, #tool-container .error-page"
+        );
         return el ? el.textContent.trim().slice(0, 200) : "";
       });
       failWith("Tool rendered an error state", errorText);
@@ -161,7 +165,13 @@ async function smokeTest(toolId) {
     await page.waitForTimeout(800);
 
     const relevantErrors = consoleErrors.filter(text => {
-      if (text.includes("third-party") || text.includes("doubleclick") || text.includes("googlesyndication") || text.includes("adsbygoogle")) return false;
+      if (
+        text.includes("third-party") ||
+        text.includes("doubleclick") ||
+        text.includes("googlesyndication") ||
+        text.includes("adsbygoogle")
+      )
+        return false;
       if (text.includes("favicon.ico")) return false;
       if (text.includes("DevTools failed to load")) return false;
       return true;
@@ -169,7 +179,10 @@ async function smokeTest(toolId) {
     if (relevantErrors.length === 0) {
       pass("0 console errors");
     } else {
-      failWith(`${relevantErrors.length} console error(s)`, relevantErrors.slice(0, 3).join("\n      "));
+      failWith(
+        `${relevantErrors.length} console error(s)`,
+        relevantErrors.slice(0, 3).join("\n      ")
+      );
     }
 
     const relevantPageErrors = pageErrors.filter(text => {
@@ -179,12 +192,20 @@ async function smokeTest(toolId) {
     if (relevantPageErrors.length === 0) {
       pass("0 uncaught page errors");
     } else {
-      failWith(`${relevantPageErrors.length} uncaught page error(s)`, relevantPageErrors.slice(0, 3).join("\n      "));
+      failWith(
+        `${relevantPageErrors.length} uncaught page error(s)`,
+        relevantPageErrors.slice(0, 3).join("\n      ")
+      );
     }
 
     const relevantNetFailures = networkFailures.filter(f => {
       if (f.url.includes("favicon.ico")) return false;
-      if (f.url.includes("doubleclick") || f.url.includes("googlesyndication") || f.url.includes("adsbygoogle")) return false;
+      if (
+        f.url.includes("doubleclick") ||
+        f.url.includes("googlesyndication") ||
+        f.url.includes("adsbygoogle")
+      )
+        return false;
       return true;
     });
     if (relevantNetFailures.length === 0) {
@@ -198,11 +219,15 @@ async function smokeTest(toolId) {
     }
 
     if (consoleWarnings.length > 0) {
-      console.log(`  ${YELLOW}!${RESET} ${consoleWarnings.length} console warning(s) (acceptable, review for new issues)`);
+      console.log(
+        `  ${YELLOW}!${RESET} ${consoleWarnings.length} console warning(s) (acceptable, review for new issues)`
+      );
     }
-
   } catch (err) {
-    failWith(`Smoke test threw: ${err.message}`, err.stack?.split("\n").slice(0, 3).join("\n      "));
+    failWith(
+      `Smoke test threw: ${err.message}`,
+      err.stack?.split("\n").slice(0, 3).join("\n      ")
+    );
   } finally {
     await browser.close();
   }

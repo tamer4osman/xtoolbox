@@ -15,9 +15,7 @@ const destDir = resolve(root, "public/ffmpeg-core");
 const files = ["ffmpeg-core.js", "ffmpeg-core.wasm"];
 
 if (!existsSync(srcDir)) {
-  console.error(
-    "[copy-ffmpeg-core] @ffmpeg/core not found. Run `npm install` first."
-  );
+  console.error("[copy-ffmpeg-core] @ffmpeg/core not found. Run `npm install` first.");
   process.exit(1);
 }
 
