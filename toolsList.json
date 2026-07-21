@@ -3034,7 +3034,7 @@
     "description": "Reverse video playback direction with audio.",
     "icon": "⏪",
     "href": "/tools/video-reverse",
-    "status": "planned",
+    "status": "done",
     "keywords": ["reverse", "backward", "video", "rewind"]
   },
   {

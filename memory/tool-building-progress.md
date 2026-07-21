@@ -18,7 +18,7 @@
 | Video Cropper                   | video        | ✅ Done                                                                                   |
 | Video Rotator                   | video        | ✅ Done                                                                                   |
 | Video Volume Adjuster           | video        | ✅ Done                                                                                   |
-| Video Reverser                  | video        | Planned                                                                                   |
+| Video Reverser                  | video        | ✅ Done                                                                                   |
 | Video Metadata Editor           | video        | Planned                                                                                   |
 | Chroma Key Composer             | video        | Planned                                                                                   |
 | Video Scene Cut Detector        | video        | Planned                                                                                   |
