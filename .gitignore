@@ -17,6 +17,7 @@ playwright-temp.config.js
 
 # Agent state
 .openclaw/
+.playwright-mcp/
 
 # Vite cache (redirected from node_modules/.vite due to Windows AV lock on this dev box)
 .vite-cache/
