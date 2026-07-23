@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 315 built, 30 planned = 345 total
+## Current Status: 316 built, 29 planned = 345 total
 
 ### Phase 28 — Legacy Tool Catch-Up (36 planned, 6 built)
 
@@ -42,7 +42,7 @@
 | Mind Map Maker                  | productivity | Planned                                                                                   |
 | Kanban Board                    | productivity | Planned                                                                                   |
 | Timesheet Tracker               | productivity | Planned                                                                                   |
-| Browser Fingerprint Checker     | privacy      | Planned                                                                                   |
+| Browser Fingerprint Checker     | privacy      | ✅ Done                                                                                   |
 | Password Breach Checker         | privacy      | Planned                                                                                   |
 | Resume Job Matcher              | business     | Planned                                                                                   |
 | Link Preview Generator          | reference    | Planned                                                                                   |

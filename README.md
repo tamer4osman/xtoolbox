@@ -1,9 +1,9 @@
 # ToolBox
 
-> 344 free online tools — 100% client-side. Your files never leave your device.
+> 345 free online tools — 100% client-side. Your files never leave your device.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tools](https://img.shields.io/badge/tools-315-brightgreen)](#categories)
+[![Tools](https://img.shields.io/badge/tools-316-brightgreen)](#categories)
 [![Phases](https://img.shields.io/badge/phases-27%2F28-complete-orange)](#build-progress)
 [![Stack](https://img.shields.io/badge/stack-Vite%20%2B%20WASM-lightgrey)](#stack)
 
@@ -43,7 +43,7 @@ npm run test       # → Playwright tests
 | Capability          | Description                                                   |
 | ------------------- | ------------------------------------------------------------- |
 | **Privacy-first**   | Zero server uploads — all processing happens in your browser  |
-| **344 tools**       | PDF, image, video, audio, text, code, math, finance, and more |
+| **345 tools**       | PDF, image, video, audio, text, code, math, finance, and more |
 | **No accounts**     | No sign-ups, no tracking, no data collection                  |
 | **Offline-capable** | Service worker + PWA — works without internet                 |
 | **Mobile-friendly** | Responsive design, works on phones and tablets                |
@@ -68,14 +68,14 @@ npm run test       # → Playwright tests
 | **Encoding & Hashing** | 9     | ✅ Complete | Web Crypto API                               |
 | **SEO**                | 8     | ✅ Complete | Custom JS                                    |
 | **Reference**          | 8     | ✅ Complete | Free Dictionary API, Open Library            |
-| **Privacy & Security** | 8     | ✅ Complete | Web Crypto API                               |
+| **Privacy & Security** | 9     | ✅ Complete | Web Crypto API                               |
 | **Fun & Games**        | 6     | ✅ Complete | Custom JS                                    |
 | **QR & Barcode**       | 4     | ✅ Complete | qrcode, JsBarcode                            |
 | **OCR**                | 4     | ✅ Complete | Tesseract.js                                 |
 | **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
 | **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
-**Total:** 319 built, 25 planned = 344 tools
+**Total:** 320 built, 25 planned = 345 tools
 
 ## Architecture
 
@@ -134,7 +134,7 @@ toolbox/
 │   ├── components/          ← 15 reusable UI components
 │   ├── utils/               ← Shared utilities
 │   ├── pages/               ← Page templates
-│   ├── tools/               ← 315 tool implementations
+│   ├── tools/               ← 316 tool implementations
 │   │   ├── pdf/             ← 33 PDF tools
 │   │   ├── image/           ← 39 image tools
 │   │   ├── video/           ← 19 video tools

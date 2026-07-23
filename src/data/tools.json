@@ -3265,11 +3265,11 @@
     "id": "browser-fingerprint-checker",
     "name": "Browser Fingerprint Checker",
     "category": "privacy",
-    "description": "See what a website can learn about your browser without cookies.",
+    "description": "See what a website can learn about your browser without cookies. All checks run locally.",
     "icon": "🔍",
     "href": "/tools/browser-fingerprint-checker",
-    "keywords": ["fingerprint", "browser", "privacy", "tracking", "canvas"],
-    "status": "planned",
+    "keywords": ["fingerprint", "browser", "privacy", "tracking", "canvas", "webgl", "navigator"],
+    "status": "done",
     "phase": 28
   },
   {

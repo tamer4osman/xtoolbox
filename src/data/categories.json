@@ -102,7 +102,7 @@
     "name": "Privacy & Security",
     "icon": "🔒",
     "description": "Encrypt files, generate passwords, remove metadata",
-    "toolCount": 8
+    "toolCount": 9
   },
   {
     "id": "fun",
