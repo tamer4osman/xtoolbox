@@ -95,11 +95,25 @@ Use the `grill-me` skill to interview the user on every design decision before w
 
 **How to grill:**
 
-1. Ask questions **one at a time**, waiting for feedback on each before continuing. Asking multiple questions at once is bewildering.
-2. For each question, provide your **recommended answer** — don't ask open-ended questions without a suggestion.
-3. Walk down each branch of the decision tree, resolving dependencies between decisions one-by-one.
+1. Ask questions **one batch at a time** (3-4 questions per batch is fine), using **multiple choice format** with 2-4 options each.
+2. For each question, provide your **recommended answer** clearly labeled as "Recommended" — the user can pick any option or choose the recommendation.
+3. After presenting all questions in the batch, wait for the user's selections before moving to the next batch (if any).
 4. If a _fact_ can be found by exploring the environment (filesystem, tools, existing tools), look it up rather than asking.
 5. The _decisions_ are the user's — put each one to them and wait for their answer.
+
+**Question format template:**
+
+```
+**Question N of M: [Topic]**
+
+[Context sentence]
+
+- **A) [Option]** — [description] (matches spec / simplest / etc.)
+- **B) [Option]** — [description]
+- **C) [Option]** — [description]
+
+Recommended: **A** — [one-line reason]
+```
 
 **What to grill on (minimum):**
 
