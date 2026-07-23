@@ -61,7 +61,7 @@ npm run test       # → Playwright tests
 | **CSS & Web Design**   | 20    | ✅ Complete | Custom JS                                    |
 | **Audio**              | 17    | ✅ Complete | Web Audio API, lamejs, Wavesurfer.js         |
 | **Business**           | 16    | ✅ Complete | Custom JS, jsPDF                             |
-| **Finance**            | 16    | ✅ Complete | Chart.js                                     |
+| **Finance**            | 17    | ✅ Complete | Chart.js                                     |
 | **Productivity**       | 18    | ✅ Complete | Custom JS                                    |
 | **Math**               | 13    | ✅ Complete | math.js                                      |
 | **Health**             | 12    | ✅ Complete | Custom JS                                    |
@@ -75,7 +75,7 @@ npm run test       # → Playwright tests
 | **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
 | **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
-**Total:** 320 built, 25 planned = 345 tools
+**Total:** 321 built, 24 planned = 345 tools
 
 ## Architecture
 

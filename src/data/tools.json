@@ -3279,8 +3279,8 @@
     "description": "Split bills and expenses fairly among groups of people.",
     "icon": "💸",
     "href": "/tools/expense-splitter",
-    "keywords": ["expense", "split", "bill", "group", "share"],
-    "status": "planned",
+    "keywords": ["expense", "split", "bill", "group", "share", "debt"],
+    "status": "done",
     "phase": 28
   },
   {

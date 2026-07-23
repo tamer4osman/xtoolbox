@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 316 built, 29 planned = 345 total
+## Current Status: 317 built, 28 planned = 345 total
 
 ### Phase 28 — Legacy Tool Catch-Up (36 planned, 6 built)
 
@@ -34,7 +34,7 @@
 | Multi-Country Salary Calculator | finance      | Planned                                                                                   |
 | Savings Calculator              | finance      | ✅ Done                                                                                   |
 | Retirement Planner              | finance      | Planned                                                                                   |
-| Expense Splitter                | finance      | Planned                                                                                   |
+| Expense Splitter                | finance      | ✅ Done                                                                                   |
 | Equation Solver                 | math         | Planned                                                                                   |
 | Matrix Calculator               | math         | Planned                                                                                   |
 | Statistics Calculator           | math         | ✅ Done                                                                                   |
