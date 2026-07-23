@@ -537,7 +537,7 @@ When building a new tool, ALWAYS follow this exact sequence:
 2. **Webfetch best practices**: Use `webfetch` to pull authoritative documentation for the chosen approach (official library docs, tutorials, reference implementations). Document findings. If docs reveal a better approach, re-confirm with user.
 3. **Grill the design**: Use the `grill-me` skill to interview the user on every design decision before writing code. Resolve dependencies one-by-one, walking down each branch of the decision tree. For each question, provide your recommended answer and wait for the user's response. Do not proceed until you reach a shared understanding on: UI layout, library choices, factory pattern to use, edge cases, error handling, and any tool-specific decisions.
 4. **Create the tool**: Implementation file in `src/tools/<category>/<tool>.js`
-5. **Security review**: Check the tool against the security checklist (Step 6 in tool-builder skill):
+5. **Security review**: Check the tool against the security checklist (Step 5 in tool-builder skill):
    - No raw `fetch()` — use `safeFetch()` from `src/utils/safe-fetch.js`
    - HTTPS only, no API keys, no `eval()`/`new Function()`
    - No `innerHTML` with user input — use `escapeHtml()`
