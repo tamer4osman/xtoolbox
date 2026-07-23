@@ -3256,8 +3256,8 @@
     "description": "Create visual mind maps with drag-and-drop nodes.",
     "icon": "🧠",
     "href": "/tools/mind-map-maker",
-    "status": "planned",
-    "keywords": ["mind", "map", "brainstorm", "visual", "organize"]
+    "status": "done",
+    "keywords": ["mind", "map", "brainstorm", "visual", "organize", "diagram"]
   },
   {
     "id": "kanban-board",

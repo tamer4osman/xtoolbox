@@ -3290,8 +3290,8 @@
     "description": "Create visual mind maps with drag-and-drop nodes.",
     "icon": "🧠",
     "href": "/tools/mind-map-maker",
-    "keywords": ["mind", "map", "brainstorm", "visual", "organize"],
-    "status": "planned",
+    "keywords": ["mind", "map", "brainstorm", "visual", "organize", "diagram"],
+    "status": "done",
     "phase": 28
   },
   {

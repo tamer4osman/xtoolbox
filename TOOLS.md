@@ -4,7 +4,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 
 ## Project: xtoolbox
 
-A client-side web app with 345 online tools (317 built, 28 planned). All processing happens in the browser.
+A client-side web app with 345 online tools (318 built, 27 planned). All processing happens in the browser.
 
 ### Build Commands
 
