@@ -1,5 +1,5 @@
 import { createVideoTool } from "./video-tool-factory.js";
-import { readFFmpegFile } from "./video-utils.js";
+import { loadFFmpeg, readFFmpegFile, writeUploadedFile } from "./video-utils.js";
 import { downloadBlob } from "../../utils/file.js";
 import { escapeHtml } from "../../utils/escape-html.js";
 
@@ -46,6 +46,8 @@ const STANDARD_FIELDS = [
   { key: "copyright", label: "Copyright", placeholder: "Copyright notice" }
 ];
 
+const FIELD_MAP = Object.fromEntries(STANDARD_FIELDS.map(f => [f.key, f]));
+
 function buildFieldsHTML() {
   return STANDARD_FIELDS.map(
     f => `
@@ -64,6 +66,34 @@ function buildCustomPairsHTML() {
   `;
 }
 
+function parseMetadataOutput(logOutput) {
+  const tags = {};
+  for (const line of logOutput.split("\n")) {
+    const m = line.match(/^\s+(\w[\w\s]*?)\s*:\s*(.+)/);
+    if (!m) continue;
+    const key = m[1].trim().toLowerCase().replace(/\s+/g, "_");
+    const val = m[2].trim();
+    if (val && val !== "N/A" && FIELD_MAP[key]) {
+      tags[key] = val;
+    }
+  }
+  return tags;
+}
+
+function addCustomPair(pairsContainer, ctx, key, val) {
+  const id = ++ctx.pairCount;
+  const row = document.createElement("div");
+  row.style.cssText =
+    "display:flex;gap:var(--space-2);margin-bottom:var(--space-2);align-items:center;";
+  row.innerHTML = `
+    <input type="text" id="custom-key-${id}" class="form-control" placeholder="Tag name" style="flex:1;" value="${escapeHtml(key || "")}" />
+    <input type="text" id="custom-val-${id}" class="form-control" placeholder="Value" style="flex:2;" value="${escapeHtml(val || "")}" />
+    <button class="btn btn-sm btn-danger" data-remove="${id}" title="Remove">✕</button>
+  `;
+  pairsContainer.appendChild(row);
+  row.querySelector(`[data-remove="${id}"]`).addEventListener("click", () => row.remove());
+}
+
 export const render = createVideoTool({
   maxSizeMB: 500,
   processingText: "Saving metadata...",
@@ -75,7 +105,16 @@ export const render = createVideoTool({
     <h3 style="font-size:1rem;margin:var(--space-4) 0 var(--space-3);">Custom Tags</h3>
     ${buildCustomPairsHTML()}
   `,
-  onFileLoaded(videoInfo, tctx) {
+  onRender(tctx) {
+    const pairsContainer = tctx.query("#custom-pairs");
+    const ctx = { pairCount: 0 };
+    tctx.container._metaCtx = ctx;
+
+    tctx.query("#add-pair-btn").addEventListener("click", () => {
+      addCustomPair(pairsContainer, ctx);
+    });
+  },
+  onFileLoaded(videoInfo, tctx, currentFile) {
     const display = tctx.query("#metadata-display");
     display.innerHTML = `
       <div class="file-info" style="padding:var(--space-3);background:var(--color-bg-secondary);border-radius:var(--radius-md);margin-bottom:var(--space-3);">
@@ -85,27 +124,52 @@ export const render = createVideoTool({
           <span><strong>Type:</strong> ${escapeHtml(videoInfo.type || "unknown")}</span>
         </div>
       </div>
-      <p style="font-size:0.875rem;color:var(--color-text-secondary);">Current metadata will be shown after loading. Edit fields below and save.</p>
     `;
 
-    let pairCount = 0;
     const pairsContainer = tctx.query("#custom-pairs");
+    pairsContainer.innerHTML = "";
+    const ctx = tctx.container._metaCtx;
+    ctx.pairCount = 0;
 
-    tctx.query("#add-pair-btn").addEventListener("click", () => {
-      pairCount++;
-      const id = pairCount;
-      const row = document.createElement("div");
-      row.style.cssText =
-        "display:flex;gap:var(--space-2);margin-bottom:var(--space-2);align-items:center;";
-      row.innerHTML = `
-        <input type="text" id="custom-key-${id}" class="form-control" placeholder="Tag name" style="flex:1;" />
-        <input type="text" id="custom-val-${id}" class="form-control" placeholder="Value" style="flex:2;" />
-        <button class="btn btn-sm btn-danger" data-remove="${id}" title="Remove">✕</button>
-      `;
-      pairsContainer.appendChild(row);
+    for (const field of STANDARD_FIELDS) {
+      const input = tctx.query(`#meta-${field.key}`);
+      if (input) input.value = "";
+    }
 
-      row.querySelector(`[data-remove="${id}"]`).addEventListener("click", () => row.remove());
-    });
+    const probeMetadata = async () => {
+      try {
+        const ffmpeg = await loadFFmpeg();
+        const ext = videoInfo.name.split(".").pop() || "mp4";
+        const inputName = `meta-probe.${ext}`;
+        await writeUploadedFile(ffmpeg, currentFile, inputName);
+
+        let logOutput = "";
+        const onLog = ({ message }) => {
+          logOutput += message + "\n";
+        };
+        ffmpeg.on("log", onLog);
+        try {
+          await ffmpeg.exec(["-i", inputName], 5000);
+        } catch {}
+        ffmpeg.off("log", onLog);
+        await ffmpeg.deleteFile(inputName);
+
+        const tags = parseMetadataOutput(logOutput);
+        for (const [key, val] of Object.entries(tags)) {
+          const input = tctx.query(`#meta-${key}`);
+          if (input) input.value = val;
+        }
+
+        if (Object.keys(tags).length > 0) {
+          display.insertAdjacentHTML(
+            "beforeend",
+            `<p style="font-size:0.875rem;color:var(--color-text-secondary);margin-top:var(--space-2);">Existing metadata loaded — edit fields below.</p>`
+          );
+        }
+      } catch {}
+    };
+
+    probeMetadata();
   },
   async onProcess(ffmpeg, inputName, videoInfo, tctx) {
     const ext = inputName.split(".").pop() || "mp4";

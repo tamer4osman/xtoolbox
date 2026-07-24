@@ -8,6 +8,7 @@ export function createVideoTool({
   processingText = "Processing...",
   actionBtnLabel = "Process",
   onFileLoaded,
+  onRender,
   onProcess,
   destroy: onDestroy
 }) {
@@ -23,7 +24,7 @@ export function createVideoTool({
         if (files.length === 0) return;
         currentFile = files[0];
         videoInfo = await getVideoInfo(currentFile);
-        if (onFileLoaded) onFileLoaded(videoInfo, tctx);
+        if (onFileLoaded) onFileLoaded(videoInfo, tctx, currentFile);
         optionsArea.style.display = "block";
       }
     });
@@ -77,6 +78,8 @@ export function createVideoTool({
         actionBtn.style.display = "inline-flex";
       }
     });
+
+    if (onRender) onRender(tctx);
 
     if (onDestroy) container._destroy = onDestroy;
   };
