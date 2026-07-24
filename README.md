@@ -51,7 +51,7 @@ npm run test       # → Playwright tests
 
 ## Categories
 
-| Category               | Built | Status      | Key Libraries                                |
+| Category               | Tools | Status      | Key Libraries                                |
 | ---------------------- | ----- | ----------- | -------------------------------------------- |
 | **Image**              | 43    | ✅ Complete | Canvas API, Cropper.js, Pica, ONNX, heic2any |
 | **Developer**          | 40    | ✅ Complete | Custom JS, CodeMirror, sql.js                |
@@ -121,7 +121,7 @@ graph TB
 | 25: Most Wanted          | 23    | ✅ Complete    |
 | 26: Uncommon High-Demand | 16    | ✅ Complete    |
 | 27: High-Demand          | 19    | ✅ Complete    |
-| 28: Legacy Catch-Up      | 6/37  | 🟡 In Progress |
+| 28: Legacy Catch-Up      | 7/36  | 🟡 In Progress |
 
 ## Project Structure
 
@@ -134,12 +134,12 @@ toolbox/
 │   ├── components/          ← 15 reusable UI components
 │   ├── utils/               ← Shared utilities
 │   ├── pages/               ← Page templates
-│   ├── tools/               ← 316 tool implementations
+│   ├── tools/               ← 323 tool implementations
 │   │   ├── pdf/             ← 33 PDF tools
-│   │   ├── image/           ← 39 image tools
-│   │   ├── video/           ← 19 video tools
-│   │   ├── audio/           ← 15 audio tools
-│   │   ├── dev/             ← 34 developer tools
+│   │   ├── image/           ← 43 image tools
+│   │   ├── video/           ← 26 video tools
+│   │   ├── audio/           ← 17 audio tools
+│   │   ├── dev/             ← 40 developer tools
 │   │   ├── text/            ← 35 text tools
 │   │   └── ...              ← 15 more categories
 │   └── data/                ← tools.json, categories.json

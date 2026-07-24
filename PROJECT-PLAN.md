@@ -173,20 +173,19 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Visualization | 4     |
 | Weather       | 4     |
 
-### Planned Tools (36)
+### Planned Tools (21)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
-**Phase 28 — Legacy Catch-Up (24 original + 12 new from instructions review):**
+**Phase 28 — Legacy Catch-Up (remaining):**
 
-- Image basics: image-blur, image-compare, image-meme
-- Video basics: video-crop, video-rotate, video-volume, video-reverse, video-metadata-editor, chroma-key-composer, video-scene-cut-detector, video-stabilizer
+- Video: chroma-key-composer, video-scene-cut-detector
 - Audio: audio-pitch, audio-to-midi-converter
-- Dev playgrounds: js-playground, html-playground, json-schema-validator, env-parser, timezone-converter, regex-visualizer
-- Finance: salary-calc, savings-calc, retirement-planner, expense-splitter
+- Dev: js-playground, html-playground, json-schema-validator, env-parser, regex-visualizer
+- Finance: salary-calc, retirement-planner
 - Math: equation-solver, matrix-calc
-- Productivity: decision-matrix, mind-map-maker, kanban-board, timesheet-tracker
-- Privacy: browser-fingerprint-checker, password-breach-checker
+- Productivity: decision-matrix, kanban-board, timesheet-tracker
+- Privacy: password-breach-checker
 - Business: resume-job-matcher
 - Reference: link-preview
 - Fun: name-generator
@@ -796,27 +795,6 @@ All use ffmpeg.wasm for processing.
   - For audio-only reversal: omit `-vf reverse`
   - Large files may require significant memory; show warning for >100MB files
   - Processing time scales linearly with duration
-
-#### video-metadata-editor
-
-- **File:** `src/tools/video/video-metadata-editor.js`
-- **Category:** video
-- **Purpose:** View and edit video metadata tags (title, author, description, etc.)
-- **Library:** ffmpeg.wasm
-- **UI:**
-  1. Video file upload (accept `.mp4,.webm,.mov,.avi`)
-  2. Current metadata display (read-only fields from file)
-  3. Editable fields: Title, Artist, Album, Year, Genre, Description, Copyright
-  4. Custom metadata key-value pairs (add/remove)
-  5. Poster/thumbnail image upload (for supported formats)
-  6. Save Metadata button
-  7. Download file with updated metadata
-- **Implementation notes:**
-  - Use `ffmpeg -i input -metadata key=value output`
-  - For MP4: `title`, `artist`, `album`, `genre`, `date`, `comment`
-  - For WebM/MKV: supports arbitrary tags
-  - Preserve all video/audio streams when remuxing
-  - Show file size difference before/after
 
 #### Audio Basics (4 tools)
 

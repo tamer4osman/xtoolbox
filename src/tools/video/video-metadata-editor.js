@@ -36,7 +36,7 @@ export const toolConfig = {
   ]
 };
 
-const STANDARD_FIELDS = [
+export const STANDARD_FIELDS = [
   { key: "title", label: "Title", placeholder: "Video title" },
   { key: "artist", label: "Artist", placeholder: "Author or creator" },
   { key: "album", label: "Album", placeholder: "Album or collection" },

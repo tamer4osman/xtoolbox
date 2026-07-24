@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { toolConfig } from "../tools/video/video-metadata-editor.js";
+import { toolConfig, STANDARD_FIELDS } from "../tools/video/video-metadata-editor.js";
 
 describe("video-metadata-editor", () => {
   it("has correct toolConfig", () => {
@@ -20,9 +20,9 @@ describe("video-metadata-editor", () => {
 
   it("standard fields cover expected metadata keys", () => {
     const expectedKeys = ["title", "artist", "album", "date", "genre", "comment", "copyright"];
-    const configKeys = toolConfig.keywords;
+    const fieldKeys = STANDARD_FIELDS.map(f => f.key);
     for (const key of expectedKeys) {
-      expect(configKeys.some(k => k.includes(key)) || true).toBe(true);
+      expect(fieldKeys).toContain(key);
     }
   });
 
