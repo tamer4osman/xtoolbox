@@ -1,9 +1,9 @@
 # ToolBox
 
-> 345 free online tools — 100% client-side. Your files never leave your device.
+> 344 free online tools — 100% client-side. Your files never leave your device.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tools](https://img.shields.io/badge/tools-316-brightgreen)](#categories)
+[![Tools](https://img.shields.io/badge/tools-323-brightgreen)](#categories)
 [![Phases](https://img.shields.io/badge/phases-27%2F28-complete-orange)](#build-progress)
 [![Stack](https://img.shields.io/badge/stack-Vite%20%2B%20WASM-lightgrey)](#stack)
 
@@ -43,7 +43,7 @@ npm run test       # → Playwright tests
 | Capability          | Description                                                   |
 | ------------------- | ------------------------------------------------------------- |
 | **Privacy-first**   | Zero server uploads — all processing happens in your browser  |
-| **345 tools**       | PDF, image, video, audio, text, code, math, finance, and more |
+| **344 tools**       | PDF, image, video, audio, text, code, math, finance, and more |
 | **No accounts**     | No sign-ups, no tracking, no data collection                  |
 | **Offline-capable** | Service worker + PWA — works without internet                 |
 | **Mobile-friendly** | Responsive design, works on phones and tablets                |
@@ -57,7 +57,7 @@ npm run test       # → Playwright tests
 | **Developer**          | 40    | ✅ Complete | Custom JS, CodeMirror, sql.js                |
 | **Text & Content**     | 35    | ✅ Complete | marked, turndown, js-yaml, SheetJS           |
 | **PDF**                | 33    | ✅ Complete | pdf-lib, PDF.js, jsPDF                       |
-| **Video**              | 26    | ✅ Complete | ffmpeg.wasm                                  |
+| **Video**              | 27    | ✅ Complete | ffmpeg.wasm                                  |
 | **CSS & Web Design**   | 20    | ✅ Complete | Custom JS                                    |
 | **Audio**              | 17    | ✅ Complete | Web Audio API, lamejs, Wavesurfer.js         |
 | **Business**           | 16    | ✅ Complete | Custom JS, jsPDF                             |
@@ -75,7 +75,7 @@ npm run test       # → Playwright tests
 | **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
 | **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
-**Total:** 322 built, 23 planned = 345 tools
+**Total:** 323 built, 21 planned = 344 tools
 
 ## Architecture
 

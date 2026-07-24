@@ -10,8 +10,8 @@
 
 ## Recent Achievements (2026-07-06)
 
-- Phase 28 tool 1/36 built: Image Blur (image category).
-- 345 total tools (318 built, 27 planned).
+- Phase 28 tool 7/36 built: Video Metadata Editor (video category).
+- 344 total tools (323 built, 21 planned).
 
 - Phase 27 complete: all 19 High-Demand Tools built and registered (308 total).
 - Remaining: Phase 28 — Legacy Catch-Up (36 planned tools).

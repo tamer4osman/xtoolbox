@@ -3059,10 +3059,10 @@
     "name": "Video Metadata Editor",
     "category": "video",
     "description": "Edit video metadata tags including title, author, and dates.",
-    "icon": "🏷️",
+    "icon": "🎬",
     "href": "/tools/video-metadata-editor",
-    "keywords": ["metadata", "tags", "video", "edit", "info"],
-    "status": "planned",
+    "keywords": ["metadata", "tags", "video", "edit", "info", "title", "author"],
+    "status": "done",
     "phase": 28
   },
   {

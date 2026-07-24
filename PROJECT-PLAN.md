@@ -145,7 +145,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 
 ## Current Status
 
-**Total tools:** 345 (318 built, 27 planned)
+**Total tools:** 344 (323 built, 21 planned)
 
 ### Categories (with actual tool counts)
 
@@ -155,7 +155,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Dev           | 40    |
 | Text          | 35    |
 | PDF           | 33    |
-| Video         | 26    |
+| Video         | 27    |
 | Audio         | 17    |
 | Finance       | 17    |
 | Business      | 16    |

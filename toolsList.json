@@ -3042,10 +3042,10 @@
     "name": "Video Metadata Editor",
     "category": "video",
     "description": "Edit video metadata tags including title, author, and dates.",
-    "icon": "🏷️",
+    "icon": "🎬",
     "href": "/tools/video-metadata-editor",
-    "status": "planned",
-    "keywords": ["metadata", "tags", "video", "edit", "info"]
+    "status": "done",
+    "keywords": ["metadata", "tags", "video", "edit", "info", "title", "author"]
   },
   {
     "id": "audio-pitch",
