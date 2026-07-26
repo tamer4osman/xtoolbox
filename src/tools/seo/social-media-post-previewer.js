@@ -1,4 +1,5 @@
 import { safeFetch } from "../../utils/safe-fetch.js";
+import { escapeHtml } from "../../utils/escape-html.js";
 
 const CORS_PROXIES = [
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
@@ -54,11 +55,11 @@ function renderTwitterCard(meta, imageUrl) {
     <div class="preview-card twitter-card">
       <div class="preview-label">X (Twitter)</div>
       <div class="twitter-card-inner">
-        ${imageUrl ? `<img class="twitter-img" src="${imageUrl}" alt="" onerror="this.style.display='none'">` : ""}
+        ${imageUrl ? `<img class="twitter-img" src="${escapeHtml(imageUrl)}" alt="" onerror="this.style.display='none'">` : ""}
         <div class="twitter-text">
-          <div class="twitter-title">${truncate(meta.title, 70)}</div>
-          <div class="twitter-desc">${truncate(meta.description, 200)}</div>
-          <div class="twitter-url"><span class="twitter-domain">${getDomain(meta.url)}</span></div>
+          <div class="twitter-title">${escapeHtml(truncate(meta.title, 70))}</div>
+          <div class="twitter-desc">${escapeHtml(truncate(meta.description, 200))}</div>
+          <div class="twitter-url"><span class="twitter-domain">${escapeHtml(getDomain(meta.url))}</span></div>
         </div>
       </div>
     </div>
@@ -69,11 +70,11 @@ function renderFacebookCard(meta, imageUrl) {
   return `
     <div class="preview-card facebook-card">
       <div class="preview-label">Facebook</div>
-      ${imageUrl ? `<img class="fb-img" src="${imageUrl}" alt="" onerror="this.style.display='none'">` : ""}
+      ${imageUrl ? `<img class="fb-img" src="${escapeHtml(imageUrl)}" alt="" onerror="this.style.display='none'">` : ""}
       <div class="fb-text">
-        <div class="fb-url">${getDomain(meta.url).toUpperCase()}</div>
-        <div class="fb-title">${truncate(meta.title, 100)}</div>
-        <div class="fb-desc">${truncate(meta.description, 200)}</div>
+        <div class="fb-url">${escapeHtml(getDomain(meta.url).toUpperCase())}</div>
+        <div class="fb-title">${escapeHtml(truncate(meta.title, 100))}</div>
+        <div class="fb-desc">${escapeHtml(truncate(meta.description, 200))}</div>
       </div>
     </div>
   `;
@@ -83,11 +84,11 @@ function renderLinkedInCard(meta, imageUrl) {
   return `
     <div class="preview-card linkedin-card">
       <div class="preview-label">LinkedIn</div>
-      ${imageUrl ? `<img class="li-img" src="${imageUrl}" alt="" onerror="this.style.display='none'">` : ""}
+      ${imageUrl ? `<img class="li-img" src="${escapeHtml(imageUrl)}" alt="" onerror="this.style.display='none'">` : ""}
       <div class="li-text">
-        <div class="li-title">${truncate(meta.title, 70)}</div>
-        <div class="li-desc">${truncate(meta.description, 200)}</div>
-        <div class="li-url">${getDomain(meta.url)}</div>
+        <div class="li-title">${escapeHtml(truncate(meta.title, 70))}</div>
+        <div class="li-desc">${escapeHtml(truncate(meta.description, 200))}</div>
+        <div class="li-url">${escapeHtml(getDomain(meta.url))}</div>
       </div>
     </div>
   `;
@@ -99,12 +100,12 @@ function renderInstagramCard(meta, imageUrl) {
       <div class="preview-label">Instagram</div>
       <div class="ig-header">
         <div class="ig-avatar"></div>
-        <div class="ig-user">${meta.siteName || getDomain(meta.url)}</div>
+        <div class="ig-user">${escapeHtml(meta.siteName || getDomain(meta.url))}</div>
       </div>
-      ${imageUrl ? `<img class="ig-img" src="${imageUrl}" alt="" onerror="this.style.display='none'">` : '<div class="ig-placeholder">No image</div>'}
+      ${imageUrl ? `<img class="ig-img" src="${escapeHtml(imageUrl)}" alt="" onerror="this.style.display='none'">` : '<div class="ig-placeholder">No image</div>'}
       <div class="ig-actions">♡ 💬 ↗</div>
       <div class="ig-likes">0 likes</div>
-      <div class="ig-caption"><strong>${meta.siteName || getDomain(meta.url)}</strong> ${truncate(meta.description, 200)}</div>
+      <div class="ig-caption"><strong>${escapeHtml(meta.siteName || getDomain(meta.url))}</strong> ${escapeHtml(truncate(meta.description, 200))}</div>
     </div>
   `;
 }
@@ -121,7 +122,7 @@ function renderMetaTags(meta) {
   return tags
     .map(
       t =>
-        `<div class="meta-tag"><span class="meta-key">${t.label}</span><span class="meta-val">${truncate(t.value, 80) || "<em>missing</em>"}</span></div>`
+        `<div class="meta-tag"><span class="meta-key">${escapeHtml(t.label)}</span><span class="meta-val">${escapeHtml(truncate(t.value, 80)) || "<em>missing</em>"}</span></div>`
     )
     .join("");
 }

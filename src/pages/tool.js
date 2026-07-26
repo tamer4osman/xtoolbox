@@ -3,6 +3,7 @@ import { createElement } from "../utils/dom-create.js";
 import { updatePageMeta, addStructuredData } from "../utils/seo.js";
 import { createAdSlot } from "../components/ad-slot.js";
 import { addRecentTool, getRecentTools } from "../utils/recent-tools.js";
+import { escapeHtml } from "../utils/escape-html.js";
 import toolsData from "../data/tools.json";
 
 const toolCache = {};
@@ -95,14 +96,14 @@ export async function renderTool(toolId) {
       if (toolMeta.steps) {
         const section = document.createElement("section");
         section.className = "how-to-section";
-        section.innerHTML = `<h2>How to Use</h2><ol class="how-to-steps">${toolMeta.steps.map(s => `<li>${s}</li>`).join("")}</ol>`;
+        section.innerHTML = `<h2>How to Use</h2><ol class="how-to-steps">${toolMeta.steps.map(s => `<li>${escapeHtml(s)}</li>`).join("")}</ol>`;
         toolPage?.appendChild(section);
       }
 
       if (toolMeta.faqs) {
         const section = document.createElement("section");
         section.className = "faq-section";
-        section.innerHTML = `<h2>Frequently Asked Questions</h2><div class="faq-list">${toolMeta.faqs.map(faq => `<details class="faq-item"><summary>${faq.question}</summary><p>${faq.answer}</p></details>`).join("")}</div>`;
+        section.innerHTML = `<h2>Frequently Asked Questions</h2><div class="faq-list">${toolMeta.faqs.map(faq => `<details class="faq-item"><summary>${escapeHtml(faq.question)}</summary><p>${escapeHtml(faq.answer)}</p></details>`).join("")}</div>`;
         toolPage?.appendChild(section);
 
         addStructuredData({
@@ -125,7 +126,7 @@ export async function renderTool(toolId) {
       if (recent.length > 0) {
         const section = document.createElement("section");
         section.className = "related-tools";
-        section.innerHTML = `<h2>Recently Used</h2><div class="tools-grid">${recent.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${t.icon}</span><h3>${t.name}</h3><p>${t.description}</p></a>`).join("")}</div>`;
+        section.innerHTML = `<h2>Recently Used</h2><div class="tools-grid">${recent.map(t => `<a href="#/tools/${t.id}" class="tool-card" data-nav-link="/tools/${t.id}"><span class="tool-card-icon">${escapeHtml(t.icon)}</span><h3>${escapeHtml(t.name)}</h3><p>${escapeHtml(t.description)}</p></a>`).join("")}</div>`;
         toolPage?.appendChild(section);
       }
     });
