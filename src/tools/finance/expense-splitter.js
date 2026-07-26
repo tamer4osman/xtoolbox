@@ -386,9 +386,9 @@ export function render(container) {
     const desc = descEl.value.trim();
     const amount = parseFloat(amountEl.value);
     const currentPaidBy = container.querySelector("#exs-paid-by").value;
-    const splitAmong = Array.from(
-      container.querySelectorAll(".exs-split-check:checked")
-    ).map(cb => cb.value);
+    const splitAmong = Array.from(container.querySelectorAll(".exs-split-check:checked")).map(
+      cb => cb.value
+    );
 
     descEl.classList.remove("exs-input-invalid");
     amountEl.classList.remove("exs-input-invalid");

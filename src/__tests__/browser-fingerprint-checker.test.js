@@ -16,9 +16,7 @@ describe("browser-fingerprint-checker", () => {
   });
 
   it("exports toolConfig and render", async () => {
-    const mod = await import(
-      "../../src/tools/privacy/browser-fingerprint-checker.js"
-    );
+    const mod = await import("../../src/tools/privacy/browser-fingerprint-checker.js");
     expect(mod.toolConfig).toBeDefined();
     expect(mod.toolConfig.id).toBe("browser-fingerprint-checker");
     expect(mod.toolConfig.category).toBe("privacy");
@@ -26,9 +24,7 @@ describe("browser-fingerprint-checker", () => {
   });
 
   it("toolConfig has required fields", async () => {
-    const mod = await import(
-      "../../src/tools/privacy/browser-fingerprint-checker.js"
-    );
+    const mod = await import("../../src/tools/privacy/browser-fingerprint-checker.js");
     expect(mod.toolConfig.name).toBeTruthy();
     expect(mod.toolConfig.description).toBeTruthy();
     expect(mod.toolConfig.icon).toBeTruthy();
@@ -38,26 +34,18 @@ describe("browser-fingerprint-checker", () => {
   });
 
   it("render creates DOM with privacy notice and run button", async () => {
-    const mod = await import(
-      "../../src/tools/privacy/browser-fingerprint-checker.js"
-    );
+    const mod = await import("../../src/tools/privacy/browser-fingerprint-checker.js");
     const container = document.createElement("div");
     mod.render(container);
 
     expect(container.querySelector("#bfc-run")).not.toBeNull();
-    expect(container.querySelector("#bfc-results").style.display).toBe(
-      "none"
-    );
+    expect(container.querySelector("#bfc-results").style.display).toBe("none");
     expect(container.querySelector(".bfc-privacy")).not.toBeNull();
-    expect(container.querySelector("h1").textContent).toBe(
-      "Browser Fingerprint Checker"
-    );
+    expect(container.querySelector("h1").textContent).toBe("Browser Fingerprint Checker");
   });
 
   it("clicking run button reveals results with hash and table", async () => {
-    const mod = await import(
-      "../../src/tools/privacy/browser-fingerprint-checker.js"
-    );
+    const mod = await import("../../src/tools/privacy/browser-fingerprint-checker.js");
     const container = document.createElement("div");
     mod.render(container);
 
@@ -77,18 +65,16 @@ describe("browser-fingerprint-checker", () => {
   });
 
   it("fingerprint contains expected properties", async () => {
-    const mod = await import(
-      "../../src/tools/privacy/browser-fingerprint-checker.js"
-    );
+    const mod = await import("../../src/tools/privacy/browser-fingerprint-checker.js");
     const container = document.createElement("div");
     mod.render(container);
 
     container.querySelector("#bfc-run").click();
     await new Promise(r => setTimeout(r, 50));
 
-    const labels = Array.from(
-      container.querySelectorAll("#bfc-table-body td:first-child")
-    ).map(td => td.textContent);
+    const labels = Array.from(container.querySelectorAll("#bfc-table-body td:first-child")).map(
+      td => td.textContent
+    );
 
     expect(labels).toContain("userAgent");
     expect(labels).toContain("language");
@@ -100,9 +86,7 @@ describe("browser-fingerprint-checker", () => {
   });
 
   it("button text changes to Run Again after first run", async () => {
-    const mod = await import(
-      "../../src/tools/privacy/browser-fingerprint-checker.js"
-    );
+    const mod = await import("../../src/tools/privacy/browser-fingerprint-checker.js");
     const container = document.createElement("div");
     mod.render(container);
 
@@ -116,9 +100,7 @@ describe("browser-fingerprint-checker", () => {
   });
 
   it("can run multiple times without errors", async () => {
-    const mod = await import(
-      "../../src/tools/privacy/browser-fingerprint-checker.js"
-    );
+    const mod = await import("../../src/tools/privacy/browser-fingerprint-checker.js");
     const container = document.createElement("div");
     mod.render(container);
 

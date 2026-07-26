@@ -29,14 +29,18 @@ describe("calculateBalances", () => {
   ];
 
   it("equal split between 2 people", () => {
-    const expenses = [{ id: "e1", description: "Dinner", amount: 30, paidBy: "a", splitAmong: ["a", "b"] }];
+    const expenses = [
+      { id: "e1", description: "Dinner", amount: 30, paidBy: "a", splitAmong: ["a", "b"] }
+    ];
     const balances = calculateBalances(people, expenses);
     expect(balances.a).toBeCloseTo(15);
     expect(balances.b).toBeCloseTo(-15);
   });
 
   it("3-way split", () => {
-    const expenses = [{ id: "e1", description: "Trip", amount: 90, paidBy: "a", splitAmong: ["a", "b", "c"] }];
+    const expenses = [
+      { id: "e1", description: "Trip", amount: 90, paidBy: "a", splitAmong: ["a", "b", "c"] }
+    ];
     const balances = calculateBalances(people, expenses);
     expect(balances.a).toBeCloseTo(60);
     expect(balances.b).toBeCloseTo(-30);
@@ -61,7 +65,9 @@ describe("calculateBalances", () => {
   });
 
   it("expense where payer is not in splitAmong", () => {
-    const expenses = [{ id: "e1", description: "Gift", amount: 60, paidBy: "a", splitAmong: ["b", "c"] }];
+    const expenses = [
+      { id: "e1", description: "Gift", amount: 60, paidBy: "a", splitAmong: ["b", "c"] }
+    ];
     const balances = calculateBalances(people, expenses);
     expect(balances.a).toBeCloseTo(60);
     expect(balances.b).toBeCloseTo(-30);

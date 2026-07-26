@@ -1,11 +1,7 @@
 import { test, expect } from "@playwright/test";
 
-test("browser-fingerprint-checker loads and shows results", async ({
-  page
-}) => {
-  await page.goto(
-    "http://localhost:3000/#/tools/browser-fingerprint-checker"
-  );
+test("browser-fingerprint-checker loads and shows results", async ({ page }) => {
+  await page.goto("http://localhost:3000/#/tools/browser-fingerprint-checker");
 
   await page.waitForSelector(".tool-header h1", { timeout: 5000 });
 

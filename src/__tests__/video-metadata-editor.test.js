@@ -39,15 +39,23 @@ describe("video-metadata-editor", () => {
     }
     args.push("-c", "copy", "output.mp4");
     expect(args).toEqual([
-      "-i", "input.mp4",
-      "-metadata", "title=My Video",
-      "-metadata", "artist=Author",
-      "-c", "copy", "output.mp4"
+      "-i",
+      "input.mp4",
+      "-metadata",
+      "title=My Video",
+      "-metadata",
+      "artist=Author",
+      "-c",
+      "copy",
+      "output.mp4"
     ]);
   });
 
   it("custom key-value pairs are appended", () => {
-    const customPairs = [{ key: "mood", val: "happy" }, { key: "rating", val: "5" }];
+    const customPairs = [
+      { key: "mood", val: "happy" },
+      { key: "rating", val: "5" }
+    ];
     const args = ["-i", "input.mp4", "-c", "copy", "output.mp4"];
     for (const p of customPairs) {
       if (p.key && p.val) {
