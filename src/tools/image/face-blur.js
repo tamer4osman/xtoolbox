@@ -1,6 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
+import { preloadScriptSri } from "../../utils/preload-sri.js";
 
 export const toolConfig = {
   id: "face-blur",
@@ -126,6 +127,10 @@ export function render(container) {
     if (!originalImage) return;
     showToast({ message: "Loading face detection model...", type: "info" });
     try {
+      await preloadScriptSri(
+        "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.0/dist/onnxruntime-web.min.js",
+        "sha256-yW51/QgdHAwx4QKDwI/a2nzHEMoy8WhT8GJTnl3TgP8="
+      );
       const { env } =
         await import("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.0/dist/onnxruntime-web.min.js");
       env.wasm.numThreads = navigator.hardwareConcurrency || 4;

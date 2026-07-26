@@ -1,6 +1,7 @@
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
 import { safeFetch } from "../../utils/safe-fetch.js";
+import { preloadScriptSri } from "../../utils/preload-sri.js";
 import JSZip from "jszip";
 
 const SAMPLE_RATE = 44100;
@@ -91,6 +92,7 @@ function normalizeStem(left, right) {
 }
 
 async function loadORT() {
+  await preloadScriptSri(ORT_CDN, "sha256-8E58eU8VbA4rEJSXRWw6vqFI9Mi9I0Iw6UvC9XFxapI=");
   return import(ORT_CDN);
 }
 

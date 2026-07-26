@@ -1,5 +1,6 @@
 import { showToast } from "../../components/toast.js";
 import { escapeHtml } from "../../utils/escape-html.js";
+import { preloadScriptSri } from "../../utils/preload-sri.js";
 
 export const toolConfig = {
   id: "sentiment-heatmap",
@@ -71,6 +72,10 @@ export function render(container) {
     analyzeBtn.textContent = "Loading model...";
 
     try {
+      await preloadScriptSri(
+        "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.js",
+        "sha256-PUxTf1wswWmDQFi94R1dJf6pEPANkqMuyXm4M0Ybs7Q="
+      );
       const { pipeline } =
         await import("https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.js");
       analyzeBtn.textContent = "Analyzing...";
