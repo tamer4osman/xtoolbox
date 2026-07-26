@@ -6,7 +6,6 @@ describe("savings-calc", () => {
     const m = 500;
     const r = 0.07;
     const y = 10;
-    const n = 12;
 
     const totalMonths = y * 12;
     const ratePerMonth = r / 12;
@@ -28,10 +27,8 @@ describe("savings-calc", () => {
 
   it("handles zero monthly contributions", () => {
     const p = 10000;
-    const m = 0;
     const r = 0.07;
     const y = 10;
-    const n = 12;
 
     const totalMonths = y * 12;
     const ratePerMonth = r / 12;
@@ -48,7 +45,6 @@ describe("savings-calc", () => {
   it("handles zero interest rate", () => {
     const p = 10000;
     const m = 500;
-    const r = 0;
     const y = 10;
 
     const totalMonths = y * 12;

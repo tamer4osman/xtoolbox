@@ -5,6 +5,7 @@ describe("video-volume", () => {
     expect(100 / 100).toBe(1);
     expect(50 / 100).toBe(0.5);
     expect(200 / 100).toBe(2);
+    // oxc-ignore-next-line erasing-op
     expect(0 / 100).toBe(0);
     expect(300 / 100).toBe(3);
   });
@@ -18,11 +19,13 @@ describe("video-volume", () => {
 
   it("volume fill width calculation", () => {
     expect((100 / 300) * 100).toBeCloseTo(33.33, 1);
+    // oxc-ignore-next-line erasing-op
     expect((0 / 300) * 100).toBe(0);
     expect((300 / 300) * 100).toBe(100);
   });
 
   it("mute detection", () => {
+    // oxc-ignore-next-line erasing-op
     expect(0 / 100 === 0).toBe(true);
     expect(50 / 100 === 0).toBe(false);
   });
