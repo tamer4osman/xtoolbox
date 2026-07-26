@@ -98,6 +98,8 @@ async function initSqlJs(container) {
   try {
     const initSqlJs = document.createElement("script");
     initSqlJs.src = "https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.min.js";
+    initSqlJs.integrity = "sha256-k0+Rt5kckDOrXlctpCwB4dmcFPqvA8Xot7OjtSkukzs=";
+    initSqlJs.crossOrigin = "anonymous";
     initSqlJs.onload = async () => {
       state.SQL = await initSqlJsPromise();
       state.db = new state.SQL.Database();
@@ -244,16 +246,16 @@ function updateSchema(container) {
     let html = "";
     tables[0].values.forEach(row => {
       const tableName = row[0];
-      html += '<div class="schema-table"><strong>' + tableName + "</strong>";
+      html += '<div class="schema-table"><strong>' + escapeHtml(tableName) + "</strong>";
 
       const columns = state.db.exec("PRAGMA table_info(" + tableName + ");");
       if (columns.length > 0) {
         columns[0].values.forEach(col => {
           html +=
             '<div class="schema-column">' +
-            col[1] +
+            escapeHtml(col[1]) +
             " " +
-            col[2] +
+            escapeHtml(col[2]) +
             (col[5] === 1 ? " PK" : "") +
             "</div>";
         });
