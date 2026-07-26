@@ -1,6 +1,10 @@
 import { createLookupTool } from "../shared/lookup-tool-factory.js";
 import { safeFetch } from "../../utils/safe-fetch.js";
 
+// Public demo token from WAQI — rate-limited (1000 calls/day), not a secret.
+// See: https://aqicn.org/data-platform/token/
+const WAQI_DEMO_TOKEN = "demo";
+
 function getAQIColor(aqi) {
   if (aqi <= 50) return { bg: "#10b981", label: "Good", desc: "Air quality is satisfactory." };
   if (aqi <= 100) return { bg: "#f59e0b", label: "Moderate", desc: "Acceptable." };
@@ -77,7 +81,7 @@ const { toolConfig, render } = createLookupTool({
   onSearch: async (vals, container) => {
     const city = vals["city-input"].trim();
     const res = await safeFetch(
-      "https://api.waqi.info/feed/" + encodeURIComponent(city) + "/?token=demo"
+      "https://api.waqi.info/feed/" + encodeURIComponent(city) + "/?token=" + WAQI_DEMO_TOKEN
     );
     const data = await res.json();
     if (data.status !== "ok") throw new Error("City not found");
