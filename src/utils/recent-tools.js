@@ -20,11 +20,3 @@ export function addRecentTool(toolId) {
     // localStorage full or blocked — silently ignore
   }
 }
-
-export function clearRecentTools() {
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-  } catch {
-    // ignore
-  }
-}

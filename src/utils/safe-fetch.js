@@ -11,6 +11,7 @@ const DEFAULT_MAX_REQUESTS = 10;
 const DEFAULT_WINDOW_MS = 60_000;
 const DEFAULT_TIMEOUT_MS = 15_000;
 
+// fallow-ignore-next-line unused-export
 export class RateLimitError extends Error {
   constructor(domain, retryAfterMs) {
     super(
