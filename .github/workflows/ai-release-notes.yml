@@ -11,6 +11,8 @@ jobs:
   generate-notes:
     runs-on: ubuntu-latest
     if: github.event_name == 'release'
+    env:
+      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,10 +40,8 @@ jobs:
           git diff --stat "$PREV..$CURRENT" >> changes.md
 
       - name: Generate AI release notes
-        if: ${{ secrets.ZAI_API_KEY != '' }}
+        if: ${{ env.ZAI_API_KEY != '' }}
         uses: actions/github-script@v7
-        env:
-          ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
         with:
           script: |
             const fs = require('fs');
@@ -62,5 +62,5 @@ jobs:
             core.info('Release notes generated and published');
 
       - name: Fallback - raw changelog
-        if: ${{ secrets.ZAI_API_KEY == '' }}
+        if: ${{ env.ZAI_API_KEY == '' }}
         run: cat changes.md
