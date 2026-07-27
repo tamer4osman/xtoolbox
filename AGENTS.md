@@ -567,6 +567,13 @@ The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
 
 **If a 4xx appears on the tool's `.js` module:** the Vite module cache may be stale — stop dev server, `rm -rf node_modules/.vite`, restart, and re-test.
 
+**Chrome DevTools MCP verification (BLOCKING):** After the automated smoke test passes, open the tool page in the browser via Chrome DevTools MCP and verify:
+
+1. Navigate to `http://localhost:3000/#/tools/<tool-id>` using `navigate_page`
+2. Run `list_console_messages` — filter for `error` and `warn` types. Any tool-related console errors or warnings must be fixed before proceeding
+3. Run `list_network_requests` — verify the tool's `.js` module and all its imports returned 200. No 4xx/5xx allowed
+4. Take a snapshot (`take_snapshot`) to confirm the tool rendered correctly
+
 **Lighthouse a11y (manual, optional):** For a deeper visual audit, run `lighthouse_audit` via the Chrome DevTools MCP. Score must be >= 90. This is separate from the automated smoke test and can be skipped if the tool has no new interactive controls.
 
 **⚠️ MiMo V2.5 Limitation:** The Chrome DevTools MCP (for the optional Lighthouse check) fails silently with MiMo V2.5 due to API restrictions. If you need Lighthouse:
