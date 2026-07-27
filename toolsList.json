@@ -3290,6 +3290,16 @@
     "keywords": ["password", "breach", "hibp", "security", "leak"]
   },
   {
+    "id": "temp-email",
+    "name": "Temp Email",
+    "category": "privacy",
+    "description": "Create a temporary disposable email address. Receive emails instantly without revealing your real address.",
+    "icon": "📧",
+    "href": "/tools/temp-email",
+    "status": "done",
+    "keywords": ["temp", "email", "disposable", "temporary", "anonymous", "privacy", "throwaway"]
+  },
+  {
     "id": "chroma-key-composer",
     "name": "Chroma Key Composer",
     "category": "video",

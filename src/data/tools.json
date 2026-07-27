@@ -3328,6 +3328,16 @@
     "phase": 28
   },
   {
+    "id": "temp-email",
+    "name": "Temp Email",
+    "category": "privacy",
+    "description": "Create a temporary disposable email address. Receive emails instantly without revealing your real address.",
+    "icon": "📧",
+    "href": "/tools/temp-email",
+    "keywords": ["temp", "email", "disposable", "temporary", "anonymous", "privacy", "throwaway"],
+    "status": "done"
+  },
+  {
     "id": "chroma-key-composer",
     "name": "Chroma Key Composer",
     "category": "video",

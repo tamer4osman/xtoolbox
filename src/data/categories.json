@@ -67,7 +67,7 @@
     "name": "Productivity",
     "icon": "⏱️",
     "description": "Stopwatch, countdown timer, drawing pad",
-    "toolCount": 19
+    "toolCount": 18
   },
   {
     "id": "math",
@@ -81,7 +81,7 @@
     "name": "Finance",
     "icon": "💰",
     "description": "Loan, mortgage, SIP, currency, and tax calculators",
-    "toolCount": 17
+    "toolCount": 16
   },
   {
     "id": "encoding",
