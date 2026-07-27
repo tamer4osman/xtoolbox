@@ -214,6 +214,7 @@ function runCode(container) {
   status.textContent = "Running...";
 
   const origMethods = {};
+  const timers = new Map();
   const methods = [
     "log",
     "info",
@@ -223,7 +224,6 @@ function runCode(container) {
     "table",
     "time",
     "timeEnd",
-    "timeEnd",
     "group",
     "groupEnd",
     "dir"
@@ -232,6 +232,14 @@ function runCode(container) {
   methods.forEach(method => {
     origMethods[method] = console[method];
     console[method] = function (...args) {
+      if (method === "time") {
+        timers.set(args[0], performance.now());
+      }
+      if (method === "timeEnd" && timers.has(args[0])) {
+        const elapsed = performance.now() - timers.get(args[0]);
+        timers.delete(args[0]);
+        args = [args[0], elapsed.toFixed(2) + "ms"];
+      }
       const serialized = args.map(arg => {
         if (arg === undefined) return "undefined";
         if (arg === null) return "null";
@@ -349,7 +357,11 @@ export function renderTable(data) {
   }
   if (data.length === 0) return '<span class="jp-empty-table">(empty table)</span>';
 
-  const keys = Object.keys(data[0]);
+  const firstRow = data[0];
+  if (firstRow === null || typeof firstRow !== "object") {
+    return '<pre class="jp-table-raw">' + escapeHtml(formatArg(data)) + "</pre>";
+  }
+  const keys = Object.keys(firstRow);
   let html = '<table class="jp-table"><thead><tr><th>(index)</th>';
   keys.forEach(k => {
     html += "<th>" + escapeHtml(k) + "</th>";
@@ -388,7 +400,10 @@ function toggleShare(container) {
     const code = getEditorValue(state.editor);
     const encoded = btoa(unescape(encodeURIComponent(code)));
     const url =
-      window.location.origin + window.location.pathname + "#/tools/js-playground?code=" + encoded;
+      window.location.origin +
+      window.location.pathname +
+      "#/tools/js-playground?code=" +
+      encodeURIComponent(encoded);
     container.querySelector("#jp-share-input").value = url;
     shareUrl.style.display = "flex";
   }
@@ -416,7 +431,7 @@ function loadFromURL() {
   const match = hash.match(/[?&]code=([^&]+)/);
   if (match) {
     try {
-      const code = decodeURIComponent(escape(atob(match[1])));
+      const code = decodeURIComponent(escape(atob(decodeURIComponent(match[1]))));
       setEditorValue(state.editor, code);
       saveToStorage(code);
       return true;

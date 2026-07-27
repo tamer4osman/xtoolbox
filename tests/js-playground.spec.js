@@ -10,30 +10,28 @@ test("js-playground loads and has editor + console", async ({ page }) => {
 
 test("js-playground run button executes code", async ({ page }) => {
   await page.goto("/#/tools/js-playground");
-  await page.waitForTimeout(3000);
+  await expect(page.locator(".CodeMirror")).toBeVisible();
   await page.click("#jp-run");
-  await page.waitForTimeout(1000);
-  const output = await page.locator("#jp-console-output").textContent();
-  expect(output).toContain("Hello, JavaScript Playground!");
+  await expect(page.locator("#jp-console-output")).toContainText("Hello, JavaScript Playground!");
 });
 
 test("js-playground clear button clears console", async ({ page }) => {
   await page.goto("/#/tools/js-playground");
-  await page.waitForTimeout(3000);
+  await expect(page.locator(".CodeMirror")).toBeVisible();
   await page.click("#jp-run");
-  await page.waitForTimeout(1000);
+  await expect(page.locator("#jp-console-output")).toContainText("Hello, JavaScript Playground!");
   await page.click("#jp-clear");
-  const output = await page.locator("#jp-console-output").textContent();
-  expect(output).toBe("");
+  await expect(page.locator("#jp-console-output")).toHaveText("");
 });
 
 test("js-playground reset button restores sample code", async ({ page }) => {
   await page.goto("/#/tools/js-playground");
-  await page.waitForTimeout(3000);
+  await expect(page.locator(".CodeMirror")).toBeVisible();
+  const editor = page.locator(".CodeMirror");
+  await editor.click();
+  await page.keyboard.press("Control+A");
+  await page.keyboard.type('console.log("modified")');
   await page.click("#jp-reset");
-  await page.waitForTimeout(500);
   await page.click("#jp-run");
-  await page.waitForTimeout(1000);
-  const output = await page.locator("#jp-console-output").textContent();
-  expect(output).toContain("Hello, JavaScript Playground!");
+  await expect(page.locator("#jp-console-output")).toContainText("Hello, JavaScript Playground!");
 });
