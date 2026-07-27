@@ -3,7 +3,7 @@
 > 344 free online tools — 100% client-side. Your files never leave your device.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tools](https://img.shields.io/badge/tools-323-brightgreen)](#categories)
+[![Tools](https://img.shields.io/badge/tools-324-brightgreen)](#categories)
 [![Phases](https://img.shields.io/badge/phases-27%2F28-complete-orange)](#build-progress)
 [![Stack](https://img.shields.io/badge/stack-Vite%20%2B%20WASM-lightgrey)](#stack)
 
@@ -121,7 +121,7 @@ graph TB
 | 25: Most Wanted          | 23    | ✅ Complete    |
 | 26: Uncommon High-Demand | 16    | ✅ Complete    |
 | 27: High-Demand          | 19    | ✅ Complete    |
-| 28: Legacy Catch-Up      | 7/36  | 🟡 In Progress |
+| 28: Legacy Catch-Up      | 16/36 | 🟡 In Progress |
 
 ## Project Structure
 
@@ -134,10 +134,10 @@ toolbox/
 │   ├── components/          ← 15 reusable UI components
 │   ├── utils/               ← Shared utilities
 │   ├── pages/               ← Page templates
-│   ├── tools/               ← 323 tool implementations
+│   ├── tools/               ← 324 tool implementations
 │   │   ├── pdf/             ← 33 PDF tools
 │   │   ├── image/           ← 43 image tools
-│   │   ├── video/           ← 26 video tools
+│   │   ├── video/           ← 27 video tools
 │   │   ├── audio/           ← 17 audio tools
 │   │   ├── dev/             ← 40 developer tools
 │   │   ├── text/            ← 35 text tools

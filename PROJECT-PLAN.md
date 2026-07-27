@@ -173,7 +173,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Visualization | 4     |
 | Weather       | 4     |
 
-### Planned Tools (21)
+### Planned Tools (20)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
@@ -181,7 +181,7 @@ See `src/data/tools.json` for the full list. Key planned tools:
 
 - Video: chroma-key-composer, video-scene-cut-detector
 - Audio: audio-pitch, audio-to-midi-converter
-- Dev: js-playground, html-playground, json-schema-validator, env-parser, regex-visualizer
+- Dev: html-playground, json-schema-validator, env-parser, regex-visualizer
 - Finance: salary-calc, retirement-planner
 - Math: equation-solver, matrix-calc
 - Productivity: decision-matrix, kanban-board, timesheet-tracker
