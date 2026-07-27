@@ -3084,7 +3084,7 @@
     "icon": "⚡",
     "href": "/tools/js-playground",
     "keywords": ["javascript", "playground", "editor", "live", "code"],
-    "status": "planned",
+    "status": "done",
     "phase": 28
   },
   {

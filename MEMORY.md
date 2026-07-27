@@ -11,7 +11,7 @@
 ## Recent Achievements (2026-07-06)
 
 - Phase 28 tool 15/36 built: Video Metadata Editor (video category).
-- 344 total tools (323 built, 21 planned).
+- 344 total tools (324 built, 20 planned).
 
 - Phase 27 complete: all 19 High-Demand Tools built and registered (308 total).
 - Remaining: Phase 28 — Legacy Catch-Up (20 planned tools, 1 duplicate removed).

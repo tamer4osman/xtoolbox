@@ -1,8 +1,8 @@
 # Tool Building Progress
 
-## Current Status: 323 built, 21 planned = 344 total
+## Current Status: 324 built, 20 planned = 344 total
 
-### Phase 28 — Legacy Tool Catch-Up (36 total, 15 built, 20 planned, 1 duplicate)
+### Phase 28 — Legacy Tool Catch-Up (36 total, 16 built, 19 planned, 1 duplicate)
 
 > 13 tools removed from original list — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
 > 7 tools from PHASE-28-INSTRUCTIONS.md skipped — duplicates of existing tools (color-blindness, font-pairing, text-to-speech, currency-converter, text-similarity, loan-calculator, audio-pitch).
@@ -25,7 +25,7 @@
 | Video Stabilizer                | video        | ✅ Done                                                                                   |
 | Audio Pitch Shifter             | audio        | Planned                                                                                   |
 | Audio to MIDI Converter         | audio        | Planned                                                                                   |
-| JavaScript Playground           | dev          | Planned                                                                                   |
+| JavaScript Playground           | dev          | ✅ Done                                                                                   |
 | HTML Playground                 | dev          | Planned                                                                                   |
 | JSON Schema Validator           | dev          | Planned                                                                                   |
 | Environment File Parser         | dev          | Planned                                                                                   |

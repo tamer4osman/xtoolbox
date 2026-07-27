@@ -3064,7 +3064,7 @@
     "description": "Interactive JavaScript editor with live output console.",
     "icon": "⚡",
     "href": "/tools/js-playground",
-    "status": "planned",
+    "status": "done",
     "keywords": ["javascript", "playground", "editor", "live", "code"]
   },
   {

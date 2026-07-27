@@ -75,7 +75,7 @@ npm run test       # → Playwright tests
 | **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
 | **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
-**Total:** 323 built, 21 planned = 344 tools
+**Total:** 324 built, 20 planned = 344 tools
 
 ## Architecture
 
