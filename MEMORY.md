@@ -8,10 +8,16 @@
 - **Deduplication**: Tools are deduplicated by ID and by (Name, Category) pairs to ensure a clean UI.
 - **Chrome DevTools MCP Compatibility**: MiMo V2.5 fails with Chrome DevTools MCP due to Xiaomi API limitations (single-round tool calling, rejects list-type content). Use MiniMax M3 Free for Chrome DevTools testing. This is documented in AGENTS.md under "Model Switching Strategy".
 
+## Recent Achievements (2026-08-03)
+
+- Synced all docs to registry truth: 345 total tools (325 built, 20 planned).
+- Fixed drift in README.md (tool count, badge, video 27→26, finance 17→16, productivity 19→18, Phase 28 16/36→17/36), PROJECT-PLAN.md (total, video 27→26, finance 17→16, math 14→13), TOOLS.md (total), MEMORY.md (total).
+- Verified clean: toolsList.json ids match tools.json, categories.json sum matches, no missing tool files, no category mismatches.
+
 ## Recent Achievements (2026-07-06)
 
 - Phase 28 tool 15/36 built: Video Metadata Editor (video category).
-- 344 total tools (324 built, 20 planned).
+- 345 total tools (325 built, 20 planned).
 
 - Phase 27 complete: all 19 High-Demand Tools built and registered (308 total).
 - Remaining: Phase 28 — Legacy Catch-Up (19 planned tools, 1 duplicate removed).
