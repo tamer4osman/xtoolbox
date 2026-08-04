@@ -63,6 +63,8 @@ export function render(container) {
   let foregroundFile = null;
   let backgroundFile = null;
   let foregroundInfo = null;
+  let ffmpeg = null;
+  const tempFiles = [];
 
   const isImage = file => file.type.startsWith("image/");
 
@@ -74,16 +76,28 @@ export function render(container) {
       foregroundFile = files[0] || null;
       foregroundStatus.textContent = foregroundFile ? `✅ ${foregroundFile.name}` : "No file";
       if (foregroundFile) {
-        foregroundInfo = await getVideoInfo(foregroundFile);
-        if (!foregroundInfo.width) {
-          showToast({ message: "Could not read video dimensions.", type: "error" });
-          foregroundFile = null;
-          foregroundInfo = null;
-          foregroundStatus.textContent = "No file";
+        try {
+          foregroundInfo = await getVideoInfo(foregroundFile);
+          if (!foregroundInfo.width) {
+            showToast({ message: "Could not read video dimensions.", type: "error" });
+            resetForeground();
+          }
+        } catch (err) {
+          showToast({
+            message: "Error reading video: " + (err?.message ?? String(err)),
+            type: "error"
+          });
+          resetForeground();
         }
       }
     }
   });
+
+  function resetForeground() {
+    foregroundFile = null;
+    foregroundInfo = null;
+    if (foregroundStatus) foregroundStatus.textContent = "No file";
+  }
 
   const backgroundUpload = createFileUpload({
     accept: "image/*,video/*",
@@ -207,17 +221,19 @@ export function render(container) {
     actionBtn.style.display = "none";
 
     try {
-      const ffmpeg = await loadFFmpeg(pct => {
+      ffmpeg = await loadFFmpeg(pct => {
         progressPct.textContent = pct;
       });
 
       const ext = foregroundFile.name.split(".").pop() || "mp4";
       const inputName = `input.${ext}`;
+      tempFiles.push(inputName);
       await writeUploadedFile(ffmpeg, foregroundFile, inputName);
 
       if (compose) {
         const bgExt = backgroundFile.name.split(".").pop() || "jpg";
         const bgName = `bg.${bgExt}`;
+        tempFiles.push(bgName);
         await writeUploadedFile(ffmpeg, backgroundFile, bgName);
 
         const w = foregroundInfo.width;
@@ -258,7 +274,6 @@ export function render(container) {
 
         await ffmpeg.exec(args);
         await downloadVideoOutput(ffmpeg, "output.mp4", "composed.mp4", "mp4");
-        await ffmpeg.deleteFile(bgName);
       } else {
         await ffmpeg.exec([
           "-i",
@@ -280,11 +295,20 @@ export function render(container) {
         await downloadVideoOutput(ffmpeg, "output.webm", "transparent.webm", "webm");
       }
 
-      await ffmpeg.deleteFile(inputName);
       showToast({ message: compose ? "Video composed!" : "Background removed!", type: "success" });
     } catch (err) {
       showToast({ message: "Error: " + (err?.message ?? String(err)), type: "error" });
     } finally {
+      if (ffmpeg) {
+        for (const name of tempFiles) {
+          try {
+            await ffmpeg.deleteFile(name);
+          } catch {
+            // ignore file-not-found cleanup errors
+          }
+        }
+      }
+      tempFiles.length = 0;
       processing.style.display = "none";
       actionBtn.style.display = "inline-flex";
     }
