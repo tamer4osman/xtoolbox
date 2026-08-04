@@ -8,8 +8,8 @@ test("kanban-board loads with default columns and toolbar", async ({ page }) => 
   const title = await page.locator(".tool-header h1").textContent();
   expect(title).toContain("Kanban Board");
 
-  await expect(page.locator("#kanban-add-col")).toBeAttached();
-  await expect(page.locator("#kanban-reset")).toBeAttached();
+  await expect(page.locator("#kanban-board-add-column")).toBeAttached();
+  await expect(page.locator("#kanban-board-reset")).toBeAttached();
 
   const columns = await page.locator(".kanban-column").count();
   expect(columns).toBe(3);

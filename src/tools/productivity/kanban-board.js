@@ -14,7 +14,7 @@ export const toolConfig = {
     "Click 'Add Card' to create a task",
     "Drag cards between columns to track progress",
     "Click a card title to rename it",
-    "Double-click a column name to rename it"
+    "Edit a column name to rename it"
   ],
   faqs: [
     {
@@ -23,7 +23,7 @@ export const toolConfig = {
         "Yes. Your board is saved in your browser's localStorage on every change. Clear your browser data to erase it."
     },
     {
-      question: "Can I drag cards with my keyboard?",
+      question: "Can I move cards with my keyboard?",
       answer:
         "Yes. Use the move dropdown on each card to send it to another column without dragging."
     }
@@ -61,20 +61,23 @@ export function loadState() {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed && Array.isArray(parsed.columns)) {
-        return {
-          columns: parsed.columns.map(col => ({
+        const columns = parsed.columns
+          .filter(col => col && typeof col === "object")
+          .map(col => ({
             id: col.id || makeId("col"),
             title: col.title || "Untitled",
             color: col.color || PALETTE[0],
             cards: Array.isArray(col.cards)
-              ? col.cards.map(card => ({
-                  id: card.id || makeId("card"),
-                  title: card.title || "Untitled",
-                  description: card.description || ""
-                }))
+              ? col.cards
+                  .filter(card => card && typeof card === "object")
+                  .map(card => ({
+                    id: card.id || makeId("card"),
+                    title: card.title || "Untitled",
+                    description: card.description || ""
+                  }))
               : []
-          }))
-        };
+          }));
+        if (columns.length > 0 || parsed.columns.length === 0) return { columns };
       }
     }
   } catch {}
@@ -84,8 +87,19 @@ export function loadState() {
 export function saveState(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
   } catch (e) {
     console.error("Save failed:", e);
+    return false;
+  }
+}
+
+function persist(board) {
+  if (!saveState(board)) {
+    showToast({
+      message: "Could not save your board. Browser storage may be unavailable.",
+      type: "error"
+    });
   }
 }
 
@@ -169,6 +183,13 @@ export function moveCard(board, cardId, targetColumnId, targetIndex) {
   targetCol.cards.splice(index, 0, card);
 }
 
+export function adjustDropIndex(board, columnId, cardId, index) {
+  const found = findCard(board, cardId);
+  if (!found || found.columnId !== columnId) return index;
+  const sourceIndex = findColumn(board, columnId).cards.indexOf(found.card);
+  return sourceIndex >= 0 && sourceIndex < index ? index - 1 : index;
+}
+
 function columnCardCount(board, columnId) {
   const col = findColumn(board, columnId);
   return col ? col.cards.length : 0;
@@ -199,12 +220,12 @@ function renderColumn(board, col, root, callbacks) {
   const cardsEl = colEl.querySelector("[data-cards]");
 
   col.cards.forEach(card => {
-    cardsEl.appendChild(renderCard(board, col.id, card, callbacks));
+    cardsEl.appendChild(renderCard(board, col.id, card, root, callbacks));
   });
 
   colEl.querySelector("[data-col-title]").addEventListener("change", e => {
     renameColumn(board, col.id, e.target.value);
-    saveState(board);
+    persist(board);
     renderBoard(board, root, callbacks);
   });
 
@@ -212,7 +233,7 @@ function renderColumn(board, col, root, callbacks) {
     const idx = PALETTE.indexOf(col.color);
     const next = PALETTE[(idx + 1) % PALETTE.length];
     setColumnColor(board, col.id, next);
-    saveState(board);
+    persist(board);
     renderBoard(board, root, callbacks);
   });
 
@@ -223,13 +244,13 @@ function renderColumn(board, col, root, callbacks) {
     )
       return;
     deleteColumn(board, col.id);
-    saveState(board);
+    persist(board);
     renderBoard(board, root, callbacks);
   });
 
   colEl.querySelector(".kanban-add-card").addEventListener("click", () => {
     const card = addCard(board, col.id);
-    saveState(board);
+    persist(board);
     renderBoard(board, root, callbacks);
     requestAnimationFrame(() => {
       const freshCards = root.querySelector(`[data-column-id="${col.id}"] [data-cards]`);
@@ -264,8 +285,8 @@ function renderColumn(board, col, root, callbacks) {
       : cards.children.length;
     placeholder?.remove();
     if (!cardId) return;
-    moveCard(board, cardId, col.id, index);
-    saveState(board);
+    moveCard(board, cardId, col.id, adjustDropIndex(board, col.id, cardId, index));
+    persist(board);
     renderBoard(board, root, callbacks);
   });
 
@@ -299,7 +320,7 @@ function movePlaceholder(e, cardsEl) {
   }
 }
 
-function renderCard(board, columnId, card, callbacks) {
+function renderCard(board, columnId, card, root, callbacks) {
   const cardEl = document.createElement("article");
   cardEl.className = "kanban-card";
   cardEl.draggable = true;
@@ -310,7 +331,11 @@ function renderCard(board, columnId, card, callbacks) {
     ${card.description ? `<p class="kanban-card-desc" data-card-desc>${escapeHtml(card.description)}</p>` : ""}
     <div class="kanban-card-actions">
       <select class="kanban-move-select" aria-label="Move card to column" name="move-card">
-        ${board.columns.map(col => `<option value="${col.id}" ${col.id === columnId ? "disabled" : ""}>→ ${escapeHtml(col.title)}</option>`).join("")}
+        <option value="" selected disabled>Move to…</option>
+        ${board.columns
+          .filter(col => col.id !== columnId)
+          .map(col => `<option value="${col.id}">→ ${escapeHtml(col.title)}</option>`)
+          .join("")}
       </select>
       <button class="btn btn-ghost btn-sm kanban-card-desc-btn" title="Add / edit description" aria-label="Add or edit card description">📝</button>
       <button class="btn btn-ghost btn-sm kanban-card-delete" title="Delete card" aria-label="Delete card">✕</button>
@@ -320,8 +345,8 @@ function renderCard(board, columnId, card, callbacks) {
   const titleInput = cardEl.querySelector("[data-card-title]");
   titleInput.addEventListener("change", e => {
     updateCard(board, columnId, card.id, { title: e.target.value });
-    saveState(board);
-    requestAnimationFrame(() => renderBoard(board, root(), callbacks));
+    persist(board);
+    requestAnimationFrame(() => renderBoard(board, root, callbacks));
   });
 
   titleInput.addEventListener("click", e => {
@@ -338,9 +363,11 @@ function renderCard(board, columnId, card, callbacks) {
   });
 
   cardEl.querySelector(".kanban-move-select").addEventListener("change", e => {
-    moveCard(board, card.id, e.target.value, columnCardCount(board, e.target.value));
-    saveState(board);
-    renderBoard(board, root(), callbacks);
+    const targetColumnId = e.target.value;
+    if (!targetColumnId) return;
+    moveCard(board, card.id, targetColumnId, columnCardCount(board, targetColumnId));
+    persist(board);
+    renderBoard(board, root, callbacks);
   });
 
   cardEl.querySelector(".kanban-card-desc-btn").addEventListener("click", () => {
@@ -358,8 +385,8 @@ function renderCard(board, columnId, card, callbacks) {
     textarea.focus();
     textarea.addEventListener("blur", () => {
       updateCard(board, columnId, card.id, { description: textarea.value });
-      saveState(board);
-      requestAnimationFrame(() => renderBoard(board, root(), callbacks));
+      persist(board);
+      requestAnimationFrame(() => renderBoard(board, root, callbacks));
     });
     textarea.addEventListener("keydown", e => {
       if (e.key === "Enter" && !e.shiftKey) {
@@ -371,8 +398,8 @@ function renderCard(board, columnId, card, callbacks) {
 
   cardEl.querySelector(".kanban-card-delete").addEventListener("click", () => {
     deleteCard(board, columnId, card.id);
-    saveState(board);
-    renderBoard(board, root(), callbacks);
+    persist(board);
+    renderBoard(board, root, callbacks);
   });
 
   cardEl.addEventListener("dragstart", e => {
@@ -386,10 +413,6 @@ function renderCard(board, columnId, card, callbacks) {
   });
 
   return cardEl;
-
-  function root() {
-    return document.getElementById("kanban-root") || cardEl.closest("[data-kanban-root]");
-  }
 }
 
 function renderBoard(board, root, callbacks) {
@@ -405,10 +428,10 @@ export function render(container) {
   let boardRoot = null;
 
   container.innerHTML = `
-    <div class="tool-container" data-kanban-root id="kanban-root">
+    <div class="tool-container" data-kanban-root id="kanban-board-root">
       <div class="kanban-toolbar">
-        <button class="btn btn-primary btn-sm" id="kanban-add-col">＋ Add Column</button>
-        <button class="btn btn-secondary btn-sm" id="kanban-reset">Reset Board</button>
+        <button class="btn btn-primary btn-sm" id="kanban-board-add-column">＋ Add Column</button>
+        <button class="btn btn-secondary btn-sm" id="kanban-board-reset">Reset Board</button>
         <span class="kanban-tip">Drag cards between columns to move them. Click 🎨 to cycle column color.</span>
       </div>
       <div class="kanban-board" data-columns></div>
@@ -441,9 +464,9 @@ export function render(container) {
     .kanban-column {
       flex: 1 1 280px;
       min-width: 260px;
-      background: var(--color-background-secondary, #f1f5f9);
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-md);
       padding: var(--space-3);
       display: flex;
       flex-direction: column;
@@ -456,54 +479,54 @@ export function render(container) {
       gap: var(--space-2);
     }
     .kanban-col-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
+      width: var(--space-2);
+      height: var(--space-2);
+      border-radius: var(--radius-full);
       flex-shrink: 0;
     }
     .kanban-col-title {
       flex: 1;
       font-weight: 600;
-      font-size: var(--text-md);
+      font-size: var(--text-base);
       border: 1px solid transparent;
       background: transparent;
-      padding: 4px 6px;
-      border-radius: 6px;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-sm);
       min-width: 0;
     }
     .kanban-col-title:focus {
       border-color: var(--color-primary);
-      background: var(--color-background-primary, #fff);
+      background: var(--color-bg);
       outline: none;
     }
     .kanban-col-count {
       font-size: var(--text-xs);
       font-weight: 700;
       color: var(--color-text-secondary);
-      background: var(--color-background-primary, #fff);
-      border-radius: 999px;
-      padding: 2px 8px;
+      background: var(--color-bg);
+      border-radius: var(--radius-full);
+      padding: var(--space-1) var(--space-2);
     }
     .kanban-col-actions {
       display: flex;
-      gap: 2px;
+      gap: var(--space-1);
     }
     .kanban-cards {
       display: flex;
       flex-direction: column;
       gap: var(--space-2);
-      min-height: 40px;
+      min-height: var(--space-10);
     }
     .kanban-card {
-      background: var(--color-background-primary, #fff);
+      background: var(--color-bg);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-md);
       padding: var(--space-2) var(--space-3);
       cursor: grab;
       display: flex;
       flex-direction: column;
       gap: var(--space-2);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      box-shadow: var(--shadow-sm);
     }
     .kanban-card.kanban-dragging {
       opacity: 0.35;
@@ -515,13 +538,13 @@ export function render(container) {
       border: 1px solid transparent;
       background: transparent;
       font-weight: 500;
-      padding: 2px 4px;
-      border-radius: 4px;
+      padding: var(--space-1);
+      border-radius: var(--radius-sm);
       width: 100%;
     }
     .kanban-card-title:focus {
       border-color: var(--color-primary);
-      background: var(--color-background-primary, #fff);
+      background: var(--color-bg);
       outline: none;
     }
     .kanban-card-desc {
@@ -533,27 +556,27 @@ export function render(container) {
     }
     .kanban-card-desc-input {
       width: 100%;
-      min-height: 56px;
+      min-height: var(--space-16);
       resize: vertical;
       font-size: var(--text-sm);
     }
     .kanban-card-actions {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: var(--space-1);
     }
     .kanban-move-select {
       flex: 1;
       font-size: var(--text-xs);
-      padding: 4px 6px;
+      padding: var(--space-1) var(--space-2);
       border: 1px solid var(--color-border);
-      border-radius: 6px;
-      background: var(--color-background-primary, #fff);
+      border-radius: var(--radius-sm);
+      background: var(--color-bg);
     }
     .kanban-placeholder {
       border: 2px dashed var(--color-border);
-      border-radius: var(--radius);
-      min-height: 44px;
+      border-radius: var(--radius-md);
+      min-height: var(--space-8);
       background: transparent;
     }
     .kanban-add-card {
@@ -571,17 +594,17 @@ export function render(container) {
 
   renderBoard(board, boardRoot, {});
 
-  container.querySelector("#kanban-add-col").addEventListener("click", () => {
+  container.querySelector("#kanban-board-add-column").addEventListener("click", () => {
     addColumn(board);
-    saveState(board);
+    persist(board);
     renderBoard(board, boardRoot, {});
   });
 
-  container.querySelector("#kanban-reset").addEventListener("click", () => {
+  container.querySelector("#kanban-board-reset").addEventListener("click", () => {
     if (!confirm("Reset the board to its default columns? This removes all your cards.")) return;
     const fresh = createDefaultBoard();
     board.columns = fresh.columns;
-    saveState(board);
+    persist(board);
     renderBoard(board, boardRoot, {});
     showToast({ message: "Board reset", type: "info" });
   });

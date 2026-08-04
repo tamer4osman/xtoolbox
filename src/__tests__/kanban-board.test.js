@@ -12,7 +12,8 @@ import {
   addCard,
   updateCard,
   deleteCard,
-  moveCard
+  moveCard,
+  adjustDropIndex
 } from "../tools/productivity/kanban-board.js";
 
 beforeEach(() => {
@@ -62,8 +63,8 @@ describe("kanban-board", () => {
     const container = document.createElement("div");
     mod.render(container);
 
-    expect(container.querySelector("#kanban-add-col")).not.toBeNull();
-    expect(container.querySelector("#kanban-reset")).not.toBeNull();
+    expect(container.querySelector("#kanban-board-add-column")).not.toBeNull();
+    expect(container.querySelector("#kanban-board-reset")).not.toBeNull();
     const columns = container.querySelectorAll(".kanban-column");
     expect(columns.length).toBe(3);
     expect(columns[0].querySelector("[data-col-title]").value).toBe("To Do");
@@ -89,6 +90,36 @@ describe("kanban-board", () => {
     expect(columns.length).toBe(1);
     expect(columns[0].querySelector("[data-col-title]").value).toBe("Backlog");
     expect(container.querySelectorAll(".kanban-card").length).toBe(1);
+  });
+
+  it("render move-select has neutral placeholder and omits current column", async () => {
+    localStorage.setItem(
+      "kanban_v1",
+      JSON.stringify({
+        columns: [{ id: "c1", title: "To Do", color: "#3B82F6", cards: [{ id: "k", title: "X" }] }]
+      })
+    );
+    const mod = await import("../tools/productivity/kanban-board.js");
+    const container = document.createElement("div");
+    mod.render(container);
+
+    const cardEl = container.querySelector(".kanban-card");
+    const select = cardEl.querySelector(".kanban-move-select");
+    const options = Array.from(select.options);
+    expect(options[0].value).toBe("");
+    expect(options[0].disabled).toBe(true);
+    expect(select.value).toBe("");
+    const columnId = cardEl.closest("[data-column-id]").dataset.columnId;
+    expect(options.some(opt => opt.value === columnId)).toBe(false);
+    expect(options.length).toBe(1);
+  });
+
+  it("toolConfig documents edit action and keyboard movement accurately", async () => {
+    const mod = await import("../tools/productivity/kanban-board.js");
+    expect(mod.toolConfig.steps.some(s => s.includes("Edit a column name"))).toBe(true);
+    expect(mod.toolConfig.steps.some(s => s.includes("Double-click"))).toBe(false);
+    const faq = mod.toolConfig.faqs.find(f => f.question.includes("keyboard"));
+    expect(faq.question).toBe("Can I move cards with my keyboard?");
   });
 });
 
@@ -135,6 +166,55 @@ describe("loadState / saveState", () => {
     const loaded = loadState();
     expect(loaded.columns[0].cards[0].title).toBe("Untitled");
     expect(loaded.columns[0].cards[0].description).toBe("");
+  });
+
+  it("preserves valid records when some columns or cards are null", () => {
+    localStorage.setItem(
+      "kanban_v1",
+      JSON.stringify({
+        columns: [
+          null,
+          { id: "c1", title: "Valid", cards: [null, { id: "k1", title: "Keep" }] },
+          { id: "c2", title: "Empty", cards: null }
+        ]
+      })
+    );
+    const loaded = loadState();
+    expect(loaded.columns.length).toBe(2);
+    expect(loaded.columns[0].title).toBe("Valid");
+    expect(loaded.columns[0].cards.length).toBe(1);
+    expect(loaded.columns[0].cards[0].title).toBe("Keep");
+    expect(loaded.columns[1].cards.length).toBe(0);
+  });
+
+  it("falls back to default board when all column records are invalid", () => {
+    localStorage.setItem("kanban_v1", JSON.stringify({ columns: [null, "nope", 42] }));
+    const loaded = loadState();
+    expect(loaded.columns.length).toBe(3);
+    expect(loaded.columns[0].title).toBe("To Do");
+  });
+
+  it("preserves a genuinely empty column list", () => {
+    localStorage.setItem("kanban_v1", JSON.stringify({ columns: [] }));
+    const loaded = loadState();
+    expect(loaded.columns.length).toBe(0);
+  });
+
+  it("returns false from saveState when localStorage.setItem throws", () => {
+    const original = Storage.prototype.setItem;
+    Storage.prototype.setItem = () => {
+      throw new Error("QuotaExceededError");
+    };
+    try {
+      const ok = saveState(makeBoard());
+      expect(ok).toBe(false);
+    } finally {
+      Storage.prototype.setItem = original;
+    }
+  });
+
+  it("returns true from saveState on success", () => {
+    expect(saveState(makeBoard())).toBe(true);
   });
 });
 
@@ -286,5 +366,26 @@ describe("moveCard", () => {
     moveCard(board, "card1", "nope", 0);
     expect(board.columns[0].cards.length).toBe(1);
     expect(board.columns[1].cards.length).toBe(1);
+  });
+
+  it("adjustDropIndex decrements when dropping within the same column below the source", () => {
+    const board = makeBoard();
+    addCard(board, "c1", "Second");
+    addCard(board, "c1", "Third");
+    // cards: [card1, Second, Third]; drag card1 below itself means placeholder lands at index 2
+    expect(adjustDropIndex(board, "c1", "card1", 2)).toBe(1);
+  });
+
+  it("adjustDropIndex leaves index unchanged for downward-source same-column drops", () => {
+    const board = makeBoard();
+    addCard(board, "c1", "Second");
+    // cards: [card1, Second]; drag Second before card1 → placeholder at index 0
+    expect(adjustDropIndex(board, "c1", "card2", 0)).toBe(0);
+  });
+
+  it("adjustDropIndex ignores cross-column drops and unknown cards", () => {
+    const board = makeBoard();
+    expect(adjustDropIndex(board, "c2", "card1", 0)).toBe(0);
+    expect(adjustDropIndex(board, "c1", "ghost", 2)).toBe(2);
   });
 });
