@@ -137,7 +137,7 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 
 **When to use MiniMax M3 Free:**
 
-- Chrome DevTools MCP testing (step 9 in tool-building workflow)
+- Chrome DevTools MCP testing (step 11 in tool-building workflow)
 - Any task requiring multi-round MCP tool calling
 - Tasks involving image/screenshot processing via MCP
 
@@ -438,7 +438,7 @@ export function render(container) {
    - Fix: Extract to factory when you see 3+ similar tools
 
 5. **Missing docs updates**: Tool built but README/PROJECT-PLAN not updated
-   - Fix: Follow the 20-step workflow in Tool Building Convention
+   - Fix: Follow the 21-step workflow in Tool Building Convention
 
 ### Tool Criteria
 
@@ -521,7 +521,7 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
    - Niche industrial use cases (too narrow for general audience)
 
 5. **Technical check**: API returns JSON, supports CORS, no binary streams
-6. **Demand check**: Estimate user demand (search volume, community requests) 7. **Build**: Create tool following the 20-step workflow below
+6. **Demand check**: Estimate user demand (search volume, community requests) 7. **Build**: Create tool following the 21-step workflow below
 
 ### Workflow
 
@@ -533,8 +533,8 @@ When building a new tool, ALWAYS follow this exact sequence:
    - Check `toolsList.json` for registered tools
    - If a tool with the same or very similar function exists: **STOP**: tell the user, suggest extending the existing tool instead
    - If partial overlap exists: note it, propose how to differentiate, get user confirmation before proceeding
-1. **Research & Confirm**: Web search for best approach, libraries, patterns. Present findings to user. Wait for confirmation.
-2. **Webfetch best practices**: Use `webfetch` to pull authoritative documentation for the chosen approach (official library docs, tutorials, reference implementations). Document findings. If docs reveal a better approach, re-confirm with user.
+1. **Research & Confirm**: Web search for best approach, libraries, patterns. For any library/framework/SDK/API, use `context7` to pull current official docs (prefer it over web search for library docs — training data can be stale). Present findings to user. Wait for confirmation.
+2. **Fetch authoritative docs (webfetch + context7)**: Use `webfetch` to pull official docs pages, tutorials, and reference implementations; use `context7` to fetch up-to-date library/framework/API documentation. Document findings. If docs reveal a better approach, re-confirm with user.
 3. **Grill the design**: Use the `grill-me` skill to interview the user on every design decision before writing code. Resolve dependencies one-by-one, walking down each branch of the decision tree. For each question, provide your recommended answer and wait for the user's response. Do not proceed until you reach a shared understanding on: UI layout, library choices, factory pattern to use, edge cases, error handling, and any tool-specific decisions.
 4. **Create the tool**: Implementation file in `src/tools/<category>/<tool>.js`
 5. **Security review**: Check the tool against the security checklist (Step 5 in tool-builder skill):
@@ -567,7 +567,7 @@ The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
 
 **If a 4xx appears on the tool's `.js` module:** the Vite module cache may be stale — stop dev server, `rm -rf node_modules/.vite`, restart, and re-test.
 
-**Chrome DevTools MCP verification (BLOCKING):** After the automated smoke test passes, open the tool page in the browser via Chrome DevTools MCP and verify:
+11. **Chrome DevTools MCP page check (BLOCKING)**: After the automated smoke test passes, open the tool page in the browser via Chrome DevTools MCP and verify:
 
 1. Navigate to `http://localhost:3000/#/tools/<tool-id>` using `navigate_page`
 2. Run `list_console_messages` — filter for `error` and `warn` types. Any tool-related console errors or warnings must be fixed before proceeding
@@ -582,7 +582,7 @@ The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
 - Or use **Blackbox AI MiniMax** (`blackboxai/minimax/minimax-free`)
 - This is a Xiaomi API limitation, not an OpenCode or project issue
 
-11. **Run SPA performance check**: Verify no navigation regression (dev server required):
+12. **Run SPA performance check**: Verify no navigation regression (dev server required):
 
     ```bash
     node scripts/measure-spa-performance.mjs
@@ -593,7 +593,7 @@ The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
     - The new tool's page must be added to `ALL_ROUTES` in the script if it's a new page template (tool pages are already covered by `#/tools/jpg-to-webp` and `#/tools/json-formatter` as representative samples)
       **If fails:** Check for excessive static imports in the tool's module, move non-critical content behind `queueMicrotask`, or defer heavy data with dynamic import
 
-12. **Run Fallow checks**: Ensure new code doesn't degrade codebase health:
+13. **Run Fallow checks**: Ensure new code doesn't degrade codebase health:
 
     ```bash
     npx fallow dead-code --changed-since=HEAD~1
@@ -607,7 +607,7 @@ The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
     - No new CRAP >200 functions
       **If fails:** Fix issues before proceeding (extract unused code, deduplicate, refactor complex functions)
 
-13. **Run Oxlint + Oxfmt**: Fast Rust-based linting and formatting (replaces ESLint + Prettier):
+14. **Run Oxlint + Oxfmt**: Fast Rust-based linting and formatting (replaces ESLint + Prettier):
 
     ```bash
     npx oxlint src/tools/<category>/<tool-id>.js
@@ -619,7 +619,7 @@ The script (`scripts/smoke-test-tool.mjs`) launches headless Chrome and checks:
     - File formatted
       **If fails:** Fix issues before proceeding
 
-14. **(Optional) MSW for external APIs**: If tool calls external APIs, add MSW mocks:
+15. **(Optional) MSW for external APIs**: If tool calls external APIs, add MSW mocks:
 
 ```bash
 npx msw init public/ --worker
@@ -627,19 +627,19 @@ npx msw init public/ --worker
 
 Create `src/mocks/handlers.js` for reliable tests.
 
-15. **Security gate**: Before presenting to the user, verify:
+16. **Security gate**: Before presenting to the user, verify:
     - No CSP violations in console
     - No raw `fetch()` — must use `safeFetch`
     - No `eval()` / `new Function()`
     - CDN resources have SRI `integrity` attribute
     - HTTPS only (no `http://` except localhost)
 
-16. **User testing**: Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
-17. **Update docs**: Do NOT skip any of these: - `toolsList.json`: Add tool entry, set status to "done" - `src/data/tools.json`: Add tool entry, set status to "done" - `README.md`: Update tool count, add phase status - `PROJECT-PLAN.md`: Update phase progress, tool count - `memory/tool-building-progress.md`: Update completed tools list
-18. **Update main page**: ALL of these must reflect the new total:
+17. **User testing**: Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
+18. **Update docs**: Do NOT skip any of these: - `toolsList.json`: Add tool entry, set status to "done" - `src/data/tools.json`: Add tool entry, set status to "done" - `README.md`: Update tool count, add phase status - `PROJECT-PLAN.md`: Update phase progress, tool count - `memory/tool-building-progress.md`: Update completed tools list
+19. **Update main page**: ALL of these must reflect the new total:
     - `src/pages/home.js`: Update tool count (hero, search placeholder, meta description), update popular tools list if needed
     - `src/data/categories.json`: Update all category tool counts to match actual `src/data/tools.json`
     - `src/components/footer.js`: Update tool count in tagline
-19. **Commit**: Only after user approves the tool, commit with descriptive message.
+20. **Commit**: Only after user approves the tool, commit with descriptive message.
 
 Never skip docs. The tool count in README and PROJECT-PLAN must match toolsList.json. Never add a tool to `src/data/tools.json` without also adding it to `toolsList.json` (and vice versa).
