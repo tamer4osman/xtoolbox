@@ -59,6 +59,20 @@ export default defineConfig({
   server: {
     port: 3000,
     open: !process.env.CI && process.env.NODE_ENV !== "test",
+    // Don't let the file watcher lock Playwright's test output files
+    // (test-results/, test-results-tmp/, playwright-report/) — holding a
+    // handle on .last-run.json / .crdownload causes EPERM on unlink and can
+    // crash the dev server mid-run (EBUSY) when Playwright is writing them.
+    watch: {
+      ignored: [
+        "**/test-results/**",
+        "**/test-results-tmp/**",
+        "**/playwright-report/**",
+        "**/dist/**",
+        "**/node_modules/**",
+        "**/.git/**"
+      ]
+    },
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
