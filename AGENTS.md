@@ -521,7 +521,8 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
    - Niche industrial use cases (too narrow for general audience)
 
 5. **Technical check**: API returns JSON, supports CORS, no binary streams
-6. **Demand check**: Estimate user demand (search volume, community requests) 7. **Build**: Create tool following the 21-step workflow below
+6. **Demand check**: Estimate user demand (search volume, community requests)
+7. **Build**: Create tool following the 21-step workflow below
 
 ### Workflow
 
@@ -635,7 +636,12 @@ Create `src/mocks/handlers.js` for reliable tests.
     - HTTPS only (no `http://` except localhost)
 
 17. **User testing**: Tell the user the tool is ready at `http://localhost:3000/#/tools/<tool-id>`, list the specific interactions to try, and wait for explicit confirmation before proceeding.
-18. **Update docs**: Do NOT skip any of these: - `toolsList.json`: Add tool entry, set status to "done" - `src/data/tools.json`: Add tool entry, set status to "done" - `README.md`: Update tool count, add phase status - `PROJECT-PLAN.md`: Update phase progress, tool count - `memory/tool-building-progress.md`: Update completed tools list
+18. **Update docs**: Do NOT skip any of these:
+    - `toolsList.json`: Add tool entry, set status to "done"
+    - `src/data/tools.json`: Add tool entry, set status to "done"
+    - `README.md`: Update tool count, add phase status
+    - `PROJECT-PLAN.md`: Update phase progress, tool count
+    - `memory/tool-building-progress.md`: Update completed tools list
 19. **Update main page**: ALL of these must reflect the new total:
     - `src/pages/home.js`: Update tool count (hero, search placeholder, meta description), update popular tools list if needed
     - `src/data/categories.json`: Update all category tool counts to match actual `src/data/tools.json`
