@@ -3,7 +3,7 @@
 > 345 free online tools — 100% client-side. Your files never leave your device.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tools](https://img.shields.io/badge/tools-326-brightgreen)](#categories)
+[![Tools](https://img.shields.io/badge/tools-327-brightgreen)](#categories)
 [![Phases](https://img.shields.io/badge/phases-27%2F28-complete-orange)](#build-progress)
 [![Stack](https://img.shields.io/badge/stack-Vite%20%2B%20WASM-lightgrey)](#stack)
 
@@ -75,7 +75,7 @@ npm run test       # → Playwright tests
 | **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
 | **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
-**Total:** 326 built, 19 planned = 345 tools
+**Total:** 327 built, 18 planned = 345 tools
 
 ## Architecture
 
@@ -121,7 +121,7 @@ graph TB
 | 25: Most Wanted          | 23    | ✅ Complete    |
 | 26: Uncommon High-Demand | 16    | ✅ Complete    |
 | 27: High-Demand          | 19    | ✅ Complete    |
-| 28: Legacy Catch-Up      | 17/36 | 🟡 In Progress |
+| 28: Legacy Catch-Up      | 19/36 | 🟡 In Progress |
 
 ## Project Structure
 
@@ -134,7 +134,7 @@ toolbox/
 │   ├── components/          ← 15 reusable UI components
 │   ├── utils/               ← Shared utilities
 │   ├── pages/               ← Page templates
-│   ├── tools/               ← 326 tool implementations
+│   ├── tools/               ← 327 tool implementations
 │   │   ├── pdf/             ← 33 PDF tools
 │   │   ├── image/           ← 43 image tools
 │   │   ├── video/           ← 26 video tools
@@ -169,7 +169,7 @@ All tools follow the **100% client-side** philosophy:
 6. **Run** checks: `npm run build && npm run test:unit`
 7. **Submit** a pull request
 
-See [AGENTS.md](AGENTS.md) for the full 20-step tool-building workflow.
+See [AGENTS.md](AGENTS.md) for the full 21-step tool-building workflow.
 
 ## Deploy
 
