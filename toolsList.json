@@ -3266,7 +3266,7 @@
     "description": "Drag-and-drop kanban board for task management.",
     "icon": "📋",
     "href": "/tools/kanban-board",
-    "status": "planned",
+    "status": "done",
     "keywords": ["kanban", "board", "task", "drag", "project"]
   },
   {
