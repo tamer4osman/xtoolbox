@@ -3306,7 +3306,7 @@
     "description": "Replace green or blue screen backgrounds in videos.",
     "icon": "🎬",
     "href": "/tools/chroma-key-composer",
-    "status": "planned",
+    "status": "done",
     "keywords": ["chroma", "key", "green", "screen", "composite"]
   },
   {

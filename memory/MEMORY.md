@@ -55,6 +55,14 @@
 - Prefers direct, honest feedback with "why" explanations
 - Values learning and understanding over just getting answers
 
+## ffmpeg.wasm VP9 Gotchas (Chroma Key Composer, 2026-08-03)
+
+- **VP9 (`libvpx-vp9`) encoder is broken in ffmpeg.wasm core** — crashes with `RuntimeError: table index is out of bounds` / `memory access out of bounds` at random-ish frame boundaries. Affects 0.12.6/0.12.9/0.12.10; 0.12.8 npm tarball is broken (no dist). `convert-video.js` WebM output (VP9) is affected too.
+- **VP8-alpha is the working path for transparency**: `-c:v libvpx -auto-alt-ref 0 -lag-in-frames 0 -pix_fmt yuva420p -c:a libopus out.webm` completes and preserves alpha.
+- **ffprobe reports `yuv420p` for VP8-alpha WebM — this is a known ffprobe bug** (trac.ffmpeg.org/ticket/8344). It does NOT mean alpha was dropped. **Always verify alpha by rendering in a browser on a colored background and counting pixels** — never trust ffprobe for this.
+- Core version pinned to `@ffmpeg/core@0.12.6`; `public/ffmpeg-core/` holds its esm build (wasm 32129114 B). Backups in `C:\Users\tamer\AppData\Local\Temp\opencode\ffmpeg-core-0126.{js,wasm}.bak`.
+- Chrome DevTools MCP + fixture foreground.mp4 (green bg + red ball) + blue-background pixel count is the canonical alpha test: expect blue≈216004, red≈14396, green=0 at t=1.5s.
+
 ## Codebase Patterns
 
 - Factory pattern for deduplication (3+ similar tools → extract factory)
