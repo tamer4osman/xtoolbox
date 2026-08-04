@@ -3121,17 +3121,6 @@
     "phase": 28
   },
   {
-    "id": "timezone-converter",
-    "name": "Timezone Converter",
-    "category": "dev",
-    "description": "Convert times between world timezones with DST handling.",
-    "icon": "🌍",
-    "href": "/tools/timezone-converter",
-    "keywords": ["timezone", "convert", "world", "clock", "utc"],
-    "status": "planned",
-    "phase": 28
-  },
-  {
     "id": "regex-visualizer",
     "name": "Regex Visualizer",
     "category": "dev",

@@ -145,14 +145,14 @@ These categories represent the biggest competitive gaps. Future phases should pr
 
 ## Current Status
 
-**Total tools:** 345 (327 built, 18 planned)
+**Total tools:** 344 (327 built, 17 planned)
 
 ### Categories (with actual tool counts)
 
 | Category      | Tools |
 | ------------- | ----- |
 | Image         | 43    |
-| Dev           | 40    |
+| Dev           | 39    |
 | Text          | 35    |
 | PDF           | 33    |
 | Video         | 26    |
@@ -173,7 +173,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Visualization | 4     |
 | Weather       | 4     |
 
-### Planned Tools (18)
+### Planned Tools (17)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
@@ -964,27 +964,6 @@ All use ffmpeg.wasm for processing.
   - Detect common errors: missing =, unbalanced quotes, special characters
   - Show warnings for potential issues: keys with spaces, values that look like numbers but should be strings
   - Handle variable interpolation syntax ($VAR or ${VAR}) for display purposes
-
-#### timezone-converter
-
-- **File:** `src/tools/dev/timezone-converter.js`
-- **Category:** dev
-- **Purpose:** Convert dates and times between world timezones
-- **Library:** Intl API (native)
-- **UI:**
-  1. Date/time input (with calendar picker)
-  2. Source timezone dropdown (searchable, shows current time)
-  3. Target timezone(s) — add multiple for batch conversion
-  4. Results list: timezone name, converted time, UTC offset, abbreviation
-  5. Add to favorites button (persist in localStorage)
-  6. Current time in selected zones display
-  7. Daylight saving time indicator
-- **Implementation notes:**
-  - Use Intl.DateTimeFormat with timeZone option for conversion
-  - Get timezone list from Intl.supportedValuesOf('timeZone') (500+ zones)
-  - Show UTC offset dynamically (accounts for DST)
-  - Favorite timezones stored in localStorage
-  - Handle edge cases: midnight crossover, date changes across timezones
 
 #### regex-visualizer
 

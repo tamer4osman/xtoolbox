@@ -166,7 +166,7 @@ Read `src/data/categories.json` and count tools per category. Categories with th
 Current categories and counts (update as tools are added):
 
 - Image: 43
-- Dev: 40
+- Dev: 39
 - Text: 35
 - PDF: 33
 - Video: 26

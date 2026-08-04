@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 327 built, 18 planned = 345 total
+## Current Status: 327 built, 17 planned = 344 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 total, 19 built, 17 planned, 1 duplicate)
 
@@ -29,7 +29,7 @@
 | HTML Playground                 | dev          | Planned                                                                                   |
 | JSON Schema Validator           | dev          | Planned                                                                                   |
 | Environment File Parser         | dev          | Planned                                                                                   |
-| Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — already has full time zone converter built in |
+| Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — removed from registry 2026-08-04 |
 | Regex Visualizer                | dev          | Planned                                                                                   |
 | Multi-Country Salary Calculator | finance      | Planned                                                                                   |
 | Savings Calculator              | finance      | ✅ Done                                                                                   |

@@ -3098,16 +3098,6 @@
     "keywords": ["env", "parse", "dotenv", "environment", "config"]
   },
   {
-    "id": "timezone-converter",
-    "name": "Timezone Converter",
-    "category": "dev",
-    "description": "Convert times between world timezones with DST handling.",
-    "icon": "🌍",
-    "href": "/tools/timezone-converter",
-    "status": "planned",
-    "keywords": ["timezone", "convert", "world", "clock", "utc"]
-  },
-  {
     "id": "regex-visualizer",
     "name": "Regex Visualizer",
     "category": "dev",
