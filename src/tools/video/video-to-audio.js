@@ -1,5 +1,6 @@
 import { showToast } from "../../components/toast.js";
-import { formatFileSize } from "../../utils/file.js";
+import { formatFileSize, downloadBlob } from "../../utils/file.js";
+import { readFFmpegFile } from "./video-utils.js";
 import { createVideoTool } from "./video-tool-factory.js";
 
 export const toolConfig = {
@@ -15,10 +16,11 @@ export const toolConfig = {
   faqs: [{ question: "What formats can I extract?", answer: "MP3, WAV, and AAC." }]
 };
 
-export function render(container) {
-  const { optionsArea, runFFmpeg } = createVideoTool({ container });
-
-  optionsArea.innerHTML += `
+export const render = createVideoTool({
+  maxSizeMB: 500,
+  processingText: "Extracting audio...",
+  actionBtnLabel: "Extract Audio",
+  optionsHTML: `
     <div class="form-group">
       <label>Audio Format</label>
       <select id="format-select" class="select-input">
@@ -27,34 +29,33 @@ export function render(container) {
         <option value="aac">AAC (good quality, small file)</option>
       </select>
     </div>
-    <button class="btn btn-primary btn-lg" id="extract-btn" style="width:100%;">Extract Audio</button>
-  `;
-
-  const extractBtn = optionsArea.querySelector("#extract-btn");
-
-  extractBtn.addEventListener("click", async () => {
-    const format = container.querySelector("#format-select").value;
+  `,
+  async onProcess(ffmpeg, inputName, videoInfo, tctx) {
+    const format = tctx.getValue("format-select");
     const codecMap = { mp3: "libmp3lame", wav: "pcm_s16le", aac: "aac" };
     const mimeMap = { mp3: "audio/mpeg", wav: "audio/wav", aac: "audio/aac" };
 
-    try {
-      extractBtn.style.display = "none";
-      const blob = await runFFmpeg(
-        `audio.${format}`,
-        ["-vn", "-acodec", codecMap[format], "-ab", "192k", `audio.${format}`],
-        mimeMap[format],
-        `extracted.${format}`
-      );
-      showToast({
-        message: `Audio extracted as ${format.toUpperCase()}! (${formatFileSize(blob.size)})`,
-        type: "success"
-      });
-    } catch (err) {
-      showToast({ message: "Error: " + err.message, type: "error" });
-    } finally {
-      extractBtn.style.display = "inline-flex";
-    }
-  });
-}
+    const outputName = `audio.${format}`;
+    await ffmpeg.exec([
+      "-i",
+      inputName,
+      "-vn",
+      "-acodec",
+      codecMap[format],
+      "-ab",
+      "192k",
+      outputName
+    ]);
+
+    const blob = await readFFmpegFile(ffmpeg, outputName, mimeMap[format]);
+    downloadBlob(blob, `extracted.${format}`);
+    showToast({
+      message: `Audio extracted as ${format.toUpperCase()}! (${formatFileSize(blob.size)})`,
+      type: "success"
+    });
+
+    await ffmpeg.deleteFile(outputName);
+  }
+});
 
 export function destroy() {}

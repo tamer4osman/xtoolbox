@@ -1,4 +1,6 @@
 import { showToast } from "../../components/toast.js";
+import { downloadBlob } from "../../utils/file.js";
+import { readFFmpegFile } from "./video-utils.js";
 import { createVideoTool } from "./video-tool-factory.js";
 
 export const toolConfig = {
@@ -19,31 +21,28 @@ export const toolConfig = {
   ]
 };
 
-export function render(container) {
-  const { optionsArea, runFFmpeg } = createVideoTool({ container });
-
-  optionsArea.innerHTML += `
+export const render = createVideoTool({
+  maxSizeMB: 500,
+  processingText: "Converting...",
+  actionBtnLabel: "Convert Video",
+  optionsHTML: `
     <div class="form-group">
       <label>Output Format</label>
       <select id="format-select" class="select-input">
         <option value="mp4" selected>MP4 (H.264 — best compatibility)</option>
-        <option value="webm">WebM (VP9 — best for web)</option>
+        <option value="webm">WebM (VP8 — best for web)</option>
         <option value="avi">AVI (legacy format)</option>
         <option value="mov">MOV (Apple QuickTime)</option>
       </select>
     </div>
-    <button class="btn btn-primary btn-lg" id="convert-btn" style="width:100%;">Convert Video</button>
-  `;
-
-  const convertBtn = optionsArea.querySelector("#convert-btn");
-
-  convertBtn.addEventListener("click", async () => {
-    const format = container.querySelector("#format-select").value;
+  `,
+  async onProcess(ffmpeg, inputName, videoInfo, tctx) {
+    const format = tctx.getValue("format-select");
     const codecMap = {
-      mp4: ["-c:v", "libx264", "-c:a", "aac"],
-      webm: ["-c:v", "libvpx-vp9", "-c:a", "libopus"],
+      mp4: ["-c:v", "libx264", "-preset", "fast", "-c:a", "aac"],
+      webm: ["-c:v", "libvpx", "-c:a", "libopus"],
       avi: ["-c:v", "mpeg4", "-c:a", "mp3"],
-      mov: ["-c:v", "libx264", "-c:a", "aac"]
+      mov: ["-c:v", "libx264", "-preset", "fast", "-c:a", "aac"]
     };
     const mimeMap = {
       mp4: "video/mp4",
@@ -52,21 +51,15 @@ export function render(container) {
       mov: "video/quicktime"
     };
 
-    try {
-      convertBtn.style.display = "none";
-      await runFFmpeg(
-        `output.${format}`,
-        [...codecMap[format], `output.${format}`],
-        mimeMap[format],
-        `converted.${format}`
-      );
-      showToast({ message: `Converted to ${format.toUpperCase()}!`, type: "success" });
-    } catch (err) {
-      showToast({ message: "Error: " + err.message, type: "error" });
-    } finally {
-      convertBtn.style.display = "inline-flex";
-    }
-  });
-}
+    const outputName = `output.${format}`;
+    await ffmpeg.exec(["-i", inputName, ...codecMap[format], outputName]);
+
+    const blob = await readFFmpegFile(ffmpeg, outputName, mimeMap[format]);
+    downloadBlob(blob, `converted.${format}`);
+    showToast({ message: `Converted to ${format.toUpperCase()}!`, type: "success" });
+
+    await ffmpeg.deleteFile(outputName);
+  }
+});
 
 export function destroy() {}
