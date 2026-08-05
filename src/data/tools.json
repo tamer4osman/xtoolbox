@@ -3178,11 +3178,19 @@
     "id": "matrix-calc",
     "name": "Matrix Calculator",
     "category": "math",
-    "description": "Perform matrix operations: add, multiply, determinant, inverse.",
+    "description": "Perform matrix operations: add, subtract, multiply, transpose, invert, and determinant on matrices up to 6x6.",
     "icon": "🔢",
     "href": "/tools/matrix-calc",
-    "keywords": ["matrix", "calculator", "multiply", "determinant", "inverse"],
-    "status": "planned",
+    "keywords": [
+      "matrix",
+      "calculator",
+      "multiply",
+      "determinant",
+      "inverse",
+      "transpose",
+      "addition"
+    ],
+    "status": "done",
     "phase": 28
   },
   {
