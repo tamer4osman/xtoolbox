@@ -9,45 +9,45 @@
 > podcast-loudness-normalizer merged into existing normalize-audio (now "Audio Normalizer" with EBU R128 LUFS mode).
 > 13 new tools added from PHASE-28-INSTRUCTIONS.md review, minus 1 merged = 12 net new.
 
-| Tool                            | Category     | Status                                                                                    |
-| ------------------------------- | ------------ | ----------------------------------------------------------------------------------------- |
-| Image Blur                      | image        | ✅ Done                                                                                   |
-| Image Comparison                | image        | ✅ Done                                                                                   |
-| Meme Generator                  | image        | ✅ Done                                                                                   |
-| Panorama Stitcher               | image        | ✅ Done                                                                                   |
-| Video Cropper                   | video        | ✅ Done                                                                                   |
-| Video Rotator                   | video        | ✅ Done                                                                                   |
-| Video Volume Adjuster           | video        | ✅ Done                                                                                   |
-| Video Reverser                  | video        | ✅ Done                                                                                   |
-| Video Metadata Editor           | video        | ✅ Done                                                                                   |
-| Chroma Key Composer             | video        | ✅ Done                                                                                   |
-| Video Scene Cut Detector        | video        | Planned                                                                                   |
-| Video Stabilizer                | video        | ✅ Done                                                                                   |
-| Audio Pitch Shifter             | audio        | Planned                                                                                   |
-| Audio to MIDI Converter         | audio        | Planned                                                                                   |
-| JavaScript Playground           | dev          | ✅ Done                                                                                   |
-| HTML Playground                 | dev          | Planned                                                                                   |
-| JSON Schema Validator           | dev          | Planned                                                                                   |
-| Environment File Parser         | dev          | Planned                                                                                   |
+| Tool                            | Category     | Status                                                                       |
+| ------------------------------- | ------------ | ---------------------------------------------------------------------------- |
+| Image Blur                      | image        | ✅ Done                                                                      |
+| Image Comparison                | image        | ✅ Done                                                                      |
+| Meme Generator                  | image        | ✅ Done                                                                      |
+| Panorama Stitcher               | image        | ✅ Done                                                                      |
+| Video Cropper                   | video        | ✅ Done                                                                      |
+| Video Rotator                   | video        | ✅ Done                                                                      |
+| Video Volume Adjuster           | video        | ✅ Done                                                                      |
+| Video Reverser                  | video        | ✅ Done                                                                      |
+| Video Metadata Editor           | video        | ✅ Done                                                                      |
+| Chroma Key Composer             | video        | ✅ Done                                                                      |
+| Video Scene Cut Detector        | video        | Planned                                                                      |
+| Video Stabilizer                | video        | ✅ Done                                                                      |
+| Audio Pitch Shifter             | audio        | Planned                                                                      |
+| Audio to MIDI Converter         | audio        | Planned                                                                      |
+| JavaScript Playground           | dev          | ✅ Done                                                                      |
+| HTML Playground                 | dev          | Planned                                                                      |
+| JSON Schema Validator           | dev          | Planned                                                                      |
+| Environment File Parser         | dev          | Planned                                                                      |
 | Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — removed from registry 2026-08-04 |
-| Regex Visualizer                | dev          | Planned                                                                                   |
-| Multi-Country Salary Calculator | finance      | Planned                                                                                   |
-| Savings Calculator              | finance      | ✅ Done                                                                                   |
-| Retirement Planner              | finance      | Planned                                                                                   |
-| Expense Splitter                | finance      | ✅ Done                                                                                   |
-| Equation Solver                 | math         | ✅ Done                                                                                   |
-| Matrix Calculator               | math         | Planned                                                                                   |
-| Statistics Calculator           | math         | ✅ Done                                                                                   |
-| Decision Matrix Maker           | productivity | Planned                                                                                   |
-| Mind Map Maker                  | productivity | ✅ Done                                                                                   |
-| Kanban Board                    | productivity | ✅ Done                                                                                   |
-| Timesheet Tracker               | productivity | Planned                                                                                   |
-| Browser Fingerprint Checker     | privacy      | ✅ Done                                                                                   |
-| Password Breach Checker         | privacy      | Planned                                                                                   |
-| Temp Email                      | privacy      | ✅ Done                                                                                   |
-| Resume Job Matcher              | business     | Planned                                                                                   |
-| Link Preview Generator          | reference    | Planned                                                                                   |
-| Name Generator                  | fun          | Planned                                                                                   |
+| Regex Visualizer                | dev          | Planned                                                                      |
+| Multi-Country Salary Calculator | finance      | Planned                                                                      |
+| Savings Calculator              | finance      | ✅ Done                                                                      |
+| Retirement Planner              | finance      | Planned                                                                      |
+| Expense Splitter                | finance      | ✅ Done                                                                      |
+| Equation Solver                 | math         | ✅ Done                                                                      |
+| Matrix Calculator               | math         | Planned                                                                      |
+| Statistics Calculator           | math         | ✅ Done                                                                      |
+| Decision Matrix Maker           | productivity | Planned                                                                      |
+| Mind Map Maker                  | productivity | ✅ Done                                                                      |
+| Kanban Board                    | productivity | ✅ Done                                                                      |
+| Timesheet Tracker               | productivity | Planned                                                                      |
+| Browser Fingerprint Checker     | privacy      | ✅ Done                                                                      |
+| Password Breach Checker         | privacy      | Planned                                                                      |
+| Temp Email                      | privacy      | ✅ Done                                                                      |
+| Resume Job Matcher              | business     | Planned                                                                      |
+| Link Preview Generator          | reference    | Planned                                                                      |
+| Name Generator                  | fun          | Planned                                                                      |
 
 ---
 
