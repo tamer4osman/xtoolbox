@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { hexToKeyColor, buildComposeFilter } from "../tools/video/chroma-key-composer.js";
+import {
+  hexToKeyColor,
+  buildComposeFilter,
+  cleanupTempFiles
+} from "../tools/video/chroma-key-composer.js";
 
 describe("chroma-key-composer", () => {
   describe("hexToKeyColor", () => {
@@ -61,6 +65,40 @@ describe("chroma-key-composer", () => {
     it("handles string similarity values", () => {
       const filter = buildComposeFilter({ ...base, similarity: "0.4", blend: "0.15" });
       expect(filter).toContain("chromakey=0x00FF00:0.40:0.15");
+    });
+  });
+
+  describe("cleanupTempFiles", () => {
+    it("deletes every temp file when all succeed", async () => {
+      const deleted = [];
+      const ffmpeg = {
+        deleteFile: async name => {
+          deleted.push(name);
+        }
+      };
+      const remaining = await cleanupTempFiles(ffmpeg, ["a.mp4", "b.mp4"]);
+      expect(deleted).toEqual(["a.mp4", "b.mp4"]);
+      expect(remaining).toEqual([]);
+    });
+
+    it("treats file-not-found errors as successful cleanup", async () => {
+      const ffmpeg = {
+        deleteFile: async () => {
+          throw new Error("No such file or directory");
+        }
+      };
+      const remaining = await cleanupTempFiles(ffmpeg, ["gone.mp4"]);
+      expect(remaining).toEqual([]);
+    });
+
+    it("retains files whose delete fails for other reasons", async () => {
+      const ffmpeg = {
+        deleteFile: async () => {
+          throw new Error("FS error");
+        }
+      };
+      const remaining = await cleanupTempFiles(ffmpeg, ["stuck.mp4"]);
+      expect(remaining).toEqual(["stuck.mp4"]);
     });
   });
 });

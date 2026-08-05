@@ -48,6 +48,21 @@ export function hexToKeyColor(hex) {
   return "0x" + hex.replace("#", "").toUpperCase();
 }
 
+export async function cleanupTempFiles(ffmpeg, files) {
+  const remaining = [];
+  for (const name of files) {
+    try {
+      await ffmpeg.deleteFile(name);
+    } catch (err) {
+      const message = String(err?.message ?? err).toLowerCase();
+      const isFileNotFound = message.includes("no such file") || message.includes("enoent");
+      if (isFileNotFound) continue;
+      remaining.push(name);
+    }
+  }
+  return remaining;
+}
+
 export function buildComposeFilter({ w, h, color, similarity, blend, x, y, duration }) {
   const sim = Number(similarity).toFixed(2);
   const bl = Number(blend).toFixed(2);
@@ -78,7 +93,7 @@ export function render(container) {
       if (foregroundFile) {
         try {
           foregroundInfo = await getVideoInfo(foregroundFile);
-          if (!foregroundInfo.width) {
+          if (!Number.isFinite(foregroundInfo.width) || !Number.isFinite(foregroundInfo.height)) {
             showToast({ message: "Could not read video dimensions.", type: "error" });
             resetForeground();
           }
@@ -217,6 +232,10 @@ export function render(container) {
     const similarityValue = similarity.value;
     const blendValue = blend.value;
 
+    const selectedForegroundFile = foregroundFile;
+    const selectedForegroundInfo = foregroundInfo;
+    const selectedBackgroundFile = backgroundFile;
+
     processing.style.display = "block";
     actionBtn.style.display = "none";
 
@@ -225,24 +244,24 @@ export function render(container) {
         progressPct.textContent = pct;
       });
 
-      const ext = foregroundFile.name.split(".").pop() || "mp4";
+      const ext = selectedForegroundFile.name.split(".").pop() || "mp4";
       const inputName = `input.${ext}`;
       tempFiles.push(inputName);
-      await writeUploadedFile(ffmpeg, foregroundFile, inputName);
+      await writeUploadedFile(ffmpeg, selectedForegroundFile, inputName);
 
       if (compose) {
-        const bgExt = backgroundFile.name.split(".").pop() || "jpg";
+        const bgExt = selectedBackgroundFile.name.split(".").pop() || "jpg";
         const bgName = `bg.${bgExt}`;
         tempFiles.push(bgName);
-        await writeUploadedFile(ffmpeg, backgroundFile, bgName);
+        await writeUploadedFile(ffmpeg, selectedBackgroundFile, bgName);
 
-        const w = foregroundInfo.width;
-        const h = foregroundInfo.height;
+        const w = selectedForegroundInfo.width;
+        const h = selectedForegroundInfo.height;
         const x = parseInt(container.querySelector("#offset-x").value) || 0;
         const y = parseInt(container.querySelector("#offset-y").value) || 0;
 
         const args = ["-i", inputName];
-        if (isImage(backgroundFile)) args.push("-loop", "1");
+        if (isImage(selectedBackgroundFile)) args.push("-loop", "1");
         args.push("-i", bgName);
         args.push(
           "-filter_complex",
@@ -254,7 +273,7 @@ export function render(container) {
             blend: blendValue,
             x,
             y,
-            duration: foregroundInfo.duration
+            duration: selectedForegroundInfo.duration
           }),
           "-map",
           "[out]",
@@ -300,15 +319,12 @@ export function render(container) {
       showToast({ message: "Error: " + (err?.message ?? String(err)), type: "error" });
     } finally {
       if (ffmpeg) {
-        for (const name of tempFiles) {
-          try {
-            await ffmpeg.deleteFile(name);
-          } catch {
-            // ignore file-not-found cleanup errors
-          }
-        }
+        const remaining = await cleanupTempFiles(ffmpeg, tempFiles);
+        tempFiles.length = 0;
+        tempFiles.push(...remaining);
+      } else {
+        tempFiles.length = 0;
       }
-      tempFiles.length = 0;
       processing.style.display = "none";
       actionBtn.style.display = "inline-flex";
     }
