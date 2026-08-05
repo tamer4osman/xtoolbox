@@ -173,7 +173,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Visualization | 4     |
 | Weather       | 4     |
 
-### Planned Tools (17)
+### Planned Tools (16)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
