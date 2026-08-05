@@ -23,3 +23,8 @@ playwright-temp.config.js
 .vite-cache/
 public/ffmpeg-core/
 test-video.mp4
+
+testsprite_tests/tmp/
+testsprite_tests/*.py
+testsprite_tests/*.json
+testsprite_tests/*.html

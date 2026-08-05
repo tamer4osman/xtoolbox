@@ -3144,7 +3144,7 @@
     "description": "Solve algebraic equations step by step.",
     "icon": "📐",
     "href": "/tools/equation-solver",
-    "status": "planned",
+    "status": "done",
     "keywords": ["equation", "solve", "algebra", "math", "formula"]
   },
   {

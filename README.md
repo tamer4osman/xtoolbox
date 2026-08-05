@@ -3,7 +3,7 @@
 > 344 free online tools — 100% client-side. Your files never leave your device.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Tools](https://img.shields.io/badge/tools-327-brightgreen)](#categories)
+[![Tools](https://img.shields.io/badge/tools-328-brightgreen)](#categories)
 [![Phases](https://img.shields.io/badge/phases-27%2F28-complete-orange)](#build-progress)
 [![Stack](https://img.shields.io/badge/stack-Vite%20%2B%20WASM-lightgrey)](#stack)
 
@@ -75,7 +75,7 @@ npm run test       # → Playwright tests
 | **Visualization**      | 4     | ✅ Complete | Chart.js, Papa Parse                         |
 | **Weather**            | 4     | ✅ Complete | wttr.in, Open-Meteo                          |
 
-**Total:** 327 built, 17 planned = 344 tools
+**Total:** 328 built, 16 planned = 344 tools
 
 ## Architecture
 
@@ -134,7 +134,7 @@ toolbox/
 │   ├── components/          ← 15 reusable UI components
 │   ├── utils/               ← Shared utilities
 │   ├── pages/               ← Page templates
-│   ├── tools/               ← 327 tool implementations
+│   ├── tools/               ← 328 tool implementations
 │   │   ├── pdf/             ← 33 PDF tools
 │   │   ├── image/           ← 43 image tools
 │   │   ├── video/           ← 26 video tools

@@ -145,7 +145,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 
 ## Current Status
 
-**Total tools:** 344 (327 built, 17 planned)
+**Total tools:** 344 (328 built, 16 planned)
 
 ### Categories (with actual tool counts)
 
@@ -183,7 +183,7 @@ See `src/data/tools.json` for the full list. Key planned tools:
 - Audio: audio-pitch, audio-to-midi-converter
 - Dev: html-playground, json-schema-validator, env-parser, regex-visualizer
 - Finance: salary-calc, retirement-planner
-- Math: equation-solver, matrix-calc
+- Math: matrix-calc
 - Productivity: decision-matrix, timesheet-tracker
 - Privacy: password-breach-checker
 - Business: resume-job-matcher
