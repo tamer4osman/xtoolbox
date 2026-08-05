@@ -49,8 +49,8 @@ test("equation-solver solves a system of equations", async ({ page }) => {
   await page.fill("#es-eq1", "x + y = 5");
   await page.fill("#es-eq2", "x - y = 1");
   await page.click("#es-solve");
-  await expect(page.locator(".es-answer-tex")).toContainText("x = 3");
-  await expect(page.locator(".es-answer-tex")).toContainText("y = 2");
+  await expect(page.locator(".es-answer-tex")).toContainText(/x\s*=\s*3/);
+  await expect(page.locator(".es-answer-tex")).toContainText(/y\s*=\s*2/);
   await expect(page.locator(".es-work")).toContainText("Cramer's rule");
 });
 

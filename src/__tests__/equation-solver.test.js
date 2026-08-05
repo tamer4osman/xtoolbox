@@ -260,6 +260,15 @@ describe("equation-solver", () => {
       expect(result.note).toMatch(/linear/);
     });
 
+    it("delegates to the linear solver when the x² terms cancel out", () => {
+      const result = solveQuadratic("x^2 - x^2 + 2x = 0");
+      expect(result.mode).toBe("quadratic");
+      expect(result.solution.kind).toBe("unique");
+      expect(result.solution.root).toBeCloseTo(0, 10);
+      expect(result.answerPlain).toBe("x = 0");
+      expect(result.note).toMatch(/cancel out/);
+    });
+
     it("rejects cubic and higher equations", () => {
       expect(() => solveQuadratic("x^3 - 1 = 0")).toThrow(/degree 3/);
     });

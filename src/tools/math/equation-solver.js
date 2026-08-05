@@ -5,10 +5,10 @@ import { copyToClipboard } from "../../utils/clipboard.js";
 const EPS = 1e-9;
 const FRACTION_SEARCH_LIMIT = 1000;
 
-const KATEX_CSS = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
-const KATEX_CSS_SRI = "sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=";
-const KATEX_JS = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
-const KATEX_JS_SRI = "sha256-3ISyluw+iE3gkxWPdg/Z1Ftser5YtTgVV/ThOPRqWK4=";
+const KATEX_CSS = "https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css";
+const KATEX_CSS_SRI = "sha256-94eJG1UNVUwhSqiQLzmsRt8tvUj97FAKIECl3OHoq1g=";
+const KATEX_JS = "https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js";
+const KATEX_JS_SRI = "sha256-hjgR4rqghJx3vJLSbUT00KSEPCqKtSxGIBfepXMW5Ng=";
 
 const BUILTIN_SYMBOLS = new Set(["pi", "e", "i", "tau", "phi", "Infinity", "NaN", "true", "false"]);
 
@@ -458,6 +458,15 @@ export function solveQuadratic(equation, varName = "x") {
   const simplified = simplifyForDisplay(fExpr);
   const { a, b, c } = extractCoefficients(fExpr, varName);
 
+  if (isZero(a, Math.max(Math.abs(a), Math.abs(b), Math.abs(c), 1))) {
+    const result = solveLinear(`${simplified} = 0`, varName);
+    return {
+      ...result,
+      mode: "quadratic",
+      note: "The x² terms cancel out, so this equation is linear and was solved with the linear method."
+    };
+  }
+
   const steps = [
     { title: "Original equation", tex: `${texClean(lhs)} = ${texClean(rhs)}` },
     { title: "Bring all terms to one side", tex: `${simplified} = 0` },
@@ -783,7 +792,6 @@ export function render(container) {
     .es-error{background:var(--color-surface);border:1px solid var(--color-danger, #ef4444);border-left:3px solid var(--color-danger, #ef4444);color:var(--color-danger, #ef4444);border-radius:var(--radius-md);padding:var(--space-3);font-size:var(--text-sm);}
     .es-empty{padding:var(--space-6);text-align:center;color:var(--color-text-muted);font-size:var(--text-sm);border:1px dashed var(--color-border);border-radius:var(--radius-md);}
   `;
-  container.appendChild(style);
 
   container.innerHTML = `
     <div class="es-wrap">
@@ -838,6 +846,8 @@ export function render(container) {
       </div>
     </div>
   `;
+
+  container.appendChild(style);
 
   const modeEl = container.querySelector("#es-mode");
   const presetEl = container.querySelector("#es-preset");
