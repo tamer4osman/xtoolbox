@@ -180,7 +180,7 @@ Current categories and counts (update as tools are added):
 - Encoding: 9
 - Reference: 8
 - SEO: 8
-- Privacy: 8
+- Privacy: 9
 - Fun: 6
 - QR: 4
 - OCR: 4

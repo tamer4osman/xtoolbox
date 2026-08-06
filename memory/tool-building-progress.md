@@ -2,13 +2,13 @@
 
 ## Current Status: 329 built, 14 planned = 343 total
 
-### Phase 28 — Legacy Tool Catch-Up (36 total, 21 built, 14 planned, 1 duplicate)
+### Phase 28 — Legacy Tool Catch-Up (37 listed, 21 built, 14 planned, 1 merged, 1 duplicate)
 
 > 13 tools removed from original list — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
 > 7 tools from PHASE-28-INSTRUCTIONS.md skipped — duplicates of existing tools (color-blindness, font-pairing, text-to-speech, currency-converter, text-similarity, loan-calculator, audio-pitch).
 > podcast-loudness-normalizer merged into existing normalize-audio (now "Audio Normalizer" with EBU R128 LUFS mode).
 > 13 new tools added from PHASE-28-INSTRUCTIONS.md review, minus 1 merged = 12 net new.
-> regex-visualizer planned tool merged into existing regex-tester (already "Regex Tester & Visualizer") — added Token Explorer tab + fixed railroad SVG clipping (2026-08-07).
+> regex-visualizer planned tool merged into existing regex-tester (already "Regex Tester & Visualizer") — added Token Explorer tab + fixed railroad SVG clipping.
 
 | Tool                            | Category     | Status                                                                       |
 | ------------------------------- | ------------ | ---------------------------------------------------------------------------- |
