@@ -8,6 +8,7 @@
 > 7 tools from PHASE-28-INSTRUCTIONS.md skipped — duplicates of existing tools (color-blindness, font-pairing, text-to-speech, currency-converter, text-similarity, loan-calculator, audio-pitch).
 > podcast-loudness-normalizer merged into existing normalize-audio (now "Audio Normalizer" with EBU R128 LUFS mode).
 > 13 new tools added from PHASE-28-INSTRUCTIONS.md review, minus 1 merged = 12 net new.
+> regex-visualizer planned tool merged into existing regex-tester (already "Regex Tester & Visualizer") — added Token Explorer tab + fixed railroad SVG clipping (2026-08-07).
 
 | Tool                            | Category     | Status                                                                       |
 | ------------------------------- | ------------ | ---------------------------------------------------------------------------- |
@@ -30,7 +31,7 @@
 | JSON Schema Validator           | dev          | Planned                                                                      |
 | Environment File Parser         | dev          | Planned                                                                      |
 | Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — removed from registry 2026-08-04 |
-| Regex Visualizer                | dev          | Planned                                                                      |
+| Regex Visualizer                | dev          | ✅ Merged into `regex-tester` (Token Explorer tab + SVG fix)                 |
 | Multi-Country Salary Calculator | finance      | Planned                                                                      |
 | Savings Calculator              | finance      | ✅ Done                                                                      |
 | Retirement Planner              | finance      | Planned                                                                      |

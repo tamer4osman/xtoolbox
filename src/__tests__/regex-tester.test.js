@@ -3,7 +3,10 @@ import {
   tokenizeRegex,
   explainRegex,
   highlightMatches,
-  getGroupMatches
+  getGroupMatches,
+  describeToken,
+  describeQuantifier,
+  buildTokenExplorerHTML
 } from "../tools/dev/regex-tester.js";
 import { escapeHtml } from "../utils/escape-html.js";
 
@@ -250,5 +253,83 @@ describe("getGroupMatches", () => {
     const results = getGroupMatches("b", regex);
     expect(results[0].groups[0].value).toBe("(undefined)");
     expect(results[0].groups[1].value).toBe("b");
+  });
+});
+
+describe("describeToken", () => {
+  it("describes a literal", () => {
+    expect(describeToken({ type: "literal", value: "a" })).toContain('"a"');
+  });
+
+  it("describes a digit class", () => {
+    expect(describeToken({ type: "class", value: "\\d" })).toBe("a digit");
+  });
+
+  it("describes a char class", () => {
+    expect(describeToken({ type: "class", value: "[abc]" })).toBe("one of [abc]");
+  });
+
+  it("describes a quantifier", () => {
+    expect(describeToken({ type: "quantifier", value: "+" })).toBe("one or more times");
+  });
+
+  it("describes an anchor", () => {
+    expect(describeToken({ type: "anchor", value: "^" })).toContain("start");
+  });
+
+  it("describes a capturing group with number", () => {
+    expect(describeToken({ type: "group-start", groupType: "group" }, 2)).toBe(
+      "capturing group #2"
+    );
+  });
+
+  it("describes a non-capturing group", () => {
+    expect(describeToken({ type: "group-start", groupType: "noncapture" })).toBe(
+      "a non-capturing group"
+    );
+  });
+});
+
+describe("describeQuantifier", () => {
+  it("describes zero or more", () => {
+    expect(describeQuantifier({ value: "*" })).toBe("zero or more times");
+  });
+
+  it("describes optional lazy", () => {
+    expect(describeQuantifier({ value: "??" })).toBe("optionally (lazy)");
+  });
+
+  it("describes range", () => {
+    expect(describeQuantifier({ value: "{2,5}" })).toBe("between 2 and 5 times");
+  });
+
+  it("describes open range", () => {
+    expect(describeQuantifier({ value: "a{2,}" })).toBe("2 or more times");
+  });
+});
+
+describe("buildTokenExplorerHTML", () => {
+  it("returns empty for empty pattern", () => {
+    expect(buildTokenExplorerHTML("")).toBe("");
+  });
+
+  it("renders literal and class tokens", () => {
+    const html = buildTokenExplorerHTML("a\\d");
+    expect(html).toContain("rx-literal");
+    expect(html).toContain("rx-class");
+    expect(html).toContain("a");
+    expect(html).toContain("\\d");
+  });
+
+  it("renders quantifier and escape tokens", () => {
+    const html = buildTokenExplorerHTML("\\w+\\n");
+    expect(html).toContain("rx-quantifier");
+    expect(html).toContain("rx-escape");
+  });
+
+  it("wraps groups with label", () => {
+    const html = buildTokenExplorerHTML("(abc)|x");
+    expect(html).toContain("rx-group");
+    expect(html).toContain("rx-alternation");
   });
 });

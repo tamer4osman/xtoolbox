@@ -130,75 +130,75 @@ export function tokenizeRegex(pattern) {
   }
   return tokens;
 }
+export function describeQuantifier(tok) {
+  const q = tok.value;
+  if (q === "*") return "zero or more times";
+  if (q === "+") return "one or more times";
+  if (q === "?") return "optionally";
+  if (q === "*?") return "zero or more times (lazy)";
+  if (q === "+?") return "one or more times (lazy)";
+  if (q === "??") return "optionally (lazy)";
+  const m = q.match(/\{(\d+)(?:,(\d*))?\}/);
+  if (m) {
+    const min = m[1];
+    const max = m[2];
+    if (max === undefined) return "exactly " + min + " times";
+    if (max === "") return min + " or more times";
+    return "between " + min + " and " + max + " times";
+  }
+  return q;
+}
+
+export function describeToken(tok, groupNum) {
+  switch (tok.type) {
+    case "literal":
+      return 'the character "' + tok.value + '"';
+    case "escape":
+      if (tok.value === "\\b") return "a word boundary";
+      if (tok.value === "\\B") return "a non-word boundary";
+      if (tok.value === "\\n") return "a newline";
+      if (tok.value === "\\t") return "a tab";
+      return 'the character "' + tok.value.slice(1) + '"';
+    case "class":
+      if (tok.value === ".") return "any character";
+      if (tok.value === "\\d") return "a digit";
+      if (tok.value === "\\D") return "a non-digit";
+      if (tok.value === "\\w") return "a word character";
+      if (tok.value === "\\W") return "a non-word character";
+      if (tok.value === "\\s") return "whitespace";
+      if (tok.value === "\\S") return "non-whitespace";
+      if (tok.value === "\\b") return "a word boundary";
+      if (tok.value === "\\B") return "a non-word boundary";
+      if (tok.value.startsWith("[")) return "one of " + tok.value;
+      return tok.value;
+    case "anchor":
+      return tok.value === "^" ? "the start of the string" : "the end of the string";
+    case "group-start":
+      if (tok.groupType === "noncapture") return "a non-capturing group";
+      if (tok.groupType === "lookahead") return "a lookahead for";
+      if (tok.groupType === "neglookahead") return "a negative lookahead for";
+      if (tok.groupType === "lookbehind") return "a lookbehind for";
+      if (tok.groupType === "neglookbehind") return "a negative lookbehind for";
+      return "capturing group #" + groupNum;
+    case "group-end":
+      return "the end of a group";
+    case "alternation":
+      return "or";
+    case "quantifier":
+      return describeQuantifier(tok);
+    default:
+      return tok.value;
+  }
+}
+
 export function explainRegex(pattern) {
   const tokens = tokenizeRegex(pattern);
   const parts = [];
   let groupNum = 0;
   for (const tok of tokens) {
-    switch (tok.type) {
-      case "literal":
-        parts.push('"' + tok.value + '"');
-        break;
-      case "class":
-        if (tok.value === ".") parts.push("any character");
-        else if (tok.value === "\\d") parts.push("a digit");
-        else if (tok.value === "\\D") parts.push("a non-digit");
-        else if (tok.value === "\\w") parts.push("a word character");
-        else if (tok.value === "\\W") parts.push("a non-word character");
-        else if (tok.value === "\\s") parts.push("whitespace");
-        else if (tok.value === "\\S") parts.push("non-whitespace");
-        else if (tok.value === "\\b") parts.push("a word boundary");
-        else if (tok.value === "\\B") parts.push("a non-word boundary");
-        else if (tok.value.startsWith("[")) parts.push("one of " + tok.value);
-        else parts.push(tok.value);
-        break;
-      case "escape":
-        if (tok.value === "\\b") parts.push("a word boundary");
-        else if (tok.value === "\\B") parts.push("a non-word boundary");
-        else if (tok.value === "\\n") parts.push("a newline");
-        else if (tok.value === "\\t") parts.push("a tab");
-        else parts.push('the character "' + tok.value.slice(1) + '"');
-        break;
-      case "anchor":
-        parts.push(tok.value === "^" ? "the start of the string" : "the end of the string");
-        break;
-      case "group-start":
-        if (tok.groupType === "noncapture") parts.push("a non-capturing group");
-        else if (tok.groupType === "lookahead") parts.push("a lookahead for");
-        else if (tok.groupType === "neglookahead") parts.push("a negative lookahead for");
-        else if (tok.groupType === "lookbehind") parts.push("a lookbehind for");
-        else if (tok.groupType === "neglookbehind") parts.push("a negative lookbehind for");
-        else {
-          groupNum++;
-          parts.push("capturing group #" + groupNum);
-        }
-        break;
-      case "group-end":
-        break;
-      case "alternation":
-        parts.push("or");
-        break;
-      case "quantifier": {
-        const q = tok.value;
-        if (q === "*") parts.push("zero or more times");
-        else if (q === "+") parts.push("one or more times");
-        else if (q === "?") parts.push("optionally");
-        else if (q === "*?") parts.push("zero or more times (lazy)");
-        else if (q === "+?") parts.push("one or more times (lazy)");
-        else if (q === "??") parts.push("optionally (lazy)");
-        else {
-          const m = q.match(/\{(\d+)(?:,(\d*))?\}/);
-          if (m) {
-            const min = m[1];
-            const max = m[2];
-            if (max === undefined) parts.push("exactly " + min + " times");
-            else if (max === "") parts.push(min + " or more times");
-            else parts.push("between " + min + " and " + max + " times");
-          }
-        }
-        break;
-      }
-    }
+    if (tok.type === "group-start" && tok.groupType === "group") groupNum++;
+    if (tok.type === "group-end") continue;
+    parts.push(describeToken(tok, groupNum));
   }
   if (parts.length === 0) return "Empty pattern";
   let result = "Match " + parts.join(" ");
@@ -373,6 +373,27 @@ function buildRailroadSVG(tokens) {
     return totalW;
   }
 
+  function measureExtent(items) {
+    let maxExtent = NODE_H / 2;
+    for (const item of items) {
+      let ext = 0;
+      if (item.kind === "branch") {
+        const n = item.branches.length;
+        let innerMax = 0;
+        for (const branch of item.branches) {
+          innerMax = Math.max(innerMax, measureExtent(branch));
+        }
+        ext = ((n - 1) * (NODE_H + V_GAP)) / 2 + innerMax;
+      } else if (item.kind === "group") {
+        ext = measureExtent(item.children) + 6;
+      } else {
+        ext = NODE_H / 2;
+      }
+      maxExtent = Math.max(maxExtent, ext);
+    }
+    return maxExtent;
+  }
+
   function renderItems(items, svg, x, y) {
     for (let idx = 0; idx < items.length; idx++) {
       const item = items[idx];
@@ -531,7 +552,7 @@ function buildRailroadSVG(tokens) {
 
   const contentW = measureItems(items);
   const totalW = contentW + 30;
-  const totalH = NODE_H + V_GAP * 2 + 40;
+  const totalH = measureExtent(items) * 2 + 24;
 
   let svg =
     '<svg xmlns="http://www.w3.org/2000/svg" width="' +
@@ -565,6 +586,66 @@ function buildRailroadSVG(tokens) {
   svg += "</svg>";
   return svg;
 }
+
+const GROUP_LABELS = {
+  noncapture: "?:",
+  lookahead: "?=",
+  neglookahead: "?!",
+  lookbehind: "?<=",
+  neglookbehind: "?<!",
+  group: "("
+};
+
+export function buildTokenExplorerHTML(pattern) {
+  const tokens = tokenizeRegex(pattern);
+  if (tokens.length === 0) return "";
+
+  function renderGroup(start) {
+    const open = start - 1;
+    const label = tokens[open] ? GROUP_LABELS[tokens[open].groupType] || "(" : "(";
+    let html =
+      '<div class="rx-group"><span class="rx-group-label">' +
+      escapeHtml(label) +
+      '</span><span class="rx-group-body">';
+    const inner = renderSeq(start);
+    html += inner.html + "</span></div>";
+    return { html, next: inner.next };
+  }
+
+  function renderSeq(start) {
+    let html = "";
+    let i = start;
+    while (i < tokens.length) {
+      const tok = tokens[i];
+      if (tok.type === "group-start") {
+        const inner = renderGroup(i + 1);
+        html += inner.html;
+        i = inner.next + 1;
+        continue;
+      }
+      if (tok.type === "group-end") {
+        return { html, next: i };
+      }
+      if (tok.type === "alternation") {
+        html += '<span class="rx-token rx-alternation" title="or">|</span>';
+        i++;
+        continue;
+      }
+      html +=
+        '<span class="rx-token rx-' +
+        tok.type +
+        '" title="' +
+        escapeHtml(describeToken(tok)) +
+        '">' +
+        escapeHtml(tok.value) +
+        "</span>";
+      i++;
+    }
+    return { html, next: i };
+  }
+
+  return renderSeq(0).html;
+}
 export function render(container) {
   container.innerHTML = `
     <div class="rt-container">
@@ -589,6 +670,7 @@ export function render(container) {
       <div class="rt-explanation" id="explanation"></div>
       <div class="rt-tabs">
         <button class="rt-tab active" data-tab="diagram">Railroad Diagram</button>
+        <button class="rt-tab" data-tab="explorer">Token Explorer</button>
         <button class="rt-tab" data-tab="matches">Matches</button>
         <button class="rt-tab" data-tab="groups">Groups</button>
       </div>
@@ -633,6 +715,18 @@ export function render(container) {
     .rt-group-table td { padding: 6px 10px; border-bottom: 1px solid var(--color-border, #e5e7eb); }
     .rt-group-table tr:last-child td { border: none; }
     .rt-no-data { color: #888; font-size: 13px; font-style: italic; }
+    .rt-tab-content { overflow: auto; }
+    .rx-token { display: inline-block; margin: 2px; padding: 2px 8px; border-radius: 6px; font-family: monospace; font-size: 13px; cursor: default; border: 1px solid transparent; }
+    .rx-token:hover { filter: brightness(1.08); }
+    .rx-literal { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+    .rx-class { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
+    .rx-escape { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+    .rx-quantifier { background: #faf5ff; border-color: #e9d5ff; color: #7e22ce; }
+    .rx-anchor { background: #fffbeb; border-color: #fde68a; color: #b45309; }
+    .rx-alternation { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+    .rx-group { border: 1px dashed #a5b4fc; border-radius: 8px; padding: 8px; margin: 4px 0 4px 16px; background: rgba(99,102,241,0.04); }
+    .rx-group-label { display: block; font-family: monospace; font-size: 12px; font-weight: 700; color: #6366f1; margin-bottom: 4px; }
+    .rx-group-body { line-height: 1.9; }
   `;
   container.appendChild(style);
 
@@ -700,6 +794,11 @@ export function render(container) {
         tabContent.innerHTML =
           '<span style="color:#ef4444;font-size:13px">Cannot render diagram</span>';
       }
+    } else if (activeTab === "explorer") {
+      const explorer = buildTokenExplorerHTML(pattern);
+      tabContent.innerHTML =
+        '<div class="rx-legend" style="font-size:12px;color:#888;margin-bottom:8px">Hover a token for its meaning.</div>' +
+        (explorer || '<span class="rt-no-data">Empty pattern</span>');
     } else if (activeTab === "matches") {
       const matches = [];
       regex.lastIndex = 0;
