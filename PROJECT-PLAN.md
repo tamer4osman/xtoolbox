@@ -1,7 +1,7 @@
 # Client-Side Tool Website — Project Plan
 
 > **Purpose:** This file guides AI in generating initial plans for building new tools. It contains tool criteria, API research references, detailed tool specs (UI layouts, implementation notes, library choices), and current project status.
-
+>
 > **Goal:** 345+ professional tools, 100% client-side, monetized with Google AdSense
 > **Stack:** Vite + Vanilla JS + WASM libraries
 > **Hosting:** Cloudflare Pages (free tier)
@@ -1344,7 +1344,7 @@ All use ffmpeg.wasm for processing.
 - **Implementation notes:**
   - k-anonymity: SHA-1 hash password, send only first 5 hex chars to HIBP Range API
   - CRITICAL: Full hash must NEVER leave the browser
-  - API: fetch('https://api.pwnedpasswords.com/range/{prefix}')
+  - API: `fetch('https://api.pwnedpasswords.com/range/{prefix}')`
   - Parse response lines: "SUFFIX:COUNT"
   - Safety check: grep file for any line sending fullHash to fetch()
 
@@ -1353,7 +1353,7 @@ All use ffmpeg.wasm for processing.
 - **File:** `src/tools/video/chroma-key-composer.js`
 - **Category:** video
 - **Purpose:** Green/blue screen background compositing using Canvas and MediaRecorder
-- **Library:** Canvas API + <video>, zero new deps
+- **Library:** Canvas API + `<video>`, zero new deps
 - **UI:**
   1. Two drop zones: foreground video (green/blue screen) + background image/video
   2. Key color picker (default #00FF00)
