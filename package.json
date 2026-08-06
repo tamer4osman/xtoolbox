@@ -64,7 +64,7 @@
     "mathjs": "^15.2.0",
     "papaparse": "^5.5.3",
     "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "^5.7.284",
+    "pdfjs-dist": "^6.2.108",
     "qrcode": "^1.5.4",
     "read-excel-file": "^9.2.0",
     "tesseract.js": "^7.0.0",
