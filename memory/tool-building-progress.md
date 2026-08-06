@@ -1,8 +1,8 @@
 # Tool Building Progress
 
-## Current Status: 329 built, 14 planned = 343 total
+## Current Status: 330 built, 13 planned = 343 total
 
-### Phase 28 — Legacy Tool Catch-Up (37 listed, 21 built, 14 planned, 1 merged, 1 duplicate)
+### Phase 28 — Legacy Tool Catch-Up (37 listed, 22 built, 13 planned, 1 merged, 1 duplicate)
 
 > 13 tools removed from original list — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
 > 7 tools from PHASE-28-INSTRUCTIONS.md skipped — duplicates of existing tools (color-blindness, font-pairing, text-to-speech, currency-converter, text-similarity, loan-calculator, audio-pitch).
@@ -28,7 +28,7 @@
 | Audio to MIDI Converter         | audio        | Planned                                                                      |
 | JavaScript Playground           | dev          | ✅ Done                                                                      |
 | HTML Playground                 | dev          | Planned                                                                      |
-| JSON Schema Validator           | dev          | Planned                                                                      |
+| JSON Schema Validator           | dev          | ✅ Done                                                                      |
 | Environment File Parser         | dev          | Planned                                                                      |
 | Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — removed from registry 2026-08-04 |
 | Regex Visualizer                | dev          | ✅ Merged into `regex-tester` (Token Explorer tab + SVG fix)                 |

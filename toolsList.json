@@ -3081,11 +3081,11 @@
     "id": "json-schema-validator",
     "name": "JSON Schema Validator",
     "category": "dev",
-    "description": "Validate JSON data against JSON Schema Draft 2020-12.",
-    "icon": "✅",
+    "description": "Validate JSON data against JSON Schema Draft 07 and 2020-12.",
+    "icon": "🧩",
     "href": "/tools/json-schema-validator",
-    "status": "planned",
-    "keywords": ["json", "schema", "validate", "draft"]
+    "status": "done",
+    "keywords": ["json", "schema", "validate", "draft", "jsonschema", "validator"]
   },
   {
     "id": "env-parser",
