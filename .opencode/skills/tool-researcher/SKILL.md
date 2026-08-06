@@ -246,7 +246,7 @@ Score each idea on a 1-5 scale. The scoring is designed to reward uniqueness and
 | **Client-side fit**  | 2x     | Can it run 100% in browser? (1=needs server, 5=pure browser APIs)                                   |
 | **Shareability**     | 1x     | Would someone share this? (1=no, 5=viral potential)                                                 |
 
-**Total = (Uniqueness × 5) + (Growth × 4) + (Engagement × 3) + (Client-side × 2) + (Shareability × 1)**
+- **Total score calculation:** `(Uniqueness × 5) + (Growth × 4) + (Engagement × 3) + (Client-side × 2) + (Shareability × 1)`
 
 Maximum possible: 75 points.
 
