@@ -327,9 +327,24 @@ describe("buildTokenExplorerHTML", () => {
     expect(html).toContain("rx-escape");
   });
 
-  it("wraps groups with label", () => {
+  it("wraps groups with label and hover title", () => {
     const html = buildTokenExplorerHTML("(abc)|x");
     expect(html).toContain("rx-group");
     expect(html).toContain("rx-alternation");
+    expect(html).toContain('class="rx-group-label" title="capturing group #1"');
+    expect(html).toContain('<span class="rx-group-label" title="capturing group #1">(</span>');
+  });
+
+  it("numbers nested capturing groups in the hover title", () => {
+    const html = buildTokenExplorerHTML("(a(bc))");
+    expect(html).toContain('title="capturing group #1"');
+    expect(html).toContain('title="capturing group #2"');
+  });
+
+  it("omits numbering for non-capturing and lookaround groups", () => {
+    const html = buildTokenExplorerHTML("(?:abc)(?=x)");
+    expect(html).toContain('title="a non-capturing group"');
+    expect(html).toContain('title="a lookahead for"');
+    expect(html).not.toContain("capturing group #");
   });
 });

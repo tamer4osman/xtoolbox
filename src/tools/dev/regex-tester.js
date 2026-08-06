@@ -599,12 +599,18 @@ const GROUP_LABELS = {
 export function buildTokenExplorerHTML(pattern) {
   const tokens = tokenizeRegex(pattern);
   if (tokens.length === 0) return "";
+  let captureGroupNum = 0;
 
   function renderGroup(start) {
     const open = start - 1;
-    const label = tokens[open] ? GROUP_LABELS[tokens[open].groupType] || "(" : "(";
+    const groupToken = tokens[open];
+    const groupNum = groupToken?.groupType === "group" ? ++captureGroupNum : undefined;
+    const label = groupToken ? GROUP_LABELS[groupToken.groupType] || "(" : "(";
+    const description = groupToken ? describeToken(groupToken, groupNum) : "group";
     let html =
-      '<div class="rx-group"><span class="rx-group-label">' +
+      '<div class="rx-group"><span class="rx-group-label" title="' +
+      escapeHtml(description) +
+      '">' +
       escapeHtml(label) +
       '</span><span class="rx-group-body">';
     const inner = renderSeq(start);
