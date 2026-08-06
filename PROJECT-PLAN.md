@@ -145,14 +145,14 @@ These categories represent the biggest competitive gaps. Future phases should pr
 
 ## Current Status
 
-**Total tools:** 344 (329 built, 15 planned)
+**Total tools:** 343 (329 built, 14 planned)
 
 ### Categories (with actual tool counts)
 
 | Category      | Tools |
 | ------------- | ----- |
 | Image         | 43    |
-| Dev           | 39    |
+| Dev           | 38    |
 | Text          | 35    |
 | PDF           | 33    |
 | Video         | 26    |
@@ -173,7 +173,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Visualization | 4     |
 | Weather       | 4     |
 
-### Planned Tools (16)
+### Planned Tools (14)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
@@ -181,7 +181,7 @@ See `src/data/tools.json` for the full list. Key planned tools:
 
 - Video: video-scene-cut-detector
 - Audio: audio-pitch, audio-to-midi-converter
-- Dev: html-playground, json-schema-validator, env-parser, regex-visualizer
+- Dev: html-playground, json-schema-validator, env-parser
 - Finance: salary-calc, retirement-planner
 - Productivity: decision-matrix, timesheet-tracker
 - Privacy: password-breach-checker
@@ -963,27 +963,6 @@ All use ffmpeg.wasm for processing.
   - Detect common errors: missing =, unbalanced quotes, special characters
   - Show warnings for potential issues: keys with spaces, values that look like numbers but should be strings
   - Handle variable interpolation syntax ($VAR or ${VAR}) for display purposes
-
-#### regex-visualizer
-
-- **File:** `src/tools/dev/regex-visualizer.js`
-- **Category:** dev
-- **Purpose:** Visualize regular expressions as railroad diagrams
-- **Library:** railroad-diagram (SVG generation)
-- **UI:**
-  1. Regex input field with flags checkboxes (g, i, m, s, u)
-  2. Railroad diagram SVG rendering (auto-generated)
-  3. Test string input area
-  4. Match results: highlighted matches, capture groups, match indices
-  5. Common regex patterns dropdown (email, phone, URL, etc.)
-  6. Copy regex to clipboard
-  7. Explanation panel (plain English description of each part)
-- **Implementation notes:**
-  - Parse regex AST from string, render as SVG railroad diagram
-  - Use regexp-tree or manual parser for regex AST
-  - Railroad diagram: sequence, alternation, repetition, optional, character class
-  - Highlight matches in test string with colored spans
-  - Generate human-readable explanation from AST nodes
 
 #### Finance Tools (3 tools)
 

@@ -1,8 +1,8 @@
 # Tool Building Progress
 
-## Current Status: 329 built, 15 planned = 344 total
+## Current Status: 329 built, 14 planned = 343 total
 
-### Phase 28 — Legacy Tool Catch-Up (37 total, 21 built, 15 planned, 1 duplicate)
+### Phase 28 — Legacy Tool Catch-Up (36 total, 21 built, 14 planned, 1 duplicate)
 
 > 13 tools removed from original list — already exist under different IDs (rotate-flip-image, grayscale-sepia, image-sharpening, watermark-image, video-speed, normalize-audio, convert-audio, qr-generator, holiday-calendar).
 > 7 tools from PHASE-28-INSTRUCTIONS.md skipped — duplicates of existing tools (color-blindness, font-pairing, text-to-speech, currency-converter, text-similarity, loan-calculator, audio-pitch).

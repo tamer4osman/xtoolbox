@@ -3121,17 +3121,6 @@
     "phase": 28
   },
   {
-    "id": "regex-visualizer",
-    "name": "Regex Visualizer",
-    "category": "dev",
-    "description": "Visualize regex patterns as flow diagrams with match highlighting.",
-    "icon": "👁️",
-    "href": "/tools/regex-visualizer",
-    "keywords": ["regex", "visualize", "pattern", "diagram", "match"],
-    "status": "planned",
-    "phase": 28
-  },
-  {
     "id": "salary-calc",
     "name": "Multi-Country Salary Calculator",
     "category": "finance",
