@@ -145,7 +145,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 
 ## Current Status
 
-**Total tools:** 343 (331 built, 12 planned)
+**Total tools:** 343 (332 built, 11 planned)
 
 ### Categories (with actual tool counts)
 
@@ -173,14 +173,14 @@ These categories represent the biggest competitive gaps. Future phases should pr
 | Visualization | 4     |
 | Weather       | 4     |
 
-### Planned Tools (13)
+### Planned Tools (11)
 
 See `src/data/tools.json` for the full list. Key planned tools:
 
 **Phase 28 — Legacy Catch-Up (remaining):**
 
 - Video: video-scene-cut-detector
-- Audio: audio-pitch, audio-to-midi-converter
+- Audio: audio-to-midi-converter
 - Dev: html-playground, env-parser
 - Finance: salary-calc, retirement-planner
 - Productivity: decision-matrix, timesheet-tracker
