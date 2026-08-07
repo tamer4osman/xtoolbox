@@ -3074,7 +3074,7 @@
     "description": "Live HTML/CSS/JS editor with instant preview.",
     "icon": "🌐",
     "href": "/tools/html-playground",
-    "status": "planned",
+    "status": "done",
     "keywords": ["html", "playground", "editor", "live", "preview"]
   },
   {
