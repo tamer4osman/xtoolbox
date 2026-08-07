@@ -1,6 +1,7 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
 import { loadAudioFile } from "./audio-utils.js";
+import { fft } from "./dsp.js";
 
 export const toolConfig = {
   id: "bpm-key-detector",
@@ -119,49 +120,10 @@ function fftMagnitude(frame) {
   const real = new Float64Array(n);
   const imag = new Float64Array(n);
   for (let i = 0; i < n; i++) real[i] = frame[i];
-  fftInPlace(real, imag);
+  fft(real, imag);
   const mag = new Float64Array(n / 2);
   for (let i = 0; i < n / 2; i++) mag[i] = Math.sqrt(real[i] * real[i] + imag[i] * imag[i]);
   return mag;
-}
-
-function fftInPlace(real, imag) {
-  const n = real.length;
-  if (n === 0) return;
-  let j = 0;
-  for (let i = 0; i < n - 1; i++) {
-    if (i < j) {
-      [real[i], real[j]] = [real[j], real[i]];
-      [imag[i], imag[j]] = [imag[j], imag[i]];
-    }
-    let k = n >> 1;
-    while (k <= j) {
-      j -= k;
-      k >>= 1;
-    }
-    j += k;
-  }
-  for (let len = 2; len <= n; len <<= 1) {
-    const halfLen = len >> 1;
-    const angle = (-2 * Math.PI) / len;
-    const wReal = Math.cos(angle);
-    const wImag = Math.sin(angle);
-    for (let i = 0; i < n; i += len) {
-      let curReal = 1;
-      let curImag = 0;
-      for (let k = 0; k < halfLen; k++) {
-        const tReal = curReal * real[i + k + halfLen] - curImag * imag[i + k + halfLen];
-        const tImag = curReal * imag[i + k + halfLen] + curImag * real[i + k + halfLen];
-        real[i + k + halfLen] = real[i + k] - tReal;
-        imag[i + k + halfLen] = imag[i + k] - tImag;
-        real[i + k] += tReal;
-        imag[i + k] += tImag;
-        const newReal = curReal * wReal - curImag * wImag;
-        curImag = curReal * wImag + curImag * wReal;
-        curReal = newReal;
-      }
-    }
-  }
 }
 
 export function detectKey(chroma) {

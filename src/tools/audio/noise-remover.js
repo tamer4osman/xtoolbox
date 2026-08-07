@@ -1,66 +1,10 @@
 import { showToast } from "../../components/toast.js";
 import { downloadBlob } from "../../utils/file.js";
+import { stft, istft } from "./dsp.js";
 
-const FRAME_SIZE = 2048;
+export { hannWindow, fft, ifft, magSpectrum, stft, istft } from "./dsp.js";
+
 const HOP_SIZE = 512;
-const PI2 = 2 * Math.PI;
-
-export function hannWindow(n) {
-  const w = new Float32Array(n);
-  for (let i = 0; i < n; i++) w[i] = 0.5 * (1 - Math.cos((PI2 * i) / (n - 1)));
-  return w;
-}
-
-export function fft(re, im) {
-  const n = re.length;
-  if (n === 1) return;
-  for (let i = 1, j = 0; i < n; i++) {
-    let bit = n >> 1;
-    for (; j & bit; bit >>= 1) j ^= bit;
-    j ^= bit;
-    if (i < j) {
-      [re[i], re[j]] = [re[j], re[i]];
-      [im[i], im[j]] = [im[j], im[i]];
-    }
-  }
-  for (let len = 2; len <= n; len <<= 1) {
-    const half = len >> 1;
-    const ang = -PI2 / len;
-    const wRe = Math.cos(ang),
-      wIm = Math.sin(ang);
-    for (let i = 0; i < n; i += len) {
-      let curRe = 1,
-        curIm = 0;
-      for (let j = 0; j < half; j++) {
-        const tRe = curRe * re[i + j + half] - curIm * im[i + j + half];
-        const tIm = curRe * im[i + j + half] + curIm * re[i + j + half];
-        re[i + j + half] = re[i + j] - tRe;
-        im[i + j + half] = im[i + j] - tIm;
-        re[i + j] += tRe;
-        im[i + j] += tIm;
-        const newRe = curRe * wRe - curIm * wIm;
-        curIm = curRe * wIm + curIm * wRe;
-        curRe = newRe;
-      }
-    }
-  }
-}
-
-export function ifft(re, im) {
-  for (let i = 0; i < im.length; i++) im[i] = -im[i];
-  fft(re, im);
-  const n = re.length;
-  for (let i = 0; i < n; i++) {
-    re[i] /= n;
-    im[i] = -im[i] / n;
-  }
-}
-
-export function magSpectrum(re, im) {
-  const m = new Float32Array(re.length >> 1);
-  for (let i = 0; i < m.length; i++) m[i] = Math.sqrt(re[i] * re[i] + im[i] * im[i]);
-  return m;
-}
 
 export function estimateNoiseProfile(magnitudes, noiseFrames) {
   const bins = magnitudes[0].length;
@@ -126,64 +70,6 @@ export function wienerFilter(magnitudes, noiseProfile, alpha, yieldFn) {
     if (yieldFn && f % CHUNK === CHUNK - 1) yieldFn();
   }
   return result;
-}
-
-export function stft(signal, yieldFn) {
-  const window = hannWindow(FRAME_SIZE);
-  const nFrames = Math.max(1, Math.floor((signal.length - FRAME_SIZE) / HOP_SIZE) + 1);
-  const mags = [],
-    phases = [];
-  const re = new Float32Array(FRAME_SIZE);
-  const im = new Float32Array(FRAME_SIZE);
-  const CHUNK = 50;
-  for (let f = 0; f < nFrames; f++) {
-    const start = f * HOP_SIZE;
-    re.fill(0);
-    im.fill(0);
-    for (let i = 0; i < FRAME_SIZE && start + i < signal.length; i++) {
-      re[i] = signal[start + i] * window[i];
-    }
-    fft(re, im);
-    mags.push(magSpectrum(re, im));
-    const ph = new Float32Array(FRAME_SIZE >> 1);
-    for (let i = 0; i < ph.length; i++) ph[i] = Math.atan2(im[i], re[i]);
-    phases.push(ph);
-    if (yieldFn && f % CHUNK === CHUNK - 1) yieldFn();
-  }
-  return { mags, phases, nFrames };
-}
-
-export function istft(mags, phases, outputLength, yieldFn) {
-  const window = hannWindow(FRAME_SIZE);
-  const output = new Float32Array(outputLength);
-  const windowSum = new Float32Array(outputLength);
-  const re = new Float32Array(FRAME_SIZE);
-  const im = new Float32Array(FRAME_SIZE);
-  const CHUNK = 50;
-  for (let f = 0; f < mags.length; f++) {
-    re.fill(0);
-    im.fill(0);
-    const halfLen = mags[f].length;
-    for (let i = 0; i < halfLen; i++) {
-      re[i] = mags[f][i] * Math.cos(phases[f][i]);
-      im[i] = mags[f][i] * Math.sin(phases[f][i]);
-    }
-    for (let i = halfLen; i < FRAME_SIZE; i++) {
-      re[i] = re[FRAME_SIZE - i];
-      im[i] = -im[FRAME_SIZE - i];
-    }
-    ifft(re, im);
-    const start = f * HOP_SIZE;
-    for (let i = 0; i < FRAME_SIZE && start + i < outputLength; i++) {
-      output[start + i] += re[i] * window[i];
-      windowSum[start + i] += window[i] * window[i];
-    }
-    if (yieldFn && f % CHUNK === CHUNK - 1) yieldFn();
-  }
-  for (let i = 0; i < outputLength; i++) {
-    if (windowSum[i] > 1e-8) output[i] /= windowSum[i];
-  }
-  return output;
 }
 
 export function normalizeAudio(buffer) {
@@ -464,7 +350,7 @@ export function render(container) {
       setProgress("Running FFT analysis...", 0.1);
       await new Promise(r => setTimeout(r, 10));
 
-      const { mags, phases } = stft(signal, yieldToEventLoop);
+      const { mags, phases } = stft(signal, { yieldFn: yieldToEventLoop });
       setProgress("Estimating noise profile...", 0.3);
       await new Promise(r => setTimeout(r, 10));
 
@@ -505,12 +391,9 @@ export function render(container) {
       setProgress("Reconstructing audio...", 0.8);
       await yieldToEventLoop();
 
-      const cleaned = istft(
-        cleanedMags,
-        phases.slice(0, cleanedMags.length),
-        signal.length,
-        yieldToEventLoop
-      );
+      const cleaned = istft(cleanedMags, phases.slice(0, cleanedMags.length), signal.length, {
+        yieldFn: yieldToEventLoop
+      });
       const outBlob = encodeWav(cleaned, sampleRate);
       const origBlob = encodeWav(signal, sampleRate);
 
