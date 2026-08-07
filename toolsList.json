@@ -3054,7 +3054,7 @@
     "description": "Shift audio pitch up or down without changing speed.",
     "icon": "🎼",
     "href": "/tools/audio-pitch",
-    "status": "planned",
+    "status": "done",
     "keywords": ["pitch", "shift", "tone", "audio", "semitone"]
   },
   {
