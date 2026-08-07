@@ -9,22 +9,29 @@ import {
 } from "../tools/dev/html-playground.js";
 
 describe("composeDocument", () => {
-  it("builds a full html document from html, css, and a script src", () => {
-    const doc = composeDocument({ html: "<p>hi</p>", css: "p{color:red}", scriptSrc: "blob:xyz" });
+  it("builds a full html document from html, css, and script srcs", () => {
+    const doc = composeDocument({
+      html: "<p>hi</p>",
+      css: "p{color:red}",
+      scripts: ["blob:1", "blob:2"]
+    });
     expect(doc).toContain("<!DOCTYPE html>");
     expect(doc).toContain("<p>hi</p>");
     expect(doc).toContain("p{color:red}");
-    expect(doc).toContain('<script src="blob:xyz">');
+    expect(doc).toContain('<script src="blob:1">');
+    expect(doc).toContain('<script src="blob:2">');
   });
 
-  it("omits the script element when no scriptSrc or js is given", () => {
+  it("emits one script element per src, in order", () => {
+    const doc = composeDocument({ html: "", css: "", scripts: ["blob:listener", "blob:user"] });
+    expect(doc.indexOf('<script src="blob:listener">')).toBeLessThan(
+      doc.indexOf('<script src="blob:user">')
+    );
+  });
+
+  it("omits the script elements when no scripts are given", () => {
     const doc = composeDocument({ html: "<p>hi</p>", css: "" });
     expect(doc).not.toContain("<script");
-  });
-
-  it("embeds inline js block only when js is provided and no scriptSrc", () => {
-    const doc = composeDocument({ html: "", css: "", js: "throw new Error('boom')" });
-    expect(doc).toContain("throw new Error('boom')");
   });
 
   it("handles missing css field via string coercion", () => {
@@ -34,9 +41,13 @@ describe("composeDocument", () => {
 });
 
 describe("buildScript", () => {
-  it("prepends the listener source to the user js", () => {
-    const out = buildScript("console.log(1)", "LIST;");
-    expect(out).toBe("LIST;\nconsole.log(1)");
+  it("returns the user js as-is", () => {
+    expect(buildScript("console.log(1)")).toBe("console.log(1)");
+  });
+
+  it("returns empty string for no js", () => {
+    expect(buildScript("")).toBe("");
+    expect(buildScript(undefined)).toBe("");
   });
 });
 

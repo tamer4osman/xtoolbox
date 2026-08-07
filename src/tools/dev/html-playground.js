@@ -20,6 +20,10 @@ const CSS_FILES = [
   {
     url: CDN + "/theme/material-darker.min.css",
     integrity: "sha256-BiggYobXKLXqapzF7oziVQMDu5oyr77FK5Z0EySsXws="
+  },
+  {
+    url: CDN + "/addon/hint/show-hint.min.css",
+    integrity: "sha256-BRMH3hWNPkiz8j0DlG5ilCfhuT1ZfLpOBwO8+LA6e98="
   }
 ];
 const SCRIPT_FILES = [
@@ -42,6 +46,26 @@ const SCRIPT_FILES = [
   {
     url: CDN + "/mode/htmlmixed/htmlmixed.min.js",
     integrity: "sha256-MKE5SnhibHmDfopyqGWsq2W6w/YNDHBUaJ3JP8JYUp0="
+  },
+  {
+    url: CDN + "/addon/edit/matchbrackets.min.js",
+    integrity: "sha256-GM70UIJr9ayaFzOpqxEiKFqV31MpinohPwIjyfQf5aY="
+  },
+  {
+    url: CDN + "/addon/edit/closebrackets.min.js",
+    integrity: "sha256-AST4ZC/cJiLNcpWldGzw2ebvXrXLYnJhr7dtzzpfyoc="
+  },
+  {
+    url: CDN + "/addon/edit/matchtags.min.js",
+    integrity: "sha256-gSdkWVIb/At1rNAGzqmGegVU4oj38Zri4rptJWqC4c0="
+  },
+  {
+    url: CDN + "/addon/hint/show-hint.min.js",
+    integrity: "sha256-0FqQC+7jYnitPvvpzZmkqtN/LI8K5SklLQSoJ7viE6w="
+  },
+  {
+    url: CDN + "/addon/hint/anyword-hint.min.js",
+    integrity: "sha256-kOY32qXvjQ7rM9K2a2O+kpPxj5BNzeYxVex0iYOCr6k="
   }
 ];
 
@@ -85,6 +109,9 @@ const TOOL_CSS = `
 .hp-toolbar { display: flex; gap: var(--space-3); align-items: center; margin-bottom: var(--space-4); flex-wrap: wrap; }
 .hp-toolbar .hp-divider { width: 1px; height: 24px; background: var(--color-border); margin: 0 var(--space-1); }
 .hp-status { margin-left: auto; font-size: var(--text-xs); color: var(--color-text-secondary); }
+.hp-share-link { display: none; margin-bottom: var(--space-3); }
+.hp-share-link.visible { display: block; }
+.hp-share-link input { width: 100%; font: var(--text-xs) 'Fira Code', monospace; padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-text); background: var(--color-surface); }
 .hp-workspace { display: flex; height: 560px; border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; background: var(--color-surface); }
 .hp-editor-col { width: 50%; min-width: 260px; display: flex; flex-direction: column; }
 .hp-tabbar { display: flex; background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
@@ -124,6 +151,26 @@ const LISTENER_SRC = `(function () {
   function post(type, message) {
     try { parent.postMessage({ __hp: true, type: type, message: message }, "*"); } catch (err) {}
   }
+  function formatArg(value) {
+    if (typeof value === "string") return value;
+    try { return JSON.stringify(value); } catch (err) { return String(value); }
+  }
+  if (window.console) {
+    ["log", "info", "warn"].forEach(function (level) {
+      var orig = console[level].bind(console);
+      console[level] = function () {
+        var parts = Array.prototype.map.call(arguments, formatArg);
+        post("info", parts.join(" "));
+        return orig.apply(null, arguments);
+      };
+    });
+    var origError = console.error.bind(console);
+    console.error = function () {
+      var parts = Array.prototype.map.call(arguments, formatArg);
+      post("error", parts.join(" "));
+      return origError.apply(null, arguments);
+    };
+  }
   window.addEventListener("error", function (e) {
     post("error", e.message + " (line " + e.lineno + ")");
   });
@@ -133,12 +180,8 @@ const LISTENER_SRC = `(function () {
 })();
 `;
 
-export function composeDocument({ html, css, scriptSrc, js }) {
-  const bodyScript = scriptSrc
-    ? `<script src="${scriptSrc}"></script>`
-    : js
-      ? `\n<script>\ntry {\n/* user-js */\n${js}\n} catch (err) {}\n</script>`
-      : "";
+export function composeDocument({ html, css, scripts = [] }) {
+  const bodyScript = scripts.map(src => `<script src="${src}"></script>`).join("\n");
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -153,8 +196,8 @@ ${bodyScript}
 </html>`;
 }
 
-export function buildScript(js, listenerSrc) {
-  return listenerSrc + "\n" + (js || "");
+export function buildScript(js) {
+  return js || "";
 }
 
 export function toScriptSrc(scriptCode) {
@@ -201,6 +244,7 @@ export function render(container) {
         <button class="btn-primary" id="hp-share">Share</button>
         <span class="hp-status" id="hp-status"></span>
       </div>
+      <div class="hp-share-link" id="hp-share-link"><input type="text" readonly aria-label="Share link"></div>
 
       <div class="hp-workspace">
         <div class="hp-editor-col">
@@ -374,11 +418,15 @@ function scheduleRender(container) {
 
 function renderPreview(container) {
   const frame = container.querySelector("#hp-frame");
-  const scriptSrc = toScriptSrc(buildScript(state.current.js, LISTENER_SRC));
+  const scripts = [toScriptSrc(LISTENER_SRC)];
+  const userJs = buildScript(state.current.js).trim();
+  if (userJs) {
+    scripts.push(toScriptSrc(userJs));
+  }
   frame.srcdoc = composeDocument({
     html: state.current.html,
     css: state.current.css,
-    scriptSrc
+    scripts
   });
   const status = container.querySelector("#hp-preview-status");
   status.textContent = "Rendered at " + new Date().toLocaleTimeString();
@@ -395,7 +443,12 @@ function loadSavedState() {
   if (loadFromURL()) {
     return;
   }
-  const saved = localStorage.getItem(STORAGE_KEY);
+  let saved = null;
+  try {
+    saved = localStorage.getItem(STORAGE_KEY);
+  } catch (e) {
+    saved = null;
+  }
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
@@ -421,9 +474,22 @@ function shareCode(container) {
     PARAM_KEY +
     "=" +
     encodeURIComponent(payload);
-  navigator.clipboard.writeText(url).then(() => {
-    container.querySelector("#hp-status").textContent = "Share link copied";
-  });
+  const status = container.querySelector("#hp-status");
+  const write =
+    navigator.clipboard && typeof navigator.clipboard.writeText === "function"
+      ? navigator.clipboard.writeText(url)
+      : Promise.reject(new Error("Clipboard API unavailable"));
+  write
+    .then(() => {
+      status.textContent = "Share link copied";
+    })
+    .catch(() => {
+      status.textContent = "Copy blocked — copy the link manually";
+      const field = container.querySelector("#hp-share-link input");
+      field.value = url;
+      field.select();
+      container.querySelector("#hp-share-link").classList.add("visible");
+    });
 }
 
 function loadFromURL() {
