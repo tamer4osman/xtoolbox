@@ -1,5 +1,5 @@
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import { downloadBlob } from "../../utils/file.js";
+import { rgb } from "pdf-lib";
+import { createPdfDocumentTool } from "../shared/pdf-document-factory.js";
 
 export const toolConfig = {
   id: "freelancer-contract-generator",
@@ -14,7 +14,7 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let state = {
+  const state = {
     clientName: "",
     clientCompany: "",
     freelancerName: "",
@@ -29,10 +29,15 @@ export function render(container) {
     governingLaw: "California"
   };
 
-  container.innerHTML = `
-    <div class="tool-container">
-      <h1>${toolConfig.name}</h1>
-      <p>${toolConfig.description}</p>
+  createPdfDocumentTool({
+    container,
+    toolName: toolConfig.name,
+    description: toolConfig.description,
+    pageSize: [612, 792],
+    errorLabel: "contract",
+    buttonText: "Generate Contract PDF",
+    state,
+    fieldsHTML: `
       <div class="form-section">
         <h3>Parties</h3>
         <div class="form-row">
@@ -115,66 +120,54 @@ export function render(container) {
           <option value="Delaware">Delaware</option>
         </select>
       </div>
-      <button type="button" id="generatePdf" class="btn-primary">Generate Contract PDF</button>
-    </div>
-  `;
+    `,
+    bindEvents({ $, state }) {
+      $("#startDate").value = state.startDate;
 
-  const $ = id => container.querySelector(id);
-  const el = sel => container.querySelector(sel);
-
-  $("#startDate").value = state.startDate;
-
-  el("#clientName").addEventListener("input", e => {
-    state.clientName = e.target.value;
-  });
-  el("#clientCompany").addEventListener("input", e => {
-    state.clientCompany = e.target.value;
-  });
-  el("#freelancerName").addEventListener("input", e => {
-    state.freelancerName = e.target.value;
-  });
-  el("#projectScope").addEventListener("input", e => {
-    state.projectScope = e.target.value;
-  });
-  el("#deliverables").addEventListener("input", e => {
-    state.deliverables = e.target.value;
-  });
-  el("#rate").addEventListener("input", e => {
-    state.rate = e.target.value;
-  });
-  el("#rateType").addEventListener("change", e => {
-    state.rateType = e.target.value;
-  });
-  el("#paymentTerms").addEventListener("input", e => {
-    state.paymentTerms = e.target.value;
-  });
-  el("#startDate").addEventListener("change", e => {
-    state.startDate = e.target.value;
-  });
-  el("#endDate").addEventListener("change", e => {
-    state.endDate = e.target.value;
-  });
-  el("#ipTerms").addEventListener("change", e => {
-    state.ipTerms = e.target.value;
-  });
-  el("#governingLaw").addEventListener("change", e => {
-    state.governingLaw = e.target.value;
-  });
-
-  el("#generatePdf").addEventListener("click", async () => {
-    if (!state.clientName || !state.freelancerName || !state.projectScope) {
-      alert("Please fill in client name, freelancer name, and project scope");
-      return;
-    }
-
-    try {
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage([612, 792]);
-      const { width, height } = page.getSize();
-
-      const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-      const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
+      $("#clientName").addEventListener("input", e => {
+        state.clientName = e.target.value;
+      });
+      $("#clientCompany").addEventListener("input", e => {
+        state.clientCompany = e.target.value;
+      });
+      $("#freelancerName").addEventListener("input", e => {
+        state.freelancerName = e.target.value;
+      });
+      $("#projectScope").addEventListener("input", e => {
+        state.projectScope = e.target.value;
+      });
+      $("#deliverables").addEventListener("input", e => {
+        state.deliverables = e.target.value;
+      });
+      $("#rate").addEventListener("input", e => {
+        state.rate = e.target.value;
+      });
+      $("#rateType").addEventListener("change", e => {
+        state.rateType = e.target.value;
+      });
+      $("#paymentTerms").addEventListener("input", e => {
+        state.paymentTerms = e.target.value;
+      });
+      $("#startDate").addEventListener("change", e => {
+        state.startDate = e.target.value;
+      });
+      $("#endDate").addEventListener("change", e => {
+        state.endDate = e.target.value;
+      });
+      $("#ipTerms").addEventListener("change", e => {
+        state.ipTerms = e.target.value;
+      });
+      $("#governingLaw").addEventListener("change", e => {
+        state.governingLaw = e.target.value;
+      });
+    },
+    validate(state) {
+      if (!state.clientName || !state.freelancerName || !state.projectScope) {
+        return "Please fill in client name, freelancer name, and project scope";
+      }
+      return null;
+    },
+    async buildPdf({ page, width, height, helveticaBold, helvetica, state }) {
       let y = height - 50;
 
       page.drawText("FREELANCE SERVICE AGREEMENT", {
@@ -341,13 +334,7 @@ export function render(container) {
         color: rgb(0.4, 0.4, 0.4)
       });
 
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
-      const filename = `freelance-contract-${new Date().toISOString().split("T")[0]}.pdf`;
-      downloadBlob(blob, filename);
-    } catch (err) {
-      console.error("PDF generation error:", err);
-      alert("Error generating contract: " + err.message);
+      return `freelance-contract-${new Date().toISOString().split("T")[0]}.pdf`;
     }
   });
 }

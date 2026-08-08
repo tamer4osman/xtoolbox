@@ -1,5 +1,5 @@
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import { downloadBlob } from "../../utils/file.js";
+import { rgb } from "pdf-lib";
+import { createPdfDocumentTool } from "../shared/pdf-document-factory.js";
 
 export const toolConfig = {
   id: "certificate-generator",
@@ -13,8 +13,31 @@ export const toolConfig = {
   maxSizeMB: 10
 };
 
+const templates = {
+  completion: {
+    title: "Certificate of Completion",
+    subtitle: "This is to certify that",
+    body: "has successfully completed the course requirements"
+  },
+  achievement: {
+    title: "Certificate of Achievement",
+    subtitle: "This is to present this certificate to",
+    body: "for outstanding performance and dedication"
+  },
+  participation: {
+    title: "Certificate of Participation",
+    subtitle: "This is to certify that",
+    body: "has participated in the event"
+  },
+  award: {
+    title: "Certificate of Award",
+    subtitle: "Proudly presented to",
+    body: "in recognition of excellence"
+  }
+};
+
 export function render(container) {
-  let state = {
+  const state = {
     template: "completion",
     recipientName: "",
     title: "Certificate of Completion",
@@ -25,33 +48,15 @@ export function render(container) {
     date: new Date().toISOString().split("T")[0]
   };
 
-  const templates = {
-    completion: {
-      title: "Certificate of Completion",
-      subtitle: "This is to certify that",
-      body: "has successfully completed the course requirements"
-    },
-    achievement: {
-      title: "Certificate of Achievement",
-      subtitle: "This is to present this certificate to",
-      body: "for outstanding performance and dedication"
-    },
-    participation: {
-      title: "Certificate of Participation",
-      subtitle: "This is to certify that",
-      body: "has participated in the event"
-    },
-    award: {
-      title: "Certificate of Award",
-      subtitle: "Proudly presented to",
-      body: "in recognition of excellence"
-    }
-  };
-
-  container.innerHTML = `
-    <div class="tool-container">
-      <h1>${toolConfig.name}</h1>
-      <p>${toolConfig.description}</p>
+  createPdfDocumentTool({
+    container,
+    toolName: toolConfig.name,
+    description: toolConfig.description,
+    pageSize: [792, 612],
+    errorLabel: "certificate",
+    buttonText: "Generate PDF Certificate",
+    state,
+    fieldsHTML: `
       <div class="form-section">
         <label for="templateSelect">Certificate Template</label>
         <select id="templateSelect">
@@ -85,69 +90,58 @@ export function render(container) {
         <label for="certificateDate">Date</label>
         <input type="date" id="certificateDate" />
       </div>
-      <button type="button" id="generatePdf" class="btn-primary">Generate PDF Certificate</button>
-      <div id="preview" class="preview-area"></div>
-    </div>
-  `;
+    `,
+    hintsHTML: `<div id="preview" class="preview-area"></div>`,
+    bindEvents({ $, state }) {
+      $("#certificateDate").value = state.date;
 
-  const $ = id => container.querySelector(id);
-  const el = sel => container.querySelector(sel);
+      function updateFormFromTemplate() {
+        const tpl = templates[state.template];
+        $("#customTitle").value = "";
+        $("#certificateBody").value = tpl.body;
+        state.title = tpl.title;
+        state.subtitle = tpl.subtitle;
+        state.body = tpl.body;
+      }
 
-  $("#certificateDate").value = state.date;
+      updateFormFromTemplate();
 
-  function updateFormFromTemplate() {
-    const tpl = templates[state.template];
-    $("#customTitle").value = "";
-    $("#certificateBody").value = tpl.body;
-    state.title = tpl.title;
-    state.subtitle = tpl.subtitle;
-    state.body = tpl.body;
-  }
+      $("#templateSelect").addEventListener("change", e => {
+        state.template = e.target.value;
+        updateFormFromTemplate();
+      });
 
-  updateFormFromTemplate();
+      $("#recipientName").addEventListener("input", e => {
+        state.recipientName = e.target.value;
+      });
 
-  el("#templateSelect").addEventListener("change", e => {
-    state.template = e.target.value;
-    updateFormFromTemplate();
-  });
+      $("#customTitle").addEventListener("input", e => {
+        state.title = e.target.value || templates[state.template].title;
+      });
 
-  el("#recipientName").addEventListener("input", e => {
-    state.recipientName = e.target.value;
-  });
+      $("#certificateBody").addEventListener("input", e => {
+        state.body = e.target.value;
+      });
 
-  el("#customTitle").addEventListener("input", e => {
-    state.title = e.target.value || templates[state.template].title;
-  });
+      $("#issuerName").addEventListener("input", e => {
+        state.issuerName = e.target.value;
+      });
 
-  el("#certificateBody").addEventListener("input", e => {
-    state.body = e.target.value;
-  });
+      $("#issuerTitle").addEventListener("input", e => {
+        state.issuerTitle = e.target.value;
+      });
 
-  el("#issuerName").addEventListener("input", e => {
-    state.issuerName = e.target.value;
-  });
-
-  el("#issuerTitle").addEventListener("input", e => {
-    state.issuerTitle = e.target.value;
-  });
-
-  el("#certificateDate").addEventListener("change", e => {
-    state.date = e.target.value;
-  });
-
-  el("#generatePdf").addEventListener("click", async () => {
-    if (!state.recipientName.trim()) {
-      alert("Please enter a recipient name");
-      return;
-    }
-
-    try {
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage([792, 612]);
-      const { width, height } = page.getSize();
-
-      const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-      const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      $("#certificateDate").addEventListener("change", e => {
+        state.date = e.target.value;
+      });
+    },
+    validate(state) {
+      if (!state.recipientName.trim()) {
+        return "Please enter a recipient name";
+      }
+      return null;
+    },
+    async buildPdf({ page, width, height, helveticaBold, helvetica, state }) {
       page.drawRectangle({
         x: 30,
         y: 30,
@@ -281,13 +275,7 @@ export function render(container) {
         align: "center"
       });
 
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
-      const filename = `certificate-${state.recipientName.replace(/\s+/g, "-").toLowerCase()}.pdf`;
-      downloadBlob(blob, filename);
-    } catch (err) {
-      console.error("PDF generation error:", err);
-      alert("Error generating certificate: " + err.message);
+      return `certificate-${state.recipientName.replace(/\s+/g, "-").toLowerCase()}.pdf`;
     }
   });
 }

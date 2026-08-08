@@ -1,5 +1,5 @@
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import { downloadBlob } from "../../utils/file.js";
+import { rgb } from "pdf-lib";
+import { createPdfDocumentTool } from "../shared/pdf-document-factory.js";
 
 export const toolConfig = {
   id: "nda-generator",
@@ -13,7 +13,7 @@ export const toolConfig = {
 };
 
 export function render(container) {
-  let state = {
+  const state = {
     type: "unilateral",
     disclosingParty: "",
     receivingParty: "",
@@ -25,10 +25,15 @@ export function render(container) {
     governingLaw: "The laws of the State of [STATE]"
   };
 
-  container.innerHTML = `
-    <div class="tool-container">
-      <h1>${toolConfig.name}</h1>
-      <p>${toolConfig.description}</p>
+  createPdfDocumentTool({
+    container,
+    toolName: toolConfig.name,
+    description: toolConfig.description,
+    pageSize: [612, 792],
+    errorLabel: "NDA",
+    buttonText: "Generate NDA PDF",
+    state,
+    fieldsHTML: `
       <div class="form-section">
         <label for="ndaType">NDA Type</label>
         <select id="ndaType">
@@ -70,66 +75,55 @@ export function render(container) {
           <option value="Texas">Texas</option>
         </select>
       </div>
-      <button type="button" id="generatePdf" class="btn-primary">Generate NDA PDF</button>
-    </div>
-  `;
+    `,
+    bindEvents({ $, state }) {
+      $("#effectiveDate").value = state.effectiveDate;
 
-  const $ = id => container.querySelector(id);
-  const el = sel => container.querySelector(sel);
+      $("#ndaType").addEventListener("change", e => {
+        state.type = e.target.value;
+        if (state.type === "mutual") {
+          $("#receivingParty").parentElement.style.display = "none";
+        } else {
+          $("#receivingParty").parentElement.style.display = "block";
+        }
+      });
 
-  $("#effectiveDate").value = state.effectiveDate;
+      $("#disclosingParty").addEventListener("input", e => {
+        state.disclosingParty = e.target.value;
+      });
 
-  el("#ndaType").addEventListener("change", e => {
-    state.type = e.target.value;
-    if (state.type === "mutual") {
-      $("#receivingParty").parentElement.style.display = "none";
-    } else {
-      $("#receivingParty").parentElement.style.display = "block";
-    }
-  });
+      $("#receivingParty").addEventListener("input", e => {
+        state.receivingParty = e.target.value;
+      });
 
-  el("#disclosingParty").addEventListener("input", e => {
-    state.disclosingParty = e.target.value;
-  });
+      $("#companyName").addEventListener("input", e => {
+        state.companyName = e.target.value;
+      });
 
-  el("#receivingParty").addEventListener("input", e => {
-    state.receivingParty = e.target.value;
-  });
+      $("#purpose").addEventListener("input", e => {
+        state.purpose = e.target.value;
+      });
 
-  el("#companyName").addEventListener("input", e => {
-    state.companyName = e.target.value;
-  });
+      $("#effectiveDate").addEventListener("change", e => {
+        state.effectiveDate = e.target.value;
+      });
 
-  el("#purpose").addEventListener("input", e => {
-    state.purpose = e.target.value;
-  });
+      $("#expirationDate").addEventListener("change", e => {
+        state.expirationDate = e.target.value;
+      });
 
-  el("#effectiveDate").addEventListener("change", e => {
-    state.effectiveDate = e.target.value;
-  });
-
-  el("#expirationDate").addEventListener("change", e => {
-    state.expirationDate = e.target.value;
-  });
-
-  el("#state").addEventListener("change", e => {
-    state.state = e.target.value;
-    state.governingLaw = `The laws of the State of ${e.target.value}`;
-  });
-
-  el("#generatePdf").addEventListener("click", async () => {
-    if (!state.disclosingParty.trim() || !state.companyName.trim()) {
-      alert("Please fill in both the disclosing party and your company name");
-      return;
-    }
-
-    try {
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage([612, 792]);
-      const { width, height } = page.getSize();
-
-      const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-      const helvetica = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      $("#state").addEventListener("change", e => {
+        state.state = e.target.value;
+        state.governingLaw = `The laws of the State of ${e.target.value}`;
+      });
+    },
+    validate(state) {
+      if (!state.disclosingParty.trim() || !state.companyName.trim()) {
+        return "Please fill in both the disclosing party and your company name";
+      }
+      return null;
+    },
+    async buildPdf({ page, width, height, helveticaBold, helvetica, state }) {
       const title =
         state.type === "mutual" ? "MUTUAL NON-DISCLOSURE AGREEMENT" : "NON-DISCLOSURE AGREEMENT";
 
@@ -266,13 +260,7 @@ export function render(container) {
       addLine("Name: " + (state.type === "mutual" ? state.companyName : state.receivingParty), 330);
       addLine("Date: " + effDate, 330);
 
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
-      const filename = `nda-${state.type}-${new Date().toISOString().split("T")[0]}.pdf`;
-      downloadBlob(blob, filename);
-    } catch (err) {
-      console.error("PDF generation error:", err);
-      alert("Error generating NDA: " + err.message);
+      return `nda-${state.type}-${new Date().toISOString().split("T")[0]}.pdf`;
     }
   });
 }
