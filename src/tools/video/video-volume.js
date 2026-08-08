@@ -29,6 +29,14 @@ export const toolConfig = {
   ]
 };
 
+export function volumeMultiplier(volume) {
+  return volume / 100;
+}
+
+export function volumeFillWidth(volume) {
+  return (volume / 300) * 100;
+}
+
 export const render = createVideoTool({
   maxSizeMB: 500,
   processingText: "Processing...",
@@ -71,7 +79,7 @@ export const render = createVideoTool({
     const updateUI = val => {
       slider.value = val;
       display.textContent = `${val}%`;
-      fill.style.width = `${(val / 300) * 100}%`;
+      fill.style.width = `${volumeFillWidth(val)}%`;
       tctx.query("#preset-buttons .btn.active")?.classList.remove("active");
       tctx.query(`[data-volume="${val}"]`)?.classList.add("active");
     };
@@ -87,7 +95,7 @@ export const render = createVideoTool({
   },
   async onProcess(ffmpeg, inputName, videoInfo, tctx) {
     const volume = parseFloat(tctx.getValue("volume-slider") || "100");
-    const multiplier = volume / 100;
+    const multiplier = volumeMultiplier(volume);
 
     const ext = inputName.split(".").pop() || "mp4";
     const outputName = `output.${ext}`;
