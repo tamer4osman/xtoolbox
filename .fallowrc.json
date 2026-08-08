@@ -5,9 +5,5 @@
     "src/tools/pdf/extract-text-pdf.js",
     ".opencode/skills/frontend-testing/frontend-testing/scripts/trace-events.ts"
   ],
-  "ignoreDependencies": [
-    "@ffmpeg/core",
-    "@rolldown/binding-win32-x64-msvc",
-    "@size-limit/preset-app"
-  ]
+  "ignoreDependencies": ["@ffmpeg/core", "@rolldown/binding-win32-x64-msvc", "@size-limit/file"]
 }

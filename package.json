@@ -86,12 +86,6 @@
   "optionalDependencies": {
     "@rolldown/binding-win32-x64-msvc": "^1.1.4"
   },
-  "overrides": {
-    "estimo": {
-      "nanoid": "5.1.16"
-    },
-    "ip-address": "10.4.0"
-  },
   "size-limit": [
     {
       "name": "Main bundle (initial load)",
