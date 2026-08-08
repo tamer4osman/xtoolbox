@@ -7,7 +7,7 @@ export const toolConfig = {
   status: "done"
 };
 
-function detectDelimiter(text) {
+export function detectDelimiter(text) {
   const lines = text
     .trim()
     .split("\n")
@@ -40,7 +40,7 @@ function detectDelimiter(text) {
   return scores[0].d;
 }
 
-function parseTable(text, delimiter, hasHeader) {
+export function parseTable(text, delimiter, hasHeader) {
   const lines = text
     .trim()
     .split("\n")
