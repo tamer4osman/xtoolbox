@@ -276,7 +276,7 @@ export function render(container) {
   loadScriptResources()
     .then(() => {
       loadSavedState();
-      initEditors(container);
+      initEditors();
       bindEvents(container);
       renderPreview(container);
     })
@@ -297,7 +297,7 @@ function loadCSSResources() {
   });
 }
 
-async function loadScriptResources(container) {
+async function loadScriptResources() {
   for (const f of SCRIPT_FILES) {
     await loadScript(f.url, f.integrity);
   }
@@ -350,7 +350,7 @@ function onEditorChange(editor) {
   scheduleRender();
 }
 
-function initEditors(container) {
+function initEditors() {
   state.editors.html = createEditor("htmlmixed", state.current.html);
   state.editors.css = createEditor("css", state.current.css);
   state.editors.js = createEditor("javascript", state.current.js);

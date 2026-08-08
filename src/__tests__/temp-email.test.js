@@ -51,7 +51,7 @@ describe("temp-email", () => {
     it("contains valid characters from charset", () => {
       const password = generatePassword();
       expect(password).toHaveLength(16);
-      expect(password).toMatch(/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/);
+      expect(password).toMatch(/^[A-Za-z0-9!@#$%]+$/);
     });
 
     it("generates different values on successive calls", () => {
