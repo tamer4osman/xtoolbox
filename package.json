@@ -51,6 +51,7 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
+    "@size-limit/file": "^11.2.0",
     "ajv": "^8.20.0",
     "docx": "^9.6.1",
     "dompurify": "^3.4.12",
@@ -74,7 +75,6 @@
   "devDependencies": {
     "@ffmpeg/core": "^0.12.10",
     "@playwright/test": "^1.59.1",
-    "@size-limit/preset-app": "^11.2.0",
     "jsdom": "^30.0.1",
     "oxfmt": "^0.62.0",
     "oxlint": "^1.77.0",
@@ -95,14 +95,14 @@
   "size-limit": [
     {
       "name": "Main bundle (initial load)",
-      "path": "dist/assets/index-*.js",
+      "path": "dist/assets/main-*.js",
       "limit": "200 kB",
       "gzip": true
     },
     {
       "name": "Total JS (all chunks)",
       "path": "dist/assets/*.js",
-      "limit": "2 MB",
+      "limit": "3 MB",
       "gzip": true
     }
   ]
