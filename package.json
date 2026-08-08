@@ -84,7 +84,7 @@
     "vitest": "^4.1.7"
   },
   "optionalDependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.1.4"
+    "@rolldown/binding-win32-x64-msvc": "^1.2.3"
   },
   "overrides": {
     "estimo": {
