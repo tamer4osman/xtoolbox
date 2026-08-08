@@ -85,10 +85,38 @@ jobs:
         run: npm run build
 
       - name: Size Limit
-        uses: andresz1/size-limit-action@v1
+        id: size
+        run: |
+          set +e
+          npx size-limit --json > size-limit-report.txt 2>&1
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          echo "result<<EOF" >> "$GITHUB_OUTPUT"
+          cat size-limit-report.txt >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Post size result to PR
+        if: steps.size.outputs.result != ''
+        uses: actions/github-script@v7
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          skip_step: build
+          script: |
+            const prs = context.payload.pull_request;
+            const comment = '## Bundle Size\n\n```text\n' + process.env.SIZE_RESULT + '\n```';
+            if (prs) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prs.number,
+                body: comment,
+              });
+            }
+        env:
+          SIZE_RESULT: ${{ steps.size.outputs.result }}
+
+      - name: Fail on size limit exceeded
+        if: steps.size.outputs.exit_code != '0'
+        run: exit 1
 
   lighthouse:
     runs-on: ubuntu-latest
