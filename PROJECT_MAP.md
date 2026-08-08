@@ -30,6 +30,7 @@
 ## [SYSTEM_FLOW]
 
 **SPA bootstrap (`src/main.js`):**
+
 1. Global error handlers registered (uncaught errors + unhandled rejections → console).
 2. Styles imported: `global.css`, `components.css`, `utilities.css`.
 3. Core modules imported: router, navbar, footer, tooltip.
@@ -39,6 +40,7 @@
 7. Service worker registered at `/src/sw.js` (on load).
 
 **Routing (`src/router.js`):**
+
 - `on(path, handler)` — path with `:param` → regex via `pathToRegex`.
 - `navigate(path)` sets `window.location.hash`.
 - `handleRouteChange()`: if leaving `/tools/` → dynamic-import `pages/tool.js` and call `cleanupToolResources()`; then run any registered `currentCleanup`; then `matchRoute(path)` → handler or 404; then `scrollTo(0,0)` + update `.active` nav links.
@@ -46,6 +48,7 @@
 - `setNotFound(handler)` for 404.
 
 **Tool page flow (`src/pages/tool.js`):**
+
 1. `renderTool(toolId)` → `cleanupCurrentTool()`, look up meta in `src/data/tools.json` (404 page if missing).
 2. `updatePageMeta()` + `addStructuredData()` (WebApplication + FAQPage schema).
 3. Render shell (header + loading spinner), then `loadToolModule(category, toolId)`:
@@ -57,6 +60,7 @@
 7. `cleanupToolResources()` exported → called by router on navigation away.
 
 **Registry → page → tool-module contract:**
+
 - `src/data/tools.json` is the **single source of truth** for tool metadata (id, name, category, description, icon, status done/planned, phase, href, keywords, steps, faqs).
 - Every tool is a module in `src/tools/<category>/<id>.js` exporting `toolConfig` (id/name/category/description/icon/accept/maxSizeMB/keywords/steps/faqs) + `render(container)` + optional `cleanup`.
 - `toolsList.json` (root) is the external tracking copy — **must stay in sync** with `src/data/tools.json` (both 343 entries).
@@ -67,6 +71,7 @@
 ## [ARCHITECTURE]
 
 **Directory layout:**
+
 ```
 src/
   main.js                 # entry: bootstrap, route registration, SW
@@ -97,6 +102,7 @@ scripts/                  # copy-ffmpeg-core, measure-spa-performance, smoke-tes
 ```
 
 **Tool factories (extract when 3+ tools share scaffold):**
+
 - `audio/audio-tool-factory.js` — audio upload→options→preview→download (used by audio-speed, audio-pitch target).
 - `image/image-tool-factory.js`, `image/onnx-tool-factory.js`, `image/pixel-tool-factory.js`, `image/upload-tool-factory.js`.
 - `video/video-tool-factory.js`, `video/video-converter-factory.js`.
@@ -105,12 +111,14 @@ scripts/                  # copy-ffmpeg-core, measure-spa-performance, smoke-tes
 - `business/business-calc-factory.js`, `finance/finance-calculator-factory.js`, `health/health-calculator-factory.js`, `css/css-generator-factory.js`, `qr/scanner-factory.js`, `shared/basic-tool-factory.js`, `shared/lookup-tool-factory.js`, `shared/merge-tool-factory.js`, `shared/char-grid-factory.js`.
 
 **Audio subsystem (relevant to audio-pitch):**
+
 - `src/tools/audio/audio-utils.js` — `loadAudioFile`, `audioBufferToWav`, `changeSpeed` (linear resample), `formatAudioTime`.
 - `src/tools/audio/noise-remover.js` — currently exports `hannWindow`, `fft`, `ifft`, `stft`, `istft` (lines 8–163) → **to be extracted to shared `src/tools/audio/dsp.js`**.
 - `src/tools/audio/bpm-key-detector.js` — has duplicated `fftInPlace` (lines 117–128) → **to fold into dsp.js**.
 - `src/tools/audio/audio-tool.js` — reference pattern (factory + slider + Apply + Download).
 
 **Planned dsp.js layer (approved design):**
+
 - New `src/tools/audio/dsp.js` exports: `hannWindow`, `fft`, `ifft`, `fftInPlace`, `stft`, `istft`, `phaseVocoder` (STFT stretch by factor R = 2^(semitones/12), then resample back to original duration).
 - `audio-pitch` tool (`src/tools/audio/audio-pitch.js`): hand-rolled phase vocoder, ZERO new deps. UI: −12..+12 semitone slider + key dropdown (C..B) + preset chips; upload via `createAudioTool` → Apply → Play/Pause preview (AudioBufferSourceNode) + Download WAV.
 - Refactors: `noise-remover.js` and `bpm-key-detector.js` import from dsp.js. Re-run their unit + e2e tests after refactor.
@@ -120,25 +128,27 @@ scripts/                  # copy-ffmpeg-core, measure-spa-performance, smoke-tes
 ## [ORPHANS & PENDING]
 
 **Registry state (verified 2026-08-08):**
+
 - Total **343** = **332 done** + **11 planned**. `tools.json` = `toolsList.json` = 343. `categories.json` sums to 343 across 21 categories.
 - README line 3: "343 online tools"; line 6 badge: tools-331 (should read 343/331 — badge shows done count); line 46: "**343 tools**". `src/pages/home.js` + `src/components/footer.js` must also hold 343.
 
 **Category counts (tools.json):** audio 17, business 16, css 20, dev 38, encoding 9, finance 16, fun 6, health 12, image 43, math 13, ocr 4, pdf 33, privacy 9, qr 4, reference 8, seo 8, text 35, video 26, visualization 4, weather 4, productivity 18. **Sum = 343.**
 
 **11 planned tools (no impl yet) — `tools.json` status=planned:**
-| id | category |
-|---|---|
-| audio-to-midi-converter | audio |
-| env-parser | dev |
-| resume-job-matcher | business |
-| salary-calc | finance |
-| retirement-planner | finance |
-| decision-matrix | productivity |
-| timesheet-tracker | productivity |
-| password-breach-checker | privacy |
-| link-preview | reference |
-| name-generator | fun |
-| video-scene-cut-detector | video |
+
+| id                       | category     |
+| ------------------------ | ------------ |
+| audio-to-midi-converter  | audio        |
+| env-parser               | dev          |
+| resume-job-matcher       | business     |
+| salary-calc              | finance      |
+| retirement-planner       | finance      |
+| decision-matrix          | productivity |
+| timesheet-tracker        | productivity |
+| password-breach-checker  | privacy      |
+| link-preview             | reference    |
+| name-generator           | fun          |
+| video-scene-cut-detector | video        |
 
 **On-disk helpers that are NOT tools (imported by real tools — do not register):**
 `src/tools/dev/nginx-constants.js`, `web-asset-constants.js`, `web-asset-extractors.js`; `src/tools/health/health-calculator.js`; `src/tools/image/create-image-tool.js`, `format-converter-tool.js`, `image-filter-tool.js`; `src/tools/pdf/image-to-pdf-tool.js`, `pdf-page-browser.js`; `src/tools/productivity/sound-nodes.js`; `src/tools/qr/qr-content-builders.js`, `qr-styles.js`. (Verified: each is imported by ≥1 done tool; the on-disk tool tree is clean — no true orphans.)
@@ -154,6 +164,7 @@ scripts/                  # copy-ffmpeg-core, measure-spa-performance, smoke-tes
 Verifiable goals; each milestone blocks the next. Commits only after user approval.
 
 **M0 — Baseline (verify before coding):**
+
 - `npm run build` passes (exit 0).
 - `npm run test:unit` passes (all 152).
 - `npm run test` (Playwright) passes — at minimum audio-related specs.
@@ -161,17 +172,20 @@ Verifiable goals; each milestone blocks the next. Commits only after user approv
 - Confirm `memory/plan-pitch-shifter.md` matches this map.
 
 **M1 — dsp.js extraction (shared DSP layer):**
+
 - Create `src/tools/audio/dsp.js` with `hannWindow/fft/ifft/fftInPlace/stft/istft/phaseVocoder`.
 - Refactor `noise-remover.js` + `bpm-key-detector.js` to import from dsp.js; no behavior change.
 - New `src/__tests__/dsp.test.js` (round-trip: fft→ifft identity, stft→istft, phaseVocoder preserves duration & basic pitch).
 - Verify: `npm run build`, `npm run test:unit`, re-run `noise-remover`/`bpm-key-detector` e2e specs.
 
 **M2 — audio-pitch tool:**
+
 - `src/tools/audio/audio-pitch.js` (toolConfig + render + cleanup), uses `createAudioTool` factory + slider (−12..+12) + key dropdown + presets + Play/Pause + WAV download.
 - `src/__tests__/audio-pitch.test.js` + `tests/audio-pitch.spec.js`.
 - Verify: `npm run build`, `npm run test:unit`, `npm run smoke audio-pitch`, `node scripts/measure-spa-performance.mjs`, `npx oxlint` + `oxfmt`, Chrome DevTools page check (console/network/snapshot).
 
 **M3 — Registry + docs sync (Phase 28 conventions):**
+
 - Add audio-pitch to `toolsList.json` + `src/data/tools.json` (status done).
 - Update README.md (343→344), PROJECT-PLAN.md, `memory/tool-building-progress.md`.
 - Update `src/pages/home.js`, `src/data/categories.json` (audio 17→18), `src/components/footer.js`.

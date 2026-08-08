@@ -11,8 +11,5 @@
   "files.exclude": {
     "**/node_modules": true
   },
-  "markdownlint.ignore": [
-    "_headers"
-  ]
+  "markdownlint.ignore": ["_headers"]
 }
-

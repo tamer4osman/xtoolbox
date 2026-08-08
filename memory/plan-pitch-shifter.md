@@ -22,15 +22,15 @@
 
 ## File map
 
-| File | Action |
-|---|---|
-| `src/tools/audio/dsp.js` | NEW — shared FFT/STFT + phase vocoder |
-| `src/tools/audio/audio-pitch.js` | NEW — tool render + orchestration |
-| `src/tools/audio/noise-remover.js` | REFACTOR — import from dsp.js |
-| `src/tools/audio/bpm-key-detector.js` | REFACTOR — import from dsp.js |
-| `src/__tests__/audio-pitch.test.js` | NEW |
-| `src/__tests__/dsp.test.js` | NEW |
-| `tests/audio-pitch.spec.js` | NEW |
+| File                                  | Action                                |
+| ------------------------------------- | ------------------------------------- |
+| `src/tools/audio/dsp.js`              | NEW — shared FFT/STFT + phase vocoder |
+| `src/tools/audio/audio-pitch.js`      | NEW — tool render + orchestration     |
+| `src/tools/audio/noise-remover.js`    | REFACTOR — import from dsp.js         |
+| `src/tools/audio/bpm-key-detector.js` | REFACTOR — import from dsp.js         |
+| `src/__tests__/audio-pitch.test.js`   | NEW                                   |
+| `src/__tests__/dsp.test.js`           | NEW                                   |
+| `tests/audio-pitch.spec.js`           | NEW                                   |
 
 ## Verifiable goals (Protocol 2)
 

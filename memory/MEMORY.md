@@ -14,19 +14,19 @@
 > **Never** assume an older version from memory/training data. If unsure, read
 > the actual installed version with `node -e "console.log(require('./node_modules/<pkg>/package.json').version)"`.
 
-| Package | Version | How it's loaded at runtime | Notes |
-|---|---|---|---|
-| `@ffmpeg/core` | `^0.12.10` | Vendored to `public/ffmpeg-core/` via `scripts/copy-ffmpeg-core.mjs` (`predev`/`prebuild` hook). WASM loaded same-origin at `/ffmpeg-core/ffmpeg-core.wasm` to avoid COEP tainting | Newer ffmpeg.wasm core; verify VP9 if a tool needs WebM/VP9 output |
-| `@ffmpeg/ffmpeg` | `^0.12.15` | npm package; `createFFmpeg`/`FFmpeg` from utils | JS wrapper over the core WASM |
-| `@ffmpeg/util` | `^0.12.2` | npm package (`fetchFile`, `toBlobURL`) | Helpers for feeding files to ffmpeg |
-| `pdfjs-dist` | `^6.2.108` | npm package; worker at `pdfjs-dist/build/pdf.worker.min.mjs?url` | Band 6 major line; `getDocument`/`render`/`getTextContent` API unchanged from 5.x |
-| `pdf-lib` | `^1.17.1` | npm package | PDF creation/editing |
-| `jsPDF` (jspdf) | `^4.2.1` | npm package | PDF generation |
-| `tesseract.js` | `^7.0.0` | npm package | OCR |
-| `html2canvas` | `^1.x` | npm package | DOM → canvas screenshots |
-| `read-excel-file` | `^9.2.0` | npm package | Excel parsing |
-| `qrcode` | `^1.5.4` | npm package | QR generation |
-| `html5-qrcode` | `^2.3.8` | npm package | Camera/QR scanning |
+| Package           | Version    | How it's loaded at runtime                                                                                                                                                         | Notes                                                                             |
+| ----------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `@ffmpeg/core`    | `^0.12.10` | Vendored to `public/ffmpeg-core/` via `scripts/copy-ffmpeg-core.mjs` (`predev`/`prebuild` hook). WASM loaded same-origin at `/ffmpeg-core/ffmpeg-core.wasm` to avoid COEP tainting | Newer ffmpeg.wasm core; verify VP9 if a tool needs WebM/VP9 output                |
+| `@ffmpeg/ffmpeg`  | `^0.12.15` | npm package; `createFFmpeg`/`FFmpeg` from utils                                                                                                                                    | JS wrapper over the core WASM                                                     |
+| `@ffmpeg/util`    | `^0.12.2`  | npm package (`fetchFile`, `toBlobURL`)                                                                                                                                             | Helpers for feeding files to ffmpeg                                               |
+| `pdfjs-dist`      | `^6.2.108` | npm package; worker at `pdfjs-dist/build/pdf.worker.min.mjs?url`                                                                                                                   | Band 6 major line; `getDocument`/`render`/`getTextContent` API unchanged from 5.x |
+| `pdf-lib`         | `^1.17.1`  | npm package                                                                                                                                                                        | PDF creation/editing                                                              |
+| `jsPDF` (jspdf)   | `^4.2.1`   | npm package                                                                                                                                                                        | PDF generation                                                                    |
+| `tesseract.js`    | `^7.0.0`   | npm package                                                                                                                                                                        | OCR                                                                               |
+| `html2canvas`     | `^1.x`     | npm package                                                                                                                                                                        | DOM → canvas screenshots                                                          |
+| `read-excel-file` | `^9.2.0`   | npm package                                                                                                                                                                        | Excel parsing                                                                     |
+| `qrcode`          | `^1.5.4`   | npm package                                                                                                                                                                        | QR generation                                                                     |
+| `html5-qrcode`    | `^2.3.8`   | npm package                                                                                                                                                                        | Camera/QR scanning                                                                |
 
 **Source of truth:** `package.json` + `package-lock.json`. New tool-building sessions MUST read these
 before choosing a library version, and MUST check for upgrades in `npm install` output.
