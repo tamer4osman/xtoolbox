@@ -10,16 +10,19 @@ export function createMergeTool({
   icon,
   accept,
   maxSizeMB,
+  description,
   keywords,
   steps,
   faqs,
+  buttonText,
+  successMessage,
   mergeFiles
 }) {
   return {
     id,
     name,
     category,
-    description: `Combine multiple ${accept.replace(".", "")} files into one.`,
+    description: description || `Combine multiple ${accept.replace(".", "")} files into one.`,
     icon,
     accept,
     maxSizeMB: maxSizeMB || 100,
@@ -45,7 +48,7 @@ export function createMergeTool({
         <div class="tool-layout">
           <div class="tool-upload-area" id="upload-area"></div>
           <div id="file-list" style="margin:var(--space-4) 0;"></div>
-          <button class="btn btn-primary btn-lg" id="merge-btn" style="display:none;width:100%;">Merge ${name}</button>
+          <button class="btn btn-primary btn-lg" id="merge-btn" style="display:none;width:100%;">${buttonText || `Merge ${name}`}</button>
           <div class="tool-processing" id="processing" style="display:none;"><div class="spinner"></div><p>Merging...</p></div>
         </div>
       `;
@@ -65,8 +68,14 @@ export function createMergeTool({
         mergeBtn.style.display = "none";
 
         try {
-          await mergeFiles(files, downloadBlob);
-          showToast({ message: `${files.length} files merged!`, type: "success" });
+          const result = await mergeFiles(files, downloadBlob);
+          showToast({
+            message:
+              typeof successMessage === "function"
+                ? successMessage(files, result)
+                : successMessage || `${files.length} files merged!`,
+            type: "success"
+          });
         } catch (err) {
           showToast({ message: "Error: " + err.message, type: "error" });
         } finally {
