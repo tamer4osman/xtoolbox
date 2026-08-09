@@ -28,3 +28,7 @@ testsprite_tests/tmp/
 testsprite_tests/*.py
 testsprite_tests/*.json
 testsprite_tests/*.html
+
+# Agent skill directories (installed locally by mistake)
+.claude/
+.agents/
