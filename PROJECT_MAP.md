@@ -14,11 +14,11 @@
 - **Router:** Custom hash router (`src/router.js`) — routes like `#/`, `#/category/:id`, `#/tools/:id`, `#/about`, `#/privacy`, `#/terms`, 404 handler.
 - **Lint/Format:** oxlint (`npm run lint`) + oxfmt (`npm run format`). Fast Rust-based, replaces ESLint/Prettier.
 - **Tests:**
-  - Unit: Vitest 4 + jsdom (`npm run test:unit`) — files in `src/__tests__/*.test.js` (152 present).
+  - Unit: Vitest 4 + jsdom (`npm run test:unit`) — files in `src/__tests__/*.test.js` (154 present).
   - E2E: Playwright (`npm run test`) — files in `tests/*.spec.js` (165 present), projects: Chromium/Firefox/Mobile Chrome.
   - Smoke: `npm run smoke <tool-id>` — headless Chrome loads tool page, checks render/header/control/errors/console/network.
   - Perf: `node scripts/measure-spa-performance.mjs` — all 8 page templates navigate <50ms warm.
-- **Dependencies (runtime, 22):** `@ffmpeg/ffmpeg`, `@ffmpeg/util`, `ajv`, `docx`, `dompurify`, `exif-js`, `heic2any`, `html5-qrcode`, `jsbarcode`, `jspdf`, `jszip`, `mammoth`, `marked`, `mathjs`, `papaparse`, `pdf-lib`, `pdfjs-dist`, `qrcode`, `read-excel-file`, `tesseract.js`, `write-excel-file`.
+- **Dependencies (runtime, 22):** `@ffmpeg/ffmpeg`, `@ffmpeg/util`, `@size-limit/file`, `ajv`, `docx`, `dompurify`, `exif-js`, `heic2any`, `html5-qrcode`, `jsbarcode`, `jspdf`, `jszip`, `mammoth`, `marked`, `mathjs`, `papaparse`, `pdf-lib`, `pdfjs-dist`, `qrcode`, `read-excel-file`, `tesseract.js`, `write-excel-file`.
 - **DevDeps (key):** `@ffmpeg/core`, `@playwright/test`, `jsdom`, `oxfmt`, `oxlint`, `typescript`, `vite`, `vitest`, `yaml`, `size-limit`.
 - **Vendor assets:** FFmpeg core copied to `public/ffmpeg-core/` by `scripts/copy-ffmpeg-core.mjs` (runs via `predev`/`prebuild`). Dev server adds CORP header for `/ffmpeg-core/`.
 - **CSP:** Defined in `_headers` (default-src 'self', wasm-unsafe-eval for FFmpeg, specific external CDNs + data APIs allowlisted, `connect-src` lists every external API). Any new external domain must be added to `_headers` CSP + `vite.config.js`.

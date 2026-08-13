@@ -1,6 +1,6 @@
 # Plan: Pitch Shifter (`audio-pitch`) — Phase 28
 
-> Date: 2026-08-08 · Status: planned, awaiting build kickoff
+> Date: 2026-08-08 · Status: completed (audio-pitch shipped 2026-08-08)
 
 ## Decisions (grilled, approved)
 

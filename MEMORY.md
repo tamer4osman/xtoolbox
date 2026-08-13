@@ -10,19 +10,19 @@
 
 ## Recent Achievements (2026-08-05)
 
-- Built **Equation Solver** tool (`src/tools/math/equation-solver.js`) — Phase 28, math. Linear/quadratic/2×2 systems with step-by-step KaTeX. Fully verified: build, 1740 unit tests (53 tool), smoke, Chrome DevTools e2e, perf (10 routes ≤ 50ms), fallow, oxlint. 344 total tools (328 built, 16 planned).
+- Built **Equation Solver** tool (`src/tools/math/equation-solver.js`) — Phase 28, math. Linear/quadratic/2×2 systems with step-by-step KaTeX. Fully verified: build, 1740 unit tests (53 tool), smoke, Chrome DevTools e2e, perf (10 routes ≤ 50ms), fallow, oxlint. 343 total tools (332 built, 11 planned).
 - Router contract confirmed: `src/pages/tool.js` calls `module.cleanup`, NOT `destroy`.
 
 ## Recent Achievements (2026-08-03)
 
-- Synced all docs to registry truth: 345 total tools (325 built, 20 planned).
+- Synced all docs to registry truth: 343 total tools (332 built, 11 planned).
 - Fixed drift in README.md (tool count, badge, video 27→26, finance 17→16, productivity 19→18, Phase 28 16/36→17/36), PROJECT-PLAN.md (total, video 27→26, finance 17→16, math 14→13), TOOLS.md (total), MEMORY.md (total).
 - Verified clean: toolsList.json ids match tools.json, categories.json sum matches, no missing tool files, no category mismatches.
 
 ## Recent Achievements (2026-07-06)
 
 - Phase 28 tool 15/36 built: Video Metadata Editor (video category).
-- 345 total tools (325 built, 20 planned).
+- 343 total tools (332 built, 11 planned).
 
 - Phase 27 complete: all 19 High-Demand Tools built and registered (308 total).
 - Remaining: Phase 28 — Legacy Catch-Up (16 planned tools, 1 duplicate removed).

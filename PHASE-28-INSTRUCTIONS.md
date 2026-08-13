@@ -1,4 +1,4 @@
-# Phase 27 — Build Instructions (20 Tools)
+# Phase 28 — Build Instructions (36 Tools)
 
 > **These instructions are written to be followed literally, step by step, by an AI agent with no memory between steps.**
 > Never skip a step. Never assume. Never invent a file path, library name, or API endpoint that is not explicitly written here.

@@ -6,7 +6,7 @@ If you discover a security vulnerability in xtoolbox, please report it responsib
 
 **Do not open a public GitHub issue for security vulnerabilities.**
 
-Instead, please report via [GitHub Security Advisories](https://github.com/anomalyco/xtoolbox/security/advisories/new).
+Instead, please report via [GitHub Security Advisories](https://github.com/tamer4osman/xtoolbox/security/advisories/new).
 
 Include:
 
