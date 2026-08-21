@@ -8,6 +8,10 @@
 - **Deduplication**: Tools are deduplicated by ID and by (Name, Category) pairs to ensure a clean UI.
 - **Chrome DevTools MCP Compatibility**: MiMo V2.5 fails with Chrome DevTools MCP due to Xiaomi API limitations (single-round tool calling, rejects list-type content). Use MiniMax M3 Free for Chrome DevTools testing. This is documented in AGENTS.md under "Model Switching Strategy".
 
+## Recent Achievements (2026-08-16)
+
+- Installed `design-taste-frontend` skill v2 globally (1206 lines each) to `C:\Users\tamer\.opencode\skills` and `C:\Users\tamer\.agents\skills`, overwriting the old 204-line `.agents` copy; source: `https://github.com/Leonxlnx/taste-skill`, docs: `https://www.tasteskill.dev/docs`.
+
 ## Recent Achievements (2026-08-05)
 
 - Built **Equation Solver** tool (`src/tools/math/equation-solver.js`) — Phase 28, math. Linear/quadratic/2×2 systems with step-by-step KaTeX. Fully verified: build, 1740 unit tests (53 tool), smoke, Chrome DevTools e2e, perf (10 routes ≤ 50ms), fallow, oxlint. 343 total tools (332 built, 11 planned).
