@@ -81,7 +81,7 @@
     "name": "Finance",
     "icon": "💰",
     "description": "Loan, mortgage, SIP, currency, and tax calculators",
-    "toolCount": 15
+    "toolCount": 16
   },
   {
     "id": "encoding",

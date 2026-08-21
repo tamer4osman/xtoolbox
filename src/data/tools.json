@@ -3662,7 +3662,7 @@
     "id": "salary-calc",
     "name": "Multi-Country Salary Calculator",
     "category": "finance",
-    "description": "Calculate take-home pay across 30+ countries with tax rules.",
+    "description": "Estimate take-home pay across 12 countries with simplified tax rules.",
     "icon": "💰",
     "href": "/tools/salary-calc",
     "keywords": [
@@ -3672,7 +3672,7 @@
       "calculator",
       "country"
     ],
-    "status": "planned",
+    "status": "done",
     "phase": 28
   },
   {

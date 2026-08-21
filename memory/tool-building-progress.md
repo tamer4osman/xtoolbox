@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 336 built, 7 planned = 343 total
+## Current Status: 337 built, 6 planned = 343 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -32,7 +32,7 @@
 | Environment File Parser         | dev          | Planned                                                                      |
 | Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — removed from registry 2026-08-04 |
 | Regex Visualizer                | dev          | ✅ Merged into `regex-tester` (Token Explorer tab + SVG fix)                 |
-| Multi-Country Salary Calculator | finance      | Planned                                                                      |
+| Multi-Country Salary Calculator | finance      | ✅ Done (2026-08-22)                                                          |                                                                      |
 | Savings Calculator              | finance      | ✅ Done                                                                      |
 | Retirement Planner              | finance      | ✅ Done (2026-08-21)                                                          |
 | Expense Splitter                | finance      | ✅ Done                                                                      |
