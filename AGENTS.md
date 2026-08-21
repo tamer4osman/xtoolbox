@@ -528,6 +528,8 @@ Use these sources to discover new tool ideas, free public APIs, and validate cri
 
 When building a new tool, ALWAYS follow this exact sequence:
 
+> **Source of truth:** this list is the condensed form. The expanded, authoritative workflow — including security scans, WASM lifecycle rules, self code review, and abort/rollback protocol — lives in `.opencode/skills/tool-builder/SKILL.md`. When the two disagree, the skill wins.
+
 0. **Duplicate check**: Before writing ANY code, verify the tool doesn't already exist (even under a different name):
    - Search `src/data/tools.json` by name, category, and keywords for functional overlaps
    - Search `src/tools/` directory for similar functionality (grep for related terms)
