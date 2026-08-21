@@ -3775,7 +3775,7 @@
     "description": "Create weighted decision matrices to compare options objectively.",
     "icon": "⚖️",
     "href": "/tools/decision-matrix",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "decision",
       "matrix",
