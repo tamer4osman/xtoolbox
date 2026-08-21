@@ -127,7 +127,6 @@ export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
       <h1>⏱️ ${toolConfig.name}</h1>
-      <p>${toolConfig.description}</p>
       <div class="ts-clock-card">
         <div id="ts-status" class="ts-status"></div>
         <button id="ts-toggle" class="btn btn-primary ts-btn"></button>

@@ -190,7 +190,6 @@ export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
       <h1>🏖️ ${toolConfig.name}</h1>
-      <p>${toolConfig.description} All figures in today's dollars.</p>
       <div class="rp-grid">
         ${FIELDS.map(
           f => `
@@ -206,7 +205,7 @@ export function render(container) {
         <summary>Year-by-year balances</summary>
         <table class="rp-table"><thead><tr><th>Age</th><th>Phase</th><th>Balance</th></tr></thead><tbody id="rp-tbody"></tbody></table>
       </details>
-      <p class="rp-disclaimer">Educational estimate only — not financial advice.</p>
+      <p class="rp-disclaimer">All figures in today's dollars. Educational estimate only — not financial advice.</p>
     </div>
   `;
 

@@ -969,7 +969,6 @@ export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
       <h1>🎲 ${toolConfig.name}</h1>
-      <p>${toolConfig.description}</p>
       <div class="ng-controls">
         <label for="ng-culture">Culture</label>
         <select id="ng-culture"></select>

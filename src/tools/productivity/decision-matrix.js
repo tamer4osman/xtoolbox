@@ -90,7 +90,6 @@ export function render(container) {
   container.innerHTML = `
     <div class="tool-container">
       <h1>⚖️ ${toolConfig.name}</h1>
-      <p>${toolConfig.description}</p>
       <input type="text" id="dm-title" placeholder="Decision to make (optional)" maxlength="80">
       <div id="dm-table-wrap"></div>
       <div class="dm-actions">
