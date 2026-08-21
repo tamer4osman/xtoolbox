@@ -1,5 +1,6 @@
 import { createFileUpload } from "../../components/file-upload.js";
 import { showToast } from "../../components/toast.js";
+import { beginProcessing, endProcessing } from "../../utils/processing-guard.js";
 import { loadFFmpeg, getVideoInfo, writeUploadedFile } from "./video-utils.js";
 
 export function createVideoTool({
@@ -60,6 +61,7 @@ export function createVideoTool({
 
       processing.style.display = "block";
       actionBtn.style.display = "none";
+      beginProcessing(processingText);
 
       try {
         const ffmpeg = await loadFFmpeg(pct => {
@@ -74,6 +76,7 @@ export function createVideoTool({
       } catch (err) {
         showToast({ message: "Error: " + err.message, type: "error" });
       } finally {
+        endProcessing();
         processing.style.display = "none";
         actionBtn.style.display = "inline-flex";
       }

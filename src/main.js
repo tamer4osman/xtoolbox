@@ -5,11 +5,15 @@
  */
 
 // ===== Global Error Handlers =====
+import { showToast } from "./components/toast.js";
+
 window.addEventListener("error", event => {
   console.error("Uncaught error:", event.error);
+  showToast({ message: "An unexpected error occurred", type: "error", duration: 6000 });
 });
 window.addEventListener("unhandledrejection", event => {
   console.error("Unhandled promise rejection:", event.reason);
+  showToast({ message: "An unexpected error occurred", type: "error", duration: 6000 });
 });
 
 // ===== Import Styles =====
@@ -18,7 +22,8 @@ import "./styles/components.css";
 import "./styles/utilities.css";
 
 // ===== Import Core Modules (always needed) =====
-import { initRouter, on, setCleanup, setNotFound } from "./router.js";
+import { initRouter, on, setCleanup, setNavigationGuard, setNotFound } from "./router.js";
+import { isProcessing } from "./utils/processing-guard.js";
 import { renderNavbar, initNavbar } from "./components/navbar.js";
 import { renderFooter } from "./components/footer.js";
 import { initTooltips } from "./components/tooltip.js";
@@ -75,13 +80,16 @@ function initApp() {
     renderNotFound();
   });
 
-  // 5. Initialize router
+  // 5. Guard navigation while a tool is processing
+  setNavigationGuard(() => isProcessing());
+
+  // 6. Initialize router
   initRouter();
 
-  // 6. Register service worker
-  if ("serviceWorker" in navigator) {
+  // 6. Register service worker (served verbatim from public/)
+  if ("serviceWorker" in navigator && import.meta.env.PROD) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/src/sw.js").catch(err => {
+      navigator.serviceWorker.register("/sw.js").catch(err => {
         console.log("SW registration failed:", err);
       });
     });
