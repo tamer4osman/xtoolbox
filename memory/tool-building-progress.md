@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 335 built, 8 planned = 343 total
+## Current Status: 336 built, 7 planned = 343 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -34,7 +34,7 @@
 | Regex Visualizer                | dev          | ✅ Merged into `regex-tester` (Token Explorer tab + SVG fix)                 |
 | Multi-Country Salary Calculator | finance      | Planned                                                                      |
 | Savings Calculator              | finance      | ✅ Done                                                                      |
-| Retirement Planner              | finance      | Planned                                                                      |
+| Retirement Planner              | finance      | ✅ Done (2026-08-21)                                                          |
 | Expense Splitter                | finance      | ✅ Done                                                                      |
 | Equation Solver                 | math         | ✅ Done                                                                      |
 | Matrix Calculator               | math         | ✅ Done                                                                      |
