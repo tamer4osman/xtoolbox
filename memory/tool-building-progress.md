@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 332 built, 11 planned = 343 total
+## Current Status: 333 built, 10 planned = 343 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -48,7 +48,7 @@
 | Temp Email                      | privacy      | ✅ Done                                                                      |
 | Resume Job Matcher              | business     | Planned                                                                      |
 | Link Preview Generator          | reference    | Planned                                                                      |
-| Name Generator                  | fun          | Planned                                                                      |
+| Name Generator                  | fun          | ✅ Done (2026-08-21)                                                          |
 
 ---
 

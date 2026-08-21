@@ -168,7 +168,13 @@
     "description": "Create professional PDF invoices with customizable fields.",
     "icon": "📄",
     "href": "/tools/invoice-generator",
-    "keywords": ["invoice", "pdf", "bill", "收取", "receipt"],
+    "keywords": [
+      "invoice",
+      "pdf",
+      "bill",
+      "收取",
+      "receipt"
+    ],
     "status": "done"
   },
   {
@@ -1420,7 +1426,12 @@
     "description": "Compare two texts side-by-side and merge changes with accept/reject controls.",
     "icon": "🔀",
     "href": "/tools/diff-merge",
-    "keywords": ["diff", "merge", "compare", "changes"],
+    "keywords": [
+      "diff",
+      "merge",
+      "compare",
+      "changes"
+    ],
     "status": "done"
   },
   {
@@ -1889,7 +1900,15 @@
     "description": "Repair corrupted ZIP archives and recover readable files from damaged or incomplete ZIP archives.",
     "icon": "🔧",
     "href": "/tools/archive-repair",
-    "keywords": ["zip", "repair", "recover", "corrupted", "archive", "fix", "broken"],
+    "keywords": [
+      "zip",
+      "repair",
+      "recover",
+      "corrupted",
+      "archive",
+      "fix",
+      "broken"
+    ],
     "status": "done"
   },
   {
@@ -2145,7 +2164,15 @@
     "description": "Generate campaign tracking URLs in bulk, manage presets, and export directly to CSV.",
     "icon": "🔗",
     "href": "/tools/bulk-utm-builder",
-    "keywords": ["utm", "campaign", "tracking", "url", "bulk", "analytics", "marketing"],
+    "keywords": [
+      "utm",
+      "campaign",
+      "tracking",
+      "url",
+      "bulk",
+      "analytics",
+      "marketing"
+    ],
     "status": "done"
   },
   {
@@ -2155,7 +2182,16 @@
     "description": "Create customizable ambient focus soundtracks using 8 high-quality offline loopable sound nodes.",
     "icon": "🎧",
     "href": "/tools/ambient-sound-mixer",
-    "keywords": ["ambient", "sound", "noise", "focus", "sleep", "relax", "rain", "cafe"],
+    "keywords": [
+      "ambient",
+      "sound",
+      "noise",
+      "focus",
+      "sleep",
+      "relax",
+      "rain",
+      "cafe"
+    ],
     "status": "done"
   },
   {
@@ -2202,7 +2238,16 @@
     "description": "Adjust SRT and VTT subtitle timestamps client-side with millisecond accuracy sync offsets.",
     "icon": "⏱️",
     "href": "/tools/subtitle-time-shifter",
-    "keywords": ["subtitle", "srt", "vtt", "sync", "timestamp", "shift", "adjust", "subtitles"],
+    "keywords": [
+      "subtitle",
+      "srt",
+      "vtt",
+      "sync",
+      "timestamp",
+      "shift",
+      "adjust",
+      "subtitles"
+    ],
     "status": "done"
   },
   {
@@ -2230,7 +2275,14 @@
     "description": "Parse SQL CREATE TABLE and INSERT INTO queries to generate structured JSON schemas and arrays.",
     "icon": "🗃️",
     "href": "/tools/sql-to-json",
-    "keywords": ["sql", "json", "schema", "converter", "database", "parser"],
+    "keywords": [
+      "sql",
+      "json",
+      "schema",
+      "converter",
+      "database",
+      "parser"
+    ],
     "status": "done"
   },
   {
@@ -2240,7 +2292,14 @@
     "description": "Parse conventional git logs and compile beautiful categorized Markdown release changelogs.",
     "icon": "📜",
     "href": "/tools/git-changelog-generator",
-    "keywords": ["git", "changelog", "commit", "release", "conventional", "markdown"],
+    "keywords": [
+      "git",
+      "changelog",
+      "commit",
+      "release",
+      "conventional",
+      "markdown"
+    ],
     "status": "done"
   },
   {
@@ -2250,7 +2309,14 @@
     "description": "Optimize and minify SVG files by removing metadata, comments, editor data, and redundant code.",
     "icon": "✨",
     "href": "/tools/svg-optimizer",
-    "keywords": ["svg", "optimizer", "minifier", "svgomg", "compress", "svg optimization"],
+    "keywords": [
+      "svg",
+      "optimizer",
+      "minifier",
+      "svgomg",
+      "compress",
+      "svg optimization"
+    ],
     "status": "done"
   },
   {
@@ -2260,7 +2326,13 @@
     "description": "Upload, view, edit attributes, and optimize SVG icons",
     "icon": "🎨",
     "href": "/tools/svg-icon-editor",
-    "keywords": ["svg", "icon", "editor", "optimize", "vector"],
+    "keywords": [
+      "svg",
+      "icon",
+      "editor",
+      "optimize",
+      "vector"
+    ],
     "status": "done"
   },
   {
@@ -2289,7 +2361,13 @@
     "description": "Analyze web pages for accessibility issues. Check WCAG compliance, ARIA labels, color contrast, and more.",
     "icon": "♿",
     "href": "/tools/a11y-audit",
-    "keywords": ["accessibility", "a11y", "wcag", "audit", "accessibility checker"],
+    "keywords": [
+      "accessibility",
+      "a11y",
+      "wcag",
+      "audit",
+      "accessibility checker"
+    ],
     "status": "done"
   },
   {
@@ -2299,7 +2377,14 @@
     "description": "Upload multiple images and generate a CSS sprite sheet with corresponding CSS background-position rules.",
     "icon": "🧩",
     "href": "/tools/css-sprite-generator",
-    "keywords": ["css", "sprite", "spritesheet", "background", "image", "generator"],
+    "keywords": [
+      "css",
+      "sprite",
+      "spritesheet",
+      "background",
+      "image",
+      "generator"
+    ],
     "status": "done"
   },
   {
@@ -2309,7 +2394,15 @@
     "description": "Upload web fonts and subset them to only the glyphs you need. Supports language presets and custom Unicode ranges.",
     "icon": "🔤",
     "href": "/tools/font-subsetter",
-    "keywords": ["font", "subset", "woff", "woff2", "ttf", "otf", "glyphs"],
+    "keywords": [
+      "font",
+      "subset",
+      "woff",
+      "woff2",
+      "ttf",
+      "otf",
+      "glyphs"
+    ],
     "status": "done"
   },
   {
@@ -2367,7 +2460,13 @@
     "description": "Generate .gitignore files by selecting project types, languages, IDEs, and OS combinations.",
     "icon": "🙈",
     "href": "/tools/gitignore-generator",
-    "keywords": ["gitignore", "git", "ignore", "template", "project"],
+    "keywords": [
+      "gitignore",
+      "git",
+      "ignore",
+      "template",
+      "project"
+    ],
     "status": "done"
   },
   {
@@ -2427,7 +2526,14 @@
     "description": "Generate realistic fake data (names, emails, addresses) in JSON, CSV, SQL, and TypeScript formats.",
     "icon": "🎲",
     "href": "/tools/mock-data-generator",
-    "keywords": ["mock", "data", "fake", "generator", "test", "faker"],
+    "keywords": [
+      "mock",
+      "data",
+      "fake",
+      "generator",
+      "test",
+      "faker"
+    ],
     "status": "done"
   },
   {
@@ -2437,7 +2543,14 @@
     "description": "Write and execute SQL queries in the browser using SQLite compiled to WASM.",
     "icon": "🗃️",
     "href": "/tools/sql-playground",
-    "keywords": ["sql", "sqlite", "playground", "query", "database", "wasm"],
+    "keywords": [
+      "sql",
+      "sqlite",
+      "playground",
+      "query",
+      "database",
+      "wasm"
+    ],
     "status": "done"
   },
   {
@@ -2447,7 +2560,14 @@
     "description": "Visual drag-and-drop ER diagram editor with tables, columns, relationships, and SQL export.",
     "icon": "🗄️",
     "href": "/tools/database-schema-designer",
-    "keywords": ["database", "schema", "erd", "designer", "diagram", "sql"],
+    "keywords": [
+      "database",
+      "schema",
+      "erd",
+      "designer",
+      "diagram",
+      "sql"
+    ],
     "status": "done"
   },
   {
@@ -2457,7 +2577,14 @@
     "description": "Build FFmpeg commands visually with input/output formats, codecs, filters, and presets.",
     "icon": "🎬",
     "href": "/tools/ffmpeg-command-generator",
-    "keywords": ["ffmpeg", "command", "video", "audio", "convert", "codec"],
+    "keywords": [
+      "ffmpeg",
+      "command",
+      "video",
+      "audio",
+      "convert",
+      "codec"
+    ],
     "status": "done"
   },
   {
@@ -2490,7 +2617,14 @@
     "description": "Create beautiful code screenshots for social media with syntax highlighting and custom themes.",
     "icon": "📸",
     "href": "/tools/code-screenshot-generator",
-    "keywords": ["code", "screenshot", "carbon", "syntax", "highlight", "social"],
+    "keywords": [
+      "code",
+      "screenshot",
+      "carbon",
+      "syntax",
+      "highlight",
+      "social"
+    ],
     "status": "done"
   },
   {
@@ -2500,7 +2634,14 @@
     "description": "Generate manifest.json files for Progressive Web Apps with icons, theme colors, and shortcuts.",
     "icon": "📱",
     "href": "/tools/pwa-manifest-generator",
-    "keywords": ["pwa", "manifest", "progressive", "web", "app", "icons"],
+    "keywords": [
+      "pwa",
+      "manifest",
+      "progressive",
+      "web",
+      "app",
+      "icons"
+    ],
     "status": "done"
   },
   {
@@ -2510,7 +2651,14 @@
     "description": "Highlight text, add comments, draw shapes, and type text directly on PDF pages.",
     "icon": "🖍️",
     "href": "/tools/pdf-annotator",
-    "keywords": ["pdf", "annotate", "highlight", "comment", "markup", "draw"],
+    "keywords": [
+      "pdf",
+      "annotate",
+      "highlight",
+      "comment",
+      "markup",
+      "draw"
+    ],
     "status": "done"
   },
   {
@@ -2520,7 +2668,13 @@
     "description": "Scan food barcodes or search products to view detailed nutrition facts from Open Food Facts.",
     "icon": "🍎",
     "href": "/tools/food-nutrition-scanner",
-    "keywords": ["nutrition", "food", "barcode", "calories", "health"],
+    "keywords": [
+      "nutrition",
+      "food",
+      "barcode",
+      "calories",
+      "health"
+    ],
     "status": "done"
   },
   {
@@ -2530,7 +2684,14 @@
     "description": "Create professional passport photos with face guide frame, zoom controls, and background color options.",
     "icon": "📸",
     "href": "/tools/passport-photo-maker",
-    "keywords": ["passport", "photo", "id", "visa", "biometrics", "photo booth"],
+    "keywords": [
+      "passport",
+      "photo",
+      "id",
+      "visa",
+      "biometrics",
+      "photo booth"
+    ],
     "status": "done"
   },
   {
@@ -2540,7 +2701,14 @@
     "description": "Test DNS resolution speed against Cloudflare and Google DoH providers.",
     "icon": "⚡",
     "href": "/tools/dns-speed-test",
-    "keywords": ["dns", "speed", "doh", "cloudflare", "google", "network"],
+    "keywords": [
+      "dns",
+      "speed",
+      "doh",
+      "cloudflare",
+      "google",
+      "network"
+    ],
     "status": "done"
   },
   {
@@ -2550,7 +2718,15 @@
     "description": "Measure pixel distances and pick colors anywhere on screen with an interactive overlay ruler.",
     "icon": "📏",
     "href": "/tools/screen-ruler",
-    "keywords": ["ruler", "measure", "pixel", "color", "picker", "screen", "overlay"],
+    "keywords": [
+      "ruler",
+      "measure",
+      "pixel",
+      "color",
+      "picker",
+      "screen",
+      "overlay"
+    ],
     "status": "done"
   },
   {
@@ -2560,7 +2736,13 @@
     "description": "Track recent earthquakes worldwide with magnitude, location, and depth data from USGS.",
     "icon": "🌍",
     "href": "/tools/earthquake-monitor",
-    "keywords": ["earthquake", "seismic", "usgs", "magnitude", "tremor"],
+    "keywords": [
+      "earthquake",
+      "seismic",
+      "usgs",
+      "magnitude",
+      "tremor"
+    ],
     "status": "done"
   },
   {
@@ -2570,7 +2752,14 @@
     "description": "Quick wireframe and mockup sketcher with drag-and-drop shapes, text, and freehand drawing.",
     "icon": "✏️",
     "href": "/tools/wireframe-sketcher",
-    "keywords": ["wireframe", "mockup", "sketch", "draw", "canvas", "prototype"],
+    "keywords": [
+      "wireframe",
+      "mockup",
+      "sketch",
+      "draw",
+      "canvas",
+      "prototype"
+    ],
     "status": "done"
   },
   {
@@ -2580,7 +2769,16 @@
     "description": "Convert between currencies using live exchange rates with historical charts.",
     "icon": "💱",
     "href": "/tools/currency-converter",
-    "keywords": ["currency", "exchange", "converter", "money", "forex", "usd", "eur", "gbp"],
+    "keywords": [
+      "currency",
+      "exchange",
+      "converter",
+      "money",
+      "forex",
+      "usd",
+      "eur",
+      "gbp"
+    ],
     "status": "done"
   },
   {
@@ -2590,7 +2788,15 @@
     "description": "Create pixel art and sprite sheets with customizable grids, color palettes, and export options.",
     "icon": "🎨",
     "href": "/tools/pixel-art-editor",
-    "keywords": ["pixel", "art", "sprite", "8-bit", "retro", "game", "editor"],
+    "keywords": [
+      "pixel",
+      "art",
+      "sprite",
+      "8-bit",
+      "retro",
+      "game",
+      "editor"
+    ],
     "status": "done"
   },
   {
@@ -2600,7 +2806,13 @@
     "description": "Generate customized certificates from templates with recipient name, date, and custom text.",
     "icon": "🏆",
     "href": "/tools/certificate-generator",
-    "keywords": ["certificate", "award", "completion", "template", "pdf"],
+    "keywords": [
+      "certificate",
+      "award",
+      "completion",
+      "template",
+      "pdf"
+    ],
     "status": "done"
   },
   {
@@ -2610,7 +2822,13 @@
     "description": "Generate Non-Disclosure Agreements customized for unilateral/mutual situations.",
     "icon": "📜",
     "href": "/tools/nda-generator",
-    "keywords": ["nda", "non-disclosure", "agreement", "legal", "contract"],
+    "keywords": [
+      "nda",
+      "non-disclosure",
+      "agreement",
+      "legal",
+      "contract"
+    ],
     "status": "done"
   },
   {
@@ -2620,7 +2838,14 @@
     "description": "Calculate optimal hourly/daily/project rates based on income, expenses, and billable hours.",
     "icon": "💵",
     "href": "/tools/freelancer-rate-calculator",
-    "keywords": ["freelancer", "rate", "calculator", "hourly", "salary", "income"],
+    "keywords": [
+      "freelancer",
+      "rate",
+      "calculator",
+      "hourly",
+      "salary",
+      "income"
+    ],
     "status": "done"
   },
   {
@@ -2630,7 +2855,13 @@
     "description": "Generate freelance service contracts with scope, payment terms, deliverables, and IP ownership.",
     "icon": "📝",
     "href": "/tools/freelancer-contract-generator",
-    "keywords": ["freelance", "contract", "agreement", "service", "legal"],
+    "keywords": [
+      "freelance",
+      "contract",
+      "agreement",
+      "service",
+      "legal"
+    ],
     "status": "done"
   },
   {
@@ -2640,7 +2871,14 @@
     "description": "Generate privacy policies customized for GDPR, CCPA, and similar regulations.",
     "icon": "🔒",
     "href": "/tools/privacy-policy-generator",
-    "keywords": ["privacy", "policy", "gdpr", "ccpa", "legal", "compliance"],
+    "keywords": [
+      "privacy",
+      "policy",
+      "gdpr",
+      "ccpa",
+      "legal",
+      "compliance"
+    ],
     "status": "done"
   },
   {
@@ -2650,7 +2888,13 @@
     "description": "Build professional resumes with live preview and PDF export.",
     "icon": "📋",
     "href": "/tools/resume-builder",
-    "keywords": ["resume", "cv", "career", "job", "pdf"],
+    "keywords": [
+      "resume",
+      "cv",
+      "career",
+      "job",
+      "pdf"
+    ],
     "status": "done"
   },
   {
@@ -2660,7 +2904,13 @@
     "description": "Extract files from ZIP and TAR archives directly in the browser.",
     "icon": "📦",
     "href": "/tools/archive-extractor",
-    "keywords": ["archive", "extract", "zip", "tar", "gzip"],
+    "keywords": [
+      "archive",
+      "extract",
+      "zip",
+      "tar",
+      "gzip"
+    ],
     "status": "done"
   },
   {
@@ -2670,7 +2920,14 @@
     "description": "Focus timer with customizable work/break intervals, task list, and session history.",
     "icon": "🍅",
     "href": "/tools/pomodoro-timer",
-    "keywords": ["pomodoro", "timer", "focus", "productivity", "study", "work"],
+    "keywords": [
+      "pomodoro",
+      "timer",
+      "focus",
+      "productivity",
+      "study",
+      "work"
+    ],
     "status": "done"
   },
   {
@@ -2680,7 +2937,14 @@
     "description": "GitHub-style contribution graph for daily habits with streak tracking and heatmaps.",
     "icon": "📅",
     "href": "/tools/habit-tracker",
-    "keywords": ["habit", "tracker", "streak", "heatmap", "productivity", "goals"],
+    "keywords": [
+      "habit",
+      "tracker",
+      "streak",
+      "heatmap",
+      "productivity",
+      "goals"
+    ],
     "status": "done"
   },
   {
@@ -2690,7 +2954,14 @@
     "description": "Record browser tab or screen using Screen Capture API. Export as WebM video.",
     "icon": "🖥️",
     "href": "/tools/screen-recorder",
-    "keywords": ["screen", "record", "capture", "video", "webm", "browser"],
+    "keywords": [
+      "screen",
+      "record",
+      "capture",
+      "video",
+      "webm",
+      "browser"
+    ],
     "status": "done"
   },
   {
@@ -2700,7 +2971,14 @@
     "description": "Batch edit EXIF metadata (dates, GPS, camera info, copyright) in JPEG and TIFF images.",
     "icon": "📷",
     "href": "/tools/exif-editor",
-    "keywords": ["exif", "metadata", "photo", "gps", "camera", "editor"],
+    "keywords": [
+      "exif",
+      "metadata",
+      "photo",
+      "gps",
+      "camera",
+      "editor"
+    ],
     "status": "done"
   },
   {
@@ -2710,7 +2988,14 @@
     "description": "Create social media preview images with text overlays, gradients, and backgrounds.",
     "icon": "🖼️",
     "href": "/tools/og-image-generator",
-    "keywords": ["og", "open-graph", "social", "preview", "twitter", "image"],
+    "keywords": [
+      "og",
+      "open-graph",
+      "social",
+      "preview",
+      "twitter",
+      "image"
+    ],
     "status": "done"
   },
   {
@@ -2720,7 +3005,14 @@
     "description": "Generate formatted citations in APA, MLA, Chicago, Harvard, and IEEE styles.",
     "icon": "📚",
     "href": "/tools/citation-generator",
-    "keywords": ["citation", "bibliography", "apa", "mla", "chicago", "harvard"],
+    "keywords": [
+      "citation",
+      "bibliography",
+      "apa",
+      "mla",
+      "chicago",
+      "harvard"
+    ],
     "status": "done"
   },
   {
@@ -2730,7 +3022,13 @@
     "description": "Visually create and edit Markdown tables with a spreadsheet-like interface.",
     "icon": "⊞",
     "href": "/tools/markdown-table-generator",
-    "keywords": ["markdown", "table", "generator", "editor", "spreadsheet"],
+    "keywords": [
+      "markdown",
+      "table",
+      "generator",
+      "editor",
+      "spreadsheet"
+    ],
     "status": "done"
   },
   {
@@ -2740,7 +3038,14 @@
     "description": "Generate retro game sound effects using the Web Audio API. Export as WAV.",
     "icon": "🎮",
     "href": "/tools/sound-effect-generator",
-    "keywords": ["sound", "effect", "sfx", "game", "retro", "wav"],
+    "keywords": [
+      "sound",
+      "effect",
+      "sfx",
+      "game",
+      "retro",
+      "wav"
+    ],
     "status": "done"
   },
   {
@@ -2750,7 +3055,14 @@
     "description": "Create professional email signatures with photo, social links, and custom styling.",
     "icon": "✉️",
     "href": "/tools/email-signature-generator",
-    "keywords": ["email", "signature", "professional", "html", "gmail", "outlook"],
+    "keywords": [
+      "email",
+      "signature",
+      "professional",
+      "html",
+      "gmail",
+      "outlook"
+    ],
     "status": "done"
   },
   {
@@ -2760,7 +3072,14 @@
     "description": "Visualize debt payoff strategies (snowball vs avalanche) with timeline and interest charts.",
     "icon": "📉",
     "href": "/tools/debt-payoff-visualizer",
-    "keywords": ["debt", "payoff", "snowball", "avalanche", "finance", "interest"],
+    "keywords": [
+      "debt",
+      "payoff",
+      "snowball",
+      "avalanche",
+      "finance",
+      "interest"
+    ],
     "status": "done"
   },
   {
@@ -2770,7 +3089,14 @@
     "description": "Generate and verify HMAC signatures using SHA-1, SHA-256, SHA-384, SHA-512 algorithms.",
     "icon": "🔐",
     "href": "/tools/hmac-generator",
-    "keywords": ["hmac", "signature", "sha256", "sha512", "security", "webhook"],
+    "keywords": [
+      "hmac",
+      "signature",
+      "sha256",
+      "sha512",
+      "security",
+      "webhook"
+    ],
     "status": "done"
   },
   {
@@ -2780,7 +3106,14 @@
     "description": "Compare current times across multiple time zones and find optimal meeting times.",
     "icon": "🌐",
     "href": "/tools/world-clock",
-    "keywords": ["world", "clock", "timezone", "time", "converter", "meeting"],
+    "keywords": [
+      "world",
+      "clock",
+      "timezone",
+      "time",
+      "converter",
+      "meeting"
+    ],
     "status": "done"
   },
   {
@@ -2790,7 +3123,14 @@
     "description": "Preview how content will look when shared on X, Facebook, LinkedIn, and Instagram.",
     "icon": "👁️",
     "href": "/tools/social-media-post-previewer",
-    "keywords": ["social", "media", "preview", "twitter", "facebook", "linkedin"],
+    "keywords": [
+      "social",
+      "media",
+      "preview",
+      "twitter",
+      "facebook",
+      "linkedin"
+    ],
     "status": "done"
   },
   {
@@ -2800,7 +3140,15 @@
     "description": "Drag-and-drop 3D model viewer supporting glTF, GLB, OBJ, and STL formats.",
     "icon": "🧊",
     "href": "/tools/3d-model-viewer",
-    "keywords": ["3d", "model", "viewer", "gltf", "obj", "stl", "webgl"],
+    "keywords": [
+      "3d",
+      "model",
+      "viewer",
+      "gltf",
+      "obj",
+      "stl",
+      "webgl"
+    ],
     "status": "done"
   },
   {
@@ -2810,7 +3158,14 @@
     "description": "Split audio into vocals, drums, bass, and other stems using ONNX demucs model.",
     "icon": "🎵",
     "href": "/tools/stem-separator",
-    "keywords": ["vocal", "stems", "separator", "demucs", "audio", "isolation"],
+    "keywords": [
+      "vocal",
+      "stems",
+      "separator",
+      "demucs",
+      "audio",
+      "isolation"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2821,7 +3176,14 @@
     "description": "Remove background noise, hiss, and hum from audio recordings using spectral gating.",
     "icon": "🔇",
     "href": "/tools/noise-remover",
-    "keywords": ["noise", "remove", "hiss", "audio", "clean", "denoise"],
+    "keywords": [
+      "noise",
+      "remove",
+      "hiss",
+      "audio",
+      "clean",
+      "denoise"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2832,7 +3194,14 @@
     "description": "Detect tempo (BPM) and musical key of any audio file.",
     "icon": "🥁",
     "href": "/tools/bpm-key-detector",
-    "keywords": ["bpm", "key", "tempo", "detect", "music", "audio"],
+    "keywords": [
+      "bpm",
+      "key",
+      "tempo",
+      "detect",
+      "music",
+      "audio"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2843,7 +3212,15 @@
     "description": "Adjust frequency bands and visualize the spectrum of any audio file.",
     "icon": "🎛️",
     "href": "/tools/audio-equalizer",
-    "keywords": ["equalizer", "eq", "audio", "spectrum", "frequency", "bass", "treble"],
+    "keywords": [
+      "equalizer",
+      "eq",
+      "audio",
+      "spectrum",
+      "frequency",
+      "bass",
+      "treble"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2854,7 +3231,14 @@
     "description": "Transcribe video/audio to text locally using Whisper tiny model.",
     "icon": "📝",
     "href": "/tools/video-transcriber",
-    "keywords": ["transcribe", "video", "whisper", "speech", "text", "audio"],
+    "keywords": [
+      "transcribe",
+      "video",
+      "whisper",
+      "speech",
+      "text",
+      "audio"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2865,7 +3249,14 @@
     "description": "Automatically detect and cut silent sections from video using ffmpeg.wasm.",
     "icon": "✂️",
     "href": "/tools/silence-remover",
-    "keywords": ["silence", "remove", "video", "trim", "auto", "cut"],
+    "keywords": [
+      "silence",
+      "remove",
+      "video",
+      "trim",
+      "auto",
+      "cut"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2876,7 +3267,14 @@
     "description": "Visualize OpenAPI 3.x specs as interactive endpoint trees.",
     "icon": "🗺️",
     "href": "/tools/openapi-visualizer",
-    "keywords": ["openapi", "swagger", "api", "visualize", "yaml", "rest"],
+    "keywords": [
+      "openapi",
+      "swagger",
+      "api",
+      "visualize",
+      "yaml",
+      "rest"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2887,7 +3285,14 @@
     "description": "Browse GraphQL SDL schemas as collapsible type trees.",
     "icon": "🔬",
     "href": "/tools/graphql-schema-explorer",
-    "keywords": ["graphql", "schema", "explore", "types", "sdl", "api"],
+    "keywords": [
+      "graphql",
+      "schema",
+      "explore",
+      "types",
+      "sdl",
+      "api"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2898,7 +3303,14 @@
     "description": "Translate text between 50+ languages offline using Transformers.js.",
     "icon": "🌐",
     "href": "/tools/offline-translator",
-    "keywords": ["translate", "offline", "language", "text", "nllb", "transformers"],
+    "keywords": [
+      "translate",
+      "offline",
+      "language",
+      "text",
+      "nllb",
+      "transformers"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2909,7 +3321,14 @@
     "description": "Simplify legal text into plain English using DistilBART summarization.",
     "icon": "⚖️",
     "href": "/tools/legal-clause-simplifier",
-    "keywords": ["legal", "simplify", "clause", "text", "summarize", "plain english"],
+    "keywords": [
+      "legal",
+      "simplify",
+      "clause",
+      "text",
+      "summarize",
+      "plain english"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2920,7 +3339,14 @@
     "description": "Visualize sentence-by-sentence sentiment as a color heatmap using DistilBERT.",
     "icon": "🗺️",
     "href": "/tools/sentiment-heatmap",
-    "keywords": ["sentiment", "heatmap", "text", "analyze", "positive", "negative"],
+    "keywords": [
+      "sentiment",
+      "heatmap",
+      "text",
+      "analyze",
+      "positive",
+      "negative"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2931,7 +3357,14 @@
     "description": "Calculate real-time meeting cost based on participant salaries.",
     "icon": "💰",
     "href": "/tools/meeting-cost-calculator",
-    "keywords": ["meeting", "cost", "calculator", "salary", "time", "money"],
+    "keywords": [
+      "meeting",
+      "cost",
+      "calculator",
+      "salary",
+      "time",
+      "money"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2942,7 +3375,14 @@
     "description": "Calculate business days between dates excluding holidays for 50+ countries.",
     "icon": "📅",
     "href": "/tools/working-days-calculator",
-    "keywords": ["working", "days", "calculator", "business", "holidays", "dates"],
+    "keywords": [
+      "working",
+      "days",
+      "calculator",
+      "business",
+      "holidays",
+      "dates"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2953,7 +3393,14 @@
     "description": "Private net worth tracker with assets, liabilities, and charts. Data stays local.",
     "icon": "📊",
     "href": "/tools/net-worth-tracker",
-    "keywords": ["net", "worth", "tracker", "assets", "liabilities", "finance"],
+    "keywords": [
+      "net",
+      "worth",
+      "tracker",
+      "assets",
+      "liabilities",
+      "finance"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2964,7 +3411,14 @@
     "description": "Auto-detect and blur/pixelate faces in images using BlazeFace ONNX model.",
     "icon": "🕵️",
     "href": "/tools/face-blur",
-    "keywords": ["face", "blur", "anonymize", "privacy", "detect", "pixelate"],
+    "keywords": [
+      "face",
+      "blur",
+      "anonymize",
+      "privacy",
+      "detect",
+      "pixelate"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2975,7 +3429,14 @@
     "description": "Log symptoms with onset, severity, and notes. Export printable PDF for doctors.",
     "icon": "🩺",
     "href": "/tools/symptom-tracker",
-    "keywords": ["symptom", "tracker", "health", "medical", "doctor", "log"],
+    "keywords": [
+      "symptom",
+      "tracker",
+      "health",
+      "medical",
+      "doctor",
+      "log"
+    ],
     "status": "done",
     "phase": 27
   },
@@ -2986,7 +3447,12 @@
     "description": "Apply Gaussian, box, or motion blur with adjustable radius.",
     "icon": "🌫️",
     "href": "/tools/image-blur",
-    "keywords": ["blur", "gaussian", "soften", "image"],
+    "keywords": [
+      "blur",
+      "gaussian",
+      "soften",
+      "image"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -2997,7 +3463,13 @@
     "description": "Compare two images side-by-side with a swipe slider and overlay diff view.",
     "icon": "🔍",
     "href": "/tools/image-compare",
-    "keywords": ["compare", "diff", "side by side", "overlay", "image comparison"],
+    "keywords": [
+      "compare",
+      "diff",
+      "side by side",
+      "overlay",
+      "image comparison"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3008,7 +3480,13 @@
     "description": "Create memes with top/bottom text, custom fonts, and templates.",
     "icon": "😂",
     "href": "/tools/image-meme",
-    "keywords": ["meme", "funny", "text", "image", "generator"],
+    "keywords": [
+      "meme",
+      "funny",
+      "text",
+      "image",
+      "generator"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3019,7 +3497,12 @@
     "description": "Crop video frames to remove unwanted areas by selecting a visual region.",
     "icon": "✂️",
     "href": "/tools/video-crop",
-    "keywords": ["crop", "video", "trim", "frame"],
+    "keywords": [
+      "crop",
+      "video",
+      "trim",
+      "frame"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3030,7 +3513,12 @@
     "description": "Rotate or flip video by 90/180/270 degrees.",
     "icon": "🔃",
     "href": "/tools/video-rotate",
-    "keywords": ["rotate", "flip", "video", "degrees"],
+    "keywords": [
+      "rotate",
+      "flip",
+      "video",
+      "degrees"
+    ],
     "status": "done"
   },
   {
@@ -3040,7 +3528,13 @@
     "description": "Adjust or mute audio track volume in video files.",
     "icon": "🔊",
     "href": "/tools/video-volume",
-    "keywords": ["volume", "audio", "video", "mute", "loud"],
+    "keywords": [
+      "volume",
+      "audio",
+      "video",
+      "mute",
+      "loud"
+    ],
     "status": "done"
   },
   {
@@ -3050,7 +3544,12 @@
     "description": "Reverse video playback direction with audio.",
     "icon": "⏪",
     "href": "/tools/video-reverse",
-    "keywords": ["reverse", "backward", "video", "rewind"],
+    "keywords": [
+      "reverse",
+      "backward",
+      "video",
+      "rewind"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3061,7 +3560,15 @@
     "description": "Edit video metadata tags including title, author, and dates.",
     "icon": "🎬",
     "href": "/tools/video-metadata-editor",
-    "keywords": ["metadata", "tags", "video", "edit", "info", "title", "author"],
+    "keywords": [
+      "metadata",
+      "tags",
+      "video",
+      "edit",
+      "info",
+      "title",
+      "author"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3072,7 +3579,13 @@
     "description": "Shift audio pitch up or down without changing speed.",
     "icon": "🎼",
     "href": "/tools/audio-pitch",
-    "keywords": ["pitch", "shift", "tone", "audio", "semitone"],
+    "keywords": [
+      "pitch",
+      "shift",
+      "tone",
+      "audio",
+      "semitone"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3083,7 +3596,13 @@
     "description": "Interactive JavaScript editor with live output console.",
     "icon": "⚡",
     "href": "/tools/js-playground",
-    "keywords": ["javascript", "playground", "editor", "live", "code"],
+    "keywords": [
+      "javascript",
+      "playground",
+      "editor",
+      "live",
+      "code"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3094,7 +3613,13 @@
     "description": "Live HTML/CSS/JS editor with instant preview.",
     "icon": "🌐",
     "href": "/tools/html-playground",
-    "keywords": ["html", "playground", "editor", "live", "preview"],
+    "keywords": [
+      "html",
+      "playground",
+      "editor",
+      "live",
+      "preview"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3105,7 +3630,14 @@
     "description": "Validate JSON data against JSON Schema Draft 07 and 2020-12.",
     "icon": "🧩",
     "href": "/tools/json-schema-validator",
-    "keywords": ["json", "schema", "validate", "draft", "jsonschema", "validator"],
+    "keywords": [
+      "json",
+      "schema",
+      "validate",
+      "draft",
+      "jsonschema",
+      "validator"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3116,7 +3648,13 @@
     "description": "Parse, view, and validate .env files with syntax checking.",
     "icon": "🔧",
     "href": "/tools/env-parser",
-    "keywords": ["env", "parse", "dotenv", "environment", "config"],
+    "keywords": [
+      "env",
+      "parse",
+      "dotenv",
+      "environment",
+      "config"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3127,7 +3665,13 @@
     "description": "Calculate take-home pay across 30+ countries with tax rules.",
     "icon": "💰",
     "href": "/tools/salary-calc",
-    "keywords": ["salary", "tax", "income", "calculator", "country"],
+    "keywords": [
+      "salary",
+      "tax",
+      "income",
+      "calculator",
+      "country"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3138,7 +3682,13 @@
     "description": "Calculate compound interest and savings growth over time.",
     "icon": "🏦",
     "href": "/tools/savings-calc",
-    "keywords": ["savings", "interest", "compound", "grow", "money"],
+    "keywords": [
+      "savings",
+      "interest",
+      "compound",
+      "grow",
+      "money"
+    ],
     "status": "done"
   },
   {
@@ -3148,7 +3698,13 @@
     "description": "Project retirement savings and withdrawal sustainability.",
     "icon": "🏖️",
     "href": "/tools/retirement-planner",
-    "keywords": ["retirement", "plan", "savings", "withdrawal", "future"],
+    "keywords": [
+      "retirement",
+      "plan",
+      "savings",
+      "withdrawal",
+      "future"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3159,7 +3715,13 @@
     "description": "Solve algebraic equations step by step.",
     "icon": "📐",
     "href": "/tools/equation-solver",
-    "keywords": ["equation", "solve", "algebra", "math", "formula"],
+    "keywords": [
+      "equation",
+      "solve",
+      "algebra",
+      "math",
+      "formula"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3221,7 +3783,13 @@
     "description": "Create weighted decision matrices to compare options objectively.",
     "icon": "⚖️",
     "href": "/tools/decision-matrix",
-    "keywords": ["decision", "matrix", "weight", "compare", "choose"],
+    "keywords": [
+      "decision",
+      "matrix",
+      "weight",
+      "compare",
+      "choose"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3232,7 +3800,13 @@
     "description": "Generate Open Graph preview images for any URL.",
     "icon": "🔗",
     "href": "/tools/link-preview",
-    "keywords": ["link", "preview", "og", "social", "share"],
+    "keywords": [
+      "link",
+      "preview",
+      "og",
+      "social",
+      "share"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3243,8 +3817,14 @@
     "description": "Generate random names by culture, gender, or style.",
     "icon": "🎲",
     "href": "/tools/name-generator",
-    "keywords": ["name", "random", "generate", "baby", "character"],
-    "status": "planned",
+    "keywords": [
+      "name",
+      "random",
+      "generate",
+      "baby",
+      "character"
+    ],
+    "status": "done",
     "phase": 28
   },
   {
@@ -3254,7 +3834,15 @@
     "description": "See what a website can learn about your browser without cookies. All checks run locally.",
     "icon": "🔍",
     "href": "/tools/browser-fingerprint-checker",
-    "keywords": ["fingerprint", "browser", "privacy", "tracking", "canvas", "webgl", "navigator"],
+    "keywords": [
+      "fingerprint",
+      "browser",
+      "privacy",
+      "tracking",
+      "canvas",
+      "webgl",
+      "navigator"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3265,7 +3853,14 @@
     "description": "Split bills and expenses fairly among groups of people.",
     "icon": "💸",
     "href": "/tools/expense-splitter",
-    "keywords": ["expense", "split", "bill", "group", "share", "debt"],
+    "keywords": [
+      "expense",
+      "split",
+      "bill",
+      "group",
+      "share",
+      "debt"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3276,7 +3871,14 @@
     "description": "Create visual mind maps with drag-and-drop nodes.",
     "icon": "🧠",
     "href": "/tools/mind-map-maker",
-    "keywords": ["mind", "map", "brainstorm", "visual", "organize", "diagram"],
+    "keywords": [
+      "mind",
+      "map",
+      "brainstorm",
+      "visual",
+      "organize",
+      "diagram"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3287,7 +3889,13 @@
     "description": "Drag-and-drop kanban board for task management.",
     "icon": "📋",
     "href": "/tools/kanban-board",
-    "keywords": ["kanban", "board", "task", "drag", "project"],
+    "keywords": [
+      "kanban",
+      "board",
+      "task",
+      "drag",
+      "project"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3298,7 +3906,13 @@
     "description": "Track work hours with clock-in/out and weekly summaries.",
     "icon": "⏱️",
     "href": "/tools/timesheet-tracker",
-    "keywords": ["timesheet", "hours", "tracker", "clock", "work"],
+    "keywords": [
+      "timesheet",
+      "hours",
+      "tracker",
+      "clock",
+      "work"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3309,7 +3923,13 @@
     "description": "Check if a password has appeared in known data breaches.",
     "icon": "🔐",
     "href": "/tools/password-breach-checker",
-    "keywords": ["password", "breach", "hibp", "security", "leak"],
+    "keywords": [
+      "password",
+      "breach",
+      "hibp",
+      "security",
+      "leak"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3320,7 +3940,15 @@
     "description": "Create a temporary disposable email address. Receive emails instantly without revealing your real address.",
     "icon": "📧",
     "href": "/tools/temp-email",
-    "keywords": ["temp", "email", "disposable", "temporary", "anonymous", "privacy", "throwaway"],
+    "keywords": [
+      "temp",
+      "email",
+      "disposable",
+      "temporary",
+      "anonymous",
+      "privacy",
+      "throwaway"
+    ],
     "status": "done"
   },
   {
@@ -3330,7 +3958,13 @@
     "description": "Replace green or blue screen backgrounds in videos.",
     "icon": "🎬",
     "href": "/tools/chroma-key-composer",
-    "keywords": ["chroma", "key", "green", "screen", "composite"],
+    "keywords": [
+      "chroma",
+      "key",
+      "green",
+      "screen",
+      "composite"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3341,7 +3975,13 @@
     "description": "Detect scene changes and generate chapter markers.",
     "icon": "✂️",
     "href": "/tools/video-scene-cut-detector",
-    "keywords": ["scene", "cut", "detect", "chapter", "marker"],
+    "keywords": [
+      "scene",
+      "cut",
+      "detect",
+      "chapter",
+      "marker"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3352,7 +3992,13 @@
     "description": "Reduce camera shake and stabilize shaky video footage.",
     "icon": "🎥",
     "href": "/tools/video-stabilizer",
-    "keywords": ["video", "stabilize", "shake", "smooth", "steady"],
+    "keywords": [
+      "video",
+      "stabilize",
+      "shake",
+      "smooth",
+      "steady"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3363,7 +4009,13 @@
     "description": "Stitch multiple photos into a panoramic image with automatic overlap detection.",
     "icon": "🏔️",
     "href": "/tools/panorama-stitcher",
-    "keywords": ["panorama", "stitch", "photo", "merge", "wide"],
+    "keywords": [
+      "panorama",
+      "stitch",
+      "photo",
+      "merge",
+      "wide"
+    ],
     "status": "done",
     "phase": 28
   },
@@ -3374,7 +4026,13 @@
     "description": "Match your resume against job descriptions for fit score.",
     "icon": "📄",
     "href": "/tools/resume-job-matcher",
-    "keywords": ["resume", "job", "match", "ats", "career"],
+    "keywords": [
+      "resume",
+      "job",
+      "match",
+      "ats",
+      "career"
+    ],
     "status": "planned",
     "phase": 28
   },
@@ -3385,7 +4043,13 @@
     "description": "Convert audio recordings to MIDI note data.",
     "icon": "🎹",
     "href": "/tools/audio-to-midi-converter",
-    "keywords": ["audio", "midi", "convert", "transcribe", "music"],
+    "keywords": [
+      "audio",
+      "midi",
+      "convert",
+      "transcribe",
+      "music"
+    ],
     "status": "planned",
     "phase": 28
   }
