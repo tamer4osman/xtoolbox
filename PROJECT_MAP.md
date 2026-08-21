@@ -127,10 +127,12 @@ scripts/                  # copy-ffmpeg-core, measure-spa-performance, smoke-tes
 
 ## [ORPHANS & PENDING]
 
-**Registry state (verified 2026-08-08):**
+**Registry state (verified 2026-08-21):**
 
 - Total **343** = **332 done** + **11 planned**. `tools.json` = `toolsList.json` = 343. `categories.json` sums to 343 across 21 categories.
-- README line 3: "343 online tools"; line 6 badge: tools-331 (should read 343/331 — badge shows done count); line 46: "**343 tools**". `src/pages/home.js` + `src/components/footer.js` must also hold 343.
+- README line 3: "343 online tools"; line 6 badge: `tools-343`; line 78: "332 built, 11 planned = 343 tools".
+- Dynamic count surfaces (auto-sync, verify no hardcoded totals): `src/pages/home.js`, `src/components/footer.js`, `src/pages/about.js`.
+- Static count surfaces (must edit on every tool add): `index.html` (meta description + og:description), `manifest.json` (description), `package.json` (description), `src/data/categories.json` (category `toolCount`).
 
 **Category counts (tools.json):** audio 17, business 16, css 20, dev 38, encoding 9, finance 16, fun 6, health 12, image 43, math 13, ocr 4, pdf 33, privacy 9, qr 4, reference 8, seo 8, text 35, video 26, visualization 4, weather 4, productivity 18. **Sum = 343.**
 

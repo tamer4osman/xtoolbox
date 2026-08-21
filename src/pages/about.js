@@ -1,13 +1,13 @@
 import { $ } from "../utils/dom-query.js";
 import { updatePageMeta } from "../utils/seo.js";
+import { availableTools } from "../utils/tools.js";
 
 export function renderAbout() {
   const main = $("#main-content");
 
   updatePageMeta({
     title: "About XToolBox",
-    description:
-      "Learn about XToolBox — 331 free online tools with complete privacy. All processing happens in your browser.",
+    description: `Learn about XToolBox — ${availableTools.length} free online tools with complete privacy. All processing happens in your browser.`,
     url: `${window.location.origin}/about`
   });
 
@@ -17,7 +17,7 @@ export function renderAbout() {
 
       <div style="color:var(--color-text-secondary);line-height:1.8;">
         <p style="margin-bottom:var(--space-4);font-size:var(--text-lg);">
-          XToolBox is a collection of 331 free online tools that run entirely in your browser. No uploads, no servers, no privacy concerns.
+          XToolBox is a collection of ${availableTools.length} free online tools that run entirely in your browser. No uploads, no servers, no privacy concerns.
         </p>
 
         <h2 style="font-size:var(--text-2xl);font-weight:600;margin:var(--space-8) 0 var(--space-4);">How It Works</h2>
