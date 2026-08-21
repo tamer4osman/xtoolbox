@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 334 built, 9 planned = 343 total
+## Current Status: 335 built, 8 planned = 343 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -42,7 +42,7 @@
 | Decision Matrix Maker           | productivity | ✅ Done (2026-08-21)                                                          |
 | Mind Map Maker                  | productivity | ✅ Done                                                                      |
 | Kanban Board                    | productivity | ✅ Done                                                                      |
-| Timesheet Tracker               | productivity | Planned                                                                      |
+| Timesheet Tracker               | productivity | ✅ Done (2026-08-21)                                                          |
 | Browser Fingerprint Checker     | privacy      | ✅ Done                                                                      |
 | Password Breach Checker         | privacy      | Planned                                                                      |
 | Temp Email                      | privacy      | ✅ Done                                                                      |

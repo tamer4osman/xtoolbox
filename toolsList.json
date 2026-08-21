@@ -3891,7 +3891,7 @@
     "description": "Track work hours with clock-in/out and weekly summaries.",
     "icon": "⏱️",
     "href": "/tools/timesheet-tracker",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "timesheet",
       "hours",
