@@ -3909,7 +3909,7 @@
     "description": "Check if a password has appeared in known data breaches.",
     "icon": "🔐",
     "href": "/tools/password-breach-checker",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "password",
       "breach",
