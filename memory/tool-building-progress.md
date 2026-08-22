@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 340 built, 3 planned = 343 total
+## Current Status: 341 built, 2 planned = 343 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -46,7 +46,7 @@
 | Browser Fingerprint Checker     | privacy      | ✅ Done                                                                      |
 | Password Breach Checker         | privacy      | ✅ Done (2026-08-22) |
 | Temp Email                      | privacy      | ✅ Done                                                                      |
-| Resume Job Matcher              | business     | Planned                                                                      |
+| Resume Job Matcher              | business     | ✅ Done (2026-08-22) |
 | Link Preview Generator          | reference    | ✅ Done (2026-08-22) |
 | Name Generator                  | fun          | ✅ Done (2026-08-21)                                                          |
 

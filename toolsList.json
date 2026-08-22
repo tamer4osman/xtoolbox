@@ -4007,7 +4007,7 @@
     "description": "Match your resume against job descriptions for fit score.",
     "icon": "📄",
     "href": "/tools/resume-job-matcher",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "resume",
       "job",
