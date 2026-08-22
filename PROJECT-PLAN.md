@@ -145,7 +145,7 @@ These categories represent the biggest competitive gaps. Future phases should pr
 
 ## Current Status
 
-**Total tools:** 343 (338 built, 5 planned)
+**Total tools:** 343 (339 built, 4 planned)
 
 ### Categories (with actual tool counts)
 

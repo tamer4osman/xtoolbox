@@ -3793,7 +3793,7 @@
     "description": "Generate Open Graph preview images for any URL.",
     "icon": "🔗",
     "href": "/tools/link-preview",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "link",
       "preview",
