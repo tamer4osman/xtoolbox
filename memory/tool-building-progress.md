@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 342 built, 1 planned = 343 total
+## Current Status: 343 built, 0 planned = 343 total — BACKLOG COMPLETE
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -22,7 +22,7 @@
 | Video Reverser                  | video        | ✅ Done                                                                      |
 | Video Metadata Editor           | video        | ✅ Done                                                                      |
 | Chroma Key Composer             | video        | ✅ Done                                                                      |
-| Video Scene Cut Detector        | video        | Planned                                                                      |
+| Video Scene Cut Detector        | video        | ✅ Done (2026-08-22) |
 | Video Stabilizer                | video        | ✅ Done                                                                      |
 | Audio Pitch Shifter             | audio        | ✅ Done                                                                      |
 | Audio to MIDI Converter         | audio        | ✅ Done (2026-08-22) |

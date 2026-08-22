@@ -3959,7 +3959,7 @@
     "description": "Detect scene changes and generate chapter markers.",
     "icon": "✂️",
     "href": "/tools/video-scene-cut-detector",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "scene",
       "cut",
