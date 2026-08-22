@@ -4023,7 +4023,7 @@
     "description": "Convert audio recordings to MIDI note data.",
     "icon": "🎹",
     "href": "/tools/audio-to-midi-converter",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "audio",
       "midi",

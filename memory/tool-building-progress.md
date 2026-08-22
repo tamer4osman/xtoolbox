@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 341 built, 2 planned = 343 total
+## Current Status: 342 built, 1 planned = 343 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -25,7 +25,7 @@
 | Video Scene Cut Detector        | video        | Planned                                                                      |
 | Video Stabilizer                | video        | ✅ Done                                                                      |
 | Audio Pitch Shifter             | audio        | ✅ Done                                                                      |
-| Audio to MIDI Converter         | audio        | Planned                                                                      |
+| Audio to MIDI Converter         | audio        | ✅ Done (2026-08-22) |
 | JavaScript Playground           | dev          | ✅ Done                                                                      |
 | HTML Playground                 | dev          | ✅ Done                                                                      |
 | JSON Schema Validator           | dev          | ✅ Done                                                                      |
