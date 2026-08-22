@@ -3639,17 +3639,19 @@
     ]
   },
   {
-    "id": "env-parser",
-    "name": "Environment File Parser",
+    "id": "env-diff-doctor",
+    "name": "Env Diff & Doctor",
     "category": "dev",
-    "description": "Parse, view, and validate .env files with syntax checking.",
-    "icon": "🔧",
+    "description": "Compare two .env files for missing, extra, or changed keys and lint common issues like duplicate keys, unquoted spaces, empty secrets, and weak defaults.",
+    "icon": "🩺",
     "href": "/tools/env-parser",
-    "status": "planned",
+    "status": "done",
     "keywords": [
       "env",
-      "parse",
+      "diff",
       "dotenv",
+      "compare",
+      "lint",
       "environment",
       "config"
     ]

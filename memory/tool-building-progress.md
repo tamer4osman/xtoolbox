@@ -1,6 +1,6 @@
 # Tool Building Progress
 
-## Current Status: 337 built, 6 planned = 343 total
+## Current Status: 338 built, 5 planned = 343 total
 
 ### Phase 28 — Legacy Tool Catch-Up (37 listed, 24 built, 11 planned, 1 merged, 1 duplicate)
 
@@ -29,7 +29,7 @@
 | JavaScript Playground           | dev          | ✅ Done                                                                      |
 | HTML Playground                 | dev          | ✅ Done                                                                      |
 | JSON Schema Validator           | dev          | ✅ Done                                                                      |
-| Environment File Parser         | dev          | Planned                                                                      |
+| Env Diff & Doctor (was Env Parser) | dev         | ✅ Done (2026-08-22)                                                                      |
 | Timezone Converter              | dev          | ❌ Duplicate of `world-clock` (reference) — removed from registry 2026-08-04 |
 | Regex Visualizer                | dev          | ✅ Merged into `regex-tester` (Token Explorer tab + SVG fix)                 |
 | Multi-Country Salary Calculator | finance      | ✅ Done (2026-08-22)                                                          |                                                                      |
